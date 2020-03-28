@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "358707704241",
+    "firebase_url": "https://gupshop-27dcc.firebaseio.com",
+    "project_id": "gupshop-27dcc",
+    "storage_bucket": "gupshop-27dcc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358707704241:android:c39cfe1e1337101c960d90",
+        "android_client_info": {
+          "package_name": "simpleapps.com.gupshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358707704241-n73kpnq4u983at4o7sjbnjqv9o2ile41.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "simpleapps.com.gupshop",
+            "certificate_hash": "07aa9b23dcd50e9ae3f33d60cd8b656e7aff5907"
+          }
+        },
+        {
+          "client_id": "358707704241-6tu2mn8hqlhqra08ko6g8q330b9qu0u9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCpcy59W7CaJoh3I856SS2E6OV8UO9ht0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358707704241-6tu2mn8hqlhqra08ko6g8q330b9qu0u9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "358707704241-oc4qcuhmg83glr168b098qclbdccbv6g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "simpleapps.com.gupshop"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

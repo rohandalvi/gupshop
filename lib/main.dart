@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gupshop/screens/contacts.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/screens/login_screen.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget{
         accentColor: Color(0xFFFEF9EB),
       ),
       title: 'Chat home',
-      home: LoginScreen(),
+      home: Contacts(),
 //      home: IndividualChat(),
       routes: <String, WidgetBuilder>{
         "loggedIn": (BuildContext context) => new Home(),

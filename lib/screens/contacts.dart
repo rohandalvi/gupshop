@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_contact/contacts.dart';
 import 'package:gupshop/models/contact_data.dart';
 import 'package:gupshop/service/contact_service.dart';
-import 'package:gupshop/service/search_service.dart';
+import 'package:gupshop/service/contact_search.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -17,8 +17,8 @@ class Contacts extends StatefulWidget {
 class _ContactsState extends State<Contacts> {
   @override
   Widget build(BuildContext context) {
-    MockContactService contactService = MockContactService();
-    Stream<DummyContact> stream  = contactService.getCommonContacts(contactService.getContacts());
+//    MockContactService contactService = MockContactService();
+//    Stream<DummyContact> stream  = contactService.getCommonContacts(contactService.getContacts());
 
 //    List<Contact> userPhoneContacts = contactService.getContacts();
 
@@ -34,45 +34,12 @@ class _ContactsState extends State<Contacts> {
             onPressed: () {
               showSearch(
                 context: context,
-                delegate: ContactSearch(Stream.empty()),
+                delegate: ContactSearch(),
               );
             }, //imp for pressing effect. Also gives a sound effect by default
           ),
         ],
       ),
-      body: StreamBuilder<DummyContact>(
-        stream: stream,
-        builder: (context, snapshot) {
-
-
-          if(snapshot.hasError) return Text("Error occurred");
-          if(!snapshot.hasData) return Text("Now Loading!");
-
-
-          return ListView.separated(
-              itemCount: 2,
-              itemBuilder: (context,index){
-                return Card(
-                  child: Column(
-                    children: <Widget>[
-                      ListTile(
-                        leading: Icon(
-                          Icons.account_box,
-                          color: Theme.of(context).primaryColor,
-                          size: 26,
-                        ),
-                        title: Text(snapshot.data.name),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              separatorBuilder: (context,index) => Divider(
-                color: Colors.white,
-              ),
-              );
-        }
-      )
     );
   }
 
@@ -112,3 +79,27 @@ class _ContactsState extends State<Contacts> {
 //}
 ////
 //),
+
+
+//return ListView.separated(
+//itemCount: snapshot.,
+//itemBuilder: (context,index){
+//return Card(
+//child: Column(
+//children: <Widget>[
+//ListTile(
+//leading: Icon(
+//Icons.account_box,
+//color: Theme.of(context).primaryColor,
+//size: 26,
+//),
+//title: Text(snapshot.data.name),
+//),
+//],
+//),
+//);
+//},
+//separatorBuilder: (context,index) => Divider(
+//color: Colors.white,
+//),
+//);

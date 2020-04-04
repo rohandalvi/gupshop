@@ -6,7 +6,7 @@ import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/screens/empty_chatList.dart';
 import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/screens/contacts.dart';
-import 'package:gupshop/service/search_service.dart';
+import 'package:gupshop/service/contact_search.dart';
 
 class Home extends StatelessWidget{
 

@@ -5,7 +5,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_contact/contacts.dart';
 import 'package:gupshop/models/contact_data.dart';
-import 'package:gupshop/service/search_service.dart';
+import 'package:gupshop/service/contact_search.dart';
 
 abstract class  ContactService {
 

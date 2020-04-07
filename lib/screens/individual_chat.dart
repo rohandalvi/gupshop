@@ -84,7 +84,10 @@ class _IndividualChatState extends State<IndividualChat> {
                     var fromName = snapshot.data.documents[index].data["fromName"];
                     Timestamp timeStamp= snapshot.data.documents[index].data["timeStamp"];
                     bool isMe=false;
-                    if(fromName==userName) bool isMe=true;
+                    print("fromName= ${fromName}");
+                    print("userName= ${userName}");
+                    if(fromName==userName) isMe=true;
+                    print("isMe= ${isMe}");
 
 
 
@@ -92,7 +95,7 @@ class _IndividualChatState extends State<IndividualChat> {
                       title: Container(
                         //fromName:userName? use following widget ToDo
                         margin: isMe? EdgeInsets.only(left: 80.0):EdgeInsets.only(left: 0),
-                        padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
+                        padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),//for the box covering the text
                         color: isMe? Color(0xFFF9FBE7) : Color(0xFFFFEFEE),
                         child: Text(//message
                           messageBody,

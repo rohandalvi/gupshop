@@ -23,28 +23,12 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   Widget build(BuildContext context) {
-    //Firestore.instance.collection("conversations").document(conversationId).
-//    Chats chats = Chats();
-//    MessageService messageService = new MessageService();
-//
-//    print("Found conversationId ${conversationId}");
-//
-//    Firestore.instance.collection("conversations").document(conversationId).get().then((documentSnapshot){
-//
-//      print("Document Snapshot ${documentSnapshot.data["messageId"]}");
-//      //messageService.getMessages(messageIds)
-//      var messageIds = documentSnapshot.data["messageId"];
-//      Stream<DocumentSnapshot> messageStream = Stream.fromFutures(messageService.getMessages(messageIds));
-
-//      print("firestore call ${Firestore.instance.collection("conversation").document(conversationId).snapshots()}");
-
-      //List<ChatMessage> chatMessages  = chats.getMessages();
-    print("conversation: ${Firestore.instance.collection("conversations").document().snapshots()} ");
-
       CollectionReference collectionReference = Firestore.instance.collection("conversations");
       collectionReference.orderBy("timestamp",descending: false);
 
       print("where are we: ${Firestore.instance.collection("conversations").document().snapshots()}");
+
+      TextEditingController _controller = new  TextEditingController();//to clear the text  when user hits send button//TODO- for enter
 
       return Material(
         child: Scaffold(
@@ -98,18 +82,24 @@ class _IndividualChatState extends State<IndividualChat> {
                   itemBuilder: (context, index){
                     var messageBody = snapshot.data.documents[index].data["body"];
                     var fromName = snapshot.data.documents[index].data["fromName"];
-                    var timeStamp= snapshot.data.documents[index].data["timeStamp"];
+                    Timestamp timeStamp= snapshot.data.documents[index].data["timeStamp"];
+                    bool isMe=false;
+                    if(fromName==userName) bool isMe=true;
+
+
 
                     return ListTile(
                       title: Container(
                         //fromName:userName? use following widget ToDo
-                        margin: EdgeInsets.only(top: 8.0),
+                        margin: isMe? EdgeInsets.only(left: 80.0):EdgeInsets.only(left: 0),
+                        padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
+                        color: isMe? Color(0xFFF9FBE7) : Color(0xFFFFEFEE),
                         child: Text(//message
                           messageBody,
                         ),
                       ),
                       trailing: Text(//time
-                        timeStamp.toString(),
+                        timeStamp.toDate().toString(),
                         style: TextStyle(
                           fontSize: 10,
                         ),
@@ -138,18 +128,16 @@ class _IndividualChatState extends State<IndividualChat> {
                     //textCapitalization: TextCapitalization.sentences,
                     onChanged: (value){
                       this.value=value;
+                      //_controller.clear();
                     },
+                    controller: _controller,////used to clear text when user hits send button
                   ),
                   trailing: IconButton(
                     icon: Icon(Icons.send),
                     onPressed: (){
-//                      print("fromName: $userName",);
-//                      print("fromPhoneNumber: $userPhoneNo");
-//                      print("timeStamp: $DateTime.now()");
                       var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now()};
                       Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
-
-                      print("value: $value");
+                      _controller.clear();//used to clear text when user hits send button
                     },
                   ),
                 ),

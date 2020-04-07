@@ -45,7 +45,7 @@
     "no-caller": 2,
 
     // Disallow null comparisons without type-checking operators
-    "no-eq-null": 2,
+    "no-eq-null": 0, //todo - change to 2.
 
     // Disallow the use of eval()
     "no-eval": 2,
@@ -78,7 +78,7 @@
     "no-throw-literal": 2,
 
     // Require using Error objects as Promise rejection reasons
-    "prefer-promise-reject-errors": 1, //todo  - change this back to 2
+    "prefer-promise-reject-errors": 0, //todo  - change this back to 2
 
     // Enforce “for” loop update clause moving the counter in the right direction
     "for-direction": 2,
@@ -108,16 +108,16 @@
     "no-path-concat": 1,
 
     // Prefer using arrow functions for callbacks
-    "prefer-arrow-callback": 1,
+    "prefer-arrow-callback": 0, // change to 1
 
     // Return inside each then() to create readable and reusable Promise chains.
     // Forces developers to return console logs and http calls in promises.
-    "promise/always-return": 1,
+    "promise/always-return": 0,
 
     //Enforces the use of catch() on un-returned promises
-    "promise/catch-or-return": 1,
+    "promise/catch-or-return": 0,  //todo - return 1
 
     // Warn against nested then() or catch() statements
-    "promise/no-nesting": 1
+    "promise/no-nesting": 0 //todo -change to 1
   }
 }

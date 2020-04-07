@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/service/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -11,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool codeSent = false;
+  String val="";
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
               onChanged: (val){
                 setState(() {
                   this.phoneNo = val;
+                  this.val=val;
                 });
               },
               // Only numbers can be entered
@@ -110,7 +113,16 @@ class _LoginScreenState extends State<LoginScreen> {
               .signInWithCredential(authCredential)
               .then( (user) {
 
-            Navigator.of(context).pushNamed('loggedIn');
+            //Navigator.of(context).pushNamed('loggedIn');
+
+            print("userphoneno: ${val}");
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Home(userPhoneNo: val.toString().substring(2,12)),
+                )
+            );
+            print("phone no: ${val.toString().substring(2,12)}");
           }).catchError((e) {
             print("Got error $e");
           });

@@ -8,8 +8,19 @@ import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/screens/contacts.dart';
 import 'package:gupshop/service/contact_search.dart';
 
-class Home extends StatelessWidget{
+class Home extends StatefulWidget{
+  final String userPhoneNo;
 
+  Home({@required this.userPhoneNo});
+
+  @override
+  _HomeState createState() => _HomeState(userPhoneNo: userPhoneNo);
+}
+
+class _HomeState extends State<Home> {
+  final String userPhoneNo;
+
+  _HomeState({@required this.userPhoneNo});
   Widget appBarScaffold(BuildContext context){
     return AppBar(
       title: Text(
@@ -18,21 +29,27 @@ class Home extends StatelessWidget{
           color: Colors.white,
         ),
       ),//App name
-//      actions: <Widget>[
-//        IconButton(//Right side icons
-//          icon: Icon(Icons.search),//search icon
-//          onPressed: () {
-//            showSearch(
-//              context: context,
-//              delegate: ContactSearch(Stream.empty()),
-//            );
-//          },//imp for pressing effect. Also gives a sound effect by default
-//        ),
-//        IconButton(
-//          icon: Icon(Icons.more_vert),//three dots
-//          onPressed: () {},
-//        ),
-//      ],
+      actions: <Widget>[
+        Builder(
+          builder: (context) => IconButton(//Right side icons
+            color: Colors.white,
+            icon: Icon(Icons.search),//search icon
+            onPressed: () async {
+              final result = await showSearch(
+                context: context,
+                delegate: ContactSearch(userPhoneNo: userPhoneNo, userName: "Purva Dalvi"),
+              );
+              Scaffold.of(context)
+                  .showSnackBar(SnackBar(content: Text(result),));
+            },//imp for pressing effect. Also gives a sound effect by default
+          ),
+        ),
+        IconButton(
+          color: Colors.white,
+          icon: Icon(Icons.more_vert),//three dots
+          onPressed: () {},
+        ),
+      ],
       bottom: TabBar(
         tabs: <Widget>[
           Tab(

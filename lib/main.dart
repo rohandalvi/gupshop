@@ -17,12 +17,12 @@ class MyApp extends StatelessWidget{
         accentColor: Color(0xFFFEF9EB),
       ),
       title: 'Chat home',
-      home: Contacts(),
+      home: LoginScreen(),
 //      home: IndividualChat(),
-      routes: <String, WidgetBuilder>{
-        "loggedIn": (BuildContext context) => new Home(),
-        "individualChat": (BuildContext context) => new IndividualChat(),
-      },
+//      routes: <String, WidgetBuilder>{
+//        "loggedIn": (BuildContext context) => new Home(),
+//        "individualChat": (BuildContext context) => new IndividualChat(),
+//      },
     );
   }
 }

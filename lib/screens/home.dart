@@ -10,17 +10,19 @@ import 'package:gupshop/service/contact_search.dart';
 
 class Home extends StatefulWidget{
   final String userPhoneNo;
+  final String userName;
 
-  Home({@required this.userPhoneNo});
+  Home({@required this.userPhoneNo, @required this.userName});
 
   @override
-  _HomeState createState() => _HomeState(userPhoneNo: userPhoneNo);
+  _HomeState createState() => _HomeState(userPhoneNo: userPhoneNo, userName: userName);
 }
 
 class _HomeState extends State<Home> {
   final String userPhoneNo;
+  final String userName;
 
-  _HomeState({@required this.userPhoneNo});
+  _HomeState({@required this.userPhoneNo, @required this.userName});
   Widget appBarScaffold(BuildContext context){
     return AppBar(
       title: Text(
@@ -37,7 +39,7 @@ class _HomeState extends State<Home> {
             onPressed: () async {
               final result = await showSearch(
                 context: context,
-                delegate: ContactSearch(userPhoneNo: userPhoneNo, userName: "Purva Dalvi"),
+                delegate: ContactSearch(userPhoneNo: userPhoneNo, userName: userName),
               );
               Scaffold.of(context)
                   .showSnackBar(SnackBar(content: Text(result),));

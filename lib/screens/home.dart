@@ -14,6 +14,7 @@ class Home extends StatefulWidget{
 
   Home({@required this.userPhoneNo, @required this.userName});
 
+
   @override
   _HomeState createState() => _HomeState(userPhoneNo: userPhoneNo, userName: userName);
 }
@@ -24,6 +25,7 @@ class _HomeState extends State<Home> {
 
   _HomeState({@required this.userPhoneNo, @required this.userName});
   Widget appBarScaffold(BuildContext context){
+    print("userName= $userName");
     return AppBar(
       title: Text(
         'GupShop',

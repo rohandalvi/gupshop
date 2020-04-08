@@ -10,8 +10,6 @@ class ContactSearch extends SearchDelegate<String>{
   final String userName;
 
   ContactSearch({@required this.userPhoneNo, @required this.userName});
-//  final Stream<List<Message>> streamMessages;
-//  ContactSearch(this.streamMessages);
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -23,8 +21,6 @@ class ContactSearch extends SearchDelegate<String>{
         },
       ),
     ];
-
-  //return  null;
   }
 
   @override
@@ -55,19 +51,15 @@ class ContactSearch extends SearchDelegate<String>{
           if(snapshot.hasError) return Text("Error occurred");
           if(!snapshot.hasData) return Text("Now Loading!");
 
-//          String friendName = snapshot.data.data["0"]["name"];
-//          String friendPhoneNumber =  snapshot.data.data["0"]["id"];
-//          print("snapshot data ${snapshot.data.data["0"]["id"]}");
-//          print("Friend phone number ${friendPhoneNumber} and ${friendName}");
-          print("snapshot.data.documents.length = ${snapshot.data.documents.length}" );
-
           return ListView.builder(
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index){
                 //final result = streamShortcut.where();
+                print("userName= $userName");
                 print("snapshotdatadoc[index]data[convID] = ${snapshot.data.documents[index].data["conversationId"]}");
                 print("userphoneno in contact_search in Listview Builder: ${userPhoneNo}");
                 //print("userName:=${snapshot.data.documents[int.parse(userPhoneNo)].data["name"]}");
+                print("userName= $userName");
                 return ListTile(
                   title: Text(
                       snapshot.data.documents[index].data["name"],

@@ -32,7 +32,7 @@ class _NameScreenState extends State<NameScreen> {
                   keyboardType: TextInputType.text,
                   onChanged: (name){
                     setState(() {
-                      this.userName= userName;
+                      this.userName= name;
                     });
                   },
                   // Only numbers can be entered

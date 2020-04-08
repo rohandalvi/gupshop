@@ -73,7 +73,6 @@ class ContactSearch extends SearchDelegate<String>{
                       snapshot.data.documents[index].data["name"],
                   ),
                   onTap: (){
-                    print("userphoneno in contact_search in ontap: ${userPhoneNo}");
                     Navigator.push(
                       context,
                       MaterialPageRoute(//to send conversationId along with the navigator to the next page
@@ -81,7 +80,7 @@ class ContactSearch extends SearchDelegate<String>{
                           conversationId: snapshot.data.documents[index].data["conversationId"],
                           userPhoneNo: userPhoneNo,
                           userName: userName,
-                          //snapshot.data.documents[int.parse(userPhoneNo)].data["name"],
+                          friendName: snapshot.data.documents[index].data["name"],
                         ),
                       ),
                     );

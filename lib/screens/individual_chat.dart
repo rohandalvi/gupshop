@@ -7,16 +7,18 @@ class IndividualChat extends StatefulWidget {
   final String conversationId;
   final String userPhoneNo;
   final String userName;
-  IndividualChat({Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName}) : super(key: key);
+  final String friendName;
+  IndividualChat({Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName}) : super(key: key);
   @override
-  _IndividualChatState createState() => _IndividualChatState(conversationId: conversationId,userPhoneNo: userPhoneNo,userName: userName);
+  _IndividualChatState createState() => _IndividualChatState(conversationId: conversationId,userPhoneNo: userPhoneNo,userName: userName, friendName: friendName);
 }
 
 class _IndividualChatState extends State<IndividualChat> {
   final String conversationId;
   final String userPhoneNo;
   final String userName;
-  _IndividualChatState({@required this.conversationId, @required this.userPhoneNo, @required this.userName});
+  final String friendName;
+  _IndividualChatState({@required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName});
 
   String value ="";//TODo
 
@@ -39,7 +41,7 @@ class _IndividualChatState extends State<IndividualChat> {
                 contentPadding: EdgeInsets.symmetric(),
                 leading: CircleAvatar(),
                 title: Text(
-                  'SenderName',
+                  friendName,
                   style: TextStyle(
                     color: Colors.white,
                   ),

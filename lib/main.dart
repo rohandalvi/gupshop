@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget{
         accentColor: Color(0xFFFEF9EB),
       ),
       title: 'Chat home',
-//      home: LoginScreen(),
-        home: NameScreen(),
+      home: LoginScreen(),
+//        home: NameScreen(),
 //      home: IndividualChat(),
 //      routes: <String, WidgetBuilder>{
 //        "loggedIn": (BuildContext context) => new Home(),

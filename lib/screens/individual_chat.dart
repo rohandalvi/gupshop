@@ -40,10 +40,10 @@ class _IndividualChatState extends State<IndividualChat> {
 
   String value = ""; //TODo
 
-  TextEditingController _controller =
-  new TextEditingController(); //to clear the text  when user hits send button//TODO- for enter
-  ScrollController listScrollController =
-  new ScrollController(); //for scrolling the screen
+  TextEditingController _controller = new TextEditingController(); //to clear the text  when user hits send button//TODO- for enter
+  ScrollController listScrollController = new ScrollController(); //for scrolling the screen
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -158,24 +158,25 @@ class _IndividualChatState extends State<IndividualChat> {
         ),
         title: TextField(
           //textCapitalization: TextCapitalization.sentences,
+          maxLines: null,
           onChanged: (value){
             this.value=value;
             //_controller.clear();
           },
-          scrollController: listScrollController,
+          //scrollController: listScrollController,
           controller: _controller,//used to clear text when user hits send button
         ),
         trailing: IconButton(
           icon: Icon(Icons.send),
           onPressed: (){
+            var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now()};
+            Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+            _controller.clear();//used to clear text when user hits send button
             listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
               0.0,
               curve: Curves.easeOut,
               duration: const Duration(milliseconds: 300),
             );
-            var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now()};
-            Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
-            _controller.clear();//used to clear text when user hits send button
           },
         ),
       ),

@@ -49,8 +49,7 @@ class _IndividualChatState extends State<IndividualChat> {
   @override
   Widget build(BuildContext context) {
     CollectionReference collectionReference =
-        Firestore.instance.collection("conversations");
-    collectionReference.orderBy("timestamp", descending: true);
+        Firestore.instance.collection("conversations").document(conversationId).collection("messages");
 
     return Material(
       child: Scaffold(
@@ -90,16 +89,9 @@ class _IndividualChatState extends State<IndividualChat> {
               children: <Widget>[
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
-                      stream: collectionReference.document(conversationId).collection("messages").limit(30).snapshots(),
+                      stream: collectionReference.orderBy("timeStamp", descending: true).limit(30).snapshots(),
                       builder: (context, snapshot) {
-                        var messageArray = snapshot.data.documents;
 
-                        messageArray.sort((a, b) {
-                          Timestamp timestamp1 = a.data["timeStamp"];
-                          Timestamp timestamp2 = b.data["timeStamp"];
-                          return timestamp2.compareTo(timestamp1);
-                        });
-//              print("snapshot= ${snapshot.data.data["messages"][0]}");
                         return ListView.separated(
                           controller:
                               listScrollController, //for scrolling messages
@@ -107,10 +99,6 @@ class _IndividualChatState extends State<IndividualChat> {
                           reverse: true,
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
-//                    Timer(
-//                        Duration(milliseconds: 100),
-//                            () => listScrollController
-//                            .jumpTo(listScrollController.position.maxScrollExtent));
                             var messageBody =
                                 snapshot.data.documents[index].data["body"];
                             var fromName =
@@ -125,7 +113,7 @@ class _IndividualChatState extends State<IndividualChat> {
                               title: Container(
                                 //fromName:userName? use following widget ToDo
                                 margin: isMe
-                                    ? EdgeInsets.only(left: 80.0)
+                                    ? EdgeInsets.only(left: 30.0)
                                     : EdgeInsets.only(left: 0),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 25.0,

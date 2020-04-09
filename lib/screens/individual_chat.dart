@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -95,7 +98,7 @@ class _IndividualChatState extends State<IndividualChat> {
                         return ListView.separated(
                           controller:
                               listScrollController, //for scrolling messages
-                          shrinkWrap: true,
+                          //shrinkWrap: true,
                           reverse: true,
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
@@ -112,25 +115,22 @@ class _IndividualChatState extends State<IndividualChat> {
                             return ListTile(
                               title: Container(
                                 //fromName:userName? use following widget ToDo
-                                margin: isMe
-                                    ? EdgeInsets.only(left: 30.0)
-                                    : EdgeInsets.only(left: 0),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 25.0,
-                                    vertical:
-                                        15.0), //for the box covering the text
-                                color:
-                                    isMe ? Color(0xFFF9FBE7) : Color(0xFFFFEFEE),
-                                child: Text(
-                                  //message
-                                  messageBody,
-                                ),
+                                margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),
+                                padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0), //for the box covering the text
+                                color: isMe ? Color(0xFFF9FBE7) : Color(0xFFFFEFEE),
+                                child: Text(messageBody,),//message
                               ),
-                              trailing: Text(
-                                //time
-                                timeStamp.toDate().toString(),
-                                style: TextStyle(
-                                  fontSize: 10,
+                              subtitle: Container(
+                                margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),//if not this then the timeStamp gets locked to the left side of the screen. So same logic as the messages above
+                                padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 8.0),//pretty padding- for some margin from the side of the screen as well as the top of parent message
+                                child: Text(
+                                  DateFormat("dd MMM kk:mm")
+                                      .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),
+                                  //time
+//                                timeStamp.toDate().toString(),
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic
+                                  ),
                                 ),
                               ),
                             );

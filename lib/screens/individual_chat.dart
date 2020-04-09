@@ -1,15 +1,9 @@
-import 'dart:async';
-
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:gupshop/models/message_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gupshop/service/message_service.dart';
 
 class IndividualChat extends StatefulWidget {
   final String conversationId;
@@ -63,7 +57,7 @@ class _IndividualChatState extends State<IndividualChat> {
               contentPadding: EdgeInsets.symmetric(),
               leading: CircleAvatar(),
               title: Text(
-                friendName,
+                friendName,//name of the person with whom we are chatting right now, displayed at the top in the app bar
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -85,8 +79,7 @@ class _IndividualChatState extends State<IndividualChat> {
           ),
         ),
         body: GestureDetector(
-          onTap: () => FocusScope.of(context)
-              .unfocus(), //to take out the keyboard when tapped on chat screen
+          onTap: () => FocusScope.of(context).unfocus(), //to take out the keyboard when tapped on chat screen
             child: Flex(
               direction: Axis.vertical,
               children: <Widget>[
@@ -123,11 +116,9 @@ class _IndividualChatState extends State<IndividualChat> {
                               subtitle: Container(
                                 margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),//if not this then the timeStamp gets locked to the left side of the screen. So same logic as the messages above
                                 padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 8.0),//pretty padding- for some margin from the side of the screen as well as the top of parent message
-                                child: Text(
+                                child: Text(//time
                                   DateFormat("dd MMM kk:mm")
-                                      .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),
-                                  //time
-//                                timeStamp.toDate().toString(),
+                                      .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
                                   style: TextStyle(
                                       color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic
                                   ),
@@ -141,44 +132,12 @@ class _IndividualChatState extends State<IndividualChat> {
                         );
                       }),
                 ),
-                _buildMessageComposer(),
+                _buildMessageComposer(),//write and send new message bar
               ],
             ),
         ), //body
-
-        //bottomNavigationBar: for the sendMessageBox
-//          bottomNavigationBar: Transform.translate(//to make the sendMessageBox push up after the keyboard pops up
-//            offset: Offset(0.0, -1 * MediaQuery.of(context).viewInsets.bottom),
-//            child: BottomAppBar(
-//              child: Container(
-//                height: 50,
-//                child: ListTile(
-//                  leading: IconButton(
-//                    icon: Icon(Icons.photo),
-//                  ),
-//                  title: TextField(
-//                    //textCapitalization: TextCapitalization.sentences,
-//                    onChanged: (value){
-//                      this.value=value;
-//                      //_controller.clear();
-//                    },
-//                    controller: _controller,//used to clear text when user hits send button
-//                  ),
-//                  trailing: IconButton(
-//                    icon: Icon(Icons.send),
-//                    onPressed: (){
-//                      var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now()};
-//                      Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
-//                      _controller.clear();//used to clear text when user hits send button
-//                    },
-//                  ),
-//                ),
-//              ),
-//            ),
-//          ),//bottom naviagtion bar
       ),
     );
-//    });
   }
 
   _buildMessageComposer() {
@@ -196,11 +155,17 @@ class _IndividualChatState extends State<IndividualChat> {
             this.value=value;
             //_controller.clear();
           },
+          //scrollController: listScrollController,
           controller: _controller,//used to clear text when user hits send button
         ),
         trailing: IconButton(
           icon: Icon(Icons.send),
           onPressed: (){
+            listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+              0.0,
+              curve: Curves.easeOut,
+              duration: const Duration(milliseconds: 300),
+            );
             var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now()};
             Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
             _controller.clear();//used to clear text when user hits send button

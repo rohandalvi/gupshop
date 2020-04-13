@@ -84,6 +84,9 @@ class _IndividualChatState extends State<IndividualChat> {
             ),
             body: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(), //to take out the keyboard when tapped on chat screen
+//              onVerticalDragUpdate: (DragScrollActivity){//TOdo - show the scroll down button  only when user scrolls the screen up
+//                _scrollToBottomButton();
+//              },
                 child: Flex(
                   direction: Axis.vertical,
                   children: <Widget>[
@@ -135,7 +138,6 @@ class _IndividualChatState extends State<IndividualChat> {
                             );
                           }),
                     ),
-                    //_scrollToBottomButton(),
                     _buildMessageComposer(),//write and send new message bar
                   ],
                 ),
@@ -163,13 +165,13 @@ class _IndividualChatState extends State<IndividualChat> {
             this.value=value;
             //_controller.clear();
           },
-          //scrollController: listScrollController,
+          scrollController: listScrollController,
           controller: _controller,//used to clear text when user hits send button
         ),
         trailing: IconButton(
           icon: Icon(Icons.send),
           onPressed: (){
-            var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now()};
+            var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
             Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
             _controller.clear();//used to clear text when user hits send button
             listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send

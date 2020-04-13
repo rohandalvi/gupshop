@@ -1,6 +1,8 @@
 var config =  require('./config');
 var chats = require('./recentChats');
 var triggers = require('./triggers');
+var recentChatsImport = require('./recentChats2');
+
 var  arrayOfContactNumbers = [];
 var arrayOfUnionContacts = [];
 
@@ -19,6 +21,10 @@ exports.recentMessages = config.functions.https.onRequest(async (req,res) => {
 
 exports.triggers = config.functions.https.onRequest(async (req, res) =>{
   triggers.setupTriggers();
+});
+
+exports.recentChats = config.functions.https.onRequest(async (req, res) =>{
+  recentChatsImport.creatRecentChatsCollection();
 });
 
 exports.addMessage = config.functions.https.onRequest(async (req,res) => {

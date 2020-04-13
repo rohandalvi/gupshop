@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/screens/contacts.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/individual_chat.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget{
         accentColor: Color(0xFFFEF9EB),
       ),
       title: 'Chat home',
+  //    home: IndividualChat(),
       home: LoginScreen(),
 //        home: NameScreen(),
 //      home: IndividualChat(),

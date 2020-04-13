@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +62,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 setState(() {
                   this.phoneNo = val;
                   this.val=val;
+                  Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});
+                  print("phoneNo: ${val.substring(2,12)}");
                 });
               },
               // Only numbers can be entered
@@ -110,9 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
         smsCodeDialog(context).then((value){
           print("Got value $value");
           AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
-          FirebaseAuth.instance
-              .signInWithCredential(authCredential)
-              .then( (user) {
+          FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
 
             //Navigator.of(context).pushNamed('loggedIn');
 
@@ -124,13 +125,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   builder: (context) => NameScreen(userPhoneNo:val),//pass Name() here and pass Home()in name_screen
                 )
             );
-
-//            Navigator.push(
-//                context,
-//                MaterialPageRoute(
-//                    builder: (context) => Home(userPhoneNo: val.toString().substring(2,12)),//pass Name() here and pass Home()in name_screen
-//                )
-//            );
             print("phone no: ${val.toString().substring(2,12)}");
           }).catchError((e) {
             print("Got error $e");

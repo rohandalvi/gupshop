@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 setState(() {
                   this.phoneNo = val;
                   this.val=val;
-                  Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});
+                  //Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});
                   print("phoneNo: ${val.substring(2,12)}");
                 });
               },
@@ -113,6 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
         smsCodeDialog(context).then((value){
           print("Got value $value");
           AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
+          Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});
           FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
 
             //Navigator.of(context).pushNamed('loggedIn');

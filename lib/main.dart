@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget{
         accentColor: Color(0xFFFEF9EB),
       ),
       title: 'Chat home',
-  //    home: IndividualChat(),
+//      home: IndividualChat(),
       home: LoginScreen(),
 //        home: NameScreen(),
 //      home: IndividualChat(),

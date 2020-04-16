@@ -69,6 +69,7 @@ class _IndividualChatState extends State<IndividualChat> {
         Firestore.instance.collection("conversations").document(conversationId).collection("messages");
 
     stream = collectionReference.orderBy("timeStamp", descending: true).limit(10).snapshots();
+
     super.initState();
   }
 

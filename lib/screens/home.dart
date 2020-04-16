@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
         body: TabBarView(
           children: <Widget>[
             Contacts(),
-            chats.length>0 ? ChatList(myNumber: userPhoneNo): EmptyChatList(),
+            chats.length>0 ? ChatList(myNumber: userPhoneNo, myName: userName,): EmptyChatList(),
             Text('Bazaar',),
             Text('Calls',),
           ],

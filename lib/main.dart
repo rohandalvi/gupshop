@@ -23,8 +23,9 @@ class MyApp extends StatelessWidget{
       ),
       title: 'Chat home',
 //      home: IndividualChat(),
-//      home: LoginScreen(),
-      home: BazaarIndividualCategoryList(),
+      home: LoginScreen(),
+//        home: BazaarHomeScreen(),
+//      home: BazaarIndividualCategoryList(),
 //        home: NameScreen(),
 //      home: IndividualChat(),
 //      routes: <String, WidgetBuilder>{

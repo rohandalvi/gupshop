@@ -12,6 +12,7 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey[50],
+      appBar: AppBar(),
       body: ListView.builder(
         itemCount: 4,
         itemBuilder: (BuildContext context, int index){

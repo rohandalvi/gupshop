@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
 
 class BazaarHomeGridView extends StatefulWidget {
   @override
@@ -27,7 +28,14 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
               children: <Widget>[
                 SizedBox(height: 14,),//for space between icon and box
                 InkWell(
-                  onTap: (){print("Image pressed");},
+                  onTap: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BazaarIndividualCategoryList(),//pass Name() here and pass Home()in name_screen
+                        )
+                    );
+                  },
                   child: Image(
                     //later we will have a string for each image from database and will give that string to AssetImage()
                     image: AssetImage('images/milk.png'),

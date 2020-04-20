@@ -48,27 +48,22 @@ class _IndividualChatState extends State<IndividualChat> {
   TextEditingController _controller = new TextEditingController(); //to clear the text  when user hits send button//TODO- for enter
   ScrollController listScrollController = new ScrollController(); //for scrolling the screen
   StreamController streamController;
-  List<DocumentSnapshot> documentList;
+  List<DocumentSnapshot> documentList;//made for getting old batch of messages when the scrolling limit of 10 messages at a time is reached
   CollectionReference collectionReference;
   Stream<QuerySnapshot> stream;
 
- //ToDo: below is the possible code for making the down button visible only when the user scrolls
-//  ScrollController _controllerForScroll  = new ScrollController();
-//
-//  Align scrollListener(){
-//    //print("This");
-//     _scrollToBottomButton();
-//
-//  }
-//
+  ScrollNotification notification;
+
+
   @override
   void initState() {
     //adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
     //when user scrolls
-    collectionReference =
-        Firestore.instance.collection("conversations").document(conversationId).collection("messages");
-
+    collectionReference = Firestore.instance.collection("conversations").document(conversationId).collection("messages");
     stream = collectionReference.orderBy("timeStamp", descending: true).limit(10).snapshots();
+
+//    listScrollController = ScrollController();//ToDo - here
+//    listScrollController.addListener(scrollListener());
 
     super.initState();
   }
@@ -111,9 +106,7 @@ class _IndividualChatState extends State<IndividualChat> {
             ),
             body: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(), //to take out the keyboard when tapped on chat screen
-//              onVerticalDragUpdate: (DragScrollActivity){//TOdo - show the scroll down button  only when user scrolls the screen up
-//                _scrollToBottomButton();
-//              },
+ //             onVerticalDragStart: _scrollToBottomButton(),
                 child: Flex(
                   direction: Axis.vertical,
                   children: <Widget>[
@@ -121,6 +114,7 @@ class _IndividualChatState extends State<IndividualChat> {
                       child: StreamBuilder<QuerySnapshot>(
                           stream: stream,
                           builder: (context, snapshot) {
+                            if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter document was called on null"
                             documentList = snapshot.data.documents;
                             return NotificationListener<ScrollUpdateNotification>(
                               child: ListView.separated(
@@ -141,7 +135,6 @@ class _IndividualChatState extends State<IndividualChat> {
 
                                   return ListTile(
                                     title: Container(
-                                      //fromName:userName? use following widget ToDo
                                       margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),
                                       padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0), //for the box covering the text
                                       color: isMe ? Color(0xFFF9FBE7) : Color(0xFFFFEFEE),
@@ -165,9 +158,12 @@ class _IndividualChatState extends State<IndividualChat> {
                                 ),
                               ),
                               onNotification: (notification){
-                                //onNotification allows us to know when we have reached the limit of the messages
-                                //once the limit is reached, documentList is updated again  with the next 20 messages using
-                                //the fetchAdditionalMesages()
+                                /*
+                                onNotification allows us to know when we have reached the limit of the messages
+                                once the limit is reached, documentList is updated again  with the next 20 messages using
+                                the fetchAdditionalMesages()
+                                 */
+
                                 if(notification.metrics.atEdge
                                     &&  !((notification.metrics.pixels - notification.metrics.minScrollExtent) <
                                         (notification.metrics.maxScrollExtent-notification.metrics.pixels))) {
@@ -186,9 +182,9 @@ class _IndividualChatState extends State<IndividualChat> {
           ),
         ),
                 //listScrollController.addListener(scrollListener);
-       // scrollListener(),
+        //scrollListener(),
      //new ScrollController().addListener(scrollListener);
-        _scrollToBottomButton(),
+       _scrollToBottomButton(),
       ],
     );
   }
@@ -230,25 +226,27 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
   _scrollToBottomButton(){//the button with down arrow that should appear only when the user scrolls
-    return Align(
-      alignment: Alignment.centerRight,
-      child:
-      //scrollListener() ?
-      FloatingActionButton(
-        child: IconButton(
-          icon: Icon(Icons.keyboard_arrow_down),
-        ),
-        onPressed: (){
+//    if(notification is ScrollUpdateNotification){
+      return Align(
+          alignment: Alignment.centerRight,
+          child:
+          //scrollListener() ?
+          FloatingActionButton(
+            child: IconButton(
+              icon: Icon(Icons.keyboard_arrow_down),
+            ),
+            onPressed: (){
 //          Scrollable.ensureVisible(context);
-          listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-            0.0,
-            curve: Curves.easeOut,
-            duration: const Duration(milliseconds: 300),
-          );
-        },
-      )
-            //: new Align(),
-    );
+              listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+                0.0,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );
+            },
+          )
+        //: new Align(),
+      );
+//    } return Align();
   }
 
 

@@ -17,6 +17,7 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  google_fonts: ^0.5.0+1
   flutter:
     sdk: flutter
 
@@ -52,6 +53,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - images/milk.png
+    - images/sampleImageForBazaar.jpeg
+    - images/sampleProfilePicture.jpeg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

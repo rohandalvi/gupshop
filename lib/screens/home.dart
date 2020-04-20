@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/screens/bazaarHome_screen.dart';
 import 'package:gupshop/screens/empty_chatList.dart';
 import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/screens/contacts.dart';
@@ -26,60 +27,64 @@ class _HomeState extends State<Home> {
   _HomeState({@required this.userPhoneNo, @required this.userName});
   Widget appBarScaffold(BuildContext context){
     print("userName= $userName");
-    return AppBar(
-      title: Text(
-        'GupShop',
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),//App name
-      actions: <Widget>[
-        Builder(
-          builder: (context) => IconButton(//Right side icons
+    
+    return PreferredSize(
+      preferredSize: Size.fromHeight(85),//for decresing the size of the appbar
+      child: AppBar(
+        title: Text(
+          'GupShop',
+          style: TextStyle(
             color: Colors.white,
-            icon: Icon(Icons.search),//search icon
-            onPressed: () async {
-              final result = await showSearch(
-                context: context,
-                delegate: ContactSearch(userPhoneNo: userPhoneNo, userName: userName),
-              );
-              Scaffold.of(context)
-                  .showSnackBar(SnackBar(content: Text(result),));
-            },//imp for pressing effect. Also gives a sound effect by default
           ),
-        ),
-        IconButton(
-          color: Colors.white,
-          icon: Icon(Icons.more_vert),//three dots
-          onPressed: () {},
-        ),
-      ],
-      bottom: TabBar(
-        tabs: <Widget>[
-          Tab(
-            child: Text(
-              'Contacts',
-              style: TextStyle(color: Colors.white),
+        ),//App name
+        actions: <Widget>[
+          Builder(
+            builder: (context) => IconButton(//Right side icons
+              color: Colors.white,
+              icon: Icon(Icons.search),//search icon
+              onPressed: () async {
+                final result = await showSearch(
+                  context: context,
+                  delegate: ContactSearch(userPhoneNo: userPhoneNo, userName: userName),
+                );
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text(result),));
+              },//imp for pressing effect. Also gives a sound effect by default
             ),
           ),
-          Tab(
-            child: Text(
-              'Chats',
-              style: TextStyle(color: Colors.white),
-            ),),
-          Tab(
-            child: Text(
-              'Bazaar',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          Tab(
-            child: Text(
-              'Calls',
-              style: TextStyle(color: Colors.white),
-            ),
+          IconButton(
+            color: Colors.white,
+            icon: Icon(Icons.more_vert),//three dots
+            onPressed: () {},
           ),
         ],
+        bottom: TabBar(
+          tabs: <Widget>[
+            Tab(
+              child: Text(
+                'Contacts',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            Tab(
+              child: Text(
+                'Chats',
+                style: TextStyle(color: Colors.white),
+              ),),
+            Tab(
+              child: Text(
+                'Bazaar',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            Tab(
+              child: Text(
+                'Calls',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -95,7 +100,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             Contacts(),
             chats.length>0 ? ChatList(myNumber: userPhoneNo, myName: userName,): EmptyChatList(),
-            Text('Bazaar',),
+            BazaarHomeScreen(),
             Text('Calls',),
           ],
         ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/screens/bazaarHome_screen.dart';
+import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/screens/contacts.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/individual_chat.dart';
@@ -16,11 +18,13 @@ class MyApp extends StatelessWidget{
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Colors.lightGreen,
-        accentColor: Color(0xFFFEF9EB),
+//        primaryColor: Colors.grey,
+        accentColor: Colors.cyan[50],
       ),
       title: 'Chat home',
 //      home: IndividualChat(),
-      home: LoginScreen(),
+//      home: LoginScreen(),
+      home: BazaarIndividualCategoryList(),
 //        home: NameScreen(),
 //      home: IndividualChat(),
 //      routes: <String, WidgetBuilder>{

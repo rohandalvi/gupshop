@@ -8,6 +8,7 @@ import 'package:gupshop/screens/empty_chatList.dart';
 import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/screens/contacts.dart';
 import 'package:gupshop/service/contact_search.dart';
+import 'package:gupshop/widgets/sideMenu.dart';
 
 class Home extends StatefulWidget{
   final String userPhoneNo;
@@ -52,11 +53,18 @@ class _HomeState extends State<Home> {
               },//imp for pressing effect. Also gives a sound effect by default
             ),
           ),
-          IconButton(
-            color: Colors.white,
-            icon: Icon(Icons.more_vert),//three dots
-            onPressed: () {},
-          ),
+//          IconButton(
+//            color: Colors.white,
+//            icon: Icon(Icons.more_vert),//three dots
+//            onPressed: () {
+//              Navigator.push(
+//                  context,
+//                  MaterialPageRoute(
+//                    builder: (context) => SideMenu(userName: userName),//pass Name() here and pass Home()in name_screen
+//                  )
+//              );
+//            },
+//          ),
         ],
         bottom: TabBar(
           tabs: <Widget>[
@@ -104,6 +112,7 @@ class _HomeState extends State<Home> {
             Text('Calls',),
           ],
         ),
+        drawer: SideMenu(userName: userName,),
       ),
     );
   }

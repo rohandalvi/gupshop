@@ -120,12 +120,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
       setState(() {
         this.codeSent = true;
-        prefs.setString('userPhoneNo', val.substring(2,12));
+        prefs.setString('userPhoneNo', val.substring(2,12));//toDo - remove substring
         print("userPhoneNo in login_screen setState: $val");
         smsCodeDialog(context).then((value) {
           print("Got value $value");
           AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
-          Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});
+          Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});//toDo - remove substring
+
+          //add userPhoneNumber to our database. Add to the users collection:
+
+
           FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
 
             //Navigator.of(context).pushNamed('loggedIn');
@@ -138,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   builder: (context) => NameScreen(userPhoneNo:val),//pass Name() here and pass Home()in name_screen
                 )
             );
-            print("phone no: ${val.toString().substring(2,12)}");
+            print("phone no: ${val.toString().substring(2,12)}");//toDo - remove substring
           }).catchError((e) {
             print("Got error $e");
           });

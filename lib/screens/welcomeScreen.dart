@@ -6,6 +6,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
 
+
+/*
+Steps:
+1. Use getInstance
+2. Use getBool to set true or false depeding on  the first time use or not
+3. If  bool is true, then end the user to the homescreen else send him to the loginscreen
+4. We would need to initialize this method in initState() because this method does not return a widget and it cant be used in the build method
+ */
+
 class WelcomeScreen extends StatefulWidget {
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
@@ -30,6 +39,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     super.initState();
   }
 
+
+  /*
+  Home() screen requires required parameters userName and userPhoneNo
+  The problem is how do we get this data from 💬
+  save the phone number from the login screen to the sharedpreferences as
+  well as the name from the name screen.
+   */
 
   startTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -71,38 +87,4 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
 }
-//  int number;
-//  bool firstTime;
-//  final pref= SharedPreferences.getInstance();
-//
-//  Future<bool> getPref() async{
-//    pref = await SharedPreferences.getInstance();
-//    firstTime = pref.getBool('firstTime')??0;
-//  }
-//
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    print("pref: $pref");
-//    return new FutureBuilder(
-//        future: SharedPreferences.getInstance(),
-//        builder: (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot){
-//          switch(snapshot.connectionState){
-//            case ConnectionState.none:{return CircularProgressIndicator();}
-//            case ConnectionState.waiting: {return CircularProgressIndicator();}
-//            default:{
-//              print("SharedPreferences.getInstance(): ${SharedPreferences.getInstance()}");
-//              firstTime = snapshot.getBool('firstTime')??false;
-//              print("firstTime: $firstTime");
-//              if(!snapshot.hasError){
-//                print("snapshot: $snapshot");
-//                if(snapshot.data != null){return Home();}//Return homescreeen(if user is not firstTime),
-//                return LoginScreen();//Return loginScreen(if user is firstTime)
-//              }
-//              print("Error: $snapshot");
-//              return new Text("Error loading data");
-//          }
-//          }
-//        }
-//    );
 

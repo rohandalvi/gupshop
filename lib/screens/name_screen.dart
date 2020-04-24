@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -45,6 +46,15 @@ class _NameScreenState extends State<NameScreen> {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   String userNameForSP = prefs.getString('userName');
                   print("userNameForSP in name_screen: $userNameForSP");
+
+                  /*
+                  Add first time user’s number to database:
+                  For adding data, we need to use set() method
+                  We dont have userPhone and name both at the login_screen, we get both
+                  of them in the name_screen, so we will add them in that file only.
+                   */
+                  Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
+                  print("Firestore.instance.collection(users).document(userPhoneNo).setData({'name':userName}):${userName}");
                   setState(() {
                     prefs.setString('userName', userName);
                     print("userNameForSP in name_screen setState: $userName");

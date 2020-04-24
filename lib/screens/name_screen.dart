@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
 
@@ -40,7 +41,14 @@ class _NameScreenState extends State<NameScreen> {
                 padding: EdgeInsets.only(left: 20, top: 35, right: 20),
               ),
               RaisedButton(
-                onPressed: (){
+                onPressed: ()async{
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  String userNameForSP = prefs.getString('userName');
+                  print("userNameForSP in name_screen: $userNameForSP");
+                  setState(() {
+                    prefs.setString('userName', userName);
+                    print("userNameForSP in name_screen setState: $userName");
+                  });
                   Navigator.push(
                       context,
                       MaterialPageRoute(

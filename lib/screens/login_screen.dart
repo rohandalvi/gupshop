@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/service/auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -15,6 +16,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool codeSent = false;
   String val="";
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +64,8 @@ class _LoginScreenState extends State<LoginScreen> {
             child: new TextField(
               decoration: new InputDecoration(labelText: "Enter your number"),
               keyboardType: TextInputType.phone,
-              onChanged: (val){
+              onChanged: (val) {
+
                 setState(() {
                   this.phoneNo = val;
                   this.val=val;
@@ -95,6 +102,9 @@ class _LoginScreenState extends State<LoginScreen> {
   String phoneNo, verificationId, smsCode;
 
   Future<void> verifyphone() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userPhoneNo = prefs.getString('userPhoneNo');
+    print("userPhoneNo in login_screen: $userPhoneNo");
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
       AuthService().signIn(authResult);
     };
@@ -110,7 +120,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
       setState(() {
         this.codeSent = true;
-        smsCodeDialog(context).then((value){
+        prefs.setString('userPhoneNo', val.substring(2,12));
+        print("userPhoneNo in login_screen setState: $val");
+        smsCodeDialog(context).then((value) {
           print("Got value $value");
           AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
           Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});
@@ -175,9 +187,5 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         });
   }
-
-
-
-
 
 }

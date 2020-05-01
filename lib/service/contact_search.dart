@@ -42,7 +42,7 @@ class ContactSearch extends SearchDelegate<String>{
   @override
   Widget buildSuggestions(BuildContext context) {
     print("userphoneno in contact_search: ${userPhoneNo}");
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder(
         stream: Firestore.instance.collection("friends_$userPhoneNo").snapshots(),//use userPhoneNo ToDo
         builder: (context, snapshot) {
 
@@ -50,6 +50,9 @@ class ContactSearch extends SearchDelegate<String>{
 
           if(snapshot.hasError) return Text("Error occurred");
           if(!snapshot.hasData) return Text("Now Loading!");
+
+
+          //print("snapshot in streambuilder: ${snapshot.data}");
 
           return ListView.builder(
               itemCount: snapshot.data.documents.length,

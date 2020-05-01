@@ -11,6 +11,7 @@ class BazaarIndividualCategoryList extends StatefulWidget {
 
 class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryList> {
   String category = 'KamWali';
+  String nameOfPeopleInCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
             itemCount: numberOfPeopleInTheCategory,
             itemBuilder: (BuildContext context, int index){
 
-              String nameOfPeopleInCategory = snapshot.data.data["individualCatergoryList"][index]["name"];
+              nameOfPeopleInCategory = snapshot.data.data["individualCatergoryList"][index]["name"];
               String speciality = snapshot.data.data["individualCatergoryList"][index]["speciality"];
               int rating = snapshot.data.data["individualCatergoryList"][index]["rating"];
 
@@ -114,7 +115,7 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ProductDetail(),
+                              builder: (context) => ProductDetail(productWalaName: nameOfPeopleInCategory, category:category),
                             )
                         );
                       },

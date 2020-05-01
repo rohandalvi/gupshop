@@ -41,6 +41,7 @@ dependencies:
 
   image_picker: ^0.6.5+2 #for adding advertisement on bazaar profile
   shared_preferences: ^0.5.7 #for checking if the user is logged in for the 1st time
+  firebase_storage: ^3.1.5 #for image  and video storage to cloud storage
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +65,9 @@ flutter:
     - images/sampleProfilePicture.jpeg
     - images/kamwali.png
     - videos/LevenworthVideo.mp4
+    - images/crying.png
+    - images/ok-hand.png
+    - images/so-so.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

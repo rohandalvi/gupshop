@@ -3,26 +3,61 @@ import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/screens/individual_chat.dart';
+import 'package:gupshop/widgets/profilePicture.dart';
+import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 
 import 'dart:ui';
 
 
-class ChatList extends StatelessWidget {
+class ChatList extends StatefulWidget {
   final String myNumber;
   final String myName;
 
+
   ChatList({@required this.myNumber, @required this.myName});
 
-  Future<String>  getUserName() async {
-    await Firestore.instance.collection("users").document(myNumber).get().then((val){
-      return val.toString();
+  @override
+  _ChatListState createState() => _ChatListState(myNumber: myNumber,myName: myName );
+}
+
+class _ChatListState extends State<ChatList> {
+  final String myNumber;
+  final String myName;
+
+
+  _ChatListState({@required this.myNumber, @required this.myName });
+
+  String conversationId;
+
+  String friendNo;
+
+  /*
+  Add photo to users  avatar- 1:
+    Taking profile picture from profile picture collection
+    But it needs the phone number of the friend.
+    In recent chats, we its difficult to understand what the phone number of the friend is.
+    So we have to make another query to conversationMetadata where we can search the friends number using the conversationId obtained from recent chats.
+    So, we take the phone number which is not ours.
+    But this logic will not work when in case of a group.
+   */
+  getFriendPhoneNo(String conversationId) async {
+    await Firestore.instance.collection("conversationMetadata").document(
+        conversationId).get().then((val) {
+      for (int i = 0; i < 2; i++) {
+        if (val.data["members"][i] != myNumber) {
+          friendNo=val.data["members"][i];
+          break;
+        }
+      }
+      print("friendNo: $friendNo");
     });
   }
 
 
   @override
   Widget build(BuildContext context) {
+
 //    print("which snapshot: ${Firestore.instance.collection("recentChats")
 //        .document(myNumber).collection("conversations").snapshots()}");
     return Material(
@@ -36,16 +71,33 @@ class ChatList extends StatelessWidget {
                   String friendName= snapshot.data.documents[index].data["name"];
                   String lastMessage = snapshot.data.documents[index].data["message"]["body"];
                   Timestamp timeStamp = snapshot.data.documents[index].data["message"]["timeStamp"];
+                  print("friendName: $friendName");
 
                   //for sending to individual_chat.dart:
-                  String conversationId = snapshot.data.documents[index].data["message"]["conversationId"];
-
+                    conversationId = snapshot.data.documents[index].data["message"]["conversationId"];
 
                 return ListTile(//main widget that creates the message box
-                  leading: CircleAvatar(
-                    radius: 35,
-                    //backgroundImage: AssetImage(chats[index].sender.imageUrl),
+                  leading: SizedBox(
+                    width: 45,
+                    child: FutureBuilder(
+                      future: getFriendPhoneNo(conversationId),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        print("Dat $snapshot");
+                        if(snapshot.connectionState == ConnectionState.done) {
+                          return SideMenuState().getProfilePicture(
+                              friendNo);
+                        }
+                        return CircularProgressIndicator();
+                      },
+                    )
+                    ,
                   ),
+
+//                  CircleAvatar(//profile picture
+//                    radius: 35,
+//                    //backgroundImage: SideMenuState().getProfilePicture(),
+//                    //AssetImage(chats[index].sender.imageUrl)
+//                  ),
                   title: Text(
                     friendName,
                     //chats[index].sender.name,
@@ -66,7 +118,7 @@ class ChatList extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => IndividualChat(friendName: friendName,conversationId: conversationId,userName: myName,userPhoneNo: myNumber,),//pass Name() here and pass Home()in name_screen
+                          builder: (context) => IndividualChat(friendName: friendName,conversationId: conversationId,userName:myName,userPhoneNo: myNumber,),//pass Name() here and pass Home()in name_screen
                         )
                     );
                   },
@@ -81,3 +133,5 @@ class ChatList extends StatelessWidget {
     );
   }
 }
+
+

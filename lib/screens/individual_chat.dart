@@ -202,7 +202,10 @@ class _IndividualChatState extends State<IndividualChat> {
           //textCapitalization: TextCapitalization.sentences,
           maxLines: null,
           onChanged: (value){
-            this.value=value;
+            setState(() {
+              this.value=value;//by doing this we are setting the value to value globally
+            });
+//            this.value=value;
             //_controller.clear();
           },
           scrollController: new ScrollController(),
@@ -211,14 +214,24 @@ class _IndividualChatState extends State<IndividualChat> {
         trailing: IconButton(
           icon: Icon(Icons.send),
           onPressed: (){
-            var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-            Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
-            _controller.clear();//used to clear text when user hits send button
-            listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-              0.0,
-              curve: Curves.easeOut,
-              duration: const Duration(milliseconds: 300),
-            );
+            if(value!="") {//if there is not text, then dont send the message
+              var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+              Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+              _controller.clear();//used to clear text when user hits send button
+              listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+                0.0,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );
+            }
+//            var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+//            Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+//            _controller.clear();//used to clear text when user hits send button
+//            listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+//              0.0,
+//              curve: Curves.easeOut,
+//              duration: const Duration(milliseconds: 300),
+//            );
           },
         ),
       ),
@@ -269,5 +282,6 @@ class _IndividualChatState extends State<IndividualChat> {
 
   }
 }
+
 
 

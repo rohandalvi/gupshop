@@ -125,17 +125,16 @@ class _LoginScreenState extends State<LoginScreen> {
         smsCodeDialog(context).then((value) {
           print("Got value $value");
           AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
+          //add userPhoneNumber to our database. Add to the users collection:
           Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});//toDo - remove substring
 
-          //add userPhoneNumber to our database. Add to the users collection:
+          //creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
+          Firestore.instance.collection("profilePictures").document(val.substring(2,12)).setData({}, merge: true);//toDo - remove substring
 
 
           FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
-
             //Navigator.of(context).pushNamed('loggedIn');
-
             print("userphoneno: ${val}");
-
             Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -3,6 +3,7 @@ import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/screens/bazaarHome_screen.dart';
 import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/screens/bazaarProfilePage.dart';
+import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/screens/contacts.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/home_screen.dart';
@@ -11,6 +12,7 @@ import 'package:gupshop/screens/login_screen.dart';
 import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/screens/productDetail.dart';
 import 'package:gupshop/screens/welcomeScreen.dart';
+import 'package:gupshop/widgets/sideMenu.dart';
 
 void main(){
   runApp(MyApp());
@@ -28,6 +30,8 @@ class MyApp extends StatelessWidget{
       title: 'Chat home',
 //      home: Home(),
       home: LoginScreen(),
+//        home: SideMenu(),
+//        home: ChangeProfilePicture(),
 //      home: WelcomeScreen(),
 //        home: HomeScreen(),
 //        home: BazaarProfilePage(),

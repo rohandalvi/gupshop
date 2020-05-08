@@ -32,16 +32,23 @@ dependencies:
   firebase_analytics: ^5.0.2
 
   contacts_service: ^0.3.10
-  flutter_contact: ^0.5.3
+  flutter_contact: any #verson ^0.5.3 is incompatible with geolocator:^5.3.1. Hence we change flutter_contact version to any
   permission_handler: ^5.0.0+hotfix.3
 
-  cloud_firestore: ^0.12.9+5
+  cloud_firestore: ^0.13.5 #^0.12.9+5 version before . changed  because geoflutterfire was not compatible with this version
 
   video_player: ^0.10.9 #video player for bazaar profile
 
   image_picker: ^0.6.5+2 #for adding advertisement on bazaar profile
   shared_preferences: ^0.5.7 #for checking if the user is logged in for the 1st time
   firebase_storage: ^3.1.5 #for image  and video storage to cloud storage
+
+  geolocator: ^5.3.1
+  geocoder: ^0.2.1
+  location: ^3.0.2
+  async: ^2.4.0
+
+  geoflutterfire: ^2.1.0 # for finding nearby
 
 dev_dependencies:
   flutter_test:

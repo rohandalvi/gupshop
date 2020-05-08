@@ -173,7 +173,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
       print("prefs: $prefs");
     }
 
-  Future uploadImageToFirestore(BuildContext context) async{
+  Future uploadImageToFirestore(BuildContext context) async{//functionality for cameraImage is not added, thats a to do
     String fileName = basename(userPhoneNo+'ProfilePicture');
     //String fileName = basename(_galleryImage.path);
     StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);

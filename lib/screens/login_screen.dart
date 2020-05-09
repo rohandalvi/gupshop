@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   this.phoneNo = val;
                   this.val=val;
                   //Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});
-                  print("phoneNo: ${val.substring(2,12)}");
+                  print("phoneNo: ${val}");
                 });
               },
               // Only numbers can be entered
@@ -120,16 +120,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
       setState(() {
         this.codeSent = true;
-        prefs.setString('userPhoneNo', val.substring(2,12));//toDo - remove substring
+        prefs.setString('userPhoneNo', val);//toDo - remove substring
+        //prefs.setString('userPhoneNo', val.substring(2,12));//toDo - remove substring
         print("userPhoneNo in login_screen setState: $val");
         smsCodeDialog(context).then((value) {
           print("Got value $value");
           AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
           //add userPhoneNumber to our database. Add to the users collection:
-          Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});//toDo - remove substring
+          Firestore.instance.collection("recentChats").document(val).setData({});//toDo - remove substring
+          // Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});//toDo - remove substring
 
           //creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
-          Firestore.instance.collection("profilePictures").document(val.substring(2,12)).setData({}, merge: true);//toDo - remove substring
+          Firestore.instance.collection("profilePictures").document(val).setData({}, merge: true);//toDo - remove substring
+          //Firestore.instance.collection("profilePictures").document(val.substring(2,12)).setData({}, merge: true);//toDo - remove substring
 
 
           FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
@@ -141,7 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   builder: (context) => NameScreen(userPhoneNo:val),//pass Name() here and pass Home()in name_screen
                 )
             );
-            print("phone no: ${val.toString().substring(2,12)}");//toDo - remove substring
+            print("phone no: ${val.toString()}");//toDo - remove substring
+            //print("phone no: ${val.toString().substring(2,12)}");//toDo - remove substring
           }).catchError((e) {
             print("Got error $e");
           });

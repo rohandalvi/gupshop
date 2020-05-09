@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/service/geolocation_service.dart';
+import 'package:gupshop/service/getSharedPreferences.dart';
 import 'package:gupshop/widgets/bazaarHomeGridView.dart';
 
 class BazaarHomeScreen extends StatefulWidget {
@@ -9,6 +13,24 @@ class BazaarHomeScreen extends StatefulWidget {
 }
 
 class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
+
+  setUsersLocationToFirebase() async{
+    var userPhoneNo = await GetSharedPreferences().getUserPhoneNoFuture();//get user phone no
+    Position location = await GeolocationServiceState().getLocation();
+    var latitude = location.latitude;
+    var longitude = location.longitude;
+
+    GeolocationServiceState().pushUsersLocationToFirebase(latitude, longitude, userPhoneNo);
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    setUsersLocationToFirebase();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

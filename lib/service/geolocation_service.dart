@@ -96,11 +96,11 @@ class GeolocationServiceState extends State<GeolocationService> {
   }
 
 
-  //2
-  pushUsersLocationToFirebase(var latitude, var longitude, String phoneNo){
+  //use in bazaarHome_screen to set the user's location to firebase
+  pushUsersLocationToFirebase(var latitude, var longitude, String phoneNo){//set users location to firebase
     GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
 
-    Firestore.instance.collection("usersLocation").document("+19194134191").setData({'position': myLocation.data});
+    Firestore.instance.collection("usersLocation").document(phoneNo).setData({'position': myLocation.data});
     print("myLocation.data of user: ${myLocation.data}");
 
     //getBazaarWalasInAGivenRadius(50, latitude, longitude);
@@ -114,16 +114,18 @@ class GeolocationServiceState extends State<GeolocationService> {
   }
 
 
-   getUserLocation(number){
+   getUserLocation(number){//get location already stored in firebase
     print("getusergeohash madhe number : $number");
-
+    Firestore.instance.collection("usersLocation").document(number).get().then((onVal){
+      print("getUserLocationVal: ${onVal.data}");
+    });
     return Firestore.instance.collection("usersLocation").document(number).get();
   }
 
 
 
 
-  Future<Position> getLocation() async{
+  Future<Position> getLocation() async{// returns user's actual location using satellite
     Position location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     return location;
   }

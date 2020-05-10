@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/screens/adressBook.dart';
 import 'package:gupshop/screens/productDetail.dart';
 import 'package:gupshop/service/filterBazaarWalas.dart';
 import 'package:gupshop/service/geolocation_service.dart';
@@ -30,12 +31,14 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
   String userGeohashString;
 
   Future userPhoneNoFuture;
+  String _userPhoneNo;
 
   List<DocumentSnapshot> list;
 
 
   getListOfBazaarWalasInAGivenRadius() async{
     var userPhoneNo = await GetSharedPreferences().getUserPhoneNoFuture();//get user phone no
+    _userPhoneNo = userPhoneNo;
     var listOfbazaarwalas = await FilterBazaarWalasState().getListOfBazaarWalasInAGivenRadius(userPhoneNo, "kamwali");
     return listOfbazaarwalas;
   }
@@ -46,7 +49,22 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
 
     return Scaffold(
       backgroundColor: Colors.blueGrey[50],
-      appBar: AppBar(),
+      appBar: AppBar(
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.edit_location),
+          onPressed: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  //builder: (context) => AddressBook(userPhoneNo:_userPhoneNo),//pass Name() here and pass Home()in name_screen
+                )
+            );
+          },
+          //take user to a new page, to select locations from a given list or add new one
+      ),
+      ],
+      ),
       body: FutureBuilder(
           future: getListOfBazaarWalasInAGivenRadius(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {

@@ -276,8 +276,10 @@ class _IndividualChatState extends State<IndividualChat> {
       setState(() {//setting state is essential, or new messages(next batch of old messages) does not get loaded
         documentList.addAll(newDocumentList);
       });
+      print("in try");
     } catch(e) {
       streamController.sink.addError(e);
+      print("in catch");
     }
 
   }

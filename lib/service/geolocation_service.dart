@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:geocoder/geocoder.dart' as gc;
 import 'package:geolocator/geolocator.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+//import 'package:location/location.dart';
 
 class GeolocationService extends StatefulWidget {
   @override
@@ -97,17 +98,26 @@ class GeolocationServiceState extends State<GeolocationService> {
 
 
   //use in bazaarHome_screen to set the user's location to firebase
-  pushUsersLocationToFirebase(var latitude, var longitude, String phoneNo){//set users location to firebase
+  pushUsersLocationToFirebase(var latitude, var longitude, String phoneNo, String locationName, var address){//set users location to firebase
     GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
 
-    Firestore.instance.collection("usersLocation").document(phoneNo).setData({'position': myLocation.data});
-    print("myLocation.data of user: ${myLocation.data}");
+    var map =
+    {
+      'geohash' : myLocation.hash,
+      'geoPoint': myLocation.geoPoint,
+      'address' : address,
+    };
 
-    //getBazaarWalasInAGivenRadius(50, latitude, longitude);
+    //Firestore.instance.collection("usersLocation").document(phoneNo).setData({'position': myLocation.data});
+    Firestore.instance.collection("usersLocation").document(phoneNo).setData({locationName: map}, merge:true);//merge true imp for setting multiple locations
+    print("myLocation.data of user: ${myLocation.data}");
   }
 
   //4
-
+  getGeopointAndGeohashObject(var latitude, var longitude){
+    GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
+    return myLocation;
+  }
 
   Future<DocumentSnapshot> getBazaarWalaGeoHash(number, category) {
     return Firestore.instance.collection("bazaarWalasLocation").document(category).collection(number).document(number).get();
@@ -123,11 +133,22 @@ class GeolocationServiceState extends State<GeolocationService> {
   }
 
 
-
-
   Future<Position> getLocation() async{// returns user's actual location using satellite
     Position location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     return location;
+  }
+
+  getAddress() async{// returns user's actual location using satellite
+    Position location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    var latitude = location.latitude;
+    var longitude = location.longitude;
+    var coordinates = new gc.Coordinates(latitude, longitude);
+
+    var addressList = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var address = addressList[2].addressLine;
+
+    print("address: ${address}");
+    return address;
   }
 
 
@@ -156,6 +177,14 @@ class GeolocationServiceState extends State<GeolocationService> {
   }
 
 
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+//    pushUsersLocationToFirebase(47.606209, -122.332069, "+19194134191");
+  getAddress();
+  }
 
   @override
   Widget build(BuildContext context) {

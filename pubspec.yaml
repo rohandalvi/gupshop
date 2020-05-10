@@ -50,6 +50,8 @@ dependencies:
 
   geoflutterfire: ^2.1.0 # for finding nearby
 
+  flappy_search_bar: ^1.7.2 # for searching
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
               onPressed: () async {
                 final result = await showSearch(
                   context: context,
-                  delegate: ContactSearch(userPhoneNo: userPhoneNo, userName: userName),
+                  //delegate: ContactSearch(userPhoneNo: userPhoneNo, userName: userName),
                 );
                 Scaffold.of(context)
                     .showSnackBar(SnackBar(content: Text(result),));

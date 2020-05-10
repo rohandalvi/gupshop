@@ -38,7 +38,7 @@ class _HomeScreen extends State<HomeScreen> {
                  onPressed: () async {
                    final result = await showSearch(
                      context: context,
-                     delegate: ContactSearch(userPhoneNo: userPhoneNo, userName: userName),
+                    // delegate: ContactSearch(userPhoneNo: userPhoneNo, userName: userName),
                    );
                    Scaffold.of(context)
                        .showSnackBar(SnackBar(content: Text(result),));
@@ -87,7 +87,7 @@ class _HomeScreen extends State<HomeScreen> {
       length: 4,
       initialIndex: 1,
       child: Scaffold(
-        appBar: appBarScaffold(context),
+        //appBar: appBarScaffold(context),
         body: TabBarView(
           children: <Widget>[
             Contacts(),

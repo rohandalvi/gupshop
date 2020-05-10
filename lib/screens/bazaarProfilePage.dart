@@ -112,6 +112,10 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                   )
                       : Container()
                 else
+                  Text('BECOME A BAZAARWALA !',style: GoogleFonts.openSans()),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Text('Lets start by adding your advertisement:',style: GoogleFonts.openSans()),
                 RaisedButton(
                   onPressed: (){

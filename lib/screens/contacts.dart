@@ -34,7 +34,7 @@ class _ContactsState extends State<Contacts> {
             onPressed: () {
               showSearch(
                 context: context,
-                delegate: ContactSearch(),
+                //delegate: ContactSearch(),
               );
             }, //imp for pressing effect. Also gives a sound effect by default
           ),

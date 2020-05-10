@@ -13,6 +13,7 @@ import 'package:gupshop/screens/login_screen.dart';
 import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/screens/productDetail.dart';
 import 'package:gupshop/screens/welcomeScreen.dart';
+import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/service/filterBazaarWalas.dart';
 import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget{
       title: 'Chat home',
 //      home: Home(),
 //       home: GeolocationService(),
-      home: LoginScreen(),
+//      home: LoginScreen(),
+        home: ContactSearch(),
 //        home: SideMenu(),
 //        home: ChangeProfilePicture(),
 //      home: WelcomeScreen(),

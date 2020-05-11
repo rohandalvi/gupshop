@@ -51,8 +51,7 @@ class ContactSearch extends StatelessWidget {
    Future<List<DocumentSnapshot>> searchList(String text) async {
     String userPhoneNo ="+19194134191";
     var list = await Firestore.instance.collection("friends_$userPhoneNo").getDocuments();
-    print("list : ${list.documents[0].data}");
-    return list.documents.where((l) => l.data["name"].toLowerCase().contains(text.toLowerCase())).toList();
+    return list.documents.where((l) => l.data["name"].toLowerCase().contains(text.toLowerCase()) ||  l.documentID.contains(text)).toList();
   }
 }
 

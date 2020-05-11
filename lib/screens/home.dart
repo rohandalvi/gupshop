@@ -43,13 +43,19 @@ class _HomeState extends State<Home> {
             builder: (context) => IconButton(//Right side icons
               color: Colors.white,
               icon: Icon(Icons.search),//search icon
-              onPressed: () async {
-                final result = await showSearch(
-                  context: context,
-                  //delegate: ContactSearch(userPhoneNo: userPhoneNo, userName: userName),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ContactSearch(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
+                    )
                 );
-                Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text(result),));
+//                final result = await showSearch(
+//                  context: context,
+//                  delegate: ContactSearch(userPhoneNo: userPhoneNo, userName: userName),
+//                );
+//                Scaffold.of(context)
+//                    .showSnackBar(SnackBar(content: Text(result),));
               },//imp for pressing effect. Also gives a sound effect by default
             ),
           ),

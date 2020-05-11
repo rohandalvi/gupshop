@@ -99,7 +99,7 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProductDetail(),//
+                            builder: (context) => ProductDetail(productWalaName: name, category:category),//
                           )
                       );
                     },
@@ -173,7 +173,7 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ProductDetail(productWalaName: nameOfPeopleInCategory, category:category),
+                              builder: (context) => ProductDetail(productWalaName: name, category:category),
                             )
                         );
                       },

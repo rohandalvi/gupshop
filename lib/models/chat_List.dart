@@ -18,15 +18,15 @@ class ChatList extends StatefulWidget {
   ChatList({@required this.myNumber, @required this.myName});
 
   @override
-  _ChatListState createState() => _ChatListState(myNumber: myNumber,myName: myName );
+  ChatListState createState() => ChatListState(myNumber: myNumber,myName: myName );
 }
 
-class _ChatListState extends State<ChatList> {
+class ChatListState extends State<ChatList> {
   final String myNumber;
   final String myName;
 
 
-  _ChatListState({@required this.myNumber, @required this.myName });
+  ChatListState({@required this.myNumber, @required this.myName });
 
   String conversationId;
 
@@ -118,7 +118,7 @@ class _ChatListState extends State<ChatList> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => IndividualChat(friendName: friendName,conversationId: conversationId,userName:myName,userPhoneNo: myNumber,),//pass Name() here and pass Home()in name_screen
+                          builder: (context) => IndividualChat(friendName: friendName,conversationId: conversationId,userName:myName,userPhoneNo: myNumber, friendNumber: friendNo,),//pass Name() here and pass Home()in name_screen
                         )
                     );
                   },

@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_contact/generated/i18n.dart';
+import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 
 import 'dart:ui';
@@ -14,19 +16,25 @@ class IndividualChat extends StatefulWidget {
   final String userPhoneNo;
   final String userName;
   final String friendName;
+  final String friendNumber;
+
   IndividualChat(
       {Key key,
       @required this.conversationId,
       @required this.userPhoneNo,
       @required this.userName,
-      @required this.friendName})
+      @required this.friendName,
+        @required this.friendNumber,
+      })
       : super(key: key);
   @override
   _IndividualChatState createState() => _IndividualChatState(
       conversationId: conversationId,
       userPhoneNo: userPhoneNo,
       userName: userName,
-      friendName: friendName);
+      friendName: friendName,
+      friendNumber: friendNumber
+  );
 
 }
 
@@ -37,11 +45,15 @@ class _IndividualChatState extends State<IndividualChat> {
   final String userPhoneNo;
   final String userName;
   final String friendName;
+  final String friendNumber;
+
   _IndividualChatState(
       {@required this.conversationId,
       @required this.userPhoneNo,
       @required this.userName,
-      @required this.friendName});
+      @required this.friendName,
+        @required this.friendNumber,
+      });
 
   String value = ""; //TODo
 
@@ -81,7 +93,17 @@ class _IndividualChatState extends State<IndividualChat> {
                 color: Theme.of(context).primaryColor,
                 child: ListTile(
                   contentPadding: EdgeInsets.symmetric(),
-                  leading: CircleAvatar(),
+                  leading:
+//                  ClipOval(
+//                    child: SideMenuState().getProfilePicture(friendNumber),
+//                  ),
+                  SizedBox(
+                    height: 50,
+                    width: 35,
+                    child: ClipOval(
+                      child: SideMenuState().getProfilePicture(friendNumber),
+                    ),
+                  ),
                   title: Text(
                     friendName,//name of the person with whom we are chatting right now, displayed at the top in the app bar
                     style: TextStyle(

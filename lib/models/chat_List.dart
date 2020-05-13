@@ -42,6 +42,7 @@ class ChatListState extends State<ChatList> {
     But this logic will not work when in case of a group.
    */
   getFriendPhoneNo(String conversationId) async {
+    print("mynumber: $myNumber");
     await Firestore.instance.collection("conversationMetadata").document(
         conversationId).get().then((val) {
       for (int i = 0; i < 2; i++) {
@@ -54,10 +55,27 @@ class ChatListState extends State<ChatList> {
     });
   }
 
+  getFriendPhoneNo2(String conversationId, String myNumber) async {
+    print("mynumber in getfriend2 : $myNumber");
+   DocumentSnapshot temp = await Firestore.instance.collection("conversationMetadata").document(conversationId).get();
+   var friendNo = await extractFriendNo(temp , myNumber);
+   return friendNo;
+  }
+
+  extractFriendNo(DocumentSnapshot temp, String myNumber) async{
+    print("mynumber in extractfriendNo : $myNumber");
+    for (int i = 0; i < 2; i++) {
+      if (temp.data["members"][i] != myNumber) {
+        return temp.data["members"][i];
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
-
+    print("userphoneno in chatlist : $myNumber");
+    print("username in chatlist :$myName");
 //    print("which snapshot: ${Firestore.instance.collection("recentChats")
 //        .document(myNumber).collection("conversations").snapshots()}");
     return Material(

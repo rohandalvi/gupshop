@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
 
+//==>
 class NameScreen extends StatefulWidget {
   final String userPhoneNo;
   String userName;
@@ -58,11 +59,12 @@ class _NameScreenState extends State<NameScreen> {
                   setState(() {
                     prefs.setString('userName', userName);
                     print("userNameForSP in name_screen setState: $userName");
+                    print("userphoneno in name screen : $userPhoneNo");
                   });
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Home(userPhoneNo: userPhoneNo.substring(2,12), userName: userName),//pass Name() here and pass Home()in name_screen
+                        builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
                       )
                   );
                 },

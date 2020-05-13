@@ -120,6 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       setState(() {
         this.codeSent = true;
+        print("val : $val");
         prefs.setString('userPhoneNo', val);//toDo - remove substring
         //prefs.setString('userPhoneNo', val.substring(2,12));//toDo - remove substring
         print("userPhoneNo in login_screen setState: $val");

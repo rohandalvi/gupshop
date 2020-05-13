@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 
 
@@ -11,6 +12,11 @@ class ContactSearch extends StatelessWidget {
   final String userName;
 
   ContactSearch({@required this.userPhoneNo, @required this.userName});
+
+  //used for routing to individualchat for getting friend's profile picture
+  getFriendNo(String conversationId) async{
+     return await ChatListState().getFriendPhoneNo2(conversationId, userPhoneNo);
+  }
 
 
   @override
@@ -22,19 +28,41 @@ class ContactSearch extends StatelessWidget {
           minimumChars: 1,//minimum characters to enter to start the search
           onSearch: searchList,
           onItemFound: (DocumentSnapshot doc, int index){
-            print("doc.data[index].data[conversationId]: ${doc.data["conversationId"]}");
+
+            String conversationId = doc.data["conversationId"];
+            print("conversationId: $conversationId");
+            String friendNo;
+
+            //friendNo =  await getFriendNo(conversationId);
 
             return ListTile(
+              leading: SizedBox(
+                width: 0,
+                child: FutureBuilder(
+                  future: getFriendNo(conversationId),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    print("snapshot in listtile: ${snapshot.data}");
+                    if(snapshot.connectionState == ConnectionState.done) {
+                      print("snapshot.data: ${snapshot.data}");
+                      friendNo = snapshot.data;
+                    }
+                    return Container();
+                  },
+                )
+                ,
+              ),
               title: Text(doc.data["name"]),
-              onTap: (){
+              onTap: () {
+                print("friendNo in contact search : $friendNo");
                     Navigator.push(
                       context,
                       MaterialPageRoute(//to send conversationId along with the navigator to the next page
                         builder: (context) => IndividualChat(
-                          conversationId: doc.data["conversationId"],
+                          conversationId: conversationId,
                           userPhoneNo: userPhoneNo,
                           userName: userName,
                           friendName: doc.data["name"],
+                          friendNumber: friendNo,
                         ),
                       ),
                     );

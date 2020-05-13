@@ -81,9 +81,8 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
 
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Stack(
       children: <Widget>[
         Material(
@@ -100,9 +99,10 @@ class _IndividualChatState extends State<IndividualChat> {
                   SizedBox(
                     height: 50,
                     width: 35,
-                    child: ClipOval(
+                    child : ClipOval(
+                          //child: snapshot.data.data,
                       child: SideMenuState().getProfilePicture(friendNumber),
-                    ),
+                        ),
                   ),
                   title: Text(
                     friendName,//name of the person with whom we are chatting right now, displayed at the top in the app bar

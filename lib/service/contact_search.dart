@@ -15,7 +15,7 @@ class ContactSearch extends StatelessWidget {
 
   //used for routing to individualchat for getting friend's profile picture
   getFriendNo(String conversationId) async{
-     return await ChatListState().getFriendPhoneNo2(conversationId, userPhoneNo);
+     return await ChatListState().getFriendPhoneNo(conversationId, userPhoneNo);
   }
 
 
@@ -38,6 +38,7 @@ class ContactSearch extends StatelessWidget {
             return ListTile(
               leading: SizedBox(
                 width: 0,
+//                height: 0,
                 child: FutureBuilder(
                   future: getFriendNo(conversationId),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {

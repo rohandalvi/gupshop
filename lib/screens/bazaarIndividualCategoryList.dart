@@ -16,7 +16,7 @@ class BazaarIndividualCategoryList extends StatefulWidget {
 }
 
 class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryList> {
-  String category = 'kamwali';
+  String category = 'KamWali';
 
 
 
@@ -81,8 +81,8 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
             itemBuilder: (BuildContext context, int index){
 
 
-              return StreamBuilder(
-                  stream: Firestore.instance.collection("bazaarWalasBasicProfile").document(category).snapshots(),
+              return StreamBuilder(//use bazaarcategory to display people insted becuase bazaarwalabasicprofile is categorized by phoneNumber now
+                  stream: Firestore.instance.collection("bazaarCategories").document(category).snapshots(),
                   builder: (context, streamSnapshot){
 
                     if(streamSnapshot.data == null) return CircularProgressIndicator();//v v imp

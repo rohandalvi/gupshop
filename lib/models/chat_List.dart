@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 
 import 'dart:ui';
 
-
+//chatList => individualChat
 class ChatList extends StatefulWidget {
   final String myNumber;
   final String myName;
@@ -41,21 +41,21 @@ class ChatListState extends State<ChatList> {
     So, we take the phone number which is not ours.
     But this logic will not work when in case of a group.
    */
-  getFriendPhoneNo(String conversationId) async {
-    print("mynumber: $myNumber");
-    await Firestore.instance.collection("conversationMetadata").document(
-        conversationId).get().then((val) {
-      for (int i = 0; i < 2; i++) {
-        if (val.data["members"][i] != myNumber) {
-          friendNo=val.data["members"][i];
-          break;
-        }
-      }
-      print("friendNo: $friendNo");
-    });
-  }
+//  getFriendPhoneNo(String conversationId) async {
+//    print("mynumber: $myNumber");
+//    await Firestore.instance.collection("conversationMetadata").document(
+//        conversationId).get().then((val) {
+//      for (int i = 0; i < 2; i++) {
+//        if (val.data["members"][i] != myNumber) {
+//          friendNo=val.data["members"][i];
+//          break;
+//        }
+//      }
+//      print("friendNo: $friendNo");
+//    });
+//  }
 
-  getFriendPhoneNo2(String conversationId, String myNumber) async {
+  getFriendPhoneNo(String conversationId, String myNumber) async {
     print("mynumber in getfriend2 : $myNumber");
    DocumentSnapshot temp = await Firestore.instance.collection("conversationMetadata").document(conversationId).get();
    var friendNo = await extractFriendNo(temp , myNumber);
@@ -69,6 +69,7 @@ class ChatListState extends State<ChatList> {
         return temp.data["members"][i];
       }
     }
+    return myNumber;
   }
 
 
@@ -91,6 +92,8 @@ class ChatListState extends State<ChatList> {
                   Timestamp timeStamp = snapshot.data.documents[index].data["message"]["timeStamp"];
                   print("friendName: $friendName");
 
+                  String friendNumber;
+
                   //for sending to individual_chat.dart:
                     conversationId = snapshot.data.documents[index].data["message"]["conversationId"];
 
@@ -98,12 +101,13 @@ class ChatListState extends State<ChatList> {
                   leading: SizedBox(
                     width: 45,
                     child: FutureBuilder(
-                      future: getFriendPhoneNo(conversationId),
+                      future: getFriendPhoneNo(conversationId, myNumber),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         print("Dat $snapshot");
                         if(snapshot.connectionState == ConnectionState.done) {
+                          friendNumber = snapshot.data;
                           return SideMenuState().getProfilePicture(
-                              friendNo);
+                              friendNumber);
                         }
                         return CircularProgressIndicator();
                       },
@@ -133,10 +137,11 @@ class ChatListState extends State<ChatList> {
                     ),
                   ),
                   onTap: (){
+                    print("friendNo in chatlist: $friendNumber");//friendNo is for outside of widget build, so use friendNumber insted of friendNo
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => IndividualChat(friendName: friendName,conversationId: conversationId,userName:myName,userPhoneNo: myNumber, friendNumber: friendNo,),//pass Name() here and pass Home()in name_screen
+                          builder: (context) => IndividualChat(friendName: friendName,conversationId: conversationId,userName:myName,userPhoneNo: myNumber, friendNumber: friendNumber,),//pass Name() here and pass Home()in name_screen
                         )
                     );
                   },

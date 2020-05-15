@@ -10,7 +10,8 @@ import 'package:gupshop/screens/contacts.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 
-//==>name screen
+// name screen => home
+// home  => bazaarHomeScreen
 class Home extends StatefulWidget{
   final String userPhoneNo;
   final String userName;
@@ -28,7 +29,8 @@ class _HomeState extends State<Home> {
 
   _HomeState({@required this.userPhoneNo, @required this.userName});
   Widget appBarScaffold(BuildContext context){
-    print("userName= $userName");
+    print("userName in home= $userName");
+    print("userPhone in home= $userPhoneNo");
     
     return PreferredSize(
       preferredSize: Size.fromHeight(85),//for decresing the size of the appbar
@@ -115,7 +117,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             Contacts(),
             chats.length>0 ? ChatList(myNumber: userPhoneNo, myName: userName,): EmptyChatList(),
-            BazaarHomeScreen(),
+            BazaarHomeScreen(userPhoneNo: userPhoneNo, userName: userName,),
             Text('Calls',),
           ],
         ),

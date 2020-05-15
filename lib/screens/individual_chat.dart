@@ -19,13 +19,7 @@ class IndividualChat extends StatefulWidget {
   final String friendNumber;
 
   IndividualChat(
-      {Key key,
-      @required this.conversationId,
-      @required this.userPhoneNo,
-      @required this.userName,
-      @required this.friendName,
-        @required this.friendNumber,
-      })
+      {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, @required this.friendNumber,})
       : super(key: key);
   @override
   _IndividualChatState createState() => _IndividualChatState(
@@ -48,12 +42,7 @@ class _IndividualChatState extends State<IndividualChat> {
   final String friendNumber;
 
   _IndividualChatState(
-      {@required this.conversationId,
-      @required this.userPhoneNo,
-      @required this.userName,
-      @required this.friendName,
-        @required this.friendNumber,
-      });
+      {@required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, @required this.friendNumber,});
 
   String value = ""; //TODo
 

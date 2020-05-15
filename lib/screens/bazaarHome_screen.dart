@@ -11,12 +11,24 @@ import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
 import 'package:gupshop/widgets/bazaarHomeGridView.dart';
 
+// home.dart =>
+// => bazaarProfilePage
 class BazaarHomeScreen extends StatefulWidget {
+  final String userPhoneNo;
+  final String userName;
+
+  BazaarHomeScreen({@required this.userPhoneNo, @required this.userName});
+
   @override
-  _BazaarHomeScreenState createState() => _BazaarHomeScreenState();
+  _BazaarHomeScreenState createState() => _BazaarHomeScreenState(userPhoneNo: userPhoneNo, userName: userName);
 }
 
 class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
+
+  final String userPhoneNo;
+  final String userName;
+
+  _BazaarHomeScreenState({@required this.userPhoneNo, @required this.userName});
 
   setUsersLocationToFirebase() async{
     var userPhoneNo = await GetSharedPreferences().getUserPhoneNoFuture();//get user phone no
@@ -54,6 +66,9 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("userName in bazaarHomeScreen= $userName");
+    print("userPhone in bazaarHomeScreen= $userPhoneNo");
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -76,7 +91,7 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => BazaarProfilePage(),//pass Name() here and pass Home()in name_screen
+              builder: (context) => BazaarProfilePage(userPhoneNo: userPhoneNo, userName: userName,),//pass Name() here and pass Home()in name_screen
             )
         );
       },

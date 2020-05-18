@@ -13,6 +13,7 @@ import 'package:gupshop/screens/login_screen.dart';
 import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/screens/productDetail.dart';
 import 'package:gupshop/screens/welcomeScreen.dart';
+import 'package:gupshop/service/checkBoxCategorySelector.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/service/filterBazaarWalas.dart';
 import 'package:gupshop/service/geolocation_service.dart';

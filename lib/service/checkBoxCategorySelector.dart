@@ -8,6 +8,7 @@ class CheckBoxCategorySelector extends StatefulWidget {
   final String userPhoneNo;
   final String userName;
 
+
   CheckBoxCategorySelector({@required this.userPhoneNo, @required this.userName});
 
   @override
@@ -22,7 +23,8 @@ class CheckBoxCategorySelectorState extends State<CheckBoxCategorySelector> {
 
   List<bool> inputs = new List<bool>();
   int categorySize;
-
+  bool isData;
+  bool isSelected;
 
 
   getCategorySizeFuture() async{
@@ -47,30 +49,46 @@ class CheckBoxCategorySelectorState extends State<CheckBoxCategorySelector> {
   @override
   void initState() {
     initializeList(inputs);
-
     super.initState();
   }
 
 
+  //using scaffold does take out the black screen but it gives white screen instead.
   @override
   Widget build(BuildContext context) {
     print("userPhoneNo in chechbox  built : $userPhoneNo");
     print("userName in chechbox  built : $userName");
-    return Dialog(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,//if this is not used then shrinkwrap does not wrap, column size affects shrinkwrap
-        children: <Widget>[
-          categorySelector(),
-          MaterialButton(
-            onPressed: (){
-              getCategorySelected();
-              Navigator.of(context).pop();
-            },
-            child: Text("Save"),
-          )
-        ],
-      ),
-    );
+      return Dialog(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,//if this is not used then shrinkwrap does not wrap, column size affects shrinkwrap
+          children: <Widget>[
+            categorySelector(),
+            MaterialButton(
+              onPressed: (){
+                pushCategorySelectedToFirebase();
+                print("categorySelected: ${ifNoCategorySelected()}");
+
+                if(ifNoCategorySelected() == true){
+                  print("context: true");
+                  Navigator.of(context).pop({
+                    setState(() {
+                      isSelected = true;
+                  }),
+                  });
+                }
+                else Navigator.of(context).pop({
+                  setState(() {
+                    isSelected = false;
+                  }),
+                });
+                print("context: false");
+              },
+               child: ifNoCategorySelected() ? Text("Save") : null,
+              //child: ifNoCategorySelected() ? Text("Save") : Text("Required"),//flip and show save once and required once
+            )
+          ],
+        ),
+      );
   }
 
 
@@ -118,12 +136,6 @@ class CheckBoxCategorySelectorState extends State<CheckBoxCategorySelector> {
                             //controlAffinity: ListTileControlAffinity.leading,
                             onChanged: (bool val){
                               itemChange(val, index);
-                              if(val == true){
-                                print("lets push to firebase: ${Text(querySnapshot.documents[index].documentID)}");
-                              }
-                              if(val == false){
-                                print("take it out of firebase");
-                              }
                             },
                           ),
                         ),
@@ -136,16 +148,16 @@ class CheckBoxCategorySelectorState extends State<CheckBoxCategorySelector> {
         }
     );
   }
-
-
   void itemChange(bool val, int index){
     setState(() {
       inputs[index] = val;
     });
   }
 
+
+
   //pushing the category selected to firebase
-  getCategorySelected() async{
+  pushCategorySelectedToFirebase() async{
     QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategories").getDocuments();
 
     if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
@@ -177,6 +189,17 @@ class CheckBoxCategorySelectorState extends State<CheckBoxCategorySelector> {
         Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).collection(userName).document(categoryName).setData({});
       }
       }
+    }
+
+
+    bool ifNoCategorySelected(){
+      for(int i=0; i<inputs.length; i++){
+        if(inputs[i] == true){
+          isData = true;
+            return true;
+        }
+      }
+      return false;
     }
 
   }

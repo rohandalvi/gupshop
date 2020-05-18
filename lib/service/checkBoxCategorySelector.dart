@@ -165,7 +165,7 @@ class CheckBoxCategorySelectorState extends State<CheckBoxCategorySelector> {
     String categoryName;
 
     for(int i=0; i<inputs.length; i++){
-      if(inputs[i] == true) {//if any cateogry is selected it would be true in input arrat
+      if(inputs[i] == true) {//if any cateogry is selected it would be true in input array
         categoryName = querySnapshot.documents[i].documentID;
         print("category name : $categoryName");
 

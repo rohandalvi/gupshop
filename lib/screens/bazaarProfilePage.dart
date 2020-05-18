@@ -75,7 +75,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
 
 
-
   getCategorySizeFuture() async{
     QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategories").getDocuments();
 
@@ -89,7 +88,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     print("initializeList");
     int size = await getCategorySizeFuture();
     setState(() {
-      for(int i =0; i<size; i++){
+      for(int i =0; i<size; i++){//initializing the array inputs to false for showing nothing selected when the checkbox pops up for the 1st time
         inputs.add(false);
       }
     });
@@ -169,28 +168,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                   onPressed: () async{
                    bool _isSelected = await _categorySelectorCheckListDialogBox(context);
                    setState(() {
+                     print("_isSelected: $_isSelected");
                      isSelected = _isSelected;
                    });
-
-//                     if(moveForward(isSelected)){
-//                       print("in Raised button");
-//                       print("isSelected in moveForward in raisedButton: $isSelected");
-//                       RaisedButton(
-//                         onPressed: (){
-//                           uploadVideoToFirestore(context);
-//                         },
-//                         color: Colors.transparent,
-//                         splashColor: Colors.transparent,
-//                         //highlightColor: Colors.blueGrey,
-//                         elevation: 0,
-//                         hoverColor: Colors.blueGrey,
-//                         child: Text('SAVE',style: GoogleFonts.openSans(
-//                           color: Theme.of(context).primaryColor,
-//                           fontSize: 15,
-//                           fontWeight: FontWeight.bold,
-//                         )),
-//                       );
-//                     }
                   },
                   child: Text("Select from category",style: GoogleFonts.openSans()),
                 ),
@@ -198,6 +178,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
               RaisedButton(
                 onPressed: (){
                 uploadVideoToFirestore(context);
+                pushCategorySelectedToFirebase();
                 },
               color: Colors.transparent,
               splashColor: Colors.transparent,
@@ -210,29 +191,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
               fontWeight: FontWeight.bold,
               )),
             ),
-
-
-
-//                  if(!(_video == null && _cameraVideo == null && CheckBoxCategorySelectorState().isNoCategorySelected == false))//show the apply button only when a new image is selected, else no need
-//                if(moveForward())
-//                  RaisedButton(
-//                    onPressed: (){
-//  //                            if(_galleryImage != null) image = basename(_galleryImage.path);
-//  //                            if(_cameraImage != null) image = basename(_cameraImage.path);
-//                      uploadVideoToFirestore(context);
-//                    },
-//                    color: Colors.transparent,
-//                    splashColor: Colors.transparent,
-//                    //highlightColor: Colors.blueGrey,
-//                    elevation: 0,
-//                    hoverColor: Colors.blueGrey,
-//                    child: Text('SAVE',style: GoogleFonts.openSans(
-//                      color: Theme.of(context).primaryColor,
-//                      fontSize: 15,
-//                      fontWeight: FontWeight.bold,
-//                    )),
-//                  ),
-
               ]
           ),
         ),
@@ -261,20 +219,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 //    print("prefs: $prefs");
 //  }
 
-  Future uploadVideoToFirestore(BuildContext context) async{
-    String fileName = basename(userPhoneNo+'bazaarProfilePicture');
-    //String fileName = basename(_galleryImage.path);
-    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);
-    StorageUploadTask uploadTask = firebaseStorageReference.putFile(_video);
-    StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
-    String videoURL = await imageURLFuture.ref.getDownloadURL();
-    print("imageurl: $videoURL");
-    Firestore.instance.collection("videos").document(userPhoneNo).setData({'url':videoURL});
-
-    setState(() {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture uploaded'),));
-    });
-  }
 
 
   Future<bool> _categorySelectorCheckListDialogBox(BuildContext context){
@@ -347,17 +291,13 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                         onPressed: (){
                           // pushCategorySelectedToFirebase();
                           print("categorySelected: ${ifNoCategorySelected()}");
-                          setState(() {
-                            isSelected = ifNoCategorySelected();
-                          });
-
                           if(ifNoCategorySelected() == true){
                             print("context: true");
                             Navigator.of(context).pop(true);
                           }
                           else Navigator.of(context).pop(false);
                         },
-                        child: isSelected ? Text("Save") : null,
+                        child: ifNoCategorySelected() ? Text("Save") : null,
                         //child: ifNoCategorySelected() ? Text("Save") : Text("Required"),//flip and show save once and required once
                       ),
                     ],
@@ -382,6 +322,57 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     setState(() {
       inputs[index] = val;
     });
+  }
+
+
+  Future uploadVideoToFirestore(BuildContext context) async{
+    String fileName = basename(userPhoneNo+'bazaarProfilePicture');
+    //String fileName = basename(_galleryImage.path);
+    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);
+    StorageUploadTask uploadTask = firebaseStorageReference.putFile(_video);
+    StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
+    String videoURL = await imageURLFuture.ref.getDownloadURL();
+    print("imageurl: $videoURL");
+    Firestore.instance.collection("videos").document(userPhoneNo).setData({'url':videoURL});
+
+    setState(() {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture uploaded'),));
+    });
+  }
+
+
+  pushCategorySelectedToFirebase() async{
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategories").getDocuments();
+
+    if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
+
+    String categoryName;
+
+    for(int i=0; i<inputs.length; i++){
+      if(inputs[i] == true) {//if any cateogry is selected it would be true in input array
+        categoryName = querySnapshot.documents[i].documentID;
+        print("category name : $categoryName");
+
+        String phoneNo = userPhoneNo;
+        print("userPhoneNo: $userPhoneNo");
+        print("userName: $userName");
+
+        //then push it to firebase:
+        //1. push the name and the number of the bazaarwala to the bazaarCategories collection under that specific category document
+        //bWC => category => number->name,rating
+        //2. push the name and number to bazaarWalasBasicProfile
+        //bWBP => number => ?  => category => name, rating
+        var result = {
+          userPhoneNo: {
+            'name': userName
+          }
+        };
+
+        Firestore.instance.collection("bazaarCategories").document(categoryName).setData(result);
+        Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({});
+        Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).collection(userName).document(categoryName).setData({});
+      }
+    }
   }
 
 }

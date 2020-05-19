@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/screens/productDetail.dart';
 import 'package:gupshop/service/checkBoxCategorySelector.dart';
 import 'package:gupshop/service/geolocation_service.dart';
 import 'package:image_picker/image_picker.dart';
@@ -47,6 +48,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   final _formKey = GlobalKey<FormState>();
 
   bool isSelected = false;
+
+  double latitude;
+  double longitude;
 
 
   _pickVideoFromGallery() async{
@@ -130,7 +134,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                 setVideoFromGallery(),
                 or(),
                 setVideoFromCamera(),
-                setLocation(),
+                setLocation(context),
                 or(),
                 setLocationOtherThanCurrentAsHome(),
                 getCategories(context),
@@ -148,7 +152,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   pageTitle(){
     return Text('BECOME A BAZAARWALA !',style: GoogleFonts.openSans());
   }
-
 
 
   createSpaceBetweenButtons(double height){
@@ -189,28 +192,28 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
 
 
-  setLocation(){
+  setLocation(BuildContext context){
     return RaisedButton(
-      onPressed: (){
-        Future<Position> location  = GeolocationServiceState().getLocation();//setting user's location
-        location.then((val){
+      onPressed: () async{
+        Position location  = await GeolocationServiceState().getLocation();//setting user's location
           setState(() {
-            _bazaarWalaLocation = val;
-            print("val in _bazaarWalaLocation: $val");
-            print("_bazaarWalaLocation in initstate = $_bazaarWalaLocation");
-            double latitude = _bazaarWalaLocation.latitude;
-            double longitude =  _bazaarWalaLocation.longitude;
+            _bazaarWalaLocation = location;
 
-            print("latitude in bazaar : $latitude");
+            latitude = _bazaarWalaLocation.latitude;
+            longitude =  _bazaarWalaLocation.longitude;
 
-            GeolocationServiceState().pushBazaarWalasLocationToFirebase(latitude, longitude);
+            Scaffold.of(context).showSnackBar(SnackBar(content: Text('Currenr Location saved as Home Location '),));
+
           });
+
+        setState(() {
+
         });
+
       },
       child: Text("Click to set current location as home location",style: GoogleFonts.openSans()),
     );
   }
-
 
   setLocationOtherThanCurrentAsHome(){
     return RaisedButton(
@@ -221,18 +224,17 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
             _bazaarWalaLocation = val;
             print("val in _bazaarWalaLocation: $val");
             print("_bazaarWalaLocation in initstate = $_bazaarWalaLocation");
-            double latitude = _bazaarWalaLocation.latitude;
-            double longitude =  _bazaarWalaLocation.longitude;
+            latitude = _bazaarWalaLocation.latitude;
+            longitude =  _bazaarWalaLocation.longitude;
 
-            print("latitude in bazaar : $latitude");
-
-            GeolocationServiceState().pushBazaarWalasLocationToFirebase(latitude, longitude);
           });
         });
       },
       child: Text("Click to set other location as home location",style: GoogleFonts.openSans()),
     );
   }
+
+
 
   getCategories(BuildContext context){
     return RaisedButton(
@@ -246,122 +248,92 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
       child: Text("Select from category",style: GoogleFonts.openSans()),
     );
   }
-
-
-  bool moveForward(bool isSelected) {
-    bool result;
-      result = ((_video != null || _cameraVideo != null) && isSelected == true);
-    print("Video : $_video} and Camera: $_cameraVideo and IsSelected: $isSelected");
-    print("result : $result");
-    return result;
-  }
-
-  showSaveButton(BuildContext context){
-    return RaisedButton(
-      onPressed: (){
-        uploadVideoToFirestore(context);
-        pushCategorySelectedToFirebase();
-      },
-      color: Colors.transparent,
-      splashColor: Colors.transparent,
-      //highlightColor: Colors.blueGrey,
-      elevation: 0,
-      hoverColor: Colors.blueGrey,
-      child: Text('SAVE',style: GoogleFonts.openSans(
-        color: Theme.of(context).primaryColor,
-        fontSize: 15,
-        fontWeight: FontWeight.bold,
-      )),
-    );
-  }
-
-
   Future<bool> _categorySelectorCheckListDialogBox(BuildContext context){
-      return showDialog(
+    return showDialog(
         context: context,
         builder: (context){
           return AlertDialog(
             content: StatefulBuilder(
-                builder: (context, StateSetter setState){
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance.collection("bazaarCategories").snapshots(),
-                          builder: (context, snapshot) {
+              builder: (context, StateSetter setState){
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    StreamBuilder<QuerySnapshot>(
+                        stream: Firestore.instance.collection("bazaarCategories").snapshots(),
+                        builder: (context, snapshot) {
 
-                            if(snapshot.data == null) return CircularProgressIndicator();
+                          if(snapshot.data == null) return CircularProgressIndicator();
 
-                            print("snapshot.data in category selector: ${snapshot.data.documents[0].documentID}");
-                            QuerySnapshot querySnapshot = snapshot.data;
+                          print("snapshot.data in category selector: ${snapshot.data.documents[0].documentID}");
+                          QuerySnapshot querySnapshot = snapshot.data;
 
-                            List<DocumentSnapshot> listOfDocumentSnapshot = snapshot.data.documents;
+                          List<DocumentSnapshot> listOfDocumentSnapshot = snapshot.data.documents;
 
-                            print("categorylength: ${snapshot.data.documents.length}");
-                            int categoryLength = snapshot.data.documents.length;
+                          print("categorylength: ${snapshot.data.documents.length}");
+                          int categoryLength = snapshot.data.documents.length;
 
-                            print("inputs: $inputs");
+                          print("inputs: $inputs");
 
 
-                            //A RenderFlex overflowed by 299361 pixels on the bottom.
-                            //solution - use Container and constraints
-                            return Container(//toDo- make the size of the container flexible
-                              height: 300,
-                              width: 300,
-                              child: ListView.builder(
-                                  itemCount: categoryLength,
-                                  shrinkWrap: true,
-                                  itemBuilder: (BuildContext context, int index) {
+                          //A RenderFlex overflowed by 299361 pixels on the bottom.
+                          //solution - use Container and constraints
+                          return Container(//toDo- make the size of the container flexible
+                            height: 300,
+                            width: 300,
+                            child: ListView.builder(
+                                itemCount: categoryLength,
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
 
-                                    //RenderFlex children have non-zero flex but incoming height constraints are unbounded.
-                                    return Container(//container was wrapped with sized box before, but we dont need it because we are using column and  flexible which are giving sizes
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Flexible(
-                                            fit: FlexFit.loose,
-                                            flex: 1,
-                                            child: CheckboxListTile(
-                                              title: Text(querySnapshot.documents[index].documentID),
-                                              value: inputs[index],
-                                              //controlAffinity: ListTileControlAffinity.leading,
-                                              onChanged: (bool val){
-                                                setState(() {
-                                                  inputs[index] = val;
-                                                  isSelected = ifNoCategorySelected();
-                                                  print("isSelected: $isSelected");
-                                                });
-                                              },
-                                            ),
+                                  //RenderFlex children have non-zero flex but incoming height constraints are unbounded.
+                                  return Container(//container was wrapped with sized box before, but we dont need it because we are using column and  flexible which are giving sizes
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Flexible(
+                                          fit: FlexFit.loose,
+                                          flex: 1,
+                                          child: CheckboxListTile(
+                                            title: Text(querySnapshot.documents[index].documentID),
+                                            value: inputs[index],
+                                            //controlAffinity: ListTileControlAffinity.leading,
+                                            onChanged: (bool val){
+                                              setState(() {
+                                                inputs[index] = val;
+                                                isSelected = ifNoCategorySelected();
+                                                print("isSelected: $isSelected");
+                                              });
+                                            },
                                           ),
-                                        ],
-                                      ),
-                                    );
-                                  }
-                              ),
-                            );
-                          }
-                      ),
-                      MaterialButton(
-                        onPressed: (){
-                          // pushCategorySelectedToFirebase();
-                          print("categorySelected: ${ifNoCategorySelected()}");
-                          if(ifNoCategorySelected() == true){
-                            print("context: true");
-                            Navigator.of(context).pop(true);
-                          }
-                          else Navigator.of(context).pop(false);
-                        },
-                        child: ifNoCategorySelected() ? Text("Save") : null,
-                        //child: ifNoCategorySelected() ? Text("Save") : Text("Required"),//flip and show save once and required once
-                      ),
-                    ],
-                  );
-                },
-              ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                            ),
+                          );
+                        }
+                    ),
+                    MaterialButton(
+                      onPressed: (){
+                        // pushCategorySelectedToFirebase();
+                        print("categorySelected: ${ifNoCategorySelected()}");
+                        if(ifNoCategorySelected() == true){
+                          print("context: true");
+                          Navigator.of(context).pop(true);
+                        }
+                        else Navigator.of(context).pop(false);
+                      },
+                      child: ifNoCategorySelected() ? Text("Save") : null,
+                      //child: ifNoCategorySelected() ? Text("Save") : Text("Required"),//flip and show save once and required once
+                    ),
+                  ],
+                );
+              },
+            ),
           );
         }
-      );
+    );
   }
 
   bool ifNoCategorySelected(){
@@ -380,6 +352,49 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
 
 
+  bool moveForward(bool isSelected) {
+    bool result;
+      result = ((_video != null || _cameraVideo != null) && isSelected == true && _bazaarWalaLocation != null);
+    print("Video : $_video} and Camera: $_cameraVideo and IsSelected: $isSelected and bazaarwalalocation: $_bazaarWalaLocation");
+    print("result : $result");
+    print("bazaarwala location : $_bazaarWalaLocation");
+    print("latitude: $latitude");
+    return result;
+  }
+
+  showSaveButton(BuildContext context){
+    return RaisedButton(
+      onPressed: (){
+        uploadVideoToFirestore(context);
+        pushCategorySelectedToFirebase();
+        pushBazaarWalasLocationToFirebase();
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(//todo- category is hardcoded here, we need to one category to ProductDetail page from the categories selected
+              builder: (context) => ProductDetail(productWalaName: userName, category: 'KamWali',),//pass Name() here and pass Home()in name_screen
+            )
+        );
+      },
+      color: Colors.transparent,
+      splashColor: Colors.transparent,
+      //highlightColor: Colors.blueGrey,
+      elevation: 0,
+      hoverColor: Colors.blueGrey,
+      child: Text('SAVE',style: GoogleFonts.openSans(
+        color: Theme.of(context).primaryColor,
+        fontSize: 15,
+        fontWeight: FontWeight.bold,
+      )),
+    );
+  }
+
+  pushBazaarWalasLocationToFirebase(){
+    print("latitude in push: $latitude");
+    GeolocationServiceState().pushBazaarWalasLocationToFirebase(latitude, longitude);
+  }
+
+
   Future uploadVideoToFirestore(BuildContext context) async{
     String fileName = basename(userPhoneNo+'bazaarProfilePicture');
     //String fileName = basename(_galleryImage.path);
@@ -391,7 +406,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     Firestore.instance.collection("videos").document(userPhoneNo).setData({'url':videoURL});
 
     setState(() {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture uploaded'),));
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile created successufully'),));
     });
   }
 

@@ -105,8 +105,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-//    print("userName in bazaarProfilePgae= $userName");
-//    print("userPhone in bazaarProfilePgae= $userPhoneNo");
+    print("userName in bazaarProfilePgae= $userName");
+    print("userPhone in bazaarProfilePgae= $userPhoneNo");
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -125,15 +125,17 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                       : Container()
                 else
                   pageTitle(),
-                  alignBetweenTwoButton(),
-                  subTitle(),
-                  chooseVideoFromGallery(),
-                  or(),
-                  recordVideoFromCamera(),
-                  getLocation(context),
-                  selectCategory(context),
-                  if(moveForward(isSelected))//if all requireds are selected then only show the SAVE button
-                  showSavedButton(context),
+                  createSpaceBetweenButtons(15),
+                  pageSubtitle(),
+                setVideoFromGallery(),
+                or(),
+                setVideoFromCamera(),
+                setLocation(),
+                or(),
+                setLocationOtherThanCurrentAsHome(),
+                getCategories(context),
+              if(moveForward(isSelected))
+                showSaveButton(context),
               ]
           ),
         ),
@@ -143,24 +145,26 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
 
 
-
-
-
   pageTitle(){
     return Text('BECOME A BAZAARWALA !',style: GoogleFonts.openSans());
   }
 
-  alignBetweenTwoButton(){
+
+
+  createSpaceBetweenButtons(double height){
     return SizedBox(
-      height: 15,
+      height: height,
     );
   }
 
-  subTitle(){
+
+
+  pageSubtitle(){
     return Text('Lets start by adding your advertisement:',style: GoogleFonts.openSans());
   }
 
-  chooseVideoFromGallery(){
+
+  setVideoFromGallery(){
     return RaisedButton(
       onPressed: (){
         _pickVideoFromGallery();
@@ -169,12 +173,14 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     );
   }
 
+
   or(){
     return Text('or',style: GoogleFonts.openSans());
   }
 
-  recordVideoFromCamera(){
-    RaisedButton(
+
+  setVideoFromCamera(){
+    return RaisedButton(
       onPressed: (){
         _pickVideoFromCamer();
       },
@@ -183,14 +189,14 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
 
 
-
-  getLocation(BuildContext context){
+  setLocation(){
     return RaisedButton(
-        onPressed: () async {
-          Position location  = await GeolocationServiceState().getLocation();//setting user's location
+      onPressed: (){
+        Future<Position> location  = GeolocationServiceState().getLocation();//setting user's location
+        location.then((val){
           setState(() {
-            _bazaarWalaLocation = location;
-            print("val in _bazaarWalaLocation: $_bazaarWalaLocation");
+            _bazaarWalaLocation = val;
+            print("val in _bazaarWalaLocation: $val");
             print("_bazaarWalaLocation in initstate = $_bazaarWalaLocation");
             double latitude = _bazaarWalaLocation.latitude;
             double longitude =  _bazaarWalaLocation.longitude;
@@ -199,14 +205,36 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
             GeolocationServiceState().pushBazaarWalasLocationToFirebase(latitude, longitude);
           });
-        },
-        child: Text('Click to Set current location as home location',style: GoogleFonts.openSans())
+        });
+      },
+      child: Text("Click to set current location as home location",style: GoogleFonts.openSans()),
     );
   }
 
 
+  setLocationOtherThanCurrentAsHome(){
+    return RaisedButton(
+      onPressed: (){
+        Future<Position> location  = GeolocationServiceState().getLocation();//setting user's location
+        location.then((val){
+          setState(() {
+            _bazaarWalaLocation = val;
+            print("val in _bazaarWalaLocation: $val");
+            print("_bazaarWalaLocation in initstate = $_bazaarWalaLocation");
+            double latitude = _bazaarWalaLocation.latitude;
+            double longitude =  _bazaarWalaLocation.longitude;
 
-  selectCategory(BuildContext context){
+            print("latitude in bazaar : $latitude");
+
+            GeolocationServiceState().pushBazaarWalasLocationToFirebase(latitude, longitude);
+          });
+        });
+      },
+      child: Text("Click to set other location as home location",style: GoogleFonts.openSans()),
+    );
+  }
+
+  getCategories(BuildContext context){
     return RaisedButton(
       onPressed: () async{
         bool _isSelected = await _categorySelectorCheckListDialogBox(context);
@@ -218,6 +246,36 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
       child: Text("Select from category",style: GoogleFonts.openSans()),
     );
   }
+
+
+  bool moveForward(bool isSelected) {
+    bool result;
+      result = ((_video != null || _cameraVideo != null) && isSelected == true);
+    print("Video : $_video} and Camera: $_cameraVideo and IsSelected: $isSelected");
+    print("result : $result");
+    return result;
+  }
+
+  showSaveButton(BuildContext context){
+    return RaisedButton(
+      onPressed: (){
+        uploadVideoToFirestore(context);
+        pushCategorySelectedToFirebase();
+      },
+      color: Colors.transparent,
+      splashColor: Colors.transparent,
+      //highlightColor: Colors.blueGrey,
+      elevation: 0,
+      hoverColor: Colors.blueGrey,
+      child: Text('SAVE',style: GoogleFonts.openSans(
+        color: Theme.of(context).primaryColor,
+        fontSize: 15,
+        fontWeight: FontWeight.bold,
+      )),
+    );
+  }
+
+
   Future<bool> _categorySelectorCheckListDialogBox(BuildContext context){
       return showDialog(
         context: context,
@@ -305,6 +363,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
         }
       );
   }
+
   bool ifNoCategorySelected(){
     for(int i=0; i<inputs.length; i++){
       if(inputs[i] == true){
@@ -313,42 +372,13 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     }
     return false;
   }
+
   void itemChange(bool val, int index){
     setState(() {
       inputs[index] = val;
     });
   }
 
-
-
-
-  bool moveForward(bool isSelected) {
-    bool result;
-    result = ((_video != null || _cameraVideo != null) && isSelected == true && _bazaarWalaLocation!=null);
-    print("Video : $_video} and Camera: $_cameraVideo and IsSelected: $isSelected and Location: $_bazaarWalaLocation");
-    print("result : $result");
-    return result;
-  }
-
-
-  showSavedButton(BuildContext context){
-    return RaisedButton(
-      onPressed: (){
-        uploadVideoToFirestore(context);
-        pushCategorySelectedToFirebase();
-      },
-      color: Colors.transparent,
-      splashColor: Colors.transparent,
-      //highlightColor: Colors.blueGrey,
-      elevation: 0,
-      hoverColor: Colors.blueGrey,
-      child: Text('SAVE',style: GoogleFonts.openSans(
-        color: Theme.of(context).primaryColor,
-        fontSize: 15,
-        fontWeight: FontWeight.bold,
-      )),
-    );
-  }
 
   Future uploadVideoToFirestore(BuildContext context) async{
     String fileName = basename(userPhoneNo+'bazaarProfilePicture');

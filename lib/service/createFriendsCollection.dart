@@ -1,9 +1,3 @@
-/*
-3. Compare the users we have using users collection with the contacts array we got from step 2
-4. Extract only the common contacts and push them in friends_number collection
- */
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,50 +19,61 @@ class CreateFriendsCollection{
   Now we need to add that union of users to his friends_number collection
    */
   getUnionContacts()async{
-    Iterable<Contact> contacts = await getContactsFromUserPhone();
-    await loopThroughEachContact(contacts);
+    Iterable<Contact> contacts = await _getContactsFromUserPhone();
+    await _loopThroughEachContactToFindUnion(contacts);
   }
 
 
 
 
   /*
-  Get permission to access contacts using PermissionStatus(from GetContactsPermission())
-  Access contacts and get contacts using ContactService and put them in a array(from GetContactsFromUserPhone())
+  Get permission to access contacts using PermissionStatus
+  (from GetContactsPermission())
+  Access contacts and get contacts using ContactService and put them
+  in a array(from GetContactsFromUserPhone())
    */
-  getContactsFromUserPhone() async{
+  _getContactsFromUserPhone() async{
     PermissionStatus permission = await GetContactsPermission().getPermission();
     //Accessing contacts only if we have permission
     if(permission == PermissionStatus.granted){
       return await GetContactsFromUserPhone().getContacts();
+    } else {
+      //ToDo
     }
   }
 
-
-  loopThroughEachContact(Iterable<Contact> contacts) async{
+  /*
+  Extract only the common contacts using getCommonContacts and push them in friends_number
+  collection using pushNumberToFriendsCollection(number)
+   */
+  _loopThroughEachContactToFindUnion(Iterable<Contact> contacts) async{
     for(Contact contact in contacts) {
       Iterable<Item> phones = contact.phones;//we get each phone number as a list
 
       for(Item phoneList in phones){//so we need to iterate through that list too
-        String number = phoneList.value;//ToDo- correct??
-        if (await getCommonContacts(number)==true){
+        String number = phoneList.value;
+        if (await _getCommonContacts(number)==true){
           //add to firebase 'friends_number' collection
           number = number.replaceAll(' ', '');//the format given by Item is => +1 585-754-7599 and we want no spaces and no dash, so => replaceAll
           number = number.replaceAll('-', '');
 
-          pushNumberToFriendsCollection(number);
+          _pushNumberToFriendsCollection(number);
         }
       }
     }
   }
 
-  getCommonContacts(String number) async{
+  /*
+  Compare the users we have using users collection with the contacts list we
+  got from getContactsFromUserPhone
+   */
+  _getCommonContacts(String number) async{
     String firebaseNumber = Firestore.instance.collection("users").document(number).documentID;
     if(number == firebaseNumber) return true;
     else return false;
   }
 
-  pushNumberToFriendsCollection(String number){
+  _pushNumberToFriendsCollection(String number){
     Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': number},merge: true);
   }
 

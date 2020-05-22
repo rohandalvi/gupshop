@@ -11,21 +11,26 @@ import 'package:gupshop/service/getContactsFromUserPhone.dart';
 import 'package:gupshop/service/getContactsPermission.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class CreateFriendsCollection extends StatefulWidget {
+
+class CreateFriendsCollection{
   final String userPhoneNo;
   final String userName;
 
   CreateFriendsCollection({@required this.userPhoneNo, @required this.userName});
 
-  @override
-  _CreateFriendsCollectionState createState() => _CreateFriendsCollectionState(userPhoneNo: userPhoneNo, userName: userName);
-}
 
-class _CreateFriendsCollectionState extends State<CreateFriendsCollection> {
-  final String userPhoneNo;
-  final String userName;
+  /*
+  From Iterable contacts we get a list of user's  phone contacts.
+  Now  we need to compare those contacts with the users we have for our app and get a union.
+  Now we need to add that union of users to his friends_number collection
+   */
+  getUnionContacts()async{
+    Iterable<Contact> contacts = await getContactsFromUserPhone();
+    await loopThroughEachContact(contacts);
+  }
 
-  _CreateFriendsCollectionState({@required this.userPhoneNo, @required this.userName});
+
+
 
   /*
   Get permission to access contacts using PermissionStatus(from GetContactsPermission())
@@ -39,16 +44,6 @@ class _CreateFriendsCollectionState extends State<CreateFriendsCollection> {
     }
   }
 
-  /*
-  From Iterable contacts we get a list of user's  phone contacts.
-  Now  we need to compare those contacts with the users we have for our app and get a union.
-  Now we need to add that union of users to his friends_number collection
-   */
-  getUnionContacts()async{
-    Iterable<Contact> contacts = await getContactsFromUserPhone();
-
-    await loopThroughEachContact(contacts);
-  }
 
   loopThroughEachContact(Iterable<Contact> contacts) async{
     for(Contact contact in contacts) {
@@ -76,18 +71,5 @@ class _CreateFriendsCollectionState extends State<CreateFriendsCollection> {
   pushNumberToFriendsCollection(String number){
     Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': number},merge: true);
   }
-
-  @override
-  void initState() {
-    getUnionContacts();
-    super.initState();
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-
 
 }

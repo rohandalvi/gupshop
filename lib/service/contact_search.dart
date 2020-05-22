@@ -4,24 +4,37 @@ import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/screens/individual_chat.dart';
+import 'package:gupshop/service/createFriendsCollection.dart';
 
 
 
-class ContactSearch extends StatelessWidget {
+class ContactSearch extends StatefulWidget {
   final String userPhoneNo;
   final String userName;
 
   ContactSearch({@required this.userPhoneNo, @required this.userName});
 
-  //used for routing to individualchat for getting friend's profile picture
-  getFriendNo(String conversationId) async{
-     return await ChatListState().getFriendPhoneNo(conversationId, userPhoneNo);
+  @override
+  _ContactSearchState createState() => _ContactSearchState();
+}
+
+class _ContactSearchState extends State<ContactSearch> {
+  final String userPhoneNo;
+  final String userName;
+
+  _ContactSearchState({@required this.userPhoneNo, @required this.userName});
+
+  void initState() {
+    super.initState();
+    CreateFriendsCollection(userName: userName, userPhoneNo: userPhoneNo,).getUnionContacts();
   }
 
+  getFriendNo(String conversationId) async{
+     return await ChatListState().getFriendPhoneNo(conversationId, widget.userPhoneNo);
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SafeArea(
         child: SearchBar<DocumentSnapshot>(
@@ -60,8 +73,8 @@ class ContactSearch extends StatelessWidget {
                       MaterialPageRoute(//to send conversationId along with the navigator to the next page
                         builder: (context) => IndividualChat(
                           conversationId: conversationId,
-                          userPhoneNo: userPhoneNo,
-                          userName: userName,
+                          userPhoneNo: widget.userPhoneNo,
+                          userName: widget.userName,
                           friendName: doc.data["name"],
                           friendNumber: friendNo,
                         ),
@@ -75,11 +88,9 @@ class ContactSearch extends StatelessWidget {
     );
   }
 
-
-
    Future<List<DocumentSnapshot>> searchList(String text) async {
-    String userPhoneNo ="+19194134191";
-    var list = await Firestore.instance.collection("friends_$userPhoneNo").getDocuments();
+    //String userPhoneNo ="+19194134191";
+    var list = await Firestore.instance.collection("friends_${widget.userPhoneNo}").getDocuments();
     return list.documents.where((l) => l.data["name"].toLowerCase().contains(text.toLowerCase()) ||  l.documentID.contains(text)).toList();
   }
 }

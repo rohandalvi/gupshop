@@ -15,6 +15,7 @@ import 'package:gupshop/screens/productDetail.dart';
 import 'package:gupshop/screens/welcomeScreen.dart';
 import 'package:gupshop/service/checkBoxCategorySelector.dart';
 import 'package:gupshop/service/contact_search.dart';
+import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/filterBazaarWalas.dart';
 import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget{
       title: 'Chat home',
 //      home: Home(),
 //       home: GeolocationService(),
-      home: LoginScreen(),
+//      home: LoginScreen(),
+        home: CreateFriendsCollection(),
 //        home: ContactSearch(),
 //        home: SideMenu(),
 //        home: ChangeProfilePicture(),

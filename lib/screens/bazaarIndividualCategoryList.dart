@@ -88,7 +88,7 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
                     if(streamSnapshot.data == null) return CircularProgressIndicator();//v v imp
 
                     String name = streamSnapshot.data[bazaarWalaPhoneNo]["name"];
-                    print("name: $name");
+                    print("name in bazaarIndividualCategory: $name");
                     int rating = streamSnapshot.data[bazaarWalaPhoneNo]["rating"];
 
 

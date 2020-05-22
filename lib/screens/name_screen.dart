@@ -4,7 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
 
-//==>
+//=>LoginScreen => NameScreen => Home
+
 class NameScreen extends StatefulWidget {
   final String userPhoneNo;
   String userName;
@@ -90,38 +91,3 @@ class _NameScreenState extends State<NameScreen> {
     );
   }
 }
-
-
-//return MaterialApp(
-//home: Scaffold(
-//backgroundColor: Colors.white,
-//body: Center(
-//child: Column(
-//children: <Widget>[
-//Container(
-//child: TextField(
-//
-//),
-//),
-//RaisedButton(
-//onPressed: (){},
-////a method is created for this variable down
-//color: Colors.transparent,
-//splashColor: Colors.transparent,
-//highlightColor: Colors.blueGrey,
-//elevation: 0,
-//hoverColor: Colors.blueGrey,
-//child: Text(
-//'Verify',
-//style: TextStyle(
-//color: Theme.of(context).primaryColor,
-//fontSize: 15,
-//fontWeight: FontWeight.bold,
-//),
-//),
-//),
-//],
-//),
-//),
-//),
-//);

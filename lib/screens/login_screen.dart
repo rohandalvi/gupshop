@@ -8,6 +8,7 @@ import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/service/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//LoginScreen => NameScreen
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();

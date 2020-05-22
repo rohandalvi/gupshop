@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/models/message_model.dart';
+import 'package:gupshop/screens/bazaarHome_screen.dart';
+import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/widgets/videoHeader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
@@ -30,7 +32,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
   VideoPlayerController playerController;
   Future<void> _initializeVideoPlayerFuture;
 
-  String userNumber= '+919870725050';
+  String userNumber= '+19194134191';
   bool writeReview;
   bool like=true;
   String reviewBody;
@@ -99,17 +101,27 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Flex(//Expanded has to be wrapped in Flex always
-          direction: Axis.vertical,//this is the required property of Flex
-          children: <Widget>[
-        Expanded(//if not used, then chlid==_child is null error appears, hence we have to use Expanded
-          child: _buildProductDetailsPage(context),
-        ),
-    ],
+    return WillPopScope(//---used to block the user from going to bazaarProfilePage when he hits back button
+      onWillPop: () async => (
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BazaarHomeScreen(userPhoneNo: userNumber, userName: userName,),//pass Name() here and pass Home()in name_screen
+              )
+          )
       ),
-      floatingActionButton: _floatingActionButtonForMessaging(),
-      //floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      child: Scaffold(
+        body: Flex(//Expanded has to be wrapped in Flex always
+            direction: Axis.vertical,//this is the required property of Flex
+            children: <Widget>[
+          Expanded(//if not used, then child==_child is null error appears, hence we have to use Expanded
+            child: _buildProductDetailsPage(context),
+          ),
+      ],
+        ),
+        floatingActionButton: _floatingActionButtonForMessaging(),
+        //floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      ),
     );
 
   }
@@ -166,42 +178,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
       ],
     );
-
-//    return Stack(
-//      children: <Widget>[
-//        _buildProductImagesWidget(),
-//        _showRatings(3),
-//        if (writeReview==true) _writeReview(),
-//        _buildReviewList(context),
-////        ListView(
-////          children: <Widget>[
-////            Container(
-////              child: Column(
-////                mainAxisSize: MainAxisSize.min,
-////                children: <Widget>[
-////                  _buildProductImagesWidget(),
-////                  _showRatings(3),
-////                  SizedBox(height: 10,),
-////                  if (writeReview==true) _writeReview(),
-//////                    if (writeReview==true)
-//////                      TextField(
-//////                        //textCapitalization: TextCapitalization.sentences,
-//////                        maxLines: null,
-//////                        onChanged: (value){
-//////
-//////                          //_controller.clear();
-//////                        },
-//////                      ),
-//////                _buildReviewsWithAlbum(),
-////                  _buildReviewList(context),
-////                ],
-////              ),
-////            ),
-////          ],
-////        ),
-//        _floatingActionButtonForMessaging(),//for messaging chat button on the right bottom
-//      ],
-//    );
   }
 
 

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 
@@ -228,6 +229,9 @@ class _IndividualChatState extends State<IndividualChat> {
             if(value!="") {//if there is not text, then dont send the message
               var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
               Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+
+              RecentChats(convId: conversationId, userNumber:userPhoneNo, friendName:friendName ).pushToRecentChatsCollectionFirebasse();
+
               _controller.clear();//used to clear text when user hits send button
               listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
                 0.0,

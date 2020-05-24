@@ -106,6 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userPhoneNo = prefs.getString('userPhoneNo');
     print("userPhoneNo in login_screen: $userPhoneNo");
+
+
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
       AuthService().signIn(authResult);
     };
@@ -122,19 +124,20 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         this.codeSent = true;
         print("val : $val");
-        prefs.setString('userPhoneNo', val);//toDo - remove substring
-        //prefs.setString('userPhoneNo', val.substring(2,12));//toDo - remove substring
+        prefs.setString('userPhoneNo', val);
+
         print("userPhoneNo in login_screen setState: $val");
         smsCodeDialog(context).then((value) {
           print("Got value $value");
           AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
+
           //add userPhoneNumber to our database. Add to the users collection:
-          Firestore.instance.collection("recentChats").document(val).setData({});//toDo - remove substring
-          // Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});//toDo - remove substring
+          Firestore.instance.collection("recentChats").document(val).setData({});
+
 
           //creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
-          Firestore.instance.collection("profilePictures").document(val).setData({}, merge: true);//toDo - remove substring
-          //Firestore.instance.collection("profilePictures").document(val.substring(2,12)).setData({}, merge: true);//toDo - remove substring
+          Firestore.instance.collection("profilePictures").document(val).setData({}, merge: true);
+
 
 
           FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
@@ -146,8 +149,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   builder: (context) => NameScreen(userPhoneNo:val),//pass Name() here and pass Home()in name_screen
                 )
             );
-            print("phone no: ${val.toString()}");//toDo - remove substring
-            //print("phone no: ${val.toString().substring(2,12)}");//toDo - remove substring
+            print("phone no: ${val.toString()}");
+
           }).catchError((e) {
             print("Got error $e");
           });
@@ -167,6 +170,8 @@ class _LoginScreenState extends State<LoginScreen> {
         codeSent: smsSent,
         codeAutoRetrievalTimeout: autoTimeout);
   }
+
+
 
   Future<bool> smsCodeDialog(BuildContext context) {
     //the method for displaying the dialog box which pops up to put the sms code

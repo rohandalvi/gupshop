@@ -230,7 +230,7 @@ class _IndividualChatState extends State<IndividualChat> {
               var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
               Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
 
-              RecentChats(convId: conversationId, userNumber:userPhoneNo, friendName:friendName ).pushToRecentChatsCollectionFirebasse();
+              RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
 
               _controller.clear();//used to clear text when user hits send button
               listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send

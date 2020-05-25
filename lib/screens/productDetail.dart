@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/screens/bazaarHome_screen.dart';
+import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/widgets/videoHeader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -99,22 +100,42 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
     super.dispose();
   }
 
+  goToBazaarIndividualCategoryListPage() async{
+    print("in onWillPop");
+    await
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) {
+          return BazaarIndividualCategoryList();
+        },
+      ),
+          (Route<dynamic> route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(//---used to block the user from going to bazaarProfilePage when he hits back button
-      onWillPop: () async => (
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BazaarHomeScreen(userPhoneNo: userNumber, userName: userName,),//pass Name() here and pass Home()in name_screen
-              )
-          )
+    return WillPopScope(//---> used to block the user from going to bazaarProfilePage when he hits back button after creating a bazaar profile page
+      onWillPop:
+          () async => (
+//              Navigator.pushAndRemoveUntil(
+//                context,
+//                MaterialPageRoute(builder: (context) => BazaarIndividualCategoryList()),
+//                    (Route<dynamic> route) => false,
+//              )
+//              Navigator.push(
+//                  context,
+//                  MaterialPageRoute(
+//                    builder: (context) => BazaarIndividualCategoryList(),
+//                  )
+//              )
+          Navigator.pop(context)
       ),
       child: Scaffold(
-        body: Flex(//Expanded has to be wrapped in Flex always
-            direction: Axis.vertical,//this is the required property of Flex
+        body: Flex(//---> Expanded has to be wrapped in Flex always
+            direction: Axis.vertical,//---> this is the required property of Flex
             children: <Widget>[
-          Expanded(//if not used, then child==_child is null error appears, hence we have to use Expanded
+          Expanded(//---> if not used, then child==_child is null error appears, hence we have to use Expanded
             child: _buildProductDetailsPage(context),
           ),
       ],
@@ -148,10 +169,10 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         ),
         SliverList(
           delegate: SliverChildListDelegate(
-            <Widget>[//to decrease space  between review stars and reviews use Stack and wrap everything in it
+            <Widget>[//---> to decrease space  between review stars and reviews use Stack and wrap everything in it
               ListView(
-                controller: new ScrollController(),//for scrolling the screen
-                shrinkWrap: true,//Vertical viewport was given unbounded height.- this error thrown if not used
+                controller: new ScrollController(),//---> for scrolling the screen
+                shrinkWrap: true,//---> Vertical viewport was given unbounded height.- this error thrown if not used
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(left:8.0),
@@ -194,7 +215,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 280),
           child: Padding(
-            padding: EdgeInsets.only(left: 14),//for distance between left side of the screen and the review writing text bar
+            padding: EdgeInsets.only(left: 14),//---> for distance between left side of the screen and the review writing text bar
             child: _sendReview(),
           ),
         ),
@@ -212,7 +233,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                   "timestamp":DateTime.now(),
                 };
 
-                //pushing review data to firebase bazaarReviews collection:
+                //---> pushing review data to firebase bazaarReviews collection:
                 print("data: $data");
                 //print("what is : ${Firestore.instance.collection("bazaarReviews").document(userNumber).collection("reviews").document().setData(data)}");
                 Firestore.instance.collection("bazaarReviews").document(userNumber).collection("reviews").document().setData(data);
@@ -220,8 +241,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                 Firestore.instance.collection("bazaarRatingsNumbers").document(userNumber).updateData({"likes": likes, "dislikes":dislikes});
 
                 print("likeDislike befoew setting state: $likeOrDislike ");
-                writeReview= false;//to show the non textField view again, where we have only the reviews
-                like = true;//setting the like and dislike's state as false again, to make them appear on the review bar again
+                writeReview= false;//---> to show the non textField view again, where we have only the reviews
+                like = true;//---> setting the like and dislike's state as false again, to make them appear on the review bar again
                 //disLike = false;
                 print("likeDislike befoew after state: $likeOrDislike ");
               });
@@ -284,7 +305,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
       validator: (value){
         if(value.isEmpty) return 'Please write your review';
         else{
-          reviewBody=value;//else this TextFormField was returning null and reviewBody was  getting  assigned null value; hence, we manually assigned the value of 'value' to reviewbody
+          reviewBody=value;//---> else this TextFormField was returning null and reviewBody was  getting  assigned null value; hence, we manually assigned the value of 'value' to reviewbody
           return null;
         }
       },

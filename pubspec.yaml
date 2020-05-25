@@ -43,6 +43,7 @@ dependencies:
   shared_preferences: ^0.5.7 #for checking if the user is logged in for the 1st time
   firebase_database: ^3.1.6
   firebase_storage: ^3.1.5 #for image  and video storage to cloud storage
+  firebase_database: ^3.1.6
 
   geolocator: ^5.3.0
   geocoder: ^0.2.1
@@ -52,6 +53,7 @@ dependencies:
   geoflutterfire: ^2.1.0 # for finding nearby
 
   flappy_search_bar: ^1.7.2 # for searching
+  rxdart: ^0.23.1 #for using BehaviorSubject in indiviudalChat . PS: rxdart: ^0.24.1 gives conflict with some other dependency so used ^0.23.1
 
 dev_dependencies:
   flutter_test:

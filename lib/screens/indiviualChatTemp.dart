@@ -11,7 +11,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rxdart/rxdart.dart';
 
 class IndividualChat extends StatefulWidget {
   final String conversationId;
@@ -35,12 +34,6 @@ class IndividualChat extends StatefulWidget {
 }
 
 
-/*
-sink: to insert something into the Stream, the StreamController exposes the “_entrance_”,
-called a StreamSink, accessible via the sink property
-
-stream: the way out of the Stream, is exposed by the StreamController via the stream property
- */
 
 class _IndividualChatState extends State<IndividualChat> {
   final String conversationId;
@@ -48,7 +41,6 @@ class _IndividualChatState extends State<IndividualChat> {
   final String userName;
   final String friendName;
   final String friendNumber;
-
 
   _IndividualChatState(
       {@required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, @required this.friendNumber,});
@@ -58,16 +50,12 @@ class _IndividualChatState extends State<IndividualChat> {
   TextEditingController _controller = new TextEditingController(); //to clear the text  when user hits send button//TODO- for enter
   ScrollController listScrollController = new ScrollController(); //for scrolling the screen
   StreamController streamController= new StreamController();
+  List<DocumentSnapshot> documentList;//made for getting old batch of messages when the scrolling limit of 10 messages at a time is reached
   CollectionReference collectionReference;
   Stream<QuerySnapshot> stream;
 
   ScrollNotification notification;
 
-  List<DocumentSnapshot> documentList;//made for getting old batch of messages when the scrolling limit of 10 messages at a time is reached
-  BehaviorSubject<List<DocumentSnapshot>> messageController;
-
-  Stream<List<DocumentSnapshot>> get messageStream => messageController.stream;
-  Stream<List<DocumentSnapshot>>  streamOfMessages;
 
   @override
   void initState() {
@@ -76,48 +64,12 @@ class _IndividualChatState extends State<IndividualChat> {
     collectionReference = Firestore.instance.collection("conversations").document(conversationId).collection("messages");
     stream = collectionReference.orderBy("timeStamp", descending: true).limit(10).snapshots();
 
-    messageController = BehaviorSubject<List<DocumentSnapshot>>();
-    streamOfMessages = messageController.stream;
+
 
 //    listScrollController = ScrollController();//ToDo - here
 //    listScrollController.addListener(scrollListener());
 
-
     super.initState();
-  }
-
-
-
-  //Future fetchFirstList() async {...}
-
-  //fetching next batch of messages when user scrolls up for previous messages
-  fetchAdditionalMessages() async {
-    try {
-      List<DocumentSnapshot>  newDocumentList  =  (await collectionReference
-          .orderBy("timeStamp", descending: true)
-          .startAfterDocument(documentList[documentList.length-1])
-          .limit(10).getDocuments())
-          .documents;
-
-      if(newDocumentList.isEmpty) return;
-
-      setState(() {//setting state is essential, or new messages(next batch of old messages) does not get loaded
-        documentList.addAll(newDocumentList);
-        messageController.sink.add(documentList);
-        //streamController.add(documentList);
-        print("documentList after setState: ${streamController}");
-      });
-      print("in try");
-    } catch(e) {
-      streamController.sink.addError(e);
-      print("in catch");
-    }
-
-  }
-
-  void dispose() {
-    messageController.close();
-
   }
 
 
@@ -131,7 +83,7 @@ class _IndividualChatState extends State<IndividualChat> {
             body: showMessagesAndSendMessageBar(),
           ),
         ),
-       _scrollToBottomButton(),
+        _scrollToBottomButton(),
       ],
     );
   }
@@ -335,28 +287,60 @@ class _IndividualChatState extends State<IndividualChat> {
 
   _scrollToBottomButton(){//the button with down arrow that should appear only when the user scrolls
 //    if(notification is ScrollUpdateNotification){
-      return Align(
-          alignment: Alignment.centerRight,
-          child:
-          //scrollListener() ?
-          FloatingActionButton(
-            child: IconButton(
-              icon: Icon(Icons.keyboard_arrow_down),
-            ),
-            onPressed: (){
+    return Align(
+        alignment: Alignment.centerRight,
+        child:
+        //scrollListener() ?
+        FloatingActionButton(
+          child: IconButton(
+            icon: Icon(Icons.keyboard_arrow_down),
+          ),
+          onPressed: (){
 //          Scrollable.ensureVisible(context);
-              listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-                0.0,
-                curve: Curves.easeOut,
-                duration: const Duration(milliseconds: 300),
-              );
-            },
-          )
-        //: new Align(),
-      );
+            listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+              0.0,
+              curve: Curves.easeOut,
+              duration: const Duration(milliseconds: 300),
+            );
+          },
+        )
+      //: new Align(),
+    );
 //    } return Align();
   }
 
+
+//fetching next batch of messages when user scrolls up for previous messages
+  fetchAdditionalMessages() async {
+    try {
+//      List<DocumentSnapshot>  newDocumentList  =  (await collectionReference
+//          .orderBy("timeStamp", descending: true)
+//          .startAfterDocument(documentList[documentList.length-1])
+//          .limit(10).getDocuments())
+//          .documents;
+
+      QuerySnapshot  newDocumentList = await  collectionReference
+          .orderBy("timeStamp", descending: true)
+          .startAfterDocument(documentList[documentList.length-1])
+          .limit(10).getDocuments();
+
+      //if(newDocumentList.isEmpty) return;
+
+
+
+      setState(() {//setting state is essential, or new messages(next batch of old messages) does not get loaded
+        print("newDocumentList: ${newDocumentList.documents[0].data}");
+        //documentList.addAll(newDocumentList);
+        streamController.add(documentList);
+        print("documentList after setState: ${streamController}");
+      });
+//      print("in try");
+    } catch(e) {
+      streamController.sink.addError(e);
+      print("in catch");
+    }
+
+  }
 }
 
 

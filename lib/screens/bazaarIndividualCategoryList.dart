@@ -19,7 +19,6 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
   String category = 'KamWali';
 
 
-
   Future<QuerySnapshot> getBazaarWalasInAGivenRadius;
 
   Position _location;

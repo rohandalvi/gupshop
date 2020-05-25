@@ -5,20 +5,23 @@ class RecentChats{
   Map message;
   String userNumber;
   String convId;
-  //String friendName;
-  //String friendNumber;
   String userName;
   RecentChats({@required this.message, this.userNumber, this.convId, this.userName});
 
 
   getAllNumbersOfAConversation() async{
-    //get a list of all numbers involved in that conversation
+    //get a 'list' of all numbers involved in that conversation
     DocumentSnapshot documentSnapshot = await Firestore.instance.collection("conversationMetadata").document(convId).get();
     List list = documentSnapshot.data["members"];
 
     /*
-    push the recentChat to all the people involved in the conversation
-    Usually, its 2 people except groupchat
+    We are getting a list of all the people involved in the conversation in list
+    Now this message has to be passed to all those numbers as their recent message in their recentChats collection.
+    Now this recentChats collection needs 'name'. This name means the person with whom the conversation is with, meaning
+    the friend name.
+    To find this friend name , we have to go through friend_number collection of each phone number involved. We do this
+    using conversationWith() method.
+    Then we push the message to each number's recentChat collection using that friendName.
      */
     for(int i=0; i<list.length; i++){
       print("number: ${list[i]}");
@@ -32,7 +35,7 @@ class RecentChats{
         String otherFriendName = await conversationWith(userNumber, list[i]);
         print("otherfriendName: $otherFriendName");
         pushRecentChatsToAllNumbersInvolvedInFirebase(list[i], otherFriendName);
-      }//else pass the user's name as the friendName
+      }//else do nothing
 
     }
   }

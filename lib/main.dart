@@ -1,32 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gupshop/fahrenheitToCelcius.dart';
-import 'package:gupshop/models/chat_List.dart';
-import 'package:gupshop/screens/bazaarHome_screen.dart';
-import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
-import 'package:gupshop/screens/bazaarProfilePage.dart';
-import 'package:gupshop/screens/changeProfilePicture.dart';
-import 'package:gupshop/screens/contacts.dart';
-import 'package:gupshop/screens/home.dart';
-import 'package:gupshop/screens/home_screen.dart';
-import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/screens/login_screen.dart';
-import 'package:gupshop/screens/name_screen.dart';
-import 'package:gupshop/screens/productDetail.dart';
-import 'package:gupshop/screens/welcomeScreen.dart';
-import 'package:gupshop/service/checkBoxCategorySelector.dart';
-import 'package:gupshop/service/contact_search.dart';
-import 'package:gupshop/service/createFriendsCollection.dart';
-import 'package:gupshop/service/filterBazaarWalas.dart';
-import 'package:gupshop/service/geolocation_service.dart';
-import 'package:gupshop/widgets/sideMenu.dart';
 
-void main(){
+void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget{
+class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Colors.lightGreen,
@@ -43,7 +24,7 @@ class MyApp extends StatelessWidget{
 //        home: ChangeProfilePicture(),
 //      home: WelcomeScreen(),
 //        home: HomeScreen(),
-        //home: BazaarProfilePage(),
+      //home: BazaarProfilePage(),
 //      home: ProductDetail(),
 //        home: BazaarHomeScreen(),
 //      home: BazaarIndividualCategoryList(),

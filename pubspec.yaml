@@ -21,7 +21,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  firebase_auth: any
+  firebase_auth: ^0.16.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -29,7 +29,7 @@ dependencies:
   firebase_core: ^0.4.0+9
 
   # Add the dependency for the FlutterFire plugin for Google Analytics
-  firebase_analytics: ^5.0.2
+  firebase_analytics: ^5.0.14
 
   contacts_service: ^0.3.10
   flutter_contact: any #verson ^0.5.3 is incompatible with geolocator:^5.3.1. Hence we change flutter_contact version to any
@@ -41,9 +41,10 @@ dependencies:
 
   image_picker: ^0.6.5+2 #for adding advertisement on bazaar profile
   shared_preferences: ^0.5.7 #for checking if the user is logged in for the 1st time
+  firebase_database: ^3.1.6
   firebase_storage: ^3.1.5 #for image  and video storage to cloud storage
 
-  geolocator: ^5.3.1
+  geolocator: ^5.3.0
   geocoder: ^0.2.1
   location: ^3.0.2
   async: ^2.4.0

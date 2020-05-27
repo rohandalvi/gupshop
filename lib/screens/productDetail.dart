@@ -116,21 +116,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return WillPopScope(//---> used to block the user from going to bazaarProfilePage when he hits back button after creating a bazaar profile page
-      onWillPop:
-          () async => (
-//              Navigator.pushAndRemoveUntil(
-//                context,
-//                MaterialPageRoute(builder: (context) => BazaarIndividualCategoryList()),
-//                    (Route<dynamic> route) => false,
-//              )
-//              Navigator.push(
-//                  context,
-//                  MaterialPageRoute(
-//                    builder: (context) => BazaarIndividualCategoryList(),
-//                  )
-//              )
-          Navigator.pop(context)
-      ),
+      onWillPop: () async => false,
       child: Scaffold(
         body: Flex(//---> Expanded has to be wrapped in Flex always
             direction: Axis.vertical,//---> this is the required property of Flex

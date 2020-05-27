@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gupshop/screens/login_screen.dart';
+import 'package:gupshop/screens/welcomeScreen.dart';
+import 'package:gupshop/widgets/bazaarHomeGridView.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,12 +19,12 @@ class MyApp extends StatelessWidget {
       title: 'Chat home',
 //      home: Home(),
 //       home: GeolocationService(),
-      home: LoginScreen(),
+      //home: LoginScreen(),
 //        home: CreateFriendsCollection(),
 //        home: ContactSearch(),
 //        home: SideMenu(),
 //        home: ChangeProfilePicture(),
-//      home: WelcomeScreen(),
+      home: WelcomeScreen(),
 //        home: HomeScreen(),
       //home: BazaarProfilePage(),
 //      home: ProductDetail(),

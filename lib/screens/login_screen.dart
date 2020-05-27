@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> verifyphone() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userPhoneNo = prefs.getString('userPhoneNo');
-    print("userPhoneNo in login_screen: $userPhoneNo");
+    print("userPhoneNo in verifyPhone: $userPhoneNo");
 
 
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
@@ -134,10 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
           //add userPhoneNumber to our database. Add to the users collection:
           Firestore.instance.collection("recentChats").document(val).setData({});
 
-
           //creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
           Firestore.instance.collection("profilePictures").document(val).setData({}, merge: true);
-
 
 
           FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
@@ -162,8 +160,9 @@ class _LoginScreenState extends State<LoginScreen> {
       this.verificationId = verId;
     };
 
+    print("Calling verifyPhone Number");
     await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: phoneNo,
+        phoneNumber: "+19194134191",
         timeout: const Duration(seconds: 5),
         verificationCompleted: verified,
         verificationFailed: verificationfailed,

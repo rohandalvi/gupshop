@@ -41,7 +41,6 @@ class _ContactSearchState extends State<ContactSearch> {
           minimumChars: 1,//minimum characters to enter to start the search
           onSearch: searchList,
           onItemFound: (DocumentSnapshot doc, int index){
-
             String conversationId = doc.data["conversationId"];
             print("conversationId: $conversationId");
             String friendNo;
@@ -55,6 +54,7 @@ class _ContactSearchState extends State<ContactSearch> {
                 child: FutureBuilder(
                   future: getFriendNo(conversationId),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
+
                     print("snapshot in listtile: ${snapshot.data}");
                     if(snapshot.connectionState == ConnectionState.done) {
                       print("snapshot.data: ${snapshot.data}");

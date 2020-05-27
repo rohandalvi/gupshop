@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>178426581880-h000hl50hv4jc9b7onon76c1lh4a6qbe.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.178426581880-h000hl50hv4jc9b7onon76c1lh4a6qbe</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>178426581880-abe09hflbmu1ba5kdj1u0kadgubeo8na.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAx-Fo9j2msqEC0NhnzHZyFcQSFOO8e7mk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>178426581880</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.purvadalvi.flutterApp</string>
+	<key>PROJECT_ID</key>
+	<string>gupshop-f9268</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gupshop-f9268.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:178426581880:ios:c30a4c9d76deff5e652e8d</string>
+	<key>DATABASE_URL</key>
+	<string>https://gupshop-f9268.firebaseio.com</string>
+</dict>
+</plist>

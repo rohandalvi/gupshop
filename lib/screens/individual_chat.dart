@@ -59,17 +59,16 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   void initState() {
-//    documentList = new List<DocumentSnapshot>();
 
-    //adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
-    //when user scrolls
+    /*
+    adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
+    when user scrolls
+    update - the above comment might be wrong, because passing the stream directly to
+    streambuilder without initializing in initState also paginates alright.
+     */
     collectionReference = Firestore.instance.collection("conversations").document(conversationId).collection("messages");
     stream = collectionReference.orderBy("timeStamp", descending: true).limit(10).snapshots();
 
-
-
-//    listScrollController = ScrollController();//ToDo - here
-//    listScrollController.addListener(scrollListener());
 
     super.initState();
   }
@@ -98,11 +97,7 @@ class _IndividualChatState extends State<IndividualChat> {
         color: Theme.of(context).primaryColor,
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(),
-          leading:
-//                  ClipOval(
-//                    child: SideMenuState().getProfilePicture(friendNumber),
-//                  ),
-          SizedBox(
+          leading: SizedBox(
             height: 50,
             width: 35,
             child : ClipOval(
@@ -134,6 +129,30 @@ class _IndividualChatState extends State<IndividualChat> {
     );
   }
 
+  /*
+  List<DocumentSnapshot> documentList;
+  if(documentList == null){
+                    documentList = snapshot.data.documents;
+                  }
+
+   This documentList is made to add next 10 messages to the stream. We cannot directly
+   add the messages to the stream. So, we are creating a list and adding next 10 messages
+   to it, when the scroll hits the top of the screen.
+   When this happens fetchAdditionalMessages() gets called. In this method, we are adding
+   next 10 messages to documentList by calling it in stateState(). Because of this,
+   the widget Widget Build rebuilds itself and the Streambuilder builds again.
+   Now putting the condition
+       if(documentList == null){
+            documentList = snapshot.data.documents;
+          }
+
+   we are making sure that this method if the screen has not reached the top then take
+   messages from the stream, else take the messages as added by fectAdditionalMessages.
+
+   When the user sends a message, we are again making the documentList null, because we
+   want it to take the messages from the stream again.
+   */
+
   showMessagesAndSendMessageBar(){
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(), //to take out the keyboard when tapped on chat screen
@@ -145,15 +164,22 @@ class _IndividualChatState extends State<IndividualChat> {
             child: StreamBuilder<QuerySnapshot>(
                 stream: stream,
                 builder: (context, snapshot) {
+                  print("just checking");
                   if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter document was called on null"
-                  print("document1 in streambuilder: ${snapshot.data.documents[0]["body"]}");
-                  print("document10 in streambuilder: ${snapshot.data.documents[9]["body"]}");
-                  if(documentList == null){
-                    documentList = snapshot.data.documents;
-                  }
-                  //documentList.addAll(snapshot.data.documents);
 
-                  print("documentList = $documentList}");
+                  /*
+                   we are making sure that if the screen has not reached the top then take
+                   messages from the stream, else take the messages as added by
+                   fetchAdditionalMessages:(code snippet from fetchAdditionalMessages):
+                        setState(() {//setting state is essential, or new messages(next batch of old messages) does not get loaded
+                          documentList.addAll(newDocumentList);
+                        });
+
+                    if documentList== null => use stream
+                    else(its not when  new 10 messages are added to the documentList)
+                    else => use that documentList
+                   */
+                  if(documentList == null){documentList = snapshot.data.documents;}
 
                   return NotificationListener<ScrollUpdateNotification>(
                     child: ListView.separated(
@@ -163,12 +189,9 @@ class _IndividualChatState extends State<IndividualChat> {
                       itemCount: documentList.length,
                       itemBuilder: (context, index) {
 
-                        var messageBody =
-                        documentList[index].data["body"];
-                        var fromName =
-                        documentList[index].data["fromName"];
-                        Timestamp timeStamp =
-                        documentList[index].data["timeStamp"];
+                        var messageBody = documentList[index].data["body"];
+                        var fromName = documentList[index].data["fromName"];
+                        Timestamp timeStamp = documentList[index].data["timeStamp"];
                         bool isMe = false;
 
                         if (fromName == userName) isMe = true;
@@ -199,11 +222,10 @@ class _IndividualChatState extends State<IndividualChat> {
                     ),
                     onNotification: (notification) {
                       /*
-                              onNotification allows us to know when we have reached the limit of the messages
-                              once the limit is reached, documentList is updated again  with the next 10 messages using
-                              the fetchAdditionalMesages()
-                               */
-
+                       onNotification allows us to know when we have reached the limit of the messages
+                       once the limit is reached, documentList is updated again  with the next 10 messages using
+                       the fetchAdditionalMesages()
+                       */
                       if(notification.metrics.atEdge
                           &&  !((notification.metrics.pixels - notification.metrics.minScrollExtent) <
                               (notification.metrics.maxScrollExtent-notification.metrics.pixels))) {
@@ -224,56 +246,63 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
   _buildMessageComposer() {//the type and send message box
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8.0),
-      height: 70,
-      color: Colors.white,
-      child: ListTile(
-        leading: IconButton(
-          icon: Icon(Icons.photo),
-        ),
-        title: TextField(
-          //textCapitalization: TextCapitalization.sentences,
-          maxLines: null,
-          onChanged: (value){
-            setState(() {
-              this.value=value;//by doing this we are setting the value to value globally
-            });
+    return StatefulBuilder(
+      builder: (context, StateSetter setState){
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
+          height: 70,
+          color: Colors.white,
+          child: ListTile(
+            leading: IconButton(
+              icon: Icon(Icons.photo),
+            ),
+            title: TextField(
+              //textCapitalization: TextCapitalization.sentences,
+              maxLines: null,
+              onChanged: (value){
+                setState(() {
+                  this.value=value;//by doing this we are setting the value to value globally
+                });
 //            this.value=value;
-            //_controller.clear();
-          },
-          scrollController: new ScrollController(),
-          controller: _controller,//used to clear text when user hits send button
-        ),
-        trailing: IconButton(
-          icon: Icon(Icons.send),
-          onPressed: (){
-            if(value!="") {//if there is not text, then dont send the message
-              var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-              Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+                //_controller.clear();
+              },
+              scrollController: new ScrollController(),
+              controller: _controller,//used to clear text when user hits send button
+            ),
+            trailing: IconButton(
+              icon: Icon(Icons.send),
+              onPressed: () {
 
-              RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+                if(value!="") {
+                  //if there is not text, then dont send the message
+                  var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+                  Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+//                  DocumentSnapshot documentSnapshot=  await documentReference.get();
+//                  List<DocumentSnapshot>  newDocumentList = [ documentSnapshot];
 
-              _controller.clear();//used to clear text when user hits send button
-              listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-                0.0,
-                curve: Curves.easeOut,
-                duration: const Duration(milliseconds: 300),
-              );
-            }
-//            var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-//            Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
-//            _controller.clear();//used to clear text when user hits send button
-//            listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-//              0.0,
-//              curve: Curves.easeOut,
-//              duration: const Duration(milliseconds: 300),
-//            );
-          },
-        ),
-      ),
+                  setState(() {
+                    documentList = null;
+                  });
+
+
+                  RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+
+                  _controller.clear();//used to clear text when user hits send button
+                  listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+                    0.0,
+                    curve: Curves.easeOut,
+                    duration: const Duration(milliseconds: 300),
+                  );
+                }
+              },
+            ),
+          ),
+        );
+      },
+
     );
   }
+
 
   _scrollToBottomButton(){//the button with down arrow that should appear only when the user scrolls
 //    if(notification is ScrollUpdateNotification){
@@ -302,7 +331,6 @@ class _IndividualChatState extends State<IndividualChat> {
 
 //fetching next batch of messages when user scrolls up for previous messages
   fetchAdditionalMessages() async {
-    print("in fetchAdditionalMessages");
     try {
       List<DocumentSnapshot>  newDocumentList  =  (await collectionReference
           .orderBy("timeStamp", descending: true)
@@ -310,19 +338,14 @@ class _IndividualChatState extends State<IndividualChat> {
           .limit(10).getDocuments())
           .documents;
 
-      print("newdoclist: ${newDocumentList[0]["body"]}");
-
       if(newDocumentList.isEmpty) return;
 
       setState(() {//setting state is essential, or new messages(next batch of old messages) does not get loaded
         documentList.addAll(newDocumentList);
         //streamController.add(documentList);
-        print("documentList after refresh: ${documentList[11].data}");
       });
-      print("in try");
     } catch(e) {
       streamController.sink.addError(e);
-      print("in catch");
     }
 
   }

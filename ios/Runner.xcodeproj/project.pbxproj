@@ -13,6 +13,11 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		56206289247C68CE005792DD /* firebase_auth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56206288247C68CE005792DD /* firebase_auth.framework */; };
+		5620628B247F9364005792DD /* permission_handler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5620628A247F9364005792DD /* permission_handler.framework */; };
+		5620628E247F936C005792DD /* contacts_service.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5620628D247F936C005792DD /* contacts_service.framework */; };
+		56206291247F9383005792DD /* geolocator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56206290247F9383005792DD /* geolocator.framework */; };
+		56206294247F9395005792DD /* geocoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56206293247F9395005792DD /* geocoder.framework */; };
+		56206297247F93A0005792DD /* geoflutterfire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56206296247F93A0005792DD /* geoflutterfire.framework */; };
 		56380E42247C5987004A47EC /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 56380E41247C5987004A47EC /* libc++.tbd */; };
 		56380E44247C5A83004A47EC /* absl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56380E43247C5A83004A47EC /* absl.framework */; };
 		56380E46247C5A9D004A47EC /* leveldb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56380E45247C5A9D004A47EC /* leveldb.framework */; };
@@ -33,19 +38,6 @@
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		09FDBD26247CAD3B00A352CA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		09FDBD28247CB1C700A352CA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -55,6 +47,11 @@
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		3D0CB02362BBB269F077925E /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		56206288247C68CE005792DD /* firebase_auth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = firebase_auth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5620628A247F9364005792DD /* permission_handler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = permission_handler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5620628D247F936C005792DD /* contacts_service.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = contacts_service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		56206290247F9383005792DD /* geolocator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = geolocator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		56206293247F9395005792DD /* geocoder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = geocoder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		56206296247F93A0005792DD /* geoflutterfire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = geoflutterfire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		56380E41247C5987004A47EC /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		56380E43247C5A83004A47EC /* absl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = absl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		56380E45247C5A9D004A47EC /* leveldb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = leveldb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,13 +92,18 @@
 				56819063247C635B006CD976 /* FirebaseInstallations.framework in Frameworks */,
 				56819061247C621E006CD976 /* nanopb.framework in Frameworks */,
 				5681905F247C6163006CD976 /* GoogleUtilities.framework in Frameworks */,
+				56206291247F9383005792DD /* geolocator.framework in Frameworks */,
 				5681905D247C6146006CD976 /* FirebaseFirestore.framework in Frameworks */,
+				56206294247F9395005792DD /* geocoder.framework in Frameworks */,
 				56380E52247C5C27004A47EC /* libz.tbd in Frameworks */,
 				56380E50247C5C1D004A47EC /* libsqlite3.tbd in Frameworks */,
+				5620628E247F936C005792DD /* contacts_service.framework in Frameworks */,
 				56380E4E247C5BB2004A47EC /* firebase_analytics.framework in Frameworks */,
+				56206297247F93A0005792DD /* geoflutterfire.framework in Frameworks */,
 				56380E4C247C5B7D004A47EC /* openssl_grpc.framework in Frameworks */,
 				56380E4A247C5B2D004A47EC /* grpcpp.framework in Frameworks */,
 				56380E48247C5AB1004A47EC /* grpc.framework in Frameworks */,
+				5620628B247F9364005792DD /* permission_handler.framework in Frameworks */,
 				56380E46247C5A9D004A47EC /* leveldb.framework in Frameworks */,
 				56380E44247C5A83004A47EC /* absl.framework in Frameworks */,
 				56380E42247C5987004A47EC /* libc++.tbd in Frameworks */,
@@ -116,6 +118,11 @@
 		252E13C8C23A831465FC57A1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				56206296247F93A0005792DD /* geoflutterfire.framework */,
+				56206293247F9395005792DD /* geocoder.framework */,
+				56206290247F9383005792DD /* geolocator.framework */,
+				5620628D247F936C005792DD /* contacts_service.framework */,
+				5620628A247F9364005792DD /* permission_handler.framework */,
 				56206288247C68CE005792DD /* firebase_auth.framework */,
 				56819062247C635B006CD976 /* FirebaseInstallations.framework */,
 				56819060247C621E006CD976 /* nanopb.framework */,
@@ -216,7 +223,6 @@
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
-				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				C7C328D577D56BB6F16AB5BB /* [CP] Embed Pods Frameworks */,
 			);
@@ -438,6 +444,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = S78HU4ZMUE;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -515,7 +522,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -565,7 +572,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
@@ -583,6 +590,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = S78HU4ZMUE;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -620,6 +628,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = S78HU4ZMUE;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

@@ -496,7 +496,7 @@ SPEC CHECKSUMS:
   FirebaseFirestore: 71925e62a5d1cbfaff46aa4d5107e525cc48356a
   FirebaseInstallations: acb3216eb9784d3b1d2d2d635ff74fa892cc0c44
   FirebaseStorage: f4f39ae834a7145963b913f54e2f24a9db1d8fac
-  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  Flutter: 446b87ace8a3747a167979213b4aef59a0b5e5fa
   flutter_contact: a2b54438acfd060abfebf2e2b85d70c70a15ac2f
   flutter_plugin_android_lifecycle: dc0b544e129eebb77a6bfb1239d4d1c673a60a35
   geocoder: 3cfab70531a0b367e917bafe82df4c30f6d4c45a
@@ -528,4 +528,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.8.4

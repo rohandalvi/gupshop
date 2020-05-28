@@ -162,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     print("Calling verifyPhone Number");
     await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: "+19194134191",
+        phoneNumber: val,
         timeout: const Duration(seconds: 5),
         verificationCompleted: verified,
         verificationFailed: verificationfailed,

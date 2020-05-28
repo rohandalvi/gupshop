@@ -87,8 +87,13 @@ class ChatListState extends State<ChatList> {
           return ListView.separated(//to create the seperated view of each chat, has to be used with separatorBuilder: (context, index) => Divider
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index){
+                String lastMessage;
                   String friendName= snapshot.data.documents[index].data["name"];
-                  String lastMessage = snapshot.data.documents[index].data["message"]["body"];
+                  if(snapshot.data.documents[index].data["message"]["body"] == null){
+                    lastMessage = snapshot.data.documents[index].data["message"]["imageURL"];
+                  }else{
+                    lastMessage = snapshot.data.documents[index].data["message"]["body"];
+                  }
                   Timestamp timeStamp = snapshot.data.documents[index].data["message"]["timeStamp"];
                   print("friendName: $friendName");
 

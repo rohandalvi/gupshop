@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/service/pictureUploader.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
@@ -188,8 +189,15 @@ class _IndividualChatState extends State<IndividualChat> {
                       reverse: true,
                       itemCount: documentList.length,
                       itemBuilder: (context, index) {
+                        var messageBody;
+                        var imageURL;
 
-                        var messageBody = documentList[index].data["body"];
+                        if(documentList[index].data["imageURL"] == null){
+                          messageBody = documentList[index].data["body"];
+                        }else{
+                          imageURL = documentList[index].data["imageURL"];
+                        }
+                        //var messageBody = documentList[index].data["body"];
                         var fromName = documentList[index].data["fromName"];
                         Timestamp timeStamp = documentList[index].data["timeStamp"];
                         bool isMe = false;
@@ -201,7 +209,10 @@ class _IndividualChatState extends State<IndividualChat> {
                             margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),
                             padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0), //for the box covering the text
                             color: isMe ? Color(0xFFF9FBE7) : Color(0xFFFFEFEE),
-                            child: Text(messageBody,),//message
+                            child: imageURL == null?
+                            Text(messageBody,):
+                            Image(image: NetworkImage(imageURL),)
+                            //message
                           ),
                           subtitle: Container(
                             margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),//if not this then the timeStamp gets locked to the left side of the screen. So same logic as the messages above
@@ -253,9 +264,17 @@ class _IndividualChatState extends State<IndividualChat> {
           height: 70,
           color: Colors.white,
           child: ListTile(
-            leading: IconButton(
-              icon: Icon(Icons.photo),
-            ),
+            leading:
+                IconButton(
+                  icon: Icon(Icons.camera_alt),
+                  onPressed: () async{
+                    var data = await sendImage();
+                    pushMessageDataToFirebase(true, data);
+                    setState(() {
+                      documentList = null;
+                    });
+                  },
+                ),
             title: TextField(
               //textCapitalization: TextCapitalization.sentences,
               maxLines: null,
@@ -285,6 +304,7 @@ class _IndividualChatState extends State<IndividualChat> {
                   });
 
 
+                  //Navigating to RecentChats page with pushes the data to firebase
                   RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
 
                   _controller.clear();//used to clear text when user hits send button
@@ -302,6 +322,35 @@ class _IndividualChatState extends State<IndividualChat> {
 
     );
   }
+
+
+
+  sendImage() async{
+    print("in sendImage");
+    File image = await PictureUploaderState().pickImageFromGallery();
+    String imageURL = await PictureUploaderState().getImageURL(image, userPhoneNo);
+    return createDataToPushToFirebase(true, imageURL, userName, userPhoneNo, conversationId);
+
+  }
+
+  createDataToPushToFirebase(bool isImage, String value, String userName, String fromPhoneNumber, String conversationId){
+    if(isImage == true){
+      return {"imageURL":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+    } return {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+  }
+
+  pushMessageDataToFirebase(bool isImage, var data){
+      Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+      //Navigating to RecentChats page with pushes the data to firebase
+
+      if(isImage == true){
+        var data = createDataToPushToFirebase(true, "📸", userName, userPhoneNo, conversationId);
+        RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+      }
+
+  }
+
+
 
 
   _scrollToBottomButton(){//the button with down arrow that should appear only when the user scrolls

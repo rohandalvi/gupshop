@@ -22,11 +22,15 @@ class _ContactSearchState extends State<ContactSearch> {
   final String userPhoneNo;
   final String userName;
 
+  List<DocumentSnapshot> list;
+
   _ContactSearchState({@required this.userPhoneNo, @required this.userName});
 
   void initState() {
+    print("in initsate");
     super.initState();
     CreateFriendsCollection(userName: userName, userPhoneNo: userPhoneNo,).getUnionContacts();
+    createSearchSuggestions();//to get the list of contacts as suggestion
   }
 
   getFriendNo(String conversationId) async{
@@ -35,10 +39,13 @@ class _ContactSearchState extends State<ContactSearch> {
 
   @override
   Widget build(BuildContext context) {
+    print("in build");
     return Scaffold(
       body: SafeArea(
         child: SearchBar<DocumentSnapshot>(
           minimumChars: 1,//minimum characters to enter to start the search
+          suggestions: list,
+          hintText: 'Search contacts',
           onSearch: searchList,
           onItemFound: (DocumentSnapshot doc, int index){
             String conversationId = doc.data["conversationId"];
@@ -89,9 +96,26 @@ class _ContactSearchState extends State<ContactSearch> {
   }
 
    Future<List<DocumentSnapshot>> searchList(String text) async {
+     var list = await Firestore.instance.collection("friends_${widget.userPhoneNo}").getDocuments();
     //String userPhoneNo ="+19194134191";
-    var list = await Firestore.instance.collection("friends_${widget.userPhoneNo}").getDocuments();
+
     return list.documents.where((l) => l.data["name"].toLowerCase().contains(text.toLowerCase()) ||  l.documentID.contains(text)).toList();
+  }
+
+
+  /*
+  we are displaying the friends collection as the suggestion.
+  But since, suggestion in SearchBar requires a List and not
+   */
+  createSearchSuggestions() async{
+    print("in getContactsList");
+    var temp= await Firestore.instance.collection("friends_${widget.userPhoneNo}").getDocuments();
+    var tempList = temp.documents;
+    setState(() {
+      list = tempList;
+      print("in setState");
+    });
+
   }
 }
 

@@ -43,6 +43,9 @@ class _IndividualChatState extends State<IndividualChat> {
   final String friendName;
   final String friendNumber;
 
+  static int numberOfImageInConversation = 0;//for giving number to the images sent in conversation for
+  //storing in firebase
+
   _IndividualChatState(
       {@required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, @required this.friendNumber,});
 
@@ -60,6 +63,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   void initState() {
+    print("numberOfImage: $numberOfImageInConversation");
 
     /*
     adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
@@ -192,10 +196,15 @@ class _IndividualChatState extends State<IndividualChat> {
                         var messageBody;
                         var imageURL;
 
+                        bool isLoading  = true;
+
                         if(documentList[index].data["imageURL"] == null){
+                          print("text message");
                           messageBody = documentList[index].data["body"];
                         }else{
+                          print("image");
                           imageURL = documentList[index].data["imageURL"];
+
                         }
                         //var messageBody = documentList[index].data["body"];
                         var fromName = documentList[index].data["fromName"];
@@ -211,7 +220,7 @@ class _IndividualChatState extends State<IndividualChat> {
                             color: isMe ? Color(0xFFF9FBE7) : Color(0xFFFFEFEE),
                             child: imageURL == null?
                             Text(messageBody,):
-                            Image(image: NetworkImage(imageURL),)
+                            showImage(imageURL),
                             //message
                           ),
                           subtitle: Container(
@@ -254,6 +263,15 @@ class _IndividualChatState extends State<IndividualChat> {
         ],
       ),
     );
+  }
+
+  showImage(String imageURL){
+    try{
+      print("in try");
+      return Image(image: NetworkImage(imageURL),);}
+    catch (e){
+      print("in catch");
+      return Icon(Icons.image);}
   }
 
   _buildMessageComposer() {//the type and send message box
@@ -326,9 +344,11 @@ class _IndividualChatState extends State<IndividualChat> {
 
 
   sendImage() async{
+    numberOfImageInConversation++;
+    print("numberOfImageInConversation++ : $numberOfImageInConversation");
     print("in sendImage");
     File image = await PictureUploaderState().pickImageFromGallery();
-    String imageURL = await PictureUploaderState().getImageURL(image, userPhoneNo);
+    String imageURL = await PictureUploaderState().getImageURL(image, userPhoneNo, numberOfImageInConversation);
     return createDataToPushToFirebase(true, imageURL, userName, userPhoneNo, conversationId);
 
   }

@@ -80,8 +80,8 @@ class PictureUploaderState extends State<PictureUploader> {
   }
 
 
-  getImageURL(File galleryImage, String userPhoneNo) async{
-    String fileName = basename(userPhoneNo+'chatImage');
+  getImageURL(File galleryImage, String userPhoneNo, int number) async{
+    String fileName = basename(galleryImage.path);
     //String fileName = basename(_galleryImage.path);
     StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);
     StorageUploadTask uploadTask = firebaseStorageReference.putFile(galleryImage);

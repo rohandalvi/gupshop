@@ -79,9 +79,6 @@ flutter:
     - images/crying.png
     - images/ok-hand.png
     - images/so-so.png
-    - images/computing.png
-    - images/history.png
-    - images/math.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

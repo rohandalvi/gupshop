@@ -115,19 +115,28 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
 
   displayPicture(String imageUrl){
       if(imageUrl!=null && _galleryImage == null && _cameraImage == null)
-        return VerticalPadding(
-          verticleHeight: 100,
-          child: CreateContainer(child: Image(image: NetworkImage(imageUrl),)),
+        return Padding(
+          padding: const EdgeInsets.only(right: 10, left: 10),
+          child: VerticalPadding(
+            verticleHeight: 100,
+            child: CreateContainer(child: Image(image: NetworkImage(imageUrl),)),
+          ),
         );
       if(_galleryImage != null)
-        return VerticalPadding(
-          verticleHeight: 100,
-          child: CreateContainer(child: Image.file(_galleryImage,),),
+        return Padding(
+          padding: const EdgeInsets.only(right: 10, left: 10),
+          child: VerticalPadding(
+            verticleHeight: 100,
+            child: CreateContainer(child: Image.file(_galleryImage,),),
+          ),
         );
     else if(_cameraImage != null)
-        return VerticalPadding(
-          verticleHeight: 100,
-          child: CreateContainer(child: Image.file(_cameraImage,),),
+        return Padding(
+          padding: const EdgeInsets.only(right: 10, left: 10),
+          child: VerticalPadding(
+            verticleHeight: 100,
+            child: CreateContainer(child: Image.file(_cameraImage,),),
+          ),
         );
   }
 

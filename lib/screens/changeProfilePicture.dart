@@ -57,13 +57,13 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         appBar: Display().appBar(context),
         backgroundColor: Colors.white,
         body: Container(
-          //padding: EdgeInsets.fromLTRB(15,15,15,15),
           /*
-          But this context cannot be used directly, as the context there is no context given to the scaffold
+          For snackbar: This context cannot be used directly, as the context there is no context given to the scaffold
           The context in the Widget build(Buildcontext context) is the context of that build widget, but not
           of the Scaffold, we get error :
           - Scaffold.of() called with a context that does not contain a Scaffold.
           To avoid, this we wrap the widget Center with Builder, which takes context as its parameter
+          Update: As we no longer user the snackbar we dont need the  Builder
           */
           child: Builder(
             builder:(context)=> Center(
@@ -78,32 +78,6 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                     children: <Widget>[
                       displayPicture(imageUrl),
                       galleryApplyCameraButtons(context),
-//                    Row(
-//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                      children: <Widget>[
-//                        IconButton(
-//                          //padding: EdgeInsets.fromLTRB(15,200,15,15),
-//                          icon: Icon(Icons.photo_library),
-//                          onPressed: (){
-//                            _pickImageFromGallery();
-//                          },
-//                        ),
-//                        if(!(_galleryImage == null && _cameraImage == null))//show the apply button only when a new image is selected, else no need
-//                          CreateRaisedButton(
-//                            onPressed: (){
-//                              uploadImageToFirestore(context);
-//                            }
-//                          ),
-//                        IconButton(
-//                          //padding: EdgeInsets.fromLTRB(15,200,15,15),
-//                          icon: Icon(Icons.camera_alt),
-//                          onPressed: (){
-//                            _pickImageFromCamer();
-//                          },
-//                        ),
-//                      ],
-//                    ),
-
                     ],
                   );
                 }
@@ -113,6 +87,9 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         ),
       );
   }
+
+
+
 
   displayPicture(String imageUrl){
       if(imageUrl!=null && _galleryImage == null && _cameraImage == null)
@@ -141,6 +118,8 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         );
   }
 
+
+
   Widget galleryApplyCameraButtons(BuildContext context){
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -154,24 +133,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         if(!(_galleryImage == null && _cameraImage == null))//show the apply button only when a new image is selected, else no need
           CreateRaisedButton(
               onPressed: (){
-                /*
-                 ToDo:
-                PictureUploaderState().uploadImageToFirestore(context, userPhoneNo);
-                This method cannot be used right now, because it is throwing some error:
-                [ERROR:flutter/lib/ui/ui_dart_state.cc(157)] Unhandled Exception: NoSuchMethodError: The method 'existsSync' was called on null.
-                E/flutter (15490): Receiver: null
-                E/flutter (15490): Tried calling: existsSync()
-                E/flutter (15490): #0      Object.noSuchMethod (dart:core-patch/object_patch.dart:53:5)
-                E/flutter (15490): #1      StorageReference.putFile (package:firebase_storage/src/storage_reference.dart:62:17)
-
-                bla  bla
-
-                So for now, we are using the method defined in this class. Both the methods are
-                actually same in body, but there is some error using it from some other class
-                yes. because of the Future!!
-                 */
-                //PictureUploaderState().uploadImageToFirestore(context, userPhoneNo);
-                uploadImageToFirestore(context);
+                PictureUploaderState().uploadImageToFirestore(context, userPhoneNo, _galleryImage);
                 Navigator.pop(context);
               }
           ),
@@ -217,22 +179,22 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
       print("prefs: $prefs");
     }
 
-  Future uploadImageToFirestore(BuildContext context) async{//functionality for cameraImage is not added, thats a to do
-    String fileName = basename(userPhoneNo+'ProfilePicture');
-    //String fileName = basename(_galleryImage.path);
-    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);
-    StorageUploadTask uploadTask = firebaseStorageReference.putFile(_galleryImage);
-    StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
-    imageURL = await imageURLFuture.ref.getDownloadURL();
-    print("imageurl: $imageURL");
-    Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url':imageURL});
-
-    //update: now that we are popping the user out od this page when the user presses apply button
-    //we no longer need to show the below snackbar
-//    setState(() {
-//      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture uploaded'),));
-//    });
-    }
+//  Future uploadImageToFirestore(BuildContext context) async{//functionality for cameraImage is not added, thats a to do
+//    String fileName = basename(userPhoneNo+'ProfilePicture');
+//    //String fileName = basename(_galleryImage.path);
+//    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);
+//    StorageUploadTask uploadTask = firebaseStorageReference.putFile(_galleryImage);
+//    StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
+//    imageURL = await imageURLFuture.ref.getDownloadURL();
+//    print("imageurl: $imageURL");
+//    Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url':imageURL});
+//
+//    //update: now that we are popping the user out od this page when the user presses apply button
+//    //we no longer need to show the below snackbar
+////    setState(() {
+////      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture uploaded'),));
+////    });
+//    }
 
 
 }

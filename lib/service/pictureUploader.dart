@@ -91,7 +91,7 @@ class PictureUploaderState extends State<PictureUploader> {
   }
 
 
-  Future uploadImageToFirestore(BuildContext context, String userPhoneNo) async{//functionality for cameraImage is not added, thats a to do
+  Future uploadImageToFirestore(BuildContext context, String userPhoneNo, File _galleryImage) async{//functionality for cameraImage is not added, thats a to do
     String fileName = basename(userPhoneNo+'ProfilePicture');
     //String fileName = basename(_galleryImage.path);
     StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);

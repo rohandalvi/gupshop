@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gupshop/screens/login_screen.dart';
+import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/screens/welcomeScreen.dart';
 import 'package:gupshop/widgets/bazaarHomeGridView.dart';
 
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
 //        home: BazaarHomeScreen(),
 //      home: BazaarIndividualCategoryList(),
 //        home: FilterBazaarWalas(),
-////        home: NameScreen(),
+//        home: NameScreen(),
 //      home: IndividualChat(),
 //      routes: <String, WidgetBuilder>{
 //        "loggedIn": (BuildContext context) => new Home(),

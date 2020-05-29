@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/widgets/buttons.dart';
+import 'package:gupshop/widgets/createContainer.dart';
 import 'package:gupshop/widgets/display.dart';
+import 'package:gupshop/widgets/verticalPadding.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -54,7 +56,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         appBar: Display().appBar(context),
         backgroundColor: Colors.white,
         body: Container(
-          padding: EdgeInsets.fromLTRB(15, 150, 0, 0),
+          //padding: EdgeInsets.fromLTRB(15,15,15,15),
           /*
           But this context cannot be used directly, as the context there is no context given to the scaffold
           The context in the Widget build(Buildcontext context) is the context of that build widget, but not
@@ -70,43 +72,15 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
 
                   if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
                   String imageUrl = snapshot.data['url'];
-                  print("imageUrl in changeProfilePage: $imageUrl");
-                  return ListView(
+
+                  return ListView(// listview substituted for Column as Column was giving renderflex overflow error
                     children: <Widget>[
-                      if(imageUrl!=null && _galleryImage == null && _cameraImage == null)
-                        Container(
-                          padding: EdgeInsets.only(right: 12),
-                          height: 400,
-                          width: 400,
-                          child: Image(image: NetworkImage(imageUrl),
-                          //fit: BoxFit.fill,
-                      ),
-                        ),
-                      if(_galleryImage != null)
-                        Container(
-                            padding: EdgeInsets.only(right: 12),
-                            height: 400,
-                            width: 400,
-                            child: Image.file(_galleryImage,
-                              //fit:BoxFit.fill,
-                            )
-                        )
-                      else if(_cameraImage != null) Container(
-                          padding: EdgeInsets.only(right: 12),
-                          height: 400,
-                          width: 400,
-                          child: Image.file(_cameraImage,
-                            //fit: BoxFit.fill,
-                          )
-                      ),
-//                      if(imageUrl!=null && _galleryImage == null && _cameraImage == null) Image(image: NetworkImage(imageUrl),),
-//                      if(_galleryImage != null)
-//                        Image.file(_galleryImage)
-//                      else if(_cameraImage != null) Image.file(_cameraImage),
+                      displayPicture(imageUrl),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         IconButton(
+                          //padding: EdgeInsets.fromLTRB(15,200,15,15),
                           icon: Icon(Icons.photo_library),
                           onPressed: (){
                             _pickImageFromGallery();
@@ -115,6 +89,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                         if(!(_galleryImage == null && _cameraImage == null))//show the apply button only when a new image is selected, else no need
                           //Buttons().raisedButtonMaker(context, uploadImageToFirestore(context)),
                         RaisedButton(
+                          //padding: EdgeInsets.fromLTRB(15,200,15,15),
                           onPressed: (){
 //                            if(_galleryImage != null) image = basename(_galleryImage.path);
 //                            if(_cameraImage != null) image = basename(_cameraImage.path);
@@ -132,6 +107,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                           )),
                         ),
                         IconButton(
+                          //padding: EdgeInsets.fromLTRB(15,200,15,15),
                           icon: Icon(Icons.camera_alt),
                           onPressed: (){
                             _pickImageFromCamer();
@@ -148,6 +124,24 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
           ),
         ),
       );
+  }
+
+  Widget displayPicture(String imageUrl){
+      if(imageUrl!=null && _galleryImage == null && _cameraImage == null)
+        return VerticalPadding(
+          verticleHeight: 100,
+          child: CreateContainer(child: Image(image: NetworkImage(imageUrl),)),
+        );
+      if(_galleryImage != null)
+        return VerticalPadding(
+          verticleHeight: 100,
+          child: CreateContainer(child: Image.file(_galleryImage,),),
+        );
+    else if(_cameraImage != null)
+        return VerticalPadding(
+          verticleHeight: 100,
+          child: CreateContainer(child: Image.file(_cameraImage,),),
+        );
   }
 
   /*

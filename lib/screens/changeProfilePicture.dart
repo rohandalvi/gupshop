@@ -3,6 +3,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/widgets/buttons.dart';
+import 'package:gupshop/widgets/display.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -49,6 +51,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     @override
     Widget build(BuildContext context) {
       return Scaffold(
+        appBar: Display().appBar(context),
         backgroundColor: Colors.white,
         body: Container(
           padding: EdgeInsets.fromLTRB(15, 150, 0, 0),
@@ -64,32 +67,33 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
               child: StreamBuilder(
                 stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
                 builder: (context, snapshot) {
-                  print("in changeProfile Pic: $userPhoneNo");
-                  if(snapshot==null) print("snapshot null");
+
                   if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
                   String imageUrl = snapshot.data['url'];
                   print("imageUrl in changeProfilePage: $imageUrl");
-                  return Column(
+                  return ListView(
                     children: <Widget>[
                       if(imageUrl!=null && _galleryImage == null && _cameraImage == null)
                         Container(
-                          height: 500,
+                          padding: EdgeInsets.only(right: 12),
+                          height: 400,
                           width: 400,
-                          child: Image(
-                          image: NetworkImage(imageUrl),
+                          child: Image(image: NetworkImage(imageUrl),
                           //fit: BoxFit.fill,
                       ),
                         ),
                       if(_galleryImage != null)
                         Container(
-                            height: 500,
+                            padding: EdgeInsets.only(right: 12),
+                            height: 400,
                             width: 400,
                             child: Image.file(_galleryImage,
                               //fit:BoxFit.fill,
                             )
                         )
                       else if(_cameraImage != null) Container(
-                          height: 500,
+                          padding: EdgeInsets.only(right: 12),
+                          height: 400,
                           width: 400,
                           child: Image.file(_cameraImage,
                             //fit: BoxFit.fill,
@@ -109,6 +113,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                           },
                         ),
                         if(!(_galleryImage == null && _cameraImage == null))//show the apply button only when a new image is selected, else no need
+                          //Buttons().raisedButtonMaker(context, uploadImageToFirestore(context)),
                         RaisedButton(
                           onPressed: (){
 //                            if(_galleryImage != null) image = basename(_galleryImage.path);

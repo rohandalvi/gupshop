@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gupshop/widgets/buttons.dart';
+import 'package:gupshop/widgets/raisedButton.dart';
 import 'package:gupshop/widgets/createContainer.dart';
 import 'package:gupshop/widgets/display.dart';
 import 'package:gupshop/widgets/verticalPadding.dart';
@@ -76,45 +76,32 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                   return ListView(// listview substituted for Column as Column was giving renderflex overflow error
                     children: <Widget>[
                       displayPicture(imageUrl),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        IconButton(
-                          //padding: EdgeInsets.fromLTRB(15,200,15,15),
-                          icon: Icon(Icons.photo_library),
-                          onPressed: (){
-                            _pickImageFromGallery();
-                          },
-                        ),
-                        if(!(_galleryImage == null && _cameraImage == null))//show the apply button only when a new image is selected, else no need
-                          //Buttons().raisedButtonMaker(context, uploadImageToFirestore(context)),
-                        RaisedButton(
-                          //padding: EdgeInsets.fromLTRB(15,200,15,15),
-                          onPressed: (){
-//                            if(_galleryImage != null) image = basename(_galleryImage.path);
-//                            if(_cameraImage != null) image = basename(_cameraImage.path);
-                              uploadImageToFirestore(context);
-                          },
-                          color: Colors.transparent,
-                          splashColor: Colors.transparent,
-                          //highlightColor: Colors.blueGrey,
-                          elevation: 0,
-                          hoverColor: Colors.blueGrey,
-                          child: Text('Apply',style: GoogleFonts.openSans(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          )),
-                        ),
-                        IconButton(
-                          //padding: EdgeInsets.fromLTRB(15,200,15,15),
-                          icon: Icon(Icons.camera_alt),
-                          onPressed: (){
-                            _pickImageFromCamer();
-                          },
-                        ),
-                      ],
-                    ),
+                      galleryApplyCameraButtons(context),
+//                    Row(
+//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                      children: <Widget>[
+//                        IconButton(
+//                          //padding: EdgeInsets.fromLTRB(15,200,15,15),
+//                          icon: Icon(Icons.photo_library),
+//                          onPressed: (){
+//                            _pickImageFromGallery();
+//                          },
+//                        ),
+//                        if(!(_galleryImage == null && _cameraImage == null))//show the apply button only when a new image is selected, else no need
+//                          CreateRaisedButton(
+//                            onPressed: (){
+//                              uploadImageToFirestore(context);
+//                            }
+//                          ),
+//                        IconButton(
+//                          //padding: EdgeInsets.fromLTRB(15,200,15,15),
+//                          icon: Icon(Icons.camera_alt),
+//                          onPressed: (){
+//                            _pickImageFromCamer();
+//                          },
+//                        ),
+//                      ],
+//                    ),
 
                     ],
                   );
@@ -126,7 +113,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
       );
   }
 
-  Widget displayPicture(String imageUrl){
+  displayPicture(String imageUrl){
       if(imageUrl!=null && _galleryImage == null && _cameraImage == null)
         return VerticalPadding(
           verticleHeight: 100,
@@ -143,6 +130,37 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
           child: CreateContainer(child: Image.file(_cameraImage,),),
         );
   }
+
+  Widget galleryApplyCameraButtons(BuildContext context){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        IconButton(
+          //padding: EdgeInsets.fromLTRB(15,200,15,15),
+          icon: Icon(Icons.photo_library),
+          onPressed: (){
+            _pickImageFromGallery();
+          },
+        ),
+        if(!(_galleryImage == null && _cameraImage == null))//show the apply button only when a new image is selected, else no need
+          CreateRaisedButton(
+              onPressed: (){
+                uploadImageToFirestore(context);
+              }
+          ),
+        IconButton(
+          //padding: EdgeInsets.fromLTRB(15,200,15,15),
+          icon: Icon(Icons.camera_alt),
+          onPressed: (){
+            _pickImageFromCamer();
+          },
+        ),
+      ],
+    );
+  }
+
+
+
 
   /*
   When apply button is pressed on change profile page then the image gets stored in firestore storage

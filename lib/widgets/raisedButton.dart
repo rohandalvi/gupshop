@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Buttons{
-  raisedButtonMaker(BuildContext context, dynamic action){
+
+class CreateRaisedButton extends StatelessWidget {
+  VoidCallback onPressed;
+  CreateRaisedButton({this.onPressed});
+
+  //VerticalPadding({this.child, @required this.verticleHeight});
+
+  @override
+  Widget build(BuildContext context) {
     return RaisedButton(
-      onPressed: (){
-//                            if(_galleryImage != null) image = basename(_galleryImage.path);
-//                            if(_cameraImage != null) image = basename(_cameraImage.path);
-       action;
-      },
+      onPressed: onPressed,
       color: Colors.transparent,
       splashColor: Colors.transparent,
       //highlightColor: Colors.blueGrey,

@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/service/pictureUploader.dart';
 import 'package:gupshop/widgets/raisedButton.dart';
 import 'package:gupshop/widgets/createContainer.dart';
 import 'package:gupshop/widgets/display.dart';
@@ -115,9 +116,9 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
 
   displayPicture(String imageUrl){
       if(imageUrl!=null && _galleryImage == null && _cameraImage == null)
-        return Padding(
+        return Padding(//this is required for side padding
           padding: const EdgeInsets.only(right: 10, left: 10),
-          child: VerticalPadding(
+          child: VerticalPadding(//this is required for top padding, this uses symmetric property
             verticleHeight: 100,
             child: CreateContainer(child: Image(image: NetworkImage(imageUrl),)),
           ),
@@ -145,7 +146,6 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         IconButton(
-          //padding: EdgeInsets.fromLTRB(15,200,15,15),
           icon: Icon(Icons.photo_library),
           onPressed: (){
             _pickImageFromGallery();
@@ -154,7 +154,25 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         if(!(_galleryImage == null && _cameraImage == null))//show the apply button only when a new image is selected, else no need
           CreateRaisedButton(
               onPressed: (){
+                /*
+                 ToDo:
+                PictureUploaderState().uploadImageToFirestore(context, userPhoneNo);
+                This method cannot be used right now, because it is throwing some error:
+                [ERROR:flutter/lib/ui/ui_dart_state.cc(157)] Unhandled Exception: NoSuchMethodError: The method 'existsSync' was called on null.
+                E/flutter (15490): Receiver: null
+                E/flutter (15490): Tried calling: existsSync()
+                E/flutter (15490): #0      Object.noSuchMethod (dart:core-patch/object_patch.dart:53:5)
+                E/flutter (15490): #1      StorageReference.putFile (package:firebase_storage/src/storage_reference.dart:62:17)
+
+                bla  bla
+
+                So for now, we are using the method defined in this class. Both the methods are
+                actually same in body, but there is some error using it from some other class
+                yes. because of the Future!!
+                 */
+                //PictureUploaderState().uploadImageToFirestore(context, userPhoneNo);
                 uploadImageToFirestore(context);
+                Navigator.pop(context);
               }
           ),
         IconButton(
@@ -209,9 +227,11 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     print("imageurl: $imageURL");
     Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url':imageURL});
 
-    setState(() {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture uploaded'),));
-    });
+    //update: now that we are popping the user out od this page when the user presses apply button
+    //we no longer need to show the below snackbar
+//    setState(() {
+//      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture uploaded'),));
+//    });
     }
 
 

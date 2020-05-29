@@ -91,7 +91,7 @@ class PictureUploaderState extends State<PictureUploader> {
   }
 
 
-  Future uploadImageToFirestore(BuildContext context) async{//functionality for cameraImage is not added, thats a to do
+  Future uploadImageToFirestore(BuildContext context, String userPhoneNo) async{//functionality for cameraImage is not added, thats a to do
     String fileName = basename(userPhoneNo+'ProfilePicture');
     //String fileName = basename(_galleryImage.path);
     StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);
@@ -101,9 +101,9 @@ class PictureUploaderState extends State<PictureUploader> {
     print("imageurl: $imageURL");
     Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url':imageURL});
 
-    setState(() {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture uploaded'),));
-    });
+//    setState(() {
+//      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture uploaded'),));
+//    });
   }
 
 

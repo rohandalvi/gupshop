@@ -3,6 +3,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/widgets/createContainer.dart';
+import 'package:gupshop/widgets/verticalPadding.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -29,21 +31,17 @@ class PictureUploaderState extends State<PictureUploader> {
   // This funcion will helps you to pick and Image from Gallery
   pickImageFromGallery() async{
     return await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 50);
-
-//    setState((){
-//      _galleryImage= image;
-//    });
   }
 
 
   File _cameraImage;
   // This funcion will helps you to pick and Image from Camera
   pickImageFromCamer() async{
-    File image = await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 50);
+    return await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 50);
 
-    setState(() {
-      _cameraImage= image;
-    });
+//    setState(() {
+//      _cameraImage= image;
+//    });
   }
 
   @override
@@ -68,7 +66,7 @@ class PictureUploaderState extends State<PictureUploader> {
     To avoid, this we wrap the widget Center with Builder, which takes context as its parameter
    */
 
-
+//To do - remove this, take userphone number from class before this
   Future<void> getUserPhone() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userPhoneNo = prefs.getString('userPhoneNo');
@@ -78,6 +76,27 @@ class PictureUploaderState extends State<PictureUploader> {
     print("userPhoneNo: $userPhoneNo");
     print("prefs: $prefs");
   }
+
+  displayPictureFromFile(File image){
+      return Padding(
+        padding: const EdgeInsets.only(right: 10, left: 10),
+        child: VerticalPadding(
+          verticleHeight: 100,
+          child: CreateContainer(child: Image.file(image,),),
+        ),
+      );
+  }
+
+  displayPictureFromURL(String image){
+      return Padding(
+        padding: const EdgeInsets.only(right: 10, left: 10),
+        child: VerticalPadding(
+          verticleHeight: 100,
+          child: CreateContainer(child: Image(image: NetworkImage(image),)),
+        ),
+      );
+  }
+
 
 
   getImageURL(File galleryImage, String userPhoneNo, int number) async{

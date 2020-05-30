@@ -33,7 +33,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     File _galleryImage ;
     // This funcion will helps you to pick and Image from Gallery
     _pickImageFromGallery() async{
-      File image = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+      File image = await PictureUploaderState().pickImageFromGallery();
 
         setState((){
         _galleryImage= image;
@@ -44,7 +44,8 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     File _cameraImage;
     // This funcion will helps you to pick and Image from Camera
     _pickImageFromCamer() async{
-      File image = await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 50);
+//      return await PictureUploaderState().pickImageFromCamer();
+      File image = await PictureUploaderState().pickImageFromCamer();
 
         setState(() {
           _cameraImage= image;
@@ -93,29 +94,11 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
 
   displayPicture(String imageUrl){
       if(imageUrl!=null && _galleryImage == null && _cameraImage == null)
-        return Padding(//this is required for side padding
-          padding: const EdgeInsets.only(right: 10, left: 10),
-          child: VerticalPadding(//this is required for top padding, this uses symmetric property
-            verticleHeight: 100,
-            child: CreateContainer(child: Image(image: NetworkImage(imageUrl),)),
-          ),
-        );
+        return PictureUploaderState().displayPictureFromURL(imageUrl);
       if(_galleryImage != null)
-        return Padding(
-          padding: const EdgeInsets.only(right: 10, left: 10),
-          child: VerticalPadding(
-            verticleHeight: 100,
-            child: CreateContainer(child: Image.file(_galleryImage,),),
-          ),
-        );
+        return PictureUploaderState().displayPictureFromFile(_galleryImage);
     else if(_cameraImage != null)
-        return Padding(
-          padding: const EdgeInsets.only(right: 10, left: 10),
-          child: VerticalPadding(
-            verticleHeight: 100,
-            child: CreateContainer(child: Image.file(_cameraImage,),),
-          ),
-        );
+      return PictureUploaderState().displayPictureFromFile(_cameraImage);
   }
 
 
@@ -126,22 +109,37 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
       children: <Widget>[
         IconButton(
           icon: Icon(Icons.photo_library),
-          onPressed: (){
-            _pickImageFromGallery();
+          onPressed: () async{
+            await _pickImageFromGallery();
+            setState(() {
+              _cameraImage =  null;
+            });
           },
         ),
         if(!(_galleryImage == null && _cameraImage == null))//show the apply button only when a new image is selected, else no need
           CreateRaisedButton(
               onPressed: (){
-                PictureUploaderState().uploadImageToFirestore(context, userPhoneNo, _galleryImage);
-                Navigator.pop(context);
+                File image;
+                if(_galleryImage == null) {
+                  image = _cameraImage;
+                  print("cameraimage: $image");
+                }
+                else{
+                  image = _galleryImage;
+                  print("galleryimage: $image");
+                }
+                PictureUploaderState().uploadImageToFirestore(context, userPhoneNo, image);
+                Navigator.pop(context);//go back to sidemenu button on pressing apply button
               }
           ),
         IconButton(
           //padding: EdgeInsets.fromLTRB(15,200,15,15),
           icon: Icon(Icons.camera_alt),
-          onPressed: (){
-            _pickImageFromCamer();
+          onPressed: ()async{
+            await _pickImageFromCamer();
+            setState(() {
+              _galleryImage = null;
+            });
           },
         ),
       ],

@@ -27,21 +27,15 @@ class PictureUploaderState extends State<PictureUploader> {
   }
 
 
-  File _galleryImage ;
-  // This funcion will helps you to pick and Image from Gallery
+  /// This funcion will helps you to pick and Image from Gallery
   pickImageFromGallery() async{
     return await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 50);
   }
 
 
-  File _cameraImage;
-  // This funcion will helps you to pick and Image from Camera
+  /// This funcion will helps you to pick and Image from Camera
   pickImageFromCamer() async{
     return await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 50);
-
-//    setState(() {
-//      _cameraImage= image;
-//    });
   }
 
   @override

@@ -1,16 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/service/pictureUploader.dart';
 import 'package:gupshop/widgets/raisedButton.dart';
-import 'package:gupshop/widgets/createContainer.dart';
 import 'package:gupshop/widgets/display.dart';
-import 'package:gupshop/widgets/verticalPadding.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangeProfilePicture extends StatefulWidget {
@@ -88,6 +83,11 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
           ),
           if(!(_galleryImage == null && _cameraImage == null))///show the apply button only when a new image is selected, else no need
             CreateRaisedButton(
+              child: Text('Apply',style: GoogleFonts.openSans(
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  )),
                 onPressed: (){
                   File image;
                   if(_galleryImage == null) {

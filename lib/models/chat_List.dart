@@ -3,7 +3,6 @@ import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/screens/individual_chat.dart';
-import 'package:gupshop/widgets/profilePicture.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 

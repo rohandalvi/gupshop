@@ -10,7 +10,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class PictureUploader extends StatefulWidget {
+  final double size = 150;
+
   @override
   PictureUploaderState createState() => PictureUploaderState();
 }
@@ -71,25 +74,117 @@ class PictureUploaderState extends State<PictureUploader> {
     print("prefs: $prefs");
   }
 
-  displayPictureFromFile(File image){
-      return Padding(
-        padding: const EdgeInsets.only(right: 10, left: 10),
-        child: VerticalPadding(
-          verticleHeight: 100,
-          child: CreateContainer(child: Image.file(image,),),
+    displayPictureFromFile(File image){
+      return Container(
+        height: 300,
+        width: 300,
+        decoration: new BoxDecoration(
+          shape: BoxShape.circle,
         ),
+        child:Image.file(image),
       );
   }
 
+//Image.file(image),
   displayPictureFromURL(String image){
-      return Padding(
-        padding: const EdgeInsets.only(right: 10, left: 10),
-        child: VerticalPadding(
-          verticleHeight: 100,
-          child: CreateContainer(child: Image(image: NetworkImage(image),)),
-        ),
-      );
+    return Container(
+      height: 300,
+      width: 300,
+      decoration: new BoxDecoration(
+        shape: BoxShape.circle,
+      ),
+      child:Image(image: NetworkImage(image)),
+    );
   }
+
+
+
+//  displayPictureFromFile(File image){
+//    return Container(
+//      width: 400,
+//      height: 400,
+//      decoration: new BoxDecoration(
+//        shape: BoxShape.circle,
+//        border: new Border.all(
+//          color: Colors.blue,
+//          width: 3.0,
+//        ),
+//        gradient: LinearGradient(
+//          begin: Alignment.topCenter,
+//          end: Alignment.bottomCenter,
+//          colors: [
+//            Colors.transparent,
+//            Colors.black12,
+//          ],
+//        ),
+//      ),
+//      child:
+//      CircleAvatar(
+//        child: new ClipOval(
+//          child: Image.file(
+//          image,
+//          width: 400,
+//          height: 400,
+//          fit: BoxFit.cover,
+//          ),
+////          borderRadius: BorderRadius.circular(100),
+//        ),
+//      ),
+//      //,fit: BoxFit.scaleDown,
+//    );
+//  }
+//
+//  displayPictureFromURL(String image){
+//    return Container(
+//      width: 400,
+//      height: 400,
+//      decoration: new BoxDecoration(
+//        shape: BoxShape.circle,
+//        border: new Border.all(
+//          color: Colors.blue,
+//          width: 3.0,
+//        ),
+//        gradient: LinearGradient(
+//          begin: Alignment.topCenter,
+//          end: Alignment.bottomCenter,
+//          colors: [
+//            Colors.transparent,
+//            Colors.black12,
+//          ],
+//        ),
+//      ),
+//      child:
+//      CircleAvatar(
+//        child: ClipOval(child: Image(
+//          image: NetworkImage(image),
+//          width: 400,
+//          height: 400,
+//          fit: BoxFit.cover,
+//        ),
+//        ),
+//      ),
+//      //,fit: BoxFit.scaleDown,
+//      //child: CreateContainer(child: Image(image: NetworkImage(image), fit: BoxFit.fitWidth,)),
+//    );
+//  }
+
+
+//  displayPictureFromFile(File image){
+//      return Padding(
+//        padding: const EdgeInsets.only(right: 10, left: 10),
+//        child: Image.file(image),
+//        //,fit: BoxFit.scaleDown,
+//      );
+//  }
+//
+//  displayPictureFromURL(String image){
+//      return Padding(
+//        padding: const EdgeInsets.only(right: 10, left: 10),
+//        child: Image(image: NetworkImage(image)),
+//        //,fit: BoxFit.scaleDown,
+//        //child: CreateContainer(child: Image(image: NetworkImage(image), fit: BoxFit.fitWidth,)),
+//      );
+//  }
 
 
 

@@ -51,6 +51,8 @@ dependencies:
 
   geoflutterfire: ^2.1.0 # for finding nearby
 
+  flutter_svg: ^0.17.4
+
   flappy_search_bar: ^1.7.2 # for searching
   rxdart: ^0.23.1 #for using BehaviorSubject in indiviudalChat . PS: rxdart: ^0.24.1 gives conflict with some other dependency so used ^0.23.1
 
@@ -79,6 +81,8 @@ flutter:
     - images/crying.png
     - images/ok-hand.png
     - images/so-so.png
+    - images/backArrow.svg
+    - images/backArrowBlackWhite.svg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

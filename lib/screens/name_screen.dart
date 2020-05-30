@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/screens/changeProfilePicture.dart';
+import 'package:gupshop/service/pictureUploader.dart';
+import 'package:gupshop/service/profilePictureScreen.dart';
+import 'package:gupshop/widgets/raisedButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
@@ -21,6 +25,8 @@ class _NameScreenState extends State<NameScreen> {
 
   final String userPhoneNo;
 
+  String imageUrl = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/%2B15857547599ProfilePicture?alt=media&token=0a4a79f5-7989-4e14-8927-7b4ca39af7d7";
+
   _NameScreenState({@required this.userPhoneNo});
 
   @override
@@ -28,7 +34,8 @@ class _NameScreenState extends State<NameScreen> {
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Column(
+          child:
+          Column(
             children: <Widget>[
               Container(
                 child: new TextField(
@@ -43,7 +50,7 @@ class _NameScreenState extends State<NameScreen> {
                 ),
                 padding: EdgeInsets.only(left: 20, top: 35, right: 20),
               ),
-              RaisedButton(
+              CreateRaisedButton(
                 onPressed: ()async{
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   String userNameForSP = prefs.getString('userName');
@@ -70,11 +77,6 @@ class _NameScreenState extends State<NameScreen> {
                   );
                 },
                 //a method is created for this variable down
-                color: Colors.transparent,
-                splashColor: Colors.transparent,
-                highlightColor: Colors.blueGrey,
-                elevation: 0,
-                hoverColor: Colors.blueGrey,
                 child: Text(
                   'Next',
                   style: TextStyle(
@@ -84,6 +86,7 @@ class _NameScreenState extends State<NameScreen> {
                   ),
                 ),
               ),
+              ProfilePictureScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, displayPicture: true,applyButtons: true,allowListView: false,)
             ],
           ),
         ),

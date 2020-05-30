@@ -30,121 +30,144 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     }
 
 
-    File _galleryImage ;
-    // This funcion will helps you to pick and Image from Gallery
-    _pickImageFromGallery() async{
-      File image = await PictureUploaderState().pickImageFromGallery();
-
-        setState((){
-        _galleryImage= image;
-      });
-    }
-
-
-    File _cameraImage;
-    // This funcion will helps you to pick and Image from Camera
-    _pickImageFromCamer() async{
-//      return await PictureUploaderState().pickImageFromCamer();
-      File image = await PictureUploaderState().pickImageFromCamer();
-
-        setState(() {
-          _cameraImage= image;
-        });
-    }
-
+    /// For snackbar: This context cannot be used directly, as the context there is no context given to the scaffold
+    /// The context in the Widget build(Buildcontext context) is the context of that build widget, but not
+    /// of the Scaffold, we get error :
+    /// - Scaffold.of() called with a context that does not contain a Scaffold.
+    /// To avoid, this we wrap the widget Center with Builder, which takes context as its parameter
+    /// Update: As we no longer user the snackbar we dont need the  Builder
     @override
     Widget build(BuildContext context) {
       return Scaffold(
         appBar: Display().appBar(context),
         backgroundColor: Colors.white,
         body: Container(
-          /*
-          For snackbar: This context cannot be used directly, as the context there is no context given to the scaffold
-          The context in the Widget build(Buildcontext context) is the context of that build widget, but not
-          of the Scaffold, we get error :
-          - Scaffold.of() called with a context that does not contain a Scaffold.
-          To avoid, this we wrap the widget Center with Builder, which takes context as its parameter
-          Update: As we no longer user the snackbar we dont need the  Builder
-          */
           child: Builder(
             builder:(context)=> Center(
               child: StreamBuilder(
-                stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
-                builder: (context, snapshot) {
+                  stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
+                  builder: (context, snapshot) {
 
-                  if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
-                  String imageUrl = snapshot.data['url'];
+                    if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
+                    String imageUrl = snapshot.data['url'];
 
-                  return ListView(// listview substituted for Column as Column was giving renderflex overflow error
-                    children: <Widget>[
-                      displayPicture(imageUrl),
-                      galleryApplyCameraButtons(context),
-                    ],
-                  );
-                }
+                    return ListView(/// listview substituted for Column as Column was giving renderflex overflow error
+                      children: <Widget>[
+                        displayPicture(imageUrl),
+                        galleryApplyCameraButtons(context),
+                      ],
+                    );
+                  }
               ),
             ),
           ),
         ),
       );
-  }
+    }
 
-
-
-
-  displayPicture(String imageUrl){
+    displayPicture(String imageUrl){
       if(imageUrl!=null && _galleryImage == null && _cameraImage == null)
         return PictureUploaderState().displayPictureFromURL(imageUrl);
       if(_galleryImage != null)
         return PictureUploaderState().displayPictureFromFile(_galleryImage);
-    else if(_cameraImage != null)
-      return PictureUploaderState().displayPictureFromFile(_cameraImage);
-  }
+      else if(_cameraImage != null)
+        return PictureUploaderState().displayPictureFromFile(_cameraImage);
+    }
 
 
 
-  Widget galleryApplyCameraButtons(BuildContext context){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        IconButton(
-          icon: Icon(Icons.photo_library),
-          onPressed: () async{
-            await _pickImageFromGallery();
-            setState(() {
-              _cameraImage =  null;
-            });
-          },
-        ),
-        if(!(_galleryImage == null && _cameraImage == null))//show the apply button only when a new image is selected, else no need
-          CreateRaisedButton(
-              onPressed: (){
-                File image;
-                if(_galleryImage == null) {
-                  image = _cameraImage;
-                  print("cameraimage: $image");
-                }
-                else{
-                  image = _galleryImage;
-                  print("galleryimage: $image");
-                }
-                PictureUploaderState().uploadImageToFirestore(context, userPhoneNo, image);
-                Navigator.pop(context);//go back to sidemenu button on pressing apply button
-              }
+    Widget galleryApplyCameraButtons(BuildContext context){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.photo_library),
+            onPressed: () {
+              _pickImageFromGallery();
+            },
           ),
-        IconButton(
-          //padding: EdgeInsets.fromLTRB(15,200,15,15),
-          icon: Icon(Icons.camera_alt),
-          onPressed: ()async{
-            await _pickImageFromCamer();
-            setState(() {
-              _galleryImage = null;
-            });
-          },
-        ),
-      ],
-    );
-  }
+          if(!(_galleryImage == null && _cameraImage == null))///show the apply button only when a new image is selected, else no need
+            CreateRaisedButton(
+                onPressed: (){
+                  File image;
+                  if(_galleryImage == null) {
+                    image = _cameraImage;
+                  }
+                  else{
+                    image = _galleryImage;
+                  }
+                  PictureUploaderState().uploadImageToFirestore(context, userPhoneNo, image);
+                  Navigator.pop(context);///go back to sidemenu button on pressing apply button
+                }
+            ),
+          IconButton(
+            icon: Icon(Icons.camera_alt),
+            onPressed: (){
+              _pickImageFromCamer();
+            },
+          ),
+        ],
+      );
+    }
+
+
+
+
+    /// Comment block for :
+    ///    _pickImageFromGallery()
+    ///    _pickImageFromCamer()
+    ///
+    ///    if the user selects gallery image and then goes to select the
+    ///   camera image then it shows up but it does not get actually pushed to firebase
+    ///   because in galleryApplyCameraButtons() in CreateRaisedButton we are checking if
+    ///   _galleryImage is null then that means the user has not selected the gallery
+    ///   image and so display the image picked up by camera.
+    ///   But if the user picks up the image from gallery first(_gallery != null now)
+    ///   then again goes to camera and clicks an image(_camera != null) but now _gallery is
+    ///   also not equal to null which means the display will still show gallery image even
+    ///   though the user has selected the camera image. So, we need to tell the UI that the user
+    ///    has selected the camera image. Now here, selecting the camera image is important,if
+    ///   the user just goes into camera and comes back then the _cameraImage should stay stull.
+    ///   For this we are checking:
+    ///   if(tempImage != null){
+    ///   _galleryImage =  null;
+    ///   }
+    ///   meaning, if the the camera has picked up the image, then only make the gallery image
+    ///    null and then the display will show the freshly clicked image by the user.
+    File _galleryImage ;
+    /// This funcion will helps you to pick and Image from Gallery
+    _pickImageFromGallery() async{
+      File tempImage = await PictureUploaderState().pickImageFromGallery();
+
+        setState((){
+        _galleryImage= tempImage;
+        if(tempImage != null){
+          _cameraImage =  null;
+        }
+      });
+    }
+
+
+    File _cameraImage;
+    /// This funcion will helps you to pick and Image from Camera
+    _pickImageFromCamer() async{
+      File tempImage = await PictureUploaderState().pickImageFromCamer();
+
+        setState(() {
+          _cameraImage= tempImage;
+          if(tempImage != null){
+            _galleryImage = null;
+          }
+        });
+    }
+
+
+
+
+
+
+
+
 
 
 
@@ -176,23 +199,6 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
       print("userPhoneNo: $userPhoneNo");
       print("prefs: $prefs");
     }
-
-//  Future uploadImageToFirestore(BuildContext context) async{//functionality for cameraImage is not added, thats a to do
-//    String fileName = basename(userPhoneNo+'ProfilePicture');
-//    //String fileName = basename(_galleryImage.path);
-//    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);
-//    StorageUploadTask uploadTask = firebaseStorageReference.putFile(_galleryImage);
-//    StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
-//    imageURL = await imageURLFuture.ref.getDownloadURL();
-//    print("imageurl: $imageURL");
-//    Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url':imageURL});
-//
-//    //update: now that we are popping the user out od this page when the user presses apply button
-//    //we no longer need to show the below snackbar
-////    setState(() {
-////      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture uploaded'),));
-////    });
-//    }
 
 
 }

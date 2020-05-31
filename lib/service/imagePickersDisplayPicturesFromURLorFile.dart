@@ -12,22 +12,12 @@ import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-class PictureUploader extends StatefulWidget {
-  final double size = 150;
 
-  @override
-  PictureUploaderState createState() => PictureUploaderState();
-}
 
-class PictureUploaderState extends State<PictureUploader> {
+class ImagesPickersDisplayPictureURLorFile {
 
   String imageURL;
   String userPhoneNo;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
 
   /// This funcion will helps you to pick and Image from Gallery

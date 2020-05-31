@@ -347,8 +347,8 @@ class _IndividualChatState extends State<IndividualChat> {
     numberOfImageInConversation++;
     print("numberOfImageInConversation++ : $numberOfImageInConversation");
     print("in sendImage");
-    File image = await PictureUploaderState().pickImageFromGallery();
-    String imageURL = await PictureUploaderState().getImageURL(image, userPhoneNo, numberOfImageInConversation);
+    File image = await ImagesPickersDisplayPictureURLorFile().pickImageFromGallery();
+    String imageURL = await ImagesPickersDisplayPictureURLorFile().getImageURL(image, userPhoneNo, numberOfImageInConversation);
     return createDataToPushToFirebase(true, imageURL, userName, userPhoneNo, conversationId);
 
   }

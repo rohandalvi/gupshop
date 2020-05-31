@@ -62,11 +62,11 @@ class _ProfilePictureScreenState extends State<ProfilePictureScreen> {
 
   displayPicture(String imageUrl, File _galleryImage, File _cameraImage){
     if(imageUrl!=null && _galleryImage == null && _cameraImage == null)
-      return PictureUploaderState().displayPictureFromURL(imageUrl);
+      return ImagesPickersDisplayPictureURLorFile().displayPictureFromURL(imageUrl);
     if(_galleryImage != null)
-      return PictureUploaderState().displayPictureFromFile(_galleryImage);
+      return ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(_galleryImage);
     else if(_cameraImage != null)
-      return PictureUploaderState().displayPictureFromFile(_cameraImage);
+      return ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(_cameraImage);
   }
 
 
@@ -96,7 +96,7 @@ class _ProfilePictureScreenState extends State<ProfilePictureScreen> {
                 else{
                   image = _galleryImage;
                 }
-                PictureUploaderState().uploadImageToFirestore(context, userPhoneNo, image);
+                ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);
                 Navigator.pop(context);///go back to sidemenu button on pressing apply button
               }
           ),
@@ -137,7 +137,7 @@ class _ProfilePictureScreenState extends State<ProfilePictureScreen> {
   File _galleryImage ;
   /// This funcion will helps you to pick and Image from Gallery
   _pickImageFromGallery() async{
-    File tempImage = await PictureUploaderState().pickImageFromGallery();
+    File tempImage = await ImagesPickersDisplayPictureURLorFile().pickImageFromGallery();
 
     setState((){
       _galleryImage= tempImage;
@@ -151,7 +151,7 @@ class _ProfilePictureScreenState extends State<ProfilePictureScreen> {
   File _cameraImage;
   /// This funcion will helps you to pick and Image from Camera
   _pickImageFromCamer() async{
-    File tempImage = await PictureUploaderState().pickImageFromCamer();
+    File tempImage = await ImagesPickersDisplayPictureURLorFile().pickImageFromCamer();
 
     setState(() {
       _cameraImage= tempImage;

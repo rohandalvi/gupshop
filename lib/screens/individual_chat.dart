@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:gupshop/models/chat_List.dart';
-import 'package:gupshop/service/pictureUploader.dart';
+import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';

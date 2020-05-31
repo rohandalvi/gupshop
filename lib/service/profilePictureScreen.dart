@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gupshop/service/pictureUploader.dart';
+import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/widgets/raisedButton.dart';
 import 'dart:io';
 
@@ -75,7 +76,7 @@ class _ProfilePictureScreenState extends State<ProfilePictureScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         IconButton(
-          icon: Icon(Icons.photo_library),
+          icon: Icon(Icons.image),
           onPressed: () {
             _pickImageFromGallery();
           },
@@ -100,7 +101,7 @@ class _ProfilePictureScreenState extends State<ProfilePictureScreen> {
               }
           ),
         IconButton(
-          icon: Icon(Icons.camera_alt),
+          icon: SvgPicture.asset('images/camera1.svg',),
           onPressed: (){
             _pickImageFromCamer();
           },

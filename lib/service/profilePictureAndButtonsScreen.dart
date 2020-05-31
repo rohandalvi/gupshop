@@ -28,6 +28,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   bool applyButtons;
   bool allowListView;
 
+  bool isClicked = false;
 
   _ProfilePictureAndButtonsScreenState({this.userPhoneNo, this.imageUrl,this.showPicture,this.applyButtons, this.allowListView});
 
@@ -83,12 +84,14 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
               child : GestureDetector(
                   child: displayPicture(imageUrl, _galleryImage, _cameraImage),
                   onTap: (){
-                  print("in tap");
-                  print("in snackbarbutton method");
-                  return Flushbar(
-                    padding : EdgeInsets.all(10),
-                    borderRadius: 8,
-                    backgroundColor: Colors.white,
+                    if(isClicked == false){
+                      isClicked = true;
+                      print("in tap");
+                      print("in snackbarbutton method");
+                      return Flushbar(
+                        padding : EdgeInsets.all(10),
+                        borderRadius: 8,
+                        backgroundColor: Colors.white,
 //                backgroundGradient: LinearGradient(
 //                  colors: [Colors.white],
 //                ),
@@ -100,14 +103,15 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
 //              ),
 //            ],
 
-                    dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+                        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
 
-                    forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-                    titleText: galleryApplyCameraButtons(context, _galleryImage, _cameraImage),
-                    message: 'Change',
+                        forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+                        titleText: galleryApplyCameraButtons(context, _galleryImage, _cameraImage),
+                        message: 'Change',
 
 
-                  )..show(context);
+                      )..show(context);
+                    } return Container();
                   },
                 )
 

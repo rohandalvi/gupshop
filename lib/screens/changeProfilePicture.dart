@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
-import 'package:gupshop/widgets/display.dart';
+import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangeProfilePicture extends StatefulWidget {
@@ -38,7 +39,17 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     @override
     Widget build(BuildContext context) {
       return Scaffold(
-        appBar: Display().appBar(context),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(100.0),
+            child: CustomAppBar(onPressed:(){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SideMenu(userName: "Purva Dalvi"),//pass Name() here and pass Home()in name_screen
+                  )
+              );
+            },),
+        ),
         backgroundColor: Colors.white,
         body: Container(
               padding: EdgeInsets.symmetric(horizontal: 16.0),

@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
+
+import 'home.dart';
 
 class ChangeProfilePicture extends StatefulWidget {
   final double size = 550;
@@ -42,12 +46,15 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(100.0),
             child: CustomAppBar(onPressed:(){
+//              Get.back();
+//              Navigator.pop(context);
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SideMenu(userName: "Purva Dalvi"),//pass Name() here and pass Home()in name_screen
+                    builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
                   )
               );
+              //Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
             },),
         ),
         backgroundColor: Colors.white,

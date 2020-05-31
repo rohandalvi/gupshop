@@ -56,6 +56,7 @@ dependencies:
   flappy_search_bar: ^1.7.2 # for searching
   rxdart: ^0.23.1 #for using BehaviorSubject in indiviudalChat . PS: rxdart: ^0.24.1 gives conflict with some other dependency so used ^0.23.1
   flushbar: ^1.10.4 #for snackbar
+  get: ^2.10.0 #for navigation
 
 dev_dependencies:
   flutter_test:

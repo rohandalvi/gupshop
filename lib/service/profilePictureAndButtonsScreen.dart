@@ -3,10 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/widgets/customSnackBar.dart';
 import 'package:gupshop/widgets/raisedButton.dart';
 import 'dart:io';
+import 'package:get/get.dart';
+
+import 'package:gupshop/widgets/sideMenu.dart';
 
 class ProfilePictureAndButtonsScreen extends StatefulWidget {
   String userPhoneNo;
@@ -143,7 +148,15 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
         CreateRaisedButton(
           onPressed: (){
             ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);
-            Navigator.pop(context);///go back to sidemenu button on pressing apply button
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
+                )
+            );
+//            Navigator.pop(context);
+            //Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
+//            Get.back();
           },
           child: IconButton(
             icon: SvgPicture.asset('images/done.svg',),

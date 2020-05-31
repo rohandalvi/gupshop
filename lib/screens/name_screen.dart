@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
-import 'package:gupshop/widgets/raisedButton.dart';
+import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
@@ -50,7 +50,7 @@ class _NameScreenState extends State<NameScreen> {
                 ),
                 padding: EdgeInsets.only(left: 20, top: 35, right: 20),
               ),
-              CreateRaisedButton(
+              CustomRaisedButton(
                 onPressed: ()async{
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   String userNameForSP = prefs.getString('userName');

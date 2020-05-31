@@ -51,7 +51,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
+                    builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//routing to home screen for now, but should be routed to sideMenu
                   )
               );
               //Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));

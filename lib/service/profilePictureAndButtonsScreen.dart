@@ -7,7 +7,7 @@ import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/widgets/customSnackBar.dart';
-import 'package:gupshop/widgets/raisedButton.dart';
+import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'dart:io';
 import 'package:get/get.dart';
 
@@ -145,7 +145,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
     return ListView(
       children: <Widget>[
         ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(image),
-        CreateRaisedButton(
+        CustomRaisedButton(
           onPressed: (){
             ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);
             Navigator.push(

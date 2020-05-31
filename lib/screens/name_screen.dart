@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
-import 'package:gupshop/service/profilePictureScreen.dart';
+import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/widgets/raisedButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -86,7 +86,7 @@ class _NameScreenState extends State<NameScreen> {
                   ),
                 ),
               ),
-              ProfilePictureScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, displayPicture: true,applyButtons: true,allowListView: false,)
+              //ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, displayPicture: true,applyButtons: true,allowListView: false,)
             ],
           ),
         ),

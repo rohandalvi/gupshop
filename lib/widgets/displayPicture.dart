@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class DisplayPicture extends StatelessWidget {
   ImageProvider image;
@@ -13,14 +14,14 @@ class DisplayPicture extends StatelessWidget {
   /// width: 370,
   @override
   Widget build(BuildContext context) {
-    print("in displayPicture class");
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20),
-      padding: EdgeInsets.all(6),
+      padding: EdgeInsets.all(8),
       height: height,
       width: width,
       decoration: new BoxDecoration(
         shape: BoxShape.circle,
+        color: Colors.black,
       ),
       child:Container(
         decoration: BoxDecoration(

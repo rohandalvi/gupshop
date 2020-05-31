@@ -12,6 +12,10 @@ class CreateRaisedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
+//      shape: RoundedRectangleBorder(
+//        borderRadius: new BorderRadius.circular(5.0),
+//        side: BorderSide(color : Colors.black),
+//      ),
       onPressed: onPressed,
       color: Colors.transparent,
       splashColor: Colors.transparent,

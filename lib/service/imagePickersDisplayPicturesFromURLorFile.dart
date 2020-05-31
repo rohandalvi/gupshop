@@ -12,8 +12,6 @@ import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-
-
 class ImagesPickersDisplayPictureURLorFile {
 
   String imageURL;
@@ -29,11 +27,6 @@ class ImagesPickersDisplayPictureURLorFile {
   /// This funcion will helps you to pick and Image from Camera
   pickImageFromCamer() async{
     return await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 50);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 
 

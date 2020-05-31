@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/service/profilePictureScreen.dart';
+import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/widgets/display.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,6 +24,10 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
       super.initState();
     }
 
+    ///This class is a display class for profile picture and buttons.
+    ///the profile picture and buttons are made in ProfilePictureAndButtonsScreen.
+
+
 
     /// For snackbar: This context cannot be used directly, as the context there is no context given to the scaffold
     /// The context in the Widget build(Buildcontext context) is the context of that build widget, but not
@@ -38,17 +42,15 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         backgroundColor: Colors.white,
         body: Container(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Center(
-                child: StreamBuilder(
-                    stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
-                    builder: (context, snapshot) {
+              child: StreamBuilder(
+                  stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
+                  builder: (context, snapshot) {
 
-                      if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
-                      String imageUrl = snapshot.data['url'];
+                    if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
+                    String imageUrl = snapshot.data['url'];
 
-                      return ProfilePictureScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, displayPicture: true, applyButtons: true, allowListView: true);
-                    }
-                ),
+                    return ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, displayPicture: true, applyButtons: true, allowListView: true);
+                  }
               ),
         ),
       );

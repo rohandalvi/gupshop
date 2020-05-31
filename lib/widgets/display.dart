@@ -9,7 +9,7 @@ class Display{
       backgroundColor: primaryColor.withOpacity(.03),
       elevation: 0,
       leading: IconButton(
-          icon: SvgPicture.asset('images/backArrowBlackWhite.svg',),
+          icon: SvgPicture.asset('images/backArrowColor.svg',),
         onPressed: (){
           Navigator.pop(context);
         },

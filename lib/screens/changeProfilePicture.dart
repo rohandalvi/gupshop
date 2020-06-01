@@ -67,7 +67,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                     if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
                     String imageUrl = snapshot.data['url'];
 
-                    return ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, displayPicture: true, applyButtons: true, allowListView: true);
+                    return ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl);
                   }
               ),
         ),

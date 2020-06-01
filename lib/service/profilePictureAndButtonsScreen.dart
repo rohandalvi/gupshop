@@ -11,29 +11,29 @@ import 'dart:io';
 class ProfilePictureAndButtonsScreen extends StatefulWidget {
   String userPhoneNo;
   String imageUrl;
-  bool displayPicture;
-  bool applyButtons;
-  bool allowListView;
+  //bool displayPicture;
+  //bool applyButtons;
+  //bool allowListView;
 
-  ProfilePictureAndButtonsScreen({this.userPhoneNo, this.imageUrl,   this.displayPicture, this.applyButtons, this.allowListView});
+  ProfilePictureAndButtonsScreen({this.userPhoneNo, this.imageUrl});
 
   @override
-  _ProfilePictureAndButtonsScreenState createState() => _ProfilePictureAndButtonsScreenState(userPhoneNo: userPhoneNo, imageUrl: imageUrl, showPicture: displayPicture,  applyButtons: applyButtons, allowListView: allowListView);
+  _ProfilePictureAndButtonsScreenState createState() => _ProfilePictureAndButtonsScreenState(userPhoneNo: userPhoneNo, imageUrl: imageUrl);
 }
 
 class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButtonsScreen> {
   String userPhoneNo;
   String imageUrl;
-  bool showPicture;
-  bool applyButtons;
-  bool allowListView;
+//  bool showPicture;
+//  bool applyButtons;
+//  bool allowListView;
 
   bool isClicked = false;
 
   File _galleryImage ;
   File _cameraImage;
 
-  _ProfilePictureAndButtonsScreenState({this.userPhoneNo, this.imageUrl,this.showPicture,this.applyButtons, this.allowListView});
+  _ProfilePictureAndButtonsScreenState({this.userPhoneNo, this.imageUrl});
 
 
 
@@ -111,6 +111,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// Any image selected will show a tick button, as long as an image is selected
   showPictureAndChangeButton(File image){
     return ListView(
+      shrinkWrap: true,
       children: <Widget>[
         ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(image),
         CustomRaisedButton(

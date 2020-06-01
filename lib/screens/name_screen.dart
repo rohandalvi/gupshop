@@ -33,62 +33,61 @@ class _NameScreenState extends State<NameScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child:
-          Column(
-            children: <Widget>[
-              Container(
-                child: new TextField(
-                  decoration: new InputDecoration(labelText: "Enter your Name"),
-                  keyboardType: TextInputType.text,
-                  onChanged: (name){
-                    setState(() {
-                      this.userName= name;
-                    });
-                  },
-                  // Only numbers can be entered
-                ),
-                padding: EdgeInsets.only(left: 20, top: 35, right: 20),
-              ),
-              CustomRaisedButton(
-                onPressed: ()async{
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                  String userNameForSP = prefs.getString('userName');
-                  print("userNameForSP in name_screen: $userNameForSP");
-
-                  /*
-                  Add first time user’s number to database:
-                  For adding data, we need to use set() method
-                  We dont have userPhone and name both at the login_screen, we get both
-                  of them in the name_screen, so we will add them in that file only.
-                   */
-                  Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
-                  print("Firestore.instance.collection(users).document(userPhoneNo).setData({'name':userName}):${userName}");
+        body: Column(
+          //shrinkWrap: true,
+         // mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              child: new TextField(
+                decoration: new InputDecoration(labelText: "Enter your Name"),
+                keyboardType: TextInputType.text,
+                onChanged: (name){
                   setState(() {
-                    prefs.setString('userName', userName);
-                    print("userNameForSP in name_screen setState: $userName");
-                    print("userphoneno in name screen : $userPhoneNo");
+                    this.userName= name;
                   });
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
-                      )
-                  );
                 },
-                //a method is created for this variable down
-                child: Text(
-                  'Next',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
+                // Only numbers can be entered
+              ),
+              padding: EdgeInsets.only(left: 20, top: 35, right: 20),
+            ),
+            CustomRaisedButton(
+              onPressed: ()async{
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                String userNameForSP = prefs.getString('userName');
+                print("userNameForSP in name_screen: $userNameForSP");
+
+                /*
+                Add first time user’s number to database:
+                For adding data, we need to use set() method
+                We dont have userPhone and name both at the login_screen, we get both
+                of them in the name_screen, so we will add them in that file only.
+                 */
+                Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
+                print("Firestore.instance.collection(users).document(userPhoneNo).setData({'name':userName}):${userName}");
+                setState(() {
+                  prefs.setString('userName', userName);
+                  print("userNameForSP in name_screen setState: $userName");
+                  print("userphoneno in name screen : $userPhoneNo");
+                });
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
+                    )
+                );
+              },
+              //a method is created for this variable down
+              child: Text(
+                'Next',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              //ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, displayPicture: true,applyButtons: true,allowListView: false,)
-            ],
-          ),
+            ),
+            ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl)
+          ],
         ),
       ),
     );

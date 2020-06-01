@@ -30,14 +30,14 @@ class ImagesPickersDisplayPictureURLorFile {
   }
 
 
-  displayPictureFromFile(File image){
+  displayPictureFromFile(File image, double height, double width){
     ImageProvider ip = new FileImage(image);
-    return DisplayPicture(height: 370,width: 370, image: ip);
+    return DisplayPicture(height: height,width: width, image: ip);
   }
 
-  displayPictureFromURL(String image){
+  displayPictureFromURL(String image, double height, double width){
     ImageProvider ip = NetworkImage(image);
-    return DisplayPicture(height: 370,width: 370, image: ip);
+    return DisplayPicture(height: height,width: width, image: ip);
   }
 
 

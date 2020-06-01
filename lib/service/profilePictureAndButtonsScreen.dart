@@ -11,19 +11,23 @@ import 'dart:io';
 class ProfilePictureAndButtonsScreen extends StatefulWidget {
   String userPhoneNo;
   String imageUrl;
+  double height;
+  double width;
   //bool displayPicture;
   //bool applyButtons;
   //bool allowListView;
 
-  ProfilePictureAndButtonsScreen({this.userPhoneNo, this.imageUrl});
+  ProfilePictureAndButtonsScreen({this.userPhoneNo, this.imageUrl, this.height, this.width});
 
   @override
-  _ProfilePictureAndButtonsScreenState createState() => _ProfilePictureAndButtonsScreenState(userPhoneNo: userPhoneNo, imageUrl: imageUrl);
+  _ProfilePictureAndButtonsScreenState createState() => _ProfilePictureAndButtonsScreenState(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: height, width:width);
 }
 
 class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButtonsScreen> {
   String userPhoneNo;
   String imageUrl;
+  double height;
+  double width;
 //  bool showPicture;
 //  bool applyButtons;
 //  bool allowListView;
@@ -33,7 +37,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   File _galleryImage ;
   File _cameraImage;
 
-  _ProfilePictureAndButtonsScreenState({this.userPhoneNo, this.imageUrl});
+  _ProfilePictureAndButtonsScreenState({this.userPhoneNo, this.imageUrl, this.height, this.width});
 
 
 
@@ -48,7 +52,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
             return Container(
               //padding: EdgeInsets.only(top: 10),//make child as cirularprogressindicator
               child : GestureDetector(
-                  child: displayPicture(imageUrl, _galleryImage, _cameraImage),
+                  child: displayPicture(imageUrl, _galleryImage, _cameraImage, height, width),
                   onTap: (){
                     if(isClicked == false){
                       isClicked = true;
@@ -90,13 +94,13 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   ///
   /// So only when the user has selected the gallery image or the camera image, the only
   /// that image gets displayed
-  displayPicture(String imageUrl, File _galleryImage, File _cameraImage){
+  displayPicture(String imageUrl, File _galleryImage, File _cameraImage, double height, double width){
     if(imageUrl!=null && _galleryImage == null && _cameraImage == null)
-      return ImagesPickersDisplayPictureURLorFile().displayPictureFromURL(imageUrl);
+      return ImagesPickersDisplayPictureURLorFile().displayPictureFromURL(imageUrl, height, width);
     if(_galleryImage != null)
-      return showPictureAndChangeButton(_galleryImage);
+      return showPictureAndChangeButton(_galleryImage, height, width);
     else if(_cameraImage != null)
-      return showPictureAndChangeButton(_cameraImage);
+      return showPictureAndChangeButton(_cameraImage,  height, width);
   }
 
 
@@ -109,11 +113,11 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// So that file would be passed to imagePicker method and it would be displayed along
   /// with the tick button
   /// Any image selected will show a tick button, as long as an image is selected
-  showPictureAndChangeButton(File image){
+  showPictureAndChangeButton(File image, double height, double width){
     return ListView(
-      shrinkWrap: true,
+      //shrinkWrap: true,
       children: <Widget>[
-        ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(image),
+        ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(image, height, width),
         CustomRaisedButton(
           onPressed: (){
             ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);

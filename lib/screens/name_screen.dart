@@ -33,10 +33,11 @@ class _NameScreenState extends State<NameScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Column(
+        body: ListView(//to remove renderflex overflow error
           //shrinkWrap: true,
          // mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 390, width: 390,),
             Container(
               child: new TextField(
                 decoration: new InputDecoration(labelText: "Enter your Name"),
@@ -86,7 +87,7 @@ class _NameScreenState extends State<NameScreen> {
                 ),
               ),
             ),
-            ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl)
+
           ],
         ),
       ),

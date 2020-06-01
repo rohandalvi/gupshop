@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
+import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
+import 'package:gupshop/widgets/customTextField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
@@ -39,19 +42,39 @@ class _NameScreenState extends State<NameScreen> {
           children: <Widget>[
             ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 390, width: 390,),
             Container(
-              child: new TextField(
-                decoration: new InputDecoration(labelText: "Enter your Name"),
-                keyboardType: TextInputType.text,
+              child: CustomTextField(
                 onChanged: (name){
                   setState(() {
                     this.userName= name;
                   });
                 },
-                // Only numbers can be entered
+                labelText: "Enter your Name",
               ),
+//              new TextField(
+//                cursorColor: primaryColor,
+//                decoration: new InputDecoration(
+//                    labelText: "Enter your Name",
+//                  labelStyle: new TextStyle(color: primaryColor ),
+//                  focusedBorder: new UnderlineInputBorder(
+//                    borderSide: new BorderSide(color:ourBlack ),
+//                  ),
+//                  enabledBorder: new UnderlineInputBorder(
+//                    borderSide: new BorderSide(color: ourBlack ),
+//                  ),
+//                ),
+//                keyboardType: TextInputType.text,
+//                onChanged:
+//                (name){
+//                  setState(() {
+//                    this.userName= name;
+//                  });
+//                },
+//                // Only numbers can be entered
+//              ),
               padding: EdgeInsets.only(left: 20, top: 35, right: 20),
             ),
-            CustomRaisedButton(
+            IconButton(
+              icon: SvgPicture.asset('images/nextArrow.svg',),
               onPressed: ()async{
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 String userNameForSP = prefs.getString('userName');
@@ -77,15 +100,6 @@ class _NameScreenState extends State<NameScreen> {
                     )
                 );
               },
-              //a method is created for this variable down
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
             ),
 
           ],

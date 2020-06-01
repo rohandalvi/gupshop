@@ -90,6 +90,7 @@ flutter:
     - images/photoGallery.svg
     - images/backArrowColor.svg
     - images/done.svg
+    - images/nextArrow.svg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

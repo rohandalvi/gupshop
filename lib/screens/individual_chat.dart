@@ -102,7 +102,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
   appBar(){
     return AppBar(
-        backgroundColor: primaryColor.withOpacity(.03),
+        backgroundColor: secondryColor.withOpacity(.03),
         elevation: 0,
         leading: IconButton(
         icon: SvgPicture.asset('images/backArrowColor.svg',),

@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Chat home',
 //      home: Home(),
 //       home: GeolocationService(),
-      //home: LoginScreen(),
+      home: LoginScreen(),
 //        home: CreateFriendsCollection(),
 //        home: ContactSearch(),
 //        home: SideMenu(),
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
 //        home: BazaarHomeScreen(),
 //      home: BazaarIndividualCategoryList(),
 //        home: FilterBazaarWalas(),
-        home: NameScreen(),
+//        home: NameScreen(),
 //      home: IndividualChat(),
 //      routes: <String, WidgetBuilder>{
 //        "loggedIn": (BuildContext context) => new Home(),

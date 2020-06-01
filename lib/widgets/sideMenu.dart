@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/bazaarProfilePage.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
+import 'package:gupshop/service/getProfilePictureFromFirebase.dart';
+import 'package:gupshop/widgets/displayPicture.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SideMenu extends StatefulWidget {
@@ -56,7 +58,8 @@ class SideMenuState extends State<SideMenu> {
                       )
                   );
                 },
-                child: getProfilePicture(userPhoneNo),//Todo- use Profile picture class getUserProfilePicture()
+                child: GetProfilePictureFromFirebase().getProfilePicture(userPhoneNo, 35),
+                //getProfilePicture(userPhoneNo),//Todo- use Profile picture class getUserProfilePicture()
 //                StreamBuilder(
 //                  stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
 //                  builder: (context, snapshot) {
@@ -107,41 +110,56 @@ class SideMenuState extends State<SideMenu> {
       );
   }
 
-  getProfilePicture(String userPhoneNo){
-    String imageUrl;
-    print("friendNo in getProfilePicture(): $userPhoneNo");
-    DocumentReference isProfilePictureAdded = Firestore.instance.collection("profilePictures").document(userPhoneNo);
-    print("isProfilepictureAdded: ${isProfilePictureAdded.snapshots()}");
-    return StreamBuilder(
-                  stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
-                  builder: (context, snapshot) {
-//                    print("snapshot in getProfilePic: ${snapshot.data['url']}");
-                    if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
-                    print("imageUrl in sideMenu: ${snapshot.data['url']}");
-                    imageUrl = snapshot.data['url'];
-                    return Container(
-//                      height:
-//                      MediaQuery.of(context).size.height / 1.25,
-//                      width:
-//                      MediaQuery.of(context).size.width / 1.25,
-//                      child: Image(
-//                        image: Image.network(snapshot.data),
-//                      ),
-                      decoration: new BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: imageUrl==null?  new DecorationImage(
-                          image: AssetImage('images/sampleProfilePicture.jpeg'),
-                          //new AssetImage('images/sampleProfilePicture.jpeg'),
-                        ):
-                        new DecorationImage(
-                            image: NetworkImage(imageUrl),
-                            //new AssetImage('images/sampleProfilePicture.jpeg'),
-                        )
-                      ),
-                    );
-                  }
-                );
-  }
+//  getProfilePicture(String userPhoneNo){
+//    String imageUrl;
+//    print("friendNo in getProfilePicture(): $userPhoneNo");
+//    DocumentReference isProfilePictureAdded = Firestore.instance.collection("profilePictures").document(userPhoneNo);
+//    print("isProfilepictureAdded: ${isProfilePictureAdded.snapshots()}");
+//    return StreamBuilder(
+//                  stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
+//                  builder: (context, snapshot) {
+////                    print("snapshot in getProfilePic: ${snapshot.data['url']}");
+//                    if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
+//                    print("imageUrl in sideMenu: ${snapshot.data['url']}");
+//                    imageUrl = snapshot.data['url'];
+//                    return
+////                        CircleAvatar(
+////                          radius: 35,
+////                          backgroundImage: NetworkImage(imageUrl),
+////                        );
+//
+//                      DisplayPicture(
+//                      height: 370,
+//                      width: 370,
+//                      image: NetworkImage(imageUrl),
+//                    ).smallSizePicture(35);
+//
+//
+////                      Container(
+//////                      height:
+//////                      MediaQuery.of(context).size.height / 1.25,
+//////                      width:
+//////                      MediaQuery.of(context).size.width / 1.25,
+//////                      child: Image(
+//////                        image: Image.network(snapshot.data),
+//////                      ),
+////                      decoration: new BoxDecoration(
+////                        shape: BoxShape.circle,
+////                        image: imageUrl==null?  new DecorationImage(
+////                          image: AssetImage('images/sampleProfilePicture.jpeg'),
+////                          fit: BoxFit.cover,
+////                          //new AssetImage('images/sampleProfilePicture.jpeg'),
+////                        ):
+////                        new DecorationImage(
+////                            image: NetworkImage(imageUrl),
+////                          fit: BoxFit.cover,
+////                            //new AssetImage('images/sampleProfilePicture.jpeg'),
+////                        ),
+////                      ),
+////                    );
+//                  }
+//                );
+//  }
 
 
 }

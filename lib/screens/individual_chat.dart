@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/service/getProfilePictureFromFirebase.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
@@ -103,12 +104,9 @@ class _IndividualChatState extends State<IndividualChat> {
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(),
           leading: SizedBox(
-            height: 50,
-            width: 35,
-            child : ClipOval(
-              //child: snapshot.data.data,
-              child: SideMenuState().getProfilePicture(friendNumber),
-            ),
+            height: 45,
+            width: 45,
+            child : GetProfilePictureFromFirebase().getProfilePicture(userPhoneNo, 45),
           ),
           title: Text(
             friendName,//name of the person with whom we are chatting right now, displayed at the top in the app bar

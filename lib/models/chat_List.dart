@@ -3,6 +3,7 @@ import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/screens/individual_chat.dart';
+import 'package:gupshop/service/getProfilePictureFromFirebase.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 
@@ -98,20 +99,38 @@ class ChatListState extends State<ChatList> {
 
                   String friendNumber;
 
+
+
                   //for sending to individual_chat.dart:
                     conversationId = snapshot.data.documents[index].data["message"]["conversationId"];
 
                 return ListTile(//main widget that creates the message box
-                  leading: SizedBox(
-                    width: 45,
+                  leading:
+//                  FutureBuilder(
+//                    future: getFriendPhoneNo(conversationId, myNumber),
+//                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+//                      print("Dat $snapshot");
+//                      if(snapshot.connectionState == ConnectionState.done) {
+//                        friendNumber = snapshot.data;
+//                        return GetProfilePictureFromFirebase().getProfilePicture(friendNumber, 35);
+//                        //SideMenuState().getProfilePicture(
+//                        //friendNumber);
+//                      }
+//                      return CircularProgressIndicator();
+//                    },
+//                  ),
+                  SizedBox(
+                    width: 55,
+                    height: 55,
                     child: FutureBuilder(
                       future: getFriendPhoneNo(conversationId, myNumber),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         print("Dat $snapshot");
                         if(snapshot.connectionState == ConnectionState.done) {
                           friendNumber = snapshot.data;
-                          return SideMenuState().getProfilePicture(
-                              friendNumber);
+                          return GetProfilePictureFromFirebase().getProfilePicture(friendNumber, 35);
+                            //SideMenuState().getProfilePicture(
+                              //friendNumber);
                         }
                         return CircularProgressIndicator();
                       },

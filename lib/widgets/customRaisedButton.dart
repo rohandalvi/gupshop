@@ -20,9 +20,9 @@ class CustomRaisedButton extends StatelessWidget {
       color: Colors.transparent,
 //      splashColor: Colors.transparent,
 //      highlightColor: Colors.blueGrey,
-        highlightElevation: 8,
-      onHighlightChanged: (value){//todo - make tick button fancy
-      },
+//        highlightElevation: 8,
+//      onHighlightChanged: (value){//todo - make tick button fancy
+//      },
       elevation: 0,
       hoverColor: Colors.blueGrey,
       child: child

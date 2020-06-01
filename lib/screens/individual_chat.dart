@@ -2,10 +2,13 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_contact/generated/i18n.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/service/getProfilePictureFromFirebase.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
+import 'package:gupshop/widgets/colorPalette.dart';
+import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 
@@ -99,8 +102,16 @@ class _IndividualChatState extends State<IndividualChat> {
 
   appBar(){
     return AppBar(
+        backgroundColor: primaryColor.withOpacity(.03),
+        elevation: 0,
+        leading: IconButton(
+        icon: SvgPicture.asset('images/backArrowColor.svg',),
+          onPressed:(){
+            Navigator.pop(context);
+          }
+        ),
       title: Material(
-        color: Theme.of(context).primaryColor,
+        //color: Theme.of(context).primaryColor,
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(),
           leading: SizedBox(
@@ -108,15 +119,17 @@ class _IndividualChatState extends State<IndividualChat> {
             width: 45,
             child : GetProfilePictureFromFirebase().getProfilePicture(userPhoneNo, 45),
           ),
-          title: Text(
-            friendName,//name of the person with whom we are chatting right now, displayed at the top in the app bar
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          subtitle: Text(
-            'Put last seen here',
-          ),
+          title: CustomText(text: friendName,),
+//          Text(
+//            friendName,//name of the person with whom we are chatting right now, displayed at the top in the app bar
+//            style: TextStyle(
+//              color: Colors.black,
+//            ),
+//          ),
+          subtitle: CustomText(text: 'Put last seen here',).subTitle(),
+//          Text(
+//            'Put last seen here',
+//          ),
           trailing: Wrap(
             children: <Widget>[
               IconButton(

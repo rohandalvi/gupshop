@@ -95,14 +95,20 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// So only when the user has selected the gallery image or the camera image, the only
   /// that image gets displayed
   displayPicture(String imageUrl, File _galleryImage, File _cameraImage, double height, double width){
-    if(imageUrl!=null && _galleryImage == null && _cameraImage == null)
+    if(imageUrl!=null && _galleryImage == null && _cameraImage == null) {
+//      var image = ImagesPickersDisplayPictureURLorFile().displayPictureFromURL(imageUrl, height, width);
+//      if(image.isLoading){return new Center(child: new CircularProgressIndicator());}
       return ImagesPickersDisplayPictureURLorFile().displayPictureFromURL(imageUrl, height, width);
+      }
     if(_galleryImage != null)
       return showPictureAndChangeButton(_galleryImage, height, width);
     else if(_cameraImage != null)
       return showPictureAndChangeButton(_cameraImage,  height, width);
   }
 
+  //if(this.isLoading) {
+  //      return new Center(child: new CircularProgressIndicator());
+  //    }
 
   ///show the tick button only when either one of the image, galley or camera is
   ///selected by the user

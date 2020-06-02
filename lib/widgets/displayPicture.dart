@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/widgets/colorPalette.dart';
 
 class DisplayPicture extends StatelessWidget {
   ImageProvider image;
@@ -21,9 +22,15 @@ class DisplayPicture extends StatelessWidget {
       width: width,
       decoration: new BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.black,
+        color: ourBlack,
       ),
-      child:Container(
+      child:
+//        FadeInImage.assetNetwork(
+//            //fit: BoxFit.cover ,
+//            placeholder: 'images/kamwali.png',
+//            image: "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/%2B15857547599ProfilePicture?alt=media&token=0a4a79f5-7989-4e14-8927-7b4ca39af7d7",
+//        )
+      Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(

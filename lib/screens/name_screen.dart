@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customTextField.dart';
+import 'package:gupshop/widgets/customTextFormField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
@@ -29,6 +32,9 @@ class _NameScreenState extends State<NameScreen> {
   final String userPhoneNo;
 
   String imageUrl = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/%2B15857547599ProfilePicture?alt=media&token=0a4a79f5-7989-4e14-8927-7b4ca39af7d7";
+  static final formKey = new GlobalKey<FormState>();
+
+  String isName;
 
   _NameScreenState({@required this.userPhoneNo});
 
@@ -42,35 +48,27 @@ class _NameScreenState extends State<NameScreen> {
           children: <Widget>[
             ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 390, width: 390,),
             Container(
-              child: CustomTextField(
-                onChanged: (name){
-                  setState(() {
-                    this.userName= name;
-                  });
-                },
-                labelText: "Enter your Name",
-              ),
-//              new TextField(
-//                cursorColor: primaryColor,
-//                decoration: new InputDecoration(
-//                    labelText: "Enter your Name",
-//                  labelStyle: new TextStyle(color: primaryColor ),
-//                  focusedBorder: new UnderlineInputBorder(
-//                    borderSide: new BorderSide(color:ourBlack ),
-//                  ),
-//                  enabledBorder: new UnderlineInputBorder(
-//                    borderSide: new BorderSide(color: ourBlack ),
-//                  ),
-//                ),
-//                keyboardType: TextInputType.text,
-//                onChanged:
-//                (name){
-//                  setState(() {
-//                    this.userName= name;
-//                  });
-//                },
-//                // Only numbers can be entered
-//              ),
+              child:
+                  CustomTextFormField(
+                    onChanged:
+                        (val){
+                      setState(() {
+                        this.isName= val;
+                      });
+                    },
+                    formKey: formKey,
+                    onFieldSubmitted: (name){
+                      final form = formKey.currentState;
+                      if(form.validate()){
+                        print("form is valid");
+                        setState(() {
+                          this.userName= name;
+                        });
+                      }
+                    },
+                    labelText: "Enter your Name",
+                  ),
+
               padding: EdgeInsets.only(left: 20, top: 35, right: 20),
             ),
             IconButton(
@@ -80,12 +78,11 @@ class _NameScreenState extends State<NameScreen> {
                 String userNameForSP = prefs.getString('userName');
                 print("userNameForSP in name_screen: $userNameForSP");
 
-                /*
-                Add first time user’s number to database:
-                For adding data, we need to use set() method
-                We dont have userPhone and name both at the login_screen, we get both
-                of them in the name_screen, so we will add them in that file only.
-                 */
+
+                ///Add first time user’s number to database:
+                ///For adding data, we need to use set() method
+                ///We dont have userPhone and name both at the login_screen, we get both
+               /// of them in the name_screen, so we will add them in that file only.
                 Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
                 print("Firestore.instance.collection(users).document(userPhoneNo).setData({'name':userName}):${userName}");
                 setState(() {
@@ -93,12 +90,45 @@ class _NameScreenState extends State<NameScreen> {
                   print("userNameForSP in name_screen setState: $userName");
                   print("userphoneno in name screen : $userPhoneNo");
                 });
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
-                    )
-                );
+
+                if(userName == null){
+                  Flushbar(
+                    icon: SvgPicture.asset(
+                        'images/stopHand.svg',
+                      width: 30,
+                      height: 30,
+                    ),
+                    backgroundColor: Colors.white,
+                    duration: Duration(seconds: 3),
+                    forwardAnimationCurve: Curves.decelerate,
+                    reverseAnimationCurve: Curves.easeOut,
+                    titleText: Text(
+                      'Name required',
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: ourBlack,
+                        ),
+                      ),
+                    ),
+                    message: "Please enter your name to move forward",
+                  )..show(context);
+                }
+
+                if(userName != null){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
+                      )
+                  );
+                }
+//                Navigator.push(
+//                    context,
+//                    MaterialPageRoute(
+//                      builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
+//                    )
+//                );
               },
             ),
 

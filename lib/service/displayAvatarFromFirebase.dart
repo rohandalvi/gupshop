@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/displayPicture.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -158,6 +159,8 @@ class DisplayAvatarFromFirebase{
         placeholder: kTransparentImage,
       ),
       backgroundImage: NetworkImage(image),
+      foregroundColor: ourBlack,
+      backgroundColor: Colors.white,
 
     );
   }

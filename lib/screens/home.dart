@@ -33,8 +33,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
-      initialIndex: 1,
+      length: 2,
+      initialIndex: 0,
       child: Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(100.0),//the distance between gupShop and tabBars
@@ -42,10 +42,10 @@ class _HomeState extends State<Home> {
         ),
         body: TabBarView(
           children: <Widget>[
-            Contacts(),
+            //Contacts(),
             chats.length>0 ? ChatList(myNumber: userPhoneNo, myName: userName,): EmptyChatList(),
             BazaarHomeScreen(userPhoneNo: userPhoneNo, userName: userName,),
-            Text('Calls',),
+            //Text('Calls',),
           ],
         ),
         drawer: SideMenu(userName: userName,),

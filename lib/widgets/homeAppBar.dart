@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
+import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/verticalPadding.dart';
 
 class HomeAppBar extends StatefulWidget {
@@ -37,13 +40,18 @@ class _HomeAppBarState extends State<HomeAppBar> {
   @override
   Widget build(BuildContext context) {
       return AppBar(
-        leading: DisplayAvatarFromFirebase().displayAvatarFromFirebase(widget.userPhoneNo, 35),
-        title: Text(
-          'GupShop',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),//App name
+       // backgroundColor: Colors.white,
+        leading: Padding( 
+          padding: EdgeInsets.all(2),
+          child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(widget.userPhoneNo, 35),),
+       
+        title: CustomText(text: 'GupShop', fontSize: 18,),
+//        Text(
+//          'GupShop',
+//          style: TextStyle(
+//            color: ourBlack,
+//          ),
+//        ),//App name
         actions: <Widget>[
           Builder(
             builder: (context) => IconButton(//Right side icons
@@ -80,29 +88,42 @@ class _HomeAppBarState extends State<HomeAppBar> {
         ],
         bottom: TabBar(
           tabs: <Widget>[
+//            Tab(
+//              child: Text(
+//                'Contacts',
+//                style: TextStyle(color: Colors.white),
+//              ),
+//            ),
             Tab(
-              child: Text(
-                'Contacts',
-                style: TextStyle(color: Colors.white),
-              ),
+              child: CustomText(text: 'Chats',),
+//              Text(
+//                'Chats',
+//                style: GoogleFonts.openSans(
+//                  textStyle: TextStyle(
+//                    fontWeight: FontWeight.w600,
+//                    fontSize: 16,
+//
+//                  ),
+//                ),
+//              ),
+//              Text(
+//                'Chats',
+//                style: TextStyle(color: Colors.white),
+//              ),
             ),
             Tab(
-              child: Text(
-                'Chats',
-                style: TextStyle(color: Colors.white),
-              ),),
-            Tab(
-              child: Text(
-                'Bazaar',
-                style: TextStyle(color: Colors.white),
-              ),
+              child: CustomText(text: 'Bazaar',),
+//              Text(
+//                'Bazaar',
+//                style: TextStyle(color: Colors.white),
+//              ),
             ),
-            Tab(
-              child: Text(
-                'Calls',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+//            Tab(
+//              child: Text(
+//                'Calls',
+//                style: TextStyle(color: Colors.white),
+//              ),
+//            ),
           ],
         ),
       );

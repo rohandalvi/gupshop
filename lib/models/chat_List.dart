@@ -95,31 +95,14 @@ class ChatListState extends State<ChatList> {
                     lastMessage = snapshot.data.documents[index].data["message"]["body"];
                   }
                   Timestamp timeStamp = snapshot.data.documents[index].data["message"]["timeStamp"];
-                  print("friendName: $friendName");
 
                   String friendNumber;
-
-
 
                   //for sending to individual_chat.dart:
                     conversationId = snapshot.data.documents[index].data["message"]["conversationId"];
 
                 return ListTile(//main widget that creates the message box
-                  leading:
-//                  FutureBuilder(
-//                    future: getFriendPhoneNo(conversationId, myNumber),
-//                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-//                      print("Dat $snapshot");
-//                      if(snapshot.connectionState == ConnectionState.done) {
-//                        friendNumber = snapshot.data;
-//                        return GetProfilePictureFromFirebase().getProfilePicture(friendNumber, 35);
-//                        //SideMenuState().getProfilePicture(
-//                        //friendNumber);
-//                      }
-//                      return CircularProgressIndicator();
-//                    },
-//                  ),
-                  FutureBuilder(
+                  leading: FutureBuilder(
                     future: getFriendPhoneNo(conversationId, myNumber),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       print("Dat $snapshot");
@@ -127,33 +110,16 @@ class ChatListState extends State<ChatList> {
                         friendNumber = snapshot.data;
                         //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
                         return DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 30);
-                          //SideMenuState().getProfilePicture(
-                            //friendNumber);
                       }
                       return CircularProgressIndicator();
                     },
                   ),
-//                  DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNo, 35),
-//                  CircleAvatar(//profile picture
-//                    radius: 35,
-//                    //backgroundImage: SideMenuState().getProfilePicture(),
-//                    //AssetImage(chats[index].sender.imageUrl)
-//                  ),
-                  title: Text(
-                    friendName,
-                    //chats[index].sender.name,
-                  ),
-                  subtitle: Text(
-                    lastMessage,
-                    //chats[index].text,
-                  ),
+                  title: Text(friendName,),
+                  subtitle: Text(lastMessage,),
                   //dense: true,
                   trailing: Text(//time
-                    DateFormat("dd MMM kk:mm")
-                        .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
+                    DateFormat("dd MMM kk:mm").format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),
+                    style: TextStyle(fontSize: 12,),
                   ),
                   onTap: (){
                     print("friendNo in chatlist: $friendNumber");//friendNo is for outside of widget build, so use friendNumber insted of friendNo

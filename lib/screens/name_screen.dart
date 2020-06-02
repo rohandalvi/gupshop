@@ -42,87 +42,90 @@ class _NameScreenState extends State<NameScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: ListView(//to remove renderflex overflow error
-          children: <Widget>[
-            ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 390, width: 390,),
-            Container(
-              child: CustomTextFormField(
-                    onChanged:
-                        (val){
-                      setState(() {
-                        this.isName= val;
-                      });
-                    },
-                    formKey: formKey,
-                    onFieldSubmitted: (name){
-                      final form = formKey.currentState;
-                      if(form.validate()){
+        body: Center(
+          child: ListView(//to remove renderflex overflow error
+            shrinkWrap: true,
+            children: <Widget>[
+              //ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 390, width: 390,),
+              Container(
+                child: CustomTextFormField(
+                      onChanged:
+                          (val){
                         setState(() {
-                          this.userName= name;
+                          this.isName= val;
                         });
-                      }
-                    },
-                    labelText: "Enter your Name",
-                  ),
-
-              padding: EdgeInsets.only(left: 20, top: 35, right: 20),
-            ),
-            IconButton(
-              icon: SvgPicture.asset('images/nextArrow.svg',),
-              onPressed: ()async{
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                String userNameForSP = prefs.getString('userName');
-                print("userNameForSP in name_screen: $userNameForSP");
-
-
-                ///Add first time user’s number to database:
-                ///For adding data, we need to use set() method
-                ///We dont have userPhone and name both at the login_screen, we get both
-               /// of them in the name_screen, so we will add them in that file only.
-                Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
-                print("Firestore.instance.collection(users).document(userPhoneNo).setData({'name':userName}):${userName}");
-                setState(() {
-                  prefs.setString('userName', userName);
-                  print("userNameForSP in name_screen setState: $userName");
-                  print("userphoneno in name screen : $userPhoneNo");
-                });
-
-                if(userName == null){
-                  Flushbar(
-                    icon: SvgPicture.asset(
-                        'images/stopHand.svg',
-                      width: 30,
-                      height: 30,
+                      },
+                      formKey: formKey,
+                      onFieldSubmitted: (name){
+                        final form = formKey.currentState;
+                        if(form.validate()){
+                          setState(() {
+                            this.userName= name;
+                          });
+                        }
+                      },
+                      labelText: "Enter your Name",
                     ),
-                    backgroundColor: Colors.white,
-                    duration: Duration(seconds: 3),
-                    forwardAnimationCurve: Curves.decelerate,
-                    reverseAnimationCurve: Curves.easeOut,
-                    titleText: Text(
-                      'Name required',
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: ourBlack,
+
+                padding: EdgeInsets.only(left: 20, top: 35, right: 20),
+              ),
+              IconButton(
+                icon: SvgPicture.asset('images/nextArrow.svg',),
+                onPressed: ()async{
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  String userNameForSP = prefs.getString('userName');
+                  print("userNameForSP in name_screen: $userNameForSP");
+
+
+                  ///Add first time user’s number to database:
+                  ///For adding data, we need to use set() method
+                  ///We dont have userPhone and name both at the login_screen, we get both
+                 /// of them in the name_screen, so we will add them in that file only.
+                  Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
+                  print("Firestore.instance.collection(users).document(userPhoneNo).setData({'name':userName}):${userName}");
+                  setState(() {
+                    prefs.setString('userName', userName);
+                    print("userNameForSP in name_screen setState: $userName");
+                    print("userphoneno in name screen : $userPhoneNo");
+                  });
+
+                  if(userName == null){
+                    Flushbar(
+                      icon: SvgPicture.asset(
+                          'images/stopHand.svg',
+                        width: 30,
+                        height: 30,
+                      ),
+                      backgroundColor: Colors.white,
+                      duration: Duration(seconds: 5),
+                      forwardAnimationCurve: Curves.decelerate,
+                      reverseAnimationCurve: Curves.easeOut,
+                      titleText: Text(
+                        'Name required',
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: ourBlack,
+                          ),
                         ),
                       ),
-                    ),
-                    message: "Please enter your name to move forward",
-                  )..show(context);
-                }
+                      message: "Please enter your name to move forward",
+                    )..show(context);
+                  }
 
-                if(userName != null){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
-                      )
-                  );
-                }
-              },
-            ),
+                  if(userName != null){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
+                        )
+                    );
+                  }
+                },
+              ),
 
-          ],
+            ],
+          ),
         ),
       ),
     );

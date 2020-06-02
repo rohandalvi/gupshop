@@ -67,9 +67,11 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
               child: StreamBuilder(
                   stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
                   builder: (context, snapshot) {
+                    String imageUrl;
 
                     if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
-                    String imageUrl = snapshot.data['url'];
+                    if(snapshot.data == null) imageURL = 'images/usreFace.png';///this is the placeholder for the 1st time user, test it using an actual phone
+                    imageUrl = snapshot.data['url'];
 
                     return ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 370, width: 370,);
                   }

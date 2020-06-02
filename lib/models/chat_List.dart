@@ -119,24 +119,19 @@ class ChatListState extends State<ChatList> {
 //                      return CircularProgressIndicator();
 //                    },
 //                  ),
-                  SizedBox(
-                    width: 55,
-                    height: 55,
-                    child: FutureBuilder(
-                      future: getFriendPhoneNo(conversationId, myNumber),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        print("Dat $snapshot");
-                        if(snapshot.connectionState == ConnectionState.done) {
-                          friendNumber = snapshot.data;
-                          return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
-                          //return DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNo, 35);
-                            //SideMenuState().getProfilePicture(
-                              //friendNumber);
-                        }
-                        return CircularProgressIndicator();
-                      },
-                    )
-//                    ,
+                  FutureBuilder(
+                    future: getFriendPhoneNo(conversationId, myNumber),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      print("Dat $snapshot");
+                      if(snapshot.connectionState == ConnectionState.done) {
+                        friendNumber = snapshot.data;
+                        //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
+                        return DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 30);
+                          //SideMenuState().getProfilePicture(
+                            //friendNumber);
+                      }
+                      return CircularProgressIndicator();
+                    },
                   ),
 //                  DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNo, 35),
 //                  CircleAvatar(//profile picture

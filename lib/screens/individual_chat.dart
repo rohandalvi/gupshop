@@ -114,11 +114,12 @@ class _IndividualChatState extends State<IndividualChat> {
         //color: Theme.of(context).primaryColor,
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(),
-          leading: SizedBox(
-            height: 45,
-            width: 45,
-            child : DisplayAvatarFromFirebase().getProfilePicture(userPhoneNo, 45),
-          ),
+          leading: DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 28),
+//          SizedBox(
+//            height: 45,
+//            width: 45,
+//            child : DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 45),
+//          ),
           title: CustomText(text: friendName,),
 //          Text(
 //            friendName,//name of the person with whom we are chatting right now, displayed at the top in the app bar

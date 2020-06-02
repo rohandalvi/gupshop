@@ -46,15 +46,12 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(100.0),
             child: CustomAppBar(onPressed:(){
-//              Get.back();
-//              Navigator.pop(context);
               Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//routing to home screen for now, but should be routed to sideMenu
                   )
               );
-              //Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
             },),
         ),
         backgroundColor: Colors.white,

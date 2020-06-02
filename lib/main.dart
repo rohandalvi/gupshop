@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
 //      home: ProductDetail(),
 //        home: BazaarHomeScreen(),
 //      home: BazaarIndividualCategoryList(),
-//        home: FilterBazaarWalas(),
+////        home: FilterBazaarWalas(),
         home: NameScreen(),
 //      home: IndividualChat(),
 //      routes: <String, WidgetBuilder>{

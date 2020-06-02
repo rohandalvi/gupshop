@@ -6,9 +6,13 @@ import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'dart:io';
+import 'package:image_cropper/image_cropper.dart';
+
+import 'custoImageCropper.dart';
 
 
 class ProfilePictureAndButtonsScreen extends StatefulWidget {
+  String userName;
   String userPhoneNo;
   String imageUrl;
   double height;
@@ -17,13 +21,14 @@ class ProfilePictureAndButtonsScreen extends StatefulWidget {
   //bool applyButtons;
   //bool allowListView;
 
-  ProfilePictureAndButtonsScreen({this.userPhoneNo, this.imageUrl, this.height, this.width});
+  ProfilePictureAndButtonsScreen({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName});
 
   @override
-  _ProfilePictureAndButtonsScreenState createState() => _ProfilePictureAndButtonsScreenState(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: height, width:width);
+  _ProfilePictureAndButtonsScreenState createState() => _ProfilePictureAndButtonsScreenState(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: height, width:width, userName: userName);
 }
 
 class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButtonsScreen> {
+  String userName;
   String userPhoneNo;
   String imageUrl;
   double height;
@@ -37,7 +42,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   File _galleryImage ;
   File _cameraImage;
 
-  _ProfilePictureAndButtonsScreenState({this.userPhoneNo, this.imageUrl, this.height, this.width});
+  _ProfilePictureAndButtonsScreenState({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName});
 
 
 
@@ -100,8 +105,11 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
 //      if(image.isLoading){return new Center(child: new CircularProgressIndicator());}
       return ImagesPickersDisplayPictureURLorFile().displayPictureFromURL(imageUrl, height, width);
       }
-    if(_galleryImage != null)
+    if(_galleryImage != null) {
+
       return showPictureAndChangeButton(_galleryImage, height, width);
+    }
+
     else if(_cameraImage != null)
       return showPictureAndChangeButton(_cameraImage,  height, width);
   }
@@ -121,18 +129,20 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// Any image selected will show a tick button, as long as an image is selected
   showPictureAndChangeButton(File image, double height, double width){
     return ListView(
-      //shrinkWrap: true,
+      shrinkWrap: true,
       children: <Widget>[
         ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(image, height, width),
         CustomRaisedButton(
           onPressed: (){
-            ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
-                )
-            );
+            if(userName != null){
+              ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
+                  )
+              );
+            }
 //            Navigator.pop(context);
             //Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
 //            Get.back();
@@ -200,11 +210,22 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// File tempImage would be null.
   _pickImageFromGallery(StateSetter setState) async{
     File tempImage = await ImagesPickersDisplayPictureURLorFile().pickImageFromGallery();
-    print("tempImage outside setstate: $tempImage");
+
+    File croppedImage = await ImageCropper.cropImage(
+      sourcePath: tempImage.path,
+      aspectRatio: CropAspectRatio(
+        ratioX: 1.0,
+        ratioY: 1.0,
+      ),
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+
+    print("croppedimage outside setstate: $croppedImage");
 
     setState((){
       if(tempImage != null){
-        _galleryImage= tempImage;
+        _galleryImage= croppedImage;
       }
       print("tempimage = $tempImage");
 //      if(tempImage != null){
@@ -218,13 +239,39 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// This funcion will helps you to pick and Image from Camera
   _pickImageFromCamer(StateSetter setState) async{
     File tempImage = await ImagesPickersDisplayPictureURLorFile().pickImageFromCamer();
+    File croppedImage = await ImageCropper.cropImage(
+      sourcePath: tempImage.path,
+      aspectRatio: CropAspectRatio(
+        ratioX: 1.0,
+        ratioY: 1.0,
+      ),
+      maxWidth: 512,
+      maxHeight: 512,
+    );
 
     setState(() {
       if(tempImage != null){
-        _cameraImage= tempImage;
+        _cameraImage= croppedImage;
       }
     });
   }
+
+//  imageCropper(File imageFile) async{
+//    File croppedImage = await CustomImageCropper().cropImage(imageFile);
+//    File croppedImage = await ImageCropper.cropImage(
+//      sourcePath: tempImage.path,
+//      aspectRatio: CropAspectRatio(
+//        ratioX: 1.0,
+//        ratioY: 1.0,
+//      ),
+//      maxWidth: 512,
+//      maxHeight: 512,
+//    );
+//
+//    setState(() {
+//      imageFile = c;
+//    });
+//  }
 }
 
 

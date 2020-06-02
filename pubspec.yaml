@@ -58,6 +58,9 @@ dependencies:
   flushbar: ^1.10.4 #for snackbar
   get: ^2.10.0 #for navigation
 
+  image_cropper: ^1.2.2
+  flutter_image_compress: ^0.6.8
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

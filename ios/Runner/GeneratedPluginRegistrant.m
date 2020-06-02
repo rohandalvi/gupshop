@@ -52,6 +52,12 @@
 @import flutter_contact;
 #endif
 
+#if __has_include(<flutter_image_compress/FlutterImageCompressPlugin.h>)
+#import <flutter_image_compress/FlutterImageCompressPlugin.h>
+#else
+@import flutter_image_compress;
+#endif
+
 #if __has_include(<geocoder/GeocoderPlugin.h>)
 #import <geocoder/GeocoderPlugin.h>
 #else
@@ -68,6 +74,12 @@
 #import <geolocator/GeolocatorPlugin.h>
 #else
 @import geolocator;
+#endif
+
+#if __has_include(<image_cropper/ImageCropperPlugin.h>)
+#import <image_cropper/ImageCropperPlugin.h>
+#else
+@import image_cropper;
 #endif
 
 #if __has_include(<image_picker/FLTImagePickerPlugin.h>)
@@ -123,9 +135,11 @@
   [FLTFirebaseDatabasePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseDatabasePlugin"]];
   [FLTFirebaseStoragePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseStoragePlugin"]];
   [FlutterContactPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterContactPlugin"]];
+  [FlutterImageCompressPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterImageCompressPlugin"]];
   [GeocoderPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeocoderPlugin"]];
   [GeoflutterfirePlugin registerWithRegistrar:[registry registrarForPlugin:@"GeoflutterfirePlugin"]];
   [GeolocatorPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeolocatorPlugin"]];
+  [FLTImageCropperPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImageCropperPlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
   [LocationPlugin registerWithRegistrar:[registry registrarForPlugin:@"LocationPlugin"]];
   [LocationPermissionsPlugin registerWithRegistrar:[registry registrarForPlugin:@"LocationPermissionsPlugin"]];

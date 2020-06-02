@@ -43,13 +43,10 @@ class _NameScreenState extends State<NameScreen> {
     return MaterialApp(
       home: Scaffold(
         body: ListView(//to remove renderflex overflow error
-          //shrinkWrap: true,
-         // mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 390, width: 390,),
             Container(
-              child:
-                  CustomTextFormField(
+              child: CustomTextFormField(
                     onChanged:
                         (val){
                       setState(() {
@@ -60,7 +57,6 @@ class _NameScreenState extends State<NameScreen> {
                     onFieldSubmitted: (name){
                       final form = formKey.currentState;
                       if(form.validate()){
-                        print("form is valid");
                         setState(() {
                           this.userName= name;
                         });
@@ -123,12 +119,6 @@ class _NameScreenState extends State<NameScreen> {
                       )
                   );
                 }
-//                Navigator.push(
-//                    context,
-//                    MaterialPageRoute(
-//                      builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
-//                    )
-//                );
               },
             ),
 

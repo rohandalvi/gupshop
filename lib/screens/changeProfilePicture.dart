@@ -12,16 +12,23 @@ import 'home.dart';
 
 class ChangeProfilePicture extends StatefulWidget {
   final double size = 550;
+  String userName;
+
+  ChangeProfilePicture({@required this.userName});
 
   @override
-  _ChangeProfilePictureState createState() => _ChangeProfilePictureState();
+  _ChangeProfilePictureState createState() => _ChangeProfilePictureState(userName: userName);
 }
 
 class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
 
+    String userName;
+
     String imageURL;
     String userPhoneNo;
 
+
+    _ChangeProfilePictureState({@required this.userName});
 
     @override
     void initState() {
@@ -48,7 +55,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
             child: CustomAppBar(onPressed:(){
               Navigator.push(
                   context,
-                  MaterialPageRoute(
+                  MaterialPageRoute(//@TODo pass userName to this page
                     builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//routing to home screen for now, but should be routed to sideMenu
                   )
               );

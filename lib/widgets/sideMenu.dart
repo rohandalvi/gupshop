@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/bazaarProfilePage.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
-import 'package:gupshop/service/getProfilePictureFromFirebase.dart';
+import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/widgets/displayPicture.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,11 +14,14 @@ class SideMenu extends StatefulWidget {
   SideMenu({@required this.userName});
 
   @override
-  SideMenuState createState() => SideMenuState();
+  SideMenuState createState() => SideMenuState(userName: userName);
 }
 
 class SideMenuState extends State<SideMenu> {
   String userPhoneNo;
+  String userName;
+
+  SideMenuState({@required this.userName});
 
   @override
   void initState() {
@@ -54,11 +57,11 @@ class SideMenuState extends State<SideMenu> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChangeProfilePicture(),//pass Name() here and pass Home()in name_screen
+                        builder: (context) => ChangeProfilePicture(userName: userName,),//pass Name() here and pass Home()in name_screen
                       )
                   );
                 },
-                child: GetProfilePictureFromFirebase().getProfilePicture(userPhoneNo, 35),
+                child: DisplayAvatarFromFirebase().getProfilePicture(userPhoneNo, 35),
                 //getProfilePicture(userPhoneNo),//Todo- use Profile picture class getUserProfilePicture()
 //                StreamBuilder(
 //                  stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),

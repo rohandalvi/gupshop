@@ -46,6 +46,7 @@ class _NameScreenState extends State<NameScreen> {
           child: ListView(//to remove renderflex overflow error
             shrinkWrap: true,
             children: <Widget>[
+              displayNameBadge(),
               //ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 390, width: 390,),
               Container(
                 child: CustomTextFormField(
@@ -53,6 +54,7 @@ class _NameScreenState extends State<NameScreen> {
                           (val){
                         setState(() {
                           this.isName= val;
+                          this.userName= val;
                         });
                       },
                       formKey: formKey,
@@ -60,7 +62,7 @@ class _NameScreenState extends State<NameScreen> {
                         final form = formKey.currentState;
                         if(form.validate()){
                           setState(() {
-                            this.userName= name;
+                            //this.userName= name;
                           });
                         }
                       },
@@ -120,6 +122,12 @@ class _NameScreenState extends State<NameScreen> {
                           builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
                         )
                     );
+//                    Navigator.push(
+//                        context,
+//                        MaterialPageRoute(
+//                          builder: (context) => ChangeProfilePicture(userName: userName),//pass Name() here and pass Home()in name_screen
+//                        )
+//                    );
                   }
                 },
               ),
@@ -130,4 +138,51 @@ class _NameScreenState extends State<NameScreen> {
       ),
     );
   }
+
+  displayNameBadge(){
+    return Container(
+      width: 100,
+      height: 100,
+      child:
+        Image(
+          image: AssetImage('images/goodIdCard.png'),
+        ),
+//      IconButton(
+//        icon: SvgPicture.asset(
+//        'images/userFace.svg',
+//        width: 500,
+//        height: 500,
+//      ),
+//      ),
+    );
+  }
 }
+
+
+///Vertically Center & Horizontal Center- Center components of a Listview in a scaffold
+///Scaffold(
+//  appBar: new AppBar(),
+//  body: Center(
+//    child: new ListView(
+//      shrinkWrap: true,
+//        padding: const EdgeInsets.all(20.0),
+//        children: [
+//          Center(child: new Text('ABC'))
+//        ]
+//    ),
+//  ),
+//);
+
+///Only Vertical Center
+///Scaffold(
+//  appBar: new AppBar(),
+//  body: Center(
+//    child: new ListView(
+//      shrinkWrap: true,
+//        padding: const EdgeInsets.all(20.0),
+//        children: [
+//          new Text('ABC')
+//        ]
+//    ),
+//  ),
+//);

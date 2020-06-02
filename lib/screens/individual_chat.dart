@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/models/chat_List.dart';
-import 'package:gupshop/service/getProfilePictureFromFirebase.dart';
+import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
@@ -117,7 +117,7 @@ class _IndividualChatState extends State<IndividualChat> {
           leading: SizedBox(
             height: 45,
             width: 45,
-            child : GetProfilePictureFromFirebase().getProfilePicture(userPhoneNo, 45),
+            child : DisplayAvatarFromFirebase().getProfilePicture(userPhoneNo, 45),
           ),
           title: CustomText(text: friendName,),
 //          Text(

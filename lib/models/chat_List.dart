@@ -3,7 +3,7 @@ import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/screens/individual_chat.dart';
-import 'package:gupshop/service/getProfilePictureFromFirebase.dart';
+import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 
@@ -128,16 +128,17 @@ class ChatListState extends State<ChatList> {
                         print("Dat $snapshot");
                         if(snapshot.connectionState == ConnectionState.done) {
                           friendNumber = snapshot.data;
-                          return GetProfilePictureFromFirebase().getProfilePicture(friendNumber, 35);
+                          return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
+                          //return DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNo, 35);
                             //SideMenuState().getProfilePicture(
                               //friendNumber);
                         }
                         return CircularProgressIndicator();
                       },
                     )
-                    ,
+//                    ,
                   ),
-
+//                  DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNo, 35),
 //                  CircleAvatar(//profile picture
 //                    radius: 35,
 //                    //backgroundImage: SideMenuState().getProfilePicture(),

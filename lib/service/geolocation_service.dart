@@ -138,6 +138,7 @@ class GeolocationServiceState extends State<GeolocationService> {
     return location;
   }
 
+  ///an example of async await function:
   getAddress() async{// returns user's actual location using satellite
     Position location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     var latitude = location.latitude;

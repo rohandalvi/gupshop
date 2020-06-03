@@ -46,9 +46,12 @@ class _ContactSearchState extends State<ContactSearch> {
     return Scaffold(
       body: SafeArea(
         child: SearchBar<DocumentSnapshot>(
+          searchBarPadding: EdgeInsets.all(10),
+          emptyWidget: CircularProgressIndicator(),
           icon: SvgPicture.asset('images/backArrowColor.svg',
             width: 35,
             height: 35,
+            //placeholderBuilder: CircularProgressIndicator(),
           ),
           minimumChars: 1,//minimum characters to enter to start the search
           suggestions: list,
@@ -225,3 +228,5 @@ class _ContactSearchState extends State<ContactSearch> {
 ////  }
 //
 //}
+
+///FlareActor("assets/Filip.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"idle");

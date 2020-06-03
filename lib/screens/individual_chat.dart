@@ -114,7 +114,7 @@ class _IndividualChatState extends State<IndividualChat> {
         //color: Theme.of(context).primaryColor,
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(),
-          leading: DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 28),
+          leading: DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 30, 27),
 //          SizedBox(
 //            height: 45,
 //            width: 45,

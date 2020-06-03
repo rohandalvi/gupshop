@@ -105,7 +105,7 @@ class DisplayAvatarFromFirebase{
   }
 
 
-  displayAvatarFromFirebase(String userPhoneNo, double radius){
+  displayAvatarFromFirebase(String userPhoneNo, double radius, double innerRadius){
     String imageUrl;
     print("friendNo in getProfilePicture(): $userPhoneNo");
     DocumentReference isProfilePictureAdded = Firestore.instance.collection("profilePictures").document(userPhoneNo);
@@ -118,7 +118,7 @@ class DisplayAvatarFromFirebase{
           //print("imageUrl in sideMenu: ${snapshot.data['url']}");
           imageUrl = snapshot.data['url'];
           print("imageUrl in displayAvatar: $imageUrl");
-          return customCircleAvatar(imageUrl, radius);
+          return customCircleAvatar(imageUrl, radius, innerRadius);
 //            CircleAvatar(
 //            backgroundImage: NetworkImage(imageUrl),
 //          );
@@ -150,17 +150,25 @@ class DisplayAvatarFromFirebase{
     );
   }
 
-  customCircleAvatar(String image, double radius){
+  customCircleAvatar(String image, double radius, double innerRadius){
     print("imageurl in customCircleAvatar: $image");
     return CircleAvatar(
       radius: radius,
-      child: FadeInImage.memoryNetwork(
-        image: 'images/transparent.jpeg',
-        placeholder: kTransparentImage,
+      backgroundColor: ourBlack,
+      child: CircleAvatar(
+        radius: innerRadius,
+        //radius - 4,
+//        foregroundColor: Colors.black,
+//        backgroundColor: Colors.black,
+        child: FadeInImage.memoryNetwork(
+          image:
+          'images/transparent.jpeg',
+          placeholder: kTransparentImage,
+        ),
+        backgroundImage: NetworkImage(image),
       ),
-      backgroundImage: NetworkImage(image),
-      foregroundColor: ourBlack,
-      backgroundColor: Colors.white,
+//      backgroundImage: NetworkImage(image),
+
 
     );
   }

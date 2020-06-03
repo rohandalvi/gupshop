@@ -38,9 +38,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
   Widget build(BuildContext context) {
       return AppBar(
        // backgroundColor: Colors.white,
-        leading: Padding( 
-          padding: EdgeInsets.all(2),
-          child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 35),),
+        leading: DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 30, 25),
        
         title: CustomText(text: 'GupShop', fontSize: 18,),
         actions: <Widget>[

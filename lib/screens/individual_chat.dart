@@ -296,7 +296,7 @@ class _IndividualChatState extends State<IndividualChat> {
           child: ListTile(
             leading:
                 IconButton(
-                  icon: Icon(Icons.camera_alt),
+                  icon: SvgPicture.asset('images/image2vector.svg',),
                   onPressed: () async{
                     var data = await sendImage();
                     pushMessageDataToFirebase(true, data);
@@ -319,7 +319,7 @@ class _IndividualChatState extends State<IndividualChat> {
               controller: _controller,//used to clear text when user hits send button
             ),
             trailing: IconButton(
-              icon: Icon(Icons.send),
+              icon: SvgPicture.asset('images/paperPlane.svg',),///or forward2
               onPressed: () {
 
                 if(value!="") {

@@ -7,6 +7,7 @@ import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/verticalPadding.dart';
+import 'package:flutter_svg/svg.dart';
 
 class HomeAppBar extends StatefulWidget {
   final String userPhoneNo;
@@ -23,14 +24,6 @@ class _HomeAppBarState extends State<HomeAppBar> {
   ImageProvider userAvatar;
 
 
-//  Future getUserAvatarFuture() async{
-//    ImageProvider imageProvider =  await GetProfilePictureFromFirebase().displayPicture(widget.userPhoneNo, 35);
-//    setState(() {
-//      print("imageProvider : $imageProvider");
-//      userAvatar = imageProvider;
-//    });
-//  }
-
   @override
   void initState() {
     //getUserAvatarFuture();
@@ -46,17 +39,11 @@ class _HomeAppBarState extends State<HomeAppBar> {
           child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(widget.userPhoneNo, 35),),
        
         title: CustomText(text: 'GupShop', fontSize: 18,),
-//        Text(
-//          'GupShop',
-//          style: TextStyle(
-//            color: ourBlack,
-//          ),
-//        ),//App name
         actions: <Widget>[
           Builder(
             builder: (context) => IconButton(//Right side icons
-              color: Colors.white,
-              icon: Icon(Icons.search),//search icon
+              color: Colors.black,
+              icon: SvgPicture.asset('images/advancedSearch.svg',),//search icon
               onPressed: () {
                 Navigator.push(
                     context,
@@ -88,42 +75,8 @@ class _HomeAppBarState extends State<HomeAppBar> {
         ],
         bottom: TabBar(
           tabs: <Widget>[
-//            Tab(
-//              child: Text(
-//                'Contacts',
-//                style: TextStyle(color: Colors.white),
-//              ),
-//            ),
-            Tab(
-              child: CustomText(text: 'Chats',),
-//              Text(
-//                'Chats',
-//                style: GoogleFonts.openSans(
-//                  textStyle: TextStyle(
-//                    fontWeight: FontWeight.w600,
-//                    fontSize: 16,
-//
-//                  ),
-//                ),
-//              ),
-//              Text(
-//                'Chats',
-//                style: TextStyle(color: Colors.white),
-//              ),
-            ),
-            Tab(
-              child: CustomText(text: 'Bazaar',),
-//              Text(
-//                'Bazaar',
-//                style: TextStyle(color: Colors.white),
-//              ),
-            ),
-//            Tab(
-//              child: Text(
-//                'Calls',
-//                style: TextStyle(color: Colors.white),
-//              ),
-//            ),
+            Tab(child: CustomText(text: 'Chats',),),
+            Tab(child: CustomText(text: 'Bazaar',),),
           ],
         ),
       );

@@ -4,6 +4,7 @@ import 'package:gupshop/screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
+import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 
@@ -114,12 +115,12 @@ class ChatListState extends State<ChatList> {
                       return CircularProgressIndicator();
                     },
                   ),
-                  title: Text(friendName,),
-                  subtitle: Text(lastMessage,),
+                  title: CustomText(text: friendName,),
+                  subtitle: CustomText(text: lastMessage,),
                   //dense: true,
-                  trailing: Text(//time
-                    DateFormat("dd MMM kk:mm").format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),
-                    style: TextStyle(fontSize: 12,),
+                  trailing: CustomText(//time
+                    text: DateFormat("dd MMM kk:mm").format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),
+                    fontSize: 12,
                   ),
                   onTap: (){
                     print("friendNo in chatlist: $friendNumber");//friendNo is for outside of widget build, so use friendNumber insted of friendNo

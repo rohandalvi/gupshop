@@ -12,6 +12,7 @@ class CustomText extends StatelessWidget {
     return Text(
       text,
       style: GoogleFonts.openSans(
+        //inconsolata
         textStyle: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: fontSize != null ? fontSize : 16,

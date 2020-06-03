@@ -2,9 +2,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
+import 'package:gupshop/widgets/customText.dart';
 
 
 
@@ -43,9 +46,20 @@ class _ContactSearchState extends State<ContactSearch> {
     return Scaffold(
       body: SafeArea(
         child: SearchBar<DocumentSnapshot>(
+          icon: SvgPicture.asset('images/backArrowColor.svg',
+            width: 35,
+            height: 35,
+          ),
           minimumChars: 1,//minimum characters to enter to start the search
           suggestions: list,
           hintText: 'Search contacts',
+          hintStyle: GoogleFonts.openSans(
+            //inconsolata
+            textStyle: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+            ),
+          ),
           onSearch: searchList,
           onItemFound: (DocumentSnapshot doc, int index){
             String conversationId = doc.data["conversationId"];
@@ -72,7 +86,7 @@ class _ContactSearchState extends State<ContactSearch> {
                 )
                 ,
               ),
-              title: Text(doc.data["name"]),
+              title: CustomText(text:doc.data["name"]),
               onTap: () {
                 print("friendNo in contact search : $friendNo");
                     Navigator.push(

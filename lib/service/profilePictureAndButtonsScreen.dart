@@ -215,15 +215,17 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   _pickImageFromGallery(StateSetter setState) async{
     File tempImage = await ImagesPickersDisplayPictureURLorFile().pickImageFromGallery();
 
-    File croppedImage = await ImageCropper.cropImage(
-      sourcePath: tempImage.path,
-      aspectRatio: CropAspectRatio(
-        ratioX: 1.0,
-        ratioY: 1.0,
-      ),
-      maxWidth: 512,
-      maxHeight: 512,
-    );
+    File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(tempImage);
+
+//    File croppedImage = await ImageCropper.cropImage(
+//      sourcePath: tempImage.path,
+//      aspectRatio: CropAspectRatio(
+//        ratioX: 1.0,
+//        ratioY: 1.0,
+//      ),
+//      maxWidth: 512,
+//      maxHeight: 512,
+//    );
 
     print("croppedimage outside setstate: $croppedImage");
 
@@ -243,15 +245,17 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// This funcion will helps you to pick and Image from Camera
   _pickImageFromCamer(StateSetter setState) async{
     File tempImage = await ImagesPickersDisplayPictureURLorFile().pickImageFromCamer();
-    File croppedImage = await ImageCropper.cropImage(
-      sourcePath: tempImage.path,
-      aspectRatio: CropAspectRatio(
-        ratioX: 1.0,
-        ratioY: 1.0,
-      ),
-      maxWidth: 512,
-      maxHeight: 512,
-    );
+
+    File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(tempImage);
+//    File croppedImage = await ImageCropper.cropImage(
+//      sourcePath: tempImage.path,
+//      aspectRatio: CropAspectRatio(
+//        ratioX: 1.0,
+//        ratioY: 1.0,
+//      ),
+//      maxWidth: 512,
+//      maxHeight: 512,
+//    );
 
     setState(() {
       if(tempImage != null){

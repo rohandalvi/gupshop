@@ -360,7 +360,8 @@ class _IndividualChatState extends State<IndividualChat> {
     print("numberOfImageInConversation++ : $numberOfImageInConversation");
     print("in sendImage");
     File image = await ImagesPickersDisplayPictureURLorFile().pickImageFromGallery();
-    String imageURL = await ImagesPickersDisplayPictureURLorFile().getImageURL(image, userPhoneNo, numberOfImageInConversation);
+    File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(image);
+    String imageURL = await ImagesPickersDisplayPictureURLorFile().getImageURL(croppedImage, userPhoneNo, numberOfImageInConversation);
     return createDataToPushToFirebase(true, imageURL, userName, userPhoneNo, conversationId);
 
   }
@@ -373,7 +374,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
   pushMessageDataToFirebase(bool isImage, var data){
       Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
-      //Navigating to RecentChats page with pushes the data to firebase
+      ///Navigating to RecentChats page with pushes the data to firebase
 
       if(isImage == true){
         var data = createDataToPushToFirebase(true, "📸", userName, userPhoneNo, conversationId);

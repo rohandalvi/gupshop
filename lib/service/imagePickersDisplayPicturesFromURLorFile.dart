@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/widgets/createContainer.dart';
 import 'package:gupshop/widgets/displayPicture.dart';
 import 'package:gupshop/widgets/verticalPadding.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -27,6 +28,20 @@ class ImagesPickersDisplayPictureURLorFile {
   /// This funcion will helps you to pick and Image from Camera
   pickImageFromCamer() async{
     return await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 50);
+  }
+
+  cropImage(File tempImage) async{
+    File croppedImage = await ImageCropper.cropImage(
+      sourcePath: tempImage.path,
+      aspectRatio: CropAspectRatio(
+        ratioX: 1.0,
+        ratioY: 1.0,
+      ),
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+
+    return croppedImage;
   }
 
 

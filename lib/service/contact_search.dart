@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
+import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 
@@ -18,7 +20,7 @@ class ContactSearch extends StatefulWidget {
   ContactSearch({@required this.userPhoneNo, @required this.userName});
 
   @override
-  _ContactSearchState createState() => _ContactSearchState();
+  _ContactSearchState createState() => _ContactSearchState(userPhoneNo: userPhoneNo, userName: userName);
 }
 
 class _ContactSearchState extends State<ContactSearch> {
@@ -43,15 +45,27 @@ class _ContactSearchState extends State<ContactSearch> {
   @override
   Widget build(BuildContext context) {
     print("in build");
+    print("userName in contactSearch: $userName");
     return Scaffold(
       body: SafeArea(
         child: SearchBar<DocumentSnapshot>(
           searchBarPadding: EdgeInsets.all(10),
           emptyWidget: CircularProgressIndicator(),
-          icon: SvgPicture.asset('images/backArrowColor.svg',
-            width: 35,
-            height: 35,
-            //placeholderBuilder: CircularProgressIndicator(),
+          icon: GestureDetector(
+            onTap: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Home(userName: userName,userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
+                  )
+              );
+              //CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+            },
+            child: SvgPicture.asset('images/backArrowColor.svg',
+              width: 35,
+              height: 35,
+              //placeholderBuilder: CircularProgressIndicator(),
+            ),
           ),
           minimumChars: 1,//minimum characters to enter to start the search
           suggestions: list,

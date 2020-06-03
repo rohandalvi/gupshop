@@ -16,10 +16,14 @@ class HomeAppBar extends StatefulWidget {
   HomeAppBar({@required this.userPhoneNo, @required this.userName});
 
   @override
-  _HomeAppBarState createState() => _HomeAppBarState();
+  _HomeAppBarState createState() => _HomeAppBarState(userName: userName, userPhoneNo: userPhoneNo);
 }
 
 class _HomeAppBarState extends State<HomeAppBar> {
+  final String userPhoneNo;
+  final String userName;
+
+  _HomeAppBarState({@required this.userPhoneNo, @required this.userName});
 
   ImageProvider userAvatar;
 
@@ -36,7 +40,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
        // backgroundColor: Colors.white,
         leading: Padding( 
           padding: EdgeInsets.all(2),
-          child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(widget.userPhoneNo, 35),),
+          child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 35),),
        
         title: CustomText(text: 'GupShop', fontSize: 18,),
         actions: <Widget>[
@@ -48,7 +52,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ContactSearch(userPhoneNo: widget.userPhoneNo, userName: widget.userName),//pass Name() here and pass Home()in name_screen
+                      builder: (context) => ContactSearch(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
                     )
                 );
 //                final result = await showSearch(

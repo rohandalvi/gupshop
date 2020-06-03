@@ -32,6 +32,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    print("userName in HomeState : $userName");
     return DefaultTabController(
       length: 2,
       initialIndex: 0,

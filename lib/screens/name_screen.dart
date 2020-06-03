@@ -145,7 +145,7 @@ class _NameScreenState extends State<NameScreen> {
       height: 100,
       child:
         Image(
-          image: AssetImage('images/goodIdCard.png'),
+          image: AssetImage('images/user.png'),
         ),
 //      IconButton(
 //        icon: SvgPicture.asset(

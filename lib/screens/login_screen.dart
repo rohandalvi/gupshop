@@ -3,9 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/service/auth_service.dart';
+import 'package:gupshop/widgets/customText.dart';
+import 'package:gupshop/widgets/customTextFormField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //LoginScreen => NameScreen
@@ -36,6 +39,21 @@ class _LoginScreenState extends State<LoginScreen> {
         children: <Widget>[
           Stack(
             children: <Widget>[
+                Container(
+                  width: 200,
+                  height: 200,
+                  child:
+                  Image(
+                    image: AssetImage('images/chatBubble.png'),
+                  ),
+        //      IconButton(
+        //        icon: SvgPicture.asset(
+        //        'images/userFace.svg',
+        //        width: 500,
+        //        height: 500,
+        //      ),
+        //      ),
+              ),
               Container(
                 child: Text(
                   'Gup',
@@ -44,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontSize: 90,
                   ),
                 ),
-                padding: EdgeInsets.fromLTRB(15, 110, 0, 0),
+                padding: EdgeInsets.fromLTRB(15, 120, 0, 0),
                 // padding: EdgeInsets.fromLTRB(35, 110, 0, 0)==>if this is not included
                 // then the words gup shup would be displayed in the upper left corner
                 // of the screen
@@ -62,39 +80,55 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
           Container(
-            child: new TextField(
-              decoration: new InputDecoration(labelText: "Enter your number"),
-              keyboardType: TextInputType.phone,
-              onChanged: (val) {
-
-                setState(() {
-                  this.phoneNo = val;
-                  this.val=val;
-                  //Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});
-                  print("phoneNo: ${val}");
-                });
-              },
-              // Only numbers can be entered
-            ),
+            child:
+                CustomTextFormField(
+                  labelText: "Enter your Number",
+                  onChanged: (val) {
+                    setState(() {
+                      this.phoneNo = val;
+                      this.val=val;
+                      //Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});
+                      print("phoneNo: ${val}");
+                    });
+                  },
+                ),
+//            new TextField(
+//              decoration: new InputDecoration(labelText: "Enter your number"),
+//              keyboardType: TextInputType.phone,
+//              onChanged: (val) {
+//
+//                setState(() {
+//                  this.phoneNo = val;
+//                  this.val=val;
+//                  //Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});
+//                  print("phoneNo: ${val}");
+//                });
+//              },
+//              // Only numbers can be entered
+//            ),
             padding: EdgeInsets.only(left: 20, top: 35, right: 20),
           ),
-          RaisedButton(
+          IconButton(
             onPressed: verifyphone,
-            //a method is created for this variable down
-            color: Colors.transparent,
-            splashColor: Colors.transparent,
-            highlightColor: Colors.blueGrey,
-            elevation: 0,
-            hoverColor: Colors.blueGrey,
-            child: Text(
-              'Verify',
-              style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            icon: SvgPicture.asset('images/nextArrow.svg',),
           ),
+//          RaisedButton(
+//            onPressed: verifyphone,
+//            //a method is created for this variable down
+//            color: Colors.transparent,
+//            splashColor: Colors.transparent,
+//            highlightColor: Colors.blueGrey,
+//            elevation: 0,
+//            hoverColor: Colors.blueGrey,
+//            child: Text(
+//              'Verify',
+//              style: TextStyle(
+//                color: Theme.of(context).primaryColor,
+//                fontSize: 15,
+//                fontWeight: FontWeight.bold,
+//              ),
+//            ),
+//          ),
         ],
       ),
     );

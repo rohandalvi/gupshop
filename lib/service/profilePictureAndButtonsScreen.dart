@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/screens/home.dart';
+import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'dart:io';
@@ -57,7 +58,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
             return Container(
               //padding: EdgeInsets.only(top: 10),//make child as cirularprogressindicator
               child : GestureDetector(
-                  child: displayPicture(imageUrl, _galleryImage, _cameraImage, height, width),
+                  child: displayPicture(imageUrl, _galleryImage, _cameraImage, height, width, context),
                   onTap: (){
                     if(isClicked == false){
                       isClicked = true;
@@ -99,7 +100,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   ///
   /// So only when the user has selected the gallery image or the camera image, the only
   /// that image gets displayed
-  displayPicture(String imageUrl, File _galleryImage, File _cameraImage, double height, double width){
+  displayPicture(String imageUrl, File _galleryImage, File _cameraImage, double height, double width, BuildContext context){
     if(imageUrl!=null && _galleryImage == null && _cameraImage == null) {
 //      var image = ImagesPickersDisplayPictureURLorFile().displayPictureFromURL(imageUrl, height, width);
 //      if(image.isLoading){return new Center(child: new CircularProgressIndicator());}
@@ -107,11 +108,11 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
       }
     if(_galleryImage != null) {
 
-      return showPictureAndChangeButton(_galleryImage, height, width);
+      return showPictureAndChangeButton(_galleryImage, height, width, context);
     }
 
     else if(_cameraImage != null)
-      return showPictureAndChangeButton(_cameraImage,  height, width);
+      return showPictureAndChangeButton(_cameraImage,  height, width, context);
   }
 
   //if(this.isLoading) {
@@ -127,21 +128,24 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// So that file would be passed to imagePicker method and it would be displayed along
   /// with the tick button
   /// Any image selected will show a tick button, as long as an image is selected
-  showPictureAndChangeButton(File image, double height, double width){
+  showPictureAndChangeButton(File image, double height, double width, BuildContext context){
     return ListView(
       shrinkWrap: true,
       children: <Widget>[
         ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(image, height, width),
         CustomRaisedButton(
           onPressed: (){
+            print("outside onPressed of showPictureAndChangeButton: $userName");
             if(userName != null){
               ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
-                  )
-              );
+              print("in onPressed of showPictureAndChangeButton: $userName");
+              CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+//              Navigator.push(
+//                  context,
+//                  MaterialPageRoute(
+//                    builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
+//                  )
+//              );
             }
 //            Navigator.pop(context);
             //Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));

@@ -51,7 +51,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     Widget build(BuildContext context) {
       return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100.0),
+          preferredSize: Size.fromHeight(70.0),
             child: CustomAppBar(onPressed:(){
               Navigator.push(
                   context,
@@ -73,7 +73,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                     if(snapshot.data == null) imageURL = 'images/usreFace.png';///this is the placeholder for the 1st time user, test it using an actual phone
                     imageUrl = snapshot.data['url'];
 
-                    return ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 370, width: 370,);
+                    return ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 360, width: 360,userName: userName,);
                   }
               ),
         ),

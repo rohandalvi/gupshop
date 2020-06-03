@@ -17,7 +17,7 @@ class DisplayPicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20),
-      padding: EdgeInsets.all(5),//controls the border
+      padding: EdgeInsets.all(2),//controls the border
       height: height,
       width: width,
       decoration: new BoxDecoration(

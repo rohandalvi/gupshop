@@ -217,16 +217,6 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
 
     File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(tempImage);
 
-//    File croppedImage = await ImageCropper.cropImage(
-//      sourcePath: tempImage.path,
-//      aspectRatio: CropAspectRatio(
-//        ratioX: 1.0,
-//        ratioY: 1.0,
-//      ),
-//      maxWidth: 512,
-//      maxHeight: 512,
-//    );
-
     print("croppedimage outside setstate: $croppedImage");
 
     setState((){

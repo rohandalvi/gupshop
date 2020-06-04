@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
+import 'dart:io';
 
 class DisplayPicture extends StatelessWidget {
   ImageProvider image;
@@ -42,6 +43,20 @@ class DisplayPicture extends StatelessWidget {
     );
   }
 
+
+  chatPictureFrame(String imageURL){
+    Container(
+        width: 200,
+        height: 200,
+        child: Image(
+          image: NetworkImage(imageURL),
+          //fit: BoxFit.cover,
+        ),
+        decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+    ),
+    );
+  }
 
   ///used for sideMenu, chatList, individualchat
   smallSizePicture(double radius){

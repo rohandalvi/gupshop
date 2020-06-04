@@ -9,6 +9,7 @@ import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customText.dart';
+import 'package:gupshop/widgets/displayPicture.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 
@@ -64,6 +65,8 @@ class _IndividualChatState extends State<IndividualChat> {
 
   ScrollNotification notification;
 
+  bool isLoading =  true;
+
 
   @override
   void initState() {
@@ -115,22 +118,8 @@ class _IndividualChatState extends State<IndividualChat> {
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(),
           leading: DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 30, 27),
-//          SizedBox(
-//            height: 45,
-//            width: 45,
-//            child : DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 45),
-//          ),
           title: CustomText(text: friendName,),
-//          Text(
-//            friendName,//name of the person with whom we are chatting right now, displayed at the top in the app bar
-//            style: TextStyle(
-//              color: Colors.black,
-//            ),
-//          ),
           subtitle: CustomText(text: 'Put last seen here',).subTitle(),
-//          Text(
-//            'Put last seen here',
-//          ),
           trailing: Wrap(
             children: <Widget>[
               IconButton(
@@ -208,7 +197,7 @@ class _IndividualChatState extends State<IndividualChat> {
                         var messageBody;
                         var imageURL;
 
-                        bool isLoading  = true;
+                        bool isLoading  = true;//for circularProgressIndicator
 
                         if(documentList[index].data["imageURL"] == null){
                           print("text message");
@@ -227,17 +216,29 @@ class _IndividualChatState extends State<IndividualChat> {
 
                         return ListTile(
                           title: Container(
-                            margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),
-                            padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0), //for the box covering the text
-                            color: isMe ? Color(0xFFF9FBE7) : Color(0xFFFFEFEE),
+                            width: MediaQuery.of(context).size.width,
+                           // height: MediaQuery.of(context).size.height,
+                            alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
+//                            decoration: BoxDecoration(
+//                              borderRadius: BorderRadius.all(Radius.circular(5)),
+//                            ),
+                            //margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),
+                            //EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),
+                            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
+                            //color: isMe ? isMeChatColor: notMeChatColor,
+                            //Color(0xFFF9FBE7) : Color(0xFFFFEFEE),
                             child: imageURL == null?
-                            Text(messageBody,):
-                            showImage(imageURL),
+                            Text(messageBody,): showImage(imageURL),
                             //message
                           ),
                           subtitle: Container(
-                            margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),//if not this then the timeStamp gets locked to the left side of the screen. So same logic as the messages above
-                            padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 8.0),//pretty padding- for some margin from the side of the screen as well as the top of parent message
+                            width: MediaQuery.of(context).size.width,
+                           // height: MediaQuery.of(context).size.height,
+                            alignment: isMe? Alignment.centerRight: Alignment.centerLeft,
+
+
+//                            margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),//if not this then the timeStamp gets locked to the left side of the screen. So same logic as the messages above
+                            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),//pretty padding- for some margin from the side of the screen as well as the top of parent message
                             child: Text(//time
                               DateFormat("dd MMM kk:mm")
                                   .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
@@ -253,15 +254,17 @@ class _IndividualChatState extends State<IndividualChat> {
                       ),
                     ),
                     onNotification: (notification) {
-                      /*
-                       onNotification allows us to know when we have reached the limit of the messages
-                       once the limit is reached, documentList is updated again  with the next 10 messages using
-                       the fetchAdditionalMesages()
-                       */
+                      ///onNotification allows us to know when we have reached the limit of the messages
+                      ///once the limit is reached, documentList is updated again  with the next 10 messages using
+                      ///the fetchAdditionalMesages()
                       if(notification.metrics.atEdge
                           &&  !((notification.metrics.pixels - notification.metrics.minScrollExtent) <
                               (notification.metrics.maxScrollExtent-notification.metrics.pixels))) {
                         print("You are at top");
+
+                        if(isLoading == true) {//ToDo- check if this is  working with an actual phone
+                          CircularProgressIndicator();
+                        }
 
                         fetchAdditionalMessages();
 
@@ -280,7 +283,20 @@ class _IndividualChatState extends State<IndividualChat> {
   showImage(String imageURL){
     try{
       print("in try");
-      return Image(image: NetworkImage(imageURL),);}
+      return
+        //DisplayPicture().chatPictureFrame(imageURL);
+        Container(
+            width: 250,
+            height: 250,
+            child: Image(image: NetworkImage(imageURL),
+              fit: BoxFit.cover,
+            ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+           // border: Border(top: BorderSide(place color here)),///for colored border
+          ),
+        );
+    }
     catch (e){
       print("in catch");
       return Icon(Icons.image);}
@@ -354,7 +370,9 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
 
-
+  ///this method picks and crops the image, then converts it to a String which is used to
+  ///create a data object to be pushed to firebase, which gets displayed on the screen as
+  ///a message
   sendImage() async{
     numberOfImageInConversation++;
     print("numberOfImageInConversation++ : $numberOfImageInConversation");
@@ -366,6 +384,8 @@ class _IndividualChatState extends State<IndividualChat> {
 
   }
 
+
+  ///this method creates the data to be pushed to firebase
   createDataToPushToFirebase(bool isImage, String value, String userName, String fromPhoneNumber, String conversationId){
     if(isImage == true){
       return {"imageURL":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
@@ -411,7 +431,7 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
 
-//fetching next batch of messages when user scrolls up for previous messages
+  ///fetching next batch of messages when user scrolls up for previous messages
   fetchAdditionalMessages() async {
     try {
       List<DocumentSnapshot>  newDocumentList  =  (await collectionReference
@@ -425,6 +445,7 @@ class _IndividualChatState extends State<IndividualChat> {
       setState(() {//setting state is essential, or new messages(next batch of old messages) does not get loaded
         documentList.addAll(newDocumentList);
         //streamController.add(documentList);
+        isLoading = false;
       });
     } catch(e) {
       streamController.sink.addError(e);

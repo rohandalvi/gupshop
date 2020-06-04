@@ -284,18 +284,18 @@ class _IndividualChatState extends State<IndividualChat> {
     try{
       print("in try");
       return
-        //DisplayPicture().chatPictureFrame(imageURL);
-        Container(
-            width: 250,
-            height: 250,
-            child: Image(image: NetworkImage(imageURL),
-              fit: BoxFit.cover,
-            ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
-           // border: Border(top: BorderSide(place color here)),///for colored border
-          ),
-        );
+        DisplayPicture().chatPictureFrame(imageURL);
+//        Container(
+//            width: 250,
+//            height: 250,
+//            child: Image(image: NetworkImage(imageURL),
+//              fit: BoxFit.cover,
+//            ),
+//          decoration: BoxDecoration(
+//            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+//           // border: Border(top: BorderSide(place color here)),///for colored border
+//          ),
+//        );
     }
     catch (e){
       print("in catch");

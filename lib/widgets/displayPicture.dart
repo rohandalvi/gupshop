@@ -8,7 +8,7 @@ class DisplayPicture extends StatelessWidget {
   double height;
   double width;
 
-  DisplayPicture({@required this.image, @required this.height, @required this.width});
+  DisplayPicture({this.image, this.height, this.width});
 
 
   /// ideal height width for full screen profile picture
@@ -45,15 +45,15 @@ class DisplayPicture extends StatelessWidget {
 
 
   chatPictureFrame(String imageURL){
-    Container(
-        width: 200,
-        height: 200,
+    return Container(
+        width: 250,
+        height: 250,
         child: Image(
           image: NetworkImage(imageURL),
-          //fit: BoxFit.cover,
+          fit: BoxFit.cover,
         ),
         decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
+        //shape: BoxShape.rectangle,
     ),
     );
   }

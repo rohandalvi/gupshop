@@ -13,11 +13,12 @@ import 'home.dart';
 class ChangeProfilePicture extends StatefulWidget {
   final double size = 550;
   String userName;
+  bool viewingFriendsProfile;
 
-  ChangeProfilePicture({@required this.userName});
+  ChangeProfilePicture({@required this.userName, @required this.viewingFriendsProfile});
 
   @override
-  _ChangeProfilePictureState createState() => _ChangeProfilePictureState(userName: userName);
+  _ChangeProfilePictureState createState() => _ChangeProfilePictureState(userName: userName, viewingFriendsProfile: viewingFriendsProfile);
 }
 
 class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
@@ -26,9 +27,10 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
 
     String imageURL;
     String userPhoneNo;
+    bool viewingFriendsProfile;
 
 
-    _ChangeProfilePictureState({@required this.userName});
+    _ChangeProfilePictureState({@required this.userName, @required this.viewingFriendsProfile});
 
     @override
     void initState() {
@@ -73,7 +75,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                     if(snapshot.data == null) imageURL = 'images/user.png';///this is the placeholder for the 1st time user, test it using an actual phone
                     imageUrl = snapshot.data['url'];
 
-                    return ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 360, width: 360,userName: userName,);
+                    return ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 360, width: 360,userName: userName, viewingFriendsProfile: viewingFriendsProfile,);
                   }
               ),
         ),

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
@@ -94,7 +95,7 @@ class _IndividualChatState extends State<IndividualChat> {
           child: Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(60.0),//the distance between gupShop and tabBars
-              child: appBar(),
+              child: appBar(context, friendName),
             ),
             //appBar(),
             body: showMessagesAndSendMessageBar(),
@@ -107,7 +108,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
 
 
-  appBar(){
+  appBar(BuildContext context, String friendName){
     return AppBar(
         backgroundColor: secondryColor.withOpacity(.03),
         elevation: 0,
@@ -129,7 +130,13 @@ class _IndividualChatState extends State<IndividualChat> {
 //              child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 30, 27),
 //            ),
 //          ),
-          DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 25, 24),
+          GestureDetector(
+            onTap: (){
+              CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true);
+            },
+            child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 25, 23.5),
+          ),
+
           title: CustomText(text: friendName,),
           subtitle: CustomText(text: 'Put last seen here',).subTitle(),
           trailing: Wrap(

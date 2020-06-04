@@ -18,14 +18,15 @@ class ProfilePictureAndButtonsScreen extends StatefulWidget {
   String imageUrl;
   double height;
   double width;
+  bool viewingFriendsProfile;
   //bool displayPicture;
   //bool applyButtons;
   //bool allowListView;
 
-  ProfilePictureAndButtonsScreen({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName});
+  ProfilePictureAndButtonsScreen({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName, this.viewingFriendsProfile});
 
   @override
-  _ProfilePictureAndButtonsScreenState createState() => _ProfilePictureAndButtonsScreenState(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: height, width:width, userName: userName);
+  _ProfilePictureAndButtonsScreenState createState() => _ProfilePictureAndButtonsScreenState(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: height, width:width, userName: userName, viewingFriendsProfile: viewingFriendsProfile);
 }
 
 class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButtonsScreen> {
@@ -34,6 +35,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   String imageUrl;
   double height;
   double width;
+  bool viewingFriendsProfile;
 //  bool showPicture;
 //  bool applyButtons;
 //  bool allowListView;
@@ -43,7 +45,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   File _galleryImage ;
   File _cameraImage;
 
-  _ProfilePictureAndButtonsScreenState({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName});
+  _ProfilePictureAndButtonsScreenState({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName, this.viewingFriendsProfile});
 
 
 
@@ -60,7 +62,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
               child : GestureDetector(
                   child: displayPicture(imageUrl, _galleryImage, _cameraImage, height, width, context),
                   onTap: (){
-                    if(isClicked == false){
+                    if(isClicked == false && viewingFriendsProfile == false){
                       isClicked = true;
                       print("in tap");
                       print("in snackbarbutton method");

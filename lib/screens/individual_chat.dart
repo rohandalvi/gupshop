@@ -18,6 +18,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class IndividualChat extends StatefulWidget {
   final String conversationId;
@@ -462,8 +463,13 @@ class _IndividualChatState extends State<IndividualChat> {
             child:
             //scrollListener() ?
             FloatingActionButton(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+
+              highlightElevation: 0,
               child: IconButton(
-                icon: Icon(Icons.keyboard_arrow_down),
+                icon: SvgPicture.asset('images/downArrow.svg',)
+                //SvgPicture.asset('images/downChevron.svg',)
               ),
               onPressed: (){
 //          Scrollable.ensureVisible(context);

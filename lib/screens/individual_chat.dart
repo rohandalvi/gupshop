@@ -132,7 +132,7 @@ class _IndividualChatState extends State<IndividualChat> {
 //          ),
           GestureDetector(
             onTap: (){
-              CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true);
+              CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true, friendNumber);
             },
             child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 25, 23.5),
           ),

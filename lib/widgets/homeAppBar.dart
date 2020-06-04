@@ -43,7 +43,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
        // backgroundColor: Colors.white,
         leading: GestureDetector(
           onTap: (){
-            CustomNavigator().navigateToChangeProfilePicture(context, userName, false);
+            CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo);
           },
           child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 30, 25),
         ),

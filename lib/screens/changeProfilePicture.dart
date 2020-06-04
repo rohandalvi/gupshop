@@ -13,12 +13,13 @@ import 'home.dart';
 class ChangeProfilePicture extends StatefulWidget {
   final double size = 550;
   String userName;
+  String userPhoneNo;
   bool viewingFriendsProfile;
 
-  ChangeProfilePicture({@required this.userName, @required this.viewingFriendsProfile});
+  ChangeProfilePicture({@required this.userName, @required this.viewingFriendsProfile, @required this.userPhoneNo});
 
   @override
-  _ChangeProfilePictureState createState() => _ChangeProfilePictureState(userName: userName, viewingFriendsProfile: viewingFriendsProfile);
+  _ChangeProfilePictureState createState() => _ChangeProfilePictureState(userName: userName, viewingFriendsProfile: viewingFriendsProfile, userPhoneNo: userPhoneNo);
 }
 
 class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
@@ -30,7 +31,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     bool viewingFriendsProfile;
 
 
-    _ChangeProfilePictureState({@required this.userName, @required this.viewingFriendsProfile});
+    _ChangeProfilePictureState({@required this.userName, @required this.viewingFriendsProfile, @required this.userPhoneNo});
 
     @override
     void initState() {

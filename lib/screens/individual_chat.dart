@@ -92,7 +92,11 @@ class _IndividualChatState extends State<IndividualChat> {
       children: <Widget>[
         Material(
           child: Scaffold(
-            appBar: appBar(),
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(60.0),//the distance between gupShop and tabBars
+              child: appBar(),
+            ),
+            //appBar(),
             body: showMessagesAndSendMessageBar(),
           ),
         ),
@@ -116,8 +120,16 @@ class _IndividualChatState extends State<IndividualChat> {
       title: Material(
         //color: Theme.of(context).primaryColor,
         child: ListTile(
-          contentPadding: EdgeInsets.symmetric(),
-          leading: DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 30, 27),
+          contentPadding: EdgeInsets.only(top: 4),
+//          contentPadding: EdgeInsets.symmetric(vertical: 5),
+          leading:
+//          Padding(
+//            padding: EdgeInsets.only(top: 5),
+//            child: Material(
+//              child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 30, 27),
+//            ),
+//          ),
+          DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 25, 24),
           title: CustomText(text: friendName,),
           subtitle: CustomText(text: 'Put last seen here',).subTitle(),
           trailing: Wrap(

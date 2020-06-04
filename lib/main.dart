@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.cyan[50],
       ),
       title: 'Chat home',
+debugShowCheckedModeBanner: false,
 //      home: Home(),
 //       home: GeolocationService(),
      // home: LoginScreen(),

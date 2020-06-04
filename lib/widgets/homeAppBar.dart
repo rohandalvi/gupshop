@@ -41,11 +41,18 @@ class _HomeAppBarState extends State<HomeAppBar> {
   Widget build(BuildContext context) {
       return AppBar(
        // backgroundColor: Colors.white,
-        leading: GestureDetector(
-          onTap: (){
-            CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo);
-          },
-          child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 30, 25),
+        leading: Container(
+          //borderRadius: BorderRadius.circular(25.0),
+          width: 100,
+          child: Align(
+            //alignment: Alignment.center,
+            child: GestureDetector(
+              onTap: (){
+                CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo);
+              },
+              child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 30, 25),
+            ),
+          ),
         ),
        
         title: CustomText(text: 'GupShop', fontSize: 18,),

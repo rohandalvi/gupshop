@@ -56,12 +56,18 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
             child: CustomAppBar(onPressed:(){
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(//@TODo pass userName to this page
-                    builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//routing to home screen for now, but should be routed to sideMenu
-                  )
-              );
+              Navigator.pop(context);
+
+//            if(viewingFriendsProfile == true){
+//              Navigator.pop(context);
+//            } else{
+//              Navigator.push(
+//                  context,
+//                  MaterialPageRoute(//@TODo pass userName to this page
+//                    builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//routing to home screen for now, but should be routed to sideMenu
+//                  )
+//              );
+//            }
             },),
         ),
         backgroundColor: Colors.white,

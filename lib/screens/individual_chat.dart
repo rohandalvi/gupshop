@@ -280,6 +280,8 @@ class _IndividualChatState extends State<IndividualChat> {
                       /// Show the scrolltobottom button only when the user scrolls up
                       if(notification is ScrollUpdateNotification){
 
+                        print("notification: $notification");
+
                         /// *** explaintaion of if(notification.scrollDelta > 0):
                         /// The problem we has was, setting the state of scroll to false in
                         /// _scrollToTheBottom methos was making the scroll false, but while
@@ -300,7 +302,20 @@ class _IndividualChatState extends State<IndividualChat> {
                             scroll = true;
                           });
                         }
+
+
+                        ///scroll button to disappear when the user goes down manually
+                        ///without pressing the scrollDown button
+                        if(notification.metrics.atEdge
+                            &&  !((notification.metrics.pixels - notification.metrics.maxScrollExtent) >
+                                (notification.metrics.minScrollExtent-notification.metrics.pixels))){
+                          setState(() {
+                            scroll = false;
+                          });
+                        }
                       }
+
+
 
                       ///onNotification allows us to know when we have reached the limit of the messages
                       ///once the limit is reached, documentList is updated again  with the next 10 messages using
@@ -465,6 +480,7 @@ class _IndividualChatState extends State<IndividualChat> {
             FloatingActionButton(
               backgroundColor: Colors.transparent,
               elevation: 0,
+//              hoverColor: Colors.transparent,
 
               highlightElevation: 0,
               child: IconButton(

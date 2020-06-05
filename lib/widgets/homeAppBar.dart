@@ -50,7 +50,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
               onTap: (){
                 CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo);
               },
-              child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 30, 25),
+              child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 30, 25, false),
             ),
           ),
         ),

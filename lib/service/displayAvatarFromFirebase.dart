@@ -105,24 +105,27 @@ class DisplayAvatarFromFirebase{
   }
 
 
-  displayAvatarFromFirebase(String userPhoneNo, double radius, double innerRadius){
+  displayAvatarFromFirebase(String userPhoneNo, double radius, double innerRadius, bool isFirstTime){
+    bool isFirstTime = false;
     String imageUrl;
     print("friendNo in getProfilePicture(): $userPhoneNo");
     DocumentReference isProfilePictureAdded = Firestore.instance.collection("profilePictures").document(userPhoneNo);
-    print("isProfilepictureAdded: ${isProfilePictureAdded.snapshots()}");
+    print("isProfilepictureAdded: ${isProfilePictureAdded.documentID}");
     return StreamBuilder(
         stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
         builder: (context, snapshot) {
-//                    print("snapshot in getProfilePic: ${snapshot.data['url']}");
-          if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
+          if(snapshot.data == null) return CircularProgressIndicator();///to avoid error - "getter do
           //print("imageUrl in sideMenu: ${snapshot.data['url']}");
           imageUrl = snapshot.data['url'];
+          if(imageUrl == null) {
+            imageUrl = 'images/user.png';
+            isFirstTime = true;
+          }
           print("imageUrl in displayAvatar: $imageUrl");
-          return customCircleAvatar(imageUrl, radius, innerRadius);
+          return customCircleAvatar(imageUrl, radius, innerRadius, isFirstTime);
 //            CircleAvatar(
 //            backgroundImage: NetworkImage(imageUrl),
 //          );
-
 
 //                      Container(
 ////                      height:
@@ -150,7 +153,7 @@ class DisplayAvatarFromFirebase{
     );
   }
 
-  customCircleAvatar(String image, double radius, double innerRadius){
+  customCircleAvatar(String image, double radius, double innerRadius, isFirstTime){
     print("imageurl in customCircleAvatar: $image");
     return CircleAvatar(
       radius: radius,
@@ -160,12 +163,20 @@ class DisplayAvatarFromFirebase{
         //radius - 4,
 //        foregroundColor: Colors.black,
 //        backgroundColor: Colors.black,
-        child: FadeInImage.memoryNetwork(
-          image:
-          'images/transparent.jpeg',
-          placeholder: kTransparentImage,
-        ),
-        backgroundImage: NetworkImage(image),
+//        child: isFirstTime == false ?
+//        FadeInImage.memoryNetwork(
+//          image: 'images/user.png',
+//          //'images/transparent.jpeg',
+//          placeholder: kTransparentImage,
+//        ):
+//        FadeInImage.assetNetwork(
+//          image: 'images/user.png',
+//          //'images/transparent.jpeg',
+//          placeholder: 'images/whiteBackground.png',
+//        )
+        backgroundImage: isFirstTime == true ? AssetImage(image):
+            NetworkImage(image),
+        backgroundColor: Colors.white,
       ),
 //      backgroundImage: NetworkImage(image),
 

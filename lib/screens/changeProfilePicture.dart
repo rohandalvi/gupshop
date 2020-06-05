@@ -56,18 +56,18 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
             child: CustomAppBar(onPressed:(){
-              Navigator.pop(context);
+             // Navigator.pop(context);
 
-//            if(viewingFriendsProfile == true){
-//              Navigator.pop(context);
-//            } else{
-//              Navigator.push(
-//                  context,
-//                  MaterialPageRoute(//@TODo pass userName to this page
-//                    builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//routing to home screen for now, but should be routed to sideMenu
-//                  )
-//              );
-//            }
+            if(viewingFriendsProfile == true){
+              Navigator.pop(context);
+            } else{
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(//@TODo pass userName to this page
+                    builder: (context) => Home(userName: userName,userPhoneNo: userPhoneNo,),//routing to home screen for now, but should be routed to sideMenu
+                  )
+              );
+            }
             },),
         ),
         backgroundColor: Colors.white,
@@ -79,8 +79,10 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                     String imageUrl;
 
                     if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
-                    if(snapshot.data == null) imageURL = 'images/user.png';///this is the placeholder for the 1st time user, test it using an actual phone
+
                     imageUrl = snapshot.data['url'];
+                    if(imageUrl == null) imageUrl = 'images/user.png';///this is the placeholder for the 1st time user, test it using an actual phone
+                    print("imageUrl in changeProfilePicture: $imageUrl");
 
                     return ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 360, width: 360,userName: userName, viewingFriendsProfile: viewingFriendsProfile,);
                   }

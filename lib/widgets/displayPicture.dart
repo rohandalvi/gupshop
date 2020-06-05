@@ -16,6 +16,7 @@ class DisplayPicture extends StatelessWidget {
   /// width: 370,
   @override
   Widget build(BuildContext context) {
+    print("image in displayImageclass: $image");
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20),
       padding: EdgeInsets.all(2),//controls the border
@@ -34,6 +35,7 @@ class DisplayPicture extends StatelessWidget {
       Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
+          color: Colors.white,
           image: DecorationImage(
             image: image,
             fit: BoxFit.cover,

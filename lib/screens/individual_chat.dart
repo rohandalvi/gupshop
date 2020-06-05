@@ -66,8 +66,7 @@ class _IndividualChatState extends State<IndividualChat> {
   Stream<QuerySnapshot> stream;
 
   ScrollNotification notification;
-
-  bool isLoading =  true;
+  bool isLoading = false;
   bool scroll = false;
 
 
@@ -136,7 +135,7 @@ class _IndividualChatState extends State<IndividualChat> {
             onTap: (){
               CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true, friendNumber);
             },
-            child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 25, 23.5),
+            child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 25, 23.5, false),//toDo- check if false is right  here
           ),
 
           title: CustomText(text: friendName,),
@@ -236,21 +235,18 @@ class _IndividualChatState extends State<IndividualChat> {
                         if (fromName == userName) isMe = true;
 
                         return ListTile(
-                          title: Container(
-                            width: MediaQuery.of(context).size.width,
-                           // height: MediaQuery.of(context).size.height,
-                            alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
-//                            decoration: BoxDecoration(
-//                              borderRadius: BorderRadius.all(Radius.circular(5)),
-//                            ),
-                            //margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),
-                            //EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),
-                            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
-                            //color: isMe ? isMeChatColor: notMeChatColor,
-                            //Color(0xFFF9FBE7) : Color(0xFFFFEFEE),
-                            child: imageURL == null?
-                            Text(messageBody,): showImage(imageURL),
-                            //message
+                          title: GestureDetector(
+                            onLongPress: (){
+                              print("in longpress");
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
+                              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
+                              child: imageURL == null?
+                              Text(messageBody,): showImage(imageURL),
+                              //message
+                            ),
                           ),
                           subtitle: Container(
                             width: MediaQuery.of(context).size.width,
@@ -325,9 +321,9 @@ class _IndividualChatState extends State<IndividualChat> {
                               (notification.metrics.maxScrollExtent-notification.metrics.pixels))) {
                         print("You are at top");
 
-                        if(isLoading == true) {//ToDo- check if this is  working with an actual phone
-                          CircularProgressIndicator();
-                        }
+//                        if(isLoading == true) {//ToDo- check if this is  working with an actual phone
+//                          CircularProgressIndicator();
+//                        }
 
                         fetchAdditionalMessages();
 
@@ -344,22 +340,15 @@ class _IndividualChatState extends State<IndividualChat> {
     );
   }
 
+  showPopUpMenuOnLongPress(){
+    showMenu(context: null, position: null, items: null);
+  }
+
   showImage(String imageURL){
     try{
       print("in try");
       return
         DisplayPicture().chatPictureFrame(imageURL);
-//        Container(
-//            width: 250,
-//            height: 250,
-//            child: Image(image: NetworkImage(imageURL),
-//              fit: BoxFit.cover,
-//            ),
-//          decoration: BoxDecoration(
-//            borderRadius: BorderRadius.all(Radius.circular(50.0)),
-//           // border: Border(top: BorderSide(place color here)),///for colored border
-//          ),
-//        );
     }
     catch (e){
       print("in catch");
@@ -390,7 +379,7 @@ class _IndividualChatState extends State<IndividualChat> {
               maxLines: null,
               onChanged: (value){
                 setState(() {
-                  this.value=value;//by doing this we are setting the value to value globally
+                  this.value=value;///by doing this we are setting the value to value globally
                 });
 //            this.value=value;
                 //_controller.clear();
@@ -403,18 +392,16 @@ class _IndividualChatState extends State<IndividualChat> {
               onPressed: () {
 
                 if(value!="") {
-                  //if there is not text, then dont send the message
+                  ///if there is not text, then dont send the message
                   var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
                   Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
-//                  DocumentSnapshot documentSnapshot=  await documentReference.get();
-//                  List<DocumentSnapshot>  newDocumentList = [ documentSnapshot];
 
                   setState(() {
                     documentList = null;
                   });
 
 
-                  //Navigating to RecentChats page with pushes the data to firebase
+                  ///Navigating to RecentChats page with pushes the data to firebase
                   RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
 
                   _controller.clear();//used to clear text when user hits send button
@@ -503,30 +490,6 @@ class _IndividualChatState extends State<IndividualChat> {
           //: new Align(),
         ),
       );
-
-
-
-
-//    return Align(
-//        alignment: Alignment.centerRight,
-//        child:
-//        //scrollListener() ?
-//        FloatingActionButton(
-//          child: IconButton(
-//            icon: Icon(Icons.keyboard_arrow_down),
-//          ),
-//          onPressed: (){
-////          Scrollable.ensureVisible(context);
-//            listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-//              0.0,
-//              curve: Curves.easeOut,
-//              duration: const Duration(milliseconds: 300),
-//            );
-//          },
-//        )
-//      //: new Align(),
-//    );
-//    } return Align();
   }
 
 
@@ -543,8 +506,6 @@ class _IndividualChatState extends State<IndividualChat> {
 
       setState(() {//setting state is essential, or new messages(next batch of old messages) does not get loaded
         documentList.addAll(newDocumentList);
-        //streamController.add(documentList);
-        isLoading = false;
       });
     } catch(e) {
       streamController.sink.addError(e);

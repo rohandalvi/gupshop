@@ -110,7 +110,7 @@ class ChatListState extends State<ChatList> {
                       if(snapshot.connectionState == ConnectionState.done) {
                         friendNumber = snapshot.data;
                         //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
-                        return DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 30, 27);
+                        return DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 30, 27, false);//ToDo- check is false is right here
                       }
                       return CircularProgressIndicator();
                     },

@@ -51,7 +51,11 @@ class ImagesPickersDisplayPictureURLorFile {
   }
 
   displayPictureFromURL(String image, double height, double width){
-    ImageProvider ip = NetworkImage(image);
+    ImageProvider ip;
+    if(image == 'images/user.png'){
+      ip = AssetImage(image);
+    }else ip = NetworkImage(image);
+
     return DisplayPicture(height: height,width: width, image: ip);
   }
 

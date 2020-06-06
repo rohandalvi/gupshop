@@ -28,9 +28,10 @@ class IndividualChat extends StatefulWidget {
   final String userName;
   final String friendName;
   final String friendNumber;
+  final Map forwardMessage;
 
   IndividualChat(
-      {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, @required this.friendNumber,})
+      {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, @required this.friendNumber,this.forwardMessage})
       : super(key: key);
   @override
   _IndividualChatState createState() => _IndividualChatState(
@@ -38,7 +39,8 @@ class IndividualChat extends StatefulWidget {
       userPhoneNo: userPhoneNo,
       userName: userName,
       friendName: friendName,
-      friendNumber: friendNumber
+      friendNumber: friendNumber,
+      forwardMessage: forwardMessage,
   );
 
 }
@@ -51,12 +53,13 @@ class _IndividualChatState extends State<IndividualChat> {
   final String userName;
   final String friendName;
   final String friendNumber;
+  final Map forwardMessage;
 
-  static int numberOfImageInConversation = 0;//for giving number to the images sent in conversation for
-  //storing in firebase
+  static int numberOfImageInConversation = 0;///for giving number to the images sent in conversation for
+  ///storing in firebase
 
   _IndividualChatState(
-      {@required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, @required this.friendNumber,});
+      {@required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, @required this.friendNumber, this.forwardMessage});
 
   String value = ""; //TODo
 
@@ -86,6 +89,39 @@ class _IndividualChatState extends State<IndividualChat> {
     collectionReference = Firestore.instance.collection("conversations").document(conversationId).collection("messages");
     stream = collectionReference.orderBy("timeStamp", descending: true).limit(10).snapshots();
 
+
+    ///if isThereAForwardMessage == true, then initialize that method of sending the message
+    ///here in the initstate():
+    print("forwardMessage out: $forwardMessage");
+    if(forwardMessage != null){
+      print("forwardMessage: $forwardMessage");
+      var data = forwardMessage;
+      String conversationId = data["conversationId"];
+
+      //var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+      Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+
+      setState(() {
+        documentList = null;
+      });
+
+//      if(data["body"] != null) pushMessageDataToFirebase(false, data);
+//      else pushMessageDataToFirebase(true, data);
+      print("in init");
+      print("data[imageURL] :${data["imageURL"]}");
+
+
+      if(data["imageURL"] != null) data = createDataToPushToFirebase(true, "📸", userName, userPhoneNo, conversationId);
+      ///Navigating to RecentChats page with pushes the data to firebase
+      RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+
+//      _controller.clear();//used to clear text when user hits send button
+//      listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+//        0.0,
+//        curve: Curves.easeOut,
+//        duration: const Duration(milliseconds: 300),
+//      );
+    }
 
     super.initState();
   }
@@ -247,13 +283,17 @@ class _IndividualChatState extends State<IndividualChat> {
                               if(isPressed == false){///show snackbar only once
                                 isPressed = true;
                                 String forwardMessage;
+                                String forwardImage;
                                 print("on longPress: $messageBody");
 
                                 ///extract the message in a variable called forwardMessage(ideally there should be
                                 /// a list of messages and not just one variable..this is a @todo )
                                 if(messageBody != null){
                                   forwardMessage = messageBody;
-                                }else forwardMessage = imageURL;
+                                }else forwardImage = imageURL;
+
+
+
 
                                 ///show snackbar
                                 return Flushbar(
@@ -264,7 +304,21 @@ class _IndividualChatState extends State<IndividualChat> {
                                   dismissDirection: FlushbarDismissDirection.HORIZONTAL,
 
                                   forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-                                  titleText: ForwardMessagesSnackBarTitleText(),
+                                  titleText: ForwardMessagesSnackBarTitleText(
+                                    ///what to do after the user longPresses a message
+                                    onTap: (){
+                                      ///open search page
+                                      ///on selecting a contact, send message to that contact
+
+                                      var data;
+                                      if(forwardMessage != null) data = {"body":forwardMessage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+                                      else data = {"imageURL":forwardImage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+
+
+                                      print("data in flushbar: $data");
+                                      CustomNavigator().navigateToContactSearch(context, userName,  userPhoneNo, data);
+                                    },
+                                  ),
                                   message: 'Change',
                                   onStatusChanged: (val){
                                     print("val: $val");
@@ -375,14 +429,10 @@ class _IndividualChatState extends State<IndividualChat> {
                         print("You are at top");
 
 //                        if(isLoading == true) {//ToDo- check if this is  working with an actual phone
-//                          CircularProgressIndicator();
-//                        }
-
+//                          CircularProgressIndicator();}
                         fetchAdditionalMessages();
-
                       }
                       return true;
-
                     },
                   );
                 }),
@@ -507,7 +557,8 @@ class _IndividualChatState extends State<IndividualChat> {
       if(isImage == true){
         var data = createDataToPushToFirebase(true, "📸", userName, userPhoneNo, conversationId);
         RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
-      }
+      }else
+        RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
 
   }
 

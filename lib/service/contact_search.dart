@@ -16,26 +16,29 @@ import 'package:gupshop/widgets/customText.dart';
 class ContactSearch extends StatefulWidget {
   final String userPhoneNo;
   final String userName;
+  final data;
 
-  ContactSearch({@required this.userPhoneNo, @required this.userName});
+  ContactSearch({@required this.userPhoneNo, @required this.userName, this.data});
 
   @override
-  _ContactSearchState createState() => _ContactSearchState(userPhoneNo: userPhoneNo, userName: userName);
+  _ContactSearchState createState() => _ContactSearchState(userPhoneNo: userPhoneNo, userName: userName, data: data);
 }
 
 class _ContactSearchState extends State<ContactSearch> {
   final String userPhoneNo;
   final String userName;
+  final data;
 
   List<DocumentSnapshot> list;
 
-  _ContactSearchState({@required this.userPhoneNo, @required this.userName});
+  _ContactSearchState({@required this.userPhoneNo, @required this.userName, this.data});
 
   void initState() {
     print("in initsate");
     super.initState();
     CreateFriendsCollection(userName: userName, userPhoneNo: userPhoneNo,).getUnionContacts();
     createSearchSuggestions();//to get the list of contacts as suggestion
+    print("data in initstate of contactSearch: $data");
   }
 
   getFriendNo(String conversationId) async{
@@ -53,13 +56,7 @@ class _ContactSearchState extends State<ContactSearch> {
           emptyWidget: CircularProgressIndicator(),
           icon: GestureDetector(
             onTap: (){
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Home(userName: userName,userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
-                  )
-              );
-              //CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+              CustomNavigator().navigateToHome(context, userName, userPhoneNo);
             },
             child: SvgPicture.asset('images/backArrowColor.svg',
               width: 35,
@@ -107,18 +104,9 @@ class _ContactSearchState extends State<ContactSearch> {
               title: CustomText(text:doc.data["name"]),
               onTap: () {
                 print("friendNo in contact search : $friendNo");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(//to send conversationId along with the navigator to the next page
-                        builder: (context) => IndividualChat(
-                          conversationId: conversationId,
-                          userPhoneNo: widget.userPhoneNo,
-                          userName: widget.userName,
-                          friendName: doc.data["name"],
-                          friendNumber: friendNo,
-                        ),
-                      ),
-                    );
+                String friendName = doc.data["name"];
+                print("data in contactSearch: $data");
+                    CustomNavigator().navigateToIndividualChat(context, conversationId, userName, userPhoneNo, friendName, friendNo, data  );
                   },
             );
           },
@@ -136,10 +124,9 @@ class _ContactSearchState extends State<ContactSearch> {
   }
 
 
-  /*
-  we are displaying the friends collection as the suggestion.
-  But since, suggestion in SearchBar requires a List and not
-   */
+
+  ///we are displaying the friends collection as the suggestion.
+  ///But since, suggestion in SearchBar requires a List and not
   createSearchSuggestions() async{
     print("in getContactsList");
     var temp= await Firestore.instance.collection("friends_$userPhoneNo").getDocuments();

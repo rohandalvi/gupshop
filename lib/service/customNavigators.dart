@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/screens/home.dart';
+import 'package:gupshop/screens/individual_chat.dart';
+import 'package:gupshop/service/contact_search.dart';
 
 class CustomNavigator{
   navigateToHome(BuildContext context, String userName, String userPhoneNo){
@@ -18,6 +20,31 @@ class CustomNavigator{
         MaterialPageRoute(
           builder: (context) => ChangeProfilePicture(userName: userName, viewingFriendsProfile:viewingFriendsProfile, userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
         )
+    );
+  }
+
+  navigateToContactSearch(BuildContext context, String userName, String userPhoneNo, var data){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ContactSearch(userName: userName, userPhoneNo: userPhoneNo, data: data,),//pass Name() here and pass Home()in name_screen
+        )
+    );
+  }
+
+  navigateToIndividualChat(BuildContext context, String conversationId, String userName, String userPhoneNo, String friendName, String friendNumber, var data ){
+    Navigator.push(
+      context,
+      MaterialPageRoute(//to send conversationId along with the navigator to the next page
+        builder: (context) => IndividualChat(
+          conversationId: conversationId,
+          userPhoneNo: userPhoneNo,
+          userName: userName,
+          friendName:friendName,
+          friendNumber: friendNumber,
+          forwardMessage: data,
+        ),
+      ),
     );
   }
 }

@@ -52,6 +52,10 @@ class ImagesPickersDisplayPictureURLorFile {
 
   displayPictureFromURL(String image, double height, double width){
     ImageProvider ip;
+
+    /// for 1st time user, we are giving an image from our assets as his dp
+    /// So we are just checking if he is the 1st time user, then display the image from
+    /// assets, else display from Netwrok i.e firebase
     if(image == 'images/user.png'){
       ip = AssetImage(image);
     }else ip = NetworkImage(image);
@@ -81,9 +85,6 @@ class ImagesPickersDisplayPictureURLorFile {
     print("imageurl: $imageURL");
     Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url':imageURL});
 
-//    setState(() {
-//      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture uploaded'),));
-//    });
   }
 
 

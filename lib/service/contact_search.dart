@@ -79,6 +79,7 @@ class _ContactSearchState extends State<ContactSearch> {
           ),
           onSearch: searchList,
           onItemFound: (DocumentSnapshot doc, int index){
+            print("DocumentSnapshot doc: $doc");
             String conversationId = doc.data["conversationId"];
             print("conversationId: $conversationId");
             String friendNo;
@@ -129,6 +130,7 @@ class _ContactSearchState extends State<ContactSearch> {
    Future<List<DocumentSnapshot>> searchList(String text) async {
      var list = await Firestore.instance.collection("friends_${widget.userPhoneNo}").getDocuments();
     //String userPhoneNo ="+19194134191";
+     print("list: $list");
 
     return list.documents.where((l) => l.data["name"].toLowerCase().contains(text.toLowerCase()) ||  l.documentID.contains(text)).toList();
   }
@@ -140,8 +142,10 @@ class _ContactSearchState extends State<ContactSearch> {
    */
   createSearchSuggestions() async{
     print("in getContactsList");
-    var temp= await Firestore.instance.collection("friends_${widget.userPhoneNo}").getDocuments();
+    var temp= await Firestore.instance.collection("friends_$userPhoneNo").getDocuments();
+    print("temp: $temp");
     var tempList = temp.documents;
+    print("tempList: $tempList");
     setState(() {
       list = tempList;
       print("in setState");

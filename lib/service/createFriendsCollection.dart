@@ -13,25 +13,24 @@ class CreateFriendsCollection{
   CreateFriendsCollection({@required this.userPhoneNo, @required this.userName});
 
 
-  /*
-  From Iterable contacts we get a list of user's  phone contacts.
-  Now  we need to compare those contacts with the users we have for our app and get a union.
-  Now we need to add that union of users to his friends_number collection
-   */
+
+  /// From Iterable contacts we get a list of user's  phone contacts.
+  /// Now  we need to compare those contacts with the users we have for our app and get a union.
+  /// Now we need to add that union of users to his friends_number collection
   getUnionContacts()async{
     Iterable<Contact> contacts = await _getContactsFromUserPhone();
+    print("contacts list: $contacts");
     await _loopThroughEachContactToFindUnion(contacts);
   }
 
 
 
 
-  /*
-  Get permission to access contacts using PermissionStatus
-  (from GetContactsPermission())
-  Access contacts and get contacts using ContactService and put them
-  in a array(from GetContactsFromUserPhone())
-   */
+
+  /// Get permission to access contacts using PermissionStatus
+  /// (from GetContactsPermission())
+  /// Access contacts and get contacts using ContactService and put them
+  /// in a array(from GetContactsFromUserPhone())
   _getContactsFromUserPhone() async{
     PermissionStatus permission = await GetContactsPermission().getPermission();
     //Accessing contacts only if we have permission
@@ -42,18 +41,18 @@ class CreateFriendsCollection{
     }
   }
 
-  /*
-  Extract only the common contacts using getCommonContacts and push them in friends_number
-  collection using pushNumberToFriendsCollection(number)
-   */
+
+  /// Extract only the common contacts using getCommonContacts and push them in friends_number
+  /// collection using pushNumberToFriendsCollection(number)
   _loopThroughEachContactToFindUnion(Iterable<Contact> contacts) async{
     for(Contact contact in contacts) {
-      Iterable<Item> phones = contact.phones;//we get each phone number as a list
+      Iterable<Item> phones = contact.phones;///we get each phone number as a list
 
-      for(Item phoneList in phones){//so we need to iterate through that list too
+      for(Item phoneList in phones){///so we need to iterate through that list too
         String number = phoneList.value;
+        print("number: $number");
         if (await _getCommonContacts(number)==true){
-          //add to firebase 'friends_number' collection
+          ///add to firebase 'friends_number' collection
           number = number.replaceAll(' ', '');//the format given by Item is => +1 585-754-7599 and we want no spaces and no dash, so => replaceAll
           number = number.replaceAll('-', '');
 
@@ -69,11 +68,17 @@ class CreateFriendsCollection{
    */
   _getCommonContacts(String number) async{
     String firebaseNumber = Firestore.instance.collection("users").document(number).documentID;
-    if(number == firebaseNumber) return true;
-    else return false;
+    print("firebaseNumber: $firebaseNumber");
+    if(number == firebaseNumber) {
+      print("is a friend");
+      return true;}
+    else {
+      print("not a friend");
+      return false;}
   }
 
   _pushNumberToFriendsCollection(String number){
+    print("number in _pushNumberToFriendsCollection: $number");
     Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': number},merge: true);
   }
 

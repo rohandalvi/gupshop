@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/models/chat_List.dart';
@@ -11,6 +12,7 @@ import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/displayPicture.dart';
+import 'package:gupshop/widgets/forwardMessagesSnackBarTitleText.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 
@@ -68,6 +70,7 @@ class _IndividualChatState extends State<IndividualChat> {
   ScrollNotification notification;
   bool isLoading = false;
   bool scroll = false;
+  bool isPressed = false;
 
 
   @override
@@ -236,8 +239,58 @@ class _IndividualChatState extends State<IndividualChat> {
 
                         return ListTile(
                           title: GestureDetector(
+//                              onTap: (){
+//                                print("onTap pressed");
+//                                FocusScope.of(context).unfocus();///Not working!!
+//                              },
                             onLongPress: (){
-                              print("in longpress");
+                              if(isPressed == false){///show snackbar only once
+                                isPressed = true;
+                                String forwardMessage;
+                                print("on longPress: $messageBody");
+
+                                ///extract the message in a variable called forwardMessage(ideally there should be
+                                /// a list of messages and not just one variable..this is a @todo )
+                                if(messageBody != null){
+                                  forwardMessage = messageBody;
+                                }else forwardMessage = imageURL;
+
+                                ///show snackbar
+                                return Flushbar(
+                                  padding : EdgeInsets.all(10),
+                                  borderRadius: 8,
+                                  backgroundColor: Colors.white,
+
+                                  dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+
+                                  forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+                                  titleText: ForwardMessagesSnackBarTitleText(),
+                                  message: 'Change',
+                                  onStatusChanged: (val){
+                                    print("val: $val");
+                                    ///if the user longPresses the button once, dismesses it and later presses
+                                    ///it again then the snackbar was not appearing, because isPressed was
+                                    ///set to true. So when the flushbar is dismissed, we are setting isPressed
+                                    ///to false again, so the snackbar can appear again
+                                    if(val == FlushbarStatus.DISMISSED){
+                                      isPressed = false;
+                                    }
+                                  },
+
+                                )..show(context);
+                              } return Container();
+
+
+
+                              /// UI:
+                              /// on longPress show a mini snackBar which has the option of forward or copy
+                              /// and remove the sendMessage box
+                              /// On pressing forward, take the user to the search which is ordered in the
+                              /// form of list of users(i.e search with the latest conversation on top)
+                              /// On sending the message, take, keep a button of done on the search page
+                              ///
+                              /// backend:
+                              ///
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width,
@@ -340,9 +393,13 @@ class _IndividualChatState extends State<IndividualChat> {
     );
   }
 
-  showPopUpMenuOnLongPress(){
-    showMenu(context: null, position: null, items: null);
-  }
+//  showPopUpMenuOnLongPress(){
+//    showMenu(
+//        context: null,
+//        position: null,
+//        items: PopupMenuEntry<T>
+//    );
+//  }
 
   showImage(String imageURL){
     try{

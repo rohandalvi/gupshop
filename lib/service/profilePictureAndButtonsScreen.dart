@@ -77,7 +77,6 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
                         titleText: galleryApplyCameraButtons(context, _galleryImage, _cameraImage),
                         message: 'Change',
 
-
                       )..show(context);
                     } return Container();
                   },
@@ -103,16 +102,8 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// So only when the user has selected the gallery image or the camera image, the only
   /// that image gets displayed
   displayPicture(String imageUrl, File _galleryImage, File _cameraImage, double height, double width, BuildContext context){
-    if(imageUrl!=null && _galleryImage == null && _cameraImage == null) {
-//      var image = ImagesPickersDisplayPictureURLorFile().displayPictureFromURL(imageUrl, height, width);
-//      if(image.isLoading){return new Center(child: new CircularProgressIndicator());}
-      return ImagesPickersDisplayPictureURLorFile().displayPictureFromURL(imageUrl, height, width);
-      }
-    if(_galleryImage != null) {
-
-      return showPictureAndChangeButton(_galleryImage, height, width, context);
-    }
-
+    if(imageUrl!=null && _galleryImage == null && _cameraImage == null) return ImagesPickersDisplayPictureURLorFile().displayPictureFromURL(imageUrl, height, width);
+    if(_galleryImage != null) return showPictureAndChangeButton(_galleryImage, height, width, context);
     else if(_cameraImage != null)
       return showPictureAndChangeButton(_cameraImage,  height, width, context);
   }

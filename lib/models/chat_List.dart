@@ -58,12 +58,24 @@ class ChatListState extends State<ChatList> {
 
   getFriendPhoneNo(String conversationId, String myNumber) async {
     print("mynumber in getfriend2 : $myNumber");
-   DocumentSnapshot temp = await Firestore.instance.collection("conversationMetadata").document(conversationId).get();
-   var friendNo = await extractFriendNo(temp , myNumber);
-   return friendNo;
+    DocumentSnapshot temp = await Firestore.instance.collection(
+        "conversationMetadata").document(conversationId).get();
+    var friendNo = await extractFriendNo(temp, myNumber);
+    return friendNo;
   }
 
-  extractFriendNo(DocumentSnapshot temp, String myNumber) async{
+  getVideoDetailsFromVideoChat(int index) async{
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("recentChats").document(
+        myNumber).collection("conversations").getDocuments();
+    //.data.documents[index].data["message"]["videoURL"]
+
+    DocumentSnapshot ds =  querySnapshot.documents[index];
+    String videoIcon = ds.data["message"]["videoURL"];
+    return videoIcon;
+
+  }
+
+  extractFriendNo(DocumentSnapshot temp, String myNumber) async {
     print("mynumber in extractfriendNo : $myNumber");
     for (int i = 0; i < 2; i++) {
       if (temp.data["members"][i] != myNumber) {
@@ -73,82 +85,129 @@ class ChatListState extends State<ChatList> {
     return myNumber;
   }
 
+  @override
+  void initState() {
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    getVideoDetailsFromVideoChat(0);
     print("userphoneno in chatlist : $myNumber");
     print("username in chatlist :$myName");
 //    print("which snapshot: ${Firestore.instance.collection("recentChats")
 //        .document(myNumber).collection("conversations").snapshots()}");
     return Material(
       child: StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection("recentChats").document(myNumber).collection("conversations").snapshots(),
-        builder: (context, snapshot) {
-          if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter document was called on null"
-          return ListView.separated(//to create the seperated view of each chat, has to be used with separatorBuilder: (context, index) => Divider
+          stream: Firestore.instance.collection("recentChats").document(
+              myNumber).collection("conversations").snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.data == null) return CircularProgressIndicator();
+
+            ///to avoid error - "getter document was called on null"
+            return ListView
+                .separated( //to create the seperated view of each chat, has to be used with separatorBuilder: (context, index) => Divider
               itemCount: snapshot.data.documents.length,
-              itemBuilder: (context, index){
+              itemBuilder: (context, index) {
                 bool lastMessageIsPictureOrVideo;
-                String lastMessage;
-                  String friendName= snapshot.data.documents[index].data["name"];
-                if(snapshot.data.documents[index].data["message"]["videoURL"] != null){
+                String lastMessage = '';
+                print("friendName in ListView.separated: ${snapshot.data.documents[index].data["name"]}");
+                String friendName = snapshot.data.documents[index].data["name"];
+                if (snapshot.data.documents[index].data["message"]["videoURL"] != null) {
                   lastMessageIsPictureOrVideo = true;
                   lastMessage = snapshot.data.documents[index].data["message"]["videoURL"];
+                  print("lastMessage: $lastMessage");
                 }
-                  if(snapshot.data.documents[index].data["message"]["body"] == null){
-                    lastMessageIsPictureOrVideo = true;
-                    lastMessage = snapshot.data.documents[index].data["message"]["imageURL"];
-                  }else{
-                    lastMessage = snapshot.data.documents[index].data["message"]["body"];
-                  }
-                  Timestamp timeStamp = snapshot.data.documents[index].data["message"]["timeStamp"];
+                if (snapshot.data.documents[index].data["message"]["body"] == null) {
+                  lastMessageIsPictureOrVideo = true;
+                  lastMessage =
+                  snapshot.data.documents[index].data["message"]["imageURL"];
+                } else {
+                  lastMessage =
+                  snapshot.data.documents[index].data["message"]["body"];
+                }
+                Timestamp timeStamp = snapshot.data.documents[index]
+                    .data["message"]["timeStamp"];
 
-                  String friendNumber;
+                String friendNumber;
 
-                  //for sending to individual_chat.dart:
-                    conversationId = snapshot.data.documents[index].data["message"]["conversationId"];
+                //for sending to individual_chat.dart:
+                conversationId = snapshot.data.documents[index]
+                    .data["message"]["conversationId"];
 
-                return ListTile(//main widget that creates the message box
+                return ListTile( ///main widget that creates the message box
                   leading: FutureBuilder(
                     future: getFriendPhoneNo(conversationId, myNumber),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       print("Dat $snapshot");
-                      if(snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.connectionState == ConnectionState.done) {
                         friendNumber = snapshot.data;
                         //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
-                        return DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 30, 27, false);//ToDo- check is false is right here
+                        return DisplayAvatarFromFirebase()
+                            .displayAvatarFromFirebase(friendNumber, 30, 27,
+                            false); //ToDo- check is false is right here
                       }
                       return CircularProgressIndicator();
                     },
                   ),
-                  title: CustomText(text: friendName,),
-                  subtitle: lastMessageIsPictureOrVideo == false ?
-                  CustomText(text: lastMessage,).textWithOverFlow()
-                  : CustomText(text: lastMessage,),/// for dot dot at the end of the message
+                  title: CustomText(text: friendName),
+                  subtitle: lastMessageIsPictureOrVideo == true ?
+                  FutureBuilder(
+                    future: getVideoDetailsFromVideoChat(index),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      print("lastMessage in futureBuilder $snapshot");
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        lastMessage = snapshot.data;
+                        //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
+                        return CustomText(text: lastMessage); //ToDo- check is false is right here
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  ):CustomText(text: lastMessage).textWithOverFlow(),
+//                  lastMessageIsPictureOrVideo == true ?
+////                  //CustomText(text: '📹')
+////                  lastMessage == null? showProgressIndicator(lastMessage, index):
+//                  CustomText(text: lastMessage)
+//                      : CustomText(text: lastMessage).textWithOverFlow(),
+
+                  /// for dot dot at the end of the message
                   //dense: true,
-                  trailing: CustomText(//time
-                    text: DateFormat("dd MMM kk:mm").format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),
+                  trailing: CustomText( //time
+                    text: DateFormat("dd MMM kk:mm").format(
+                        DateTime.fromMillisecondsSinceEpoch(int.parse(
+                            timeStamp.millisecondsSinceEpoch.toString()))),
                     fontSize: 12,
                   ),
-                  onTap: (){
-                    print("friendNo in chatlist: $friendNumber");//friendNo is for outside of widget build, so use friendNumber insted of friendNo
+                  onTap: () {
+                    print(
+                        "friendNo in chatlist: $friendNumber"); //friendNo is for outside of widget build, so use friendNumber insted of friendNo
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => IndividualChat(friendName: friendName,conversationId: conversationId,userName:myName,userPhoneNo: myNumber, friendNumber: friendNumber,),//pass Name() here and pass Home()in name_screen
+                          builder: (context) =>
+                              IndividualChat(friendName: friendName,
+                                conversationId: conversationId,
+                                userName: myName,
+                                userPhoneNo: myNumber,
+                                friendNumber: friendNumber,), //pass Name() here and pass Home()in name_screen
                         )
                     );
                   },
                 );
               },
-            separatorBuilder: (context, index) => Divider(//to divide the chat list
-              color: Colors.white,
-            ),
-          );
-        }
+              separatorBuilder: (context, index) =>
+                  Divider( //to divide the chat list
+                    color: Colors.white,
+                  ),
+            );
+          }
       ),
     );
   }
+
 }
 
 

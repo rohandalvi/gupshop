@@ -42,20 +42,6 @@ class ChatListState extends State<ChatList> {
     So, we take the phone number which is not ours.
     But this logic will not work when in case of a group.
    */
-//  getFriendPhoneNo(String conversationId) async {
-//    print("mynumber: $myNumber");
-//    await Firestore.instance.collection("conversationMetadata").document(
-//        conversationId).get().then((val) {
-//      for (int i = 0; i < 2; i++) {
-//        if (val.data["members"][i] != myNumber) {
-//          friendNo=val.data["members"][i];
-//          break;
-//        }
-//      }
-//      print("friendNo: $friendNo");
-//    });
-//  }
-
   getFriendPhoneNo(String conversationId, String myNumber) async {
     print("mynumber in getfriend2 : $myNumber");
     DocumentSnapshot temp = await Firestore.instance.collection(
@@ -67,7 +53,6 @@ class ChatListState extends State<ChatList> {
   getVideoDetailsFromVideoChat(int index) async{
     QuerySnapshot querySnapshot = await Firestore.instance.collection("recentChats").document(
         myNumber).collection("conversations").getDocuments();
-    //.data.documents[index].data["message"]["videoURL"]
 
     DocumentSnapshot ds =  querySnapshot.documents[index];
     String videoIcon = ds.data["message"]["videoURL"];
@@ -85,15 +70,10 @@ class ChatListState extends State<ChatList> {
     return myNumber;
   }
 
-  @override
-  void initState() {
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    getVideoDetailsFromVideoChat(0);
+//    getVideoDetailsFromVideoChat(0);
     print("userphoneno in chatlist : $myNumber");
     print("username in chatlist :$myName");
 //    print("which snapshot: ${Firestore.instance.collection("recentChats")

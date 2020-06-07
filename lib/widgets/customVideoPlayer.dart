@@ -41,42 +41,46 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        FutureBuilder(
-          future: _initializeVideoPlayerFuture,
-          builder: (context, snapshot){
-            if(snapshot.connectionState == ConnectionState.done){
-              return AspectRatio(
-                aspectRatio: controller.value.aspectRatio,
-                child: VideoPlayer(controller),
+    return Container(
+      width: 250,
+      height: 250,
+      child: Stack(
+        children: <Widget>[
+          FutureBuilder(
+            future: _initializeVideoPlayerFuture,
+            builder: (context, snapshot){
+              if(snapshot.connectionState == ConnectionState.done){
+                return AspectRatio(
+                  aspectRatio: controller.value.aspectRatio,
+                  child: VideoPlayer(controller),
+                );
+              } return Center(
+                child: CircularProgressIndicator(),
               );
-            } return Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-        ),
-        FloatingActionButton(
-          onPressed: () {
-            // Wrap the play or pause in a call to `setState`. This ensures the
-            // correct icon is shown
-            setState(() {
-              // If the video is playing, pause it.
-              print("controller: ${controller.value}");
-              if (controller.value.isPlaying) {
-                controller.pause();
-              } else {
-                // If the video is paused, play it.
-                controller.play();
-              }
-            });
-          },
-          // Display the correct icon depending on the state of the player.
-          child: Icon(
-            controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+            },
           ),
-        ),
-      ],
+          FloatingActionButton(
+            onPressed: () {
+              // Wrap the play or pause in a call to `setState`. This ensures the
+              // correct icon is shown
+              setState(() {
+                // If the video is playing, pause it.
+                print("controller: ${controller.value}");
+                if (controller.value.isPlaying) {
+                  controller.pause();
+                } else {
+                  // If the video is paused, play it.
+                  controller.play();
+                }
+              });
+            },
+            // Display the correct icon depending on the state of the player.
+            child: Icon(
+              controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

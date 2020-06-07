@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'dart:math';
 
 class CustomVideoPlayer extends StatefulWidget {
   String videoURL;
@@ -21,6 +22,9 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   VideoPlayerController controller;
   Future<void> _initializeVideoPlayerFuture;
 
+  var range;
+  var number;
+
   @override
   void initState() {
     print("controller in _CustomVideoPlayerState: $controller");
@@ -28,7 +32,10 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     _initializeVideoPlayerFuture = controller.initialize();
     controller.setVolume(1.0);
 
-    // TODO: implement initState
+    range = new Random();
+    number = new List.generate(12, (_) => range.nextInt(100));// TODO: check if this is correct
+
+
     super.initState();
   }
 
@@ -60,6 +67,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
             },
           ),
           FloatingActionButton(
+            heroTag: "btn $number",
             onPressed: () {
               // Wrap the play or pause in a call to `setState`. This ensures the
               // correct icon is shown

@@ -42,7 +42,9 @@ class RecentChats{
 
   //check with whom the conversation is with
   conversationWith(String number, String friendCollectionNumber) async{
+    print("friendCollectionNumber: $friendCollectionNumber");
     DocumentSnapshot documentSnapshot = await Firestore.instance.collection("friends_$friendCollectionNumber").document(number).get();
+    print("documentSnapshot in conversationWith: $documentSnapshot");
     return documentSnapshot.data["name"];
   }
 

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'dart:io';
 
+import 'package:video_player/video_player.dart';
+
 class DisplayPicture extends StatelessWidget {
   ImageProvider image;
   double height;
@@ -59,6 +61,7 @@ class DisplayPicture extends StatelessWidget {
     ),
     );
   }
+
 
   ///used for sideMenu, chatList, individualchat
   smallSizePicture(double radius){

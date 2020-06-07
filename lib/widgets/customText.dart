@@ -21,6 +21,20 @@ class CustomText extends StatelessWidget {
     );
   }
 
+  textWithOverFlow(){
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+        //inconsolata
+        textStyle: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: fontSize != null ? fontSize : 16,
+        ),
+      ),
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
   subTitle(){
     return Text(
       text,

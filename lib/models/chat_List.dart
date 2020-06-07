@@ -88,9 +88,15 @@ class ChatListState extends State<ChatList> {
           return ListView.separated(//to create the seperated view of each chat, has to be used with separatorBuilder: (context, index) => Divider
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index){
+                bool lastMessageIsPictureOrVideo;
                 String lastMessage;
                   String friendName= snapshot.data.documents[index].data["name"];
+                if(snapshot.data.documents[index].data["message"]["videoURL"] != null){
+                  lastMessageIsPictureOrVideo = true;
+                  lastMessage = snapshot.data.documents[index].data["message"]["videoURL"];
+                }
                   if(snapshot.data.documents[index].data["message"]["body"] == null){
+                    lastMessageIsPictureOrVideo = true;
                     lastMessage = snapshot.data.documents[index].data["message"]["imageURL"];
                   }else{
                     lastMessage = snapshot.data.documents[index].data["message"]["body"];
@@ -116,7 +122,9 @@ class ChatListState extends State<ChatList> {
                     },
                   ),
                   title: CustomText(text: friendName,),
-                  subtitle: CustomText(text: lastMessage,),
+                  subtitle: lastMessageIsPictureOrVideo == false ?
+                  CustomText(text: lastMessage,).textWithOverFlow()
+                  : CustomText(text: lastMessage,),/// for dot dot at the end of the message
                   //dense: true,
                   trailing: CustomText(//time
                     text: DateFormat("dd MMM kk:mm").format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),

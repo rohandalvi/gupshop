@@ -9,8 +9,12 @@ import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
+import 'package:gupshop/service/sendAndDisplayMessages.dart';
+import 'package:gupshop/service/videoPicker.dart';
+import 'package:gupshop/widgets/buildMessageComposer.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customText.dart';
+import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:gupshop/widgets/displayPicture.dart';
 import 'package:gupshop/widgets/forwardMessagesSnackBarTitleText.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
@@ -21,6 +25,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:video_player/video_player.dart';
 
 class IndividualChat extends StatefulWidget {
   final String conversationId;
@@ -74,6 +79,7 @@ class _IndividualChatState extends State<IndividualChat> {
   bool isLoading = false;
   bool scroll = false;
   bool isPressed = false;
+  VideoPlayerController controller;
 
 
   @override
@@ -90,37 +96,24 @@ class _IndividualChatState extends State<IndividualChat> {
     stream = collectionReference.orderBy("timeStamp", descending: true).limit(10).snapshots();
 
 
-    ///if isThereAForwardMessage == true, then initialize that method of sending the message
+    ///if forwardMessage == true, then initialize that method of sending the message
     ///here in the initstate():
     print("forwardMessage out: $forwardMessage");
     if(forwardMessage != null){
-      print("forwardMessage: $forwardMessage");
       var data = forwardMessage;
-      String conversationId = data["conversationId"];
-
-      //var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-      Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+      SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
+//      String conversationId = data["conversationId"];
+//      Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
 
       setState(() {
         documentList = null;
       });
 
-//      if(data["body"] != null) pushMessageDataToFirebase(false, data);
-//      else pushMessageDataToFirebase(true, data);
-      print("in init");
-      print("data[imageURL] :${data["imageURL"]}");
 
-
-      if(data["imageURL"] != null) data = createDataToPushToFirebase(true, "📸", userName, userPhoneNo, conversationId);
+      if(data["videoURL"] != null) data = createDataToPushToFirebase(true, false, "📸", userName, userPhoneNo, conversationId);
+      if(data["imageURL"] != null) data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId);
       ///Navigating to RecentChats page with pushes the data to firebase
       RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
-
-//      _controller.clear();//used to clear text when user hits send button
-//      listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-//        0.0,
-//        curve: Curves.easeOut,
-//        duration: const Duration(milliseconds: 300),
-//      );
     }
 
     super.initState();
@@ -255,10 +248,19 @@ class _IndividualChatState extends State<IndividualChat> {
                       itemBuilder: (context, index) {
                         var messageBody;
                         var imageURL;
+                        var videoURL;
 
                         bool isLoading  = true;//for circularProgressIndicator
 
-                        if(documentList[index].data["imageURL"] == null){
+                        print("controller before in documentList[index]: ${documentList[index].data["videoURL"]}");
+
+                        if(documentList[index].data["videoURL"] != null){
+                          videoURL = documentList[index].data["videoURL"];
+                          print("videoURL: $videoURL");
+                          controller = VideoPlayerController.network(videoURL);
+                          print("controller in documentList[index]: $controller");
+                        }
+                        else if(documentList[index].data["imageURL"] == null){
                           print("text message");
                           messageBody = documentList[index].data["body"];
                         }else{
@@ -350,7 +352,7 @@ class _IndividualChatState extends State<IndividualChat> {
                               width: MediaQuery.of(context).size.width,
                               alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
                               padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
-                              child: imageURL == null?
+                              child: videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
                               Text(messageBody,): showImage(imageURL),
                               //message
                             ),
@@ -418,8 +420,6 @@ class _IndividualChatState extends State<IndividualChat> {
                         }
                       }
 
-
-
                       ///onNotification allows us to know when we have reached the limit of the messages
                       ///once the limit is reached, documentList is updated again  with the next 10 messages using
                       ///the fetchAdditionalMesages()
@@ -451,6 +451,18 @@ class _IndividualChatState extends State<IndividualChat> {
 //    );
 //  }
 
+  showVideo(String videoURL, VideoPlayerController controller){
+    try{
+      print("in try");
+      return
+        CustomVideoPlayer(videoURL: videoURL);
+    }
+    catch (e){
+      print("in catch");
+      return Icon(Icons.image);}
+  }
+
+
   showImage(String imageURL){
     try{
       print("in try");
@@ -462,66 +474,110 @@ class _IndividualChatState extends State<IndividualChat> {
       return Icon(Icons.image);}
   }
 
+
   _buildMessageComposer() {//the type and send message box
     return StatefulBuilder(
       builder: (context, StateSetter setState){
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: 8.0),
-          height: 70,
-          color: Colors.white,
-          child: ListTile(
-            leading:
-                IconButton(
-                  icon: SvgPicture.asset('images/image2vector.svg',),
-                  onPressed: () async{
-                    var data = await sendImage();
-                    pushMessageDataToFirebase(true, data);
-                    setState(() {
-                      documentList = null;
-                    });
-                  },
-                ),
-            title: TextField(
-              //textCapitalization: TextCapitalization.sentences,
-              maxLines: null,
-              onChanged: (value){
-                setState(() {
-                  this.value=value;///by doing this we are setting the value to value globally
-                });
-//            this.value=value;
-                //_controller.clear();
-              },
-              scrollController: new ScrollController(),
-              controller: _controller,//used to clear text when user hits send button
-            ),
-            trailing: IconButton(
-              icon: SvgPicture.asset('images/paperPlane.svg',),///or forward2
-              onPressed: () {
+        return BuildMessageComposer(
+          firstOnPressed: () async{
+            var data = await sendImage();
+            pushMessageDataToFirebase(false,true, data);
+            setState(() {
+              documentList = null;
+            });
+          },
+          secondOnPressed: () async{
+            var data = await sendVideo();
+            pushMessageDataToFirebase(true,false, data);
+            setState(() {
+              documentList = null;
+            });
+          },
+          onChangedForTextField: (value){
+            setState(() {
+              this.value=value;///by doing this we are setting the value to value globally
+            });
+          },
+          onPressedForSendingMessageIcon:() {
+            if(value!="") {
+              ///if there is not text, then dont send the message
+              var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+              SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
 
-                if(value!="") {
-                  ///if there is not text, then dont send the message
-                  var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-                  Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+              setState(() {
+                documentList = null;
+              });
 
-                  setState(() {
-                    documentList = null;
-                  });
+              ///Navigating to RecentChats page with pushes the data to firebase
+              RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
 
-
-                  ///Navigating to RecentChats page with pushes the data to firebase
-                  RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
-
-                  _controller.clear();//used to clear text when user hits send button
-                  listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-                    0.0,
-                    curve: Curves.easeOut,
-                    duration: const Duration(milliseconds: 300),
-                  );
-                }
-              },
-            ),
-          ),
+              _controller.clear();//used to clear text when user hits send button
+              listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+                0.0,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );
+            }
+          },
+          scrollController: new ScrollController(),
+          controller: _controller,
         );
+//          Container(
+//          padding: EdgeInsets.symmetric(horizontal: 8.0),
+//          height: 70,
+//          color: Colors.white,
+//          child:
+//          ListTile(
+//            leading:
+//                IconButton(
+//                  icon: SvgPicture.asset('images/image2vector.svg',),
+//                  onPressed: () async{
+//                    var data = await sendImage();
+//                    pushMessageDataToFirebase(true, data);
+//                    setState(() {
+//                      documentList = null;
+//                    });
+//                  },
+//                ),
+//            title: TextField(
+//              maxLines: null,
+//              onChanged: (value){
+//                setState(() {
+//                  this.value=value;///by doing this we are setting the value to value globally
+//                });
+//              },
+//              scrollController: new ScrollController(),
+//              controller: _controller,//used to clear text when user hits send button
+//            ),
+//            trailing:
+//            IconButton(
+//              icon: SvgPicture.asset('images/paperPlane.svg',),///or forward2
+//              onPressed: () {
+//
+//                if(value!="") {
+//                  ///if there is not text, then dont send the message
+//                  var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+//                  SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
+//
+//                  setState(() {
+//                    documentList = null;
+//                  });
+//
+//
+//                  ///Navigating to RecentChats page with pushes the data to firebase
+//                  RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+//
+//                  _controller.clear();//used to clear text when user hits send button
+//                  listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+//                    0.0,
+//                    curve: Curves.easeOut,
+//                    duration: const Duration(milliseconds: 300),
+//                  );
+//                }
+//              },
+//            ),
+//          ),
+//        );
       },
 
     );
@@ -538,27 +594,58 @@ class _IndividualChatState extends State<IndividualChat> {
     File image = await ImagesPickersDisplayPictureURLorFile().pickImageFromGallery();
     File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(image);
     String imageURL = await ImagesPickersDisplayPictureURLorFile().getImageURL(croppedImage, userPhoneNo, numberOfImageInConversation);
-    return createDataToPushToFirebase(true, imageURL, userName, userPhoneNo, conversationId);
+    return createDataToPushToFirebase(false, true, imageURL, userName, userPhoneNo, conversationId);
+
+  }
+
+  sendVideo() async{
+    numberOfImageInConversation++;
+    print("numberOfImageInConversation++ : $numberOfImageInConversation");
+    print("in sendImage");
+    File video = await VideoPicker().pickVideoFromGallery();
+
+    String videoURL = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, userPhoneNo, numberOfImageInConversation);
+    print("videoURL in sendVideo: $videoURL");
+    return createDataToPushToFirebase(true, false, videoURL, userName, userPhoneNo, conversationId);
 
   }
 
 
   ///this method creates the data to be pushed to firebase
-  createDataToPushToFirebase(bool isImage, String value, String userName, String fromPhoneNumber, String conversationId){
+  createDataToPushToFirebase(bool isVideo, bool isImage, String value, String userName, String fromPhoneNumber, String conversationId){
+    if(isVideo == true){
+      return {"videoURL":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+    }
+
     if(isImage == true){
       return {"imageURL":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
     } return {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
   }
 
-  pushMessageDataToFirebase(bool isImage, var data){
+  ///this method can be used in place of line 498 to navigate to recentChats, but wait, it cant be
+  ///becuase there is setState in between, this method is used only to send pictures in
+  ///     IconButton(
+  ///                  icon: SvgPicture.asset('images/image2vector.svg',),
+  ///                  onPressed: () async{
+  ///                    var data = await sendImage();
+  ///                    pushMessageDataToFirebase(true, data);
+  ///                    setState(() {
+  ///                      documentList = null;
+  ///                    });
+  ///                  },
+  ///                )
+  pushMessageDataToFirebase(bool isVideo, bool isImage, var data){
       Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
       ///Navigating to RecentChats page with pushes the data to firebase
+      if(isVideo == true){
+        var data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId);
+        RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+      }
 
       if(isImage == true){
-        var data = createDataToPushToFirebase(true, "📸", userName, userPhoneNo, conversationId);
+        var data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId);
         RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
-      }else
-        RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+      }
 
   }
 
@@ -573,6 +660,7 @@ class _IndividualChatState extends State<IndividualChat> {
             child:
             //scrollListener() ?
             FloatingActionButton(
+              tooltip: 'Scroll to the bottom',
               backgroundColor: Colors.transparent,
               elevation: 0,
 //              hoverColor: Colors.transparent,

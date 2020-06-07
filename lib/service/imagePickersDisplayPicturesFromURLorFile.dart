@@ -74,6 +74,17 @@ class ImagesPickersDisplayPictureURLorFile {
     return imageURL;
   }
 
+  getVideoURL(File galleryImage, String userPhoneNo, int number) async{
+    String fileName = basename(galleryImage.path);
+    //String fileName = basename(_galleryImage.path);
+    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child("video").child(fileName);
+    StorageUploadTask uploadTask = firebaseStorageReference.putFile(galleryImage, StorageMetadata(contentType: 'video/mp4'));
+    StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
+    imageURL = await imageURLFuture.ref.getDownloadURL();
+    print("imageURL in getVideoURL: $imageURL");
+    return imageURL;
+  }
+
 
   Future uploadImageToFirestore(BuildContext context, String userPhoneNo, File _galleryImage) async{//functionality for cameraImage is not added, thats a to do
     String fileName = basename(userPhoneNo+'ProfilePicture');

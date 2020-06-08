@@ -115,40 +115,26 @@ class DisplayAvatarFromFirebase{
         stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
         builder: (context, snapshot) {
           if(snapshot.data == null) return CircularProgressIndicator();///to avoid error - "getter do
-          //print("imageUrl in sideMenu: ${snapshot.data['url']}");
-          imageUrl = snapshot.data['url'];
-          if(imageUrl == null) {
+
+          /// because for the first time user, if he hasnt put any profile picture,
+          /// then there wont be any 'url' in firebase.
+          /// So, we  would always get a null pointer even if we try to do this:
+          ///   if(snapshot.data['url'] == null) {
+          ///            imageUrl = 'images/user.png';
+          ///            isFirstTime = true;
+          ///          }else imageUrl = snapshot.data['url'];
+          ///
+          /// So we use a try catch insted
+          try{
+            imageUrl = snapshot.data['url'];
+          }
+          catch (e){
+            print("in catch");
             imageUrl = 'images/user.png';
             isFirstTime = true;
           }
-          print("imageUrl in displayAvatar: $imageUrl");
-          return customCircleAvatar(imageUrl, radius, innerRadius, isFirstTime);
-//            CircleAvatar(
-//            backgroundImage: NetworkImage(imageUrl),
-//          );
 
-//                      Container(
-////                      height:
-////                      MediaQuery.of(context).size.height / 1.25,
-////                      width:
-////                      MediaQuery.of(context).size.width / 1.25,
-////                      child: Image(
-////                        image: Image.network(snapshot.data),
-////                      ),
-//                      decoration: new BoxDecoration(
-//                        shape: BoxShape.circle,
-//                        image: imageUrl==null?  new DecorationImage(
-//                          image: AssetImage('images/sampleProfilePicture.jpeg'),
-//                          fit: BoxFit.cover,
-//                          //new AssetImage('images/sampleProfilePicture.jpeg'),
-//                        ):
-//                        new DecorationImage(
-//                            image: NetworkImage(imageUrl),
-//                          fit: BoxFit.cover,
-//                            //new AssetImage('images/sampleProfilePicture.jpeg'),
-//                        ),
-//                      ),
-//                    );
+          return customCircleAvatar(imageUrl, radius, innerRadius, isFirstTime);
         }
     );
   }

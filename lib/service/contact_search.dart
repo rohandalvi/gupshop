@@ -116,7 +116,7 @@ class _ContactSearchState extends State<ContactSearch> {
               title: CustomText(text:doc.data["nameList"][0]),///displaying on the display name
               onTap: () {
                 print("friendNo in contact search : $friendNo");
-                String friendName = doc.data["name"];
+                String friendName = doc.data["nameList"][0];
                 print("data in contactSearch: $data");
                     CustomNavigator().navigateToIndividualChat(context, conversationId, userName, userPhoneNo, friendName, friendNo, data  );
                   },

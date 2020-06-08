@@ -59,12 +59,13 @@ class CreateFriendsCollection{
       for(Item phoneList in phones){///so we need to iterate through that list too
         String number = phoneList.value;
         String nameInUserPhoneBook = phoneList.label;
-        print("number: $number");
-        print("phoneList.label: $nameInUserPhoneBook");
+
+        number = number.replaceAll(' ', '');//the format given by Item is => +1 585-754-7599 and we want no spaces and no dash, so => replaceAll
+        number = number.replaceAll('-', '');
         if (await _getCommonContacts(number)==true){
           ///add to firebase 'friends_number' collection
-          number = number.replaceAll(' ', '');//the format given by Item is => +1 585-754-7599 and we want no spaces and no dash, so => replaceAll
-          number = number.replaceAll('-', '');
+//          number = number.replaceAll(' ', '');//the format given by Item is => +1 585-754-7599 and we want no spaces and no dash, so => replaceAll
+//          number = number.replaceAll('-', '');
 
           ///if name only is to be passed to firebase:
           ///_pushNumberToFriendsCollection(number, displayName);
@@ -79,14 +80,20 @@ class CreateFriendsCollection{
   got from getContactsFromUserPhone
    */
   _getCommonContacts(String number) async{
-    String firebaseNumber = Firestore.instance.collection("users").document(number).documentID;
-    print("firebaseNumber: $firebaseNumber");
-    if(number == firebaseNumber) {
-      print("is a friend");
-      return true;}
-    else {
+    DocumentSnapshot documentSnapshot = await Firestore.instance.collection("users").document(number).get();
+    Map isValid = documentSnapshot.data;
+
+//    print("number in _getCommonContacts : $number");
+//    String firebaseNumber = Firestore.instance.collection("users").document(number).documentID;
+//    print("what is this: ${Firestore.instance.collection("users").document(number).get()}");
+//    print("firebaseNumber: $firebaseNumber");
+
+    if(isValid == null) {
       print("not a friend");
       return false;}
+    else {
+      print("is a friend");
+      return true;}
   }
 
 

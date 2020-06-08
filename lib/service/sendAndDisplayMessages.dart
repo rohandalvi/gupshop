@@ -5,6 +5,7 @@ import 'package:gupshop/service/recentChats.dart';
 class SendAndDisplayMessages {
 
   pushToFirebaseConversatinCollection(Map data, ){
+    print("data in pushToFirebaseConversatinCollection: $data");
     String conversationId = data["conversationId"];
     Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
   }

@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
@@ -35,9 +34,11 @@ class _ContactSearchState extends State<ContactSearch> {
 
   void initState() {
     print("in initsate");
+    //futureOfCreateSearchSuggestions();
+    //waitToCreateFriendsCollection();
     super.initState();
-    CreateFriendsCollection(userName: userName, userPhoneNo: userPhoneNo,).getUnionContacts();
-    createSearchSuggestions();//to get the list of contacts as suggestion
+    //CreateFriendsCollection(userName: userName, userPhoneNo: userPhoneNo,).getUnionContacts();
+    //createSearchSuggestions();//to get the list of contacts as suggestion
     print("data in initstate of contactSearch: $data");
   }
 
@@ -45,15 +46,24 @@ class _ContactSearchState extends State<ContactSearch> {
      return await ChatListState().getFriendPhoneNo(conversationId, widget.userPhoneNo);
   }
 
+
   @override
   Widget build(BuildContext context) {
+    //createSearchSuggestions();
     print("in build");
     print("userName in contactSearch: $userName");
     return Scaffold(
       body: SafeArea(
         child: SearchBar<DocumentSnapshot>(
           searchBarPadding: EdgeInsets.all(10),
-          emptyWidget: CircularProgressIndicator(),
+          emptyWidget: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CustomText(text: ':( This name does not match your contacts ',),
+          ),
+          cancellationWidget: IconButton(
+            icon: SvgPicture.asset('images/cancel.svg',),
+            /// onPressed is taken care by the cancellationWidget
+          ),
           icon: GestureDetector(
             onTap: (){
               CustomNavigator().navigateToHome(context, userName, userPhoneNo);
@@ -65,7 +75,9 @@ class _ContactSearchState extends State<ContactSearch> {
             ),
           ),
           minimumChars: 1,//minimum characters to enter to start the search
-          suggestions: list,
+          //suggestions:list,
+          //createSuggestionList(),
+          //list,///this is giving error as we need to build this from future but this
           hintText: 'Search contacts',
           hintStyle: GoogleFonts.openSans(
             //inconsolata
@@ -101,7 +113,7 @@ class _ContactSearchState extends State<ContactSearch> {
                 )
                 ,
               ),
-              title: CustomText(text:doc.data["name"]),
+              title: CustomText(text:doc.data["nameList"][0]),///displaying on the display name
               onTap: () {
                 print("friendNo in contact search : $friendNo");
                 String friendName = doc.data["name"];
@@ -115,12 +127,21 @@ class _ContactSearchState extends State<ContactSearch> {
     );
   }
 
+
    Future<List<DocumentSnapshot>> searchList(String text) async {
      var list = await Firestore.instance.collection("friends_${widget.userPhoneNo}").getDocuments();
-    //String userPhoneNo ="+19194134191";
-     print("list: $list");
+     ///right now we have a list for names, but I think this can be changed to just name,
+     ///because display name includes firstname and lastname
+     ///
+     /// if name only is to be passed to firebase:
+     /// list.documents.where((l) => l.data["name"].toLowerCase().contains(text.toLowerCase()) ||  l.documentID.contains(text)).toList();
+     print("list: ${list.documents[0].data}");
+     print("name in list: ${list.documents[0].data["nameList"][0]}");
 
-    return list.documents.where((l) => l.data["name"].toLowerCase().contains(text.toLowerCase()) ||  l.documentID.contains(text)).toList();
+     ///ToDo- here not just 0, but on every index of the list
+     print("list after where: ${list.documents.where((l) => l.data["nameList"][0].toLowerCase().contains(text.toLowerCase()) ||  l.documentID.contains(text)).toList()}");
+
+    return list.documents.where((l) => l.data["nameList"][0].toLowerCase().contains(text.toLowerCase()) ||  l.documentID.contains(text)).toList();
   }
 
 
@@ -139,6 +160,25 @@ class _ContactSearchState extends State<ContactSearch> {
     });
 
   }
+
+
+  createSuggestionList() async{
+    var temp= await Firestore.instance.collection("friends_$userPhoneNo").getDocuments();
+    return temp.documents;
+  }
+
+//  listFutureBuilder(){
+//    return FutureBuilder(
+//      future: Firestore.instance.collection("friends_$userPhoneNo").getDocuments(),
+//      builder: (context, snapshot){
+//        if(snapshot.connectionState == ConnectionState.done){
+//          return snapshot.data.documents;
+//        } return Center(
+//          child: CircularProgressIndicator(),
+//        );
+//      },
+//    );
+//  }
 }
 
 

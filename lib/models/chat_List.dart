@@ -3,6 +3,7 @@ import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/screens/individual_chat.dart';
+import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
@@ -68,6 +69,12 @@ class ChatListState extends State<ChatList> {
       }
     }
     return myNumber;
+  }
+
+  @override
+  void initState() {
+    CreateFriendsCollection(userName: myName, userPhoneNo: myNumber,).getUnionContacts();
+    super.initState();
   }
 
 

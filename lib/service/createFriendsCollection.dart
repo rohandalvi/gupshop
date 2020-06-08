@@ -20,7 +20,7 @@ class CreateFriendsCollection{
   getUnionContacts()async{
     Iterable<Contact> contacts = await _getContactsFromUserPhone();
     print("contacts list: $contacts");
-    await _loopThroughEachContactToFindUnion(contacts);
+    return await _loopThroughEachContactToFindUnion(contacts);
   }
 
 
@@ -41,22 +41,34 @@ class CreateFriendsCollection{
     }
   }
 
+  List<List<String>> listOfNames = new List();
 
   /// Extract only the common contacts using getCommonContacts and push them in friends_number
   /// collection using pushNumberToFriendsCollection(number)
   _loopThroughEachContactToFindUnion(Iterable<Contact> contacts) async{
     for(Contact contact in contacts) {
       Iterable<Item> phones = contact.phones;///we get each phone number as a list
+      String  displayName= contact.displayName;
+      ///we have created a list for names here, because we can later add any additional details too
+      ///like family name, suffix, etc
+      List<String> userNames = new List();
+      userNames.add(displayName);
+      listOfNames.add(userNames);
+
 
       for(Item phoneList in phones){///so we need to iterate through that list too
         String number = phoneList.value;
+        String nameInUserPhoneBook = phoneList.label;
         print("number: $number");
+        print("phoneList.label: $nameInUserPhoneBook");
         if (await _getCommonContacts(number)==true){
           ///add to firebase 'friends_number' collection
           number = number.replaceAll(' ', '');//the format given by Item is => +1 585-754-7599 and we want no spaces and no dash, so => replaceAll
           number = number.replaceAll('-', '');
 
-          _pushNumberToFriendsCollection(number);
+          ///if name only is to be passed to firebase:
+          ///_pushNumberToFriendsCollection(number, displayName);
+          _pushNumberToFriendsCollection(number, userNames);
         }
       }
     }
@@ -77,9 +89,18 @@ class CreateFriendsCollection{
       return false;}
   }
 
-  _pushNumberToFriendsCollection(String number){
+
+  ///if name only to be passed to firebase:
+  ///_pushNumberToFriendsCollection(String number, String displayName)
+  /// Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': number, 'name' : displayName},merge: true);
+  _pushNumberToFriendsCollection(String number, List<String> userNames){
     print("number in _pushNumberToFriendsCollection: $number");
-    Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': number},merge: true);
+    Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': number, 'nameList' : userNames},merge: true);
   }
+
+//  _pushNumberToFriendsCollection(String number){
+//    print("number in _pushNumberToFriendsCollection: $number");
+//    Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': number,},merge: true);
+//  }
 
 }

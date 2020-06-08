@@ -100,13 +100,16 @@ class _IndividualChatState extends State<IndividualChat> {
     ///here in the initstate():
     print("forwardMessage out: $forwardMessage");
     if(forwardMessage != null){
+      print("forwardMessage: $forwardMessage");
       var data = forwardMessage;
+      print("data in initstate: $data");
       SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
 //      String conversationId = data["conversationId"];
 //      Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
 
       setState(() {
         documentList = null;
+        print("documentList in setState: $documentList");
       });
 
 
@@ -122,6 +125,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   Widget build(BuildContext context){
+    print("in individualchat widget");
     return Stack(
       children: <Widget>[
         Material(
@@ -262,8 +266,8 @@ class _IndividualChatState extends State<IndividualChat> {
                           print("controller in documentList[index]: $controller");
                         }
                         else if(documentList[index].data["imageURL"] == null){
-                          print("text message");
                           messageBody = documentList[index].data["body"];
+                          print("text message: $messageBody");
                         }else{
                           print("image");
                           imageURL = documentList[index].data["imageURL"];
@@ -321,6 +325,8 @@ class _IndividualChatState extends State<IndividualChat> {
 
 
                                       print("data in flushbar: $data");
+                                      print("userName: $userName");
+                                      print("userPhoneNo: $userPhoneNo");
                                       CustomNavigator().navigateToContactSearch(context, userName,  userPhoneNo, data);
                                     },
                                   ),
@@ -356,7 +362,7 @@ class _IndividualChatState extends State<IndividualChat> {
                               alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
                               padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
                               child: videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
-                              Text(messageBody,): showImage(imageURL),
+                              CustomText(text: messageBody,): showImage(imageURL),
                               //message
                             ),
                           ),

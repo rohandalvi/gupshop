@@ -110,8 +110,8 @@ class _IndividualChatState extends State<IndividualChat> {
       });
 
 
-      if(data["videoURL"] != null) data = createDataToPushToFirebase(true, false, "📸", userName, userPhoneNo, conversationId);
-      if(data["imageURL"] != null) data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId);
+      if(data["videoURL"] != null) data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId);
+      else if(data["imageURL"] != null) data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId);
       ///Navigating to RecentChats page with pushes the data to firebase
       RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
     }
@@ -167,7 +167,8 @@ class _IndividualChatState extends State<IndividualChat> {
             onTap: (){
               CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true, friendNumber);
             },
-            child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 25, 23.5, false),//toDo- check if false is right  here
+            child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 25, 23.5, false),
+
           ),
 
           title: CustomText(text: friendName,),
@@ -286,15 +287,16 @@ class _IndividualChatState extends State<IndividualChat> {
                                 isPressed = true;
                                 String forwardMessage;
                                 String forwardImage;
+                                String forwardVideo;
                                 print("on longPress: $messageBody");
 
                                 ///extract the message in a variable called forwardMessage(ideally there should be
                                 /// a list of messages and not just one variable..this is a @todo )
                                 if(messageBody != null){
                                   forwardMessage = messageBody;
+                                }else if(videoURL != null){
+                                  forwardVideo = videoURL;
                                 }else forwardImage = imageURL;
-
-
 
 
                                 ///show snackbar
@@ -314,6 +316,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
                                       var data;
                                       if(forwardMessage != null) data = {"body":forwardMessage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+                                      else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
                                       else data = {"imageURL":forwardImage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
 
 

@@ -49,18 +49,28 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 250,
-      height: 250,
+//      width: 250,
+//      height: 250,
+      decoration: BoxDecoration(),
       child: Stack(
         children: <Widget>[
           FutureBuilder(
             future: _initializeVideoPlayerFuture,
             builder: (context, snapshot){
               if(snapshot.connectionState == ConnectionState.done){
-                return AspectRatio(
-                  aspectRatio: controller.value.aspectRatio,
-                  child: VideoPlayer(controller),
+                return FittedBox(
+                  fit: BoxFit.cover,
+                  child: SizedBox(
+                    width: 240,
+                    height: 190,
+                    child: VideoPlayer(controller),
+                  ),
                 );
+/// FittedBox is used in placed of
+///                  AspectRatio(
+///                  aspectRatio: controller.value.aspectRatio,
+///                 child: VideoPlayer(controller),
+///                );
               } return Center(
                 child: CircularProgressIndicator(),
               );

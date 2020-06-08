@@ -50,8 +50,8 @@ class DisplayPicture extends StatelessWidget {
 
   chatPictureFrame(String imageURL){
     return Container(
-        width: 250,
-        height: 250,
+        width: 240,
+        height: 190,
         child: Image(
           image: NetworkImage(imageURL),
           fit: BoxFit.cover,

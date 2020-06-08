@@ -61,6 +61,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
               //padding: EdgeInsets.only(top: 10),//make child as cirularprogressindicator
               child : GestureDetector(
                   child: displayPicture(imageUrl, _galleryImage, _cameraImage, height, width, context),
+
                   onTap: (){
                     if(isClicked == false && viewingFriendsProfile == false){
                       isClicked = true;

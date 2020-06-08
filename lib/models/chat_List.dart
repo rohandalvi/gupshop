@@ -90,22 +90,21 @@ class ChatListState extends State<ChatList> {
                 .separated( //to create the seperated view of each chat, has to be used with separatorBuilder: (context, index) => Divider
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
-                bool lastMessageIsPictureOrVideo;
+                bool lastMessageIsVideo;
+                bool lastMessageIsImage;
                 String lastMessage = '';
                 print("friendName in ListView.separated: ${snapshot.data.documents[index].data["name"]}");
                 String friendName = snapshot.data.documents[index].data["name"];
                 if (snapshot.data.documents[index].data["message"]["videoURL"] != null) {
-                  lastMessageIsPictureOrVideo = true;
+                  lastMessageIsVideo = true;
                   lastMessage = snapshot.data.documents[index].data["message"]["videoURL"];
                   print("lastMessage: $lastMessage");
                 }
                 if (snapshot.data.documents[index].data["message"]["body"] == null) {
-                  lastMessageIsPictureOrVideo = true;
-                  lastMessage =
-                  snapshot.data.documents[index].data["message"]["imageURL"];
+                  lastMessageIsImage = true;
+                  lastMessage = snapshot.data.documents[index].data["message"]["imageURL"];
                 } else {
-                  lastMessage =
-                  snapshot.data.documents[index].data["message"]["body"];
+                  lastMessage = snapshot.data.documents[index].data["message"]["body"];
                 }
                 Timestamp timeStamp = snapshot.data.documents[index]
                     .data["message"]["timeStamp"];
@@ -132,7 +131,7 @@ class ChatListState extends State<ChatList> {
                     },
                   ),
                   title: CustomText(text: friendName),
-                  subtitle: lastMessageIsPictureOrVideo == true ?
+                  subtitle: lastMessageIsVideo == true ?
                   FutureBuilder(
                     future: getVideoDetailsFromVideoChat(index),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -146,8 +145,9 @@ class ChatListState extends State<ChatList> {
                         child: CircularProgressIndicator(),
                       );
                     },
-                  ):CustomText(text: lastMessage).textWithOverFlow(),
-//                  lastMessageIsPictureOrVideo == true ?
+                  ): lastMessageIsImage == true ? CustomText(text: lastMessage) :
+                  CustomText(text: lastMessage).textWithOverFlow(),
+//                  lastMessageIsVideo == true ?
 ////                  //CustomText(text: '📹')
 ////                  lastMessage == null? showProgressIndicator(lastMessage, index):
 //                  CustomText(text: lastMessage)

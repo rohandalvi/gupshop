@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/service/contact_search.dart';
+import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/verticalPadding.dart';
 import 'package:flutter_svg/svg.dart';
@@ -55,7 +57,12 @@ class _HomeAppBarState extends State<HomeAppBar> {
           ),
         ),
        
-        title: CustomText(text: 'GupShop', fontSize: 18,),
+        title: CustomRaisedButton(
+          onPressed: (){
+            CreateFriendsCollection(userName: userName, userPhoneNo: userPhoneNo,).getUnionContacts();
+          },
+          child: CustomText(text: 'Refresh new contacts',),
+        ),
         actions: <Widget>[
           Builder(
             builder: (context) => IconButton(//Right side icons

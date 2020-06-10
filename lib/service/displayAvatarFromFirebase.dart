@@ -115,6 +115,7 @@ class DisplayAvatarFromFirebase{
         stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
         builder: (context, snapshot) {
           if(snapshot.data == null) return CircularProgressIndicator();///to avoid error - "getter do
+          print("snapshot in displayAvatarFromFirebase: ${snapshot.data['url']}");
 
           /// because for the first time user, if he hasnt put any profile picture,
           /// then there wont be any 'url' in firebase.
@@ -125,14 +126,19 @@ class DisplayAvatarFromFirebase{
           ///          }else imageUrl = snapshot.data['url'];
           ///
           /// So we use a try catch insted
-          try{
-            imageUrl = snapshot.data['url'];
-          }
-          catch (e){
-            print("in catch");
-            imageUrl = 'images/user.png';
+//          try{
+//            imageUrl = snapshot.data['url'];
+//          }
+//          catch (e){
+//            print("in catch");
+//            imageUrl = 'images/user.png';
+//            isFirstTime = true;
+//          }
+
+          if(snapshot.data['url'] == null){
+            imageUrl = "images/user.png";
             isFirstTime = true;
-          }
+          } else imageUrl = snapshot.data['url'];
 
           return customCircleAvatar(imageUrl, radius, innerRadius, isFirstTime);
         }

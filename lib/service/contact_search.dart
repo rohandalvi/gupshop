@@ -8,6 +8,7 @@ import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/customNavigators.dart';
+import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 
@@ -88,36 +89,42 @@ class _ContactSearchState extends State<ContactSearch> {
           ),
           onSearch: searchList,
           onItemFound: (DocumentSnapshot doc, int index){
-            print("DocumentSnapshot doc: $doc");
+            String friendNo = doc.data["phone"];
+            print("friendNo in onItemFound: $friendNo");
+            //print("DocumentSnapshot doc: ${doc.data}");
+            /// if it is the first time conversation the there will be no conversationId
+            /// it will be created in individualChat, if a null conversationId is sent
             String conversationId = doc.data["conversationId"];
+            //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, contactPhoneNumber)
             print("conversationId: $conversationId");
-            String friendNo;
+
 
             //friendNo =  await getFriendNo(conversationId);
 
             return ListTile(
-              leading: SizedBox(
-                width: 0,
-//                height: 0,
-                child: FutureBuilder(
-                  future: getFriendNo(conversationId),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-
-                    print("snapshot in listtile: ${snapshot.data}");
-                    if(snapshot.connectionState == ConnectionState.done) {
-                      print("snapshot.data: ${snapshot.data}");
-                      friendNo = snapshot.data;
-                    }
-                    return Container();
-                  },
-                )
-                ,
-              ),
+//              leading: SizedBox(
+//                width: 0,
+////                height: 0,
+//                child: FutureBuilder(
+//                  future: getFriendNo(conversationId),
+//                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+//
+//                    print("snapshot in listtile: ${snapshot.data}");
+//                    if(snapshot.connectionState == ConnectionState.done) {
+//                      print("snapshot.data: ${snapshot.data}");
+//                      friendNo = snapshot.data;
+//                    }
+//                    return Container();
+//                  },
+//                )
+//                ,
+//              ),
               title: CustomText(text:doc.data["nameList"][0]),///displaying on the display name
               onTap: () {
                 print("friendNo in contact search : $friendNo");
                 String friendName = doc.data["nameList"][0];
                 print("data in contactSearch: $data");
+                //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, friendNo);
                     CustomNavigator().navigateToIndividualChat(context, conversationId, userName, userPhoneNo, friendName, friendNo, data  );
                   },
             );
@@ -128,6 +135,7 @@ class _ContactSearchState extends State<ContactSearch> {
   }
 
 
+  /// searchList is basically friends_number collection
    Future<List<DocumentSnapshot>> searchList(String text) async {
      var list = await Firestore.instance.collection("friends_${widget.userPhoneNo}").getDocuments();
      ///right now we have a list for names, but I think this can be changed to just name,

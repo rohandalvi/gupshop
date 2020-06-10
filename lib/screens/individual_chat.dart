@@ -5,8 +5,10 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
+import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/service/sendAndDisplayMessages.dart';
@@ -53,7 +55,7 @@ class IndividualChat extends StatefulWidget {
 
 
 class _IndividualChatState extends State<IndividualChat> {
-  final String conversationId;
+  String conversationId;
   final String userPhoneNo;
   final String userName;
   final String friendName;
@@ -81,6 +83,25 @@ class _IndividualChatState extends State<IndividualChat> {
   bool isPressed = false;
   VideoPlayerController controller;
 
+  getConversationId() async{
+    print("friendPhoneNo in getConversationId: $friendNumber ");
+    String id = await GetConversationId().createNewConversationId(userPhoneNo, friendNumber);
+    ///push to friends collection here
+    List<String> nameList = new List();
+    nameList.add(friendName);
+    /// Also push the conversationId to friends
+    /// reason : contactSearch pushes the user to this page in case of new conversation or forward message, and it needs a
+    /// conversationId at approx line 97
+    Firestore.instance.collection("friends_$userPhoneNo").document(friendNumber).setData({'phone': friendNumber, 'nameList' : nameList, 'conversationId': id},merge: true);
+
+    /// also push the conversationId to conversations:
+    Firestore.instance.collection("conversations").document(id).setData({});
+    
+    setState(() {
+      conversationId = id;
+      print("id: $id");
+    });
+  }
 
   @override
   void initState() {
@@ -92,8 +113,22 @@ class _IndividualChatState extends State<IndividualChat> {
     update - the above comment might be wrong, because passing the stream directly to
     streambuilder without initializing in initState also paginates alright.
      */
-    collectionReference = Firestore.instance.collection("conversations").document(conversationId).collection("messages");
-    stream = collectionReference.orderBy("timeStamp", descending: true).limit(10).snapshots();
+
+
+    if(conversationId == null) {
+      getConversationId();
+      /// also create a conversations_number collection
+
+
+      print("conversationId in if else: $conversationId");
+    }else{
+      print("conversationId in else: $conversationId");
+//      collectionReference = Firestore.instance.collection("conversations").document(conversationId).collection("messages");
+//      stream = collectionReference.orderBy("timeStamp", descending: true).limit(10).snapshots();
+    }
+//    collectionReference = Firestore.instance.collection("conversations").document(conversationId).collection("messages");
+//    stream = collectionReference.orderBy("timeStamp", descending: true).limit(10).snapshots();
+
 
 
     ///if forwardMessage == true, then initialize that method of sending the message
@@ -123,9 +158,10 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
 
+
   @override
   Widget build(BuildContext context){
-    print("in individualchat widget");
+    print("in individualchat widget id: $conversationId");
     return Stack(
       children: <Widget>[
         Material(
@@ -225,7 +261,8 @@ class _IndividualChatState extends State<IndividualChat> {
         children: <Widget>[
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-                stream: stream,
+                stream: Firestore.instance.collection("conversations").document(conversationId).collection("messages").orderBy("timeStamp", descending: true).limit(10).snapshots(),
+                //stream,
                 builder: (context, snapshot) {
                   print("just checking");
                   if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter document was called on null"
@@ -507,7 +544,20 @@ class _IndividualChatState extends State<IndividualChat> {
               this.value=value;///by doing this we are setting the value to value globally
             });
           },
-          onPressedForSendingMessageIcon:() {
+          onPressedForSendingMessageIcon:() async{
+            /// when mynumber sends message to a friendNumber in whose friends
+            /// collection mynumber does not exist, we have to add that person in
+            /// his friends because recent chats wont work then
+            print("friendNumber in onPressedForSendingMessageIcon : $friendNumber");
+            var myNumberExistsInFriendsFriendsCollectionWaiting = await Firestore.instance.collection("friends_$friendNumber").document(userPhoneNo).get();
+            var myNumberExistsInFriendsFriendsCollection = myNumberExistsInFriendsFriendsCollectionWaiting.data;
+            if(myNumberExistsInFriendsFriendsCollection == null){
+              List<String> nameList = new List();
+              nameList.add(userName);
+              Firestore.instance.collection("friends_$friendNumber").document(userPhoneNo).setData({'phone': userPhoneNo, 'nameList' : nameList, 'conversationId': conversationId},merge: true);
+            }
+
+
             if(value!="") {
               ///if there is not text, then dont send the message
               var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
@@ -528,6 +578,7 @@ class _IndividualChatState extends State<IndividualChat> {
               );
             }
           },
+
           scrollController: new ScrollController(),
           controller: _controller,
         );

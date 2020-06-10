@@ -32,6 +32,8 @@ class RecentChats{
         pushRecentChatsToAllNumbersInvolvedInFirebase(userNumber,friendName);//recent chats=> 585 => purva dalvi
 
         //set our name as friendName in the other user's recent chat
+        ///right now messages are not getting updated in otherNumber because no other
+        ///friends collection except +19194134191 @ToDo
         String otherFriendName = await conversationWith(userNumber, list[i]);
         print("otherfriendName: $otherFriendName");
         pushRecentChatsToAllNumbersInvolvedInFirebase(list[i], otherFriendName);
@@ -45,7 +47,7 @@ class RecentChats{
     print("friendCollectionNumber: $friendCollectionNumber");
     DocumentSnapshot documentSnapshot = await Firestore.instance.collection("friends_$friendCollectionNumber").document(number).get();
     print("documentSnapshot in conversationWith: $documentSnapshot");
-    return documentSnapshot.data["name"];
+    return documentSnapshot.data["nameList"][0];
   }
 
   pushRecentChatsToAllNumbersInvolvedInFirebase(String number,String friendName) async{

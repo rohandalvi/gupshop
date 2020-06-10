@@ -85,6 +85,20 @@ class _NameScreenState extends State<NameScreen> {
                  /// of them in the name_screen, so we will add them in that file only.
                   Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
                   print("Firestore.instance.collection(users).document(userPhoneNo).setData({'name':userName}):${userName}");
+
+                  //add userPhoneNumber to our database. Add to the users collection:
+                  Firestore.instance.collection("recentChats").document(userPhoneNo).setData({});
+
+                  ///creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
+                  /// also setting a placeholder
+                  /// The placeholder imageurl  as the user picture url we have stored in firebase
+                  String url = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/user.png?alt=media&token=28bcfc15-31da-4847-8f7c-efdd60428714";
+                  Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url' : url});
+
+                  List<String> nameList = new List();
+                  nameList.add(userPhoneNo);
+                  Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': userPhoneNo, 'nameList' : nameList});///necessary to create data, orsearch in contact search page shows error
+
                   setState(() {
                     prefs.setString('userName', userName);
                     print("userNameForSP in name_screen setState: $userName");

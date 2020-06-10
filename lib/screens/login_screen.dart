@@ -87,7 +87,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     setState(() {
                       this.phoneNo = val;
                       this.val=val;
-                      //Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});
                       print("phoneNo: ${val}");
                     });
                   },
@@ -100,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
 //                setState(() {
 //                  this.phoneNo = val;
 //                  this.val=val;
-//                  //Firestore.instance.collection("recentChats").document(val.substring(2,12)).setData({});
+//
 //                  print("phoneNo: ${val}");
 //                });
 //              },
@@ -112,23 +111,6 @@ class _LoginScreenState extends State<LoginScreen> {
             onPressed: verifyphone,
             icon: SvgPicture.asset('images/nextArrow.svg',),
           ),
-//          RaisedButton(
-//            onPressed: verifyphone,
-//            //a method is created for this variable down
-//            color: Colors.transparent,
-//            splashColor: Colors.transparent,
-//            highlightColor: Colors.blueGrey,
-//            elevation: 0,
-//            hoverColor: Colors.blueGrey,
-//            child: Text(
-//              'Verify',
-//              style: TextStyle(
-//                color: Theme.of(context).primaryColor,
-//                fontSize: 15,
-//                fontWeight: FontWeight.bold,
-//              ),
-//            ),
-//          ),
         ],
       ),
     );
@@ -151,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
       print('${authException.message}');
     };
 
-    final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
+    final PhoneCodeSent smsSent = (String verId, [int forceResend]) async{
       print("Received verification id ${verId}");
       this.verificationId = verId;
 
@@ -159,35 +141,73 @@ class _LoginScreenState extends State<LoginScreen> {
         this.codeSent = true;
         print("val : $val");
         prefs.setString('userPhoneNo', val);
+      });
 
         print("userPhoneNo in login_screen setState: $val");
-        smsCodeDialog(context).then((value) {
-          print("Got value $value");
-          AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
 
-          //add userPhoneNumber to our database. Add to the users collection:
-          Firestore.instance.collection("recentChats").document(val).setData({});
+        bool sms = await  smsCodeDialog(context);
+        AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
 
-          //creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
-          Firestore.instance.collection("profilePictures").document(val).setData({}, merge: true);
+        FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
+          //Navigator.of(context).pushNamed('loggedIn');
+          print("userphoneno: ${val}");
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NameScreen(userPhoneNo:val),//pass Name() here and pass Home()in name_screen
+              )
+          );
+          print("phone no: ${val.toString()}");
 
-
-          FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
-            //Navigator.of(context).pushNamed('loggedIn');
-            print("userphoneno: ${val}");
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => NameScreen(userPhoneNo:val),//pass Name() here and pass Home()in name_screen
-                )
-            );
-            print("phone no: ${val.toString()}");
-
-          }).catchError((e) {
-            print("Got error $e");
-          });
+        }).catchError((e) {
+          print("Got error $e");
         });
-      });
+
+
+
+
+
+
+
+
+
+//      setState(() {
+//        this.codeSent = true;
+//        print("val : $val");
+//        prefs.setString('userPhoneNo', val);
+//
+//        print("userPhoneNo in login_screen setState: $val");
+//        smsCodeDialog(context).then((value) {
+//        //smsCodeDialog(context).then((value) {
+//          print("Got value $value");
+//          AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
+//
+//          //add userPhoneNumber to our database. Add to the users collection:
+//          Firestore.instance.collection("recentChats").document(val).setData({});
+//
+//          //creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
+//          Firestore.instance.collection("profilePictures").document(val).setData({});
+//
+//          Firestore.instance.collection("friends_$userPhoneNo").document(val).setData({});///check
+//
+//
+//
+//          FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
+//            //Navigator.of(context).pushNamed('loggedIn');
+//            print("userphoneno: ${val}");
+//            Navigator.push(
+//                context,
+//                MaterialPageRoute(
+//                  builder: (context) => NameScreen(userPhoneNo:val),//pass Name() here and pass Home()in name_screen
+//                )
+//            );
+//            print("phone no: ${val.toString()}");
+//
+//          }).catchError((e) {
+//            print("Got error $e");
+//          });
+//        });
+//      });
     };
 
     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {

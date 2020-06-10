@@ -69,7 +69,7 @@ class CreateFriendsCollection{
 
           ///if name only is to be passed to firebase:
           ///_pushNumberToFriendsCollection(number, displayName);
-          _pushNumberToFriendsCollection(number, userNames);
+          pushNumberToFriendsCollection(number, userNames);
         }
       }
     }
@@ -100,7 +100,7 @@ class CreateFriendsCollection{
   ///if name only to be passed to firebase:
   ///_pushNumberToFriendsCollection(String number, String displayName)
   /// Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': number, 'name' : displayName},merge: true);
-  _pushNumberToFriendsCollection(String number, List<String> userNames){
+  pushNumberToFriendsCollection(String number, List<String> userNames){
     print("number in _pushNumberToFriendsCollection: $number");
     Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': number, 'nameList' : userNames},merge: true);
   }

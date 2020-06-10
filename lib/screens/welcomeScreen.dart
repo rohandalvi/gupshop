@@ -34,7 +34,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     print("userName before startTime: $userName");
     print("userPhoneNo before startTime: $userPhoneNo");
-    startTime();
+    startTime(context);
     print("initState");
     super.initState();
   }
@@ -47,11 +47,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   well as the name from the name screen.
    */
 
-  startTime() async {
+  startTime(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isFirstTime = prefs.getBool('isFirstTime');
-    userPhoneNo = prefs.getString('userPhoneNo');
-    userName = prefs.getString('userName');
+    userPhoneNo = prefs.getString('userPhoneNo') ?? null;
+    userName = prefs.getString('userName') ?? null;
 
     print("userName in startTime: $userName ");
     print("userPhoneNo in startTime: $userPhoneNo ");
@@ -59,10 +59,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     var duration = new Duration(seconds: 3);
 
     if ((isFirstTime != null && userName != null && userPhoneNo!=null) && isFirstTime==true) {// orginral inspiration value !isFirstTime
-      return new Timer(duration,navigateToHomePage);
+      return Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                Home(userPhoneNo: userPhoneNo,userName: userName,), //pass Name() here and pass Home()in name_screen
+          )
+      );
+      //return new Timer(duration,navigateToHomePage);
     }
       prefs.setBool('isFirstTime', true);// the inspiration page actually has this value as false
-      return new Timer(duration, navigateToLoginPage);
+       return Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  LoginScreen(), //pass Name() here and pass Home()in name_screen
+            )
+        );
+      //return new Timer(duration, navigateToLoginPage);
 
   }
 

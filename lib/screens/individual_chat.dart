@@ -142,9 +142,9 @@ class _IndividualChatState extends State<IndividualChat> {
 //      String conversationId = data["conversationId"];
 //      Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
 
-      setState(() {
-
-      });
+//      setState(() {
+//
+//      });
 
 
       if(data["videoURL"] != null) data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId);
@@ -437,7 +437,7 @@ class _IndividualChatState extends State<IndividualChat> {
                           /// Show the scrolltobottom button only when the user scrolls up
                           if(notification is ScrollUpdateNotification){
 
-                            print("notification: $notification");
+                            //print("notification: $notification");
 
                             /// *** explaintaion of if(notification.scrollDelta > 0):
                             /// The problem we has was, setting the state of scroll to false in
@@ -496,13 +496,6 @@ class _IndividualChatState extends State<IndividualChat> {
     );
   }
 
-//  showPopUpMenuOnLongPress(){
-//    showMenu(
-//        context: null,
-//        position: null,
-//        items: PopupMenuEntry<T>
-//    );
-//  }
 
   showVideo(String videoURL, VideoPlayerController controller){
     try{
@@ -580,62 +573,6 @@ class _IndividualChatState extends State<IndividualChat> {
           scrollController: new ScrollController(),
           controller: _controller,
         );
-//          Container(
-//          padding: EdgeInsets.symmetric(horizontal: 8.0),
-//          height: 70,
-//          color: Colors.white,
-//          child:
-//          ListTile(
-//            leading:
-//                IconButton(
-//                  icon: SvgPicture.asset('images/image2vector.svg',),
-//                  onPressed: () async{
-//                    var data = await sendImage();
-//                    pushMessageDataToFirebase(true, data);
-//                    setState(() {
-//                      documentList = null;
-//                    });
-//                  },
-//                ),
-//            title: TextField(
-//              maxLines: null,
-//              onChanged: (value){
-//                setState(() {
-//                  this.value=value;///by doing this we are setting the value to value globally
-//                });
-//              },
-//              scrollController: new ScrollController(),
-//              controller: _controller,//used to clear text when user hits send button
-//            ),
-//            trailing:
-//            IconButton(
-//              icon: SvgPicture.asset('images/paperPlane.svg',),///or forward2
-//              onPressed: () {
-//
-//                if(value!="") {
-//                  ///if there is not text, then dont send the message
-//                  var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-//                  SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
-//
-//                  setState(() {
-//                    documentList = null;
-//                  });
-//
-//
-//                  ///Navigating to RecentChats page with pushes the data to firebase
-//                  RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
-//
-//                  _controller.clear();//used to clear text when user hits send button
-//                  listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-//                    0.0,
-//                    curve: Curves.easeOut,
-//                    duration: const Duration(milliseconds: 300),
-//                  );
-//                }
-//              },
-//            ),
-//          ),
-//        );
       },
 
     );
@@ -746,28 +683,28 @@ class _IndividualChatState extends State<IndividualChat> {
 
 
   ///fetching next batch of messages when user scrolls up for previous messages
-  fetchAdditionalMessages() async {
-    try {
-      print("Fetching ${documentList[documentList.length-1]}");
-      print("Size  ${documentList.length}");
-      List<DocumentSnapshot>  newDocumentList  =  (await Firestore.instance.collection("conversations").document(conversationId).collection("messages")
-          .orderBy("timeStamp", descending: true)
-          .startAfterDocument(documentList[documentList.length-1])
-          .limit(10).getDocuments())
-          .documents;
-
-      print("Got additional messges of size ${newDocumentList.length}");
-      if(newDocumentList.isEmpty) return;
-      additionalList = [];
-
-      setState(() {//setting state is essential, or new messages(next batch of old messages) does not get loaded
-        additionalList.addAll(newDocumentList);
-      });
-    } catch(e) {
-      streamController.sink.addError(e);
-    }
-
-  }
+//  fetchAdditionalMessages() async {
+//    try {
+//      print("Fetching ${documentList[documentList.length-1]}");
+//      print("Size  ${documentList.length}");
+//      List<DocumentSnapshot>  newDocumentList  =  (await Firestore.instance.collection("conversations").document(conversationId).collection("messages")
+//          .orderBy("timeStamp", descending: true)
+//          .startAfterDocument(documentList[documentList.length-1])
+//          .limit(10).getDocuments())
+//          .documents;
+//
+//      print("Got additional messges of size ${newDocumentList.length}");
+//      if(newDocumentList.isEmpty) return;
+//      additionalList = [];
+//
+//      setState(() {//setting state is essential, or new messages(next batch of old messages) does not get loaded
+//        additionalList.addAll(newDocumentList);
+//      });
+//    } catch(e) {
+//      streamController.sink.addError(e);
+//    }
+//
+//  }
 }
 
 

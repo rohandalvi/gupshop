@@ -62,7 +62,7 @@ class ChatListState extends State<ChatList> {
   }
 
   extractFriendNo(DocumentSnapshot temp, String myNumber) async {
-    print("mynumber in extractfriendNo : $myNumber");
+    //print("mynumber in extractfriendNo : $myNumber");
     for (int i = 0; i < 2; i++) {
       if (temp.data["members"][i] != myNumber) {
         return temp.data["members"][i];
@@ -100,7 +100,7 @@ class ChatListState extends State<ChatList> {
                 bool lastMessageIsVideo;
                 bool lastMessageIsImage;
                 String lastMessage = '';
-                print("friendName in ListView.separated: ${snapshot.data.documents[index].data["name"]}");
+                //print("friendName in ListView.separated: ${snapshot.data.documents[index].data["name"]}");
                 String friendName = snapshot.data.documents[index].data["name"];
                 if (snapshot.data.documents[index].data["message"]["videoURL"] != null) {
                   lastMessageIsVideo = true;

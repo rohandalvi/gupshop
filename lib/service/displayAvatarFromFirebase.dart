@@ -61,9 +61,9 @@ class DisplayAvatarFromFirebase{
 
   getProfilePicture(String userPhoneNo, double radius){
     String imageUrl;
-    print("friendNo in getProfilePicture(): $userPhoneNo");
+    //print("friendNo in getProfilePicture(): $userPhoneNo");
     DocumentReference isProfilePictureAdded = Firestore.instance.collection("profilePictures").document(userPhoneNo);
-    print("isProfilepictureAdded: ${isProfilePictureAdded.snapshots()}");
+    //print("isProfilepictureAdded: ${isProfilePictureAdded.snapshots()}");
     return StreamBuilder(
         stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
         builder: (context, snapshot) {
@@ -108,14 +108,14 @@ class DisplayAvatarFromFirebase{
   displayAvatarFromFirebase(String userPhoneNo, double radius, double innerRadius, bool isFirstTime){
     bool isFirstTime = false;
     String imageUrl;
-    print("friendNo in getProfilePicture(): $userPhoneNo");
+    //print("friendNo in getProfilePicture(): $userPhoneNo");
     DocumentReference isProfilePictureAdded = Firestore.instance.collection("profilePictures").document(userPhoneNo);
-    print("isProfilepictureAdded: ${isProfilePictureAdded.documentID}");
+    //print("isProfilepictureAdded: ${isProfilePictureAdded.documentID}");
     return StreamBuilder(
         stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
         builder: (context, snapshot) {
           if(snapshot.data == null) return CircularProgressIndicator();///to avoid error - "getter do
-          print("snapshot in displayAvatarFromFirebase: ${snapshot.data['url']}");
+//          print("snapshot in displayAvatarFromFirebase: ${snapshot.data['url']}");
 
           /// because for the first time user, if he hasnt put any profile picture,
           /// then there wont be any 'url' in firebase.
@@ -135,18 +135,20 @@ class DisplayAvatarFromFirebase{
 //            isFirstTime = true;
 //          }
 
-          if(snapshot.data['url'] == null){
-            imageUrl = "images/user.png";
-            isFirstTime = true;
-          } else imageUrl = snapshot.data['url'];
+//          if(snapshot.data['url'] == null){
+//            imageUrl = "images/user.png";
+//            isFirstTime = true;
+//          } else imageUrl = snapshot.data['url'];
 
-          return customCircleAvatar(imageUrl, radius, innerRadius, isFirstTime);
+          imageUrl = snapshot.data['url'];
+
+          return customCircleAvatar(imageUrl, radius, innerRadius);
         }
     );
   }
 
-  customCircleAvatar(String image, double radius, double innerRadius, isFirstTime){
-    print("imageurl in customCircleAvatar: $image");
+  customCircleAvatar(String image, double radius, double innerRadius){
+    //print("imageurl in customCircleAvatar: $image");
     return CircleAvatar(
       radius: radius,
       backgroundColor: ourBlack,
@@ -166,7 +168,8 @@ class DisplayAvatarFromFirebase{
 //          //'images/transparent.jpeg',
 //          placeholder: 'images/whiteBackground.png',
 //        )
-        backgroundImage: isFirstTime == true ? AssetImage(image):
+        backgroundImage:
+        //isFirstTime == true ? AssetImage(image):
             NetworkImage(image),
         backgroundColor: Colors.white,
       ),

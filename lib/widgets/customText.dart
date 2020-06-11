@@ -9,7 +9,6 @@ class CustomText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("text in CustomText: $text");
     return Text(
       text,
       style: GoogleFonts.openSans(

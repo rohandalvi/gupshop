@@ -42,12 +42,12 @@ class IndividualChat extends StatefulWidget {
       : super(key: key);
   @override
   _IndividualChatState createState() => _IndividualChatState(
-      conversationId: conversationId,
-      userPhoneNo: userPhoneNo,
-      userName: userName,
-      friendName: friendName,
-      friendNumber: friendNumber,
-      forwardMessage: forwardMessage,
+    conversationId: conversationId,
+    userPhoneNo: userPhoneNo,
+    userName: userName,
+    friendName: friendName,
+    friendNumber: friendNumber,
+    forwardMessage: forwardMessage,
   );
 
 }
@@ -74,10 +74,8 @@ class _IndividualChatState extends State<IndividualChat> {
   ScrollController listScrollController = new ScrollController(); //for scrolling the screen
   StreamController streamController= new StreamController();
   List<DocumentSnapshot> documentList;//made for getting old batch of messages when the scrolling limit of 10 messages at a time is reached
-  List<DocumentSnapshot> additionalList;
   CollectionReference collectionReference;
   Stream<QuerySnapshot> stream;
-  int limitCounter = 1;
 
   ScrollNotification notification;
   bool isLoading = false;
@@ -98,15 +96,16 @@ class _IndividualChatState extends State<IndividualChat> {
 
     /// also push the conversationId to conversations:
     Firestore.instance.collection("conversations").document(id).setData({});
-    
+
     setState(() {
       conversationId = id;
-
+      print("id: $id");
     });
   }
 
   @override
   void initState() {
+    print("numberOfImage: $numberOfImageInConversation");
 
     /*
     adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
@@ -121,9 +120,9 @@ class _IndividualChatState extends State<IndividualChat> {
       /// also create a conversations_number collection
 
 
-
+      print("conversationId in if else: $conversationId");
     }else{
-
+      print("conversationId in else: $conversationId");
 //      collectionReference = Firestore.instance.collection("conversations").document(conversationId).collection("messages");
 //      stream = collectionReference.orderBy("timeStamp", descending: true).limit(10).snapshots();
     }
@@ -134,16 +133,18 @@ class _IndividualChatState extends State<IndividualChat> {
 
     ///if forwardMessage == true, then initialize that method of sending the message
     ///here in the initstate():
+    print("forwardMessage out: $forwardMessage");
     if(forwardMessage != null){
-
+      print("forwardMessage: $forwardMessage");
       var data = forwardMessage;
-
+      print("data in initstate: $data");
       SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
 //      String conversationId = data["conversationId"];
 //      Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
 
       setState(() {
-
+        documentList = null;
+        print("documentList in setState: $documentList");
       });
 
 
@@ -160,6 +161,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   Widget build(BuildContext context){
+    print("in individualchat widget id: $conversationId");
     return Stack(
       children: <Widget>[
         Material(
@@ -181,14 +183,14 @@ class _IndividualChatState extends State<IndividualChat> {
 
   appBar(BuildContext context, String friendName){
     return AppBar(
-        backgroundColor: secondryColor.withOpacity(.03),
-        elevation: 0,
-        leading: IconButton(
-        icon: SvgPicture.asset('images/backArrowColor.svg',),
+      backgroundColor: secondryColor.withOpacity(.03),
+      elevation: 0,
+      leading: IconButton(
+          icon: SvgPicture.asset('images/backArrowColor.svg',),
           onPressed:(){
             Navigator.pop(context);
           }
-        ),
+      ),
       title: Material(
         //color: Theme.of(context).primaryColor,
         child: ListTile(
@@ -259,14 +261,15 @@ class _IndividualChatState extends State<IndividualChat> {
       child: Flex(
         direction: Axis.vertical,
         children: <Widget>[
-              Expanded(
-                child: StreamBuilder<QuerySnapshot>(
-                    stream: Firestore.instance.collection("conversations").document(conversationId).collection("messages").orderBy("timeStamp", descending: true).limit(limitCounter*10).snapshots(),
-                    //stream,
-                    builder: (context, snapshot) {
-                      if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter document was called on null"
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+                stream: Firestore.instance.collection("conversations").document(conversationId).collection("messages").orderBy("timeStamp", descending: true).limit(10).snapshots(),
+                //stream,
+                builder: (context, snapshot) {
+                  print("just checking");
+                  if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter document was called on null"
 
-                      /*
+                  /*
                        we are making sure that if the screen has not reached the top then take
                        messages from the stream, else take the messages as added by
                        fetchAdditionalMessages:(code snippet from fetchAdditionalMessages):
@@ -278,218 +281,211 @@ class _IndividualChatState extends State<IndividualChat> {
                         else(its not when  new 10 messages are added to the documentList)
                         else => use that documentList
                        */
-                      documentList = snapshot.data.documents;
-//                      if(additionalList!=null) {
-//                        documentList.addAll(additionalList);
-//                        additionalList = null;
-//                      }
-//                      else {
-//                        print("In else");
-//                      }
+                  if(documentList == null){documentList = snapshot.data.documents;}
+                  else(print("in else"));
 
-                      return NotificationListener<ScrollUpdateNotification>(
-                        child: ListView.separated(
-                          controller: listScrollController, //for scrolling messages
-                          //shrinkWrap: true,
-                          reverse: true,
-                          itemCount: documentList.length,
-                          itemBuilder: (context, index) {
-                            var messageBody;
-                            var imageURL;
-                            var videoURL;
+                  return NotificationListener<ScrollUpdateNotification>(
+                    child: ListView.separated(
+                      controller: listScrollController, //for scrolling messages
+                      //shrinkWrap: true,
+                      reverse: true,
+                      itemCount: documentList.length,
+                      itemBuilder: (context, index) {
+                        var messageBody;
+                        var imageURL;
+                        var videoURL;
 
-                            bool isLoading  = true;//for circularProgressIndicator
+                        bool isLoading  = true;//for circularProgressIndicator
 
+                        print("controller before in documentList[index]: ${documentList[index].data["videoURL"]}");
 
+                        if(documentList[index].data["videoURL"] != null){
+                          videoURL = documentList[index].data["videoURL"];
+                          print("videoURL: $videoURL");
+                          controller = VideoPlayerController.network(videoURL);
+                          print("controller in documentList[index]: $controller");
+                        }
+                        else if(documentList[index].data["imageURL"] == null){
+                          messageBody = documentList[index].data["body"];
+                          print("text message: $messageBody");
+                        }else{
+                          print("image");
+                          imageURL = documentList[index].data["imageURL"];
 
-                            if(documentList[index].data["videoURL"] != null){
-                              videoURL = documentList[index].data["videoURL"];
+                        }
+                        //var messageBody = documentList[index].data["body"];
+                        var fromName = documentList[index].data["fromName"];
+                        Timestamp timeStamp = documentList[index].data["timeStamp"];
+                        bool isMe = false;
 
-                              controller = VideoPlayerController.network(videoURL);
+                        if (fromName == userName) isMe = true;
 
-                            }
-                            else if(documentList[index].data["imageURL"] == null){
-                              messageBody = documentList[index].data["body"];
-
-                            }else{
-
-                              imageURL = documentList[index].data["imageURL"];
-
-                            }
-                            //var messageBody = documentList[index].data["body"];
-                            var fromName = documentList[index].data["fromName"];
-                            Timestamp timeStamp = documentList[index].data["timeStamp"];
-                            bool isMe = false;
-
-                            if (fromName == userName) isMe = true;
-
-                            return ListTile(
-                              title: GestureDetector(
+                        return ListTile(
+                          title: GestureDetector(
 //                              onTap: (){
 //                                print("onTap pressed");
 //                                FocusScope.of(context).unfocus();///Not working!!
 //                              },
-                                onLongPress: (){
-                                  if(isPressed == false){///show snackbar only once
-                                    isPressed = true;
-                                    String forwardMessage;
-                                    String forwardImage;
-                                    String forwardVideo;
-                                    print("on longPress: $messageBody");
+                            onLongPress: (){
+                              if(isPressed == false){///show snackbar only once
+                                isPressed = true;
+                                String forwardMessage;
+                                String forwardImage;
+                                String forwardVideo;
+                                print("on longPress: $messageBody");
 
-                                    ///extract the message in a variable called forwardMessage(ideally there should be
-                                    /// a list of messages and not just one variable..this is a @todo )
-                                    if(messageBody != null){
-                                      forwardMessage = messageBody;
-                                    }else if(videoURL != null){
-                                      forwardVideo = videoURL;
-                                    }else forwardImage = imageURL;
-
-
-                                    ///show snackbar
-                                    return Flushbar(
-                                      padding : EdgeInsets.all(10),
-                                      borderRadius: 8,
-                                      backgroundColor: Colors.white,
-
-                                      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-
-                                      forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-                                      titleText: ForwardMessagesSnackBarTitleText(
-                                        ///what to do after the user longPresses a message
-                                        onTap: (){
-                                          ///open search page
-                                          ///on selecting a contact, send message to that contact
-
-                                          var data;
-                                          if(forwardMessage != null) data = {"body":forwardMessage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-                                          else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-                                          else data = {"imageURL":forwardImage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+                                ///extract the message in a variable called forwardMessage(ideally there should be
+                                /// a list of messages and not just one variable..this is a @todo )
+                                if(messageBody != null){
+                                  forwardMessage = messageBody;
+                                }else if(videoURL != null){
+                                  forwardVideo = videoURL;
+                                }else forwardImage = imageURL;
 
 
-                                          print("data in flushbar: $data");
-                                          print("userName: $userName");
-                                          print("userPhoneNo: $userPhoneNo");
-                                          CustomNavigator().navigateToContactSearch(context, userName,  userPhoneNo, data);
-                                        },
-                                      ),
-                                      message: 'Change',
-                                      onStatusChanged: (val){
-                                        print("val: $val");
-                                        ///if the user longPresses the button once, dismesses it and later presses
-                                        ///it again then the snackbar was not appearing, because isPressed was
-                                        ///set to true. So when the flushbar is dismissed, we are setting isPressed
-                                        ///to false again, so the snackbar can appear again
-                                        if(val == FlushbarStatus.DISMISSED){
-                                          isPressed = false;
-                                        }
-                                      },
+                                ///show snackbar
+                                return Flushbar(
+                                  padding : EdgeInsets.all(10),
+                                  borderRadius: 8,
+                                  backgroundColor: Colors.white,
 
-                                    )..show(context);
-                                  } return Container();
+                                  dismissDirection: FlushbarDismissDirection.HORIZONTAL,
 
+                                  forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+                                  titleText: ForwardMessagesSnackBarTitleText(
+                                    ///what to do after the user longPresses a message
+                                    onTap: (){
+                                      ///open search page
+                                      ///on selecting a contact, send message to that contact
+
+                                      var data;
+                                      if(forwardMessage != null) data = {"body":forwardMessage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+                                      else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+                                      else data = {"imageURL":forwardImage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
 
 
-                                  /// UI:
-                                  /// on longPress show a mini snackBar which has the option of forward or copy
-                                  /// and remove the sendMessage box
-                                  /// On pressing forward, take the user to the search which is ordered in the
-                                  /// form of list of users(i.e search with the latest conversation on top)
-                                  /// On sending the message, take, keep a button of done on the search page
-                                  ///
-                                  /// backend:
-                                  ///
-                                },
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
-                                  padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
-                                  child: videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
-                                  CustomText(text: messageBody,): showImage(imageURL),
-                                  //message
-                                ),
-                              ),
-                              subtitle: Container(
-                                width: MediaQuery.of(context).size.width,
-                               // height: MediaQuery.of(context).size.height,
-                                alignment: isMe? Alignment.centerRight: Alignment.centerLeft,
+                                      print("data in flushbar: $data");
+                                      print("userName: $userName");
+                                      print("userPhoneNo: $userPhoneNo");
+                                      CustomNavigator().navigateToContactSearch(context, userName,  userPhoneNo, data);
+                                    },
+                                  ),
+                                  message: 'Change',
+                                  onStatusChanged: (val){
+                                    print("val: $val");
+                                    ///if the user longPresses the button once, dismesses it and later presses
+                                    ///it again then the snackbar was not appearing, because isPressed was
+                                    ///set to true. So when the flushbar is dismissed, we are setting isPressed
+                                    ///to false again, so the snackbar can appear again
+                                    if(val == FlushbarStatus.DISMISSED){
+                                      isPressed = false;
+                                    }
+                                  },
+
+                                )..show(context);
+                              } return Container();
+
+
+
+                              /// UI:
+                              /// on longPress show a mini snackBar which has the option of forward or copy
+                              /// and remove the sendMessage box
+                              /// On pressing forward, take the user to the search which is ordered in the
+                              /// form of list of users(i.e search with the latest conversation on top)
+                              /// On sending the message, take, keep a button of done on the search page
+                              ///
+                              /// backend:
+                              ///
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
+                              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
+                              child: videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
+                              CustomText(text: messageBody,): showImage(imageURL),
+                              //message
+                            ),
+                          ),
+                          subtitle: Container(
+                            width: MediaQuery.of(context).size.width,
+                            // height: MediaQuery.of(context).size.height,
+                            alignment: isMe? Alignment.centerRight: Alignment.centerLeft,
 
 
 //                            margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),//if not this then the timeStamp gets locked to the left side of the screen. So same logic as the messages above
-                                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),//pretty padding- for some margin from the side of the screen as well as the top of parent message
-                                child: Text(//time
-                                  DateFormat("dd MMM kk:mm")
-                                      .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic
-                                  ),
-                                ),
+                            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),//pretty padding- for some margin from the side of the screen as well as the top of parent message
+                            child: Text(//time
+                              DateFormat("dd MMM kk:mm")
+                                  .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
+                              style: TextStyle(
+                                  color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic
                               ),
-                            );
-                          },
-                          separatorBuilder: (context, index) => Divider(
-                            color: Colors.white,
+                            ),
                           ),
-                        ),
-                        onNotification: (notification) {
-                          /// ScrollUpdateNotification :
-                          /// for listining when the user scrolls up
-                          /// Show the scrolltobottom button only when the user scrolls up
-                          if(notification is ScrollUpdateNotification){
+                        );
+                      },
+                      separatorBuilder: (context, index) => Divider(
+                        color: Colors.white,
+                      ),
+                    ),
+                    onNotification: (notification) {
+                      /// ScrollUpdateNotification :
+                      /// for listining when the user scrolls up
+                      /// Show the scrolltobottom button only when the user scrolls up
+                      if(notification is ScrollUpdateNotification){
 
-                            print("notification: $notification");
+                        print("notification: $notification");
 
-                            /// *** explaintaion of if(notification.scrollDelta > 0):
-                            /// The problem we has was, setting the state of scroll to false in
-                            /// _scrollToTheBottom methos was making the scroll false, but while
-                            /// scrolling down there used to be another update on ScrollUpdateNotification
-                            /// and it would again set the scroll to true in setState
-                            /// So we had to figure out a way to set the state to true only when the
-                            /// user is scrolling up.
-                            /// if(notification.scrollDelta > 0):
-                            ///if we print notification, then we can note that if the screen scrolls
-                            ///down then the scrollDelta shows in minus.
-                            //someone from stackoverflow said :
-                            //if (scrollNotification.metrics.pixels - scrollNotification.dragDetails.delta.dy > 0)
-                            //but this was giving us error that delta was called on null, so i used :
-                            //if(notification.scrollDelta > 0)
-                            if(notification.scrollDelta > 0){
-                              setState(() {
-                                scroll = true;
-                              });
-                            }
+                        /// *** explaintaion of if(notification.scrollDelta > 0):
+                        /// The problem we has was, setting the state of scroll to false in
+                        /// _scrollToTheBottom methos was making the scroll false, but while
+                        /// scrolling down there used to be another update on ScrollUpdateNotification
+                        /// and it would again set the scroll to true in setState
+                        /// So we had to figure out a way to set the state to true only when the
+                        /// user is scrolling up.
+                        /// if(notification.scrollDelta > 0):
+                        ///if we print notification, then we can note that if the screen scrolls
+                        ///down then the scrollDelta shows in minus.
+                        //someone from stackoverflow said :
+                        //if (scrollNotification.metrics.pixels - scrollNotification.dragDetails.delta.dy > 0)
+                        //but this was giving us error that delta was called on null, so i used :
+                        //if(notification.scrollDelta > 0)
+                        if(notification.scrollDelta > 0){
+                          setState(() {
+                            print("notfication in start: $notification");
+                            scroll = true;
+                          });
+                        }
 
 
-                            ///scroll button to disappear when the user goes down manually
-                            ///without pressing the scrollDown button
-                            if(notification.metrics.atEdge
-                                &&  !((notification.metrics.pixels - notification.metrics.maxScrollExtent) >
-                                    (notification.metrics.minScrollExtent-notification.metrics.pixels))){
-                              setState(() {
-                                scroll = false;
-                              });
-                            }
-                          }
+                        ///scroll button to disappear when the user goes down manually
+                        ///without pressing the scrollDown button
+                        if(notification.metrics.atEdge
+                            &&  !((notification.metrics.pixels - notification.metrics.maxScrollExtent) >
+                                (notification.metrics.minScrollExtent-notification.metrics.pixels))){
+                          setState(() {
+                            scroll = false;
+                          });
+                        }
+                      }
 
-                          ///onNotification allows us to know when we have reached the limit of the messages
-                          ///once the limit is reached, documentList is updated again  with the next 10 messages using
-                          ///the fetchAdditionalMesages()
-                          if(notification.metrics.atEdge
-                              &&  !((notification.metrics.pixels - notification.metrics.minScrollExtent) <
-                                  (notification.metrics.maxScrollExtent-notification.metrics.pixels))) {
+                      ///onNotification allows us to know when we have reached the limit of the messages
+                      ///once the limit is reached, documentList is updated again  with the next 10 messages using
+                      ///the fetchAdditionalMesages()
+                      if(notification.metrics.atEdge
+                          &&  !((notification.metrics.pixels - notification.metrics.minScrollExtent) <
+                              (notification.metrics.maxScrollExtent-notification.metrics.pixels))) {
+                        print("You are at top");
 
 //                        if(isLoading == true) {//ToDo- check if this is  working with an actual phone
 //                          CircularProgressIndicator();}
-                          setState(() {
-                            limitCounter++;
-                          });
-                            //fetchAdditionalMessages();
-                          }
-                          return true;
-                        },
-                      );
-                    }),
-              ),
+                        fetchAdditionalMessages();
+                      }
+                      return true;
+                    },
+                  );
+                }),
+          ),
           _buildMessageComposer(),//write and send new message bar
         ],
       ),
@@ -506,20 +502,24 @@ class _IndividualChatState extends State<IndividualChat> {
 
   showVideo(String videoURL, VideoPlayerController controller){
     try{
+      print("in try");
       return
         CustomVideoPlayer(videoURL: videoURL);
     }
     catch (e){
+      print("in catch");
       return Icon(Icons.image);}
   }
 
 
   showImage(String imageURL){
     try{
+      print("in try");
       return
         DisplayPicture().chatPictureFrame(imageURL);
     }
     catch (e){
+      print("in catch");
       return Icon(Icons.image);}
   }
 
@@ -532,14 +532,14 @@ class _IndividualChatState extends State<IndividualChat> {
             var data = await sendImage();
             pushMessageDataToFirebase(false,true, data);
             setState(() {
-
+              documentList = null;
             });
           },
           secondOnPressed: () async{
             var data = await sendVideo();
             pushMessageDataToFirebase(true,false, data);
             setState(() {
-
+              documentList = null;
             });
           },
           onChangedForTextField: (value){
@@ -551,6 +551,7 @@ class _IndividualChatState extends State<IndividualChat> {
             /// when mynumber sends message to a friendNumber in whose friends
             /// collection mynumber does not exist, we have to add that person in
             /// his friends because recent chats wont work then
+            print("friendNumber in onPressedForSendingMessageIcon : $friendNumber");
             var myNumberExistsInFriendsFriendsCollectionWaiting = await Firestore.instance.collection("friends_$friendNumber").document(userPhoneNo).get();
             var myNumberExistsInFriendsFriendsCollection = myNumberExistsInFriendsFriendsCollectionWaiting.data;
             if(myNumberExistsInFriendsFriendsCollection == null){
@@ -564,6 +565,10 @@ class _IndividualChatState extends State<IndividualChat> {
               ///if there is not text, then dont send the message
               var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
               SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
+
+              setState(() {
+                documentList = null;
+              });
 
               ///Navigating to RecentChats page with pushes the data to firebase
               RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
@@ -647,7 +652,8 @@ class _IndividualChatState extends State<IndividualChat> {
   ///a message
   sendImage() async{
     numberOfImageInConversation++;
-
+    print("numberOfImageInConversation++ : $numberOfImageInConversation");
+    print("in sendImage");
     File image = await ImagesPickersDisplayPictureURLorFile().pickImageFromGallery();
     File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(image);
     String imageURL = await ImagesPickersDisplayPictureURLorFile().getImageURL(croppedImage, userPhoneNo, numberOfImageInConversation);
@@ -657,11 +663,12 @@ class _IndividualChatState extends State<IndividualChat> {
 
   sendVideo() async{
     numberOfImageInConversation++;
-
+    print("numberOfImageInConversation++ : $numberOfImageInConversation");
+    print("in sendImage");
     File video = await VideoPicker().pickVideoFromGallery();
 
     String videoURL = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, userPhoneNo, numberOfImageInConversation);
-
+    print("videoURL in sendVideo: $videoURL");
     return createDataToPushToFirebase(true, false, videoURL, userName, userPhoneNo, conversationId);
 
   }
@@ -691,17 +698,17 @@ class _IndividualChatState extends State<IndividualChat> {
   ///                  },
   ///                )
   pushMessageDataToFirebase(bool isVideo, bool isImage, var data){
-      Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
-      ///Navigating to RecentChats page with pushes the data to firebase
-      if(isVideo == true){
-        var data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId);
-        RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
-      }
+    Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+    ///Navigating to RecentChats page with pushes the data to firebase
+    if(isVideo == true){
+      var data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId);
+      RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+    }
 
-      if(isImage == true){
-        var data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId);
-        RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
-      }
+    if(isImage == true){
+      var data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId);
+      RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+    }
 
   }
 
@@ -709,59 +716,55 @@ class _IndividualChatState extends State<IndividualChat> {
 
 
   _scrollToBottomButton(){//the button with down arrow that should appear only when the user scrolls
-      return Visibility(
-        visible: scroll,
-        child: Align(
-            alignment: Alignment.centerRight,
-            child:
-            //scrollListener() ?
-            FloatingActionButton(
-              tooltip: 'Scroll to the bottom',
-              backgroundColor: Colors.transparent,
-              elevation: 0,
+    return Visibility(
+      visible: scroll,
+      child: Align(
+          alignment: Alignment.centerRight,
+          child:
+          //scrollListener() ?
+          FloatingActionButton(
+            tooltip: 'Scroll to the bottom',
+            backgroundColor: Colors.transparent,
+            elevation: 0,
 //              hoverColor: Colors.transparent,
 
-              highlightElevation: 0,
-              child: IconButton(
+            highlightElevation: 0,
+            child: IconButton(
                 icon: SvgPicture.asset('images/downArrow.svg',)
-                //SvgPicture.asset('images/downChevron.svg',)
-              ),
-              onPressed: (){
+              //SvgPicture.asset('images/downChevron.svg',)
+            ),
+            onPressed: (){
 //          Scrollable.ensureVisible(context);
               setState(() {
                 scroll = false;
                 print("scrill: $scroll");
               });
-                listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-                  0.0,
-                  curve: Curves.easeOut,
-                  duration: const Duration(milliseconds: 300),
-                );
-              },
-            )
-          //: new Align(),
-        ),
-      );
+              listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+                0.0,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );
+            },
+          )
+        //: new Align(),
+      ),
+    );
   }
 
 
   ///fetching next batch of messages when user scrolls up for previous messages
   fetchAdditionalMessages() async {
     try {
-      print("Fetching ${documentList[documentList.length-1]}");
-      print("Size  ${documentList.length}");
-      List<DocumentSnapshot>  newDocumentList  =  (await Firestore.instance.collection("conversations").document(conversationId).collection("messages")
+      List<DocumentSnapshot>  newDocumentList  =  (await collectionReference
           .orderBy("timeStamp", descending: true)
           .startAfterDocument(documentList[documentList.length-1])
           .limit(10).getDocuments())
           .documents;
 
-      print("Got additional messges of size ${newDocumentList.length}");
       if(newDocumentList.isEmpty) return;
-      additionalList = [];
 
       setState(() {//setting state is essential, or new messages(next batch of old messages) does not get loaded
-        additionalList.addAll(newDocumentList);
+        documentList.addAll(newDocumentList);
       });
     } catch(e) {
       streamController.sink.addError(e);

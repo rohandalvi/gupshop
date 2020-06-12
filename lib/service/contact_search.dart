@@ -96,7 +96,7 @@ class _ContactSearchState extends State<ContactSearch> {
             /// it will be created in individualChat, if a null conversationId is sent
             String conversationId = doc.data["conversationId"];
             //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, contactPhoneNumber)
-            print("conversationId: $conversationId");
+            print("conversationId in contactsearch on itemFound: $conversationId");
 
 
             //friendNo =  await getFriendNo(conversationId);
@@ -123,7 +123,11 @@ class _ContactSearchState extends State<ContactSearch> {
               onTap: () {
                 print("friendNo in contact search : $friendNo");
                 String friendName = doc.data["nameList"][0];
+                print("conversationId when tapping on friendname in search: $conversationId");
                 print("data in contactSearch: $data");
+                if(data != null){
+                  data["conversationId"] = conversationId;
+                }
                 //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, friendNo);
                     CustomNavigator().navigateToIndividualChat(context, conversationId, userName, userPhoneNo, friendName, friendNo, data  );
                   },

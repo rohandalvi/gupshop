@@ -107,6 +107,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   void initState() {
+    print("conversationId in initstate individualchat: $conversationId");
 
     /*
     adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
@@ -120,8 +121,6 @@ class _IndividualChatState extends State<IndividualChat> {
       getConversationId();
       /// also create a conversations_number collection
 
-
-
     }else{
 
 //      collectionReference = Firestore.instance.collection("conversations").document(conversationId).collection("messages");
@@ -134,11 +133,37 @@ class _IndividualChatState extends State<IndividualChat> {
 
     ///if forwardMessage == true, then initialize that method of sending the message
     ///here in the initstate():
-    if(forwardMessage != null){
+    forwardMessages();
+//    if(forwardMessage != null) {
+//
+//      var data = forwardMessage;
+//
+//      SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
+////      String conversationId = data["conversationId"];
+////      Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+//
+////      setState(() {
+////
+////      });
+//
+//
+//      if(data["videoURL"] != null) data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId);
+//      else if(data["imageURL"] != null) data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId);
+//      ///Navigating to RecentChats page with pushes the data to firebase
+//      RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+//    }
+
+    super.initState();
+  }
+
+
+  forwardMessages() async{
+    print("forward message in individual chat: $forwardMessage");
+    if(forwardMessage != null) {
 
       var data = forwardMessage;
 
-      SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
+      DocumentReference forwardedMessageId = await SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
 //      String conversationId = data["conversationId"];
 //      Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
 
@@ -152,9 +177,8 @@ class _IndividualChatState extends State<IndividualChat> {
       ///Navigating to RecentChats page with pushes the data to firebase
       RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
     }
-
-    super.initState();
   }
+
 
 
 
@@ -253,6 +277,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
 
   showMessagesAndSendMessageBar(BuildContext context){
+    print("conversationId in showMessagesAndSendMessageBar individualchat: $conversationId");
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(), //to take out the keyboard when tapped on chat screen
       //             onVerticalDragStart: _scrollToBottomButton(),

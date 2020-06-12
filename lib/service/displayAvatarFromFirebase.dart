@@ -115,7 +115,7 @@ class DisplayAvatarFromFirebase{
         stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
         builder: (context, snapshot) {
           if(snapshot.data == null) return CircularProgressIndicator();///to avoid error - "getter do
-//          print("snapshot in displayAvatarFromFirebase: ${snapshot.data['url']}");
+          //print("snapshot in displayAvatarFromFirebase: ${snapshot.data['url']}");
 
           /// because for the first time user, if he hasnt put any profile picture,
           /// then there wont be any 'url' in firebase.
@@ -142,7 +142,7 @@ class DisplayAvatarFromFirebase{
 
           imageUrl = snapshot.data['url'];
 
-          return customCircleAvatar(imageUrl, radius, innerRadius);
+          return customCircleAvatar(snapshot.data['url'], radius, innerRadius);
         }
     );
   }

@@ -6,6 +6,7 @@ import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/widgets/customText.dart';
+import 'package:gupshop/widgets/getFriendPhoneNo.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 
@@ -30,8 +31,7 @@ class ChatListState extends State<ChatList> {
 
   ChatListState({@required this.myNumber, @required this.myName });
 
-  String conversationId;
-
+//  String conversationId;
   String friendNo;
 
   /*
@@ -44,7 +44,7 @@ class ChatListState extends State<ChatList> {
     But this logic will not work when in case of a group.
    */
   getFriendPhoneNo(String conversationId, String myNumber) async {
-    print("mynumber in getfriend2 : $myNumber");
+    //print("mynumber in getfriend2 : $myNumber");
     DocumentSnapshot temp = await Firestore.instance.collection(
         "conversationMetadata").document(conversationId).get();
     var friendNo = await extractFriendNo(temp, myNumber);
@@ -119,14 +119,18 @@ class ChatListState extends State<ChatList> {
                 String friendNumber;
 
                 //for sending to individual_chat.dart:
-                conversationId = snapshot.data.documents[index]
-                    .data["message"]["conversationId"];
+                String conversationId = snapshot.data.documents[index].data["message"]["conversationId"];
+                print("name of friend in chat_list : $friendName");
+                print("conversationId in chat_list : $conversationId");
 
                 return ListTile( ///main widget that creates the message box
-                  leading: FutureBuilder(
+                  leading:
+                  //GetFriendPhoneNo(conversationId: conversationId,myNumber: myNumber,),
+                  FutureBuilder(
                     future: getFriendPhoneNo(conversationId, myNumber),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      print("Dat $snapshot");
+                      //print("Dat $snapshot");
+                      print("conversationId in getFriendPhoneNoFB : $conversationId");
                       if (snapshot.connectionState == ConnectionState.done) {
                         friendNumber = snapshot.data;
                         //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
@@ -169,8 +173,8 @@ class ChatListState extends State<ChatList> {
                     fontSize: 12,
                   ),
                   onTap: () {
-                    print(
-                        "friendNo in chatlist: $friendNumber"); //friendNo is for outside of widget build, so use friendNumber insted of friendNo
+                    print("friendNo in chatlist: $friendNumber"); //friendNo is for outside of widget build, so use friendNumber insted of friendNo
+                    print("conversationid on onTap: $conversationId");
                     Navigator.push(
                         context,
                         MaterialPageRoute(

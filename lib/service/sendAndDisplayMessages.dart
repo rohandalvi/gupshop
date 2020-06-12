@@ -4,9 +4,12 @@ import 'package:gupshop/service/recentChats.dart';
 
 class SendAndDisplayMessages {
 
-  pushToFirebaseConversatinCollection(Map data, ){
+  pushToFirebaseConversatinCollection(Map data, ) async{
     print("data in pushToFirebaseConversatinCollection: $data");
     String conversationId = data["conversationId"];
-    Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+    print("conversationId of new forwarded message in SendAndDisplayMessages : $conversationId");
+    DocumentReference documentReference = await Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
+    print("documentReference of new forwarded message in SendAndDisplayMessages: ${documentReference.documentID}");
+    return documentReference;
   }
 }

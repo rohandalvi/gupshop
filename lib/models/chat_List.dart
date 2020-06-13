@@ -88,7 +88,7 @@ class ChatListState extends State<ChatList> {
     return Material(
       child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance.collection("recentChats").document(
-              myNumber).collection("conversations").snapshots(),
+              myNumber).collection("conversations").orderBy("timeStamp", descending: true).snapshots(),
           builder: (context, snapshot) {
             if (snapshot.data == null) return CircularProgressIndicator();
 

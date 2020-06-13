@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
+import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'dart:io';
 
 import 'package:video_player/video_player.dart';
@@ -62,6 +63,30 @@ class DisplayPicture extends StatelessWidget {
     );
   }
 
+  pictureFrame(String imageURL){
+    return Container(
+      width: 400,
+      height: 400,
+      child: Image(
+        image: NetworkImage(imageURL),
+        fit: BoxFit.contain,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+      ),
+    );
+  }
+
+  videoFrame(String videoURL, double width, double height){
+    return Container(
+      width: width,
+      height: height,
+      child: CustomVideoPlayer(videoURL: videoURL, width: width, height: height,),
+      decoration: BoxDecoration(
+        color: Colors.white,
+      ),
+    );
+  }
 
   ///used for sideMenu, chatList, individualchat
   smallSizePicture(double radius){
@@ -76,36 +101,6 @@ class DisplayPicture extends StatelessWidget {
           backgroundImage: image,
         ),
       );
-//      Container(
-//      decoration: new BoxDecoration(
-//        shape: BoxShape.circle,
-//        image: new DecorationImage(
-//          image: image,
-//          fit: BoxFit.cover,
-//          //new AssetImage('images/sampleProfilePicture.jpeg'),
-//        ),
-//      ),
-//    );
-
-//    Container(
-//      margin: EdgeInsets.symmetric(vertical: 6),
-//      //padding: EdgeInsets.all(8),
-//      //height: height,
-//      //width: width,
-//      decoration: new BoxDecoration(
-//        shape: BoxShape.circle,
-//        color: Colors.black,
-//      ),
-//      child:Container(
-//        decoration: BoxDecoration(
-//          shape: BoxShape.circle,
-//          image: DecorationImage(
-//            image: image,
-//            fit: BoxFit.cover,
-//          ),
-//        ),
-//      ),
-//    );
   }
 }
 

@@ -13,6 +13,7 @@ import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/service/sendAndDisplayMessages.dart';
 import 'package:gupshop/service/videoPicker.dart';
+import 'package:gupshop/service/viewPicturesVideosFromChat.dart';
 import 'package:gupshop/widgets/buildMessageComposer.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -107,7 +108,6 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   void initState() {
-    print("conversationId in initstate individualchat: $conversationId");
 
     /*
     adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
@@ -116,43 +116,15 @@ class _IndividualChatState extends State<IndividualChat> {
     streambuilder without initializing in initState also paginates alright.
      */
 
-
     if(conversationId == null) {
       getConversationId();
       /// also create a conversations_number collection
-
-    }else{
-
-//      collectionReference = Firestore.instance.collection("conversations").document(conversationId).collection("messages");
-//      stream = collectionReference.orderBy("timeStamp", descending: true).limit(10).snapshots();
     }
-//    collectionReference = Firestore.instance.collection("conversations").document(conversationId).collection("messages");
-//    stream = collectionReference.orderBy("timeStamp", descending: true).limit(10).snapshots();
-
 
 
     ///if forwardMessage == true, then initialize that method of sending the message
     ///here in the initstate():
     forwardMessages();
-//    if(forwardMessage != null) {
-//
-//      var data = forwardMessage;
-//
-//      SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
-////      String conversationId = data["conversationId"];
-////      Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
-//
-////      setState(() {
-////
-////      });
-//
-//
-//      if(data["videoURL"] != null) data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId);
-//      else if(data["imageURL"] != null) data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId);
-//      ///Navigating to RecentChats page with pushes the data to firebase
-//      RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
-//    }
-
     super.initState();
   }
 
@@ -217,20 +189,12 @@ class _IndividualChatState extends State<IndividualChat> {
         //color: Theme.of(context).primaryColor,
         child: ListTile(
           contentPadding: EdgeInsets.only(top: 4),
-//          contentPadding: EdgeInsets.symmetric(vertical: 5),
           leading:
-//          Padding(
-//            padding: EdgeInsets.only(top: 5),
-//            child: Material(
-//              child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 30, 27),
-//            ),
-//          ),
           GestureDetector(
             onTap: (){
               CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true, friendNumber);
             },
             child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 25, 23.5, false),
-
           ),
 
           title: CustomText(text: friendName,),
@@ -350,10 +314,30 @@ class _IndividualChatState extends State<IndividualChat> {
 
                             return ListTile(
                               title: GestureDetector(
-//                              onTap: (){
-//                                print("onTap pressed");
-//                                FocusScope.of(context).unfocus();///Not working!!
-//                              },
+                              onTap: (){
+                                String openMessage;
+                                bool isPicture;
+                                print("onTap pressed");
+                               // FocusScope.of(context).unfocus();///Not working!!
+                                if(messageBody != null){
+                                  openMessage = null;
+                                }else if(videoURL != null){
+                                  openMessage = videoURL;
+                                  isPicture = false;
+                                }else {
+                                  openMessage = imageURL;
+                                  isPicture = true;
+                                }
+
+                                if(openMessage != null){
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ViewPicturesVideosFromChat(payLoad: openMessage, isPicture: isPicture,),//pass Name() here and pass Home()in name_screen
+                                      )
+                                  );
+                                }
+                              },
                                 onLongPress: (){
                                   if(isPressed == false){///show snackbar only once
                                     isPressed = true;

@@ -5,19 +5,23 @@ import 'dart:math';
 
 class CustomVideoPlayer extends StatefulWidget {
   String videoURL;
+  final double width;
+  final double height;
   //final VideoPlayerController controller;
 
-  CustomVideoPlayer({this.videoURL});
+  CustomVideoPlayer({this.videoURL ,this.width, this.height});
 
   @override
-  _CustomVideoPlayerState createState() => _CustomVideoPlayerState(videoURL: videoURL);
+  _CustomVideoPlayerState createState() => _CustomVideoPlayerState(videoURL: videoURL, width: width, height: height);
 }
 
 class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   String videoURL;
+  double width;
+  double height;
   //final VideoPlayerController controller;
 
-  _CustomVideoPlayerState({this.videoURL});
+  _CustomVideoPlayerState({this.videoURL,this.width, this.height});
 
   VideoPlayerController controller;
   Future<void> _initializeVideoPlayerFuture;
@@ -61,8 +65,8 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                 return FittedBox(
                   fit: BoxFit.cover,
                   child: SizedBox(
-                    width: 240,
-                    height: 190,
+                    width: width == null ? 240 : width,
+                    height: height == null ? 190 : height,
                     child: VideoPlayer(controller),
                   ),
                 );

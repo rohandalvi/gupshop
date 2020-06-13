@@ -373,7 +373,9 @@ class _IndividualChatState extends State<IndividualChat> {
 
                                     ///show snackbar
                                     return Flushbar(
-                                      padding : EdgeInsets.all(10),
+                                      //showProgressIndicator: true,
+                                      flushbarStyle: FlushbarStyle.GROUNDED,
+                                      padding : EdgeInsets.all(6),
                                       borderRadius: 8,
                                       backgroundColor: Colors.white,
 

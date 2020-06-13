@@ -56,7 +56,9 @@ class ChatListState extends State<ChatList> {
         myNumber).collection("conversations").getDocuments();
 
     DocumentSnapshot ds =  querySnapshot.documents[index];
+    print("index: ${ds.data}");
     String videoIcon = ds.data["message"]["videoURL"];
+    print("videIcon in getVideoDetailsFromVideoChat: $videoIcon");
     return videoIcon;
 
   }
@@ -97,8 +99,8 @@ class ChatListState extends State<ChatList> {
                 .separated( //to create the seperated view of each chat, has to be used with separatorBuilder: (context, index) => Divider
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
-                bool lastMessageIsVideo;
-                bool lastMessageIsImage;
+                bool lastMessageIsVideo=false;
+                bool lastMessageIsImage=false;
                 String lastMessage = '';
                 //print("friendName in ListView.separated: ${snapshot.data.documents[index].data["name"]}");
                 String friendName = snapshot.data.documents[index].data["name"];
@@ -107,7 +109,7 @@ class ChatListState extends State<ChatList> {
                   lastMessage = snapshot.data.documents[index].data["message"]["videoURL"];
                   print("lastMessage: $lastMessage");
                 }
-                if (snapshot.data.documents[index].data["message"]["body"] == null) {
+                else if (snapshot.data.documents[index].data["message"]["imageURL"] != null) {
                   lastMessageIsImage = true;
                   lastMessage = snapshot.data.documents[index].data["message"]["imageURL"];
                 } else {
@@ -148,7 +150,8 @@ class ChatListState extends State<ChatList> {
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       print("lastMessage in futureBuilder $snapshot");
                       if (snapshot.connectionState == ConnectionState.done) {
-                        lastMessage = snapshot.data;
+                        print("what is snapshot: ${snapshot.data}");
+                        //lastMessage = snapshot.data;
                         //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
                         return CustomText(text: lastMessage); //ToDo- check is false is right here
                       }

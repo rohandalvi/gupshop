@@ -80,113 +80,108 @@ class ChatListState extends State<ChatList> {
 
   @override
   Widget build(BuildContext context) {
-//    getVideoDetailsFromVideoChat(0);
-    print("userphoneno in chatlist : $myNumber");
-    print("username in chatlist :$myName");
-//    print("which snapshot: ${Firestore.instance.collection("recentChats")
-//        .document(myNumber).collection("conversations").snapshots()}");
-    return Material(
-      child: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection("recentChats").document(
-              myNumber).collection("conversations").orderBy("timeStamp", descending: true).snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.data == null) return CircularProgressIndicator();
+    return WillPopScope(/// to restrict user to go back to name_screen
+      onWillPop: () async => false,/// a required for WillPopScope
+      child: Material(
+        child: StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance.collection("recentChats").document(
+                myNumber).collection("conversations").orderBy("timeStamp", descending: true).snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.data == null) return CircularProgressIndicator();///to avoid error - "getter document was called on null"
+              return ListView.separated( ///to create the seperated view of each chat, has to be used with separatorBuilder: (context, index) => Divider
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (context, index) {
+                  bool lastMessageIsVideo=false;
+                  bool lastMessageIsImage=false;
+                  String lastMessage = '';
+                  //print("friendName in ListView.separated: ${snapshot.data.documents[index].data["name"]}");
+                  String friendName = snapshot.data.documents[index].data["name"];
+                  if (snapshot.data.documents[index].data["message"]["videoURL"] != null) {
+                    lastMessageIsVideo = true;
+                    lastMessage = snapshot.data.documents[index].data["message"]["videoURL"];
+                  }
+                  else if (snapshot.data.documents[index].data["message"]["imageURL"] != null) {
+                    lastMessageIsImage = true;
+                    lastMessage = snapshot.data.documents[index].data["message"]["imageURL"];
+                  } else {
+                    lastMessage = snapshot.data.documents[index].data["message"]["body"];
+                  }
+                  Timestamp timeStamp = snapshot.data.documents[index]
+                      .data["message"]["timeStamp"];
 
-            ///to avoid error - "getter document was called on null"
-            return ListView
-                .separated( //to create the seperated view of each chat, has to be used with separatorBuilder: (context, index) => Divider
-              itemCount: snapshot.data.documents.length,
-              itemBuilder: (context, index) {
-                bool lastMessageIsVideo=false;
-                bool lastMessageIsImage=false;
-                String lastMessage = '';
-                //print("friendName in ListView.separated: ${snapshot.data.documents[index].data["name"]}");
-                String friendName = snapshot.data.documents[index].data["name"];
-                if (snapshot.data.documents[index].data["message"]["videoURL"] != null) {
-                  lastMessageIsVideo = true;
-                  lastMessage = snapshot.data.documents[index].data["message"]["videoURL"];
-                }
-                else if (snapshot.data.documents[index].data["message"]["imageURL"] != null) {
-                  lastMessageIsImage = true;
-                  lastMessage = snapshot.data.documents[index].data["message"]["imageURL"];
-                } else {
-                  lastMessage = snapshot.data.documents[index].data["message"]["body"];
-                }
-                Timestamp timeStamp = snapshot.data.documents[index]
-                    .data["message"]["timeStamp"];
+                  String friendNumber;
 
-                String friendNumber;
+                  ///for sending to individual_chat.dart:
+                  String conversationId = snapshot.data.documents[index].data["message"]["conversationId"];
 
-                //for sending to individual_chat.dart:
-                String conversationId = snapshot.data.documents[index].data["message"]["conversationId"];
-
-                return ListTile( ///main widget that creates the message box
-                  leading:
-                  //GetFriendPhoneNo(conversationId: conversationId,myNumber: myNumber,),
-                  FutureBuilder(
-                    future: getFriendPhoneNo(conversationId, myNumber),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        friendNumber = snapshot.data;
-                        //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
-                        return DisplayAvatarFromFirebase()
-                            .displayAvatarFromFirebase(friendNumber, 30, 27,
-                            false); //ToDo- check is false is right here
-                      }
-                      return CircularProgressIndicator();
-                    },
-                  ),
-                  title: CustomText(text: friendName),
-                  subtitle: lastMessageIsVideo == true ?
-                  FutureBuilder(
-                    future: getVideoDetailsFromVideoChat(index),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        //lastMessage = snapshot.data;
-                        //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
-                        return CustomText(text: lastMessage); //ToDo- check is false is right here
-                      }
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                  ): lastMessageIsImage == true ? CustomText(text: lastMessage) :
-                  CustomText(text: lastMessage).textWithOverFlow(),
+                  return ListTile( ///main widget that creates the message box
+                    leading:
+                    //GetFriendPhoneNo(conversationId: conversationId,myNumber: myNumber,),
+                    FutureBuilder(
+                      future: getFriendPhoneNo(conversationId, myNumber),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          friendNumber = snapshot.data;
+                          //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
+                          return DisplayAvatarFromFirebase()
+                              .displayAvatarFromFirebase(friendNumber, 30, 27,
+                              false); //ToDo- check is false is right here
+                        }
+                        return CircularProgressIndicator();
+                      },
+                    ),
+                    title: CustomText(text: friendName),
+                    subtitle: lastMessageIsVideo == true ?
+                    FutureBuilder(
+                      future: getVideoDetailsFromVideoChat(index),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          //lastMessage = snapshot.data;
+                          //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
+                          return CustomText(text: lastMessage); //ToDo- check is false is right here
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    ): lastMessageIsImage == true ? CustomText(text: lastMessage) :
+                    CustomText(text: lastMessage).textWithOverFlow(),
 //                  lastMessageIsVideo == true ?
 ////                  //CustomText(text: '📹')
 ////                  lastMessage == null? showProgressIndicator(lastMessage, index):
 //                  CustomText(text: lastMessage)
 //                      : CustomText(text: lastMessage).textWithOverFlow(),
 
-                  /// for dot dot at the end of the message
-                  //dense: true,
-                  trailing: CustomText( //time
-                    text: DateFormat("dd MMM kk:mm").format(
-                        DateTime.fromMillisecondsSinceEpoch(int.parse(
-                            timeStamp.millisecondsSinceEpoch.toString()))),
-                    fontSize: 12,
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              IndividualChat(friendName: friendName,
-                                conversationId: conversationId,
-                                userName: myName,
-                                userPhoneNo: myNumber,
-                                friendNumber: friendNumber,), //pass Name() here and pass Home()in name_screen
-                        )
-                    );
-                  },
-                );
-              },
-              separatorBuilder: (context, index) =>
-                  Divider( //to divide the chat list
-                    color: Colors.white,
-                  ),
-            );
-          }
+                    /// for dot dot at the end of the message
+                    //dense: true,
+                    trailing: CustomText( //time
+                      text: DateFormat("dd MMM kk:mm").format(
+                          DateTime.fromMillisecondsSinceEpoch(int.parse(
+                              timeStamp.millisecondsSinceEpoch.toString()))),
+                      fontSize: 12,
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                IndividualChat(friendName: friendName,
+                                  conversationId: conversationId,
+                                  userName: myName,
+                                  userPhoneNo: myNumber,
+                                  friendNumber: friendNumber,), //pass Name() here and pass Home()in name_screen
+                          )
+                      );
+                    },
+                  );
+                },
+                separatorBuilder: (context, index) =>
+                    Divider( //to divide the chat list
+                      color: Colors.white,
+                    ),
+              );
+            }
+        ),
       ),
     );
   }

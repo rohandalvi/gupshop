@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/service/auth_service.dart';
+import 'package:gupshop/widgets/countryCodeAndFlag.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +21,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool codeSent = false;
   String val="";
+  String countryCode = '+91';
+  String numberWithoutCode;
 
   @override
   void initState() {
@@ -35,62 +38,74 @@ class _LoginScreenState extends State<LoginScreen> {
       //Scaffold==>Column==>Container==>Text(Gup)
       //                 ==>Container==>Text(Shup)
       //can also be done, but the padding alignment is much beautiful with Stack
-      body: Column(
+      body: ListView(
+        shrinkWrap: true,
         children: <Widget>[
-          Stack(
+          Column(
             children: <Widget>[
-                Container(
-                  width: 200,
-                  height: 200,
-                  child:
-                  Image(
-                    image: AssetImage('images/chatBubble.png'),
+              Stack(
+                children: <Widget>[
+                    Container(
+                      width: 200,
+                      height: 200,
+                      child:
+                      Image(
+                        image: AssetImage('images/chatBubble.png'),
+                      ),
                   ),
-        //      IconButton(
-        //        icon: SvgPicture.asset(
-        //        'images/userFace.svg',
-        //        width: 500,
-        //        height: 500,
-        //      ),
-        //      ),
+                  Container(
+                    child: Text(
+                      'Gup',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 90,
+                      ),
+                    ),
+                    padding: EdgeInsets.fromLTRB(15, 120, 0, 0),
+                    /// padding: EdgeInsets.fromLTRB(35, 110, 0, 0)==>if this is not included
+                    /// then the words gup shup would be displayed in the upper left corner
+                    /// of the screen
+                  ),
+                  Container(
+                    child: Text(
+                      'Shop',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 90,
+                      ),
+                    ),
+                    padding: EdgeInsets.fromLTRB(50, 190, 0, 0),
+                  )
+                ],
               ),
-              Container(
-                child: Text(
-                  'Gup',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 90,
+              Row(
+//                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  CountryCodeAndFlag(
+                    onChanged: (value){
+                      String convertedCountryCode = value.toString();
+                      setState(() {
+                        countryCode = convertedCountryCode;
+                      });
+
+                    },
                   ),
-                ),
-                padding: EdgeInsets.fromLTRB(15, 120, 0, 0),
-                // padding: EdgeInsets.fromLTRB(35, 110, 0, 0)==>if this is not included
-                // then the words gup shup would be displayed in the upper left corner
-                // of the screen
-              ),
-              Container(
-                child: Text(
-                  'Shop',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 90,
-                  ),
-                ),
-                padding: EdgeInsets.fromLTRB(50, 190, 0, 0),
-              )
-            ],
-          ),
-          Container(
-            child:
-                CustomTextFormField(
-                  labelText: "Enter your Number",
-                  onChanged: (val) {
-                    setState(() {
-                      this.phoneNo = val;
-                      this.val=val;
-                      print("phoneNo: ${val}");
-                    });
-                  },
-                ),
+                  Expanded(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 1.25,
+                      child: CustomTextFormField(
+                        maxLength: 10,
+                            labelText: "Enter your Number",
+                            onChanged: (val) {
+                              setState(() {
+                                this.phoneNo = val;
+                                this.val=val;
+                                print("phoneNo: ${this.val}");
+                                numberWithoutCode = this.val;
+                              });
+                            },
+                          ),
 //            new TextField(
 //              decoration: new InputDecoration(labelText: "Enter your number"),
 //              keyboardType: TextInputType.phone,
@@ -105,11 +120,16 @@ class _LoginScreenState extends State<LoginScreen> {
 //              },
 //              // Only numbers can be entered
 //            ),
-            padding: EdgeInsets.only(left: 20, top: 35, right: 20),
-          ),
-          IconButton(
-            onPressed: verifyphone,
-            icon: SvgPicture.asset('images/nextArrow.svg',),
+                      padding: EdgeInsets.only(left: 20, top: 35, right: 20),
+                    ),
+                  ),
+                ],
+              ),
+              IconButton(
+                onPressed: verifyphone,
+                icon: SvgPicture.asset('images/nextArrow.svg',),
+              ),
+            ],
           ),
         ],
       ),
@@ -123,6 +143,10 @@ class _LoginScreenState extends State<LoginScreen> {
     String userPhoneNo = prefs.getString('userPhoneNo');
     print("userPhoneNo in verifyPhone: $userPhoneNo");
 
+    setState(() {
+      val = countryCode + numberWithoutCode;
+      print("revised number: $val");
+    });
 
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
       AuthService().signIn(authResult);

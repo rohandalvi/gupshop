@@ -96,7 +96,7 @@ class _NameScreenState extends State<NameScreen> {
                   Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url' : url});
 
                   List<String> nameList = new List();
-                  nameList.add(userPhoneNo);
+                  nameList.add(userName);
                   Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': userPhoneNo, 'nameList' : nameList});///necessary to create data, orsearch in contact search page shows error
 
                   setState(() {

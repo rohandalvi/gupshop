@@ -56,9 +56,7 @@ class ChatListState extends State<ChatList> {
         myNumber).collection("conversations").getDocuments();
 
     DocumentSnapshot ds =  querySnapshot.documents[index];
-    print("index: ${ds.data}");
     String videoIcon = ds.data["message"]["videoURL"];
-    print("videIcon in getVideoDetailsFromVideoChat: $videoIcon");
     return videoIcon;
 
   }
@@ -107,7 +105,6 @@ class ChatListState extends State<ChatList> {
                 if (snapshot.data.documents[index].data["message"]["videoURL"] != null) {
                   lastMessageIsVideo = true;
                   lastMessage = snapshot.data.documents[index].data["message"]["videoURL"];
-                  print("lastMessage: $lastMessage");
                 }
                 else if (snapshot.data.documents[index].data["message"]["imageURL"] != null) {
                   lastMessageIsImage = true;
@@ -122,8 +119,6 @@ class ChatListState extends State<ChatList> {
 
                 //for sending to individual_chat.dart:
                 String conversationId = snapshot.data.documents[index].data["message"]["conversationId"];
-                print("name of friend in chat_list : $friendName");
-                print("conversationId in chat_list : $conversationId");
 
                 return ListTile( ///main widget that creates the message box
                   leading:
@@ -131,8 +126,6 @@ class ChatListState extends State<ChatList> {
                   FutureBuilder(
                     future: getFriendPhoneNo(conversationId, myNumber),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      //print("Dat $snapshot");
-                      print("conversationId in getFriendPhoneNoFB : $conversationId");
                       if (snapshot.connectionState == ConnectionState.done) {
                         friendNumber = snapshot.data;
                         //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
@@ -148,9 +141,7 @@ class ChatListState extends State<ChatList> {
                   FutureBuilder(
                     future: getVideoDetailsFromVideoChat(index),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      print("lastMessage in futureBuilder $snapshot");
                       if (snapshot.connectionState == ConnectionState.done) {
-                        print("what is snapshot: ${snapshot.data}");
                         //lastMessage = snapshot.data;
                         //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
                         return CustomText(text: lastMessage); //ToDo- check is false is right here
@@ -176,8 +167,6 @@ class ChatListState extends State<ChatList> {
                     fontSize: 12,
                   ),
                   onTap: () {
-                    print("friendNo in chatlist: $friendNumber"); //friendNo is for outside of widget build, so use friendNumber insted of friendNo
-                    print("conversationid on onTap: $conversationId");
                     Navigator.push(
                         context,
                         MaterialPageRoute(

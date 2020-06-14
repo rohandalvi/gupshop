@@ -10,9 +10,6 @@ import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/widgets/customText.dart';
-
-
-
 class ContactSearch extends StatefulWidget {
   final String userPhoneNo;
   final String userName;
@@ -31,42 +28,32 @@ class _ContactSearchState extends State<ContactSearch> {
 
   List<DocumentSnapshot> list;
 
-  _ContactSearchState({@required this.userPhoneNo, @required this.userName, this.data});
+  _ContactSearchState(
+      {@required this.userPhoneNo, @required this.userName, this.data});
 
   void initState() {
-    print("in initsate");
-    //futureOfCreateSearchSuggestions();
-    //waitToCreateFriendsCollection();
+    createSearchSuggestions();/// to get the list of contacts as suggestion
     super.initState();
-    //CreateFriendsCollection(userName: userName, userPhoneNo: userPhoneNo,).getUnionContacts();
-    //createSearchSuggestions();//to get the list of contacts as suggestion
-    print("data in initstate of contactSearch: $data");
-  }
-
-  getFriendNo(String conversationId) async{
-     return await ChatListState().getFriendPhoneNo(conversationId, widget.userPhoneNo);
   }
 
 
   @override
   Widget build(BuildContext context) {
-    //createSearchSuggestions();
-    print("in build");
-    print("userName in contactSearch: $userName");
     return Scaffold(
       body: SafeArea(
         child: SearchBar<DocumentSnapshot>(
           searchBarPadding: EdgeInsets.all(10),
           emptyWidget: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CustomText(text: ':( This name does not match your contacts ',),
+            child: CustomText(
+              text: ':( This name does not match your contacts ',),
           ),
           cancellationWidget: IconButton(
             icon: SvgPicture.asset('images/cancel.svg',),
             /// onPressed is taken care by the cancellationWidget
           ),
           icon: GestureDetector(
-            onTap: (){
+            onTap: () {
               CustomNavigator().navigateToHome(context, userName, userPhoneNo);
             },
             child: SvgPicture.asset('images/backArrowColor.svg',
@@ -75,10 +62,12 @@ class _ContactSearchState extends State<ContactSearch> {
               //placeholderBuilder: CircularProgressIndicator(),
             ),
           ),
-          minimumChars: 1,//minimum characters to enter to start the search
-          //suggestions:list,
-          //createSuggestionList(),
-          //list,///this is giving error as we need to build this from future but this
+          minimumChars: 1,/// minimum characters to enter to start the search
+          suggestions: list == null ? new List() : list,
+          /// as list is a future, the loading screen was
+          /// throwing an error  before the list was loaded and was showing a red screen to the user.
+          /// So, we are creating a placeholder new List() here till the list loads and becuase suggestions
+          /// doesnt accept CircularProgressIndicator() we are using new List().
           hintText: 'Search contacts',
           hintStyle: GoogleFonts.openSans(
             //inconsolata
@@ -88,49 +77,35 @@ class _ContactSearchState extends State<ContactSearch> {
             ),
           ),
           onSearch: searchList,
-          onItemFound: (DocumentSnapshot doc, int index){
+          onItemFound: (DocumentSnapshot doc, int index) {
             String friendNo = doc.data["phone"];
-            print("friendNo in onItemFound: $friendNo");
-            //print("DocumentSnapshot doc: ${doc.data}");
             /// if it is the first time conversation the there will be no conversationId
             /// it will be created in individualChat, if a null conversationId is sent
             String conversationId = doc.data["conversationId"];
             //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, contactPhoneNumber)
-            print("conversationId in contactsearch on itemFound: $conversationId");
-
-
-            //friendNo =  await getFriendNo(conversationId);
 
             return ListTile(
-//              leading: SizedBox(
-//                width: 0,
-////                height: 0,
-//                child: FutureBuilder(
-//                  future: getFriendNo(conversationId),
-//                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-//
-//                    print("snapshot in listtile: ${snapshot.data}");
-//                    if(snapshot.connectionState == ConnectionState.done) {
-//                      print("snapshot.data: ${snapshot.data}");
-//                      friendNo = snapshot.data;
-//                    }
-//                    return Container();
-//                  },
-//                )
-//                ,
-//              ),
-              title: CustomText(text:doc.data["nameList"][0]),///displaying on the display name
+              title: CustomText(text: doc.data["nameList"][0]),
+              ///displaying on the display name
               onTap: () {
                 print("friendNo in contact search : $friendNo");
                 String friendName = doc.data["nameList"][0];
-                print("conversationId when tapping on friendname in search: $conversationId");
+                print(
+                    "conversationId when tapping on friendname in search: $conversationId");
                 print("data in contactSearch: $data");
-                if(data != null){
+                if (data != null) {
                   data["conversationId"] = conversationId;
                 }
                 //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, friendNo);
-                    CustomNavigator().navigateToIndividualChat(context, conversationId, userName, userPhoneNo, friendName, friendNo, data  );
-                  },
+                CustomNavigator().navigateToIndividualChat(
+                    context,
+                    conversationId,
+                    userName,
+                    userPhoneNo,
+                    friendName,
+                    friendNo,
+                    data);
+              },
             );
           },
         ),
@@ -140,150 +115,43 @@ class _ContactSearchState extends State<ContactSearch> {
 
 
   /// searchList is basically friends_number collection
-   Future<List<DocumentSnapshot>> searchList(String text) async {
-     var list = await Firestore.instance.collection("friends_${widget.userPhoneNo}").getDocuments();
-     ///right now we have a list for names, but I think this can be changed to just name,
-     ///because display name includes firstname and lastname
-     ///
-     /// if name only is to be passed to firebase:
-     /// list.documents.where((l) => l.data["name"].toLowerCase().contains(text.toLowerCase()) ||  l.documentID.contains(text)).toList();
-     print("list: ${list.documents[0].data}");
-     print("name in list: ${list.documents[0].data["nameList"][0]}");
+  Future<List<DocumentSnapshot>> searchList(String text) async {
+    var list = await Firestore.instance.collection(
+        "friends_${widget.userPhoneNo}").getDocuments();
 
-     ///ToDo- here not just 0, but on every index of the list
-     print("list after where: ${list.documents.where((l) => l.data["nameList"][0].toLowerCase().contains(text.toLowerCase()) ||  l.documentID.contains(text)).toList()}");
+    ///right now we have a list for names, but I think this can be changed to just name,
+    ///because display name includes firstname and lastname
+    ///
+    /// if name only is to be passed to firebase:
+    /// list.documents.where((l) => l.data["name"].toLowerCase().contains(text.toLowerCase()) ||  l.documentID.contains(text)).toList();
+    print("list: ${list.documents[0].data}");
+    print("name in list: ${list.documents[0].data["nameList"][0]}");
 
-    return list.documents.where((l) => l.data["nameList"][0].toLowerCase().contains(text.toLowerCase()) ||  l.documentID.contains(text)).toList();
+    ///ToDo- here not just 0, but on every index of the list
+    print("list after where: ${list.documents.where((l) =>
+    l.data["nameList"][0]
+        .toLowerCase()
+        .contains(text.toLowerCase()) || l.documentID.contains(text))
+        .toList()}");
+
+    return list.documents.where((l) =>
+    l.data["nameList"][0]
+        .toLowerCase()
+        .contains(text.toLowerCase()) || l.documentID.contains(text)).toList();
   }
-
 
 
   ///we are displaying the friends collection as the suggestion.
-  ///But since, suggestion in SearchBar requires a List and not
-  createSearchSuggestions() async{
-    print("in getContactsList");
-    var temp= await Firestore.instance.collection("friends_$userPhoneNo").getDocuments();
-    print("temp: $temp");
+  /// this method is called in initState
+  createSearchSuggestions() async {
+    var temp = await Firestore.instance.collection("friends_$userPhoneNo")
+        .orderBy("nameList", descending: false)
+        .getDocuments();
     var tempList = temp.documents;
-    print("tempList: $tempList");
     setState(() {
       list = tempList;
-      print("in setState");
     });
-
   }
-
-
-  createSuggestionList() async{
-    var temp= await Firestore.instance.collection("friends_$userPhoneNo").getDocuments();
-    return temp.documents;
-  }
-
-//  listFutureBuilder(){
-//    return FutureBuilder(
-//      future: Firestore.instance.collection("friends_$userPhoneNo").getDocuments(),
-//      builder: (context, snapshot){
-//        if(snapshot.connectionState == ConnectionState.done){
-//          return snapshot.data.documents;
-//        } return Center(
-//          child: CircularProgressIndicator(),
-//        );
-//      },
-//    );
-//  }
 }
-
-
-
-
-
-//class ContactSearch extends SearchDelegate<String>{
-//  final String userPhoneNo;
-//  final String userName;
-//
-//  ContactSearch({@required this.userPhoneNo, @required this.userName});
-//
-//  @override
-//  List<Widget> buildActions(BuildContext context) {
-//    return[
-//      IconButton(
-//        icon: Icon(Icons.clear),
-//        onPressed: (){
-//          query='';
-//        },
-//      ),
-//    ];
-//  }
-//
-//  @override
-//  Widget buildLeading(BuildContext context) {
-////    return IconButton(
-////      icon: Icon(Icons.arrow_back),
-////      onPressed: (){
-////        close(context, null);
-////      },
-////    );
-//  return null;
-//  }
-//
-//  @override
-//  Widget buildResults(BuildContext context) {
-//
-//  }
-//
-//  @override
-//  Widget buildSuggestions(BuildContext context) {
-//    print("userphoneno in contact_search: ${userPhoneNo}");
-//    return StreamBuilder(
-//        stream: Firestore.instance.collection("friends_$userPhoneNo").snapshots(),//use userPhoneNo ToDo
-//        builder: (context, snapshot) {
-//
-//          //final streamShortcut =Firestore.instance.collection("friends_9194134191").document("contacts").snapshots();
-//
-//          if(snapshot.hasError) return Text("Error occurred");
-//          if(!snapshot.hasData) return Text("Now Loading!");
-//
-//
-//          //print("snapshot in streambuilder: ${snapshot.data}");
-//
-//          return ListView.builder(
-//              itemCount: snapshot.data.documents.length,
-//              itemBuilder: (context, index){
-//                //final result = streamShortcut.where();
-//                print("userName= $userName");
-//                print("snapshotdatadoc[index]data[convID] = ${snapshot.data.documents[index].data["conversationId"]}");
-//                print("userphoneno in contact_search in Listview Builder: ${userPhoneNo}");
-//                //print("userName:=${snapshot.data.documents[int.parse(userPhoneNo)].data["name"]}");
-//                print("userName= $userName");
-//                return ListTile(
-//                  title: Text(
-//                      snapshot.data.documents[index].data["name"],
-//                  ),
-//                  onTap: (){
-//                    Navigator.push(
-//                      context,
-//                      MaterialPageRoute(//to send conversationId along with the navigator to the next page
-//                        builder: (context) => IndividualChat(
-//                          conversationId: snapshot.data.documents[index].data["conversationId"],
-//                          userPhoneNo: userPhoneNo,
-//                          userName: userName,
-//                          friendName: snapshot.data.documents[index].data["name"],
-//                        ),
-//                      ),
-//                    );
-//                  },
-//                );
-//              },
-//          );
-//
-//        }
-//    );
-//  }
-//
-////  Stream filter(){
-////
-////  }
-//
-//}
 
 ///FlareActor("assets/Filip.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"idle");

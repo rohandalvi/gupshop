@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/service/auth_service.dart';
+import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/countryCodeAndFlag.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
@@ -148,14 +151,19 @@ class _LoginScreenState extends State<LoginScreen> {
       print("revised number: $val");
     });
 
+    /// I dont think PhoneVerificationCompleted PhoneVerificationFailed is required @todo
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
+      print("verification done");
       AuthService().signIn(authResult);
     };
 
-    final PhoneVerificationFailed verificationfailed =
-        (AuthException authException) {
-      print('${authException.message}');
+    final PhoneVerificationFailed verificationfailed = (AuthException authException) {
+      print("verification wrong");
+      print("error message: ${authException.message}");
+      //print('error message : ${authException.message}');
     };
+    /// seperator
+
 
     final PhoneCodeSent smsSent = (String verId, [int forceResend]) async{
       print("Received verification id ${verId}");
@@ -174,6 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
           //Navigator.of(context).pushNamed('loggedIn');
+
           print("userphoneno: ${val}");
           Navigator.push(
               context,
@@ -184,6 +193,27 @@ class _LoginScreenState extends State<LoginScreen> {
           print("phone no: ${val.toString()}");
 
         }).catchError((e) {
+          Flushbar(
+            icon: SvgPicture.asset(
+              'images/stopHand.svg',
+              width: 30,
+              height: 30,
+            ),
+            backgroundColor: Colors.white,
+            duration: Duration(seconds: 5),
+            forwardAnimationCurve: Curves.decelerate,
+            reverseAnimationCurve: Curves.easeOut,
+            titleText: Text(
+              'Wrong verification code',
+              style: GoogleFonts.openSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: ourBlack,
+                ),
+              ),
+            ),
+            message: "Please enter your name to move forward",
+          )..show(context);
           print("Got error $e");
         });
 
@@ -253,6 +283,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<bool> smsCodeDialog(BuildContext context) {
     //the method for displaying the dialog box which pops up to put the sms code
     //sent to the user for verification
+    print("in smsCodeDialog");
 
     return showDialog(
         context: context, //@Todo-why??

@@ -193,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
           print("phone no: ${val.toString()}");
 
         }).catchError((e) {
-          Flushbar(
+          Flushbar( /// for the flushBar if the user enters wrong verification code
             icon: SvgPicture.asset(
               'images/stopHand.svg',
               width: 30,

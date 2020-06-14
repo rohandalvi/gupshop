@@ -40,113 +40,116 @@ class _NameScreenState extends State<NameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: ListView(//to remove renderflex overflow error
-            shrinkWrap: true,
-            children: <Widget>[
-              displayNameBadge(),
-              //ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 390, width: 390,),
-              Container(
-                child: CustomTextFormField(
-                      onChanged:
-                          (val){
-                        setState(() {
-                          this.isName= val;
-                          this.userName= val;
-                        });
-                      },
-                      formKey: formKey,
-                      onFieldSubmitted: (name){
-                        final form = formKey.currentState;
-                        if(form.validate()){
+    return WillPopScope( /// to not let the user go back from name_screen
+      onWillPop: () async => false,/// a required for WillPopScope
+      child: MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: ListView(//to remove renderflex overflow error
+              shrinkWrap: true,
+              children: <Widget>[
+                displayNameBadge(),
+                //ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 390, width: 390,),
+                Container(
+                  child: CustomTextFormField(
+                        onChanged:
+                            (val){
                           setState(() {
-                            //this.userName= name;
+                            this.isName= val;
+                            this.userName= val;
                           });
-                        }
-                      },
-                      labelText: "Enter your Name",
-                    ),
-
-                padding: EdgeInsets.only(left: 20, top: 35, right: 20),
-              ),
-              IconButton(
-                icon: SvgPicture.asset('images/nextArrow.svg',),
-                onPressed: ()async{
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                  String userNameForSP = prefs.getString('userName');
-                  print("userNameForSP in name_screen: $userNameForSP");
-
-
-                  ///Add first time user’s number to database:
-                  ///For adding data, we need to use set() method
-                  ///We dont have userPhone and name both at the login_screen, we get both
-                 /// of them in the name_screen, so we will add them in that file only.
-                  Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
-                  print("Firestore.instance.collection(users).document(userPhoneNo).setData({'name':userName}):${userName}");
-
-                  //add userPhoneNumber to our database. Add to the users collection:
-                  Firestore.instance.collection("recentChats").document(userPhoneNo).setData({});
-
-                  ///creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
-                  /// also setting a placeholder
-                  /// The placeholder imageurl  as the user picture url we have stored in firebase
-                  String url = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/user.png?alt=media&token=28bcfc15-31da-4847-8f7c-efdd60428714";
-                  Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url' : url});
-
-                  List<String> nameList = new List();
-                  nameList.add(userName);
-                  Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': userPhoneNo, 'nameList' : nameList});///necessary to create data, orsearch in contact search page shows error
-
-                  setState(() {
-                    prefs.setString('userName', userName);
-                    print("userNameForSP in name_screen setState: $userName");
-                    print("userphoneno in name screen : $userPhoneNo");
-                  });
-
-                  if(userName == null){
-                    Flushbar(
-                      icon: SvgPicture.asset(
-                          'images/stopHand.svg',
-                        width: 30,
-                        height: 30,
+                        },
+                        formKey: formKey,
+                        onFieldSubmitted: (name){
+                          final form = formKey.currentState;
+                          if(form.validate()){
+                            setState(() {
+                              //this.userName= name;
+                            });
+                          }
+                        },
+                        labelText: "Enter your Name",
                       ),
-                      backgroundColor: Colors.white,
-                      duration: Duration(seconds: 5),
-                      forwardAnimationCurve: Curves.decelerate,
-                      reverseAnimationCurve: Curves.easeOut,
-                      titleText: Text(
-                        'Name required',
-                        style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: ourBlack,
+
+                  padding: EdgeInsets.only(left: 20, top: 35, right: 20),
+                ),
+                IconButton(
+                  icon: SvgPicture.asset('images/nextArrow.svg',),
+                  onPressed: ()async{
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    String userNameForSP = prefs.getString('userName');
+                    print("userNameForSP in name_screen: $userNameForSP");
+
+
+                    ///Add first time user’s number to database:
+                    ///For adding data, we need to use set() method
+                    ///We dont have userPhone and name both at the login_screen, we get both
+                   /// of them in the name_screen, so we will add them in that file only.
+                    Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
+                    print("Firestore.instance.collection(users).document(userPhoneNo).setData({'name':userName}):${userName}");
+
+                    //add userPhoneNumber to our database. Add to the users collection:
+                    Firestore.instance.collection("recentChats").document(userPhoneNo).setData({});
+
+                    ///creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
+                    /// also setting a placeholder
+                    /// The placeholder imageurl  as the user picture url we have stored in firebase
+                    String url = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/user.png?alt=media&token=28bcfc15-31da-4847-8f7c-efdd60428714";
+                    Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url' : url});
+
+                    List<String> nameList = new List();
+                    nameList.add(userName);
+                    Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': userPhoneNo, 'nameList' : nameList});///necessary to create data, orsearch in contact search page shows error
+
+                    setState(() {
+                      prefs.setString('userName', userName);
+                      print("userNameForSP in name_screen setState: $userName");
+                      print("userphoneno in name screen : $userPhoneNo");
+                    });
+
+                    if(userName == null){
+                      Flushbar(
+                        icon: SvgPicture.asset(
+                            'images/stopHand.svg',
+                          width: 30,
+                          height: 30,
+                        ),
+                        backgroundColor: Colors.white,
+                        duration: Duration(seconds: 5),
+                        forwardAnimationCurve: Curves.decelerate,
+                        reverseAnimationCurve: Curves.easeOut,
+                        titleText: Text(
+                          'Name required',
+                          style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: ourBlack,
+                            ),
                           ),
                         ),
-                      ),
-                      message: "Please enter your name to move forward",
-                    )..show(context);
-                  }
+                        message: "Please enter your name to move forward",
+                      )..show(context);
+                    }
 
-                  if(userName != null){
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
-                        )
-                    );
+                    if(userName != null){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
+                          )
+                      );
 //                    Navigator.push(
 //                        context,
 //                        MaterialPageRoute(
 //                          builder: (context) => ChangeProfilePicture(userName: userName),//pass Name() here and pass Home()in name_screen
 //                        )
 //                    );
-                  }
-                },
-              ),
+                    }
+                  },
+                ),
 
-            ],
+              ],
+            ),
           ),
         ),
       ),

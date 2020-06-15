@@ -1,16 +1,18 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
-import 'package:gupshop/models/message_model.dart';
-import 'package:gupshop/screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
+import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
+import 'package:gupshop/service/firestoreShortcuts.dart';
+import 'package:gupshop/service/showMessageForFirstConversation.dart';
+import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
-import 'package:gupshop/widgets/getFriendPhoneNo.dart';
-import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 
-import 'dart:ui';
 
 //chatList => individualChat
 class ChatList extends StatefulWidget {
@@ -44,7 +46,6 @@ class ChatListState extends State<ChatList> {
     But this logic will not work when in case of a group.
    */
   getFriendPhoneNo(String conversationId, String myNumber) async {
-    //print("mynumber in getfriend2 : $myNumber");
     DocumentSnapshot temp = await Firestore.instance.collection(
         "conversationMetadata").document(conversationId).get();
     var friendNo = await extractFriendNo(temp, myNumber);
@@ -62,7 +63,6 @@ class ChatListState extends State<ChatList> {
   }
 
   extractFriendNo(DocumentSnapshot temp, String myNumber) async {
-    //print("mynumber in extractfriendNo : $myNumber");
     for (int i = 0; i < 2; i++) {
       if (temp.data["members"][i] != myNumber) {
         return temp.data["members"][i];
@@ -78,6 +78,15 @@ class ChatListState extends State<ChatList> {
   }
 
 
+  ifNoConversationSoFar(){
+    return Scaffold(
+      body: Center(
+        child: ShowMessageForFirstConversation().showRaisedButton(context, myName, myNumber, null),
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(/// to restrict user to go back to name_screen
@@ -88,13 +97,19 @@ class ChatListState extends State<ChatList> {
                 myNumber).collection("conversations").orderBy("timeStamp", descending: true).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.data == null) return CircularProgressIndicator();///to avoid error - "getter document was called on null"
+
+              if(snapshot.data.documents.length == 0){/// to show new conversation button
+                print("no data");
+                return ifNoConversationSoFar();
+              }
+
               return ListView.separated( ///to create the seperated view of each chat, has to be used with separatorBuilder: (context, index) => Divider
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
                   bool lastMessageIsVideo=false;
                   bool lastMessageIsImage=false;
-                  String lastMessage = '';
-                  //print("friendName in ListView.separated: ${snapshot.data.documents[index].data["name"]}");
+                  String lastMessage;
+                  print("in streambuilder");
                   String friendName = snapshot.data.documents[index].data["name"];
                   if (snapshot.data.documents[index].data["message"]["videoURL"] != null) {
                     lastMessageIsVideo = true;
@@ -105,6 +120,7 @@ class ChatListState extends State<ChatList> {
                     lastMessage = snapshot.data.documents[index].data["message"]["imageURL"];
                   } else {
                     lastMessage = snapshot.data.documents[index].data["message"]["body"];
+                    print("lastMessage: $lastMessage");
                   }
                   Timestamp timeStamp = snapshot.data.documents[index]
                       .data["message"]["timeStamp"];
@@ -181,6 +197,7 @@ class ChatListState extends State<ChatList> {
                     ),
               );
             }
+  //}
         ),
       ),
     );

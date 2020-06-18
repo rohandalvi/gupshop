@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/screens/login_screen.dart';
 import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/screens/welcomeScreen.dart';
+import 'package:gupshop/service/createGroup.dart';
 import 'package:gupshop/widgets/bazaarHomeGridView.dart';
 
 void main() {
@@ -26,7 +27,8 @@ debugShowCheckedModeBanner: false,
 //        home: ContactSearch(),
 //        home: SideMenu(),
 //        home: ChangeProfilePicture(),
-      home: WelcomeScreen(),
+      //home: WelcomeScreen(),
+      home: CreateGroup(),
 //        home: HomeScreen(),
       //home: BazaarProfilePage(),
 //      home: ProductDetail(),

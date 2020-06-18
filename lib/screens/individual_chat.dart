@@ -34,8 +34,8 @@ class IndividualChat extends StatefulWidget {
   final String conversationId;
   final String userPhoneNo;
   final String userName;
-  final String friendName;
-  final String friendNumber;
+  final String friendName;/// this should be a list
+  final String friendNumber;/// this should be a list
   final Map forwardMessage;
 
   IndividualChat(
@@ -59,8 +59,8 @@ class _IndividualChatState extends State<IndividualChat> {
   String conversationId;
   final String userPhoneNo;
   final String userName;
-  final String friendName;
-  final String friendNumber;
+  final String friendName;/// this should be list
+  final String friendNumber;/// this should be list
   final Map forwardMessage;
 
   static int numberOfImageInConversation = 0;///for giving number to the images sent in conversation for
@@ -293,21 +293,18 @@ class _IndividualChatState extends State<IndividualChat> {
 
                             if(documentList[index].data["videoURL"] != null){
                               videoURL = documentList[index].data["videoURL"];
-
                               controller = VideoPlayerController.network(videoURL);
-
                             }
                             else if(documentList[index].data["imageURL"] == null){
                               messageBody = documentList[index].data["body"];
 
                             }else{
-
                               imageURL = documentList[index].data["imageURL"];
-
                             }
                             //var messageBody = documentList[index].data["body"];
                             var fromName = documentList[index].data["fromName"];
                             Timestamp timeStamp = documentList[index].data["timeStamp"];
+                            String fromNameForGroup = documentList[index].data["fromName"]; /// for group messages
                             bool isMe = false;
 
                             if (fromName == userName) isMe = true;
@@ -436,6 +433,7 @@ class _IndividualChatState extends State<IndividualChat> {
                                   ),
                                 ),
                               ),
+                              trailing: isMe==false ? Text(fromNameForGroup) : null,/// for groupchat name of the sender
                             );
                           },
                           separatorBuilder: (context, index) => Divider(
@@ -656,8 +654,8 @@ class _IndividualChatState extends State<IndividualChat> {
 
 
 
-  _scrollToBottomButton(){//the button with down arrow that should appear only when the user scrolls
-      return Visibility(
+  _scrollToBottomButton(){///the button with down arrow that should appear only when the user scrolls
+      return Visibility(/// a placeholder widget
         visible: scroll,
         child: Align(
             alignment: Alignment.centerRight,

@@ -1,15 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
-import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
-import 'package:gupshop/service/firestoreShortcuts.dart';
 import 'package:gupshop/service/showMessageForFirstConversation.dart';
-import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:intl/intl.dart';
 
@@ -73,11 +67,16 @@ class ChatListState extends State<ChatList> {
 
   @override
   void initState() {
+    /// to create the friends collection everytime user starts the app
+    /// *** this might be getting triggred everytime the user comes to the
+    /// chat_list page. Check it @todo
     CreateFriendsCollection(userName: myName, userPhoneNo: myNumber,).getUnionContacts();
     super.initState();
   }
 
 
+  /// A display message with a button for the user with no conversation at all.
+  /// This button takes user to the contact_search screen
   ifNoConversationSoFar(){
     return Scaffold(
       body: Center(
@@ -99,7 +98,6 @@ class ChatListState extends State<ChatList> {
               if (snapshot.data == null) return CircularProgressIndicator();///to avoid error - "getter document was called on null"
 
               if(snapshot.data.documents.length == 0){/// to show new conversation button
-                print("no data");
                 return ifNoConversationSoFar();
               }
 
@@ -109,7 +107,7 @@ class ChatListState extends State<ChatList> {
                   bool lastMessageIsVideo=false;
                   bool lastMessageIsImage=false;
                   String lastMessage;
-                  print("in streambuilder");
+
                   String friendName = snapshot.data.documents[index].data["name"];
                   if (snapshot.data.documents[index].data["message"]["videoURL"] != null) {
                     lastMessageIsVideo = true;
@@ -152,8 +150,6 @@ class ChatListState extends State<ChatList> {
                       future: getVideoDetailsFromVideoChat(index),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
-                          //lastMessage = snapshot.data;
-                          //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
                           return CustomText(text: lastMessage); //ToDo- check is false is right here
                         }
                         return Center(
@@ -161,14 +157,7 @@ class ChatListState extends State<ChatList> {
                         );
                       },
                     ): lastMessageIsImage == true ? CustomText(text: lastMessage) :
-                    CustomText(text: lastMessage).textWithOverFlow(),
-//                  lastMessageIsVideo == true ?
-////                  //CustomText(text: '📹')
-////                  lastMessage == null? showProgressIndicator(lastMessage, index):
-//                  CustomText(text: lastMessage)
-//                      : CustomText(text: lastMessage).textWithOverFlow(),
-
-                    /// for dot dot at the end of the message
+                    CustomText(text: lastMessage).textWithOverFlow(),/// for dot dot at the end of the message
                     //dense: true,
                     trailing: CustomText( //time
                       text: DateFormat("dd MMM kk:mm").format(
@@ -197,7 +186,6 @@ class ChatListState extends State<ChatList> {
                     ),
               );
             }
-  //}
         ),
       ),
     );

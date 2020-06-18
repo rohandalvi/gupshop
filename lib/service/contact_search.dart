@@ -14,22 +14,26 @@ class ContactSearch extends StatefulWidget {
   final String userPhoneNo;
   final String userName;
   final data;
+  final Widget Function(DocumentSnapshot item, int index) onItemFound;
+  final Future<List<DocumentSnapshot>> Function(String text) onSearch;
 
-  ContactSearch({@required this.userPhoneNo, @required this.userName, this.data});
+  ContactSearch({@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch});
 
   @override
-  _ContactSearchState createState() => _ContactSearchState(userPhoneNo: userPhoneNo, userName: userName, data: data);
+  _ContactSearchState createState() => _ContactSearchState(userPhoneNo: userPhoneNo, userName: userName, data: data, onItemFound: onItemFound, onSearch: onSearch);
 }
 
 class _ContactSearchState extends State<ContactSearch> {
   final String userPhoneNo;
   final String userName;
   final data;
+  final Widget Function( DocumentSnapshot item, int index) onItemFound;/// make documentSnapshot dynamic
+  final Future<List<DocumentSnapshot>> Function(String text) onSearch;
 
   List<DocumentSnapshot> list;
 
   _ContactSearchState(
-      {@required this.userPhoneNo, @required this.userName, this.data});
+      {@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch});
 
   void initState() {
     createSearchSuggestions();/// to get the list of contacts as suggestion
@@ -48,12 +52,12 @@ class _ContactSearchState extends State<ContactSearch> {
             child: CustomText(
               text: ':( This name does not match your contacts ',),
           ),
-          cancellationWidget: IconButton(
+          cancellationWidget: IconButton( /// cancel button
             icon: SvgPicture.asset('images/cancel.svg',),
             /// onPressed is taken care by the cancellationWidget
           ),
           icon: GestureDetector(
-            onTap: () {
+            onTap: () { /// back arrow
               CustomNavigator().navigateToHome(context, userName, userPhoneNo);
             },
             child: SvgPicture.asset('images/backArrowColor.svg',
@@ -76,8 +80,8 @@ class _ContactSearchState extends State<ContactSearch> {
               fontSize: 16,
             ),
           ),
-          onSearch: searchList,
-          onItemFound: (DocumentSnapshot doc, int index) {
+          onSearch: onSearch == null? searchList : onSearch,
+          onItemFound: onItemFound == null ? (DocumentSnapshot doc, int index) {
             String friendNo = doc.data["phone"];
             /// if it is the first time conversation the there will be no conversationId
             /// it will be created in individualChat, if a null conversationId is sent
@@ -107,7 +111,7 @@ class _ContactSearchState extends State<ContactSearch> {
                     data);
               },
             );
-          },
+          } : onItemFound,
         ),
       ),
     );

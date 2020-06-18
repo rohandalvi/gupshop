@@ -53,7 +53,7 @@ class CheckBoxCategorySelectorState extends State<CheckBoxCategorySelector> {
   }
 
 
-  //using scaffold does take out the black screen but it gives white screen instead.
+  ///using scaffold does take out the black screen but it gives white screen instead.
   @override
   Widget build(BuildContext context) {
     print("userPhoneNo in chechbox  built : $userPhoneNo");
@@ -111,8 +111,8 @@ class CheckBoxCategorySelectorState extends State<CheckBoxCategorySelector> {
           print("inputs: $inputs");
 
 
-          //A RenderFlex overflowed by 299361 pixels on the bottom.
-          //solution - use Container and constraints
+          ///A RenderFlex overflowed by 299361 pixels on the bottom.
+          ///solution - use Container and constraints
           return Container(
             constraints: BoxConstraints(
               maxHeight: 300,
@@ -122,8 +122,8 @@ class CheckBoxCategorySelectorState extends State<CheckBoxCategorySelector> {
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
 
-                  //RenderFlex children have non-zero flex but incoming height constraints are unbounded.
-                  return Container(//container was wrapped with sized box before, but we dont need it because we are using column and  flexible which are giving sizes
+                  ///RenderFlex children have non-zero flex but incoming height constraints are unbounded.
+                  return Container(///container was wrapped with sized box before, but we dont need it because we are using column and  flexible which are giving sizes
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[

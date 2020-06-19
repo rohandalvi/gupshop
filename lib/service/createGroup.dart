@@ -34,9 +34,11 @@ class _CreateGroupState extends State<CreateGroup> {
   String userName;
 
   _CreateGroupState({@required this.userPhoneNo, @required this.userName});
-  /// a list to store the state of contacts, i.e the contacts which are
+  /// a map to store the state of contacts and their names, i.e the contacts which are
   /// selected would show as true, and not as false.
-  Map<String, bool > map = new HashMap();///****
+  Map<String, bool > map = new HashMap();
+
+  List<String> listOfNamesInAGroup = new List();
 
   getCategorySizeFuture() async{
     QuerySnapshot querySnapshot = await Firestore.instance.collection("friends_+15857547599").getDocuments();
@@ -50,9 +52,6 @@ class _CreateGroupState extends State<CreateGroup> {
       map.putIfAbsent(name, () => false);
     });
   }
-
-
-
 
 
   @override
@@ -113,7 +112,12 @@ class _CreateGroupState extends State<CreateGroup> {
               child: CustomFloatingActionButton(
                 tooltip: 'Create a new Group',
                 /// create a listOfContactsSelected and send it to individualChat
-                //onPressed: ,
+                onPressed: (){
+                  createListOfContactsSelected();
+
+                  ///navigate to individualchat:
+
+                },
               ),
             ),
           )
@@ -124,6 +128,15 @@ class _CreateGroupState extends State<CreateGroup> {
   bool isNameSelected(){
     if(map.containsValue(true)) return true;
     return false;
+  }
+
+  createListOfContactsSelected(){
+    map.forEach((key, value) {
+      if(value == true){
+        listOfNamesInAGroup.add(key);
+      }
+    });
+    print("listOfNamesInAGroup : $listOfNamesInAGroup");
   }
 
 }

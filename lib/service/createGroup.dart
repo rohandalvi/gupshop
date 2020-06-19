@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,8 +13,13 @@ import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class CreateGroup extends StatefulWidget {
+  String userPhoneNo;
+  String userName;
+
+  CreateGroup({@required this.userPhoneNo, @required this.userName});
+
   @override
-  _CreateGroupState createState() => _CreateGroupState();
+  _CreateGroupState createState() => _CreateGroupState(userPhoneNo:userPhoneNo, userName:userName);
 }
 
 /// Flow:
@@ -23,10 +30,37 @@ class CreateGroup extends StatefulWidget {
 
 
 class _CreateGroupState extends State<CreateGroup> {
+  String userPhoneNo;
+  String userName;
+
+  _CreateGroupState({@required this.userPhoneNo, @required this.userName});
   /// a list to store the state of contacts, i.e the contacts which are
   /// selected would show as true, and not as false.
-  List<bool> list = new List<bool>();
-  //bool checkBoxChecked = false;
+  Map<String, bool > map = new HashMap();///****
+
+  getCategorySizeFuture() async{
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("friends_+15857547599").getDocuments();
+    if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
+
+    Map mapOfDocumentSnapshots = querySnapshot.documents.asMap();
+
+    /// initializing 'map' with false values
+    mapOfDocumentSnapshots.forEach((key, value) {
+      String name = mapOfDocumentSnapshots[key].data["nameList"][0];
+      map.putIfAbsent(name, () => false);
+    });
+  }
+
+
+
+
+
+  @override
+  void initState() {
+    getCategorySizeFuture();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,18 +77,19 @@ class _CreateGroupState extends State<CreateGroup> {
   ///
   contactList(BuildContext context){
     return ContactSearch(
-      userPhoneNo: '+15857547599',
+      userPhoneNo: '+15857547599',//@todo change this
       userName: 'Rohan Dalvi',
       data: null,
       onItemFound: (DocumentSnapshot doc, int index){
-        list.add(false);/// setting all the values as false for first time, because list has 'null' as value right now
         return Container(
           child: CheckboxListTile(
             title: CustomText(text: doc.data["nameList"][0]),
-            value: list[index],/// at first all the values would be false
+            value: map[doc.data["nameList"][0]],/// ***
+            //list[index],/// at first all the values would be false
             onChanged: (bool val){
               setState(() {
-                list[index] = val;/// if the user changes the value, then the whole widget resets. The values are stored in list
+                map[doc.data["nameList"][0]] = val; /// ***
+                //list[index] = val;/// if the user changes the value, then the whole widget resets. The values are stored in list
                 //checkBoxChecked = val;
               });
             },
@@ -63,11 +98,6 @@ class _CreateGroupState extends State<CreateGroup> {
         //title: CustomText(text: doc.data["nameList"][0]),
       },
     );
-  }
-  void itemChange(bool val, int index){/// changes the value in the list and rebuilts the widget
-    setState(() {
-      list[index] = val;
-    });
   }
 
 
@@ -80,7 +110,11 @@ class _CreateGroupState extends State<CreateGroup> {
             height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
             width: 100,
             child: FittedBox(
-              child: CustomFloatingActionButton(tooltip: 'Create a new Group',),
+              child: CustomFloatingActionButton(
+                tooltip: 'Create a new Group',
+                /// create a listOfContactsSelected and send it to individualChat
+                //onPressed: ,
+              ),
             ),
           )
       ),
@@ -88,11 +122,8 @@ class _CreateGroupState extends State<CreateGroup> {
   }
 
   bool isNameSelected(){
-    for(int i=0; i<list.length; i++){
-      if(list[i] == true){
-        return true;
-      }
-    }
+    if(map.containsValue(true)) return true;
     return false;
   }
+
 }

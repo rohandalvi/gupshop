@@ -82,7 +82,12 @@ class _CreateGroupState extends State<CreateGroup> {
       onItemFound: (DocumentSnapshot doc, int index){
         return Container(
           child: CheckboxListTile(
+//            secondary: map[doc.data["nameList"][0]] == true ?IconButton(
+//                icon: SvgPicture.asset('images/done.svg',)
+//            ) : null,
+            controlAffinity:ListTileControlAffinity.leading ,
             title: CustomText(text: doc.data["nameList"][0]),
+            activeColor: primaryColor,
             value: map[doc.data["nameList"][0]],/// ***
             //list[index],/// at first all the values would be false
             onChanged: (bool val){

@@ -12,6 +12,8 @@ import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
+import 'customNavigators.dart';
+
 class CreateGroup extends StatefulWidget {
   String userPhoneNo;
   String userName;
@@ -34,11 +36,11 @@ class _CreateGroupState extends State<CreateGroup> {
   String userName;
 
   _CreateGroupState({@required this.userPhoneNo, @required this.userName});
-  /// a map to store the state of contacts and their names, i.e the contacts which are
+  /// a map to store the state of contacts and their numbers, i.e the contacts which are
   /// selected would show as true, and not as false.
   Map<String, bool > map = new HashMap();
 
-  List<String> listOfNamesInAGroup = new List();
+  List<String> listOfNumbersInAGroup = new List();
 
   getCategorySizeFuture() async{
     QuerySnapshot querySnapshot = await Firestore.instance.collection("friends_+15857547599").getDocuments();
@@ -48,8 +50,8 @@ class _CreateGroupState extends State<CreateGroup> {
 
     /// initializing 'map' with false values
     mapOfDocumentSnapshots.forEach((key, value) {
-      String name = mapOfDocumentSnapshots[key].data["nameList"][0];
-      map.putIfAbsent(name, () => false);
+      String number = mapOfDocumentSnapshots[key].data["phone"];
+      map.putIfAbsent(number, () => false);
     });
   }
 
@@ -88,11 +90,11 @@ class _CreateGroupState extends State<CreateGroup> {
             controlAffinity:ListTileControlAffinity.leading ,
             title: CustomText(text: doc.data["nameList"][0]),
             activeColor: primaryColor,
-            value: map[doc.data["nameList"][0]],/// ***
+            value: map[doc.data["phone"]],/// if value of a key in map(a phonenumber) is false or true
             //list[index],/// at first all the values would be false
             onChanged: (bool val){
               setState(() {
-                map[doc.data["nameList"][0]] = val; /// ***
+                map[doc.data["phone"]] = val; /// setting the new value as selected by user
                 //list[index] = val;/// if the user changes the value, then the whole widget resets. The values are stored in list
                 //checkBoxChecked = val;
               });
@@ -120,8 +122,8 @@ class _CreateGroupState extends State<CreateGroup> {
                 onPressed: (){
                   createListOfContactsSelected();
 
-                  ///navigate to individualchat:
-
+                  ///navigate to creatGroupName_Screen:
+                  CustomNavigator().navigateToCreateGroupName_Screen(context, userName, userPhoneNo, listOfNumbersInAGroup);
                 },
               ),
             ),
@@ -138,10 +140,10 @@ class _CreateGroupState extends State<CreateGroup> {
   createListOfContactsSelected(){
     map.forEach((key, value) {
       if(value == true){
-        listOfNamesInAGroup.add(key);
+        listOfNumbersInAGroup.add(key);
       }
     });
-    print("listOfNamesInAGroup : $listOfNamesInAGroup");
+    print("listOfNamesInAGroup : $listOfNumbersInAGroup");
   }
 
 }

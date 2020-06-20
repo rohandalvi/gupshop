@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
+import 'package:gupshop/screens/createGroupName_screen.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/contact_search.dart';
@@ -45,6 +46,15 @@ class CustomNavigator{
           forwardMessage: data,
         ),
       ),
+    );
+  }
+
+  navigateToCreateGroupName_Screen(BuildContext context, String userName, String userPhoneNo, List<String> listOfNumbersInAGroup){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CreateGroupName_Screen(userName: userName, userPhoneNo: userPhoneNo, listOfNumbersInAGroup: listOfNumbersInAGroup,),//pass Name() here and pass Home()in name_screen
+        )
     );
   }
 }

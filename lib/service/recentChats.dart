@@ -27,14 +27,14 @@ class RecentChats{
       print("number: ${list[i]}");
       print("userNumber: $userNumber");
       if(list[i]!=userNumber){//if the user is not chatting with himself then push the friendName as after finding it from conversationMetada from conversationWith()
-        String friendName = await conversationWith(list[i], userNumber);//purva dalvi
+        String friendName = await conversationWith(userNumber, list[i], );//purva dalvi
         print("friendName: $friendName");
         pushRecentChatsToAllNumbersInvolvedInFirebase(userNumber,friendName);//recent chats=> 585 => purva dalvi
 
         //set our name as friendName in the other user's recent chat
         ///right now messages are not getting updated in otherNumber because no other
         ///friends collection except +19194134191 @ToDo
-        String otherFriendName = await conversationWith(userNumber, list[i]);
+        String otherFriendName = await conversationWith(list[i], userNumber, );
         print("otherfriendName: $otherFriendName");
         pushRecentChatsToAllNumbersInvolvedInFirebase(list[i], otherFriendName);
       }//else do nothing
@@ -43,7 +43,7 @@ class RecentChats{
   }
 
   //check with whom the conversation is with
-  conversationWith(String number, String friendCollectionNumber) async{
+  conversationWith(String friendCollectionNumber, String number, ) async{
     print("friendCollectionNumber: $friendCollectionNumber");
     DocumentSnapshot documentSnapshot = await Firestore.instance.collection("friends_$friendCollectionNumber").document(number).get();
     print("documentSnapshot in conversationWith: $documentSnapshot");

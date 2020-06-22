@@ -4,6 +4,7 @@ import 'package:gupshop/screens/createGroupName_screen.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/contact_search.dart';
+import 'package:gupshop/service/createGroup.dart';
 
 class CustomNavigator{
   navigateToHome(BuildContext context, String userName, String userPhoneNo){
@@ -54,6 +55,15 @@ class CustomNavigator{
         context,
         MaterialPageRoute(
           builder: (context) => CreateGroupName_Screen(userName: userName, userPhoneNo: userPhoneNo, listOfNumbersInAGroup: listOfNumbersInAGroup,),//pass Name() here and pass Home()in name_screen
+        )
+    );
+  }
+
+  navigateToCreateGroup(BuildContext context, String userName, String userPhoneNo){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CreateGroup(userName: userName, userPhoneNo: userPhoneNo),//pass Name() here and pass Home()in name_screen
         )
     );
   }

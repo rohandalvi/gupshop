@@ -64,6 +64,12 @@ class _HomeAppBarState extends State<HomeAppBar> {
           child: CustomText(text: 'Refresh new contacts',),
         ),
         actions: <Widget>[
+          IconButton(
+            icon: SvgPicture.asset('images/groupManWoman.svg',),
+            onPressed: (){
+              CustomNavigator().navigateToCreateGroup(context, userName, userPhoneNo,);
+            },
+          ),
           Builder(
             builder: (context) => IconButton(//Right side icons
               color: Colors.black,

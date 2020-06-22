@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       title: 'Chat home',
 debugShowCheckedModeBanner: false,
-      home: Home(userPhoneNo: '+19194134191', userName: 'Purva Dalvi',),
+      home: Home(userPhoneNo: '+15857547599', userName: 'Rohan Dalvi',),
 //       home: GeolocationService(),
 //      home: LoginScreen(),
 //        home: CreateFriendsCollection(),

@@ -98,7 +98,9 @@ class _IndividualChatState extends State<IndividualChat> {
     Firestore.instance.collection("friends_$userPhoneNo").document(friendNumber).setData({'phone': friendNumber, 'nameList' : nameList, 'conversationId': id},merge: true);
     /// push to friend's friends collection i.e friends_friendNumber
     /// in case of group push to all numbers of the group
-    Firestore.instance.collection("friends_$friendNumber").document(userPhoneNo).setData({'phone': userPhoneNo, 'nameList' : nameList, 'conversationId': id},merge: true);
+    List<String> nameList2 = new List();
+    nameList2.add(userName);
+    Firestore.instance.collection("friends_$friendNumber").document(userPhoneNo).setData({'phone': userPhoneNo, 'nameList' : nameList2, 'conversationId': id},merge: true);
 
     /// also push the conversationId to conversations:
     Firestore.instance.collection("conversations").document(id).setData({});

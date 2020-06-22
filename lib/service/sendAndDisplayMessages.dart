@@ -4,7 +4,7 @@ import 'package:gupshop/service/recentChats.dart';
 
 class SendAndDisplayMessages {
 
-  pushToFirebaseConversatinCollection(Map data, ) async{
+  pushToFirebaseConversatinCollection(Map data) async{
     print("data in pushToFirebaseConversatinCollection: $data");
     String conversationId = data["conversationId"];
     print("conversationId of new forwarded message in SendAndDisplayMessages : $conversationId");

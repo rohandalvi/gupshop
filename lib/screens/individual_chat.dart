@@ -92,10 +92,13 @@ class _IndividualChatState extends State<IndividualChat> {
     ///push to friends collection here
     List<String> nameList = new List();
     nameList.add(friendName);
-    /// Also push the conversationId to friends
+    /// Also push the conversationId to friends_userPhoneNo
     /// reason : contactSearch pushes the user to this page in case of new conversation or forward message, and it needs a
     /// conversationId at approx line 97
     Firestore.instance.collection("friends_$userPhoneNo").document(friendNumber).setData({'phone': friendNumber, 'nameList' : nameList, 'conversationId': id},merge: true);
+    /// push to friend's friends collection i.e friends_friendNumber
+    /// in case of group push to all numbers of the group
+    Firestore.instance.collection("friends_$friendNumber").document(userPhoneNo).setData({'phone': userPhoneNo, 'nameList' : nameList, 'conversationId': id},merge: true);
 
     /// also push the conversationId to conversations:
     Firestore.instance.collection("conversations").document(id).setData({});
@@ -104,6 +107,7 @@ class _IndividualChatState extends State<IndividualChat> {
       conversationId = id;
 
     });
+    forwardMessages(id);
   }
 
   @override
@@ -119,20 +123,22 @@ class _IndividualChatState extends State<IndividualChat> {
     if(conversationId == null) {
       getConversationId();
       /// also create a conversations_number collection
-    }
+    }else{forwardMessages(conversationId);}
 
 
     ///if forwardMessage == true, then initialize that method of sending the message
     ///here in the initstate():
-    forwardMessages();
+
     super.initState();
   }
 
 
-  forwardMessages() async{
+  forwardMessages(String conversationId) async{
     print("forward message in individual chat: $forwardMessage");
     if(forwardMessage != null) {
 
+      /// forward messages needs to be given this conversation's conversationId
+      forwardMessage["conversationId"] = conversationId;
       var data = forwardMessage;
 
       DocumentReference forwardedMessageId = await SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);

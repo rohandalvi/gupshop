@@ -98,6 +98,11 @@ class _ContactSearchState extends State<ContactSearch> {
                     "conversationId when tapping on friendname in search: $conversationId");
                 print("data in contactSearch: $data");
                 if (data != null) {
+                  /// forward message needs to be given searched friends conversationId
+                  /// corresponding change can also be found in individualChat forwardMessage() method:
+                  ///
+                  /// forward messages needs to be given this conversation's conversationId:
+                  ///      forwardMessage["conversationId"] = conversationId;
                   data["conversationId"] = conversationId;
                 }
                 //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, friendNo);

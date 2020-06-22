@@ -19,7 +19,7 @@ class CreateFriendsCollection{
   /// Now we need to add that union of users to his friends_number collection
   getUnionContacts()async{
     Iterable<Contact> contacts = await _getContactsFromUserPhone();
-    print("contacts list: $contacts");
+    //print("contacts list: $contacts");
     return await _loopThroughEachContactToFindUnion(contacts);
   }
 

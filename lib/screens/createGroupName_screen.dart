@@ -28,7 +28,7 @@ class CreateGroupName_Screen extends StatefulWidget {
   CreateGroupName_Screen({@required this.userPhoneNo, @required this.userName, @required this.listOfNumbersInAGroup});
 
   @override
-  _CreateGroupName_ScreenState createState() => _CreateGroupName_ScreenState(userPhoneNo: userPhoneNo);
+  _CreateGroupName_ScreenState createState() => _CreateGroupName_ScreenState(userPhoneNo: userPhoneNo, userName: userName, listOfNumbersInAGroup: listOfNumbersInAGroup);
 }
 
 class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
@@ -38,7 +38,7 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
   final List<String> listOfNumbersInAGroup;
 
   String imageUrl = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/%2B15857547599ProfilePicture?alt=media&token=0a4a79f5-7989-4e14-8927-7b4ca39af7d7";
-  static final formKey = new GlobalKey<FormState>();
+  final formKey = new GlobalKey<FormState>();
 
   String groupName;
 
@@ -62,7 +62,7 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                       this.groupName= val;
                     });
                   },
-                  formKey: formKey,
+                  formKeyCustomText: formKey,
                   onFieldSubmitted: (name){
                     final form = formKey.currentState;
                     if(form.validate()){
@@ -81,14 +81,19 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                 onPressed: ()async{
                   /// create a conversationMetadata which would also have a groupName
                   /// the groupName would be our identifier if the conversation is individual or group
+                  print("listOfNumbersInAGroup in createGreoupName: $listOfNumbersInAGroup");
                   String id = await GetConversationId().createNewConversationId(userPhoneNo, listOfNumbersInAGroup, groupName);
+                  print("id in createGroupName: $id");
 
                   /// add this group to all the numbers in the listOfNumbersInAGroup
                   List<String> nameList = new List();
                   nameList.add(groupName);
                   AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfNumbersInAGroup, id, id, nameList, groupName);
                   /// add this group in creator's number
-                  AddToFriendsCollection().addToFriendsCollection(userPhoneNo, null, nameList, id, groupName);
+                  List<String> nameListForMyNumber = new List();/// would have the conversationId only
+                  nameListForMyNumber.add(id);
+                  AddToFriendsCollection().addToFriendsCollection(nameListForMyNumber, id, userPhoneNo, nameList,groupName);/// **
+                  //AddToFriendsCollection().addToFriendsCollection(userPhoneNo, listOfNumbersInAGroup, nameList, id, groupName);/// **
 
                   /// add to conversations to avoid italic conversationId
                   Firestore.instance.collection("conversations").document(id).setData({});
@@ -120,7 +125,7 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                   }
 
                   if(groupName != null){
-                    CustomNavigator().navigateToIndividualChat(context, null, userName, userPhoneNo, groupName, listOfNumbersInAGroup, null);
+                    CustomNavigator().navigateToIndividualChat(context, id, userName, userPhoneNo, groupName, listOfNumbersInAGroup, null);
                   }
                 },
               ),

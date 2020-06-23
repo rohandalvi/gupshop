@@ -46,6 +46,8 @@ class _CreateGroupState extends State<CreateGroup> {
     QuerySnapshot querySnapshot = await Firestore.instance.collection("friends_$userPhoneNo").getDocuments();
     if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
 
+    print("querySnapshot.documents : ${querySnapshot.documents.asMap()}");
+
     Map mapOfDocumentSnapshots = querySnapshot.documents.asMap();
 
     /// initializing 'map' with false values
@@ -55,8 +57,8 @@ class _CreateGroupState extends State<CreateGroup> {
 //    });
 
     mapOfDocumentSnapshots.forEach((key, value) {
-      List temp = mapOfDocumentSnapshots[key].data["phone"];
-      String number =  temp[0];
+      var temp = mapOfDocumentSnapshots[key].data["phone"];
+      var number =  temp[0];///would work even in groups because group will have conversationId in their "phone"
       map.putIfAbsent(number, () => false);
     });
   }
@@ -126,7 +128,7 @@ class _CreateGroupState extends State<CreateGroup> {
               child: CustomFloatingActionButton(
                 tooltip: 'Create a new Group',
                 /// create a listOfContactsSelected and send it to individualChat
-                onPressed: (){
+                onPressed: () {
                   createListOfContactsSelected();
 
                   ///navigate to creatGroupName_Screen:
@@ -144,13 +146,15 @@ class _CreateGroupState extends State<CreateGroup> {
     return false;
   }
 
-  createListOfContactsSelected(){
+  createListOfContactsSelected() {
     map.forEach((key, value) {
       if(value == true){
         listOfNumbersInAGroup.add(key);
       }
     });
-    listOfNumbersInAGroup.add(userPhoneNo);
+//    setState(() {
+//      listOfNumbersInAGroup.add(userPhoneNo);
+//    });
     print("listOfNamesInAGroup : $listOfNumbersInAGroup");
   }
 

@@ -32,7 +32,7 @@ class RecentChats{
       print("number: ${listOfOtherNumbers[i]}");
       ///for a group, the userNumber should be conversationId
       if(groupName != null){
-        myName = await conversationWith(listOfOtherNumbers[i], groupName, );
+        myName = await conversationWith(listOfOtherNumbers[i], convId, );
       }
       else myName = await conversationWith(listOfOtherNumbers[i], userNumber, );
       print("otherfriendName: $myName");

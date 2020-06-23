@@ -9,15 +9,15 @@ class CustomTextFormField extends StatelessWidget {
   ValueChanged<String> onChanged;
   String labelText;
   //static final formKey = new GlobalKey<FormState>();
-  GlobalKey<FormState> formKey;
+  GlobalKey<FormState> formKeyCustomText;
   int maxLength;
 
-  CustomTextFormField({this.onFieldSubmitted, this.labelText, this.formKey, this.onChanged, this.maxLength});
+  CustomTextFormField({this.onFieldSubmitted, this.labelText, this.formKeyCustomText, this.onChanged, this.maxLength});
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key : formKey,
+      key : formKeyCustomText,
       child: TextFormField(
         maxLength: maxLength,
         cursorColor: primaryColor,

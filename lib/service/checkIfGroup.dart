@@ -4,7 +4,7 @@ class CheckIfGroup{
 
   ifThisIsAGroup(String conversationId) async{
     DocumentSnapshot dc= await Firestore.instance.collection("conversationMetadata").document(conversationId).get();
-    print("dc in CheckIfGroup: ${dc.data}");
+    print("dc in CheckIfGroup: ${dc.data.containsKey("groupName")}");
     return dc.data.containsKey("groupName");
   }
 }

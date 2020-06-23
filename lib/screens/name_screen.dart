@@ -32,7 +32,8 @@ class _NameScreenState extends State<NameScreen> {
   List<String> phoneNumberList;
 
   String imageUrl = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/%2B15857547599ProfilePicture?alt=media&token=0a4a79f5-7989-4e14-8927-7b4ca39af7d7";
-  static final formKey = new GlobalKey<FormState>();
+  //static final formKey = new GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = new GlobalKey<FormState>();
 
   String isName;
 
@@ -59,7 +60,7 @@ class _NameScreenState extends State<NameScreen> {
                             this.userName= val;
                           });
                         },
-                        formKey: formKey,
+                        formKeyCustomText: formKey,
                         onFieldSubmitted: (name){
                           final form = formKey.currentState;
                           if(form.validate()){

@@ -120,7 +120,8 @@ class _IndividualChatState extends State<IndividualChat> {
   getConversationId() async{
     /// an individualChat would always have groupName as null,
     /// only a groupChat would have groupName
-    String id = await GetConversationId().createNewConversationId(userPhoneNo, listOfFriendNumbers, null);///
+    String id = await GetConversationId().createNewConversationId(userPhoneNo, listOfFriendNumbers, null);
+    print("id in getConversationId :$id");
 
     setState(() {
       conversationId = id;
@@ -129,16 +130,16 @@ class _IndividualChatState extends State<IndividualChat> {
     checkIfGroup();
 
     ///push to my friends collection here
-    List<String> nameListForMe = new List();
+    List<dynamic> nameListForMe = new List();
     nameListForMe.add(friendName);
 
     /// as we are in this method, this has to be an individual chat and not a group chat as,
     /// group chat when comes to individualchat page will always have conversationId
     /// and hence would never come to this method
-    AddToFriendsCollection().addToFriendsCollection(userPhoneNo, listOfFriendNumbers, nameListForMe, id, null);///use listOfNumberHere
+    AddToFriendsCollection().addToFriendsCollection(listOfFriendNumbers, id,userPhoneNo,nameListForMe,  null);///use listOfNumberHere
 
     ///push to all others friends collection here
-    List<String> nameListForOthers = new List();
+    List<dynamic> nameListForOthers = new List();
     nameListForOthers.add(userName);
     AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfFriendNumbers, id, userPhoneNo, nameListForOthers, null);
 
@@ -188,10 +189,12 @@ class _IndividualChatState extends State<IndividualChat> {
 
     if(conversationId == null) {
       getConversationId();
+      print("conversationId in individualChat in if: $conversationId");
       /// also create a conversations_number collection
     }else{
       ///if forwardMessage == true, then initialize that method of sending the message
       ///here in the initstate():
+      print("conversationId in individualChat in else: $conversationId");
       checkIfGroup();
       forwardMessages(conversationId);
     }
@@ -231,6 +234,7 @@ class _IndividualChatState extends State<IndividualChat> {
         icon: SvgPicture.asset('images/backArrowColor.svg',),
           onPressed:(){
             Navigator.pop(context);
+            CustomNavigator().navigateToHome(context, userName, userPhoneNo);
           }
         ),
       title: Material(

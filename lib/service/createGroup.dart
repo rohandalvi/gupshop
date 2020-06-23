@@ -88,7 +88,7 @@ class _CreateGroupState extends State<CreateGroup> {
       userPhoneNo: userPhoneNo,
       data: null,
       onItemFound: (DocumentSnapshot doc, int index){
-        print("doc in createGroup: ${doc}");
+        print("doc in createGroup: ${doc.data}");
         return Container(
           child: CheckboxListTile(
 //            secondary: map[doc.data["nameList"][0]] == true ?IconButton(
@@ -150,6 +150,7 @@ class _CreateGroupState extends State<CreateGroup> {
         listOfNumbersInAGroup.add(key);
       }
     });
+    listOfNumbersInAGroup.add(userPhoneNo);
     print("listOfNamesInAGroup : $listOfNumbersInAGroup");
   }
 

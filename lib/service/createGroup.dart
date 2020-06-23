@@ -84,8 +84,11 @@ class _CreateGroupState extends State<CreateGroup> {
   ///
   contactList(BuildContext context){
     return ContactSearch(
+      userName: userName,
+      userPhoneNo: userPhoneNo,
       data: null,
       onItemFound: (DocumentSnapshot doc, int index){
+        print("doc in createGroup: ${doc}");
         return Container(
           child: CheckboxListTile(
 //            secondary: map[doc.data["nameList"][0]] == true ?IconButton(

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flushbar/flushbar.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/models/chat_List.dart';
@@ -22,6 +23,7 @@ import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:gupshop/widgets/displayPicture.dart';
 import 'package:gupshop/widgets/forwardMessagesSnackBarTitleText.dart';
+import 'package:gupshop/widgets/fromNameAndTimeStamp.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 
@@ -178,14 +180,6 @@ class _IndividualChatState extends State<IndividualChat> {
     update - the above comment might be wrong, because passing the stream directly to
     streambuilder without initializing in initState also paginates alright.
      */
-//    if(conversationId == null) {
-//      getConversationId();
-//      /// also create a conversations_number collection
-//    }else{
-//      ///if forwardMessage == true, then initialize that method of sending the message
-//      ///here in the initstate():
-//      forwardMessages(conversationId);
-//    }
 
     if(conversationId == null) {
       getConversationId();
@@ -241,28 +235,12 @@ class _IndividualChatState extends State<IndividualChat> {
         //color: Theme.of(context).primaryColor,
         child: ListTile(
           contentPadding: EdgeInsets.only(top: 4),
-          leading:
-//          FutureBuilder(
-//            future: checkIfGroup()
-//            builder: (BuildContext context, AsyncSnapshot snapshot) {
-//              if (snapshot.connectionState == ConnectionState.done) {
-//                friendNumber = snapshot.data;
-//                //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
-//                return DisplayAvatarFromFirebase()
-//                    .displayAvatarFromFirebase(friendNumber, 30, 27,
-//                    false); //ToDo- check is false is right here
-//              }
-//              return CircularProgressIndicator();
-//            },
-//          ),
-
-          GestureDetector(
+          leading: GestureDetector(
             onTap: (){
             CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true, friendN);/// if its a group then profile pictures are searched using conversationId
             },
             child: friendN == null ? CircularProgressIndicator() : DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendN, 25, 23.5, false),
           ),
-
           title: CustomText(text: friendName,),
           subtitle: CustomText(text: 'Put last seen here',).subTitle(),
           trailing: Wrap(
@@ -485,23 +463,51 @@ class _IndividualChatState extends State<IndividualChat> {
                                   //message
                                 ),
                               ),
-                              subtitle: Container(
-                                width: MediaQuery.of(context).size.width,
-                               // height: MediaQuery.of(context).size.height,
-                                alignment: isMe? Alignment.centerRight: Alignment.centerLeft,
-
-
-//                            margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),//if not this then the timeStamp gets locked to the left side of the screen. So same logic as the messages above
-                                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),//pretty padding- for some margin from the side of the screen as well as the top of parent message
-                                child: Text(//time
-                                  DateFormat("dd MMM kk:mm")
-                                      .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic
+                              isThreeLine: true,
+                              subtitle: FromNameAndTimeStamp(
+                                  visible: ((groupExits==null? false : groupExits) && isMe==false),/// groupExits==null? false : groupExits was showing error because groupExists takes time to calculate as it is a future, so we are just adding a placeholder,
+                                  fromName:  CustomText(text: fromNameForGroup,fontSize: 12,),
+                                  isMe: isMe,
+                                  timeStamp:Text(//time
+                                    DateFormat("dd MMM kk:mm")
+                                        .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic
+                                    ),
                                   ),
-                                ),
                               ),
-                              trailing: isMe==false ? Text(fromNameForGroup) : null,/// for groupchat name of the sender
+//                              Column(
+//                                children: <Widget>[
+//                                  Visibility(
+//                                    visible: ((groupExits==null? false : groupExits) && isMe==false),/// groupExits==null? false : groupExits was showing error because groupExists takes time to calculate as it is a future, so we are just adding a placeholder
+//                                    child: Container(
+//                                      width: MediaQuery.of(context).size.width,
+//                                        alignment:  Alignment.centerLeft,
+//                                        padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+//                                        child: CustomText(text: fromNameForGroup,fontSize: 12,)
+//                                    ),
+//                                  ),
+////                                  groupExits == true ?
+////                                  (isMe==false ? CustomText(text: fromNameForGroup,fontSize: 12,) : Container())
+////                                      : Container(),
+//                                  Container(
+//                                    width: MediaQuery.of(context).size.width,
+//                                   // height: MediaQuery.of(context).size.height,
+//                                    alignment: isMe? Alignment.centerRight: Alignment.centerLeft,
+//
+//
+////                            margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),//if not this then the timeStamp gets locked to the left side of the screen. So same logic as the messages above
+//                                    padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),//pretty padding- for some margin from the side of the screen as well as the top of parent message
+//                                    child: Text(//time
+//                                      DateFormat("dd MMM kk:mm")
+//                                          .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
+//                                      style: TextStyle(
+//                                          color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ],
+//                              ),
                             );
                           },
                           separatorBuilder: (context, index) => Divider(
@@ -730,7 +736,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
 
   _scrollToBottomButton(){///the button with down arrow that should appear only when the user scrolls
-      return Visibility(/// a placeholder widget
+      return Visibility(/// a placeholder widget isValid widget
         visible: scroll,
         child: Align(
             alignment: Alignment.centerRight,

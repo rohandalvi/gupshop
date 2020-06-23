@@ -43,14 +43,20 @@ class _CreateGroupState extends State<CreateGroup> {
   List<String> listOfNumbersInAGroup = new List();
 
   getCategorySizeFuture() async{
-    QuerySnapshot querySnapshot = await Firestore.instance.collection("friends_+15857547599").getDocuments();
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("friends_$userPhoneNo").getDocuments();
     if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
 
     Map mapOfDocumentSnapshots = querySnapshot.documents.asMap();
 
     /// initializing 'map' with false values
+//    mapOfDocumentSnapshots.forEach((key, value) {
+//      String number = mapOfDocumentSnapshots[key].data["phone"];
+//      map.putIfAbsent(number, () => false);
+//    });
+
     mapOfDocumentSnapshots.forEach((key, value) {
-      String number = mapOfDocumentSnapshots[key].data["phone"];
+      List temp = mapOfDocumentSnapshots[key].data["phone"];
+      String number =  temp[0];
       map.putIfAbsent(number, () => false);
     });
   }
@@ -78,8 +84,6 @@ class _CreateGroupState extends State<CreateGroup> {
   ///
   contactList(BuildContext context){
     return ContactSearch(
-      userPhoneNo: '+15857547599',//@todo change this
-      userName: 'Rohan Dalvi',
       data: null,
       onItemFound: (DocumentSnapshot doc, int index){
         return Container(
@@ -90,11 +94,11 @@ class _CreateGroupState extends State<CreateGroup> {
             controlAffinity:ListTileControlAffinity.leading ,
             title: CustomText(text: doc.data["nameList"][0]),
             activeColor: primaryColor,
-            value: map[doc.data["phone"]],/// if value of a key in map(a phonenumber) is false or true
+            value: map[doc.data["phone"][0]],/// if value of a key in map(a phonenumber) is false or true
             //list[index],/// at first all the values would be false
             onChanged: (bool val){
               setState(() {
-                map[doc.data["phone"]] = val; /// setting the new value as selected by user
+                map[doc.data["phone"][0]] = val; /// setting the new value as selected by user
                 //list[index] = val;/// if the user changes the value, then the whole widget resets. The values are stored in list
                 //checkBoxChecked = val;
               });

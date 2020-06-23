@@ -28,8 +28,8 @@ class NameScreen extends StatefulWidget {
 
 class _NameScreenState extends State<NameScreen> {
   String userName;
-
   final String userPhoneNo;
+  List<String> phoneNumberList;
 
   String imageUrl = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/%2B15857547599ProfilePicture?alt=media&token=0a4a79f5-7989-4e14-8927-7b4ca39af7d7";
   static final formKey = new GlobalKey<FormState>();
@@ -99,7 +99,10 @@ class _NameScreenState extends State<NameScreen> {
 
                     List<String> nameList = new List();
                     nameList.add(userName);
-                    Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': userPhoneNo, 'nameList' : nameList});///necessary to create data, orsearch in contact search page shows error
+
+                    phoneNumberList = new List();
+                    phoneNumberList.add(userPhoneNo);
+                    Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': phoneNumberList, 'nameList' : nameList});///necessary to create data, orsearch in contact search page shows error
 
                     setState(() {
                       prefs.setString('userName', userName);

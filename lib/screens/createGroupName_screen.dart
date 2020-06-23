@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
+import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/customNavigators.dart';
+import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
+import 'package:gupshop/service/pushToProfilePictures.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customTextField.dart';
@@ -76,26 +79,21 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
               IconButton(
                 icon: SvgPicture.asset('images/nextArrow.svg',),
                 onPressed: ()async{
-                  ///Add first time user’s number to database:
-                  ///For adding data, we need to use set() method
-                  ///We dont have userPhone and name both at the login_screen, we get both
-                  /// of them in the name_screen, so we will add them in that file only.
-                  Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
-                  print("Firestore.instance.collection(users).document(userPhoneNo).setData({'name':userName}):${userName}");
+                  /// create a conversationMetadata which would also have a groupName
+                  /// the groupName would be our identifier if the conversation is individual or group
+                  String id = await GetConversationId().createNewConversationId(userPhoneNo, listOfNumbersInAGroup, groupName);
 
-                  //add userPhoneNumber to our database. Add to the users collection:
-                  Firestore.instance.collection("recentChats").document(userPhoneNo).setData({});
-
-                  ///creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
-                  /// also setting a placeholder
-                  /// The placeholder imageurl  as the user picture url we have stored in firebase
-                  String url = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/user.png?alt=media&token=28bcfc15-31da-4847-8f7c-efdd60428714";
-                  Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url' : url});
-
+                  /// add this group to all the numbers in the listOfNumbersInAGroup
                   List<String> nameList = new List();
-                  nameList.add(userName);
-                  Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': userPhoneNo, 'nameList' : nameList});///necessary to create data, orsearch in contact search page shows error
+                  nameList.add(groupName);
+                  AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfNumbersInAGroup, id, id, nameList, groupName);
+                  /// add this group in creator's number
+                  AddToFriendsCollection().addToFriendsCollection(userPhoneNo, null, nameList, id, groupName);
 
+                  /// add to conversations to avoid italic conversationId
+                  Firestore.instance.collection("conversations").document(id).setData({});
+
+                  PushToProfilePictures().newGroupProfilePicture(id);
 
                   if(groupName == null){
                     Flushbar(
@@ -122,7 +120,7 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                   }
 
                   if(groupName != null){
-                    //CustomNavigator().navigateToIndividualChat(context, null, userName, userPhoneNo, groupName, friendNumber, data)
+                    CustomNavigator().navigateToIndividualChat(context, null, userName, userPhoneNo, groupName, listOfNumbersInAGroup, null);
                   }
                 },
               ),

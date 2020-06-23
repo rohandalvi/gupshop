@@ -2,8 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GetConversationId{
 
-  createNewConversationId(String myPhoneNumber, String contactPhoneNumber) async{
-    DocumentReference dc = await Firestore.instance.collection("conversationMetadata").add({ 'members': [myPhoneNumber, contactPhoneNumber]});
+  createNewConversationId(String myPhoneNumber, List<dynamic> contactPhoneNumber, String groupName) async{///1
+    DocumentReference dc;
+    if(groupName ==  null){  /// individual chat
+      dc = await Firestore.instance.collection("conversationMetadata").add({ 'myNumber': myPhoneNumber, 'listOfOtherNumbers':contactPhoneNumber});///2
+    }
+    else dc = await Firestore.instance.collection("conversationMetadata").add({ 'myNumber': myPhoneNumber, 'listOfOtherNumbers':contactPhoneNumber, 'groupName' : groupName});///2
     String id = dc.documentID;
     print("id in createNewConversationId: $id");
     return id;

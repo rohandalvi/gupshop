@@ -12,11 +12,7 @@ class RecentChats{
   getAllNumbersOfAConversation() async{
     //get a 'list' of all numbers involved in that conversation
     DocumentSnapshot documentSnapshot = await Firestore.instance.collection("conversationMetadata").document(convId).get();
-    List listOfOtherNumbers = documentSnapshot.data["listOfOtherNumbers"];
-    String myNumber = documentSnapshot.data["myNumber"];
-    String groupName = documentSnapshot.data["groupName"];
-    String myName;
-    String friendName;
+    List list = documentSnapshot.data["members"];
 
     /*
     We are getting a list of all the people involved in the conversation in list
@@ -27,29 +23,30 @@ class RecentChats{
     using conversationWith() method.
     Then we push the message to each number's recentChat collection using that friendName.
      */
+    for(int i=0; i<list.length; i++){
+      print("number: ${list[i]}");
+      print("userNumber: $userNumber");
+      if(list[i]!=userNumber){//if the user is not chatting with himself then push the friendName as after finding it from conversationMetada from conversationWith()
+        String friendName = await conversationWith(userNumber, list[i], );//purva dalvi
+        print("friendName: $friendName");
+        pushRecentChatsToAllNumbersInvolvedInFirebase(userNumber,friendName);//recent chats=> 585 => purva dalvi
 
-    for(int i=0; i<listOfOtherNumbers.length; i++){
-      print("number: ${listOfOtherNumbers[i]}");
-      ///for a group, the userNumber should be conversationId
-      if(groupName != null){
-        myName = await conversationWith(listOfOtherNumbers[i], groupName, );
-      }
-      else myName = await conversationWith(listOfOtherNumbers[i], userNumber, );
-      print("otherfriendName: $myName");
-      pushRecentChatsToAllNumbersInvolvedInFirebase(listOfOtherNumbers[i], myName);
+        //set our name as friendName in the other user's recent chat
+        ///right now messages are not getting updated in otherNumber because no other
+        ///friends collection except +19194134191 @ToDo
+        String otherFriendName = await conversationWith(list[i], userNumber, );
+        print("otherfriendName: $otherFriendName");
+        pushRecentChatsToAllNumbersInvolvedInFirebase(list[i], otherFriendName);
+      }//else do nothing
+
     }
-    /// pushing to my recentConversations
-    if(groupName != null) friendName = groupName;
-    else friendName = await conversationWith(userNumber, listOfOtherNumbers[0]);
-    pushRecentChatsToAllNumbersInvolvedInFirebase(userNumber, friendName);
   }
 
   //check with whom the conversation is with
   conversationWith(String friendCollectionNumber, String number, ) async{
-    print("my number in friends collection: $number");
     print("friendCollectionNumber: $friendCollectionNumber");
     DocumentSnapshot documentSnapshot = await Firestore.instance.collection("friends_$friendCollectionNumber").document(number).get();
-    print("documentSnapshot in conversationWith: ${documentSnapshot.data}");
+    print("documentSnapshot in conversationWith: $documentSnapshot");
     return documentSnapshot.data["nameList"][0];
   }
 

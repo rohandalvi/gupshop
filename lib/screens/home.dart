@@ -16,19 +16,21 @@ import 'package:gupshop/widgets/sideMenu.dart';
 class Home extends StatefulWidget{
   final String userPhoneNo;
   final String userName;
+  List<String> phoneNumberList;
 
-  Home({@required this.userPhoneNo, @required this.userName});
+  Home({@required this.userPhoneNo, @required this.userName, @required this.phoneNumberList});
 
 
   @override
-  _HomeState createState() => _HomeState(userPhoneNo: userPhoneNo, userName: userName);
+  _HomeState createState() => _HomeState(userPhoneNo: userPhoneNo, userName: userName, phoneNumberList: phoneNumberList);
 }
 
 class _HomeState extends State<Home> {
   final String userPhoneNo;
   final String userName;
+  List<String> phoneNumberList;
 
-  _HomeState({@required this.userPhoneNo, @required this.userName});
+  _HomeState({@required this.userPhoneNo, @required this.userName,@required this.phoneNumberList });
 
   @override
   Widget build(BuildContext context) {

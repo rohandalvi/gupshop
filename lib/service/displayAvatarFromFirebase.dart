@@ -106,9 +106,7 @@ class DisplayAvatarFromFirebase{
 
 
   displayAvatarFromFirebase(String userPhoneNo, double radius, double innerRadius, bool isFirstTime){
-    bool isFirstTime = false;
-    String imageUrl;
-    //print("friendNo in getProfilePicture(): $userPhoneNo");
+    print("friendNo in getProfilePicture(): $userPhoneNo");
     DocumentReference isProfilePictureAdded = Firestore.instance.collection("profilePictures").document(userPhoneNo);
     //print("isProfilepictureAdded: ${isProfilePictureAdded.documentID}");
     return StreamBuilder(
@@ -140,7 +138,7 @@ class DisplayAvatarFromFirebase{
 //            isFirstTime = true;
 //          } else imageUrl = snapshot.data['url'];
 
-          imageUrl = snapshot.data['url'];
+          String imageUrl = snapshot.data['url'];
 
           return customCircleAvatar(snapshot.data['url'], radius, innerRadius);
         }

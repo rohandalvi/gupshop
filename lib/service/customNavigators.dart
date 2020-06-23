@@ -34,7 +34,7 @@ class CustomNavigator{
     );
   }
 
-  navigateToIndividualChat(BuildContext context, String conversationId, String userName, String userPhoneNo, String friendName, String friendNumber, var data ){
+  navigateToIndividualChat(BuildContext context, String conversationId, String userName, String userPhoneNo, String friendName,List<dynamic> listOfFriendsNumbers,  var data ){
     Navigator.push(
       context,
       MaterialPageRoute(//to send conversationId along with the navigator to the next page
@@ -43,8 +43,8 @@ class CustomNavigator{
           userPhoneNo: userPhoneNo,
           userName: userName,
           friendName:friendName,
-          friendNumber: friendNumber,
           forwardMessage: data,
+          listOfFriendNumbers: listOfFriendsNumbers,
         ),
       ),
     );

@@ -5,6 +5,8 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/service/addToFriendsCollection.dart';
+import 'package:gupshop/service/checkIfGroup.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
@@ -35,11 +37,11 @@ class IndividualChat extends StatefulWidget {
   final String userPhoneNo;
   final String userName;
   final String friendName;/// this should be a list
-  final String friendNumber;/// this should be a list
+  List<dynamic> listOfFriendNumbers;
   final Map forwardMessage;
 
   IndividualChat(
-      {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, @required this.friendNumber,this.forwardMessage})
+      {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName,this.forwardMessage, this.listOfFriendNumbers})
       : super(key: key);
   @override
   _IndividualChatState createState() => _IndividualChatState(
@@ -47,8 +49,8 @@ class IndividualChat extends StatefulWidget {
       userPhoneNo: userPhoneNo,
       userName: userName,
       friendName: friendName,
-      friendNumber: friendNumber,
       forwardMessage: forwardMessage,
+      listOfFriendNumbers: listOfFriendNumbers,
   );
 
 }
@@ -60,14 +62,14 @@ class _IndividualChatState extends State<IndividualChat> {
   final String userPhoneNo;
   final String userName;
   final String friendName;/// this should be list
-  final String friendNumber;/// this should be list
+  List<dynamic> listOfFriendNumbers;
   final Map forwardMessage;
 
   static int numberOfImageInConversation = 0;///for giving number to the images sent in conversation for
   ///storing in firebase
 
   _IndividualChatState(
-      {@required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, @required this.friendNumber, this.forwardMessage});
+      {@required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, this.forwardMessage, this.listOfFriendNumbers});
 
   String value = ""; //TODo
 
@@ -86,54 +88,65 @@ class _IndividualChatState extends State<IndividualChat> {
   bool isPressed = false;
   VideoPlayerController controller;
 
+  String friendN;
+  var groupExits;
+
+//  displayAvatarHelper() async{
+//    groupOrNot = await CheckIfGroup().ifThisIsAGroup(userPhoneNo, conversationId);
+//    if(groupOrNot == null) friendN = listOfFriendNumbers[0];
+//    else friendN = conversationId;
+//  }
+
+  checkIfGroup() async{
+    bool temp = await CheckIfGroup().ifThisIsAGroup(conversationId);
+    setState(() {
+      groupExits = temp;
+    });
+
+    if(groupExits == false) {
+      print("listOfFriendNumbers: ${listOfFriendNumbers}");
+      setState(() {
+        friendN = listOfFriendNumbers[0];
+        print("friendN: $friendN");
+      });
+    } else {
+      print("group exists");
+      setState(() {
+        friendN = conversationId;
+      });
+    }
+  }
+
   getConversationId() async{
-    print("friendPhoneNo in getConversationId: $friendNumber ");
-    String id = await GetConversationId().createNewConversationId(userPhoneNo, friendNumber);
-    ///push to friends collection here
-    List<String> nameList = new List();
-    nameList.add(friendName);
-    /// Also push the conversationId to friends_userPhoneNo
-    /// reason : contactSearch pushes the user to this page in case of new conversation or forward message, and it needs a
-    /// conversationId at approx line 97
-    Firestore.instance.collection("friends_$userPhoneNo").document(friendNumber).setData({'phone': friendNumber, 'nameList' : nameList, 'conversationId': id},merge: true);
-    /// push to friend's friends collection i.e friends_friendNumber
-    /// in case of group push to all numbers of the group
-    List<String> nameList2 = new List();
-    nameList2.add(userName);
-    Firestore.instance.collection("friends_$friendNumber").document(userPhoneNo).setData({'phone': userPhoneNo, 'nameList' : nameList2, 'conversationId': id},merge: true);
+    /// an individualChat would always have groupName as null,
+    /// only a groupChat would have groupName
+    String id = await GetConversationId().createNewConversationId(userPhoneNo, listOfFriendNumbers, null);///
+
+    setState(() {
+      conversationId = id;
+    });
+
+    checkIfGroup();
+
+    ///push to my friends collection here
+    List<String> nameListForMe = new List();
+    nameListForMe.add(friendName);
+
+    /// as we are in this method, this has to be an individual chat and not a group chat as,
+    /// group chat when comes to individualchat page will always have conversationId
+    /// and hence would never come to this method
+    AddToFriendsCollection().addToFriendsCollection(userPhoneNo, listOfFriendNumbers, nameListForMe, id, null);///use listOfNumberHere
+
+    ///push to all others friends collection here
+    List<String> nameListForOthers = new List();
+    nameListForOthers.add(userName);
+    AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfFriendNumbers, id, userPhoneNo, nameListForOthers, null);
 
     /// also push the conversationId to conversations:
     Firestore.instance.collection("conversations").document(id).setData({});
-    
-    setState(() {
-      conversationId = id;
 
-    });
     forwardMessages(id);
   }
-
-  @override
-  void initState() {
-
-    /*
-    adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
-    when user scrolls
-    update - the above comment might be wrong, because passing the stream directly to
-    streambuilder without initializing in initState also paginates alright.
-     */
-
-    if(conversationId == null) {
-      getConversationId();
-      /// also create a conversations_number collection
-    }else{forwardMessages(conversationId);}
-
-
-    ///if forwardMessage == true, then initialize that method of sending the message
-    ///here in the initstate():
-
-    super.initState();
-  }
-
 
   forwardMessages(String conversationId) async{
     print("forward message in individual chat: $forwardMessage");
@@ -144,19 +157,46 @@ class _IndividualChatState extends State<IndividualChat> {
       var data = forwardMessage;
 
       DocumentReference forwardedMessageId = await SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
-//      String conversationId = data["conversationId"];
-//      Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
-
-//      setState(() {
-//
-//      });
-
 
       if(data["videoURL"] != null) data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId);
       else if(data["imageURL"] != null) data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId);
       ///Navigating to RecentChats page with pushes the data to firebase
+      /// if group chat:
+
       RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
     }
+  }
+
+
+  @override
+  void initState() {
+
+    /*
+    adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
+    when user scrolls
+    update - the above comment might be wrong, because passing the stream directly to
+    streambuilder without initializing in initState also paginates alright.
+     */
+//    if(conversationId == null) {
+//      getConversationId();
+//      /// also create a conversations_number collection
+//    }else{
+//      ///if forwardMessage == true, then initialize that method of sending the message
+//      ///here in the initstate():
+//      forwardMessages(conversationId);
+//    }
+
+    if(conversationId == null) {
+      getConversationId();
+      /// also create a conversations_number collection
+    }else{
+      ///if forwardMessage == true, then initialize that method of sending the message
+      ///here in the initstate():
+      checkIfGroup();
+      forwardMessages(conversationId);
+    }
+
+    super.initState();
   }
 
 
@@ -198,11 +238,25 @@ class _IndividualChatState extends State<IndividualChat> {
         child: ListTile(
           contentPadding: EdgeInsets.only(top: 4),
           leading:
+//          FutureBuilder(
+//            future: checkIfGroup()
+//            builder: (BuildContext context, AsyncSnapshot snapshot) {
+//              if (snapshot.connectionState == ConnectionState.done) {
+//                friendNumber = snapshot.data;
+//                //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
+//                return DisplayAvatarFromFirebase()
+//                    .displayAvatarFromFirebase(friendNumber, 30, 27,
+//                    false); //ToDo- check is false is right here
+//              }
+//              return CircularProgressIndicator();
+//            },
+//          ),
+
           GestureDetector(
             onTap: (){
-              CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true, friendNumber);
+            CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true, friendN);/// if its a group then profile pictures are searched using conversationId
             },
-            child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendNumber, 25, 23.5, false),
+            child: friendN == null ? CircularProgressIndicator() : DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendN, 25, 23.5, false),
           ),
 
           title: CustomText(text: friendName,),
@@ -221,6 +275,8 @@ class _IndividualChatState extends State<IndividualChat> {
       ),
     );
   }
+
+
 
   /*
   List<DocumentSnapshot> documentList;
@@ -561,13 +617,20 @@ class _IndividualChatState extends State<IndividualChat> {
             /// when mynumber sends message to a friendNumber in whose friends
             /// collection mynumber does not exist, we have to add that person in
             /// his friends because recent chats wont work then
-            var myNumberExistsInFriendsFriendsCollectionWaiting = await Firestore.instance.collection("friends_$friendNumber").document(userPhoneNo).get();
-            var myNumberExistsInFriendsFriendsCollection = myNumberExistsInFriendsFriendsCollectionWaiting.data;
-            if(myNumberExistsInFriendsFriendsCollection == null){
-              List<String> nameList = new List();
-              nameList.add(userName);
-              Firestore.instance.collection("friends_$friendNumber").document(userPhoneNo).setData({'phone': userPhoneNo, 'nameList' : nameList, 'conversationId': conversationId},merge: true);
+
+            ///push to all others friends collection here
+            ///this wont ever happen in case of groupchat, because in groupchat all members already have
+            ///group as their friend as we have set it this way in createNameForGroup_screen page
+            if(groupExits == false){
+              var myNumberExistsInFriendsFriendsCollectionWaiting = await Firestore.instance.collection("friends_$friendN").document(userPhoneNo).get();
+              var myNumberExistsInFriendsFriendsCollection = myNumberExistsInFriendsFriendsCollectionWaiting.data;
+              if(myNumberExistsInFriendsFriendsCollection == null){
+                List<String> nameListForOthers = new List();
+                nameListForOthers.add(userName);
+                AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfFriendNumbers, conversationId, userPhoneNo, nameListForOthers, null);
+              }
             }
+
 
 
             if(value!="") {

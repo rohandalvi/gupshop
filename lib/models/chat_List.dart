@@ -12,20 +12,20 @@ import 'package:intl/intl.dart';
 class ChatList extends StatefulWidget {
   final String myNumber;
   final String myName;
+  List<String> phoneNumberList;
 
-
-  ChatList({@required this.myNumber, @required this.myName});
+  ChatList({@required this.myNumber, @required this.myName, @required this.phoneNumberList});
 
   @override
-  ChatListState createState() => ChatListState(myNumber: myNumber,myName: myName );
+  ChatListState createState() => ChatListState(myNumber: myNumber,myName: myName, phoneNumberList: phoneNumberList );
 }
 
 class ChatListState extends State<ChatList> {
   final String myNumber;
   final String myName;
+  List<String> phoneNumberList;
 
-
-  ChatListState({@required this.myNumber, @required this.myName });
+  ChatListState({@required this.myNumber, @required this.myName, @required this.phoneNumberList });
 
 //  String conversationId;
   String friendNo;
@@ -40,10 +40,25 @@ class ChatListState extends State<ChatList> {
     But this logic will not work when in case of a group.
    */
   getFriendPhoneNo(String conversationId, String myNumber) async {
+    String friendName;
     DocumentSnapshot temp = await Firestore.instance.collection(
         "conversationMetadata").document(conversationId).get();
-    var friendNo = await extractFriendNo(temp, myNumber);
-    return friendNo;
+//    if(temp.data.containsKey("groupName")  == false){
+//      print("temp.data[] : ${temp.data["listOfOtherNumbers"]}");
+//      List<dynamic> friendNoList = temp.data["listOfOtherNumbers"];
+//      print("friendNoList : ${friendNoList}");
+//      friendName = friendNoList[0];
+//    } else{
+//      /// for groups, conversationId is used as documentId for
+//      /// getting profilePicture
+//      /// profile_pictures -> conversationId -> url
+//      friendName = conversationId;
+//    }
+    return temp.data;
+  }
+
+  extractFriendListAnd(){
+
   }
 
   getVideoDetailsFromVideoChat(int index) async{
@@ -56,13 +71,14 @@ class ChatListState extends State<ChatList> {
 
   }
 
-  extractFriendNo(DocumentSnapshot temp, String myNumber) async {
-    for (int i = 0; i < 2; i++) {
-      if (temp.data["members"][i] != myNumber) {
-        return temp.data["members"][i];
-      }
-    }
-    return myNumber;
+  extractFriendNo(DocumentSnapshot temp) async {
+    return temp.data["listOfOtherNumbers"];
+//    for (int i = 0; i < 2; i++) {
+//      if (temp.data["members"][i] != myNumber) {
+//        return temp.data["members"][i];
+//      }
+//    }
+//    return myNumber;
   }
 
   @override
@@ -124,6 +140,7 @@ class ChatListState extends State<ChatList> {
                       .data["message"]["timeStamp"];
 
                   String friendNumber;
+                  List<dynamic> friendNumberList;
 
                   ///for sending to individual_chat.dart:
                   String conversationId = snapshot.data.documents[index].data["message"]["conversationId"];
@@ -135,7 +152,20 @@ class ChatListState extends State<ChatList> {
                       future: getFriendPhoneNo(conversationId, myNumber),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
-                          friendNumber = snapshot.data;
+                          print("snapshot.data: ${snapshot.data["groupName"]}");
+                          if(snapshot.data["groupName"]  == null){
+                            /// 1. extract friendNumberList for navigating to individualChat
+                            friendNumberList = snapshot.data["listOfOtherNumbers"];
+                            /// 2. extract friendNumber for DisplayAvatarFromFirebase
+                            friendNumber = friendNumberList[0];
+                          } else{
+                            /// for groups, conversationId is used as documentId for
+                            /// getting profilePicture
+                            /// profile_pictures -> conversationId -> url
+                            friendNumberList = snapshot.data["listOfOtherNumbers"];
+                            friendNumber = conversationId;
+                          }
+                          print("friendNumber in futurebuilder: $friendNumber");
                           //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
                           return DisplayAvatarFromFirebase()
                               .displayAvatarFromFirebase(friendNumber, 30, 27,
@@ -170,11 +200,13 @@ class ChatListState extends State<ChatList> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                IndividualChat(friendName: friendName,
+                                IndividualChat(
+                                  friendName: friendName,
                                   conversationId: conversationId,
                                   userName: myName,
                                   userPhoneNo: myNumber,
-                                  friendNumber: friendNumber,), //pass Name() here and pass Home()in name_screen
+                                  listOfFriendNumbers: friendNumberList,
+                                ), //pass Name() here and pass Home()in name_screen
                           )
                       );
                     },

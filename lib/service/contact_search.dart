@@ -82,7 +82,7 @@ class _ContactSearchState extends State<ContactSearch> {
           ),
           onSearch: onSearch == null? searchList : onSearch,
           onItemFound: onItemFound == null ? (DocumentSnapshot doc, int index) {
-            String friendNo = doc.data["phone"];
+            List<dynamic> friendNo = doc.data["phone"];
             /// if it is the first time conversation the there will be no conversationId
             /// it will be created in individualChat, if a null conversationId is sent
             String conversationId = doc.data["conversationId"];

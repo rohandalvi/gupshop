@@ -71,6 +71,7 @@ class CreateFriendsCollection{
           ///_pushNumberToFriendsCollection(number, displayName);
           pushNumberToFriendsCollection(number, userNames);
         }
+
       }
     }
   }
@@ -101,8 +102,10 @@ class CreateFriendsCollection{
   ///_pushNumberToFriendsCollection(String number, String displayName)
   /// Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': number, 'name' : displayName},merge: true);
   pushNumberToFriendsCollection(String number, List<String> userNames){
+    List<String> listOfNumbers = new List();
+    listOfNumbers.add(number);
     print("number in _pushNumberToFriendsCollection: $number");
-    Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': number, 'nameList' : userNames},merge: true);
+    Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': listOfNumbers, 'nameList' : userNames},merge: true);
   }
 
 //  _pushNumberToFriendsCollection(String number){

@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/customNavigators.dart';
@@ -57,12 +58,12 @@ class _HomeAppBarState extends State<HomeAppBar> {
           ),
         ),
        
-        title: CustomRaisedButton(
-          onPressed: (){
-            CreateFriendsCollection(userName: userName, userPhoneNo: userPhoneNo,).getUnionContacts();
-          },
-          child: CustomText(text: 'Refresh new contacts',),
-        ),
+//        title: CustomRaisedButton(
+//          onPressed: (){
+//            CreateFriendsCollection(userName: userName, userPhoneNo: userPhoneNo,).getUnionContacts();
+//          },
+//          child: CustomText(text: 'Refresh new contacts',),
+//        ),
         actions: <Widget>[
           IconButton(
             icon: SvgPicture.asset('images/groupManWoman.svg',),
@@ -78,7 +79,8 @@ class _HomeAppBarState extends State<HomeAppBar> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ContactSearch(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
+                      builder: (context) => ContactSearchPage(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
+//                      builder: (context) => ContactSearch(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
                     )
                 );
 //                final result = await showSearch(

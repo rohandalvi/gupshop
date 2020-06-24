@@ -41,6 +41,7 @@ class _CreateGroupState extends State<CreateGroup> {
   Map<String, bool > map = new HashMap();
 
   List<String> listOfNumbersInAGroup = new List();
+  Set tempSet = new HashSet();
 
   getCategorySizeFuture() async{
     QuerySnapshot querySnapshot = await Firestore.instance.collection("friends_$userPhoneNo").getDocuments();
@@ -148,14 +149,17 @@ class _CreateGroupState extends State<CreateGroup> {
   }
 
   createListOfContactsSelected() {
+    bool isAdded;
+
     map.forEach((key, value) {
       if(value == true){
-        listOfNumbersInAGroup.add(key);
+        isAdded = tempSet.add(key);/// adding the numbers in a set because, if the user comes back from the nameScreen then the numbers shouldnt duplicate in the list, using set ensures that.
+        if(isAdded == true){/// if the set already has the number added then dont add it again in the list
+          listOfNumbersInAGroup.add(key);
+        }
       }
     });
-//    setState(() {
-//      listOfNumbersInAGroup.add(userPhoneNo);
-//    });
+
     print("listOfNamesInAGroup : $listOfNumbersInAGroup");
   }
 

@@ -171,7 +171,13 @@ class _ContactSearchState extends State<ContactSearch> {
           .where('groupName', isNull: true)
           //.orderBy("nameList", descending: false)
           .getDocuments();
-      print("temp.data: ${temp.documents}");
+//      print("temp.data: ${temp.documents[0].data["nameList"][0]}");
+//
+//      List dcList = temp.documents;
+//      for(int i=0; i< dcList.length; i++){
+//
+//      }
+
     }
     else{
         temp = await Firestore.instance.collection("friends_$userPhoneNo")

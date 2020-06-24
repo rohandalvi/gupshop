@@ -11,19 +11,21 @@ import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/widgets/customText.dart';
 class ContactSearch extends StatefulWidget {
+  bool createGroupSearch;
   final String userPhoneNo;
   final String userName;
   final data;
   final Widget Function(DocumentSnapshot item, int index) onItemFound;
   final Future<List<DocumentSnapshot>> Function(String text) onSearch;
 
-  ContactSearch({@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch});
+  ContactSearch({@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch, this.createGroupSearch});
 
   @override
-  _ContactSearchState createState() => _ContactSearchState(userPhoneNo: userPhoneNo, userName: userName, data: data, onItemFound: onItemFound, onSearch: onSearch);
+  _ContactSearchState createState() => _ContactSearchState(userPhoneNo: userPhoneNo, userName: userName, data: data, onItemFound: onItemFound, onSearch: onSearch, createGroupSearch: createGroupSearch);
 }
 
 class _ContactSearchState extends State<ContactSearch> {
+  bool createGroupSearch;
   final String userPhoneNo;
   final String userName;
   final data;
@@ -33,9 +35,10 @@ class _ContactSearchState extends State<ContactSearch> {
   List<DocumentSnapshot> list;
 
   _ContactSearchState(
-      {@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch});
+      {@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch, this.createGroupSearch});
 
   void initState() {
+    if(createGroupSearch == null) createGroupSearch=false;
     createSearchSuggestions();/// to get the list of contacts as suggestion
     super.initState();
   }
@@ -143,6 +146,15 @@ class _ContactSearchState extends State<ContactSearch> {
         .contains(text.toLowerCase()) || l.documentID.contains(text))
         .toList()}");
 
+    if(createGroupSearch){
+      print("in createGroupSearch");
+      return list.documents.where((l) =>
+      l.data["groupName"] == null && ///to take group out of search
+      l.data["nameList"][0]
+          .toLowerCase()
+          .contains(text.toLowerCase()) || l.documentID.contains(text)).toList();
+    }
+
     return list.documents.where((l) =>
     l.data["nameList"][0]
         .toLowerCase()
@@ -153,9 +165,20 @@ class _ContactSearchState extends State<ContactSearch> {
   ///we are displaying the friends collection as the suggestion.
   /// this method is called in initState
   createSearchSuggestions() async {
-    var temp = await Firestore.instance.collection("friends_$userPhoneNo")
-        .orderBy("nameList", descending: false)
-        .getDocuments();
+    var temp;
+    if(createGroupSearch){
+      temp = await Firestore.instance.collection("friends_$userPhoneNo")
+          .where('groupName', isNull: true)
+          //.orderBy("nameList", descending: false)
+          .getDocuments();
+      print("temp.data: ${temp.documents}");
+    }
+    else{
+        temp = await Firestore.instance.collection("friends_$userPhoneNo")
+            .orderBy("nameList", descending: false)
+            .getDocuments();
+    }
+
     var tempList = temp.documents;
     setState(() {
       list = tempList;

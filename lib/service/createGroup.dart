@@ -86,6 +86,7 @@ class _CreateGroupState extends State<CreateGroup> {
   ///
   contactList(BuildContext context){
     return ContactSearch(
+      createGroupSearch: true,
       userName: userName,
       userPhoneNo: userPhoneNo,
       data: null,

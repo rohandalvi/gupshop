@@ -47,6 +47,8 @@ class _ContactSearchState extends State<ContactSearch> {
 
   @override
   Widget build(BuildContext context) {
+//    createSearchSuggestions();/// to get the list of contacts as suggestion
+    print("in contact_search build");
     return Scaffold(
       body: SafeArea(
         child: SearchBar<DocumentSnapshot>(
@@ -71,6 +73,7 @@ class _ContactSearchState extends State<ContactSearch> {
             ),
           ),
           minimumChars: 1,/// minimum characters to enter to start the search
+          loader: CircularProgressIndicator(),
           suggestions: list == null ? new List() : list,
           /// as list is a future, the loading screen was
           /// throwing an error  before the list was loaded and was showing a red screen to the user.
@@ -189,6 +192,7 @@ class _ContactSearchState extends State<ContactSearch> {
     }
 
     var tempList = temp.documents;
+    print("list: $list");
     setState(() {
       list = tempList;
     });

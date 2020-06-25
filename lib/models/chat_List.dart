@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
+import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/service/showMessageForFirstConversation.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:intl/intl.dart';
@@ -140,6 +141,7 @@ class ChatListState extends State<ChatList> {
                       .data["message"]["timeStamp"];
 
                   String friendNumber;
+                  List<dynamic> memberList;
                   List<dynamic> friendNumberList;
 
                   ///for sending to individual_chat.dart:
@@ -152,21 +154,24 @@ class ChatListState extends State<ChatList> {
                       future: getFriendPhoneNo(conversationId, myNumber),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
-                          print("snapshot.data: ${snapshot.data["groupName"]}");
+                          memberList = snapshot.data["members"];
+                          print("snapshot.data: ${snapshot.data["members"]}");
                           if(snapshot.data["groupName"]  == null){
-                            /// 1. extract friendNumberList for navigating to individualChat
-                            friendNumberList = snapshot.data["listOfOtherNumbers"];
+                            /// 1. extract memberList from conversationMetadata for navigating to individualChat
+                            memberList = snapshot.data["members"];
+                            print("memberList: $memberList");
+                            //friendNumberList = snapshot.data["listOfOtherNumbers"];
                             /// 2. extract friendNumber for DisplayAvatarFromFirebase
-                            friendNumber = friendNumberList[0];
+                            friendNumber = FindFriendNumber().friendNumber(memberList, myNumber);
+                            /// 3. create friendNumberList to send to individualChat
+                            friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
                           } else{
                             /// for groups, conversationId is used as documentId for
                             /// getting profilePicture
                             /// profile_pictures -> conversationId -> url
-                            friendNumberList = snapshot.data["listOfOtherNumbers"];
+                            friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
                             friendNumber = conversationId;
                           }
-                          print("friendNumber in futurebuilder: $friendNumber");
-                          //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
                           return DisplayAvatarFromFirebase()
                               .displayAvatarFromFirebase(friendNumber, 30, 27,
                               false); //ToDo- check is false is right here

@@ -21,14 +21,13 @@ class ContactSearchPage extends StatefulWidget {
 }
 
 class _ContactSearchPageState extends State<ContactSearchPage> {
-  bool refreshContacts= true;
 
   @override
   Widget build(BuildContext context) {
     print("in build");
     return Stack(
       children: <Widget>[
-        refreshContacts == true ?ContactSearch(userPhoneNo: widget.userPhoneNo, userName: widget.userName, data: widget.data,) : Container(),
+        ContactSearch(userPhoneNo: widget.userPhoneNo, userName: widget.userName, data: widget.data,),
         showButton() /// would show only if one or more contact is selected
       ],
     );
@@ -58,9 +57,13 @@ class _ContactSearchPageState extends State<ContactSearchPage> {
                 /// called and we will get a refreshed list.
                 /// After navigating to contact_Search we again need to come back to this page, so we are
                 /// using another naviagator navigateToContactSearchPage for that
-                CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts();
-               CustomNavigator().navigateToContactSearch(context, widget.userName, widget.userPhoneNo, null);
-               CustomNavigator().navigateToContactSearchPage(context, widget.userName, widget.userPhoneNo, null);
+                //CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts();
+//               CustomNavigator().navigateToContactSearch(context, widget.userName, widget.userPhoneNo, null);
+//               CustomNavigator().navigateToContactSearchPage(context, widget.userName, widget.userPhoneNo, null);
+               setState(() {
+                 CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts();
+               });
+
               },
             ),
           ),

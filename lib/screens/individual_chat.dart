@@ -11,6 +11,7 @@ import 'package:gupshop/service/checkIfGroup.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
+import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
@@ -108,7 +109,8 @@ class _IndividualChatState extends State<IndividualChat> {
     if(groupExits == false) {
       print("listOfFriendNumbers: ${listOfFriendNumbers}");
       setState(() {
-        friendN = listOfFriendNumbers[0];
+//        friendN = listOfFriendNumbers[0];
+        friendN = FindFriendNumber().friendNumber(listOfFriendNumbers, userPhoneNo);
         print("friendN: $friendN");
       });
     } else {
@@ -119,6 +121,8 @@ class _IndividualChatState extends State<IndividualChat> {
     }
   }
 
+  /// get conversationId required for:
+  ///
   getConversationId() async{
     /// only an individualChat would come here to create a conversationId as groupChat would get its conversationId in createNameForGroup page
     /// an individualChat would always have groupName as null,
@@ -153,7 +157,6 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
   forwardMessages(String conversationId) async{
-    print("forward message in individual chat: $forwardMessage");
     if(forwardMessage != null) {
 
       /// forward messages needs to be given this conversation's conversationId
@@ -167,7 +170,7 @@ class _IndividualChatState extends State<IndividualChat> {
       ///Navigating to RecentChats page with pushes the data to firebase
       /// if group chat:
 
-      RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+      RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName, listOfOtherNumbers: listOfFriendNumbers, groupExists: groupExits ).getAllNumbersOfAConversation();
     }
   }
 
@@ -658,7 +661,7 @@ class _IndividualChatState extends State<IndividualChat> {
               SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
 
               ///Navigating to RecentChats page with pushes the data to firebase
-              RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+              RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName, listOfOtherNumbers: listOfFriendNumbers, groupExists:groupExits).getAllNumbersOfAConversation();
 
               _controller.clear();//used to clear text when user hits send button
               listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
@@ -731,12 +734,12 @@ class _IndividualChatState extends State<IndividualChat> {
       ///Navigating to RecentChats page with pushes the data to firebase
       if(isVideo == true){
         var data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId);
-        RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+        RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName , listOfOtherNumbers: listOfFriendNumbers, groupExists: groupExits).getAllNumbersOfAConversation();
       }
 
       if(isImage == true){
         var data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId);
-        RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName ).getAllNumbersOfAConversation();
+        RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName, listOfOtherNumbers: listOfFriendNumbers, groupExists: groupExits ).getAllNumbersOfAConversation();
       }
 
   }

@@ -11,7 +11,7 @@ class GetContactsFromUserPhone{
   Future getContacts() async{
     //print("in GetContactsFromUserPhone");
     Iterable<Contact> contacts = await ContactsService.getContacts();
-    print("contacts in getContactFromUserPhone: ${contacts.elementAt(0).phones.elementAt(0).value}");
+    //print("contacts in getContactFromUserPhone: ${contacts.elementAt(0).phones.elementAt(0).value}");
     return contacts;
   }
 }

@@ -4,10 +4,13 @@ class GetConversationId{
 
   createNewConversationId(String myPhoneNumber, List<dynamic> contactPhoneNumber, String groupName) async{///1
     DocumentReference dc;
+    contactPhoneNumber.add(myPhoneNumber);
     if(groupName ==  null){  /// individual chat
-      dc = await Firestore.instance.collection("conversationMetadata").add({ 'myNumber': myPhoneNumber, 'listOfOtherNumbers':contactPhoneNumber});///2
+     // dc = await Firestore.instance.collection("conversationMetadata").add({ 'myNumber': myPhoneNumber, 'listOfOtherNumbers':contactPhoneNumber});///2
+      dc = await Firestore.instance.collection("conversationMetadata").add({'members':contactPhoneNumber});///2
     }
-    else dc = await Firestore.instance.collection("conversationMetadata").add({ 'myNumber': myPhoneNumber, 'listOfOtherNumbers':contactPhoneNumber, 'groupName' : groupName});///2
+//    else dc = await Firestore.instance.collection("conversationMetadata").add({ 'myNumber': myPhoneNumber, 'listOfOtherNumbers':contactPhoneNumber, 'groupName' : groupName});///2
+    else dc = await Firestore.instance.collection("conversationMetadata").add({ 'members': contactPhoneNumber, 'groupName' : groupName});///2
     String id = dc.documentID;
     print("id in createNewConversationId: $id");
     return id;

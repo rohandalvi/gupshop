@@ -31,20 +31,18 @@ class RecentChats{
      */
 
     for(int i=0; i<listOfOtherNumbers.length; i++){
-      print("who is this: ${listOfOtherNumbers[i]}");
+      print("number: ${listOfOtherNumbers[i]}");
       ///for a group, the userNumber should be conversationId
-      if(groupExists){
-        print("groupExists");
+      if(groupExists != null){
         myName = await conversationWith(listOfOtherNumbers[i], convId, );
-      }else{
-        print("groupExists not");
-        myName = await conversationWith(listOfOtherNumbers[i], userNumber, );
       }
+      else myName = await conversationWith(listOfOtherNumbers[i], userNumber, );
+      print("myName: $myName");
       pushRecentChatsToAllNumbersInvolvedInFirebase(listOfOtherNumbers[i], myName);
     }
     /// pushing to my recentConversations
-    if(groupExists) {friendName = groupName;}
-    else{friendName = await conversationWith(userNumber, listOfOtherNumbers[0]);}
+    if(groupExists != null) friendName = groupName;
+    else friendName = await conversationWith(userNumber, listOfOtherNumbers[0]);
     pushRecentChatsToAllNumbersInvolvedInFirebase(userNumber, friendName);
   }
 

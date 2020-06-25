@@ -5,6 +5,7 @@ import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/screens/welcomeScreen.dart';
 import 'package:gupshop/service/createGroup.dart';
 import 'package:gupshop/widgets/bazaarHomeGridView.dart';
+import 'package:gupshop/widgets/colorPalette.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white,
 //        primaryColor: Colors.grey,
-        accentColor: Colors.cyan[50],
+        accentColor: primaryColor,
       ),
       title: 'Chat home',
 debugShowCheckedModeBanner: false,

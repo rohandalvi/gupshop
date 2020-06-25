@@ -112,7 +112,7 @@ class ChatListState extends State<ChatList> {
             stream: Firestore.instance.collection("recentChats").document(
                 myNumber).collection("conversations").orderBy("timeStamp", descending: true).snapshots(),
             builder: (context, snapshot) {
-              if (snapshot.data == null) return CircularProgressIndicator();///to avoid error - "getter document was called on null"
+              if (snapshot.data == null) return Center(child: CircularProgressIndicator());///to avoid error - "getter document was called on null"
 
               if(snapshot.data.documents.length == 0){/// to show new conversation button
                 return ifNoConversationSoFar();

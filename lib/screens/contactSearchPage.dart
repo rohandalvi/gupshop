@@ -57,12 +57,12 @@ class _ContactSearchPageState extends State<ContactSearchPage> {
                 /// called and we will get a refreshed list.
                 /// After navigating to contact_Search we again need to come back to this page, so we are
                 /// using another naviagator navigateToContactSearchPage for that
-                //CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts();
-//               CustomNavigator().navigateToContactSearch(context, widget.userName, widget.userPhoneNo, null);
-//               CustomNavigator().navigateToContactSearchPage(context, widget.userName, widget.userPhoneNo, null);
-               setState(() {
-                 CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts();
-               });
+                CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts();
+                CustomNavigator().navigateToContactSearch(context, widget.userName, widget.userPhoneNo, null);
+                CustomNavigator().navigateToContactSearchPage(context, widget.userName, widget.userPhoneNo, null);
+//               setState(() {
+//                 CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts();
+//               });
 
               },
             ),

@@ -197,6 +197,7 @@ class _ContactSearchState extends State<ContactSearch> {
       list = tempList;
     });
   }
+
 }
 
 ///FlareActor("assets/Filip.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"idle");

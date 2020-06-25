@@ -19,14 +19,15 @@ class ProfilePictureAndButtonsScreen extends StatefulWidget {
   double height;
   double width;
   bool viewingFriendsProfile;
+  String groupConversationId;
   //bool displayPicture;
   //bool applyButtons;
   //bool allowListView;
 
-  ProfilePictureAndButtonsScreen({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName, this.viewingFriendsProfile});
+  ProfilePictureAndButtonsScreen({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName, this.viewingFriendsProfile, this.groupConversationId});
 
   @override
-  _ProfilePictureAndButtonsScreenState createState() => _ProfilePictureAndButtonsScreenState(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: height, width:width, userName: userName, viewingFriendsProfile: viewingFriendsProfile);
+  _ProfilePictureAndButtonsScreenState createState() => _ProfilePictureAndButtonsScreenState(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: height, width:width, userName: userName, viewingFriendsProfile: viewingFriendsProfile, groupConversationId: groupConversationId);
 }
 
 class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButtonsScreen> {
@@ -36,6 +37,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   double height;
   double width;
   bool viewingFriendsProfile;
+  String groupConversationId;
 //  bool showPicture;
 //  bool applyButtons;
 //  bool allowListView;
@@ -45,7 +47,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   File _galleryImage ;
   File _cameraImage;
 
-  _ProfilePictureAndButtonsScreenState({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName, this.viewingFriendsProfile});
+  _ProfilePictureAndButtonsScreenState({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName, this.viewingFriendsProfile, this.groupConversationId});
 
 
 
@@ -131,9 +133,19 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
           onPressed: (){
             print("outside onPressed of showPictureAndChangeButton: $userName");
             if(userName != null){
-              ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);
-              print("in onPressed of showPictureAndChangeButton: $userName");
-              CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+              if(groupConversationId != null){
+                ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, image);
+//                Navigator.pop(context);
+
+//                CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+              }
+
+              else{
+                ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);
+                print("in onPressed of showPictureAndChangeButton: $userName");
+                CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+              }
+
 //              Navigator.push(
 //                  context,
 //                  MaterialPageRoute(

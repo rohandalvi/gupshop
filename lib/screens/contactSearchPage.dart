@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
+import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 
-class ContactSearchPage extends StatelessWidget {
+class ContactSearchPage extends StatefulWidget {
   final String userPhoneNo;
   final String userName;
   final data;
@@ -15,13 +16,19 @@ class ContactSearchPage extends StatelessWidget {
 
   ContactSearchPage({@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch});
 
+  @override
+  _ContactSearchPageState createState() => _ContactSearchPageState();
+}
 
+class _ContactSearchPageState extends State<ContactSearchPage> {
+  bool refreshContacts= true;
 
   @override
   Widget build(BuildContext context) {
+    print("in build");
     return Stack(
       children: <Widget>[
-        ContactSearch(userPhoneNo: userPhoneNo, userName: userName, data: data),
+        refreshContacts == true ?ContactSearch(userPhoneNo: widget.userPhoneNo, userName: widget.userName, data: widget.data,) : Container(),
         showButton() /// would show only if one or more contact is selected
       ],
     );
@@ -42,7 +49,18 @@ class ContactSearchPage extends StatelessWidget {
               tooltip: 'Refresh Contacts',
               /// create a listOfContactsSelected and send it to individualChat
               onPressed: () {
-                CreateFriendsCollection(userName: userName, userPhoneNo: userPhoneNo,).getUnionContacts();
+                /// a hack to show refreshed contacts,CreateFriendsCollection refreshes new friends in in the database.
+                /// But because, the list that is showing up as suggestion in the display is initiatied  in initState of
+                /// contact_search page, it is not called with setState as setState only calls the build and not
+                /// the initState. Now this list cannot be initiated in the build itself because the method
+                /// that created the list uses setState in it and, setState cannot be called in build method.
+                /// So we are left with the option of Navigating to contact_search by which the initState will get
+                /// called and we will get a refreshed list.
+                /// After navigating to contact_Search we again need to come back to this page, so we are
+                /// using another naviagator navigateToContactSearchPage for that
+                CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts();
+               CustomNavigator().navigateToContactSearch(context, widget.userName, widget.userPhoneNo, null);
+               CustomNavigator().navigateToContactSearchPage(context, widget.userName, widget.userPhoneNo, null);
               },
             ),
           ),

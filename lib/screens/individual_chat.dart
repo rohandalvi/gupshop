@@ -120,6 +120,7 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
   getConversationId() async{
+    /// only an individualChat would come here to create a conversationId as groupChat would get its conversationId in createNameForGroup page
     /// an individualChat would always have groupName as null,
     /// only a groupChat would have groupName
     String id = await GetConversationId().createNewConversationId(userPhoneNo, listOfFriendNumbers, null);
@@ -138,12 +139,12 @@ class _IndividualChatState extends State<IndividualChat> {
     /// as we are in this method, this has to be an individual chat and not a group chat as,
     /// group chat when comes to individualchat page will always have conversationId
     /// and hence would never come to this method
-    AddToFriendsCollection().addToFriendsCollection(listOfFriendNumbers, id,userPhoneNo,nameListForMe,  null);///use listOfNumberHere
+    AddToFriendsCollection().addToFriendsCollection(listOfFriendNumbers, id,userPhoneNo,nameListForMe,null,null);///use listOfNumberHere
 
     ///push to all others friends collection here
     List<dynamic> nameListForOthers = new List();
     nameListForOthers.add(userName);
-    AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfFriendNumbers, id, userPhoneNo, nameListForOthers, null);
+    AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfFriendNumbers, id, userPhoneNo, nameListForOthers, null, null);
 
     /// also push the conversationId to conversations:
     Firestore.instance.collection("conversations").document(id).setData({});
@@ -237,7 +238,15 @@ class _IndividualChatState extends State<IndividualChat> {
           contentPadding: EdgeInsets.only(top: 4),
           leading: GestureDetector(
             onTap: (){
-            CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true, friendN);/// if its a group then profile pictures are searched using conversationId
+              if(groupExits){
+                /// if  its a group, then change profile picture can be done by anyone
+                CustomNavigator().navigateToChangeProfilePicture(context, friendName,  false, friendN, conversationId);/// if its a group then profile pictures are searched using conversationId
+                /// if curfew on for group then  change profile picture can be done by only by admin
+//                if(iAmAdmin == true){
+//                  CustomNavigator().navigateToChangeProfilePicture(context, friendName,  false, friendN, conversationId);/// if its a group then profile pictures are searched using conversationId
+//                }
+              }
+            else CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true, friendN, null);/// if its a group then profile pictures are searched using conversationId
             },
             child: friendN == null ? CircularProgressIndicator() : DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendN, 25, 23.5, false),
           ),
@@ -637,7 +646,7 @@ class _IndividualChatState extends State<IndividualChat> {
               if(myNumberExistsInFriendsFriendsCollection == null){
                 List<String> nameListForOthers = new List();
                 nameListForOthers.add(userName);
-                AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfFriendNumbers, conversationId, userPhoneNo, nameListForOthers, null);
+                AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfFriendNumbers, conversationId, userPhoneNo, nameListForOthers, null, null);
               }
             }
 

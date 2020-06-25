@@ -47,16 +47,9 @@ class _CreateGroupState extends State<CreateGroup> {
     QuerySnapshot querySnapshot = await Firestore.instance.collection("friends_$userPhoneNo").getDocuments();
     if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
 
-    print("querySnapshot.documents : ${querySnapshot.documents.asMap()}");
-
     Map mapOfDocumentSnapshots = querySnapshot.documents.asMap();
 
     /// initializing 'map' with false values
-//    mapOfDocumentSnapshots.forEach((key, value) {
-//      String number = mapOfDocumentSnapshots[key].data["phone"];
-//      map.putIfAbsent(number, () => false);
-//    });
-
     mapOfDocumentSnapshots.forEach((key, value) {
       var temp = mapOfDocumentSnapshots[key].data["phone"];
       var number =  temp[0];///would work even in groups because group will have conversationId in their "phone"
@@ -106,8 +99,6 @@ class _CreateGroupState extends State<CreateGroup> {
             onChanged: (bool val){
               setState(() {
                 map[doc.data["phone"][0]] = val; /// setting the new value as selected by user
-                //list[index] = val;/// if the user changes the value, then the whole widget resets. The values are stored in list
-                //checkBoxChecked = val;
               });
             },
           ),

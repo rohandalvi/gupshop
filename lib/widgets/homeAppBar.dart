@@ -51,7 +51,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
             //alignment: Alignment.center,
             child: GestureDetector(
               onTap: (){
-                CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo);
+                CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo, null);
               },
               child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 30, 25, false),
             ),

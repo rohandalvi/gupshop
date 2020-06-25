@@ -15,11 +15,12 @@ class ChangeProfilePicture extends StatefulWidget {
   String userName;
   String userPhoneNo;
   bool viewingFriendsProfile;
+  String groupConversationId;
 
-  ChangeProfilePicture({@required this.userName, @required this.viewingFriendsProfile, @required this.userPhoneNo});
+  ChangeProfilePicture({@required this.userName, @required this.viewingFriendsProfile, @required this.userPhoneNo, this.groupConversationId});
 
   @override
-  _ChangeProfilePictureState createState() => _ChangeProfilePictureState(userName: userName, viewingFriendsProfile: viewingFriendsProfile, userPhoneNo: userPhoneNo);
+  _ChangeProfilePictureState createState() => _ChangeProfilePictureState(userName: userName, viewingFriendsProfile: viewingFriendsProfile, userPhoneNo: userPhoneNo, groupConversationId: groupConversationId);
 }
 
 class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
@@ -29,9 +30,10 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     String imageURL;
     String userPhoneNo;
     bool viewingFriendsProfile;
+    String groupConversationId;
 
 
-    _ChangeProfilePictureState({@required this.userName, @required this.viewingFriendsProfile, @required this.userPhoneNo});
+    _ChangeProfilePictureState({@required this.userName, @required this.viewingFriendsProfile, @required this.userPhoneNo, this.groupConversationId});
 
     @override
     void initState() {
@@ -84,7 +86,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                     if(imageUrl == null) imageUrl = 'images/user.png';///this is the placeholder for the 1st time user, test it using an actual phone
                     print("imageUrl in changeProfilePicture: $imageUrl");
 
-                    return ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 360, width: 360,userName: userName, viewingFriendsProfile: viewingFriendsProfile,);
+                    return ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 360, width: 360,userName: userName, viewingFriendsProfile: viewingFriendsProfile, groupConversationId: groupConversationId,);
                   }
               ),
         ),

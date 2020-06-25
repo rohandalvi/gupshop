@@ -38,6 +38,7 @@ class _ContactSearchState extends State<ContactSearch> {
       {@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch, this.createGroupSearch});
 
   void initState() {
+    print("in contact_search iniit");
     if(createGroupSearch == null) createGroupSearch=false;
     createSearchSuggestions();/// to get the list of contacts as suggestion
     super.initState();
@@ -165,11 +166,13 @@ class _ContactSearchState extends State<ContactSearch> {
   ///we are displaying the friends collection as the suggestion.
   /// this method is called in initState
   createSearchSuggestions() async {
+    print("in contact_search suggestionlist");
     var temp;
     if(createGroupSearch){
       temp = await Firestore.instance.collection("friends_$userPhoneNo")
+///          .where('phone', isEqualTo: userPhoneNo) /// for not showing myName in createGroup search
           .where('groupName', isNull: true)
-          //.orderBy("nameList", descending: false)
+///          .orderBy("nameList", descending: false) /// for showing names alphabetically
           .getDocuments();
 //      print("temp.data: ${temp.documents[0].data["nameList"][0]}");
 //

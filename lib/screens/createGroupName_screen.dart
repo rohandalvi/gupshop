@@ -88,11 +88,11 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                   /// add this group to all the numbers in the listOfNumbersInAGroup
                   List<String> nameList = new List();
                   nameList.add(groupName);
-                  AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfNumbersInAGroup, id, id, nameList, groupName);
+                  AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfNumbersInAGroup, id, id, nameList, groupName, userPhoneNo);
                   /// add this group in creator's number
                   List<String> nameListForMyNumber = new List();/// would have the conversationId only
                   nameListForMyNumber.add(id);
-                  AddToFriendsCollection().addToFriendsCollection(nameListForMyNumber, id, userPhoneNo, nameList,groupName);/// **
+                  AddToFriendsCollection().addToFriendsCollection(nameListForMyNumber, id, userPhoneNo, nameList,groupName, userPhoneNo);/// **
                   //AddToFriendsCollection().addToFriendsCollection(userPhoneNo, listOfNumbersInAGroup, nameList, id, groupName);/// **
 
                   /// add to conversations to avoid italic conversationId

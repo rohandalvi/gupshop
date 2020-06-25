@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
+import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/screens/createGroupName_screen.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/individual_chat.dart';
@@ -16,11 +17,11 @@ class CustomNavigator{
     );
   }
 
-  navigateToChangeProfilePicture(BuildContext context, String userName, bool viewingFriendsProfile, String userPhoneNo){
+  navigateToChangeProfilePicture(BuildContext context, String userName, bool viewingFriendsProfile, String userPhoneNo, String groupConversationId){
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ChangeProfilePicture(userName: userName, viewingFriendsProfile:viewingFriendsProfile, userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
+          builder: (context) => ChangeProfilePicture(userName: userName, viewingFriendsProfile:viewingFriendsProfile, userPhoneNo: userPhoneNo, groupConversationId: groupConversationId,),//pass Name() here and pass Home()in name_screen
         )
     );
   }
@@ -30,6 +31,15 @@ class CustomNavigator{
         context,
         MaterialPageRoute(
           builder: (context) => ContactSearch(userName: userName, userPhoneNo: userPhoneNo, data: data,),//pass Name() here and pass Home()in name_screen
+        )
+    );
+  }
+
+  navigateToContactSearchPage(BuildContext context, String userName, String userPhoneNo, var data){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ContactSearchPage(userName: userName, userPhoneNo: userPhoneNo, data: data,),//pass Name() here and pass Home()in name_screen
         )
     );
   }

@@ -14,7 +14,7 @@ class GetConversationId{
       dc = await Firestore.instance.collection("conversationMetadata").add({'members':temp});///2
     }
 //    else dc = await Firestore.instance.collection("conversationMetadata").add({ 'myNumber': myPhoneNumber, 'listOfOtherNumbers':contactPhoneNumber, 'groupName' : groupName});///2
-    else dc = await Firestore.instance.collection("conversationMetadata").add({ 'members': temp, 'groupName' : groupName});///2
+    else dc = await Firestore.instance.collection("conversationMetadata").add({ 'members': temp, 'groupName' : groupName, 'admin' : myPhoneNumber});///2
     String id = dc.documentID;
     print("id in createNewConversationId: $id");
     return id;

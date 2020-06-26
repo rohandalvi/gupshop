@@ -111,9 +111,6 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
       return showPictureAndChangeButton(_cameraImage,  height, width, context);
   }
 
-  //if(this.isLoading) {
-  //      return new Center(child: new CircularProgressIndicator());
-  //    }
 
   ///show the tick button only when either one of the image, galley or camera is
   ///selected by the user
@@ -125,44 +122,58 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// with the tick button
   /// Any image selected will show a tick button, as long as an image is selected
   showPictureAndChangeButton(File image, double height, double width, BuildContext context){
-    return ListView(
-      shrinkWrap: true,
-      children: <Widget>[
-        ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(image, height, width),
-        CustomRaisedButton(
-          onPressed: (){
-            print("outside onPressed of showPictureAndChangeButton: $userName");
-            if(userName != null){
-              if(groupConversationId != null){
-                ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, image);
-//                Navigator.popUntil(context, (route) => false);
-
-              }
-
-              else{
-                ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);
-                print("in onPressed of showPictureAndChangeButton: $userName");
-                CustomNavigator().navigateToHome(context, userName, userPhoneNo);
-              }
-
-//              Navigator.push(
-//                  context,
-//                  MaterialPageRoute(
-//                    builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
-//                  )
-//              );
-            }
-//            Navigator.pop(context);
-            //Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
-//            Get.back();
-          },
-          child: IconButton(
-            icon: SvgPicture.asset('images/done.svg',),
-          ),
-        ),
-      ],
-    );
+    return ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(image, height, width);
+//    if(userName != null){
+//      if(groupConversationId != null){
+//        ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, image);
+//      }
+//      else{
+//        ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);
+//        print("in onPressed of showPictureAndChangeButton: $userName");
+//        CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+//      }
+//    }
   }
+
+//  showPictureAndChangeButton(File image, double height, double width, BuildContext context){
+//    return ListView(
+//      shrinkWrap: true,
+//      children: <Widget>[
+//        ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(image, height, width),
+//        CustomRaisedButton(
+//          onPressed: (){
+//            print("outside onPressed of showPictureAndChangeButton: $userName");
+//            if(userName != null){
+//              if(groupConversationId != null){
+//                ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, image);
+////                Navigator.popUntil(context, (route) => false);
+//
+//              }
+//
+//              else{
+//                ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);
+//                print("in onPressed of showPictureAndChangeButton: $userName");
+//                CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+//              }
+//
+////              Navigator.push(
+////                  context,
+////                  MaterialPageRoute(
+////                    builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
+////                  )
+////              );
+//            }
+////            Navigator.pop(context);
+//            //Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
+////            Get.back();
+//          },
+//          child: IconButton(
+//            icon: SvgPicture.asset('images/done.svg',),
+//          ),
+//        ),
+//      ],
+//    );
+//  }
 
 
   Widget galleryApplyCameraButtons(BuildContext context, File _galleryImage, File _cameraImage ){
@@ -172,15 +183,35 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
           children: <Widget>[
             IconButton(
               icon: SvgPicture.asset('images/photoGallery.svg',),
-              onPressed: () {
-                _pickImageFromGallery(setState);
+              onPressed: () async{
+                File tempImage = await _pickImageFromGallery(setState);
+                if(userName != null){
+                  if(groupConversationId != null){
+                    await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, tempImage);
+                  }
+                  else{
+                    await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, tempImage);
+                    print("in onPressed of showPictureAndChangeButton: $userName");
+                    CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+                  }
+                }
               },
             ),
 
             IconButton(
               icon: SvgPicture.asset('images/image2vector.svg',),
-              onPressed: (){
-                _pickImageFromCamer(setState);
+              onPressed: () async{
+                File tempImage = await _pickImageFromCamer(setState);
+                if(userName != null){
+                  if(groupConversationId != null){
+                    await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, tempImage);
+                  }
+                  else{
+                    await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, tempImage);
+                    print("in onPressed of showPictureAndChangeButton: $userName");
+                    CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+                  }
+                }
               },
             ),
           ],
@@ -222,18 +253,13 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
 
     File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(tempImage);
 
-    print("croppedimage outside setstate: $croppedImage");
-
     setState((){
       if(tempImage != null){
         _galleryImage= croppedImage;
       }
-      print("tempimage = $tempImage");
-//      if(tempImage != null){
-//        _cameraImage =  null;
-//        print("cameraImage: $_cameraImage");
-//      }
     });
+
+    return _galleryImage;
   }
 
 
@@ -242,39 +268,15 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
     File tempImage = await ImagesPickersDisplayPictureURLorFile().pickImageFromCamer();
 
     File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(tempImage);
-//    File croppedImage = await ImageCropper.cropImage(
-//      sourcePath: tempImage.path,
-//      aspectRatio: CropAspectRatio(
-//        ratioX: 1.0,
-//        ratioY: 1.0,
-//      ),
-//      maxWidth: 512,
-//      maxHeight: 512,
-//    );
 
     setState(() {
       if(tempImage != null){
         _cameraImage= croppedImage;
       }
     });
-  }
 
-//  imageCropper(File imageFile) async{
-//    File croppedImage = await CustomImageCropper().cropImage(imageFile);
-//    File croppedImage = await ImageCropper.cropImage(
-//      sourcePath: tempImage.path,
-//      aspectRatio: CropAspectRatio(
-//        ratioX: 1.0,
-//        ratioY: 1.0,
-//      ),
-//      maxWidth: 512,
-//      maxHeight: 512,
-//    );
-//
-//    setState(() {
-//      imageFile = c;
-//    });
-//  }
+    return _cameraImage;
+  }
 }
 
 

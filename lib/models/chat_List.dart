@@ -135,7 +135,6 @@ class ChatListState extends State<ChatList> {
                     lastMessage = snapshot.data.documents[index].data["message"]["imageURL"];
                   } else {
                     lastMessage = snapshot.data.documents[index].data["message"]["body"];
-                    print("lastMessage: $lastMessage");
                   }
                   Timestamp timeStamp = snapshot.data.documents[index]
                       .data["message"]["timeStamp"];
@@ -155,11 +154,9 @@ class ChatListState extends State<ChatList> {
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           memberList = snapshot.data["members"];
-                          print("snapshot.data: ${snapshot.data["members"]}");
                           if(snapshot.data["groupName"]  == null){
                             /// 1. extract memberList from conversationMetadata for navigating to individualChat
                             memberList = snapshot.data["members"];
-                            print("memberList: $memberList");
                             //friendNumberList = snapshot.data["listOfOtherNumbers"];
                             /// 2. extract friendNumber for DisplayAvatarFromFirebase
                             friendNumber = FindFriendNumber().friendNumber(memberList, myNumber);

@@ -1,7 +1,6 @@
 class FindFriendNumber{
 
   friendNumber(List<dynamic> memberList, String myNumber){
-    print("memberlist in friendNumber: $memberList");
     for(int i =0; i<memberList.length; i++){
       if(memberList[i] != myNumber) {
         return memberList[i];

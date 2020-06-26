@@ -60,7 +60,8 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
             child: CustomAppBar(onPressed:(){
              // Navigator.pop(context);
 
-            if(viewingFriendsProfile == true || groupConversationId != null){
+              /// if navigating to home from here for change of profile picture for groupchat would give wrong username , because the username would pass as the groupName to the homescreen
+            if(viewingFriendsProfile == true || groupConversationId != null){/// if its a group chat, then navigate to individualchat and not home
               Navigator.pop(context);
             } else{
               Navigator.push(
@@ -84,7 +85,6 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
 
                     imageUrl = snapshot.data['url'];
                     if(imageUrl == null) imageUrl = 'images/user.png';///this is the placeholder for the 1st time user, test it using an actual phone
-                    print("imageUrl in changeProfilePicture: $imageUrl");
 
                     return ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 360, width: 360,userName: userName, viewingFriendsProfile: viewingFriendsProfile, groupConversationId: groupConversationId,);
                   }

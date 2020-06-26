@@ -264,15 +264,11 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
                           if(snapshot.data == null) return CircularProgressIndicator();
 
-                          print("snapshot.data in category selector: ${snapshot.data.documents[0].documentID}");
                           QuerySnapshot querySnapshot = snapshot.data;
 
                           List<DocumentSnapshot> listOfDocumentSnapshot = snapshot.data.documents;
 
-                          print("categorylength: ${snapshot.data.documents.length}");
                           int categoryLength = snapshot.data.documents.length;
-
-                          print("inputs: $inputs");
 
 
                           //A RenderFlex overflowed by 299361 pixels on the bottom.
@@ -317,9 +313,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                     MaterialButton(
                       onPressed: (){
                         // pushCategorySelectedToFirebase();
-                        print("categorySelected: ${ifNoCategorySelected()}");
                         if(ifNoCategorySelected() == true){
-                          print("context: true");
                           Navigator.of(context).pop(true);
                         }
                         else Navigator.of(context).pop(false);
@@ -390,7 +384,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
 
   pushBazaarWalasLocationToFirebase(){
-    print("latitude in push: $latitude");
     GeolocationServiceState().pushBazaarWalasLocationToFirebase(latitude, longitude);
   }
 
@@ -402,7 +395,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     StorageUploadTask uploadTask = firebaseStorageReference.putFile(_video);
     StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
     String videoURL = await imageURLFuture.ref.getDownloadURL();
-    print("imageurl: $videoURL");
     Firestore.instance.collection("videos").document(userPhoneNo).setData({'url':videoURL});
 
     setState(() {

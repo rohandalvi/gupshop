@@ -124,6 +124,8 @@ class _IndividualChatState extends State<IndividualChat> {
   /// get conversationId required for:
   ///
   getConversationId() async{
+    print("listOfFriendNumbers in getConversationId at the benigging: ${listOfFriendNumbers}");
+
     /// only an individualChat would come here to create a conversationId as groupChat would get its conversationId in createNameForGroup page
     /// an individualChat would always have groupName as null,
     /// only a groupChat would have groupName
@@ -139,6 +141,8 @@ class _IndividualChatState extends State<IndividualChat> {
     ///push to my friends collection here
     List<dynamic> nameListForMe = new List();
     nameListForMe.add(friendName);
+
+    print("listOfFriendNumbers in getConversationId: ${listOfFriendNumbers}");
 
     /// as we are in this method, this has to be an individual chat and not a group chat as,
     /// group chat when comes to individualchat page will always have conversationId
@@ -177,6 +181,8 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   void initState() {
+
+    print("listOfFriends in initState: $listOfFriendNumbers");
 
     /*
     adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit

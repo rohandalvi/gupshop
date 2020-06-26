@@ -48,7 +48,6 @@ class _ContactSearchState extends State<ContactSearch> {
   @override
   Widget build(BuildContext context) {
 //    createSearchSuggestions();/// to get the list of contacts as suggestion
-    print("in contact_search build");
     return Scaffold(
       body: SafeArea(
         child: SearchBar<DocumentSnapshot>(

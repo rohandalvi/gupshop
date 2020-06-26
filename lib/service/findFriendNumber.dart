@@ -15,8 +15,10 @@ class FindFriendNumber{
     for(int i =0; i<memberList.length; i++){
       if(memberList[i] != myNumber) {
         friendNumberList.add(memberList[i]);
+        print("friendNumberList in forloop: $friendNumberList");
       }
     }
+    print("friendNumberList: $friendNumberList");
     return friendNumberList;
   }
 

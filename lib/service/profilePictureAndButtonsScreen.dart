@@ -67,8 +67,6 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
                   onTap: (){
                     if(isClicked == false && viewingFriendsProfile == false){
                       isClicked = true;
-                      print("in tap");
-                      print("in snackbarbutton method");
                       return Flushbar(
                         padding : EdgeInsets.all(10),
                         borderRadius: 8,
@@ -123,16 +121,6 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// Any image selected will show a tick button, as long as an image is selected
   showPictureAndChangeButton(File image, double height, double width, BuildContext context){
     return ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(image, height, width);
-//    if(userName != null){
-//      if(groupConversationId != null){
-//        ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, image);
-//      }
-//      else{
-//        ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);
-//        print("in onPressed of showPictureAndChangeButton: $userName");
-//        CustomNavigator().navigateToHome(context, userName, userPhoneNo);
-//      }
-//    }
   }
 
 //  showPictureAndChangeButton(File image, double height, double width, BuildContext context){
@@ -191,7 +179,6 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
                   }
                   else{
                     await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, tempImage);
-                    print("in onPressed of showPictureAndChangeButton: $userName");
                     CustomNavigator().navigateToHome(context, userName, userPhoneNo);
                   }
                 }

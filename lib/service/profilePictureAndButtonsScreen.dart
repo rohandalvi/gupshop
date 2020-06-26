@@ -135,9 +135,8 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
             if(userName != null){
               if(groupConversationId != null){
                 ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, image);
-//                Navigator.pop(context);
+//                Navigator.popUntil(context, (route) => false);
 
-//                CustomNavigator().navigateToHome(context, userName, userPhoneNo);
               }
 
               else{

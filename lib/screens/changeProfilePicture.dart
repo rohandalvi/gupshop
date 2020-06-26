@@ -60,7 +60,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
             child: CustomAppBar(onPressed:(){
              // Navigator.pop(context);
 
-            if(viewingFriendsProfile == true){
+            if(viewingFriendsProfile == true || groupConversationId != null){
               Navigator.pop(context);
             } else{
               Navigator.push(

@@ -106,9 +106,7 @@ class DisplayAvatarFromFirebase{
 
 
   displayAvatarFromFirebase(String userPhoneNo, double radius, double innerRadius, bool isFirstTime){
-    print("friendNo in getProfilePicture(): $userPhoneNo");
     DocumentReference isProfilePictureAdded = Firestore.instance.collection("profilePictures").document(userPhoneNo);
-    //print("isProfilepictureAdded: ${isProfilePictureAdded.documentID}");
     return StreamBuilder(
         stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
         builder: (context, snapshot) {
@@ -124,23 +122,23 @@ class DisplayAvatarFromFirebase{
           ///          }else imageUrl = snapshot.data['url'];
           ///
           /// So we use a try catch insted
-//          try{
-//            imageUrl = snapshot.data['url'];
-//          }
-//          catch (e){
-//            print("in catch");
-//            imageUrl = 'images/user.png';
-//            isFirstTime = true;
-//          }
-
+          String imageUrl;
+          try{
+            imageUrl = snapshot.data['url'];
+          }
+          catch (e){
+            print("in catch");
+            imageUrl = 'images/user.png';
+            isFirstTime = true;
+          }
 //          if(snapshot.data['url'] == null){
 //            imageUrl = "images/user.png";
 //            isFirstTime = true;
 //          } else imageUrl = snapshot.data['url'];
 
-          String imageUrl = snapshot.data['url'];
+//          String imageUrl = snapshot.data['url'];
 
-          return customCircleAvatar(snapshot.data['url'], radius, innerRadius);
+          return customCircleAvatar(imageUrl, radius, innerRadius);
         }
     );
   }

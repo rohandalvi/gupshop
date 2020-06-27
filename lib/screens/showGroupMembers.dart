@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/service/getGroupMemberNames.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
+import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class ShowGroupMembers extends StatelessWidget {
@@ -32,14 +33,22 @@ class ShowGroupMembers extends StatelessWidget {
 
 
   _showGroupMemberNames(List<dynamic> groupMemberNames){
-    return ListView.builder(
-        itemCount: groupMemberNames.length,
-        itemBuilder: (BuildContext context, int index) {
-          if(groupMemberNames == null) return CircularProgressIndicator();
-          return ListTile(
-            title: CustomText(text:groupMemberNames[index]),
-          );
-        }
+    return Stack(
+      children: <Widget>[
+        ListView.builder(
+            itemCount: groupMemberNames.length,
+            itemBuilder: (BuildContext context, int index) {
+              if(groupMemberNames == null) return CircularProgressIndicator();
+              return ListTile(
+                title: CustomText(text:groupMemberNames[index]),
+              );
+            }
+        ),
+        Align(
+            alignment: Alignment.bottomCenter,
+            child: CustomFloatingActionButton()
+        ),
+      ],
     );
   }
 }

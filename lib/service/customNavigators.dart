@@ -72,11 +72,11 @@ class CustomNavigator{
     );
   }
 
-  navigateToCreateGroup(BuildContext context, String userName, String userPhoneNo){
+  navigateToCreateGroup(BuildContext context, String userName, String userPhoneNo, bool shouldAddNewGroupMember, String conversationId){
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CreateGroup(userName: userName, userPhoneNo: userPhoneNo),//pass Name() here and pass Home()in name_screen
+          builder: (context) => CreateGroup(userName: userName, userPhoneNo: userPhoneNo, shouldAddNewMemberToTheGroup: shouldAddNewGroupMember, conversationId: conversationId,),//pass Name() here and pass Home()in name_screen
         )
     );
   }

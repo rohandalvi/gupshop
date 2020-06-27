@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/service/addNewGroupMember.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -17,11 +18,13 @@ import 'customNavigators.dart';
 class CreateGroup extends StatefulWidget {
   String userPhoneNo;
   String userName;
+  bool shouldAddNewMemberToTheGroup;
+  String conversationId;///required for adding new member to the group
 
-  CreateGroup({@required this.userPhoneNo, @required this.userName});
+  CreateGroup({@required this.userPhoneNo, @required this.userName,this.shouldAddNewMemberToTheGroup, this.conversationId});
 
   @override
-  _CreateGroupState createState() => _CreateGroupState(userPhoneNo:userPhoneNo, userName:userName);
+  _CreateGroupState createState() => _CreateGroupState(userPhoneNo:userPhoneNo, userName:userName, shouldAddNewMemberToTheGroup: shouldAddNewMemberToTheGroup, conversationId:conversationId);
 }
 
 /// Flow:
@@ -34,8 +37,10 @@ class CreateGroup extends StatefulWidget {
 class _CreateGroupState extends State<CreateGroup> {
   String userPhoneNo;
   String userName;
+  bool shouldAddNewMemberToTheGroup;
+  String conversationId;
 
-  _CreateGroupState({@required this.userPhoneNo, @required this.userName});
+  _CreateGroupState({@required this.userPhoneNo, @required this.userName,this.shouldAddNewMemberToTheGroup, this.conversationId});
   /// a map to store the state of contacts and their numbers, i.e the contacts which are
   /// selected would show as true, and not as false.
   Map<String, bool > map = new HashMap();
@@ -111,7 +116,7 @@ class _CreateGroupState extends State<CreateGroup> {
 
   showButton(){
     return Visibility(
-      visible: isNameSelected(),/// if there is even contact selected, the group icon would show
+      visible: shouldAddNewMemberToTheGroup == null ? isNameSelected() : shouldAddNewMemberToTheGroup,/// if there is even contact selected, the group icon would show
       child: Align(
           alignment: Alignment.bottomCenter,
           child: Container(
@@ -125,8 +130,13 @@ class _CreateGroupState extends State<CreateGroup> {
                   createListOfContactsSelected();
 
                   ///navigate to creatGroupName_Screen:
-                  CustomNavigator().navigateToCreateGroupName_Screen(context, userName, userPhoneNo, listOfNumbersInAGroup);
-                },
+                  if(shouldAddNewMemberToTheGroup){
+                    print("new list in createGroup: $listOfNumbersInAGroup");
+                    CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+                    AddNewGroupMember().addToConversationMetadata(conversationId, listOfNumbersInAGroup);
+                  }
+                  else CustomNavigator().navigateToCreateGroupName_Screen(context, userName, userPhoneNo, listOfNumbersInAGroup);
+                }
               ),
             ),
           )
@@ -153,5 +163,8 @@ class _CreateGroupState extends State<CreateGroup> {
 
     print("listOfNamesInAGroup : $listOfNumbersInAGroup");
   }
+
+
+
 
 }

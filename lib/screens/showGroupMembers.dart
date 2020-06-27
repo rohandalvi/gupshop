@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/service/addNewGroupMember.dart';
+import 'package:gupshop/service/createGroup.dart';
+import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/getGroupMemberNames.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -8,8 +13,10 @@ import 'package:gupshop/widgets/customText.dart';
 class ShowGroupMembers extends StatelessWidget {
   String userNumber;
   List<dynamic> listOfGroupMemberNumbers;
+  String userName;
+  String conversationId;
 
-  ShowGroupMembers({this.userNumber, this.listOfGroupMemberNumbers});
+  ShowGroupMembers({this.userNumber, this.listOfGroupMemberNumbers,  @required this.conversationId});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,7 @@ class ShowGroupMembers extends StatelessWidget {
           future: GetGroupMemberNames().findTheNamesOfGroupMembers(userNumber, listOfGroupMemberNumbers),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              return _showGroupMemberNames(snapshot.data); //ToDo- check is false is right here
+              return _showGroupMemberNames(snapshot.data, context); //ToDo- check is false is right here
             }
             return Center(
               child: CircularProgressIndicator(),
@@ -32,7 +39,7 @@ class ShowGroupMembers extends StatelessWidget {
 
 
 
-  _showGroupMemberNames(List<dynamic> groupMemberNames){
+  _showGroupMemberNames(List<dynamic> groupMemberNames, BuildContext context){
     return Stack(
       children: <Widget>[
         ListView.builder(
@@ -46,9 +53,25 @@ class ShowGroupMembers extends StatelessWidget {
         ),
         Align(
             alignment: Alignment.bottomCenter,
-            child: CustomFloatingActionButton()
+            child: Container(
+              height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
+              width: 100,
+              child: FittedBox(
+                child: CustomFloatingActionButton(
+                  child: IconButton(
+                      icon: SvgPicture.asset('images/add.svg',),
+                    onPressed: () async{
+                        userName = await UserDetails().getUserNameFuture();
+                        CustomNavigator().navigateToCreateGroup(context, userName, userNumber, true, conversationId);
+                    },
+                    //SvgPicture.asset('images/downChevron.svg',)
+                  ),
+                ),
+              ),
+            )
         ),
       ],
     );
   }
+
 }

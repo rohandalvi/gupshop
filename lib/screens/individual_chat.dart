@@ -254,7 +254,7 @@ class _IndividualChatState extends State<IndividualChat> {
           title: GestureDetector(
               child: CustomText(text: friendName,),
             onTap:(){
-                DialogHelper(userNumber: userPhoneNo, listOfGroupMemberNumbers: listOfFriendNumbers).customShowDialog(context);
+                DialogHelper(userNumber: userPhoneNo, listOfGroupMemberNumbers: listOfFriendNumbers, conversationId: conversationId).customShowDialog(context);
               //CustomNavigator().navigateToShowGroupMembers(context, userPhoneNo, listOfFriendNumbers);
             }
           ),

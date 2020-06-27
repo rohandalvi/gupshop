@@ -31,13 +31,10 @@ class RecentChats{
      */
 
     for(int i=0; i<listOfOtherNumbers.length; i++){
-      print("who is this: ${listOfOtherNumbers[i]}");
       ///for a group, the userNumber should be conversationId
       if(groupExists){
-        print("groupExists");
         myName = await conversationWith(listOfOtherNumbers[i], convId, );
       }else{
-        print("groupExists not");
         myName = await conversationWith(listOfOtherNumbers[i], userNumber, );
       }
       pushRecentChatsToAllNumbersInvolvedInFirebase(listOfOtherNumbers[i], myName);
@@ -49,6 +46,7 @@ class RecentChats{
   }
 
   //check with whom the conversation is with
+  /// todo- use GetConversationDetails().conversationWith() instead
   conversationWith(String friendCollectionNumber, String number, ) async{
     print("my number in friends collection: $number");
     print("friendCollectionNumber: $friendCollectionNumber");
@@ -59,8 +57,6 @@ class RecentChats{
 
   pushRecentChatsToAllNumbersInvolvedInFirebase(String number,String friendName) async{
     DateTime timeStamp = message["timeStamp"];
-    print("number in pushRecentChatsToAllNumbersInvolvedInFirebase: $number");
-    print("friendName in pushRecentChatsToAllNumbersInvolvedInFirebase: $friendName");
     Firestore.instance.collection("recentChats").document(number).collection("conversations").document(convId).setData({"message": message, "name": friendName, "timeStamp":timeStamp});
   }
 

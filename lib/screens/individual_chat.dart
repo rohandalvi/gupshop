@@ -20,6 +20,7 @@ import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/service/viewPicturesVideosFromChat.dart';
 import 'package:gupshop/widgets/buildMessageComposer.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
+import 'package:gupshop/widgets/customDialogBox.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:gupshop/widgets/displayPicture.dart';
@@ -250,7 +251,13 @@ class _IndividualChatState extends State<IndividualChat> {
             },
             child: friendN == null ? CircularProgressIndicator() : DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendN, 25, 23.5, false),
           ),
-          title: CustomText(text: friendName,),
+          title: GestureDetector(
+              child: CustomText(text: friendName,),
+            onTap:(){
+                DialogHelper(userNumber: userPhoneNo, listOfGroupMemberNumbers: listOfFriendNumbers).customShowDialog(context);
+              //CustomNavigator().navigateToShowGroupMembers(context, userPhoneNo, listOfFriendNumbers);
+            }
+          ),
           subtitle: CustomText(text: 'Put last seen here',).subTitle(),
           trailing: Wrap(
             children: <Widget>[

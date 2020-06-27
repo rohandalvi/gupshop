@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/screens/createGroupName_screen.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/individual_chat.dart';
+import 'package:gupshop/screens/showGroupMembers.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/service/createGroup.dart';
 
@@ -75,6 +77,15 @@ class CustomNavigator{
         context,
         MaterialPageRoute(
           builder: (context) => CreateGroup(userName: userName, userPhoneNo: userPhoneNo),//pass Name() here and pass Home()in name_screen
+        )
+    );
+  }
+
+  navigateToShowGroupMembers(BuildContext context, String userNumber, List<dynamic> listOfGroupMemberNumbers){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ShowGroupMembers(userNumber: userNumber, listOfGroupMemberNumbers: listOfGroupMemberNumbers,),//pass Name() here and pass Home()in name_screen
         )
     );
   }

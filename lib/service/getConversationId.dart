@@ -11,10 +11,10 @@ class GetConversationId{
     temp.add(myPhoneNumber);
     if(groupName ==  null){  /// individual chat
      // dc = await Firestore.instance.collection("conversationMetadata").add({ 'myNumber': myPhoneNumber, 'listOfOtherNumbers':contactPhoneNumber});///2
-      dc = await Firestore.instance.collection("conversationMetadata").add({'members':temp});///2
+      dc = await Firestore.instance.collection("conversationMetadata").add({'members':temp});
     }
 //    else dc = await Firestore.instance.collection("conversationMetadata").add({ 'myNumber': myPhoneNumber, 'listOfOtherNumbers':contactPhoneNumber, 'groupName' : groupName});///2
-    else dc = await Firestore.instance.collection("conversationMetadata").add({ 'members': temp, 'groupName' : groupName, 'admin' : myPhoneNumber});///2
+    else dc = await Firestore.instance.collection("conversationMetadata").add({ 'members': temp, 'groupName' : groupName, 'admin' : myPhoneNumber});
     String id = dc.documentID;
     print("id in createNewConversationId: $id");
     return id;

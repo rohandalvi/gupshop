@@ -94,6 +94,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
   String friendN;
   var groupExits;
+  String groupName;
 
 //  displayAvatarHelper() async{
 //    groupOrNot = await CheckIfGroup().ifThisIsAGroup(userPhoneNo, conversationId);
@@ -103,6 +104,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
   checkIfGroup() async{
     bool temp = await CheckIfGroup().ifThisIsAGroup(conversationId);
+    String tempGroupName = await CheckIfGroup().getGroupName(conversationId);
     setState(() {
       groupExits = temp;
     });
@@ -114,6 +116,7 @@ class _IndividualChatState extends State<IndividualChat> {
     } else {
       setState(() {
         friendN = conversationId;
+        groupName = tempGroupName;
       });
     }
   }
@@ -175,6 +178,7 @@ class _IndividualChatState extends State<IndividualChat> {
   @override
   void initState() {
 
+    print("listOfFriends in individual chat: $listOfFriendNumbers");
 
     /*
     adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
@@ -655,6 +659,26 @@ class _IndividualChatState extends State<IndividualChat> {
                 nameListForOthers.add(userName);
                 AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfFriendNumbers, conversationId, userPhoneNo, nameListForOthers, null, null);
               }
+            }
+            if(groupExits == true){
+              DocumentSnapshot adminNumberFuture = await Firestore.instance.collection("conversationMetadata").document(conversationId).get();
+              String adminNumber = adminNumberFuture.data["admin"];
+              print("adminNumber: $adminNumber");
+
+              await Future.wait(listOfFriendNumbers.map((element) async{
+//              listOfFriendNumbers.forEach((element) async {
+                print("element: $element");
+                var myNumberExistsInFriendsFriendsCollectionWaiting = await Firestore.instance.collection("friends_$element").document(conversationId).get();
+                var myNumberExistsInFriendsFriendsCollection = myNumberExistsInFriendsFriendsCollectionWaiting.data;
+                print("myNumberExistsInFriendsFriendsCollection: $myNumberExistsInFriendsFriendsCollection");
+                if(myNumberExistsInFriendsFriendsCollection == null){
+                  List<String> nameListForOthers = new List();
+                  nameListForOthers.add(groupName);
+                  AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfFriendNumbers, conversationId, conversationId, nameListForOthers, groupName, adminNumber);
+//                                                                                        listOfNumbersInAGroup, id, id, nameList, groupName, userPhoneNo
+                }
+              }));
+
             }
 
 

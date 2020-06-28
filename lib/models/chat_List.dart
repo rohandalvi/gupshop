@@ -167,6 +167,7 @@ class ChatListState extends State<ChatList> {
                             /// getting profilePicture
                             /// profile_pictures -> conversationId -> url
                             friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
+                            print("friendNumberList in getPhoneNo: $friendNumberList");
                             friendNumber = conversationId;
                           }
                           return DisplayAvatarFromFirebase()

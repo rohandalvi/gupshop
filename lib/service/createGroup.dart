@@ -116,7 +116,7 @@ class _CreateGroupState extends State<CreateGroup> {
 
   showButton(){
     return Visibility(
-      visible: shouldAddNewMemberToTheGroup == null ? isNameSelected() : shouldAddNewMemberToTheGroup,/// if there is even contact selected, the group icon would show
+      visible: shouldAddNewMemberToTheGroup == false ? isNameSelected() : shouldAddNewMemberToTheGroup,/// if there is even contact selected, the group icon would show
       child: Align(
           alignment: Alignment.bottomCenter,
           child: Container(

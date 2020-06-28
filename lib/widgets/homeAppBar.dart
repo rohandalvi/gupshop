@@ -68,7 +68,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
           IconButton(
             icon: SvgPicture.asset('images/groupManWoman.svg',),
             onPressed: (){
-              CustomNavigator().navigateToCreateGroup(context, userName, userPhoneNo, null, null);
+              CustomNavigator().navigateToCreateGroup(context, userName, userPhoneNo, false, null);
             },
           ),
           Builder(

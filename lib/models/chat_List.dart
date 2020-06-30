@@ -152,35 +152,22 @@ class ChatListState extends State<ChatList> {
 
                   String documentID = snapshot.data.documents[index].documentID;
 
-                  DocumentReference deleteConversationFromConversationMetadata = Firestore.instance.collection("ConversationMetadata").document(documentID);
-                  DocumentReference deleteConversationFromRecentChats = Firestore.instance.collection("recentChats").document(friendNumber).collection("conversations").document(documentID);
-//                  print("deleteConversationFromRecentChats: ${deleteConversationFromRecentChats.documentID}");
-//                  print("reference: ${snapshot.data.documents[index].reference.documentID}");
-//                  print("documentId: $documentID");
+//                  DocumentReference deleteConversationFromConversationMetadata = Firestore.instance.collection("ConversationMetadata").document(documentID);
+//                  DocumentReference deleteConversationFromRecentChats = Firestore.instance.collection("recentChats").document(friendNumber).collection("conversations").document(documentID);
 
                   return CustomDismissible(
                     key: Key(snapshot.data.documents[index].data["name"]),
                     onDismissed: (direction) async{
-                      //List<dynamic> listOFMembersInGroup = await GetConversationDetails().getMemberList(documentID);
-                      //print("listOFMembersInGroup in onDismissed: $listOFMembersInGroup");
                       setState(() {
                         DeleteMembersFromGroup().deleteConversationMetadata(documentID);///conversationMetadata
                         DeleteMembersFromGroup().deleteDocumentFromSnapshot(snapshot.data.documents[index].reference);///recentChats
-                        /// somehow, in memberlist myNumber is not getting added, so removing
-                        /// from friends collection for myNumber has to be done seperately
                         DeleteHelper().deleteFromFriendsCollection(myNumber, documentID);///friends collection
                         /// delete from the recentChats of all members(memberList, which includes me too)
                         /// delete from the friends collection of all members(memberList, which includes me too)
                         for(int i=0; i<memberList.length; i++){
-                          print("memberList[index]: ${memberList.length}");
-//                          DeleteHelper().deleteFromRecentChats(memberList[index], documentID);
-//                          DeleteHelper().deleteFromFriendsCollection(memberList[index], documentID);///friends collection
                           DeleteMembersFromGroup().deleteFromFriendsCollection(memberList[i], documentID);
                           DeleteMembersFromGroup().deleteFromRecentChats(memberList[i], documentID);
                         }
-
-                        ///DeleteMembersFromGroup().deleteFromFriendsCollection(myNumber, documentID); ==> doesnt work
-
                       });
                     },
                     child: ListTile( ///main widget that creates the message box
@@ -192,7 +179,6 @@ class ChatListState extends State<ChatList> {
                             if(snapshot.data["groupName"]  == null){
                               /// 1. extract memberList from conversationMetadata for navigating to individualChat
                               memberList = snapshot.data["members"];
-                              //friendNumberList = snapshot.data["listOfOtherNumbers"];
                               /// 2. extract friendNumber for DisplayAvatarFromFirebase
                               friendNumber = FindFriendNumber().friendNumber(memberList, myNumber);
                               /// 3. create friendNumberList to send to individualChat

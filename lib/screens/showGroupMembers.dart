@@ -15,8 +15,9 @@ class ShowGroupMembers extends StatelessWidget {
   List<dynamic> listOfGroupMemberNumbers;
   String userName;
   String conversationId;
+  bool isGroup;
 
-  ShowGroupMembers({this.userNumber, this.listOfGroupMemberNumbers,  @required this.conversationId});
+  ShowGroupMembers({this.userNumber, this.listOfGroupMemberNumbers,  @required this.conversationId, this.isGroup});
 
   @override
   Widget build(BuildContext context) {
@@ -51,24 +52,27 @@ class ShowGroupMembers extends StatelessWidget {
               );
             }
         ),
-        Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
-              width: 100,
-              child: FittedBox(
-                child: CustomFloatingActionButton(
-                  child: IconButton(
-                      icon: SvgPicture.asset('images/add.svg',),
-                    onPressed: () async{
-                        userName = await UserDetails().getUserNameFuture();
-                        CustomNavigator().navigateToCreateGroup(context, userName, userNumber, true, conversationId);
-                    },
-                    //SvgPicture.asset('images/downChevron.svg',)
+        Visibility(
+          visible: isGroup,
+          child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
+                width: 100,
+                child: FittedBox(
+                  child: CustomFloatingActionButton(
+                    child: IconButton(
+                        icon: SvgPicture.asset('images/add.svg',),
+                      onPressed: () async{
+                          userName = await UserDetails().getUserNameFuture();
+                          CustomNavigator().navigateToCreateGroup(context, userName, userNumber, true, conversationId);
+                      },
+                      //SvgPicture.asset('images/downChevron.svg',)
+                    ),
                   ),
                 ),
-              ),
-            )
+              )
+          ),
         ),
       ],
     );

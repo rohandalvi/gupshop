@@ -43,13 +43,14 @@ class DialogHelper{
   String userNumber;
   List<dynamic> listOfGroupMemberNumbers;
   String conversationId;
+  bool isGroup;
 
-  DialogHelper({@required this.userNumber, @required this.listOfGroupMemberNumbers, @required this.conversationId});
+  DialogHelper({@required this.userNumber, @required this.listOfGroupMemberNumbers, @required this.conversationId, this.isGroup});
 
   customShowDialog(BuildContext context){
     return showDialog(
         context: context,
-        builder: (context) => ShowGroupMembers(userNumber: userNumber, listOfGroupMemberNumbers: listOfGroupMemberNumbers, conversationId: conversationId,)
+        builder: (context) => ShowGroupMembers(userNumber: userNumber, listOfGroupMemberNumbers: listOfGroupMemberNumbers, conversationId: conversationId, isGroup: isGroup,)
     );
   }
 

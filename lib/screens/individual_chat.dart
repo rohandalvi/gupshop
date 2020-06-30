@@ -178,8 +178,6 @@ class _IndividualChatState extends State<IndividualChat> {
   @override
   void initState() {
 
-    print("listOfFriends in individual chat: $listOfFriendNumbers");
-
     /*
     adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
     when user scrolls

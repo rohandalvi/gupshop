@@ -13,4 +13,11 @@ class GetConversationDetails{
     String name = dc.data["name"];
     return name;
   }
+
+  getMemberList(String conversationId) async{
+    DocumentSnapshot dc = await Firestore.instance.collection("conversationMetadata").document(conversationId).get();
+    List<dynamic> list = dc.data["members"];
+    print("list: $list");
+    return list;
+  }
 }

@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
+import 'package:gupshop/service/deleteHelper.dart';
+import 'package:gupshop/service/deleteMembersFromGroup.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
+import 'package:gupshop/service/getConversationDetails.dart';
 import 'package:gupshop/service/showMessageForFirstConversation.dart';
+import 'package:gupshop/widgets/customDismissible.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:intl/intl.dart';
 
@@ -146,73 +150,104 @@ class ChatListState extends State<ChatList> {
                   ///for sending to individual_chat.dart:
                   String conversationId = snapshot.data.documents[index].data["message"]["conversationId"];
 
-                  return ListTile( ///main widget that creates the message box
-                    leading:
-                    //GetFriendPhoneNo(conversationId: conversationId,myNumber: myNumber,),
-                    FutureBuilder(
-                      future: getFriendPhoneNo(conversationId, myNumber),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          memberList = snapshot.data["members"];
-                          if(snapshot.data["groupName"]  == null){
-                            /// 1. extract memberList from conversationMetadata for navigating to individualChat
+                  String documentID = snapshot.data.documents[index].documentID;
+
+                  DocumentReference deleteConversationFromConversationMetadata = Firestore.instance.collection("ConversationMetadata").document(documentID);
+                  DocumentReference deleteConversationFromRecentChats = Firestore.instance.collection("recentChats").document(friendNumber).collection("conversations").document(documentID);
+//                  print("deleteConversationFromRecentChats: ${deleteConversationFromRecentChats.documentID}");
+//                  print("reference: ${snapshot.data.documents[index].reference.documentID}");
+//                  print("documentId: $documentID");
+
+                  return CustomDismissible(
+                    key: Key(snapshot.data.documents[index].data["name"]),
+                    onDismissed: (direction) async{
+                      //List<dynamic> listOFMembersInGroup = await GetConversationDetails().getMemberList(documentID);
+                      //print("listOFMembersInGroup in onDismissed: $listOFMembersInGroup");
+                      setState(() {
+                        DeleteMembersFromGroup().deleteConversationMetadata(documentID);///conversationMetadata
+                        DeleteMembersFromGroup().deleteDocumentFromSnapshot(snapshot.data.documents[index].reference);///recentChats
+                        /// somehow, in memberlist myNumber is not getting added, so removing
+                        /// from friends collection for myNumber has to be done seperately
+                        DeleteHelper().deleteFromFriendsCollection(myNumber, documentID);///friends collection
+                        /// delete from the recentChats of all members(memberList, which includes me too)
+                        /// delete from the friends collection of all members(memberList, which includes me too)
+                        for(int i=0; i<memberList.length; i++){
+                          print("memberList[index]: ${memberList.length}");
+//                          DeleteHelper().deleteFromRecentChats(memberList[index], documentID);
+//                          DeleteHelper().deleteFromFriendsCollection(memberList[index], documentID);///friends collection
+                          DeleteMembersFromGroup().deleteFromFriendsCollection(memberList[i], documentID);
+                          DeleteMembersFromGroup().deleteFromRecentChats(memberList[i], documentID);
+                        }
+
+                        ///DeleteMembersFromGroup().deleteFromFriendsCollection(myNumber, documentID); ==> doesnt work
+
+                      });
+                    },
+                    child: ListTile( ///main widget that creates the message box
+                      leading: FutureBuilder(
+                        future: getFriendPhoneNo(conversationId, myNumber),
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.connectionState == ConnectionState.done) {
                             memberList = snapshot.data["members"];
-                            //friendNumberList = snapshot.data["listOfOtherNumbers"];
-                            /// 2. extract friendNumber for DisplayAvatarFromFirebase
-                            friendNumber = FindFriendNumber().friendNumber(memberList, myNumber);
-                            /// 3. create friendNumberList to send to individualChat
-                            friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
-                          } else{
-                            /// for groups, conversationId is used as documentId for
-                            /// getting profilePicture
-                            /// profile_pictures -> conversationId -> url
-                            friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
-                            print("friendNumberList in getPhoneNo: $friendNumberList");
-                            friendNumber = conversationId;
+                            if(snapshot.data["groupName"]  == null){
+                              /// 1. extract memberList from conversationMetadata for navigating to individualChat
+                              memberList = snapshot.data["members"];
+                              //friendNumberList = snapshot.data["listOfOtherNumbers"];
+                              /// 2. extract friendNumber for DisplayAvatarFromFirebase
+                              friendNumber = FindFriendNumber().friendNumber(memberList, myNumber);
+                              /// 3. create friendNumberList to send to individualChat
+                              friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
+                            } else{
+                              /// for groups, conversationId is used as documentId for
+                              /// getting profilePicture
+                              /// profile_pictures -> conversationId -> url
+                              friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
+                              friendNumber = conversationId;
+                            }
+                            return DisplayAvatarFromFirebase()
+                                .displayAvatarFromFirebase(friendNumber, 30, 27,
+                                false);
                           }
-                          return DisplayAvatarFromFirebase()
-                              .displayAvatarFromFirebase(friendNumber, 30, 27,
-                              false); //ToDo- check is false is right here
-                        }
-                        return CircularProgressIndicator();
-                      },
-                    ),
-                    title: CustomText(text: friendName),
-                    subtitle: lastMessageIsVideo == true ?
-                    FutureBuilder(
-                      future: getVideoDetailsFromVideoChat(index),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return CustomText(text: lastMessage); //ToDo- check is false is right here
-                        }
-                        return Center(
-                          child: CircularProgressIndicator(),
+                          return CircularProgressIndicator();
+                        },
+                      ),
+                      title: CustomText(text: friendName),
+                      subtitle: lastMessageIsVideo == true ?
+                      FutureBuilder(
+                        future: getVideoDetailsFromVideoChat(index),
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.connectionState == ConnectionState.done) {
+                            return CustomText(text: lastMessage);
+                          }
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      ): lastMessageIsImage == true ? CustomText(text: lastMessage) :
+                      CustomText(text: lastMessage).textWithOverFlow(),/// for dot dot at the end of the message
+                      //dense: true,
+                      trailing: CustomText( //time
+                        text: DateFormat("dd MMM kk:mm").format(
+                            DateTime.fromMillisecondsSinceEpoch(int.parse(
+                                timeStamp.millisecondsSinceEpoch.toString()))),
+                        fontSize: 12,
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  IndividualChat(
+                                    friendName: friendName,
+                                    conversationId: conversationId,
+                                    userName: myName,
+                                    userPhoneNo: myNumber,
+                                    listOfFriendNumbers: friendNumberList,
+                                  ), //pass Name() here and pass Home()in name_screen
+                            )
                         );
                       },
-                    ): lastMessageIsImage == true ? CustomText(text: lastMessage) :
-                    CustomText(text: lastMessage).textWithOverFlow(),/// for dot dot at the end of the message
-                    //dense: true,
-                    trailing: CustomText( //time
-                      text: DateFormat("dd MMM kk:mm").format(
-                          DateTime.fromMillisecondsSinceEpoch(int.parse(
-                              timeStamp.millisecondsSinceEpoch.toString()))),
-                      fontSize: 12,
                     ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                IndividualChat(
-                                  friendName: friendName,
-                                  conversationId: conversationId,
-                                  userName: myName,
-                                  userPhoneNo: myNumber,
-                                  listOfFriendNumbers: friendNumberList,
-                                ), //pass Name() here and pass Home()in name_screen
-                          )
-                      );
-                    },
                   );
                 },
                 separatorBuilder: (context, index) =>

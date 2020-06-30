@@ -65,7 +65,7 @@ class _NameScreenState extends State<NameScreen> {
                           final form = formKey.currentState;
                           if(form.validate()){
                             setState(() {
-                              //this.userName= name;
+                              this.userName= name;
                             });
                           }
                         },
@@ -80,6 +80,9 @@ class _NameScreenState extends State<NameScreen> {
                     SharedPreferences prefs = await SharedPreferences.getInstance();
                     String userNameForSP = prefs.getString('userName');
                     print("userNameForSP in name_screen: $userNameForSP");
+
+                    print("userName in onPressed: $userName");
+                    print("userPhoneNo in onPressed: $userPhoneNo");
 
 
                     ///Add first time user’s number to database:

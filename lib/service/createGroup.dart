@@ -97,7 +97,7 @@ class _CreateGroupState extends State<CreateGroup> {
 //                icon: SvgPicture.asset('images/done.svg',)
 //            ) : null,
             controlAffinity:ListTileControlAffinity.leading ,
-            title: CustomText(text: doc.data["nameList"][0]),
+            title: CustomText(text: doc.data["nameList"][0]) == null ? CustomText(text: 'loading',):CustomText(text: doc.data["nameList"][0]),
             activeColor: primaryColor,
             value: map[doc.data["phone"][0]],/// if value of a key in map(a phonenumber) is false or true
             //list[index],/// at first all the values would be false

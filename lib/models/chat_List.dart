@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
+import 'package:gupshop/service/deleteChats.dart';
 import 'package:gupshop/service/deleteHelper.dart';
 import 'package:gupshop/service/deleteMembersFromGroup.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
@@ -34,6 +35,7 @@ class ChatListState extends State<ChatList> {
 
 //  String conversationId;
   String friendNo;
+  bool groupExists;
 
   /*
   Add photo to users  avatar- 1:
@@ -157,17 +159,34 @@ class ChatListState extends State<ChatList> {
 
                   return CustomDismissible(
                     key: Key(snapshot.data.documents[index].data["name"]),
+                    /// onDismissed has all the delete logic:
                     onDismissed: (direction) async{
+                      /// ToDo: not working called from DeleteChats
                       setState(() {
-                        DeleteMembersFromGroup().deleteConversationMetadata(documentID);///conversationMetadata
+                        ///for individualChat, only delete from my recentChats
                         DeleteMembersFromGroup().deleteDocumentFromSnapshot(snapshot.data.documents[index].reference);///recentChats
-                        DeleteHelper().deleteFromFriendsCollection(myNumber, documentID);///friends collection
-                        /// delete from the recentChats of all members(memberList, which includes me too)
-                        /// delete from the friends collection of all members(memberList, which includes me too)
-                        for(int i=0; i<memberList.length; i++){
-                          DeleteMembersFromGroup().deleteFromFriendsCollection(memberList[i], documentID);
-                          DeleteMembersFromGroup().deleteFromRecentChats(memberList[i], documentID);
+                        if(groupExists){
+                          print("groupExist: $groupExists");
+//                          DeleteChats().deleteGroupChat(documentID, myNumber, memberList);
+                          DeleteMembersFromGroup().deleteConversationMetadata(documentID);///conversationMetadata
+                          DeleteHelper().deleteFromFriendsCollection(myNumber, documentID);///friends collection
+                          /// delete from the recentChats of all members(memberList, which includes me too)
+                          /// delete from the friends collection of all members(memberList, which includes me too)
+                          for(int i=0; i<memberList.length; i++){
+                            DeleteMembersFromGroup().deleteFromFriendsCollection(memberList[i], documentID);
+                            DeleteMembersFromGroup().deleteFromRecentChats(memberList[i], documentID);
+                          }
                         }
+//                        else{
+////                          DeleteChats().deleteIndividualChat(friendNumber, documentID);
+//                          ///for individualChat:
+//                          ///friends collection:
+//                          /// No need to delete from friends collection, as he is still a friend, only
+//                          /// the conversation is deleted, so delete only the recentChats. Do not even
+//                          /// delete from conversationMetadata
+//                          ///recentChats:
+//                          DeleteMembersFromGroup().deleteFromRecentChats(myNumber, documentID);
+//                        }
                       });
                     },
                     child: ListTile( ///main widget that creates the message box
@@ -177,6 +196,7 @@ class ChatListState extends State<ChatList> {
                           if (snapshot.connectionState == ConnectionState.done) {
                             memberList = snapshot.data["members"];
                             if(snapshot.data["groupName"]  == null){
+                              groupExists = false;
                               /// 1. extract memberList from conversationMetadata for navigating to individualChat
                               memberList = snapshot.data["members"];
                               /// 2. extract friendNumber for DisplayAvatarFromFirebase
@@ -184,6 +204,7 @@ class ChatListState extends State<ChatList> {
                               /// 3. create friendNumberList to send to individualChat
                               friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
                             } else{
+                              groupExists = true;
                               /// for groups, conversationId is used as documentId for
                               /// getting profilePicture
                               /// profile_pictures -> conversationId -> url

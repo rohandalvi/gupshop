@@ -11,9 +11,6 @@ class DeleteMembersFromGroup{
     Map res = await Firestore.instance.runTransaction((Transaction myTransaction) async{
       await myTransaction.delete(dc);
     });
-
-    print("res: $res");
-    ///delete field(his number) from conversationMetadata
   }
 
   deleteConversationMetadata(String documentID){

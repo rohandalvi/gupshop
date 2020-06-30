@@ -81,19 +81,19 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                 onPressed: ()async{
                   /// create a conversationMetadata which would also have a groupName
                   /// the groupName would be our identifier if the conversation is individual or group
-                  print("listOfNumbersInAGroup in createGreoupName: $listOfNumbersInAGroup");
                   String id = await GetConversationId().createNewConversationId(userPhoneNo, listOfNumbersInAGroup, groupName);
-                  print("id in createGroupName: $id");
 
                   /// add this group to all the numbers in the listOfNumbersInAGroup
                   List<String> nameList = new List();
                   nameList.add(groupName);
-                  AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(listOfNumbersInAGroup, id, id, nameList, groupName, userPhoneNo);
+                  /// in friendsCollection we have phoneList as a field for storing the numbers of the friends.
+                  /// It is required for forwarding messages to a group. Having that list ensures that the
+                  /// forward message is forwarded to all members of the ggroup
+                  AddToFriendsCollection(friendListForGroupForFriendsCollection: listOfNumbersInAGroup).extractNumbersFromListAndAddToFriendsCollection(listOfNumbersInAGroup, id, id, nameList, groupName, userPhoneNo);
                   /// add this group in creator's number
                   List<String> nameListForMyNumber = new List();/// would have the conversationId only
                   nameListForMyNumber.add(id);
-                  AddToFriendsCollection().addToFriendsCollection(nameListForMyNumber, id, userPhoneNo, nameList,groupName, userPhoneNo);/// **
-                  //AddToFriendsCollection().addToFriendsCollection(userPhoneNo, listOfNumbersInAGroup, nameList, id, groupName);/// **
+                  AddToFriendsCollection(friendListForGroupForFriendsCollection: listOfNumbersInAGroup).addToFriendsCollection(nameListForMyNumber, id, userPhoneNo, nameList,groupName, userPhoneNo);/// **
 
                   /// add to conversations to avoid italic conversationId
                   Firestore.instance.collection("conversations").document(id).setData({});
@@ -145,13 +145,6 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
       Image(
         image: AssetImage('images/groupManWoman.png'),
       ),
-//      IconButton(
-//        icon: SvgPicture.asset(
-//        'images/userFace.svg',
-//        width: 500,
-//        height: 500,
-//      ),
-//      ),
     );
   }
 }

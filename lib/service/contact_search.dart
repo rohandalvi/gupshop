@@ -88,7 +88,14 @@ class _ContactSearchState extends State<ContactSearch> {
           ),
           onSearch: onSearch == null? searchList : onSearch,
           onItemFound: onItemFound == null ? (DocumentSnapshot doc, int index) {
-            List<dynamic> friendNo = doc.data["phone"];
+            List<dynamic> friendNo;
+            /// individualChats have friendNumber list in phone and groupChats have
+            /// friendNumber list in phoneList.
+            /// phone has conversationId in groupChat and not phone numbers.
+            /// Reason: phone is also needed and phoneList is also needed in some cases.
+            if(doc.data["groupName"] == null){friendNo = doc.data["phone"];}
+            else friendNo = doc.data["phoneList"];
+
             /// if it is the first time conversation the there will be no conversationId
             /// it will be created in individualChat, if a null conversationId is sent
             String conversationId = doc.data["conversationId"];
@@ -98,11 +105,7 @@ class _ContactSearchState extends State<ContactSearch> {
               title: CustomText(text: doc.data["nameList"][0]),
               ///displaying on the display name
               onTap: () {
-                print("friendNo in contact search : $friendNo");
                 String friendName = doc.data["nameList"][0];
-                print(
-                    "conversationId when tapping on friendname in search: $conversationId");
-                print("data in contactSearch: $data");
                 if (data != null) {
                   /// forward message needs to be given searched friends conversationId
                   /// corresponding change can also be found in individualChat forwardMessage() method:
@@ -139,15 +142,7 @@ class _ContactSearchState extends State<ContactSearch> {
     ///
     /// if name only is to be passed to firebase:
     /// list.documents.where((l) => l.data["name"].toLowerCase().contains(text.toLowerCase()) ||  l.documentID.contains(text)).toList();
-    print("list: ${list.documents[0].data}");
-    print("name in list: ${list.documents[0].data["nameList"][0]}");
-
     ///ToDo- here not just 0, but on every index of the list
-    print("list after where: ${list.documents.where((l) =>
-    l.data["nameList"][0]
-        .toLowerCase()
-        .contains(text.toLowerCase()) || l.documentID.contains(text))
-        .toList()}");
 
     if(createGroupSearch){
       print("in createGroupSearch");

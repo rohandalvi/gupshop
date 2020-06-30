@@ -96,11 +96,6 @@ class _IndividualChatState extends State<IndividualChat> {
   var groupExits;
   String groupName;
 
-//  displayAvatarHelper() async{
-//    groupOrNot = await CheckIfGroup().ifThisIsAGroup(userPhoneNo, conversationId);
-//    if(groupOrNot == null) friendN = listOfFriendNumbers[0];
-//    else friendN = conversationId;
-//  }
 
   checkIfGroup() async{
     bool temp = await CheckIfGroup().ifThisIsAGroup(conversationId);
@@ -134,7 +129,7 @@ class _IndividualChatState extends State<IndividualChat> {
       conversationId = id;
     });
 
-    checkIfGroup();
+    await checkIfGroup();
 
     ///push to my friends collection here
     List<dynamic> nameListForMe = new List();
@@ -153,10 +148,11 @@ class _IndividualChatState extends State<IndividualChat> {
     /// also push the conversationId to conversations:
     Firestore.instance.collection("conversations").document(id).setData({});
 
-    forwardMessages(id);
+    await forwardMessages(id);
   }
 
   forwardMessages(String conversationId) async{
+    await checkIfGroup();
     if(forwardMessage != null) {
 
       /// forward messages needs to be given this conversation's conversationId
@@ -170,6 +166,7 @@ class _IndividualChatState extends State<IndividualChat> {
       ///Navigating to RecentChats page with pushes the data to firebase
       /// if group chat:
 
+      print("listOfOtherNumbers: $listOfFriendNumbers");
       RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName, listOfOtherNumbers: listOfFriendNumbers, groupExists: groupExits ).getAllNumbersOfAConversation();
     }
   }
@@ -193,7 +190,6 @@ class _IndividualChatState extends State<IndividualChat> {
       ///if forwardMessage == true, then initialize that method of sending the message
       ///here in the initstate():
       print("conversationId in individualChat in else: $conversationId");
-      checkIfGroup();
       forwardMessages(conversationId);
     }
 
@@ -257,7 +253,6 @@ class _IndividualChatState extends State<IndividualChat> {
               child: CustomText(text: friendName,),
             onTap:(){
                 DialogHelper(userNumber: userPhoneNo, listOfGroupMemberNumbers: listOfFriendNumbers, conversationId: conversationId, isGroup: groupExits).customShowDialog(context);
-              //CustomNavigator().navigateToShowGroupMembers(context, userPhoneNo, listOfFriendNumbers);
             }
           ),
           subtitle: CustomText(text: 'Put last seen here',).subTitle(),
@@ -305,7 +300,6 @@ class _IndividualChatState extends State<IndividualChat> {
 
 
   showMessagesAndSendMessageBar(BuildContext context){
-    print("conversationId in showMessagesAndSendMessageBar individualchat: $conversationId");
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(), //to take out the keyboard when tapped on chat screen
       //             onVerticalDragStart: _scrollToBottomButton(),

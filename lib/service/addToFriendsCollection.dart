@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddToFriendsCollection{
+  List<dynamic> friendListForGroupForFriendsCollection;
+  AddToFriendsCollection({this.friendListForGroupForFriendsCollection});
+
   //addToFriendsCollection(List<dynamic> listOfNumbersInAGroup, String id, String myNumberOrConversationId, List<dynamic> nameList, String groupName){
   addToFriendsCollection(List<dynamic> friendNumberList,String id,String userPhoneNo,  List<dynamic> nameList,  String groupName, String adminNumber){
     if(groupName != null){
       List<dynamic> idList = new List();
       idList.add(id);
-      Firestore.instance.collection("friends_$userPhoneNo").document(id).setData({'phone': idList, 'nameList' : nameList, 'conversationId': id, 'groupName': groupName, 'admin' : adminNumber},merge: true);
+      Firestore.instance.collection("friends_$userPhoneNo").document(id).setData({'phone': idList, 'nameList' : nameList, 'conversationId': id, 'groupName': groupName, 'admin' : adminNumber, 'phoneList': friendListForGroupForFriendsCollection},merge: true);
     }
     else {
       String frienN = friendNumberList[0];

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/screens/individual_chat.dart';
+import 'package:gupshop/service/checkIfGroup.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/deleteChats.dart';
 import 'package:gupshop/service/deleteHelper.dart';
@@ -158,15 +159,18 @@ class ChatListState extends State<ChatList> {
 //                  DocumentReference deleteConversationFromRecentChats = Firestore.instance.collection("recentChats").document(friendNumber).collection("conversations").document(documentID);
 
                   return CustomDismissible(
-                    key: Key(snapshot.data.documents[index].data["name"]),
+                    key: Key(documentID),
+                    //snapshot.data.documents[index].data["name"]
                     /// onDismissed has all the delete logic:
                     onDismissed: (direction) async{
+                      bool isGroup = await CheckIfGroup().ifThisIsAGroup(documentID);
+                      print("groupExist status outside: $isGroup");
                       /// ToDo: not working called from DeleteChats
-                      setState(() {
+//                      setState(() {
                         ///for individualChat, only delete from my recentChats
                         DeleteMembersFromGroup().deleteDocumentFromSnapshot(snapshot.data.documents[index].reference);///recentChats
-                        if(groupExists){
-                          print("groupExist: $groupExists");
+                        if(isGroup == true){
+                          print("groupExist status: $groupExists");
 //                          DeleteChats().deleteGroupChat(documentID, myNumber, memberList);
                           DeleteMembersFromGroup().deleteConversationMetadata(documentID);///conversationMetadata
                           DeleteHelper().deleteFromFriendsCollection(myNumber, documentID);///friends collection
@@ -187,7 +191,7 @@ class ChatListState extends State<ChatList> {
 //                          ///recentChats:
 //                          DeleteMembersFromGroup().deleteFromRecentChats(myNumber, documentID);
 //                        }
-                      });
+//                      });
                     },
                     child: ListTile( ///main widget that creates the message box
                       leading: FutureBuilder(
@@ -196,6 +200,7 @@ class ChatListState extends State<ChatList> {
                           if (snapshot.connectionState == ConnectionState.done) {
                             memberList = snapshot.data["members"];
                             if(snapshot.data["groupName"]  == null){
+                              print("groupExists not");
                               groupExists = false;
                               /// 1. extract memberList from conversationMetadata for navigating to individualChat
                               memberList = snapshot.data["members"];
@@ -204,6 +209,7 @@ class ChatListState extends State<ChatList> {
                               /// 3. create friendNumberList to send to individualChat
                               friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
                             } else{
+                              print("groupExists");
                               groupExists = true;
                               /// for groups, conversationId is used as documentId for
                               /// getting profilePicture

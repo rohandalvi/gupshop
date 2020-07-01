@@ -201,20 +201,23 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   Widget build(BuildContext context){
-    return Stack(
-      children: <Widget>[
-        Material(
-          child: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(60.0),//the distance between gupShop and tabBars
-              child: appBar(context, friendName),
+    return WillPopScope(
+      onWillPop: () async => CustomNavigator().navigateToHome(context, userName, userPhoneNo),
+      child: Stack(
+        children: <Widget>[
+          Material(
+            child: Scaffold(
+              appBar: PreferredSize(
+                preferredSize: Size.fromHeight(60.0),//the distance between gupShop and tabBars
+                child: appBar(context, friendName),
+              ),
+              //appBar(),
+              body: showMessagesAndSendMessageBar(context),
             ),
-            //appBar(),
-            body: showMessagesAndSendMessageBar(context),
           ),
-        ),
-        _scrollToBottomButton(),
-      ],
+          _scrollToBottomButton(),
+        ],
+      ),
     );
   }
 

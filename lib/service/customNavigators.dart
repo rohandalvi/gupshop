@@ -11,6 +11,8 @@ import 'package:gupshop/service/createGroup.dart';
 
 class CustomNavigator{
   navigateToHome(BuildContext context, String userName, String userPhoneNo){
+    print("userName in navigate: $userName");
+    print("userNumber in navigate: $userPhoneNo");
     Navigator.push(
         context,
         MaterialPageRoute(

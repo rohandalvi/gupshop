@@ -37,6 +37,7 @@ class ChatListState extends State<ChatList> {
 //  String conversationId;
   String friendNo;
   bool groupExists;
+  bool isGroup;
 
   /*
   Add photo to users  avatar- 1:
@@ -160,18 +161,18 @@ class ChatListState extends State<ChatList> {
 
                   return CustomDismissible(
                     key: Key(documentID),
+                    documentID: documentID,
                     //snapshot.data.documents[index].data["name"]
                     /// onDismissed has all the delete logic:
                     onDismissed: (direction) async{
-                      bool isGroup = await CheckIfGroup().ifThisIsAGroup(documentID);
-                      print("groupExist status outside: $isGroup");
+                      isGroup = await CheckIfGroup().ifThisIsAGroup(documentID);
                       /// ToDo: not working called from DeleteChats
 //                      setState(() {
                         ///for individualChat, only delete from my recentChats
                         DeleteMembersFromGroup().deleteDocumentFromSnapshot(snapshot.data.documents[index].reference);///recentChats
                         if(isGroup == true){
-                          print("groupExist status: $groupExists");
-//                          DeleteChats().deleteGroupChat(documentID, myNumber, memberList);
+                          /// also delete from profilePictures
+
                           DeleteMembersFromGroup().deleteConversationMetadata(documentID);///conversationMetadata
                           DeleteHelper().deleteFromFriendsCollection(myNumber, documentID);///friends collection
                           /// delete from the recentChats of all members(memberList, which includes me too)

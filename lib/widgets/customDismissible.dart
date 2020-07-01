@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/service/checkIfGroup.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class CustomDismissible extends StatelessWidget {
+class CustomDismissible extends StatefulWidget {
   Key key;
   DismissDirectionCallback onDismissed;
   Widget child;
@@ -15,15 +16,50 @@ class CustomDismissible extends StatelessWidget {
   CustomDismissible({@required this.key, @required this.onDismissed, this.child, this.icon, this.documentID});
 
   @override
-  Widget build(BuildContext context) {
+  _CustomDismissibleState createState() => _CustomDismissibleState();
+}
+
+class _CustomDismissibleState extends State<CustomDismissible> {
+  bool group;
+  String admin;
+  String myNumber;
+
+  @override
+  void initState() {
+    getUserDetails();
+    super.initState();
+  }
+
+  getUserDetails() async{
+    bool groupTemp = await CheckIfGroup().ifThisIsAGroup(widget.documentID);
+    String adminTemp = await CheckIfGroup().getAdminNumber(widget.documentID);
+    String myNumberTemp = await UserDetails().getUserPhoneNoFuture();
+    setState(() {
+     group = groupTemp;
+     admin = adminTemp;
+     myNumber = myNumberTemp;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context){
     return Dismissible(
-      confirmDismiss:(DismissDirection direction) async {
-        bool group = await CheckIfGroup().ifThisIsAGroup(documentID);
-        return group == true ? showDialog(
+      confirmDismiss:(direction) async {
+        bool groupTemp = await CheckIfGroup().ifThisIsAGroup(widget.documentID);
+        String adminTemp = await CheckIfGroup().getAdminNumber(widget.documentID);
+        String myNumberTemp = await UserDetails().getUserPhoneNoFuture();
+        setState((){
+          group = groupTemp;
+          admin  = adminTemp;
+          myNumber = myNumberTemp;
+        });
+        print("myNumber: $myNumber");
+        print("admin : $admin");
+        return (direction == DismissDirection.startToEnd && group == true && admin == myNumber) ? showDialog(/// if its a group, then show dialog, else delete directly
             context: context,
             builder: (BuildContext context) {
           return AlertDialog(
-            title: const CustomText(text: "Are you sure"),
+            title: const CustomText(text: "Hey group admin, are you sure ?"),
             content: const CustomText(text: "The group will be deleted permenantly"),
             actions: <Widget>[
               IconButton(
@@ -43,14 +79,13 @@ class CustomDismissible extends StatelessWidget {
         },
         ) : true;
       },
-      key: key,
-      onDismissed: onDismissed,
-      direction: DismissDirection.endToStart,
+      key: widget.key,
+      onDismissed: widget.onDismissed,
+      direction: (group == true && admin == myNumber) ? DismissDirection.horizontal : DismissDirection.endToStart,
       background: Container(
         color: deleteColor,
-        alignment: AlignmentDirectional.centerEnd,
-        child:
-        IconButton(
+        alignment: AlignmentDirectional.centerStart,
+        child: IconButton(
             icon: SvgPicture.asset('images/recycleBin.svg',)
           //SvgPicture.asset('images/downChevron.svg',)
         ),
@@ -58,8 +93,14 @@ class CustomDismissible extends StatelessWidget {
 //          text: text == null ? 'Delete group' : text,
 //          textColor: Colors.white,),
       ),
-      child: child,
+      secondaryBackground: Container(
+        color: notMeChatColor,
+        alignment: AlignmentDirectional.centerEnd,
+        child: IconButton(
+          icon: SvgPicture.asset('images/hide.svg',),
+        ),
+      ),
+      child: widget.child,
     );
   }
-
 }

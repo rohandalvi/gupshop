@@ -13,4 +13,10 @@ class CheckIfGroup{
     String groupName = dc.data["groupName"];
     return groupName;
   }
+
+  getAdminNumber(String conversationId) async{
+    DocumentSnapshot dc= await Firestore.instance.collection("conversationMetadata").document(conversationId).get();
+    String admin = dc.data["admin"];
+    return admin;
+  }
 }

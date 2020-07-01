@@ -8,7 +8,7 @@ class UserDetails{
     var userPhoneNo = prefs.getString('userPhoneNo');
 
     print("userPhoneNo in Profile Picture: $userPhoneNo");
-    print("prefs: $prefs");
+    print("prefs: ${prefs.getString('userPhoneNo')}");
     return userPhoneNo;
   }
 

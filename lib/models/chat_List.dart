@@ -66,9 +66,6 @@ class ChatListState extends State<ChatList> {
     return temp.data;
   }
 
-  extractFriendListAnd(){
-
-  }
 
   getVideoDetailsFromVideoChat(int index) async{
     QuerySnapshot querySnapshot = await Firestore.instance.collection("recentChats").document(
@@ -155,6 +152,7 @@ class ChatListState extends State<ChatList> {
                   String conversationId = snapshot.data.documents[index].data["message"]["conversationId"];
 
                   String documentID = snapshot.data.documents[index].documentID;
+                  String adminNumber;
 
 //                  DocumentReference deleteConversationFromConversationMetadata = Firestore.instance.collection("ConversationMetadata").document(documentID);
 //                  DocumentReference deleteConversationFromRecentChats = Firestore.instance.collection("recentChats").document(friendNumber).collection("conversations").document(documentID);
@@ -162,15 +160,15 @@ class ChatListState extends State<ChatList> {
                   return CustomDismissible(
                     key: Key(documentID),
                     documentID: documentID,
-                    //snapshot.data.documents[index].data["name"]
                     /// onDismissed has all the delete logic:
                     onDismissed: (direction) async{
                       isGroup = await CheckIfGroup().ifThisIsAGroup(documentID);
+                      adminNumber = await CheckIfGroup().getAdminNumber(documentID);
                       /// ToDo: not working called from DeleteChats
 //                      setState(() {
                         ///for individualChat, only delete from my recentChats
                         DeleteMembersFromGroup().deleteDocumentFromSnapshot(snapshot.data.documents[index].reference);///recentChats
-                        if(isGroup == true){
+                        if(direction == DismissDirection.startToEnd &&  isGroup == true && adminNumber == myNumber){
                           /// also delete from profilePictures
 
                           DeleteMembersFromGroup().deleteConversationMetadata(documentID);///conversationMetadata

@@ -25,10 +25,11 @@ class DeleteMembersFromGroup{
     Firestore.instance.collection("recentChats").document(friendNumber).collection("conversations").document(documentID).delete();
   }
 
-  deleteAGroupMember(List<dynamic> numbers){
+  deleteAGroupMember(String numbers, String documentID){
+    //deleteAGroupMember(List<dynamic> numbers){
     var val=[];   //blank list for add elements which you want to delete
     val.add(numbers);
-    Firestore.instance.collection("INTERESTED").document('documentID').updateData({
+    Firestore.instance.collection("conversationMetadata").document(documentID).updateData({
       "members":FieldValue.arrayRemove(val) });
 
     /// give the member number as friendNumber and conversationId as documentID

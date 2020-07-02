@@ -54,9 +54,9 @@ class ShowGroupMembers extends StatelessWidget {
               return ListTile(
                 title: GestureDetector(
                   onTap:  (){
-//                    if(isGroup == true){
-//                      DeleteMembersFromGroup().deleteAGroupMember(numbers)
-//                    }
+                    if(isGroup == true){
+                      DeleteMembersFromGroup().deleteAGroupMember(groupMemberNameAndNumbers[key], conversationId);
+                    }
                   },
                     child: CustomText(text:key)
                 ),

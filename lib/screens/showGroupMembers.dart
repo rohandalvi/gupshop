@@ -29,25 +29,33 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
   @override
   Widget build(BuildContext context) {
     return CustomDialogBox(
-      child: ContainerForDialogBox(
-        child: FutureBuilder(
-          future: GetGroupMemberNames().getMapOfNameAndNumbers(widget.userNumber, widget.listOfGroupMemberNumbers),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              print("snapshot.data: ${snapshot.data}");
-              return _showGroupMemberNames(snapshot.data, context); //ToDo- check is false is right here
-            }
-            return Center(
-              child: CircularProgressIndicator(),
+      child: FutureBuilder(
+          future: UserDetails().getUserNameFuture(),
+        builder: (context, nameSnapshot) {
+          if (nameSnapshot.connectionState == ConnectionState.done) {
+            userName = nameSnapshot.data;
+            return ContainerForDialogBox(
+              child: FutureBuilder(
+                future: GetGroupMemberNames().getMapOfNameAndNumbers(widget.userNumber, widget.listOfGroupMemberNumbers, userName),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return _showGroupMemberNames(snapshot.data, context); //ToDo- check is false is right here
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
             );
-          },
-        ),
+          }return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
       )
     );
   }
 
   _showGroupMemberNames(Map<dynamic, String> groupMemberNameAndNumbers, BuildContext context){
-    print("groupMemberNameAndNumbers in _showGroup: $groupMemberNameAndNumbers");
     return Stack(
       children: <Widget>[
         ListView.builder(
@@ -62,7 +70,6 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
                       DeleteMembersFromGroup().deleteAGroupMember(groupMemberNameAndNumbers[key], widget.conversationId);
                       setState(() {
                         String removed = widget.listOfGroupMemberNumbers.removeAt(index);
-                        print("removed : $removed");
                       });
                     }
                   },

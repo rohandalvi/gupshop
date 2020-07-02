@@ -38,6 +38,7 @@ class ChatListState extends State<ChatList> {
   String friendNo;
   bool groupExists;
   bool isGroup;
+  bool notAGroupMemberAnymore = false;
 
   /*
   Add photo to users  avatar- 1:
@@ -198,8 +199,12 @@ class ChatListState extends State<ChatList> {
                         builder: (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState == ConnectionState.done) {
                             memberList = snapshot.data["members"];
+
+                            /// if a member is removed from the group, then he should not be seeing the conversations
+                            /// once he enters the individual chat page
+                            if(memberList.contains(myNumber) == false) notAGroupMemberAnymore = true;
+
                             if(snapshot.data["groupName"]  == null){
-                              print("groupExists not");
                               groupExists = false;
                               /// 1. extract memberList from conversationMetadata for navigating to individualChat
                               memberList = snapshot.data["members"];
@@ -208,7 +213,6 @@ class ChatListState extends State<ChatList> {
                               /// 3. create friendNumberList to send to individualChat
                               friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
                             } else{
-                              print("groupExists");
                               groupExists = true;
                               /// for groups, conversationId is used as documentId for
                               /// getting profilePicture
@@ -255,6 +259,7 @@ class ChatListState extends State<ChatList> {
                                     userName: myName,
                                     userPhoneNo: myNumber,
                                     listOfFriendNumbers: friendNumberList,
+                                    notGroupMemberAnymore: notAGroupMemberAnymore,
                                   ), //pass Name() here and pass Home()in name_screen
                             )
                         );

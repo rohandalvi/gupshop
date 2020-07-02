@@ -7,16 +7,16 @@ import 'package:gupshop/service/getConversationDetails.dart';
 /// When the names dont match, find the names from "users" collection
 class GetGroupMemberNames{
 
-  Future<dynamic> getMapOfNameAndNumbers(String userNumber, List<dynamic> listOfFriendNumbers) async{
+  Future<dynamic> getMapOfNameAndNumbers(String userNumber, List<dynamic> listOfFriendNumbers, String userName) async{
     Map<dynamic, String> result = new Map();
-    result = await helper(userNumber, listOfFriendNumbers);
+    result = await helper(userNumber, listOfFriendNumbers, userName);
     return result;
   }
 
 
-   getMemberNameNumbers(String userNumber, List<dynamic> numbers) async {
-    print("numberlist : $numbers");
+   getMemberNameNumbers(String userNumber, List<dynamic> numbers, String userName) async {
     Map<dynamic, String> map = new Map();
+    map[userName] = userNumber;
     await Future.wait(numbers.map((element) async{
 
       String isFriend = await GetConversationDetails().conversationWith(userNumber, element);
@@ -30,8 +30,8 @@ class GetGroupMemberNames{
   }
 
 
-  Future<Map<dynamic, String>> helper(String userNumber, List<dynamic> listOfFriendNumbers) async {
-    return await getMemberNameNumbers(userNumber, listOfFriendNumbers);
+  Future<Map<dynamic, String>> helper(String userNumber, List<dynamic> listOfFriendNumbers, String userName) async {
+    return await getMemberNameNumbers(userNumber, listOfFriendNumbers, userName);
   }
 
 }

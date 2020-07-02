@@ -18,6 +18,7 @@ import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/service/sendAndDisplayMessages.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/service/viewPicturesVideosFromChat.dart';
+import 'package:gupshop/widgets/blankScreen.dart';
 import 'package:gupshop/widgets/buildMessageComposer.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
@@ -43,9 +44,10 @@ class IndividualChat extends StatefulWidget {
   final String friendName;/// this should be a list
   List<dynamic> listOfFriendNumbers;
   final Map forwardMessage;
+  final bool notGroupMemberAnymore;
 
   IndividualChat(
-      {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName,this.forwardMessage, this.listOfFriendNumbers})
+      {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName,this.forwardMessage, this.listOfFriendNumbers, this.notGroupMemberAnymore})
       : super(key: key);
   @override
   _IndividualChatState createState() => _IndividualChatState(
@@ -55,6 +57,7 @@ class IndividualChat extends StatefulWidget {
       friendName: friendName,
       forwardMessage: forwardMessage,
       listOfFriendNumbers: listOfFriendNumbers,
+      notGroupMemberAnymore: notGroupMemberAnymore,
   );
 
 }
@@ -68,12 +71,13 @@ class _IndividualChatState extends State<IndividualChat> {
   final String friendName;/// this should be list
   List<dynamic> listOfFriendNumbers;
   final Map forwardMessage;
+  final bool notGroupMemberAnymore;
 
   static int numberOfImageInConversation = 0;///for giving number to the images sent in conversation for
   ///storing in firebase
 
   _IndividualChatState(
-      {@required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, this.forwardMessage, this.listOfFriendNumbers});
+      {@required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, this.forwardMessage, this.listOfFriendNumbers, this.notGroupMemberAnymore});
 
   String value = ""; //TODo
 
@@ -184,7 +188,6 @@ class _IndividualChatState extends State<IndividualChat> {
 
     if(conversationId == null) {
       getConversationId();
-      print("conversationId in individualChat in if: $conversationId");
       /// also create a conversations_number collection
     }else{
       ///if forwardMessage == true, then initialize that method of sending the message
@@ -212,7 +215,11 @@ class _IndividualChatState extends State<IndividualChat> {
                 child: appBar(context, friendName),
               ),
               //appBar(),
-              body: showMessagesAndSendMessageBar(context),
+              /// if a member is removed from the group, then he should not be seeing the conversations
+              /// once he enters the individual chat page
+              /// So, displaying the conversations only when he is a group member
+              body: notGroupMemberAnymore == false ? showMessagesAndSendMessageBar(context)
+              : BlankScreen(),
             ),
           ),
           _scrollToBottomButton(),

@@ -11,21 +11,27 @@ import 'package:gupshop/widgets/customDialogBox.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class ShowGroupMembers extends StatelessWidget {
+class ShowGroupMembers extends StatefulWidget {
   String userNumber;
   List<dynamic> listOfGroupMemberNumbers;
-  String userName;
   String conversationId;
   bool isGroup;
 
   ShowGroupMembers({this.userNumber, this.listOfGroupMemberNumbers,  @required this.conversationId, this.isGroup});
 
   @override
+  _ShowGroupMembersState createState() => _ShowGroupMembersState();
+}
+
+class _ShowGroupMembersState extends State<ShowGroupMembers> {
+  String userName;
+
+  @override
   Widget build(BuildContext context) {
     return CustomDialogBox(
       child: ContainerForDialogBox(
         child: FutureBuilder(
-          future: GetGroupMemberNames().getMapOfNameAndNumbers(userNumber, listOfGroupMemberNumbers),
+          future: GetGroupMemberNames().getMapOfNameAndNumbers(widget.userNumber, widget.listOfGroupMemberNumbers),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               print("snapshot.data: ${snapshot.data}");
@@ -40,8 +46,6 @@ class ShowGroupMembers extends StatelessWidget {
     );
   }
 
-
-
   _showGroupMemberNames(Map<dynamic, String> groupMemberNameAndNumbers, BuildContext context){
     print("groupMemberNameAndNumbers in _showGroup: $groupMemberNameAndNumbers");
     return Stack(
@@ -54,8 +58,12 @@ class ShowGroupMembers extends StatelessWidget {
               return ListTile(
                 title: GestureDetector(
                   onTap:  (){
-                    if(isGroup == true){
-                      DeleteMembersFromGroup().deleteAGroupMember(groupMemberNameAndNumbers[key], conversationId);
+                    if(widget.isGroup == true){
+                      DeleteMembersFromGroup().deleteAGroupMember(groupMemberNameAndNumbers[key], widget.conversationId);
+                      setState(() {
+                        String removed = widget.listOfGroupMemberNumbers.removeAt(index);
+                        print("removed : $removed");
+                      });
                     }
                   },
                     child: CustomText(text:key)
@@ -64,7 +72,7 @@ class ShowGroupMembers extends StatelessWidget {
             }
         ),
         Visibility(
-          visible: isGroup,
+          visible: widget.isGroup,
           child: Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -76,7 +84,7 @@ class ShowGroupMembers extends StatelessWidget {
                         icon: SvgPicture.asset('images/add.svg',),
                       onPressed: () async{
                           userName = await UserDetails().getUserNameFuture();
-                          CustomNavigator().navigateToCreateGroup(context, userName, userNumber, true, conversationId);
+                          CustomNavigator().navigateToCreateGroup(context, userName, widget.userNumber, true, widget.conversationId);
                       },
                       //SvgPicture.asset('images/downChevron.svg',)
                     ),
@@ -88,50 +96,4 @@ class ShowGroupMembers extends StatelessWidget {
       ],
     );
   }
-
-//  _showGroupMemberNames(List<dynamic> groupMemberNames, BuildContext context){
-//    return Stack(
-//      children: <Widget>[
-//        ListView.builder(
-//            itemCount: groupMemberNames.length,
-//            itemBuilder: (BuildContext context, int index) {
-//              if(groupMemberNames == null) return CircularProgressIndicator();
-//              return ListTile(
-//                title: GestureDetector(
-//                    onTap:  (){
-//                      if(isGroup == true){
-//                        DeleteMembersFromGroup().deleteAGroupMember(numbers)
-//                      }
-//                    },
-//                    child: CustomText(text:groupMemberNames[index])
-//                ),
-//              );
-//            }
-//        ),
-//        Visibility(
-//          visible: isGroup,
-//          child: Align(
-//              alignment: Alignment.bottomCenter,
-//              child: Container(
-//                height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
-//                width: 100,
-//                child: FittedBox(
-//                  child: CustomFloatingActionButton(
-//                    child: IconButton(
-//                      icon: SvgPicture.asset('images/add.svg',),
-//                      onPressed: () async{
-//                        userName = await UserDetails().getUserNameFuture();
-//                        CustomNavigator().navigateToCreateGroup(context, userName, userNumber, true, conversationId);
-//                      },
-//                      //SvgPicture.asset('images/downChevron.svg',)
-//                    ),
-//                  ),
-//                ),
-//              )
-//          ),
-//        ),
-//      ],
-//    );
-//  }
-
 }

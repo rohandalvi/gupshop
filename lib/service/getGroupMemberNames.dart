@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:gupshop/service/getConversationDetails.dart';
 
 /// take listOfFriendNumbers from IndividualChat
@@ -6,28 +7,31 @@ import 'package:gupshop/service/getConversationDetails.dart';
 /// When the names dont match, find the names from "users" collection
 class GetGroupMemberNames{
 
-  Future<dynamic> findTheNamesOfGroupMembers(String userNumber, List<dynamic> listOfFriendNumbers) async{
-    List<dynamic> result = new List();
+  Future<dynamic> getMapOfNameAndNumbers(String userNumber, List<dynamic> listOfFriendNumbers) async{
+    Map<dynamic, String> result = new Map();
     result = await helper(userNumber, listOfFriendNumbers);
     return result;
   }
 
-   getGroupMemberNames(String userNumber, List<dynamic> numbers) async {
-    List<dynamic> list = new List();
+
+   getMemberNameNumbers(String userNumber, List<dynamic> numbers) async {
+    print("numberlist : $numbers");
+    Map<dynamic, String> map = new Map();
     await Future.wait(numbers.map((element) async{
 
       String isFriend = await GetConversationDetails().conversationWith(userNumber, element);
-      if(isFriend != null) list.add(isFriend);
+      if(isFriend != null) map[isFriend] =element;
       else {
-        list.add(await GetConversationDetails().getUserNameFromUsersCollection(element));
+        map[await GetConversationDetails().getUserNameFromUsersCollection(element)] = element;
       }
     }));
-    return list;
+    print("map: $map");
+    return map;
   }
 
 
-  Future<List<dynamic>> helper(String userNumber, List<dynamic> listOfFriendNumbers) async {
-    return await getGroupMemberNames(userNumber, listOfFriendNumbers);
+  Future<Map<dynamic, String>> helper(String userNumber, List<dynamic> listOfFriendNumbers) async {
+    return await getMemberNameNumbers(userNumber, listOfFriendNumbers);
   }
 
 }

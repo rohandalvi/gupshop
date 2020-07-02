@@ -53,8 +53,6 @@ class _CustomDismissibleState extends State<CustomDismissible> {
           admin  = adminTemp;
           myNumber = myNumberTemp;
         });
-        print("myNumber: $myNumber");
-        print("admin : $admin");
         return (direction == DismissDirection.startToEnd && group == true && admin == myNumber) ? showDialog(/// if its a group, then show dialog, else delete directly
             context: context,
             builder: (BuildContext context) {
@@ -89,9 +87,6 @@ class _CustomDismissibleState extends State<CustomDismissible> {
             icon: SvgPicture.asset('images/recycleBin.svg',)
           //SvgPicture.asset('images/downChevron.svg',)
         ),
-//        CustomText(
-//          text: text == null ? 'Delete group' : text,
-//          textColor: Colors.white,),
       ),
       secondaryBackground: Container(
         color: notMeChatColor,

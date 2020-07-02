@@ -20,4 +20,9 @@ class GetConversationDetails{
     print("list: $list");
     return list;
   }
+
+  knowWhoIsAdmin(String conversationId) async{
+    DocumentSnapshot adminNumberFuture = await Firestore.instance.collection("conversationMetadata").document(conversationId).get();
+    return adminNumberFuture.data["admin"];
+  }
 }

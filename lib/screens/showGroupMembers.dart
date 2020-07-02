@@ -36,7 +36,7 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
             userName = nameSnapshot.data;
             return ContainerForDialogBox(
               child: FutureBuilder(
-                future: GetGroupMemberNames().getMapOfNameAndNumbers(widget.userNumber, widget.listOfGroupMemberNumbers, userName),
+                future: GetGroupMemberNames().getMapOfNameAndNumbers(widget.userNumber, widget.listOfGroupMemberNumbers, userName, widget.conversationId),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     return _showGroupMemberNames(snapshot.data, context); //ToDo- check is false is right here
@@ -62,18 +62,32 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
             itemCount: groupMemberNameAndNumbers.length,
             itemBuilder: (BuildContext context, int index) {
               if(groupMemberNameAndNumbers == null) return CircularProgressIndicator();
-              String key = groupMemberNameAndNumbers.keys.elementAt(index);
+              String name = groupMemberNameAndNumbers.keys.elementAt(index);///name of the member
+              bool isVisible = false;
+
+              /// if (admin => number and name => number is same) &&
+              /// (name(purva,rohan,admin) should not be 'admin') because in map admin => number is also a key value pair
+              /// so, in order to not display title('admin') and subtitle(number) in UI, we check
+              /// that the key is not 'admin'
+              if((name != 'admin') && (groupMemberNameAndNumbers['admin'] == groupMemberNameAndNumbers[name])){
+                isVisible = true;
+
+              }
               return ListTile(
                 title: GestureDetector(
                   onTap:  (){
                     if(widget.isGroup == true){
-                      DeleteMembersFromGroup().deleteAGroupMember(groupMemberNameAndNumbers[key], widget.conversationId);
+                      DeleteMembersFromGroup().deleteAGroupMember(groupMemberNameAndNumbers[name], widget.conversationId);
                       setState(() {
                         String removed = widget.listOfGroupMemberNumbers.removeAt(index);
                       });
                     }
                   },
-                    child: CustomText(text:key)
+                    child: name != 'admin' ?CustomText(text:name) : CustomText(text: '',)///name
+                ),
+                subtitle:Visibility(
+                  visible: isVisible,
+                  child: CustomText(text: 'admin',),
                 ),
               );
             }

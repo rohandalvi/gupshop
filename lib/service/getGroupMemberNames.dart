@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/service/getConversationDetails.dart';
 
@@ -7,16 +8,18 @@ import 'package:gupshop/service/getConversationDetails.dart';
 /// When the names dont match, find the names from "users" collection
 class GetGroupMemberNames{
 
-  Future<dynamic> getMapOfNameAndNumbers(String userNumber, List<dynamic> listOfFriendNumbers, String userName) async{
+  Future<dynamic> getMapOfNameAndNumbers(String userNumber, List<dynamic> listOfFriendNumbers, String userName, String conversationId) async{
     Map<dynamic, String> result = new Map();
-    result = await helper(userNumber, listOfFriendNumbers, userName);
+    result = await helper(userNumber, listOfFriendNumbers, userName, conversationId);
     return result;
   }
 
 
-   getMemberNameNumbers(String userNumber, List<dynamic> numbers, String userName) async {
+   getMemberNameNumbers(String userNumber, List<dynamic> numbers, String userName, String conversationId) async {
     Map<dynamic, String> map = new Map();
     map[userName] = userNumber;
+    map['admin'] = await GetConversationDetails().knowWhoIsAdmin(conversationId);
+
     await Future.wait(numbers.map((element) async{
 
       String isFriend = await GetConversationDetails().conversationWith(userNumber, element);
@@ -30,8 +33,9 @@ class GetGroupMemberNames{
   }
 
 
-  Future<Map<dynamic, String>> helper(String userNumber, List<dynamic> listOfFriendNumbers, String userName) async {
-    return await getMemberNameNumbers(userNumber, listOfFriendNumbers, userName);
+  Future<Map<dynamic, String>> helper(String userNumber, List<dynamic> listOfFriendNumbers, String userName, String conversationId) async {
+    return await getMemberNameNumbers(userNumber, listOfFriendNumbers, userName, conversationId);
   }
+
 
 }

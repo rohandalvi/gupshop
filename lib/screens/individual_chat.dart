@@ -262,7 +262,10 @@ class _IndividualChatState extends State<IndividualChat> {
           title: GestureDetector(
               child: CustomText(text: friendName,),
             onTap:(){
-                DialogHelper(userNumber: userPhoneNo, listOfGroupMemberNumbers: listOfFriendNumbers, conversationId: conversationId, isGroup: groupExits).customShowDialog(context);
+                if(notGroupMemberAnymore == false){
+                  DialogHelper(userNumber: userPhoneNo, listOfGroupMemberNumbers: listOfFriendNumbers, conversationId: conversationId, isGroup: groupExits).customShowDialog(context);
+                }
+
             }
           ),
           subtitle: CustomText(text: 'Put last seen here',).subTitle(),

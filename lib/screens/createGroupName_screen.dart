@@ -125,7 +125,7 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                   }
 
                   if(groupName != null){
-                    CustomNavigator().navigateToIndividualChat(context, id, userName, userPhoneNo, groupName, listOfNumbersInAGroup, null);
+                    CustomNavigator().navigateToIndividualChat(context, id, userName, userPhoneNo, groupName, listOfNumbersInAGroup, null, false);
                   }
                 },
               ),

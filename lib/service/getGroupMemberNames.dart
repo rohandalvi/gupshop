@@ -9,6 +9,7 @@ import 'package:gupshop/service/getConversationDetails.dart';
 class GetGroupMemberNames{
 
   Future<dynamic> getMapOfNameAndNumbers(String userNumber, List<dynamic> listOfFriendNumbers, String userName, String conversationId) async{
+    print("listOfFriendNumbers: $listOfFriendNumbers");
     Map<dynamic, String> result = new Map();
     result = await helper(userNumber, listOfFriendNumbers, userName, conversationId);
     return result;

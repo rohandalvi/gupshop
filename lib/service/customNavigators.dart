@@ -46,7 +46,7 @@ class CustomNavigator{
     );
   }
 
-  navigateToIndividualChat(BuildContext context, String conversationId, String userName, String userPhoneNo, String friendName,List<dynamic> listOfFriendsNumbers,  var data ){
+  navigateToIndividualChat(BuildContext context, String conversationId, String userName, String userPhoneNo, String friendName,List<dynamic> listOfFriendsNumbers,  var data, bool notGroupMemberAnymore ){
     print("listOfFriendsNumbers in navigateToIndividualChat: $listOfFriendsNumbers");
     Navigator.push(
       context,
@@ -58,6 +58,7 @@ class CustomNavigator{
           friendName:friendName,
           forwardMessage: data,
           listOfFriendNumbers: listOfFriendsNumbers,
+          notGroupMemberAnymore: notGroupMemberAnymore,
         ),
       ),
     );

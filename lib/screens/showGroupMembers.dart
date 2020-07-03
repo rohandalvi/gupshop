@@ -58,6 +58,38 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
   _showGroupMemberNames(Map<dynamic, String> groupMemberNameAndNumbers, BuildContext context){
     return Stack(
       children: <Widget>[
+        Visibility(/// exit from group, user exits self
+          visible: widget.isGroup,
+          child: GestureDetector(
+            onTap:  (){
+              if(widget.isGroup == true){
+                DeleteMembersFromGroup().deleteAGroupMember(widget.userNumber, widget.conversationId);
+                setState(() {
+                  bool removed = widget.listOfGroupMemberNumbers.remove(widget.userNumber);
+                });
+              }
+            },
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
+                width: 100,
+                child: FittedBox(
+                  child: CustomFloatingActionButton(
+                    child: IconButton(
+                      icon: SvgPicture.asset('images/exit.svg',),
+                      onPressed: () async{
+                        userName = await UserDetails().getUserNameFuture();
+                        CustomNavigator().navigateToCreateGroup(context, userName, widget.userNumber, true, widget.conversationId);
+                      },
+                      //SvgPicture.asset('images/downChevron.svg',)
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
         ListView.builder(
             itemCount: groupMemberNameAndNumbers.length,
             itemBuilder: (BuildContext context, int index) {
@@ -74,20 +106,23 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
 
               }
               return ListTile(
-                title: GestureDetector(
+                title: GestureDetector( /// removing else from group
                   onTap:  (){
                     if(widget.isGroup == true){
+                      /// delete from conversationMetadata
                       DeleteMembersFromGroup().deleteAGroupMember(groupMemberNameAndNumbers[name], widget.conversationId);
+                      /// delete from user's friend collection
+                      DeleteMembersFromGroup().deleteFromFriendsCollection(groupMemberNameAndNumbers[name], widget.conversationId);
                       setState(() {
-                        String removed = widget.listOfGroupMemberNumbers.removeAt(index);
+                        bool removed = widget.listOfGroupMemberNumbers.remove(groupMemberNameAndNumbers[name]);
                       });
                     }
                   },
-                    child: name != 'admin' ?CustomText(text:name) : CustomText(text: '',)///name
+                    child: name != 'admin' ? CustomText(text:name) : CustomText(text: '',)///name
                 ),
                 subtitle:Visibility(
                   visible: isVisible,
-                  child: CustomText(text: 'admin',),
+                  child: CustomText(text: 'admin',).subTitle(),
                 ),
               );
             }

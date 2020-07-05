@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/service/checkIfGroup.dart';
+import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customText.dart';
 

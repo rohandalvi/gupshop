@@ -10,35 +10,32 @@ import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/widgets/customText.dart';
-class ContactSearch extends StatefulWidget {
+class ContactSearch<T> extends StatefulWidget {
   bool createGroupSearch;
   final String userPhoneNo;
   final String userName;
   final data;
   final Widget Function(DocumentSnapshot item, int index) onItemFound;
-  final Future<List<DocumentSnapshot>> Function(String text) onSearch;
+  final Future<List<T>> Function(String text) onSearch;
 
   ContactSearch({@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch, this.createGroupSearch});
 
   @override
-  _ContactSearchState createState() => _ContactSearchState(userPhoneNo: userPhoneNo, userName: userName, data: data, onItemFound: onItemFound, onSearch: onSearch, createGroupSearch: createGroupSearch);
+  _ContactSearchState createState() => _ContactSearchState(userPhoneNo: userPhoneNo, userName: userName, data: data,createGroupSearch: createGroupSearch);
 }
 
-class _ContactSearchState extends State<ContactSearch> {
+class _ContactSearchState<T> extends State<ContactSearch<T>> {
   bool createGroupSearch;
   final String userPhoneNo;
   final String userName;
   final data;
-  final Widget Function( DocumentSnapshot item, int index) onItemFound;/// make documentSnapshot dynamic
-  final Future<List<DocumentSnapshot>> Function(String text) onSearch;
 
   List<DocumentSnapshot> list;
 
   _ContactSearchState(
-      {@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch, this.createGroupSearch});
+      {@required this.userPhoneNo, @required this.userName, this.data, this.createGroupSearch});
 
   void initState() {
-    print("in contact_search iniit");
     if(createGroupSearch == null) createGroupSearch=false;
     createSearchSuggestions();/// to get the list of contacts as suggestion
     super.initState();
@@ -86,8 +83,8 @@ class _ContactSearchState extends State<ContactSearch> {
               fontSize: 16,
             ),
           ),
-          onSearch: onSearch == null? searchList : onSearch,
-          onItemFound: onItemFound == null ? (DocumentSnapshot doc, int index) {
+          onSearch: widget.onSearch == null? searchList : widget.onSearch,
+          onItemFound: widget.onItemFound == null ? (DocumentSnapshot doc, int index) {
             List<dynamic> friendNo;
             /// individualChats have friendNumber list in phone and groupChats have
             /// friendNumber list in phoneList.
@@ -127,7 +124,7 @@ class _ContactSearchState extends State<ContactSearch> {
                 );
               },
             );
-          } : onItemFound,
+          } : widget.onItemFound,
         ),
       ),
     );

@@ -15,13 +15,19 @@ import 'package:gupshop/widgets/customText.dart';
 
 import 'customNavigators.dart';
 
-class CreateGroup extends StatefulWidget {
+class CreateGroup<T> extends StatefulWidget {
   String userPhoneNo;
   String userName;
   bool shouldAddNewMemberToTheGroup;
   String conversationId;///required for adding new member to the group
+  Widget title;
+  bool value;
+  ValueChanged<bool> onChanged;
+  final Future<List<T>> Function(String text) onSearch;
+  final Widget Function(T item, int index) onItemFound;
 
-  CreateGroup({@required this.userPhoneNo, @required this.userName,this.shouldAddNewMemberToTheGroup, this.conversationId});
+
+  CreateGroup({@required this.userPhoneNo, @required this.userName,this.shouldAddNewMemberToTheGroup, this.conversationId, this.title, this.value, this.onChanged, this.onSearch, this.onItemFound});
 
   @override
   _CreateGroupState createState() => _CreateGroupState(userPhoneNo:userPhoneNo, userName:userName, shouldAddNewMemberToTheGroup: shouldAddNewMemberToTheGroup, conversationId:conversationId);
@@ -34,7 +40,7 @@ class CreateGroup extends StatefulWidget {
 /// If there is even one contact selected then the create group iconButton appears
 
 
-class _CreateGroupState extends State<CreateGroup> {
+class _CreateGroupState<T> extends State<CreateGroup<T>> {
   String userPhoneNo;
   String userName;
   bool shouldAddNewMemberToTheGroup;
@@ -83,32 +89,33 @@ class _CreateGroupState extends State<CreateGroup> {
   /// ContactSearch is using friends collection
   /// name is displayed from that list.
   ///
-  contactList(BuildContext context){
-    return ContactSearch(
+  Widget contactList(BuildContext context){
+    return ContactSearch<T>(
       createGroupSearch: true,
       userName: userName,
       userPhoneNo: userPhoneNo,
       data: null,
-      onItemFound: (DocumentSnapshot doc, int index){
+      onSearch: widget.onSearch,
+      onItemFound: widget.onItemFound==null ? (DocumentSnapshot doc, int index){
         return Container(
           child: CheckboxListTile(
 //            secondary: map[doc.data["nameList"][0]] == true ?IconButton(
 //                icon: SvgPicture.asset('images/done.svg',)
 //            ) : null,
             controlAffinity:ListTileControlAffinity.leading ,
-            title: CustomText(text: doc.data["nameList"][0]) == null ? CustomText(text: 'loading',):CustomText(text: doc.data["nameList"][0]),
+            title: widget.title==null ? (CustomText(text: doc.data["nameList"][0]) == null ? CustomText(text: 'loading',):CustomText(text: doc.data["nameList"][0])) : widget.title,
             activeColor: primaryColor,
-            value: map[doc.data["phone"][0]] == null ? false : map[doc.data["phone"][0]],/// if value of a key in map(a phonenumber) is false or true
+            value: widget.value==null ? (map[doc.data["phone"][0]] == null ? false : map[doc.data["phone"][0]]) : widget.value,/// if value of a key in map(a phonenumber) is false or true
             //list[index],/// at first all the values would be false
-            onChanged: (bool val){
+            onChanged: widget.onChanged==null ? (bool val){
               setState(() {
                 map[doc.data["phone"][0]] = val; /// setting the new value as selected by user
               });
-            },
+            } : widget.onChanged,
           ),
         );
         //title: CustomText(text: doc.data["nameList"][0]),
-      },
+      } : widget.onItemFound,
     );
   }
 

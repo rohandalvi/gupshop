@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/screens/individual_chat.dart';
-import 'package:gupshop/service/checkIfGroup.dart';
+import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/deleteChats.dart';
 import 'package:gupshop/service/deleteHelper.dart';
@@ -181,17 +181,6 @@ class ChatListState extends State<ChatList> {
                             DeleteMembersFromGroup().deleteFromRecentChats(memberList[i], documentID);
                           }
                         }
-//                        else{
-////                          DeleteChats().deleteIndividualChat(friendNumber, documentID);
-//                          ///for individualChat:
-//                          ///friends collection:
-//                          /// No need to delete from friends collection, as he is still a friend, only
-//                          /// the conversation is deleted, so delete only the recentChats. Do not even
-//                          /// delete from conversationMetadata
-//                          ///recentChats:
-//                          DeleteMembersFromGroup().deleteFromRecentChats(myNumber, documentID);
-//                        }
-//                      });
                     },
                     child: ListTile( ///main widget that creates the message box
                       leading: FutureBuilder(

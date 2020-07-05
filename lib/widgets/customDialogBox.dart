@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/screens/showGroupMembers.dart';
+import 'package:gupshop/widgets/customText.dart';
 
 class CustomDialogBox extends StatelessWidget {
   final Widget child;
@@ -55,3 +57,4 @@ class DialogHelper{
   }
 
 }
+

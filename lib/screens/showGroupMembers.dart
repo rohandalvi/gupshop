@@ -6,8 +6,11 @@ import 'package:gupshop/service/addNewGroupMember.dart';
 import 'package:gupshop/service/createGroup.dart';
 import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/deleteMembersFromGroup.dart';
+import 'package:gupshop/service/getConversationDetails.dart';
 import 'package:gupshop/service/getGroupMemberNames.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
+import 'package:gupshop/widgets/customDialogForConfirmation.dart';
+import 'package:gupshop/widgets/customDismissible.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -39,7 +42,7 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
                 future: GetGroupMemberNames().getMapOfNameAndNumbers(widget.userNumber, widget.listOfGroupMemberNumbers, userName, widget.conversationId),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    return _showGroupMemberNames(snapshot.data, context); //ToDo- check is false is right here
+                    return _showGroupMemberNames(snapshot.data, context);
                   }
                   return Center(
                     child: CircularProgressIndicator(),
@@ -58,39 +61,34 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
   _showGroupMemberNames(Map<dynamic, String> groupMemberNameAndNumbers, BuildContext context){
     return Stack(
       children: <Widget>[
-        Visibility(/// exit from group, user exits self
+        Visibility(/// exit icon, exit from group, user exits self
           visible: widget.isGroup,
-          child: GestureDetector(
-            onTap:  (){
-              if(widget.isGroup == true){
-                DeleteMembersFromGroup().deleteAGroupMember(widget.userNumber, widget.conversationId);
-                setState(() {
-                  bool removed = widget.listOfGroupMemberNumbers.remove(widget.userNumber);
-                });
-              }
-            },
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
-                width: 100,
-                child: FittedBox(
-                  child: CustomFloatingActionButton(
-                    child: IconButton(
-                      icon: SvgPicture.asset('images/exit.svg',),
-                      onPressed: () async{
-                        userName = await UserDetails().getUserNameFuture();
-                        CustomNavigator().navigateToCreateGroup(context, userName, widget.userNumber, true, widget.conversationId);
-                      },
-                      //SvgPicture.asset('images/downChevron.svg',)
-                    ),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
+              width: 100,
+              child: FittedBox(
+                child: CustomFloatingActionButton(
+                  child: IconButton(
+                    icon: SvgPicture.asset('images/exit.svg',),
+                    onPressed: (){/// remove yourself from group
+                      if(widget.isGroup == true){
+                        DeleteMembersFromGroup().deleteAGroupMember(widget.userNumber, widget.conversationId);
+                        DeleteMembersFromGroup().deleteFromFriendsCollection(widget.userNumber, widget.conversationId);
+                        setState(() {
+                          bool removed = widget.listOfGroupMemberNumbers.remove(widget.userNumber);
+                        });
+                      }
+                    },
                   ),
                 ),
               ),
             ),
           ),
         ),
-        ListView.builder(
+        ListView.builder(/// displaying names of group members
+            shrinkWrap: true,
             itemCount: groupMemberNameAndNumbers.length,
             itemBuilder: (BuildContext context, int index) {
               if(groupMemberNameAndNumbers == null) return CircularProgressIndicator();
@@ -103,51 +101,77 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
               /// that the key is not 'admin'
               if((name != 'admin') && (groupMemberNameAndNumbers['admin'] == groupMemberNameAndNumbers[name])){
                 isVisible = true;
-
               }
-              return ListTile(
-                title: GestureDetector( /// removing else from group
-                  onTap:  (){
-                    if(widget.isGroup == true){
-                      /// delete from conversationMetadata
-                      DeleteMembersFromGroup().deleteAGroupMember(groupMemberNameAndNumbers[name], widget.conversationId);
-                      /// delete from user's friend collection
-                      DeleteMembersFromGroup().deleteFromFriendsCollection(groupMemberNameAndNumbers[name], widget.conversationId);
-                      setState(() {
-                        bool removed = widget.listOfGroupMemberNumbers.remove(groupMemberNameAndNumbers[name]);
-                      });
-                    }
-                  },
-                    child: name != 'admin' ? CustomText(text:name) : CustomText(text: '',)///name
-                ),
-                subtitle:Visibility(
-                  visible: isVisible,
-                  child: CustomText(text: 'admin',).subTitle(),
+              return Visibility(
+                visible: name != 'admin',
+                child: ListTile(
+                  dense: true,
+                  //contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
+                  title: InkWell(
+                    onTap:  () async{/// if user is admin, remove other members from the group
+                      String adminNumber = await GetConversationDetails().knowWhoIsAdmin(widget.conversationId);
+                      if(widget.isGroup == true && adminNumber == widget.userNumber){
+                        /// take a list for all the members to be deleted
+                        /// pass ti deleteAGroupMember and deleteFromFriendsCollection in for each
+
+                        /// show dialog to confirm the delete:
+                        bool shouldDelete = await CustomDialogForConfirmation().dialog(context);
+
+                        if(shouldDelete == true){
+                          /// delete from conversationMetadata
+                          DeleteMembersFromGroup().deleteAGroupMember(groupMemberNameAndNumbers[name], widget.conversationId);
+                          /// delete from user's friend collection
+                          DeleteMembersFromGroup().deleteFromFriendsCollection(groupMemberNameAndNumbers[name], widget.conversationId);
+                          setState(() {
+                            bool removed = widget.listOfGroupMemberNumbers.remove(groupMemberNameAndNumbers[name]);
+                          });
+                        }
+                      }
+                    },
+                      child: CustomText(text:name)
+                      //name != 'admin' ? CustomText(text:name) : CustomText(text: '',)///name
+                  ),
+                  subtitle:Visibility(
+                    visible: isVisible,
+                    child: CustomText(text: 'admin',).subTitle(),
+                  ),
                 ),
               );
             }
         ),
-        Visibility(
-          visible: widget.isGroup,
-          child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
-                width: 100,
-                child: FittedBox(
-                  child: CustomFloatingActionButton(
-                    child: IconButton(
-                        icon: SvgPicture.asset('images/add.svg',),
-                      onPressed: () async{
-                          userName = await UserDetails().getUserNameFuture();
-                          CustomNavigator().navigateToCreateGroup(context, userName, widget.userNumber, true, widget.conversationId);
-                      },
-                      //SvgPicture.asset('images/downChevron.svg',)
-                    ),
-                  ),
+        FutureBuilder(
+          future: GetConversationDetails().knowWhoIsAdmin(widget.conversationId),
+          builder: (context, snapshot) {
+            String adminNumber;
+            if (snapshot.connectionState == ConnectionState.done) {
+              adminNumber = snapshot.data;
+              return Visibility(/// add members, visible only to admin
+                visible: widget.isGroup && adminNumber == widget.userNumber,
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
+                      width: 100,
+                      child: FittedBox(
+                        child: CustomFloatingActionButton(
+                          child: IconButton(
+                            icon: SvgPicture.asset('images/add.svg',),
+                            onPressed: () async{
+                              userName = await UserDetails().getUserNameFuture();
+                              CustomNavigator().navigateToCreateGroup(context, userName, widget.userNumber, true, widget.conversationId);
+                            },
+                            //SvgPicture.asset('images/downChevron.svg',)
+                          ),
+                        ),
+                      ),
+                    )
                 ),
-              )
-          ),
+              );
+            }return Center(
+              child: Container(),
+            );
+
+          }
         ),
       ],
     );

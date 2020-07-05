@@ -7,7 +7,7 @@ import 'package:flutter_contact/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
-import 'package:gupshop/service/checkIfGroup.dart';
+import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';

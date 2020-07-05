@@ -145,6 +145,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
 
     if(createGroupSearch){
       return list.documents.where((l) =>
+      l.data["isMe"] == null &&
       l.data["groupName"] == null && ///to take group out of search
       l.data["nameList"][0]
           .toLowerCase()

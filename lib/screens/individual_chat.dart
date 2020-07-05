@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
@@ -18,6 +19,7 @@ import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/service/sendAndDisplayMessages.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/service/viewPicturesVideosFromChat.dart';
+import 'package:gupshop/widgets/CustomFutureBuilder.dart';
 import 'package:gupshop/widgets/blankScreen.dart';
 import 'package:gupshop/widgets/buildMessageComposer.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
@@ -46,6 +48,7 @@ class IndividualChat extends StatefulWidget {
   final Map forwardMessage;
   final bool notGroupMemberAnymore;
 
+
   IndividualChat(
       {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName,this.forwardMessage, this.listOfFriendNumbers, this.notGroupMemberAnymore})
       : super(key: key);
@@ -58,13 +61,16 @@ class IndividualChat extends StatefulWidget {
       forwardMessage: forwardMessage,
       listOfFriendNumbers: listOfFriendNumbers,
       notGroupMemberAnymore: notGroupMemberAnymore,
-  );
+      presence: new Presence(userPhoneNo)
+    );
+
 
 }
 
 
 
 class _IndividualChatState extends State<IndividualChat> {
+
   String conversationId;
   final String userPhoneNo;
   final String userName;
@@ -72,12 +78,13 @@ class _IndividualChatState extends State<IndividualChat> {
   List<dynamic> listOfFriendNumbers;
   final Map forwardMessage;
   final bool notGroupMemberAnymore;
+  final Presence presence;
 
   static int numberOfImageInConversation = 0;///for giving number to the images sent in conversation for
   ///storing in firebase
 
   _IndividualChatState(
-      {@required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, this.forwardMessage, this.listOfFriendNumbers, this.notGroupMemberAnymore});
+      {@required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, this.forwardMessage, this.listOfFriendNumbers, this.notGroupMemberAnymore, this.presence});
 
   String value = ""; //TODo
 
@@ -99,7 +106,6 @@ class _IndividualChatState extends State<IndividualChat> {
   String friendN;
   var groupExits;
   String groupName;
-
 
   checkIfGroup() async{
     bool temp = await CheckIfGroup().ifThisIsAGroup(conversationId);
@@ -268,7 +274,8 @@ class _IndividualChatState extends State<IndividualChat> {
 
             }
           ),
-          subtitle: CustomText(text: 'Put last seen here',).subTitle(),
+          //CustomText(text: presence.getStatus(friendN)).subTitle()
+          subtitle: new CustomFutureBuilder(future: presence.getStatus(friendN), dataReadyWidgetType: CustomText, inProgressWidget: CircularProgressIndicator()),
           trailing: Wrap(
             children: <Widget>[
               IconButton(
@@ -836,6 +843,8 @@ class _IndividualChatState extends State<IndividualChat> {
 //    }
 //
 //  }
+
+
 }
 
 

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/screens/bazaarHome_screen.dart';
 import 'package:gupshop/screens/empty_chatList.dart';
 import 'package:gupshop/models/message_model.dart';
@@ -17,12 +18,15 @@ class Home extends StatefulWidget{
   final String userPhoneNo;
   final String userName;
   List<String> phoneNumberList;
-
+  Presence presence;
   Home({@required this.userPhoneNo, @required this.userName, @required this.phoneNumberList});
 
 
   @override
-  _HomeState createState() => _HomeState(userPhoneNo: userPhoneNo, userName: userName, phoneNumberList: phoneNumberList);
+  _HomeState createState() {
+    presence = new Presence(this.userPhoneNo);
+    return _HomeState(userPhoneNo: userPhoneNo, userName: userName, phoneNumberList: phoneNumberList);
+  }
 }
 
 class _HomeState extends State<Home> {

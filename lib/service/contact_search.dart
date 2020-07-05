@@ -77,7 +77,6 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
           /// doesnt accept CircularProgressIndicator() we are using new List().
           hintText: 'Search contacts',
           hintStyle: GoogleFonts.openSans(
-            //inconsolata
             textStyle: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 16,

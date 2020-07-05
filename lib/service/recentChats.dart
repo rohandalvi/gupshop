@@ -54,7 +54,7 @@ class RecentChats{
 
   pushRecentChatsToAllNumbersInvolvedInFirebase(String number,String friendName) async{
     DateTime timeStamp = message["timeStamp"];
-    Firestore.instance.collection("recentChats").document(number).collection("conversations").document(convId).setData({"message": message, "name": friendName, "timeStamp":timeStamp});
+    Firestore.instance.collection("recentChats").document(number).collection("conversations").document(convId).setData({"message": message, "name": friendName, "timeStamp":timeStamp, "read": false});
   }
 
 

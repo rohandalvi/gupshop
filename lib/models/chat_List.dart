@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
@@ -231,11 +232,21 @@ class ChatListState extends State<ChatList> {
                       ): lastMessageIsImage == true ? CustomText(text: lastMessage) :
                       CustomText(text: lastMessage).textWithOverFlow(),/// for dot dot at the end of the message
                       //dense: true,
-                      trailing: CustomText( //time
-                        text: DateFormat("dd MMM kk:mm").format(
-                            DateTime.fromMillisecondsSinceEpoch(int.parse(
-                                timeStamp.millisecondsSinceEpoch.toString()))),
-                        fontSize: 12,
+                      trailing: Flex(/// renderflex overflow by 8 pixels, use flex -> expanded(icon as 1 child) and use text as other child
+                        direction: Axis.vertical,
+                        children: <Widget>[
+                          Expanded(
+                            child: IconButton(
+                                icon: SvgPicture.asset('images/new.svg',),
+                            ),
+                          ),
+                          CustomText( //time
+                            text: DateFormat("dd MMM kk:mm").format(
+                                DateTime.fromMillisecondsSinceEpoch(int.parse(
+                                    timeStamp.millisecondsSinceEpoch.toString()))),
+                            fontSize: 12,
+                          ),
+                        ],
                       ),
                       onTap: () {
                         Navigator.push(

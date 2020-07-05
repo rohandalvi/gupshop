@@ -360,8 +360,6 @@ class _IndividualChatState extends State<IndividualChat> {
 
                             bool isLoading  = true;//for circularProgressIndicator
 
-
-
                             if(documentList[index].data["videoURL"] != null){
                               videoURL = documentList[index].data["videoURL"];
                               controller = VideoPlayerController.network(videoURL);
@@ -385,7 +383,6 @@ class _IndividualChatState extends State<IndividualChat> {
                               onTap: (){
                                 String openMessage;
                                 bool isPicture;
-                                print("onTap pressed");
                                // FocusScope.of(context).unfocus();///Not working!!
                                 if(messageBody != null){
                                   openMessage = null;
@@ -412,7 +409,6 @@ class _IndividualChatState extends State<IndividualChat> {
                                     String forwardMessage;
                                     String forwardImage;
                                     String forwardVideo;
-                                    print("on longPress: $messageBody");
 
                                     ///extract the message in a variable called forwardMessage(ideally there should be
                                     /// a list of messages and not just one variable..this is a @todo )

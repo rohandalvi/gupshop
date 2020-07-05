@@ -16,12 +16,14 @@ class Presence {
   }
 
   Future<String> getStatus(String number) async{
-    DataSnapshot once = await database.reference().child(PRESENCE).child(number).once();
+    DataSnapshot snapshot = await database.reference().child(PRESENCE).child(number).once();
     try {
-      DateTime.parse(once.toString());
-      return 'Last Seen '+timeago.format(DateTime.parse(once.toString()));
+      DateTime.parse(snapshot.value);
+      var s = 'Last Seen '+timeago.format(DateTime.parse(snapshot.value));
+      return s;
     } catch(e) {
-      return once.toString();
+
+      return snapshot.value.toString();
     }
   }
 

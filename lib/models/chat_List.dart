@@ -145,6 +145,7 @@ class ChatListState extends State<ChatList> {
                   }
                   Timestamp timeStamp = snapshot.data.documents[index]
                       .data["message"]["timeStamp"];
+                  bool read = snapshot.data.documents[index].data["read"];
 
                   String friendNumber;
                   List<dynamic> memberList;
@@ -235,13 +236,16 @@ class ChatListState extends State<ChatList> {
                       trailing: Flex(/// renderflex overflow by 8 pixels, use flex -> expanded(icon as 1 child) and use text as other child
                         direction: Axis.vertical,
                         children: <Widget>[
-                          Expanded(
-                            child: IconButton(
-                                icon: SvgPicture.asset('images/new.svg',),
+                          Visibility(/// show the new icon only if the message is unread
+                            visible: read==false,
+                            child: Expanded(
+                              child: IconButton(
+                                  icon: SvgPicture.asset('images/new.svg',),
+                              ),
                             ),
                           ),
                           CustomText( //time
-                            text: DateFormat("dd MMM kk:mm").format(
+                            text: DateFormat("dd MMM kk:mm").format(/// todo- change to local time
                                 DateTime.fromMillisecondsSinceEpoch(int.parse(
                                     timeStamp.millisecondsSinceEpoch.toString()))),
                             fontSize: 12,

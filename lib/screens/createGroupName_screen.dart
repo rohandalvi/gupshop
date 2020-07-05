@@ -72,6 +72,7 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                     }
                   },
                   labelText: "Enter your Group Name",
+                  maxLength: 20,
                 ),
 
                 padding: EdgeInsets.only(left: 20, top: 35, right: 20),

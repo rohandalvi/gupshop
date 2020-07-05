@@ -101,6 +101,6 @@ class CreateFriendsCollection{
   pushNumberToFriendsCollection(String number, List<String> userNames){
     List<String> listOfNumbers = new List();
     listOfNumbers.add(number);
-    Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': listOfNumbers, 'nameList' : userNames, 'groupName': null, 'isMe': null});/// removed merge:true from here
+    Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': listOfNumbers, 'nameList' : userNames, 'groupName': null, 'isMe': null}, merge: true);/// removed merge:true from here
   }
 }

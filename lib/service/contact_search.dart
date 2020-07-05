@@ -96,6 +96,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
             /// if it is the first time conversation the there will be no conversationId
             /// it will be created in individualChat, if a null conversationId is sent
             String conversationId = doc.data["conversationId"];
+            print("conversationId in search : $friendNo: $conversationId");
             //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, contactPhoneNumber)
 
             return ListTile(
@@ -110,6 +111,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
                   /// forward messages needs to be given this conversation's conversationId:
                   ///      forwardMessage["conversationId"] = conversationId;
                   data["conversationId"] = conversationId;
+                  print("data[conversationId] = ${data["conversationId"]}");
                 }
                 //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, friendNo);
                 CustomNavigator().navigateToIndividualChat(
@@ -145,7 +147,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
 
     if(createGroupSearch){
       return list.documents.where((l) =>
-      l.data["isMe"] == null &&
+      l.data["isMe"] == null && /// to remove myName from search
       l.data["groupName"] == null && ///to take group out of search
       l.data["nameList"][0]
           .toLowerCase()

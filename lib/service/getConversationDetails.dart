@@ -27,4 +27,9 @@ class GetConversationDetails{
     DocumentSnapshot adminNumberFuture = await Firestore.instance.collection("conversationMetadata").document(conversationId).get();
     return adminNumberFuture.data["admin"];
   }
+
+  getGroupName(String conversationId) async{
+    DocumentSnapshot groupNameFuture = await Firestore.instance.collection("conversationMetadata").document(conversationId).get();
+    return groupNameFuture.data["admin"];
+  }
 }

@@ -144,7 +144,6 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
     ///ToDo- here not just 0, but on every index of the list
 
     if(createGroupSearch){
-      print("in createGroupSearch");
       return list.documents.where((l) =>
       l.data["groupName"] == null && ///to take group out of search
       l.data["nameList"][0]
@@ -169,6 +168,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
 ///          .where('phone', isEqualTo: userPhoneNo) /// for not showing myName in createGroup search
           .where('groupName', isNull: true)
 ///          .orderBy("nameList", descending: false) /// for showing names alphabetically
+          .where('isMe', isNull: true)/// to remove our name from searchSuggestions, we need to add this to other friends
           .getDocuments();
 //      print("temp.data: ${temp.documents[0].data["nameList"][0]}");
 //
@@ -176,6 +176,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
 //      for(int i=0; i< dcList.length; i++){
 //
 //      }
+    print("temp: ${temp.documents}");
 
     }
     else{

@@ -64,9 +64,6 @@ class CreateFriendsCollection{
         number = number.replaceAll('-', '');
         if (await _getCommonContacts(number)==true){
           ///add to firebase 'friends_number' collection
-//          number = number.replaceAll(' ', '');//the format given by Item is => +1 585-754-7599 and we want no spaces and no dash, so => replaceAll
-//          number = number.replaceAll('-', '');
-
           ///if name only is to be passed to firebase:
           ///_pushNumberToFriendsCollection(number, displayName);
           pushNumberToFriendsCollection(number, userNames);
@@ -104,13 +101,6 @@ class CreateFriendsCollection{
   pushNumberToFriendsCollection(String number, List<String> userNames){
     List<String> listOfNumbers = new List();
     listOfNumbers.add(number);
-    print("number in _pushNumberToFriendsCollection: $number");
-    Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': listOfNumbers, 'nameList' : userNames, 'groupName': null},merge: true);
+    Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': listOfNumbers, 'nameList' : userNames, 'groupName': null, 'isMe': null});/// removed merge:true from here
   }
-
-//  _pushNumberToFriendsCollection(String number){
-//    print("number in _pushNumberToFriendsCollection: $number");
-//    Firestore.instance.collection("friends_$userPhoneNo").document(number).setData({'phone': number,},merge: true);
-//  }
-
 }

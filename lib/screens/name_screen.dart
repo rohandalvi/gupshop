@@ -107,7 +107,7 @@ class _NameScreenState extends State<NameScreen> {
                     phoneNumberList = new List();
                     phoneNumberList.add(userPhoneNo);
                     ///groupName is set  to null, to identify group from individual which is required in createGroup page to show only individuals and not group in search
-                    Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': phoneNumberList, 'nameList' : nameList, 'groupName' : null});///necessary to create data, orsearch in contact search page shows error
+                    Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': phoneNumberList, 'nameList' : nameList, 'groupName' : null, 'isMe': true});///necessary to create data, orsearch in contact search page shows error
 
                     setState(() {
                       prefs.setString('userName', userName);

@@ -13,7 +13,7 @@ class AddToFriendsCollection{
     }
     else {
       String frienN = friendNumberList[0];
-      Firestore.instance.collection("friends_$userPhoneNo").document(frienN).setData({'phone': friendNumberList, 'nameList' : nameList, 'conversationId': id, 'groupName': groupName},merge: true);
+      Firestore.instance.collection("friends_$userPhoneNo").document(frienN).setData({'phone': friendNumberList, 'nameList' : nameList, 'conversationId': id, 'groupName': groupName, 'isMe': null},merge: true);
     }
 
   }

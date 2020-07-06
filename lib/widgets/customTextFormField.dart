@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,14 +13,17 @@ class CustomTextFormField extends StatelessWidget {
   //static final formKey = new GlobalKey<FormState>();
   GlobalKey<FormState> formKeyCustomText;
   int maxLength;
+  String initialValue;
+  InputBorder enabledBorder;
 
-  CustomTextFormField({this.onFieldSubmitted, this.labelText, this.formKeyCustomText, this.onChanged, this.maxLength});
+  CustomTextFormField({this.onFieldSubmitted, this.labelText, this.formKeyCustomText, this.onChanged, this.maxLength, this.initialValue, this.enabledBorder});
 
   @override
   Widget build(BuildContext context) {
     return Form(
       key : formKeyCustomText,
       child: TextFormField(
+        initialValue: initialValue,
         maxLength: maxLength,
         cursorColor: primaryColor,
         decoration: new InputDecoration(
@@ -37,9 +42,9 @@ class CustomTextFormField extends StatelessWidget {
           focusedBorder: new UnderlineInputBorder(
             borderSide: new BorderSide(color:ourBlack ),
           ),
-          enabledBorder: new UnderlineInputBorder(
+          enabledBorder: enabledBorder == null ?new UnderlineInputBorder(
             borderSide: new BorderSide(color: ourBlack ),
-          ),
+          ): enabledBorder,
         ),
         keyboardType: TextInputType.text,
         onChanged: onChanged,

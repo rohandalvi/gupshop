@@ -13,6 +13,7 @@ import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customDismissible.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customText.dart';
+import 'package:gupshop/widgets/customTextFormField.dart';
 
 class ShowGroupMembers extends StatefulWidget {
   String userNumber;
@@ -61,17 +62,25 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
   _showGroupMemberNames(Map<dynamic, String> groupMemberNameAndNumbers, BuildContext context){
     return Scaffold(
 
-      /// exit button:
+      /// Group name and exit button:
         appBar: AppBar(
             elevation: 0,
             automaticallyImplyLeading: false,
 
+            /// group name:
             title: FutureBuilder(
                 future: GetConversationDetails().getGroupName(widget.conversationId),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     String groupName = snapshot.data;
-                    return CustomText(text: groupName,fontSize: 18,);
+                    return InkWell(
+                        child: CustomTextFormField(
+                          initialValue: groupName,
+                          labelText: 'Change group name',
+                          maxLength: 20,
+                          enabledBorder: null,
+                        )
+                    );
                   }return Center(
                     child: CircularProgressIndicator(),
                   );
@@ -79,6 +88,7 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
             ),
 
             actions: <Widget>[
+              /// exit button
               Visibility(/// exit icon, exit from group, user exits self
                 visible: widget.isGroup,
                 child: IconButton(

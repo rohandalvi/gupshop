@@ -14,7 +14,7 @@ class CustomDialogBox extends StatelessWidget {
     return Dialog(
         child: child,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16)
+            borderRadius: BorderRadius.circular(15),
         ),
         backgroundColor: Colors.transparent,
         elevation: 1,
@@ -32,10 +32,11 @@ class ContainerForDialogBox extends StatelessWidget{
     return Container(
       child: child,
       height: 350,
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: Colors.white,
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.all(Radius.circular(12))
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
       ),
     );
   }

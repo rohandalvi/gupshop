@@ -30,6 +30,6 @@ class GetConversationDetails{
 
   getGroupName(String conversationId) async{
     DocumentSnapshot groupNameFuture = await Firestore.instance.collection("conversationMetadata").document(conversationId).get();
-    return groupNameFuture.data["admin"];
+    return groupNameFuture.data["groupName"];
   }
 }

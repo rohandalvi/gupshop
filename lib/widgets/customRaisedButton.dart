@@ -5,14 +5,16 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomRaisedButton extends StatelessWidget {
   VoidCallback onPressed;
   final Widget child;
-  CustomRaisedButton({this.onPressed, this.child});
+  ShapeBorder shape;
+  CustomRaisedButton({this.onPressed, this.child, this.shape});
 
   //VerticalPadding({this.child, @required this.verticleHeight});
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-//      shape: RoundedRectangleBorder(
+      shape: shape,
+//      RoundedRectangleBorder(
 //        borderRadius: new BorderRadius.circular(5.0),
 //        side: BorderSide(color : Colors.black),
 //      ),

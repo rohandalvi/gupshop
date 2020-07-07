@@ -441,11 +441,11 @@ class _IndividualChatState extends State<IndividualChat> {
                                   );
                                 }
                               },
-                                onDoubleTap: (){
-                                if(isLocationMessage == true){
-                                  GeolocationServiceState().launchMapsUrl(latitude, longitude);
-                                }
-                                },
+//                                onDoubleTap: (){
+//                                if(isLocationMessage == true){
+//                                  GeolocationServiceState().launchMapsUrl(latitude, longitude);
+//                                }
+//                                },
                                 onLongPress: (){
                                   if(isPressed == false){///show snackbar only once
                                     isPressed = true;
@@ -522,7 +522,7 @@ class _IndividualChatState extends State<IndividualChat> {
                                   width: MediaQuery.of(context).size.width,
                                   alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
                                   padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
-                                  child: videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
+                                  child: isLocationMessage ==true ? showLocation(fromName,latitude, longitude): videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
                                   CustomText(text: messageBody,): showImage(imageURL),
                                   //message
                                 ),
@@ -661,6 +661,19 @@ class _IndividualChatState extends State<IndividualChat> {
     }
     catch (e){
       return Icon(Icons.image);}
+  }
+
+  showLocation(String senderName,double latitude, double longitude){
+    return CustomRaisedButton(
+      child: CustomText(text: '$senderName \nCurrent Location 📍',),/// toDo- very very big name
+      shape:  RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(5.0),
+        side: BorderSide(color : Colors.black),
+      ),
+      onPressed: (){
+        GeolocationServiceState().launchMapsUrl(latitude, longitude);
+      },
+    );
   }
 
 

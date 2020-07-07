@@ -57,5 +57,8 @@ class RecentChats{
     Firestore.instance.collection("recentChats").document(number).collection("conversations").document(convId).setData({"message": message, "name": friendName, "timeStamp":timeStamp, "read": false});
   }
 
+  updateGroupName(String number, String conversationId, String newGroupName){
+    Firestore.instance.collection("recentChats").document(number).collection("conversations").document(conversationId).updateData({'name': newGroupName});
+  }
 
 }

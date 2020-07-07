@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/screens/changeGroupName.dart';
 import 'package:gupshop/service/addNewGroupMember.dart';
 import 'package:gupshop/service/createGroup.dart';
 import 'package:gupshop/service/customNavigators.dart';
@@ -73,13 +74,26 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     String groupName = snapshot.data;
-                    return InkWell(
-                        child: CustomTextFormField(
-                          initialValue: groupName,
-                          labelText: 'Change group name',
-                          maxLength: 20,
-                          enabledBorder: null,
-                        )
+                    String newGroupName;
+                    return CustomTextFormField(
+                      onChanged:(val){
+                        newGroupName= val;
+                      },
+                      onFieldSubmitted:(result){
+                        print("in onFieldSubmitted");
+                        setState(() {
+                          groupName = newGroupName;
+                        });
+                        print("groupName: $groupName");
+                        ChangeGroupName().changeName(widget.listOfGroupMemberNumbers, widget.conversationId, groupName);
+                      } ,
+                      onSaved:(change){
+                        print("onchange");
+                      },
+                      initialValue: groupName,
+                      labelText: 'Change group name',
+                      //maxLength: 20,
+                      enabledBorder: null,
                     );
                   }return Center(
                     child: CircularProgressIndicator(),

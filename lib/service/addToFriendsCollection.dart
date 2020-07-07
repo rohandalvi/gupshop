@@ -28,4 +28,16 @@ class AddToFriendsCollection{
       addToFriendsCollection( list, id,friendNumber, nameList, groupName, adminNumber);
     }
   }
+
+  extractNumbersFromListAndChangeGroupName(List<dynamic> listOfNumbersInAGroup, String id, String newGroupName){
+    for(int i=0; i<listOfNumbersInAGroup.length; i++){
+      String friendNumber = listOfNumbersInAGroup[i];
+      updateGroupNameInFriendsCollection(friendNumber, id, newGroupName);
+    }
+  }
+
+  updateGroupNameInFriendsCollection(String userPhoneNo, String id, String newGroupName){
+    print("in updateGroupNameInFriendsCollection");
+    Firestore.instance.collection("friends_$userPhoneNo").document(id).updateData({'groupName': newGroupName});
+  }
 }

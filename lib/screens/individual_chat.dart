@@ -5,6 +5,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
@@ -13,6 +14,7 @@ import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
+import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
@@ -24,6 +26,7 @@ import 'package:gupshop/widgets/blankScreen.dart';
 import 'package:gupshop/widgets/buildMessageComposer.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
+import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:gupshop/widgets/displayPicture.dart';
@@ -171,8 +174,8 @@ class _IndividualChatState extends State<IndividualChat> {
 
       DocumentReference forwardedMessageId = await SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
 
-      if(data["videoURL"] != null) data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId);
-      else if(data["imageURL"] != null) data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId);
+      if(data["videoURL"] != null) data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId, null);
+      else if(data["imageURL"] != null) data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId, null);
       ///Navigating to RecentChats page with pushes the data to firebase
       /// if group chat:
 
@@ -229,12 +232,36 @@ class _IndividualChatState extends State<IndividualChat> {
             ),
           ),
           _scrollToBottomButton(),
+          shareLocation(),
         ],
       ),
     );
   }
 
+  sendLocation(Position location){
+    /// create data and push to conversations collection to display immediately
+    var data = createDataToPushToFirebase(false, false, location.toString(), userName, userPhoneNo, conversationId, location);
+    pushMessageDataToFirebase(false,false,location,data);
+    setState(() {
 
+    });
+
+//    ///show raised button
+//    return CustomRaisedButton(
+//      onPressed: (){},
+//      child: CustomText(text: 'Current location',),
+//    );
+  }
+
+  shareLocation(){
+    return FloatingActionButton(
+      onPressed: () async{
+        Position location  = await GeolocationServiceState().getLocation();//setting user's location
+        print("location : $location");
+        sendLocation(location);
+      },
+    );
+  }
 
   appBar(BuildContext context, String friendName){
     return AppBar(
@@ -271,7 +298,6 @@ class _IndividualChatState extends State<IndividualChat> {
                 if(notGroupMemberAnymore == false){
                   DialogHelper(userNumber: userPhoneNo, listOfGroupMemberNumbers: listOfFriendNumbers, conversationId: conversationId, isGroup: groupExits).customShowDialog(context);
                 }
-
             }
           ),
           //CustomText(text: presence.getStatus(friendN)).subTitle()
@@ -383,6 +409,11 @@ class _IndividualChatState extends State<IndividualChat> {
                             String fromNameForGroup = documentList[index].data["fromName"]; /// for group messages
                             bool isMe = false;
 
+                            double latitude = documentList[index].data["latitude"];
+                            double longitude = documentList[index].data["longitude"];
+                            bool isLocationMessage= false;
+                            if(latitude != null && longitude != null) isLocationMessage = true;
+
                             if (fromName == userName) isMe = true;
 
                             return ListTile(
@@ -410,6 +441,11 @@ class _IndividualChatState extends State<IndividualChat> {
                                   );
                                 }
                               },
+                                onDoubleTap: (){
+                                if(isLocationMessage == true){
+                                  GeolocationServiceState().launchMapsUrl(latitude, longitude);
+                                }
+                                },
                                 onLongPress: (){
                                   if(isPressed == false){///show snackbar only once
                                     isPressed = true;
@@ -634,14 +670,14 @@ class _IndividualChatState extends State<IndividualChat> {
         return BuildMessageComposer(
           firstOnPressed: () async{
             var data = await sendImage();
-            pushMessageDataToFirebase(false,true, data);
+            pushMessageDataToFirebase(false,true,null,data);
             setState(() {
 
             });
           },
           secondOnPressed: () async{
             var data = await sendVideo();
-            pushMessageDataToFirebase(true,false, data);
+            pushMessageDataToFirebase(true,false,null,data);
             setState(() {
 
             });
@@ -726,7 +762,7 @@ class _IndividualChatState extends State<IndividualChat> {
     File image = await ImagesPickersDisplayPictureURLorFile().pickImageFromGallery();
     File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(image);
     String imageURL = await ImagesPickersDisplayPictureURLorFile().getImageURL(croppedImage, userPhoneNo, numberOfImageInConversation);
-    return createDataToPushToFirebase(false, true, imageURL, userName, userPhoneNo, conversationId);
+    return createDataToPushToFirebase(false, true, imageURL, userName, userPhoneNo, conversationId, null);
 
   }
 
@@ -737,13 +773,16 @@ class _IndividualChatState extends State<IndividualChat> {
 
     String videoURL = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, userPhoneNo, numberOfImageInConversation);
 
-    return createDataToPushToFirebase(true, false, videoURL, userName, userPhoneNo, conversationId);
+    return createDataToPushToFirebase(true, false, videoURL, userName, userPhoneNo, conversationId, null);
 
   }
 
 
   ///this method creates the data to be pushed to firebase
-  createDataToPushToFirebase(bool isVideo, bool isImage, String value, String userName, String fromPhoneNumber, String conversationId){
+  createDataToPushToFirebase(bool isVideo, bool isImage, String value, String userName, String fromPhoneNumber, String conversationId, Position location){
+    if(location != null){
+      return {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId, "latitude": location.latitude, "longitude": location.longitude};
+    }
     if(isVideo == true){
       return {"videoURL":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
     }
@@ -765,19 +804,25 @@ class _IndividualChatState extends State<IndividualChat> {
   ///                    });
   ///                  },
   ///                )
-  pushMessageDataToFirebase(bool isVideo, bool isImage, var data){
+  pushMessageDataToFirebase(bool isVideo, bool isImage, Position location, var data){
+    print("in pushMessageDataToFirebase");
       Firestore.instance.collection("conversations").document(conversationId).collection("messages").add(data);
       ///Navigating to RecentChats page with pushes the data to firebase
       if(isVideo == true){
-        var data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId);
+        var data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId, null);
         RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName , listOfOtherNumbers: listOfFriendNumbers, groupExists: groupExits).getAllNumbersOfAConversation();
       }
 
       if(isImage == true){
-        var data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId);
+        var data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId, null);
         RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName, listOfOtherNumbers: listOfFriendNumbers, groupExists: groupExits ).getAllNumbersOfAConversation();
       }
 
+    if(location != null){
+      print("in location!=null");
+      var dataRecentChats = createDataToPushToFirebase(false, false, "📍 Location", userName, userPhoneNo, conversationId, location);
+      RecentChats(message: dataRecentChats, convId: conversationId, userNumber:userPhoneNo, userName: userName, listOfOtherNumbers: listOfFriendNumbers, groupExists: groupExits ).getAllNumbersOfAConversation();
+    }
   }
 
 

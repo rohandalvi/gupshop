@@ -15,8 +15,9 @@ class CustomTextFormField extends StatelessWidget {
   int maxLength;
   String initialValue;
   InputBorder enabledBorder;
+  FormFieldSetter<String> onSaved;
 
-  CustomTextFormField({this.onFieldSubmitted, this.labelText, this.formKeyCustomText, this.onChanged, this.maxLength, this.initialValue, this.enabledBorder});
+  CustomTextFormField({this.onFieldSubmitted, this.labelText, this.formKeyCustomText, this.onChanged, this.maxLength, this.initialValue, this.enabledBorder,this.onSaved});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +51,7 @@ class CustomTextFormField extends StatelessWidget {
         onChanged: onChanged,
         validator: (val) => val.isEmpty ? 'Name can\'t be empty' : null,
         onFieldSubmitted: onFieldSubmitted,
+        onSaved: onSaved,
       ),
     );
   }

@@ -12,6 +12,7 @@ import 'package:geocoder/geocoder.dart' as gc;
 import 'package:geolocator/geolocator.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 //import 'package:location/location.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class GeolocationService extends StatefulWidget {
   @override
@@ -177,6 +178,14 @@ class GeolocationServiceState extends State<GeolocationService> {
     return geoHash;
   }
 
+  void launchMapsUrl(double lat, double lon) async {
+    final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   
   @override
@@ -193,6 +202,8 @@ class GeolocationServiceState extends State<GeolocationService> {
     //  child: Text("latitude: ${_location.latitude}, longitude :${_location.longitude} "),
     );
   }
+
+
 }
 
 

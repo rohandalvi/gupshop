@@ -72,11 +72,11 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 //  }
   _pickVideoFromGallery() async{
     File _video = await VideoPicker().pickVideoFromGallery();
-    setState(() {
-      video = _video;
-    });
+    video = _video;
     videoURL = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, userPhoneNo, null);
+    setState(() {
 
+    });
   }
 
 
@@ -123,9 +123,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    print("userName in bazaarProfilePgae= $userName");
-    print("userPhone in bazaarProfilePgae= $userPhoneNo");
-
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),

@@ -128,7 +128,12 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                 child: setVideoFromCamera(),
               ),
 
-              if(locationSelected == false ) GeolocationServiceState().showLocation(userName, latitude, longitude),
+              if(locationSelected == false ) Row(
+                children: <Widget>[
+                  GeolocationServiceState().showLocation(userName, latitude, longitude),
+                  changeLocation(),
+                ],
+              ),
               Visibility(
                 visible: locationSelected,
                 child: setLocation(context),
@@ -159,6 +164,20 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
           _cameraVideo = null;
           videoURL = null;
           videoSelected = false;
+        });
+      },
+    );
+  }
+
+  changeLocation(){
+    return CustomRaisedButton(
+      child: CustomText(text :'Change Location'),
+      onPressed: (){
+        setState(() {
+          _bazaarWalaLocation = null;
+          latitude = null;
+          longitude = null;
+          locationSelected = true;
         });
       },
     );

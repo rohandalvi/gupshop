@@ -13,7 +13,10 @@ class CustomRaisedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      shape: shape,
+      shape: shape == null ? RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(5.0),
+        side: BorderSide(color : Colors.black),
+        ) : shape,
 //      RoundedRectangleBorder(
 //        borderRadius: new BorderRadius.circular(5.0),
 //        side: BorderSide(color : Colors.black),

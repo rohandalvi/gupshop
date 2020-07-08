@@ -670,10 +670,10 @@ class _IndividualChatState extends State<IndividualChat> {
   showLocation(String senderName,double latitude, double longitude){
     return CustomRaisedButton(
       child: CustomText(text: '$senderName \nCurrent Location 📍',),/// toDo- very very big name
-      shape:  RoundedRectangleBorder(
-        borderRadius: new BorderRadius.circular(5.0),
-        side: BorderSide(color : Colors.black),
-      ),
+//      shape:  RoundedRectangleBorder(
+//        borderRadius: new BorderRadius.circular(5.0),
+//        side: BorderSide(color : Colors.black),
+//      ),
       onPressed: (){
         GeolocationServiceState().launchMapsUrl(latitude, longitude);
       },

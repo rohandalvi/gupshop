@@ -12,6 +12,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/productDetail.dart';
 import 'package:gupshop/service/checkBoxCategorySelector.dart';
 import 'package:gupshop/service/geolocation_service.dart';
+import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
@@ -89,9 +91,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
 
   initializeList(List<bool>inputs ) async{
-    print("initializeList");
     int size = await getCategorySizeFuture();
-    print("size: $size");
     setState(() {
       for(int i =0; i<size; i++){//initializing the array inputs to false for showing nothing selected when the checkbox pops up for the 1st time
         inputs.add(false);
@@ -114,6 +114,12 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     print("userPhone in bazaarProfilePgae= $userPhoneNo");
 
     return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70.0),
+          child: CustomAppBar(onPressed:(){
+             Navigator.pop(context);
+          },),
+        ),
       backgroundColor: Colors.white,
       body: Builder(
           builder:(context)=> Container(
@@ -217,7 +223,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
 
   setLocationOtherThanCurrentAsHome(){
-    return RaisedButton(
+    return CustomRaisedButton(
       onPressed: (){
         Future<Position> location  = GeolocationServiceState().getLocation();//setting user's location
         location.then((val){
@@ -238,7 +244,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
 
   getCategories(BuildContext context){
-    return RaisedButton(
+    return CustomRaisedButton(
       onPressed: () async{
         bool _isSelected = await _categorySelectorCheckListDialogBox(context);
         setState(() {

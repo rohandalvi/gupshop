@@ -80,7 +80,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
 
   getCategorySizeFuture() async{
-    QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategories").getDocuments();
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
 
     if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
 
@@ -91,6 +91,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   initializeList(List<bool>inputs ) async{
     print("initializeList");
     int size = await getCategorySizeFuture();
+    print("size: $size");
     setState(() {
       for(int i =0; i<size; i++){//initializing the array inputs to false for showing nothing selected when the checkbox pops up for the 1st time
         inputs.add(false);
@@ -259,7 +260,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     StreamBuilder<QuerySnapshot>(
-                        stream: Firestore.instance.collection("bazaarCategories").snapshots(),
+                        stream: Firestore.instance.collection("bazaarCategoryTypesAndImages").snapshots(),
                         builder: (context, snapshot) {
 
                           if(snapshot.data == null) return CircularProgressIndicator();
@@ -267,9 +268,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                           QuerySnapshot querySnapshot = snapshot.data;
 
                           List<DocumentSnapshot> listOfDocumentSnapshot = snapshot.data.documents;
+                          print("listOfDocumentSnapshot: ${querySnapshot.documents[4].data["name"]}");
 
                           int categoryLength = snapshot.data.documents.length;
-
 
                           //A RenderFlex overflowed by 299361 pixels on the bottom.
                           //solution - use Container and constraints
@@ -281,6 +282,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                                 shrinkWrap: true,
                                 itemBuilder: (BuildContext context, int index) {
 
+                                  print("categoryLength in itembuilder:  $categoryLength");
+                                  print("name $index : ${querySnapshot.documents[index].data["name"]}");
                                   //RenderFlex children have non-zero flex but incoming height constraints are unbounded.
                                   return Container(//container was wrapped with sized box before, but we dont need it because we are using column and  flexible which are giving sizes
                                     child: Column(
@@ -290,7 +293,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                                           fit: FlexFit.loose,
                                           flex: 1,
                                           child: CheckboxListTile(
-                                            title: Text(querySnapshot.documents[index].documentID),
+                                            title: Text(querySnapshot.documents[index].data["name"]),
                                             value: inputs[index],
                                             //controlAffinity: ListTileControlAffinity.leading,
                                             onChanged: (bool val){
@@ -339,9 +342,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     return false;
   }
 
-  void itemChange(bool val, int index){
+  void itemChange(bool val, int indexVal){
     setState(() {
-      inputs[index] = val;
+      inputs[indexVal] = val;
     });
   }
 

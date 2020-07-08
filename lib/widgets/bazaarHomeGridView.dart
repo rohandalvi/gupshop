@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
+import 'package:gupshop/widgets/customText.dart';
 
 class BazaarHomeGridView extends StatefulWidget {
   @override
@@ -9,37 +11,38 @@ class BazaarHomeGridView extends StatefulWidget {
 }
 
 class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
-  List category = ["kamwali", "bhajiwali", "paanwala", "paperwala","Doodhwala", "Appliance Repair", "Parlorwali", "Caterer", "Plumber", "Painter", "TuitionWali", ];
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection("bazaarCategories").snapshots(),
+      stream: Firestore.instance.collection("bazaarCategoryTypesAndImages").snapshots(),
       builder: (context, snapshot) {
         if(snapshot.data == null) return CircularProgressIndicator();//for avoding  the error
 
         int categoryLength = snapshot.data.documents.length;//for using in
-        print("snapshot: ${snapshot.data.documents.length}");
         return Flexible(
           child: Padding(
             padding: EdgeInsets.all(15.0),//for space between boxes and left and right screen
             child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                  crossAxisSpacing: 18,//spaces between the boxes verically
-                  mainAxisSpacing: 18,//spaces between the boxes horizaontally
-                  childAspectRatio: 1.3,//size of the box
+                  crossAxisSpacing: 18,///spaces between the boxes verically
+                  mainAxisSpacing: 10,///spaces between the boxes horizaontally
+                  childAspectRatio: 0.85,///size of the box 1.3
                 ),
                 itemCount: categoryLength,
                 itemBuilder: (BuildContext context, int index){
-                  String catergoryName = snapshot.data.documents[index].documentID;
+                  String catergoryName = snapshot.data.documents[index].data['name'];
+                  String image = snapshot.data.documents[index].data['icon'];
+
                   return Container(
                     padding: EdgeInsets.all(16),
                     //padding: EdgeInsets.only(left: 16, right: 16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey[100],
+                      color: Colors.white,
                     ),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         SizedBox(height: 14,),//for space between icon and box on top
                         InkWell(
@@ -51,22 +54,13 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
                                 )
                             );
                           },
-                          child: Image(
-//later we will have a string for each image from database and will give that string to AssetImage()
-                            image: AssetImage('images/kamwali.png'),
-                            width: 42,
-                          ),
+                          child:  IconButton(
+                            icon: SvgPicture.network(image),
+                            iconSize: 70,
+                          )
                         ),
                         SizedBox(height: 14,),//this creates a good padding between category name and icon
-                        Text(
-                          catergoryName,
-                          style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
+                        CustomText(text: catergoryName,),
                       ],
                     ),
                   );

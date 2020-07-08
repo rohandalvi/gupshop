@@ -254,13 +254,17 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
   shareLocation(){
-    return FloatingActionButton(
-      onPressed: () async{
-        Position location  = await GeolocationServiceState().getLocation();//setting user's location
-        print("location : $location");
-        sendLocation(location);
-      },
+    return Align(
+      alignment: Alignment.topRight,
+        child: FloatingActionButton(
+          onPressed: () async{
+            Position location  = await GeolocationServiceState().getLocation();//setting user's location
+            print("location : $location");
+            sendLocation(location);
+          },
+        ),
     );
+
   }
 
   appBar(BuildContext context, String friendName){

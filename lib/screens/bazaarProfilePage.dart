@@ -393,10 +393,10 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     return Visibility(
       visible: isVisible,
       child: CustomRaisedButton(
-        onPressed: (){
-          uploadVideoToFirestore(context);
-          pushCategorySelectedToFirebase();
-          pushBazaarWalasLocationToFirebase();
+        onPressed: () async{
+          await uploadVideoToFirestore(context);
+          await pushCategorySelectedToFirebase();
+          await pushBazaarWalasLocationToFirebase();
 
           Navigator.push(
               context,
@@ -424,14 +424,14 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     String videoURL = await imageURLFuture.ref.getDownloadURL();
     Firestore.instance.collection("videos").document(userPhoneNo).setData({'url':videoURL});
 
-    setState(() {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile created successufully'),));
-    });
+//    setState(() {
+//      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile created successufully'),));
+//    });
   }
 
 
   pushCategorySelectedToFirebase() async{
-    QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategories").getDocuments();
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
 
     if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
 
@@ -457,9 +457,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
           }
         };
 
-        Firestore.instance.collection("bazaarCategories").document(categoryName).setData(result);
-        Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({});
-        Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).collection(userName).document(categoryName).setData({});
+        Firestore.instance.collection("bazaarCategories").document(categoryName).setData(result, merge: true);
+        Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({}, merge: true);
+        Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).collection(userName).document(categoryName).setData({}, merge: true);
       }
     }
   }

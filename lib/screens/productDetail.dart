@@ -5,6 +5,8 @@ import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/screens/bazaarHome_screen.dart';
 import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/screens/home.dart';
+import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/videoHeader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
@@ -118,6 +120,14 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
     return WillPopScope(//---> used to block the user from going to bazaarProfilePage when he hits back button after creating a bazaar profile page
       onWillPop: () async => false,
       child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70.0),
+          child: CustomAppBar(
+            title: CustomText(text: 'Product Detail', fontSize: 20,),
+            onPressed:(){
+              Navigator.pop(context);
+            },),
+        ),
         body: Flex(//---> Expanded has to be wrapped in Flex always
             direction: Axis.vertical,//---> this is the required property of Flex
             children: <Widget>[

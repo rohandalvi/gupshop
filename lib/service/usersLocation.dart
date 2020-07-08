@@ -13,10 +13,9 @@ class UsersLocation{
     ///if home location is not set then go on with setting the location
     var future = await Firestore.instance.collection("usersLocation").document(userPhoneNo).get();
 
-    if(future.data["home"] != null){
-      ifHomeExists= true;
-    }ifHomeExists = false;
-
+    if(future.data["home"] == null){
+      ifHomeExists= false;
+    }ifHomeExists = true;
 
 
     if(ifHomeExists == false) {

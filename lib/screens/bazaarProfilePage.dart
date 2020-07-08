@@ -16,6 +16,7 @@ import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
+import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,42 +43,18 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
   Position _bazaarWalaLocation;
 
+  /// for _pickVideoFromGallery
   File video;
   String videoURL;
-//  VideoPlayerController _videoPlayerController;
-//  bool isVideo = false;
-//  dynamic _pickImageError;
+
 
   List<bool> inputs = new List<bool>();
   int categorySize;
-
-  final _formKey = GlobalKey<FormState>();
 
   bool isSelected = false;
 
   double latitude;
   double longitude;
-
-
-//  _pickVideoFromGallery() async{
-//    File video = await ImagePicker.pickVideo(source: ImageSource.gallery);
-//    _video = video;
-////    _videoPlayerController = VideoPlayerController.asset('videos/LevenworthVideo.mp4')..initialize().then((_){;
-//    _videoPlayerController = VideoPlayerController.file(_video)..initialize().then((_){
-//      setState(() {
-//        _videoPlayerController.play();
-//      });
-//
-//    });
-//  }
-  _pickVideoFromGallery() async{
-    File _video = await VideoPicker().pickVideoFromGallery();
-    video = _video;
-    videoURL = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, userPhoneNo, null);
-    setState(() {
-
-    });
-  }
 
 
 
@@ -126,7 +103,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
-          child: CustomAppBar(onPressed:(){
+          child: CustomAppBar(
+            title: CustomText(text: 'Become a Bazaarwala',),
+            onPressed:(){
              Navigator.pop(context);
           },),
         ),
@@ -135,18 +114,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 //          padding: EdgeInsets.fromLTRB(15, 150, 0, 0),
           ListView(
             children: <Widget>[
-              if(video != null) CustomVideoPlayer(videoURL: videoURL)
-//              if(_video != null)
-//                _videoPlayerController.value.initialized
-//                ? AspectRatio(
-//                  aspectRatio: _videoPlayerController.value.aspectRatio,
-//                  child: VideoPlayer(_videoPlayerController),
-//                )
-//                    : Container()
-              else
-                pageTitle(),
-                createSpaceBetweenButtons(15),
-                pageSubtitle(),
+              if(video != null) CustomVideoPlayer(videoURL: videoURL),
+              createSpaceBetweenButtons(15),
+              pageSubtitle(),
               setVideoFromGallery(),
               or(),
               setVideoFromCamera(),
@@ -162,11 +132,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
 
 
-  pageTitle(){
-    return Text('BECOME A BAZAARWALA !',style: GoogleFonts.openSans());
-  }
-
-
   createSpaceBetweenButtons(double height){
     return SizedBox(
       height: height,
@@ -176,17 +141,26 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
 
   pageSubtitle(){
-    return Text('Lets start by adding your advertisement:',style: GoogleFonts.openSans());
+    return CustomText(text: 'Advertisement : ',);
   }
 
 
   setVideoFromGallery(){
-    return RaisedButton(
+    return CustomRaisedButton(
       onPressed: (){
         _pickVideoFromGallery();
       },
       child: Text("Choose a video from Gallery",style: GoogleFonts.openSans()),
     );
+  }
+  /// used in setVideoFromGallery(),
+  _pickVideoFromGallery() async{
+    File _video = await VideoPicker().pickVideoFromGallery();
+    video = _video;
+    videoURL = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, userPhoneNo, null);
+    setState(() {
+
+    });
   }
 
 

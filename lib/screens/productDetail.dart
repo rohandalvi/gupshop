@@ -5,6 +5,7 @@ import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/screens/bazaarHome_screen.dart';
 import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/screens/home.dart';
+import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/videoHeader.dart';
@@ -126,6 +127,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
             title: CustomText(text: 'Product Detail', fontSize: 20,),
             onPressed:(){
               Navigator.pop(context);
+//              CustomNavigator().navigateToBazaarHomeScreen(context, userNumber, userName);
             },),
         ),
         body: Flex(//---> Expanded has to be wrapped in Flex always

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:gupshop/screens/bazaarHome_screen.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/screens/createGroupName_screen.dart';
@@ -87,6 +88,15 @@ class CustomNavigator{
         context,
         MaterialPageRoute(
           builder: (context) => ShowGroupMembers(userNumber: userNumber, listOfGroupMemberNumbers: listOfGroupMemberNumbers,),//pass Name() here and pass Home()in name_screen
+        )
+    );
+  }
+
+  navigateToBazaarHomeScreen(BuildContext context, String userNumber,String userName ){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BazaarHomeScreen(userPhoneNo: userNumber, userName: userName,),//pass Name() here and pass Home()in name_screen
         )
     );
   }

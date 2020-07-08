@@ -11,6 +11,8 @@ import 'package:flutter/services.dart';
 import 'package:geocoder/geocoder.dart' as gc;
 import 'package:geolocator/geolocator.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:gupshop/widgets/customRaisedButton.dart';
+import 'package:gupshop/widgets/customText.dart';
 //import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -185,6 +187,19 @@ class GeolocationServiceState extends State<GeolocationService> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  showLocation(String senderName,double latitude, double longitude){
+    return CustomRaisedButton(
+      child: CustomText(text: '$senderName \nCurrent Location 📍',),/// toDo- very very big name
+//      shape:  RoundedRectangleBorder(
+//        borderRadius: new BorderRadius.circular(5.0),
+//        side: BorderSide(color : Colors.black),
+//      ),
+      onPressed: (){
+        GeolocationServiceState().launchMapsUrl(latitude, longitude);
+      },
+    );
   }
 
   

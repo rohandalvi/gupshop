@@ -60,10 +60,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   double longitude;
   bool saveButtonVisible = false;
 
-
   File _cameraVideo;
-  VideoPlayerController _cameraVideoPlayerController;
-
+  bool videoSelected = true;
+  bool locationSelected = true;
 
   getCategorySizeFuture() async{
     QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
@@ -111,12 +110,32 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
               if(video != null || _cameraVideo != null) CustomVideoPlayer(videoURL: videoURL),
               createSpaceBetweenButtons(15),
               pageSubtitle(),
-              setVideoFromGallery(),
-              or(),
-              setVideoFromCamera(),
-              setLocation(context),
-              or(),
-              setLocationOtherThanCurrentAsHome(),
+              Visibility(
+                visible: videoSelected,
+                child: setVideoFromGallery(),
+              ),
+              Visibility(
+                visible: videoSelected,
+                child: or(),
+              ),
+              Visibility(
+                visible: videoSelected,
+                child: setVideoFromCamera(),
+              ),
+
+              if(locationSelected == false ) GeolocationServiceState().showLocation(userName, latitude, longitude),
+              Visibility(
+                visible: locationSelected,
+                child: setLocation(context),
+              ),
+              Visibility(
+                visible: locationSelected,
+                child: or(),
+              ),
+              Visibility(
+                visible: locationSelected,
+                child: setLocationOtherThanCurrentAsHome(),
+              ),
               getCategories(context),
               showSaveButton(context),
 //            if(moveForward(isSelected))
@@ -152,9 +171,10 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   _pickVideoFromGallery() async{
     File _video = await VideoPicker().pickVideoFromGallery();
     video = _video;
-    videoURL = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, userPhoneNo, null);
+    String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, userPhoneNo, null);
     setState(() {
-
+      videoURL = url;
+      videoSelected = false;
     });
   }
 
@@ -183,9 +203,10 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     File _video = await VideoPicker().pickVideoFromCamer();
     _cameraVideo = _video;
     print("_cameraVideo: $_cameraVideo");
-    videoURL = await ImagesPickersDisplayPictureURLorFile().getVideoURL(_cameraVideo, userPhoneNo, null);
+    String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(_cameraVideo, userPhoneNo, null);
     setState(() {
-
+      videoURL = url;
+      videoSelected = false;
     });
   }
 
@@ -226,7 +247,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
           });
 
         setState(() {
-
+          locationSelected = false;
         });
 
       },
@@ -245,7 +266,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
             print("_bazaarWalaLocation in initstate = $_bazaarWalaLocation");
             latitude = _bazaarWalaLocation.latitude;
             longitude =  _bazaarWalaLocation.longitude;
-
+            locationSelected = false;
           });
         });
       },

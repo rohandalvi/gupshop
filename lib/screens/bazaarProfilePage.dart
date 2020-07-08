@@ -45,6 +45,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   _BazaarProfilePageState({@required this.userPhoneNo, @required this.userName});
 
   Position _bazaarWalaLocation;
+  double latitude;
+  double longitude;
 
   /// for _pickVideoFromGallery
   File video;
@@ -53,16 +55,13 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
   List<bool> inputs = new List<bool>();
   int categorySize;
-
-  bool isSelected = false;
-
-  double latitude;
-  double longitude;
   bool saveButtonVisible = false;
 
   File _cameraVideo;
+
   bool videoSelected = false;
   bool locationSelected = true;
+  bool isCategorySelected = false;
 
   getCategorySizeFuture() async{
     QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
@@ -107,6 +106,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 //          padding: EdgeInsets.fromLTRB(15, 150, 0, 0),
           ListView(
             children: <Widget>[
+              /// video widgets:
               if(video != null || _cameraVideo != null) Row(
                 children: <Widget>[
                   CustomVideoPlayer(videoURL: videoURL),
@@ -128,6 +128,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                 child: setVideoFromCamera(),
               ),
 
+              /// location widgets:
               if(locationSelected == false ) Row(
                 children: <Widget>[
                   GeolocationServiceState().showLocation(userName, latitude, longitude),
@@ -146,10 +147,16 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                 visible: locationSelected,
                 child: setLocationOtherThanCurrentAsHome(),
               ),
-              getCategories(context),
+
+              /// category widgets:
+              if(isCategorySelected == true ) changeCategories(context),
+              Visibility(
+                visible: (isCategorySelected == false),
+                child: getCategories(context),
+              ),
+
+              /// show save button if everything is selected:
               showSaveButton(context),
-//            if(moveForward(isSelected))
-//              showSaveButton(context),
             ]
           ),
     );
@@ -178,6 +185,17 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
           latitude = null;
           longitude = null;
           locationSelected = true;
+        });
+      },
+    );
+  }
+
+  changeCategories(BuildContext context){
+    return CustomRaisedButton(
+      child: CustomText(text :'Change Category'),
+      onPressed: (){
+        setState(() {
+          isCategorySelected = false;
         });
       },
     );
@@ -319,7 +337,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
         bool _isSelected = await _categorySelectorCheckListDialogBox(context);
         setState(() {
           print("_isSelected: $_isSelected");
-          isSelected = _isSelected;
+          isCategorySelected = _isSelected;
         });
       },
       child: Text("Select from category",style: GoogleFonts.openSans()),
@@ -375,8 +393,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                                             onChanged: (bool val){
                                               setState(() {
                                                 inputs[index] = val;
-                                                isSelected = ifNoCategorySelected();
-                                                print("isSelected: $isSelected");
+                                                isCategorySelected = ifNoCategorySelected();
+                                                print("isSelected: $isCategorySelected");
                                               });
                                             },
                                           ),
@@ -445,7 +463,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     print("in showSaveButton");
     bool isVisible;
     setState(() {
-      isVisible = moveForward(isSelected);
+      isVisible = moveForward(isCategorySelected);
       print("isVisible: $isVisible");
     });
     return Visibility(

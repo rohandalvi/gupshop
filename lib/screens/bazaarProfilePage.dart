@@ -4,9 +4,11 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/productDetail.dart';
@@ -14,6 +16,7 @@ import 'package:gupshop/service/checkBoxCategorySelector.dart';
 import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/videoPicker.dart';
+import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -55,7 +58,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
   double latitude;
   double longitude;
-
+  bool saveButtonVisible = false;
 
 
   File _cameraVideo;
@@ -115,8 +118,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
               or(),
               setLocationOtherThanCurrentAsHome(),
               getCategories(context),
-            if(moveForward(isSelected))
               showSaveButton(context),
+//            if(moveForward(isSelected))
+//              showSaveButton(context),
             ]
           ),
     );
@@ -196,7 +200,28 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
             latitude = _bazaarWalaLocation.latitude;
             longitude =  _bazaarWalaLocation.longitude;
 
-            Scaffold.of(context).showSnackBar(SnackBar(content: Text('Currenr Location saved as Home Location '),));
+            Flushbar( /// for the flushBar if the user enters wrong verification code
+              icon: SvgPicture.asset(
+                'images/stopHand.svg',
+                width: 30,
+                height: 30,
+              ),
+              backgroundColor: Colors.white,
+              duration: Duration(seconds: 5),
+              forwardAnimationCurve: Curves.decelerate,
+              reverseAnimationCurve: Curves.easeOut,
+              titleText: Text(
+                'Currenr Location saved as Home Location',
+                style: GoogleFonts.openSans(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: ourBlack,
+                  ),
+                ),
+              ),
+              message: "Please enter your name to move forward",
+            )..show(context);
+            //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Currenr Location saved as Home Location '),));
 
           });
 
@@ -349,33 +374,39 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     print("result : $result");
     print("bazaarwala location : $_bazaarWalaLocation");
     print("latitude: $latitude");
-    return result;
+    print("result : $result");
+    setState(() {
+      saveButtonVisible = result;
+    });
+    return saveButtonVisible;
   }
 
-  showSaveButton(BuildContext context){
-    return RaisedButton(
-      onPressed: (){
-        uploadVideoToFirestore(context);
-        pushCategorySelectedToFirebase();
-        pushBazaarWalasLocationToFirebase();
 
-        Navigator.push(
-            context,
-            MaterialPageRoute(//todo- category is hardcoded here, we need to one category to ProductDetail page from the categories selected
-              builder: (context) => ProductDetail(productWalaName: userName, category: 'KamWali',),//pass Name() here and pass Home()in name_screen
-            )
-        );
-      },
-      color: Colors.transparent,
-      splashColor: Colors.transparent,
-      //highlightColor: Colors.blueGrey,
-      elevation: 0,
-      hoverColor: Colors.blueGrey,
-      child: Text('SAVE',style: GoogleFonts.openSans(
-        color: Theme.of(context).primaryColor,
-        fontSize: 15,
-        fontWeight: FontWeight.bold,
-      )),
+
+  showSaveButton(BuildContext context){
+    print("in showSaveButton");
+    bool isVisible;
+    setState(() {
+      isVisible = moveForward(isSelected);
+      print("isVisible: $isVisible");
+    });
+    return Visibility(
+      visible: isVisible,
+      child: CustomRaisedButton(
+        onPressed: (){
+          uploadVideoToFirestore(context);
+          pushCategorySelectedToFirebase();
+          pushBazaarWalasLocationToFirebase();
+
+          Navigator.push(
+              context,
+              MaterialPageRoute(//todo- category is hardcoded here, we need to one category to ProductDetail page from the categories selected
+                builder: (context) => ProductDetail(productWalaName: userName, category: 'KamWali',),//pass Name() here and pass Home()in name_screen
+              )
+          );
+        },
+        child: CustomText(text: 'Save',),
+      ),
     );
   }
 

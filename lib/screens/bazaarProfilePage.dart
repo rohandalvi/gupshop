@@ -107,7 +107,12 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 //          padding: EdgeInsets.fromLTRB(15, 150, 0, 0),
           ListView(
             children: <Widget>[
-              if(video != null || _cameraVideo != null) CustomVideoPlayer(videoURL: videoURL),
+              if(video != null || _cameraVideo != null) Row(
+                children: <Widget>[
+                  CustomVideoPlayer(videoURL: videoURL),
+                  changeVideo(),
+                ],
+              ),
               createSpaceBetweenButtons(15),
               pageSubtitle(),
               Visibility(
@@ -145,6 +150,18 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     );
   }
 
+  changeVideo(){
+    return CustomRaisedButton(
+      child: CustomText(text :'Change Video'),
+      onPressed: (){
+        setState(() {
+          video = null;
+          _cameraVideo = null;
+          videoURL = null;
+        });
+      },
+    );
+  }
 
   createSpaceBetweenButtons(double height){
     return SizedBox(
@@ -175,6 +192,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     setState(() {
       videoURL = url;
       videoSelected = false;
+      videoSelected = true;
     });
   }
 

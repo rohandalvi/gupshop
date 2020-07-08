@@ -61,7 +61,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   bool saveButtonVisible = false;
 
   File _cameraVideo;
-  bool videoSelected = true;
+  bool videoSelected = false;
   bool locationSelected = true;
 
   getCategorySizeFuture() async{
@@ -116,15 +116,15 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
               createSpaceBetweenButtons(15),
               pageSubtitle(),
               Visibility(
-                visible: videoSelected,
+                visible: (videoSelected == false),
                 child: setVideoFromGallery(),
               ),
               Visibility(
-                visible: videoSelected,
+                visible: (videoSelected == false),
                 child: or(),
               ),
               Visibility(
-                visible: videoSelected,
+                visible:(videoSelected == false),
                 child: setVideoFromCamera(),
               ),
 
@@ -158,6 +158,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
           video = null;
           _cameraVideo = null;
           videoURL = null;
+          videoSelected = false;
         });
       },
     );
@@ -191,7 +192,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, userPhoneNo, null);
     setState(() {
       videoURL = url;
-      videoSelected = false;
       videoSelected = true;
     });
   }
@@ -224,7 +224,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(_cameraVideo, userPhoneNo, null);
     setState(() {
       videoURL = url;
-      videoSelected = false;
+      videoSelected = true;
     });
   }
 

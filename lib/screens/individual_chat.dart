@@ -667,7 +667,7 @@ class _IndividualChatState extends State<IndividualChat> {
       return Icon(Icons.image);}
   }
 
-  showLocation(String senderName,double latitude, double longitude){
+  showLocation(String senderName,double latitude, double longitude){/// todo - use the same method from GeolocationServiceState
     return CustomRaisedButton(
       child: CustomText(text: '$senderName \nCurrent Location 📍',),/// toDo- very very big name
 //      shape:  RoundedRectangleBorder(

@@ -61,15 +61,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   File _cameraVideo;
   VideoPlayerController _cameraVideoPlayerController;
 
-  _pickVideoFromCamer() async{
-    File video = await ImagePicker.pickVideo(source: ImageSource.camera);
-    _cameraVideo = video;
-    _cameraVideoPlayerController = VideoPlayerController.file(_cameraVideo)..initialize().then((_){
-      setState(() {});
-      _cameraVideoPlayerController.play();
-    });
-  }
-
 
   getCategorySizeFuture() async{
     QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
@@ -104,7 +95,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: CustomAppBar(
-            title: CustomText(text: 'Become a Bazaarwala',),
+            title: CustomText(text: 'Become a Bazaarwala', fontSize: 20,),
             onPressed:(){
              Navigator.pop(context);
           },),
@@ -114,7 +105,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 //          padding: EdgeInsets.fromLTRB(15, 150, 0, 0),
           ListView(
             children: <Widget>[
-              if(video != null) CustomVideoPlayer(videoURL: videoURL),
+              if(video != null || _cameraVideo != null) CustomVideoPlayer(videoURL: videoURL),
               createSpaceBetweenButtons(15),
               pageSubtitle(),
               setVideoFromGallery(),
@@ -177,9 +168,25 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
       child: Text("Record from camera",style: GoogleFonts.openSans()),
     );
   }
+  _pickVideoFromCamer() async{
+//    File video = await ImagePicker.pickVideo(source: ImageSource.camera);
+//    _cameraVideo = video;
+//    _cameraVideoPlayerController = VideoPlayerController.file(_cameraVideo)..initialize().then((_){
+//      setState(() {});
+//      _cameraVideoPlayerController.play();
+//    });
+
+    File _video = await VideoPicker().pickVideoFromCamer();
+    _cameraVideo = _video;
+    print("_cameraVideo: $_cameraVideo");
+    videoURL = await ImagesPickersDisplayPictureURLorFile().getVideoURL(_cameraVideo, userPhoneNo, null);
+    setState(() {
+
+    });
+  }
 
 
-  setLocation(BuildContext context){
+  setLocation(BuildContext context){/// use usersLocation.dart
     return RaisedButton(
       onPressed: () async{
         Position location  = await GeolocationServiceState().getLocation();//setting user's location

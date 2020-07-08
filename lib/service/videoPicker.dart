@@ -19,12 +19,8 @@ class VideoPicker{
   }
 
 
-  File _cameraVideo;
-  VideoPlayerController _cameraVideoPlayerController;
-
   pickVideoFromCamer() async{
-    File video = await ImagePicker.pickVideo(source: ImageSource.camera);
-    _cameraVideo = video;
+    return await ImagePicker.pickVideo(source: ImageSource.camera);
  //   _cameraVideoPlayerController = VideoPlayerController.file(_cameraVideo)..initialize().then((_){
 //      setState(() {});
 //      _cameraVideoPlayerController.play();

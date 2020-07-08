@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:math';
 
+/// videoURL goes to VideoPlayerController controller = VideoPlayerController.network(videoURL);
+/// and then this controller
+/// is displayed in VideoPlayer(controller)
 class CustomVideoPlayer extends StatefulWidget {
   String videoURL;
   final double width;
@@ -31,7 +34,6 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
 
   @override
   void initState() {
-    print("controller in _CustomVideoPlayerState: $controller");
     controller = VideoPlayerController.network(videoURL);
     _initializeVideoPlayerFuture = controller.initialize();
     controller.setVolume(1.0);
@@ -83,11 +85,10 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
           FloatingActionButton(
             heroTag: "btn $number",
             onPressed: () {
-              // Wrap the play or pause in a call to `setState`. This ensures the
-              // correct icon is shown
+              /// Wrap the play or pause in a call to `setState`. This ensures the
+              /// correct icon is shown
               setState(() {
-                // If the video is playing, pause it.
-                print("controller: ${controller.value}");
+                /// If the video is playing, pause it.
                 if (controller.value.isPlaying) {
                   controller.pause();
                 } else {
@@ -96,7 +97,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                 }
               });
             },
-            // Display the correct icon depending on the state of the player.
+            /// Display the correct icon depending on the state of the player.
             child: Icon(
               controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
             ),

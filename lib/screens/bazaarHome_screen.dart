@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/bazaarProfilePage.dart';
 import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
+import 'package:gupshop/service/usersLocation.dart';
 import 'package:gupshop/widgets/bazaarHomeGridView.dart';
 
 // home.dart =>
@@ -30,44 +31,15 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
 
   _BazaarHomeScreenState({@required this.userPhoneNo, @required this.userName});
 
-  setUsersLocationToFirebase() async{
-    var userPhoneNo = await GetSharedPreferences().getUserPhoneNoFuture();//get user phone no
-    var ifHomeExists;
-
-    //if home location is not set then go on with setting the location
-    var future = await Firestore.instance.collection("usersLocation").document(userPhoneNo).get();
-    print("home: ${future.data["home"]}");
-    if(future.data["home"] != null){
-      ifHomeExists= true;
-    }ifHomeExists = false;
-
-
-
-   if(ifHomeExists == false) {
-     Position location = await GeolocationServiceState().getLocation();
-     var latitude = location.latitude;
-     var longitude = location.longitude;
-
-     var address = await GeolocationServiceState().getAddress();
-
-     GeolocationServiceState().pushUsersLocationToFirebase(latitude, longitude, userPhoneNo, "home", address); //pass a name for the location also as a parameter
-
-     print("location set");
-   }
-
-  }
-
   @override
   void initState() {
     super.initState();
 
-    setUsersLocationToFirebase();
+    UsersLocation().setUsersLocationToFirebase();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("userName in bazaarHomeScreen= $userName");
-    print("userPhone in bazaarHomeScreen= $userPhoneNo");
 
     return Scaffold(
       backgroundColor: Colors.white,

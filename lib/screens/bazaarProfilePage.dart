@@ -12,8 +12,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/productDetail.dart';
 import 'package:gupshop/service/checkBoxCategorySelector.dart';
 import 'package:gupshop/service/geolocation_service.dart';
+import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
+import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
+import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
@@ -39,10 +42,11 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
   Position _bazaarWalaLocation;
 
-  File _video;
-  VideoPlayerController _videoPlayerController;
-  bool isVideo = false;
-  dynamic _pickImageError;
+  File video;
+  String videoURL;
+//  VideoPlayerController _videoPlayerController;
+//  bool isVideo = false;
+//  dynamic _pickImageError;
 
   List<bool> inputs = new List<bool>();
   int categorySize;
@@ -55,17 +59,26 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   double longitude;
 
 
+//  _pickVideoFromGallery() async{
+//    File video = await ImagePicker.pickVideo(source: ImageSource.gallery);
+//    _video = video;
+////    _videoPlayerController = VideoPlayerController.asset('videos/LevenworthVideo.mp4')..initialize().then((_){;
+//    _videoPlayerController = VideoPlayerController.file(_video)..initialize().then((_){
+//      setState(() {
+//        _videoPlayerController.play();
+//      });
+//
+//    });
+//  }
   _pickVideoFromGallery() async{
-    File video = await ImagePicker.pickVideo(source: ImageSource.gallery);
-    _video = video;
-//    _videoPlayerController = VideoPlayerController.asset('videos/LevenworthVideo.mp4')..initialize().then((_){;
-    _videoPlayerController = VideoPlayerController.file(_video)..initialize().then((_){
-      setState(() {
-        _videoPlayerController.play();
-      });
-
+    File _video = await VideoPicker().pickVideoFromGallery();
+    setState(() {
+      video = _video;
     });
+    videoURL = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, userPhoneNo, null);
+
   }
+
 
 
   File _cameraVideo;
@@ -121,37 +134,33 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
           },),
         ),
       backgroundColor: Colors.white,
-      body: Builder(
-          builder:(context)=> Container(
-          padding: EdgeInsets.fromLTRB(15, 150, 0, 0),
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                if(_video != null)
-                  _videoPlayerController.value.initialized
-                  ? AspectRatio(
-                    aspectRatio: _videoPlayerController.value.aspectRatio,
-                    child: VideoPlayer(_videoPlayerController),
-                  )
-                      : Container()
-                else
-                  pageTitle(),
-                  createSpaceBetweenButtons(15),
-                  pageSubtitle(),
-                setVideoFromGallery(),
-                or(),
-                setVideoFromCamera(),
-                setLocation(context),
-                or(),
-                setLocationOtherThanCurrentAsHome(),
-                getCategories(context),
-              if(moveForward(isSelected))
-                showSaveButton(context),
-              ]
+      body:
+//          padding: EdgeInsets.fromLTRB(15, 150, 0, 0),
+          ListView(
+            children: <Widget>[
+              if(video != null) CustomVideoPlayer(videoURL: videoURL)
+//              if(_video != null)
+//                _videoPlayerController.value.initialized
+//                ? AspectRatio(
+//                  aspectRatio: _videoPlayerController.value.aspectRatio,
+//                  child: VideoPlayer(_videoPlayerController),
+//                )
+//                    : Container()
+              else
+                pageTitle(),
+                createSpaceBetweenButtons(15),
+                pageSubtitle(),
+              setVideoFromGallery(),
+              or(),
+              setVideoFromCamera(),
+              setLocation(context),
+              or(),
+              setLocationOtherThanCurrentAsHome(),
+              getCategories(context),
+            if(moveForward(isSelected))
+              showSaveButton(context),
+            ]
           ),
-        ),
-      ),
-    )
     );
   }
 
@@ -357,8 +366,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
   bool moveForward(bool isSelected) {
     bool result;
-      result = ((_video != null || _cameraVideo != null) && isSelected == true && _bazaarWalaLocation != null);
-    print("Video : $_video} and Camera: $_cameraVideo and IsSelected: $isSelected and bazaarwalalocation: $_bazaarWalaLocation");
+      result = ((video != null || _cameraVideo != null) && isSelected == true && _bazaarWalaLocation != null);
+    print("Video : $video} and Camera: $_cameraVideo and IsSelected: $isSelected and bazaarwalalocation: $_bazaarWalaLocation");
     print("result : $result");
     print("bazaarwala location : $_bazaarWalaLocation");
     print("latitude: $latitude");
@@ -401,7 +410,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     String fileName = basename(userPhoneNo+'bazaarProfilePicture');
     //String fileName = basename(_galleryImage.path);
     StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);
-    StorageUploadTask uploadTask = firebaseStorageReference.putFile(_video);
+    StorageUploadTask uploadTask = firebaseStorageReference.putFile(video);
     StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
     String videoURL = await imageURLFuture.ref.getDownloadURL();
     Firestore.instance.collection("videos").document(userPhoneNo).setData({'url':videoURL});

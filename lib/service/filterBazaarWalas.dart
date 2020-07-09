@@ -24,7 +24,7 @@ class FilterBazaarWalasState extends State<FilterBazaarWalas> {
     print("numbr in getUserGeohash: $number");
     DocumentSnapshot userGeohash = await GeolocationServiceState().getUserLocation(number);
     print("userGeohash val: ${userGeohash.data}");
-    return userGeohash.data["position"]["geohash"];
+    return userGeohash.data["home"]["geohash"];
   }
 
   getListOfUpperGeohashBazaarWalas(String userGeohash, String category) async{

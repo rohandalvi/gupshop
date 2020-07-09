@@ -248,16 +248,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     );
   }
   _pickVideoFromCamer() async{
-//    File video = await ImagePicker.pickVideo(source: ImageSource.camera);
-//    _cameraVideo = video;
-//    _cameraVideoPlayerController = VideoPlayerController.file(_cameraVideo)..initialize().then((_){
-//      setState(() {});
-//      _cameraVideoPlayerController.play();
-//    });
-
     File _video = await VideoPicker().pickVideoFromCamer();
     _cameraVideo = _video;
-    print("_cameraVideo: $_cameraVideo");
     String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(_cameraVideo, userPhoneNo, null);
     setState(() {
       videoURL = url;
@@ -460,11 +452,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
 
   showSaveButton(BuildContext context){
-    print("in showSaveButton");
     bool isVisible;
     setState(() {
       isVisible = moveForward(isCategorySelected);
-      print("isVisible: $isVisible");
     });
     return Visibility(
       visible: isVisible,
@@ -477,7 +467,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
           Navigator.push(
               context,
               MaterialPageRoute(//todo- category is hardcoded here, we need to one category to ProductDetail page from the categories selected
-                builder: (context) => ProductDetail(productWalaName: userName, category: 'KamWali',),//pass Name() here and pass Home()in name_screen
+                builder: (context) => ProductDetail(productWalaName: userName, category: 'KamWali', productWalaNumber: userPhoneNo,),//pass Name() here and pass Home()in name_screen
               )
           );
         },

@@ -50,7 +50,7 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => BazaarIndividualCategoryList(),//pass Name() here and pass Home()in name_screen
+                                  builder: (context) => BazaarIndividualCategoryList(category: catergoryName,),//pass Name() here and pass Home()in name_screen
                                 )
                             );
                           },

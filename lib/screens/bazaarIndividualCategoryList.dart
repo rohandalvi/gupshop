@@ -7,15 +7,21 @@ import 'package:gupshop/screens/productDetail.dart';
 import 'package:gupshop/service/filterBazaarWalas.dart';
 import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
+import 'package:gupshop/widgets/customListViewDisplay.dart';
+import 'package:gupshop/widgets/customText.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BazaarIndividualCategoryList extends StatefulWidget {
+  String category;
+
+  BazaarIndividualCategoryList({@required this.category});
+
   @override
   _BazaarIndividualCategoryListState createState() => _BazaarIndividualCategoryListState();
 }
 
 class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryList> {
-  String category = 'KamWali';
+//  String category = 'KamWali';
 
 
   Future<QuerySnapshot> getBazaarWalasInAGivenRadius;
@@ -37,7 +43,7 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
   getListOfBazaarWalasInAGivenRadius() async{
     var userPhoneNo = await GetSharedPreferences().getUserPhoneNoFuture();//get user phone no
     _userPhoneNo = userPhoneNo;
-    var listOfbazaarwalas = await FilterBazaarWalasState().getListOfBazaarWalasInAGivenRadius(userPhoneNo, "kamwali");
+    var listOfbazaarwalas = await FilterBazaarWalasState().getListOfBazaarWalasInAGivenRadius(userPhoneNo, widget.category);
     return listOfbazaarwalas;
   }
 
@@ -80,7 +86,7 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
 
 
               return StreamBuilder(//use bazaarcategory to display people insted becuase bazaarwalabasicprofile is categorized by phoneNumber now
-                  stream: Firestore.instance.collection("bazaarCategories").document(category).snapshots(),
+                  stream: Firestore.instance.collection("bazaarCategories").document(widget.category).snapshots(),
                   builder: (context, streamSnapshot){
 
                     if(streamSnapshot.data == null) return CircularProgressIndicator();//v v imp
@@ -89,104 +95,115 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
                     print("name in bazaarIndividualCategory: $name");
                     int rating = streamSnapshot.data[bazaarWalaPhoneNo]["rating"];
 
-
-              return Stack(
-                children: <Widget>[
-                  GestureDetector(//for navigation to Product detial page
-                    onTap: (){
+                  return CustomListViewDisplay(
+                    onTapNavigateTo: (){
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProductDetail(productWalaName: name, category:category),//
+                            builder: (context) => ProductDetail(productWalaName: name, category:widget.category, productWalaNumber: bazaarWalaPhoneNo,),//
                           )
                       );
                     },
-                    child: Container(//stack => container(Padding(Column(Row,text,star text, container))) and positioned[for profile pic]
-                      margin: EdgeInsets.fromLTRB(40,5,20,5),
-                      height: 150,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(100,20,20,20),//padding is added to move all i.e name,short description, rating and rupee to right to make room for the profile photo
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,//name,short description, ratings and rs all moves down a bit if this is removed
-                          crossAxisAlignment: CrossAxisAlignment.start,//alignment of ratings and  short description
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              //crossAxisAlignment: CrossAxisAlignment.start,//this is removed to decrease space between name and short description
-                              children: <Widget>[
-                                Container(
-                                  width:150,//to avoid overflow
-                                  child: Text(
-                                    name,
-                                    style: GoogleFonts.openSans(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    maxLines: 2,//to avoid overflow
-                                    overflow: TextOverflow.ellipsis,//to avoid overflow, show dots
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.chat_bubble_outline),
-                                ),
-                              ],
-                            ),
-                            //SizedBox(height: 20),
-                            Text(
-                              'speciality',
-                              style: GoogleFonts.openSans(
-                                fontSize: 9,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.blueGrey,
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            _buildRatingStars(rating),
-                            SizedBox(height: 5,),
-                            Container(
-                                child: Text('Rs'),
-                              alignment: Alignment.center,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).accentColor,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left:20,//left top and bottom for alignment of profile photo wrt to container
-                    top: 15,
-                    bottom: 15,
-                    child: GestureDetector(//for navigation to Product detial page
-                      onTap: (){
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductDetail(productWalaName: name, category:category),
-                            )
-                        );
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image(
-                          width: 110,
-                          image: AssetImage('images/sampleProfilePicture.jpeg'),
-                          fit: BoxFit.fill,//to adjust the image with the container
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
+                    display: CustomText(text: name,),
+                    showRatings: _buildRatingStars(rating),
+                  );
+//              return Stack(
+//                children: <Widget>[
+//                  GestureDetector(//for navigation to Product detial page
+//                    onTap: (){
+//                      Navigator.push(
+//                          context,
+//                          MaterialPageRoute(
+//                            builder: (context) => ProductDetail(productWalaName: name, category:widget.category),//
+//                          )
+//                      );
+//                    },
+//                    child: Container(//stack => container(Padding(Column(Row,text,star text, container))) and positioned[for profile pic]
+//                      margin: EdgeInsets.fromLTRB(40,5,20,5),
+//                      height: 150,
+//                      width: double.infinity,
+//                      decoration: BoxDecoration(
+//                        color: Colors.white,
+//                        borderRadius: BorderRadius.circular(20),
+//                      ),
+//                      child: Padding(
+//                        padding: EdgeInsets.fromLTRB(100,20,20,20),//padding is added to move all i.e name,short description, rating and rupee to right to make room for the profile photo
+//                        child: Column(
+//                          mainAxisAlignment: MainAxisAlignment.center,//name,short description, ratings and rs all moves down a bit if this is removed
+//                          crossAxisAlignment: CrossAxisAlignment.start,//alignment of ratings and  short description
+//                          children: <Widget>[
+//                            Row(
+//                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                              //crossAxisAlignment: CrossAxisAlignment.start,//this is removed to decrease space between name and short description
+//                              children: <Widget>[
+//                                Container(
+//                                  width:150,//to avoid overflow
+//                                  child: Text(
+//                                    name,
+//                                    style: GoogleFonts.openSans(
+//                                      fontSize: 18,
+//                                      fontWeight: FontWeight.w600,
+//                                    ),
+//                                    maxLines: 2,//to avoid overflow
+//                                    overflow: TextOverflow.ellipsis,//to avoid overflow, show dots
+//                                  ),
+//                                ),
+//                                IconButton(
+//                                  icon: Icon(Icons.chat_bubble_outline),
+//                                ),
+//                              ],
+//                            ),
+//                            //SizedBox(height: 20),
+//                            Text(
+//                              'speciality',
+//                              style: GoogleFonts.openSans(
+//                                fontSize: 9,
+//                                fontWeight: FontWeight.w600,
+//                                color: Colors.blueGrey,
+//                              ),
+//                            ),
+//                            SizedBox(height: 10,),
+//                            _buildRatingStars(rating),
+//                            SizedBox(height: 5,),
+//                            Container(
+//                                child: Text('Rs'),
+//                              alignment: Alignment.center,
+//                              width: 50,
+//                              decoration: BoxDecoration(
+//                                color: Theme.of(context).accentColor,
+//                                borderRadius: BorderRadius.circular(10),
+//                              ),
+//                            ),
+//                          ],
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                  Positioned(
+//                    left:20,//left top and bottom for alignment of profile photo wrt to container
+//                    top: 15,
+//                    bottom: 15,
+//                    child: GestureDetector(//for navigation to Product detial page
+//                      onTap: (){
+//                        Navigator.push(
+//                            context,
+//                            MaterialPageRoute(
+//                              builder: (context) => ProductDetail(productWalaName: name, category:widget.category),
+//                            )
+//                        );
+//                      },
+//                      child: ClipRRect(
+//                        borderRadius: BorderRadius.circular(20),
+//                        child: Image(
+//                          width: 110,
+//                          image: AssetImage('images/sampleProfilePicture.jpeg'),
+//                          fit: BoxFit.fill,//to adjust the image with the container
+//                        ),
+//                      ),
+//                    ),
+//                  ),
+//                ],
+//              );
               }
               );
             },

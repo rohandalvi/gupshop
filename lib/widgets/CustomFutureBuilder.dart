@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 
@@ -27,6 +29,28 @@ class CustomFutureBuilder extends StatelessWidget {
     );
   }
 }
+
+class CustomFutureBuilderForGetIsBazaarWala extends StatelessWidget {
+  Widget createIcon;
+  Widget editIcon;
+
+  CustomFutureBuilderForGetIsBazaarWala({@required this.createIcon, this.editIcon});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: UserDetails().getIsBazaarWalaInSharedPreferences(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if(snapshot.connectionState == ConnectionState.done) {
+            bool isBazaarWala = snapshot.data;
+            return isBazaarWala == true ? createIcon : editIcon;
+          }
+          return CircularProgressIndicator();
+        }
+    );
+  }
+}
+
 
 //class CustomerFutureBuilder extends State{
 //  FutureBuilder getFutureBuilder(Future future, Function builder) {

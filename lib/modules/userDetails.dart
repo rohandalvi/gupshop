@@ -28,4 +28,11 @@ class UserDetails{
     prefs.setBool('isBazaarWala', isBazaarWala);
   }
 
+  Future getIsBazaarWalaInSharedPreferences() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isBazaarWala = prefs.getBool('isBazaarWala');
+
+    return isBazaarWala;
+  }
 }

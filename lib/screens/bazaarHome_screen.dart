@@ -4,13 +4,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/screens/bazaarProfilePage.dart';
+import 'package:gupshop/screens/productDetail.dart';
 import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
 import 'package:gupshop/service/usersLocation.dart';
+import 'package:gupshop/widgets/CustomFutureBuilder.dart';
 import 'package:gupshop/widgets/bazaarHomeGridView.dart';
+import 'package:gupshop/widgets/customFloatingActionButton.dart';
 
 // home.dart =>
 // => bazaarProfilePage
@@ -49,15 +54,19 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
           new BazaarHomeGridView(),
         ],
       ),
-      floatingActionButton: _floatingActionButtonForNewBazaarwala(),
+      floatingActionButton: CustomFutureBuilderForGetIsBazaarWala(
+        createIcon: floatingActionButtonForNewBazaarwala(),
+        editIcon: floatingActionButtonForEditBazaarwala(),
+      ),
+      //_floatingActionButtonForNewBazaarwala(),
     );
   }
 
-
-  _floatingActionButtonForNewBazaarwala(){
-    return FloatingActionButton(
+  floatingActionButtonForNewBazaarwala(){
+    return CustomBigFloatingActionButton(
       child: IconButton(
-        icon: Icon(Icons.add),
+          icon: SvgPicture.asset('images/add.svg',)
+        //SvgPicture.asset('images/downChevron.svg',)
       ),
       onPressed: (){
         Navigator.push(
@@ -66,6 +75,23 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
               builder: (context) => BazaarProfilePage(userPhoneNo: userPhoneNo, userName: userName,),//pass Name() here and pass Home()in name_screen
             )
         );
+      },
+    );
+  }
+
+  floatingActionButtonForEditBazaarwala(){
+    return CustomBigFloatingActionButton(
+      child: IconButton(
+          icon: SvgPicture.asset('images/editPencil.svg',)
+        //SvgPicture.asset('images/downChevron.svg',)
+      ),
+      onPressed: (){
+//        Navigator.push(
+//            context,
+//            MaterialPageRoute(
+//              builder: (context) => ProductDetail(userPhoneNo: userPhoneNo, userName: userName,),//pass Name() here and pass Home()in name_screen
+//            )
+//        );
       },
     );
   }

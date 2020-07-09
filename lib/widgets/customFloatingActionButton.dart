@@ -25,3 +25,50 @@ class CustomFloatingActionButton extends StatelessWidget {
     );
   }
 }
+
+
+class CustomBigFloatingActionButton extends StatelessWidget {
+  final String tooltip;
+  final Widget child;
+  final VoidCallback onPressed;
+
+  CustomBigFloatingActionButton({this.tooltip, this.child, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
+      width: 100,
+      child: FittedBox(
+        child: CustomFloatingActionButton(
+          tooltip: tooltip,
+          child: child,
+          onPressed: onPressed,
+        ),
+      ),
+    );
+  }
+}
+
+
+//child: Container(
+//height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
+//width: 100,
+//child: FittedBox(
+//child: CustomFloatingActionButton(
+//tooltip: 'Create a new Group',
+///// create a listOfContactsSelected and send it to individualChat
+//onPressed: () {
+//createListOfContactsSelected();
+//
+/////navigate to creatGroupName_Screen:
+//if(shouldAddNewMemberToTheGroup){
+//print("new list in createGroup: $listOfNumbersInAGroup");
+//CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+//AddNewGroupMember().addToConversationMetadata(conversationId, listOfNumbersInAGroup);
+//}
+//else CustomNavigator().navigateToCreateGroupName_Screen(context, userName, userPhoneNo, listOfNumbersInAGroup);
+//}
+//),
+//),
+//)

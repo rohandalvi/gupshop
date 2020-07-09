@@ -6,6 +6,8 @@ import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/screens/createGroupName_screen.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/individual_chat.dart';
+import 'package:gupshop/screens/productDetail.dart';
+import 'package:gupshop/screens/selectCategoryToShowInProductDetailsPage.dart';
 import 'package:gupshop/screens/showGroupMembers.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/service/createGroup.dart';
@@ -101,6 +103,47 @@ class CustomNavigator{
     );
   }
 }
+
+class NavigateToProductDetailsPage{
+  String productWalaName;
+  String productWalaNumber;
+  String category;
+
+
+  NavigateToProductDetailsPage({this.productWalaName, this.productWalaNumber, this.category});
+
+  navigate(BuildContext context){
+    return (){
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetail(productWalaName: productWalaName, productWalaNumber: productWalaNumber,category: category,),//pass Name() here and pass Home()in name_screen
+          )
+      );
+    };
+  }
+}
+
+class NavigateToSelectCategoryToShowInProductDetailsPage{
+  String productWalaName;
+  String productWalaNumber;
+  List<String> category;
+
+
+  NavigateToSelectCategoryToShowInProductDetailsPage({this.productWalaName, this.productWalaNumber, this.category});
+
+  navigate(BuildContext context){
+    return (){
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SelectCategoryToShowInProductDetailsPage(productWalaName: productWalaName, productWalaNumber: productWalaNumber,category: category,),//pass Name() here and pass Home()in name_screen
+          )
+      );
+    };
+  }
+}
+
 
 //an If else in a navigation example:
 ///return Scaffold(

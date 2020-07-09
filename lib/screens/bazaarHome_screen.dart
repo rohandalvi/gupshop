@@ -7,9 +7,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/bazaar/getCategoriesSubscribedTo.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/screens/bazaarProfilePage.dart';
 import 'package:gupshop/screens/productDetail.dart';
+import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
 import 'package:gupshop/service/usersLocation.dart';
@@ -80,57 +82,26 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
   }
 
   floatingActionButtonForEditBazaarwala(){
-    return CustomBigFloatingActionButton(
-      child: IconButton(
-          icon: SvgPicture.asset('images/editPencil.svg',)
-        //SvgPicture.asset('images/downChevron.svg',)
-      ),
-      onPressed: (){
-//        Navigator.push(
-//            context,
-//            MaterialPageRoute(
-//              builder: (context) => ProductDetail(userPhoneNo: userPhoneNo, userName: userName,),//pass Name() here and pass Home()in name_screen
-//            )
-//        );
-      },
+    return FutureBuilder(
+      future: GetCategoriesSubscribedTo().getCategories(userPhoneNo, userName),
+      builder: (context, snapshot) {
+      if(snapshot.connectionState == ConnectionState.done) {
+          List<String> listOfCategoriesIAmIn = snapshot.data;
+          return CustomBigFloatingActionButton(
+            child: IconButton(
+                icon: SvgPicture.asset('images/editPencil.svg',)
+              //SvgPicture.asset('images/downChevron.svg',)
+            ),
+            onPressed: NavigateToSelectCategoryToShowInProductDetailsPage(
+              productWalaName: userName,
+              productWalaNumber: userPhoneNo,
+              category: listOfCategoriesIAmIn,
+            ).navigate(context),
+          );
+        }
+        return CircularProgressIndicator();
+      }
     );
   }
 }
 
-
-//Padding(
-//padding: EdgeInsets.only(left: 16, right: 16),
-//child: Row(
-//mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//children: <Widget>[
-//Column(
-//crossAxisAlignment: CrossAxisAlignment.start,
-//children: <Widget>[
-//Text(
-//"Category1",
-//style: GoogleFonts.openSans(
-//textStyle: TextStyle(
-//fontSize: 18,
-//fontWeight: FontWeight.bold,
-//),
-//),
-//),
-//SizedBox(height: 4,),
-//Text(
-//"Category1",
-//style: GoogleFonts.openSans(
-//textStyle: TextStyle(
-//fontSize: 18,
-//fontWeight: FontWeight.bold,
-//),
-//),
-//),
-//],
-//),
-//IconButton(
-//alignment: Alignment.topCenter,
-//icon: Icon(Icons.add),
-//),
-//],
-//),
-//),

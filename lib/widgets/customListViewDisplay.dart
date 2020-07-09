@@ -44,8 +44,8 @@ class CustomListViewDisplay extends StatelessWidget {
                     ],
                   ),
                   //SizedBox(height: 20),
-                  CustomText(text: 'speciality',),
-                  SizedBox(height: 10,),
+                  //CustomText(text: 'speciality',),
+                  //SizedBox(height: 10,),
                   showRatings,
                   SizedBox(height: 5,),
                   Container(

@@ -23,5 +23,9 @@ class UserDetails{
   }
 
 
+  saveUserAsBazaarWalaInSharedPreferences(bool isBazaarWala) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isBazaarWala', isBazaarWala);
+  }
 
 }

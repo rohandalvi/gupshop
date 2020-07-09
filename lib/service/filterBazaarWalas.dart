@@ -32,6 +32,7 @@ class FilterBazaarWalasState extends State<FilterBazaarWalas> {
         .document(category).collection(category)
         .where("upperGeoHash", isGreaterThanOrEqualTo: userGeohash).getDocuments();
 
+    print("futureBazaarWalaUpperGeoHashList : ${futureBazaarWalaUpperGeoHashList.documents}");
     return futureBazaarWalaUpperGeoHashList.documents;
   }
 

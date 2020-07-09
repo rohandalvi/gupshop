@@ -32,6 +32,8 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
                 itemCount: categoryLength,
                 itemBuilder: (BuildContext context, int index){
                   String catergoryName = snapshot.data.documents[index].data['name'];
+                  String categoryNameForBazaarIndividualCategoryList = snapshot.data.documents[index].documentID;
+                  print("categoryNameForBazaarIndividualCategoryList : $categoryNameForBazaarIndividualCategoryList");
                   String image = snapshot.data.documents[index].data['icon'];
 
                   return Container(
@@ -47,10 +49,11 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
                         SizedBox(height: 14,),//for space between icon and box on top
                         InkWell(
                           onTap: (){
+                            print("categoryNameForBazaarIndividualCategoryList in onTap: $categoryNameForBazaarIndividualCategoryList");
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => BazaarIndividualCategoryList(category: catergoryName,),//pass Name() here and pass Home()in name_screen
+                                  builder: (context) => BazaarIndividualCategoryList(category: categoryNameForBazaarIndividualCategoryList,),//pass Name() here and pass Home()in name_screen
                                 )
                             );
                           },

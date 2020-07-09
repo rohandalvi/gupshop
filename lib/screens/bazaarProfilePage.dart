@@ -11,6 +11,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/screens/productDetail.dart';
 import 'package:gupshop/service/checkBoxCategorySelector.dart';
 import 'package:gupshop/service/geolocation_service.dart';
@@ -462,23 +463,26 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
         onPressed: () async{
           await uploadVideoToFirestore(context);
           await pushCategorySelectedToFirebase();
-          await pushBazaarWalasLocationToFirebase();
+          //await pushBazaarWalasLocationToFirebase();
+          /// saving user as a bazaarwala in his shared preferences
+          UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
-          Navigator.push(
-              context,
-              MaterialPageRoute(//todo- category is hardcoded here, we need to one category to ProductDetail page from the categories selected
-                builder: (context) => ProductDetail(productWalaName: userName, category: 'KamWali', productWalaNumber: userPhoneNo,),//pass Name() here and pass Home()in name_screen
-              )
-          );
+//          Navigator.push(
+//              context,
+//              MaterialPageRoute(//todo- category is hardcoded here, we need to one category to ProductDetail page from the categories selected
+//                builder: (context) => ProductDetail(productWalaName: userName, category: categoryName, productWalaNumber: userPhoneNo,),//pass Name() here and pass Home()in name_screen
+//              )
+//          );
         },
         child: CustomText(text: 'Save',),
       ),
     );
   }
 
-  pushBazaarWalasLocationToFirebase(){
-    GeolocationServiceState().pushBazaarWalasLocationToFirebase(latitude, longitude);
-  }
+  /// pushes to bazaarWalasLocation collection:
+//  pushBazaarWalasLocationToFirebase(){
+//    GeolocationServiceState().pushBazaarWalasLocationToFirebase(latitude, longitude, categoryName);
+//  }
 
 
   Future uploadVideoToFirestore(BuildContext context) async{
@@ -523,6 +527,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
           }
         };
 
+        GeolocationServiceState().pushBazaarWalasLocationToFirebase(latitude, longitude, categoryName);
         Firestore.instance.collection("bazaarCategories").document(categoryName).setData(result, merge: true);
         Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({}, merge: true);
         Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).collection(userName).document(categoryName).setData({}, merge: true);

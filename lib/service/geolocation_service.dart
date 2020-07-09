@@ -69,7 +69,7 @@ class GeolocationServiceState extends State<GeolocationService> {
 
 
   //2
-  pushBazaarWalasLocationToFirebase(double latitude, double longitude){//used in createBazaarwala profile page
+  pushBazaarWalasLocationToFirebase(double latitude, double longitude, String categoryName){//used in createBazaarwala profile page
     String phoneNo = "+919870725050";
     print("geo : $geo");
     print("latitude :$latitude");
@@ -93,7 +93,7 @@ class GeolocationServiceState extends State<GeolocationService> {
     };
 
 
-    Firestore.instance.collection("bazaarWalasLocation").document("kamwali").collection("kamwali").document(phoneNo).setData(position);
+    Firestore.instance.collection("bazaarWalasLocation").document(categoryName).collection(categoryName).document(phoneNo).setData(position);
 
     //Firestore.instance.collection("bazaarWalasLocation").document("+919029169619").setData(position);
     print("myLocation data: ${myLocation.data}");

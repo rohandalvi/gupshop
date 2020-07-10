@@ -416,7 +416,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
   Future<bool> _categorySelectorCheckListDialogBox(BuildContext context){
     return showDialog(
-      barrierDismissible: (isCategorySelected == false),
+      barrierDismissible: categorySelected(),
         context: context,
         builder: (context){
           return AlertDialog(

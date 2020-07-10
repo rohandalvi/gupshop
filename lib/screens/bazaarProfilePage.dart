@@ -27,6 +27,7 @@ import 'package:gupshop/widgets/customForm.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
+import 'package:gupshop/widgets/videoPlayerAndSelectOptions.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
@@ -160,8 +161,17 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                   }
 
                   return ListView(
+                   // shrinkWrap: true,
                       children: <Widget>[
                         /// video widgets:
+//                        VideoPlayerAndSelectOptions(
+//                          video: video,
+//                          cameraVideo: _cameraVideo,
+//                          videoURL: videoURL,
+//                          videoSelected: videoSelected,
+//                          isBazaarWala: isBazaarWala,
+//                          userPhoneNo: userPhoneNo,
+//                        ),
                         if((video != null || _cameraVideo != null)) Row(
                           children: <Widget>[
                             CustomVideoPlayer(videoURL: videoURL),

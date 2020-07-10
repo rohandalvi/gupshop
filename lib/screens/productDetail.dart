@@ -405,16 +405,14 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
               //Firestore.instance.collection("bazaarReviews").document(userNumber).collection("reviews").snapshots();
 
               print("document is : ${snapshot.data.documents}");
-              print("snapshot under what is this:  ${snapshot.data.documents[0].data}");
-
               int lengthOfReviews = snapshot.data.documents.length;
-              print("length: $lengthOfReviews");
 
               if(snapshot.data == null) return CircularProgressIndicator();
 //            print("snapshot.data.data: ${snapshot.data.data}");
 //            int numberOfReviews = snapshot.data.data.length;
 
-              return NotificationListener<ScrollUpdateNotification>(
+              return snapshot.data.documents == null ? Center(child: CustomText(text: 'No reviews yet',)):/// not showing up
+              NotificationListener<ScrollUpdateNotification>(
                 child: ListView.separated(
                   shrinkWrap: true,//throws exception if not used
                   controller: new ScrollController(),//for scrolling screen

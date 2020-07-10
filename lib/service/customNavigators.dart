@@ -166,6 +166,8 @@ class NavigateToBazaarProfilePage{
   }
 }
 
+
+
 //an If else in a navigation example:
 ///return Scaffold(
 ///        appBar: PreferredSize(

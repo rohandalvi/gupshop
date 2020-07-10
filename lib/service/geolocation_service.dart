@@ -67,22 +67,11 @@ class GeolocationServiceState extends State<GeolocationService> {
   }
 
 
-
-  //2
-  pushBazaarWalasLocationToFirebase(double latitude, double longitude, String categoryName){//used in createBazaarwala profile page
-    String phoneNo = "+919870725050";
-    print("geo : $geo");
-    print("latitude :$latitude");
-    print("mylocation: ${geo.point(latitude: latitude, longitude: longitude)}");
-
+  getLocationInOurFormat(double latitude, double longitude){
     GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
-    print("mylocation.data: ${myLocation.data}");
 
     String bazaarWalasUpperRadius = _getBazaarWalasUpperRadius(latitude, longitude, distance);//distance 50//static for now//later can be asked from the bazaarwalas
     String bazaarWalasLowerRadius = _getBazaarWalasLowerRadius(latitude, longitude, distance);
-
-    print("My location ${myLocation.hash} , radiusHash: $bazaarWalasLowerRadius result: ${myLocation.hash.compareTo(bazaarWalasLowerRadius)}");
-    print("My location ${myLocation.hash} , radiusHash: $bazaarWalasUpperRadius result: ${myLocation.hash.compareTo(bazaarWalasUpperRadius)}");
 
     var position =
     {
@@ -92,11 +81,15 @@ class GeolocationServiceState extends State<GeolocationService> {
       'lowerGeoHash': bazaarWalasLowerRadius,
     };
 
+    return position;
+  }
 
-    Firestore.instance.collection("bazaarWalasLocation").document(categoryName).collection(categoryName).document(phoneNo).setData(position);
+  //2
+  pushBazaarWalasLocationToFirebase(double latitude, double longitude, String categoryName,String userNumber){//used in createBazaarwala profile page
+    var position = getLocationInOurFormat(latitude, longitude);
 
-    //Firestore.instance.collection("bazaarWalasLocation").document("+919029169619").setData(position);
-    print("myLocation data: ${myLocation.data}");
+    Firestore.instance.collection("bazaarWalasLocation").document(categoryName).setData({}, merge: true);///creating document to avoid error document(italic) creation
+    Firestore.instance.collection("bazaarWalasLocation").document(categoryName).collection(categoryName).document(userNumber).setData(position);
   }
 
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:gupshop/screens/bazaarHome_screen.dart';
+import 'package:gupshop/screens/bazaarProfilePage.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/screens/createGroupName_screen.dart';
@@ -144,6 +145,26 @@ class NavigateToSelectCategoryToShowInProductDetailsPage{
   }
 }
 
+
+class NavigateToBazaarProfilePage{
+  String userName;
+  String userPhoneNo;
+  List<String> category;
+
+
+  NavigateToBazaarProfilePage({this.userName, this.userPhoneNo});
+
+  navigate(BuildContext context){
+    return (){
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BazaarProfilePage(userPhoneNo: userPhoneNo, userName: userName,),//pass Name() here and pass Home()in name_screen
+          )
+      );
+    };
+  }
+}
 
 //an If else in a navigation example:
 ///return Scaffold(

@@ -11,6 +11,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/bazaar/bazaarWalasBasicProfile.dart';
+import 'package:gupshop/bazaar/setDocumentIdsForCollections.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/screens/productDetail.dart';
 import 'package:gupshop/service/checkBoxCategorySelector.dart';
@@ -462,8 +464,12 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
       child: CustomRaisedButton(
         onPressed: () async{
           await uploadVideoToFirestore(context);
-          await pushCategorySelectedToFirebase();
-          //await pushBazaarWalasLocationToFirebase();
+          await pushTobazaarWalasLocationCategoryBasicProfile();
+
+          /// create some blank collections:
+          await SetDocumentIdsForCollections().setForBazaarRatingNumbers(userPhoneNo);
+          await SetDocumentIdsForCollections().setForBazaarReviews(userPhoneNo);
+
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
@@ -479,12 +485,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     );
   }
 
-  /// pushes to bazaarWalasLocation collection:
-//  pushBazaarWalasLocationToFirebase(){
-//    GeolocationServiceState().pushBazaarWalasLocationToFirebase(latitude, longitude, categoryName);
-//  }
-
-
   Future uploadVideoToFirestore(BuildContext context) async{
     String fileName = basename(userPhoneNo+'bazaarProfilePicture');
     //String fileName = basename(_galleryImage.path);
@@ -493,46 +493,40 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
     String videoURL = await imageURLFuture.ref.getDownloadURL();
     Firestore.instance.collection("videos").document(userPhoneNo).setData({'url':videoURL});
-
-//    setState(() {
-//      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile created successufully'),));
-//    });
   }
 
 
-  pushCategorySelectedToFirebase() async{
+  pushTobazaarWalasLocationCategoryBasicProfile() async{
     QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
 
     if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
 
     String categoryName;
+    List<String> categoriesForBazaarWalasBasicProfile = new List();
 
     for(int i=0; i<inputs.length; i++){
       if(inputs[i] == true) {//if any cateogry is selected it would be true in input array
         categoryName = querySnapshot.documents[i].documentID;
-        print("category name : $categoryName");
+        /// creating new list to store in bazaarWalasBasicProfile
+        categoriesForBazaarWalasBasicProfile.add(categoryName);
 
-        String phoneNo = userPhoneNo;
-        print("userPhoneNo: $userPhoneNo");
-        print("userName: $userName");
-
-        //then push it to firebase:
-        //1. push the name and the number of the bazaarwala to the bazaarCategories collection under that specific category document
-        //bWC => category => number->name,rating
-        //2. push the name and number to bazaarWalasBasicProfile
-        //bWBP => number => ?  => category => name, rating
         var result = {
           userPhoneNo: {
             'name': userName
           }
         };
 
-        GeolocationServiceState().pushBazaarWalasLocationToFirebase(latitude, longitude, categoryName);
+        ///push to bazaarWalasLocation collection
+        GeolocationServiceState().pushBazaarWalasLocationToFirebase(latitude, longitude, categoryName, userPhoneNo);
+        ///bazaarCategories
+        ///if new user then dont merge, else merge
         Firestore.instance.collection("bazaarCategories").document(categoryName).setData(result, merge: true);
-        Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({}, merge: true);
-        Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).collection(userName).document(categoryName).setData({}, merge: true);
       }
     }
+
+    ///bazaarWalasBasicProfile
+    var homeLocation = await GeolocationServiceState().getLocationInOurFormat(latitude, longitude);
+    await BazaarWalasBasicProfile(userPhoneNo: userPhoneNo, userName: userName).pushToFirebase(videoURL, homeLocation, categoriesForBazaarWalasBasicProfile, categoryName);
   }
 
 }

@@ -70,37 +70,18 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
           icon: SvgPicture.asset('images/add.svg',)
         //SvgPicture.asset('images/downChevron.svg',)
       ),
-      onPressed: (){
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BazaarProfilePage(userPhoneNo: userPhoneNo, userName: userName,),//pass Name() here and pass Home()in name_screen
-            )
-        );
-      },
+      onPressed: NavigateToBazaarProfilePage(userName: userName, userPhoneNo: userPhoneNo).navigate(context)
     );
   }
 
+  /// futureBuilder for show
   floatingActionButtonForEditBazaarwala(){
-    return FutureBuilder(
-      future: GetCategoriesSubscribedTo().getCategories(userPhoneNo, userName),
-      builder: (context, snapshot) {
-      if(snapshot.connectionState == ConnectionState.done) {
-          List<String> listOfCategoriesIAmIn = snapshot.data;
-          return CustomBigFloatingActionButton(
-            child: IconButton(
-                icon: SvgPicture.asset('images/editPencil.svg',)
-              //SvgPicture.asset('images/downChevron.svg',)
-            ),
-            onPressed: NavigateToSelectCategoryToShowInProductDetailsPage(
-              productWalaName: userName,
-              productWalaNumber: userPhoneNo,
-              category: listOfCategoriesIAmIn,
-            ).navigate(context),
-          );
-        }
-        return CircularProgressIndicator();
-      }
+    return CustomBigFloatingActionButton(
+        child: IconButton(
+            icon: SvgPicture.asset('images/editPencil.svg',)
+          //SvgPicture.asset('images/downChevron.svg',)
+        ),
+        onPressed: NavigateToBazaarProfilePage(userName: userName, userPhoneNo: userPhoneNo).navigate(context)
     );
   }
 }

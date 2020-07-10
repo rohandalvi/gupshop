@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/service/createGroup.dart';
 
+/// required to view bazaarwalas profile page
 class SelectCategoryToShowInProductDetailsPage extends StatelessWidget {
   String productWalaName;
   String productWalaNumber;
@@ -10,6 +11,10 @@ class SelectCategoryToShowInProductDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CreateGroup();
+    return CreateGroup(
+      userName: productWalaName,
+      userPhoneNo: productWalaNumber,
+      ///onSearch: category,
+    );
   }
 }

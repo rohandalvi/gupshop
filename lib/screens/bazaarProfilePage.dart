@@ -421,7 +421,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
   Future<bool> _categorySelectorCheckListDialogBox(BuildContext context){
     return showDialog(
-      barrierDismissible: categorySelected(),
+      barrierDismissible: false,
         context: context,
         builder: (context){
           return AlertDialog(
@@ -496,9 +496,10 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
   bool categorySelected(){
     print("map :$map");
-    if(map.containsValue(true)) return true;
-    print("map.containsValue(true) ${map.containsValue(true)}");
-    return false;
+    print("map.containsValue(true) : ${map.containsValue(true)}");
+    return map.containsValue(true);
+
+
 //    for(int i=0; i<inputs.length; i++){
 //      if(inputs[i] == true){
 //        return true;

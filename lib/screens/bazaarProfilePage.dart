@@ -1,5 +1,6 @@
 //import 'dart:html';
 import 'dart:async';
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,6 +22,7 @@ import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customForm.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
@@ -57,6 +59,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
 
   List<bool> inputs = new List<bool>();
+  List<String> categoriesForBazaarWalasBasicProfile = new List();
+
   int categorySize;
   bool saveButtonVisible = false;
 
@@ -65,13 +69,22 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   bool videoSelected = false;
   bool locationSelected = true;
   bool isCategorySelected = false;
+  bool isBazaarWala;
 
+  Map<String, bool > map = new SplayTreeMap();
   getCategorySizeFuture() async{
     QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
 
     if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
 
+    Map mapOfDocumentSnapshots = querySnapshot.documents.asMap();
+    print("mapOfDocumentSnapshots : ${mapOfDocumentSnapshots[0].data}");
+    mapOfDocumentSnapshots.forEach((key, value) {
+      String categoryNames = mapOfDocumentSnapshots[key].data["name"];
+      map.putIfAbsent(categoryNames, () => false);
+    });
     int size = querySnapshot.documents.length;
+    print("map : $map");
     return size;
   }
 
@@ -90,7 +103,17 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     //getUserPhone();
     initializeList(inputs);
 
+    getIsBazaarWala();
+
     super.initState();
+  }
+
+
+  getIsBazaarWala() async{
+    bool result= await UserDetails().getIsBazaarWalaInSharedPreferences();
+    setState(() {
+      isBazaarWala = result;
+    });
   }
 
   @override
@@ -106,70 +129,121 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
         ),
       backgroundColor: Colors.white,
       body:
-//          padding: EdgeInsets.fromLTRB(15, 150, 0, 0),
-          ListView(
-            children: <Widget>[
-              /// video widgets:
-              if(video != null || _cameraVideo != null) Row(
-                children: <Widget>[
-                  CustomVideoPlayer(videoURL: videoURL),
-                  changeVideo(),
-                ],
-              ),
-              createSpaceBetweenButtons(15),
-              pageSubtitle(),
-              Visibility(
-                visible: (videoSelected == false),
-                child: setVideoFromGallery(),
-              ),
-              Visibility(
-                visible: (videoSelected == false),
-                child: or(),
-              ),
-              Visibility(
-                visible:(videoSelected == false),
-                child: setVideoFromCamera(),
-              ),
+//      FutureBuilder(
+//        future: UserDetails().getIsBazaarWalaInSharedPreferences(),
+//        builder: (context, snapshot) {
+//          if(snapshot.connectionState == ConnectionState.done){
+//            isBazaarWala = snapshot.data;
 
-              /// location widgets:
-              if(locationSelected == false ) Row(
-                children: <Widget>[
-                  GeolocationServiceState().showLocation(userName, latitude, longitude),
-                  changeLocation(),
-                ],
-              ),
-              Visibility(
-                visible: locationSelected,
-                child: setLocation(context),
-              ),
-              Visibility(
-                visible: locationSelected,
-                child: or(),
-              ),
-              Visibility(
-                visible: locationSelected,
-                child: setLocationOtherThanCurrentAsHome(),
-              ),
+          FutureBuilder(
+                future: Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).get(),
+                builder: (context, snapshot) {
+                  if(snapshot.connectionState == ConnectionState.done){
+                    isBazaarWala = false;
+                  print("isBazaarWala: $isBazaarWala");
+                  if(isBazaarWala == true){
+                    video = new File("videoURL");
+                    videoURL = snapshot.data["videoURL"];
+                    videoSelected = true;
 
-              /// category widgets:
-              if(isCategorySelected == true ) changeCategories(context),
-              Visibility(
-                visible: (isCategorySelected == false),
-                child: getCategories(context),
-              ),
+                    longitude = snapshot.data["longitude"];
+                    latitude = snapshot.data["latitude"];
+                    _bazaarWalaLocation = new Position(longitude: longitude, latitude: latitude);
+                    locationSelected = false;
 
-              /// show save button if everything is selected:
-              showSaveButton(context),
-            ]
-          ),
+                    isCategorySelected = true;
+                    //inputs = snapshot.data["categories"];
+                  }
+
+                  return ListView(
+                      children: <Widget>[
+                        /// video widgets:
+                        if((video != null || _cameraVideo != null)) Row(
+                          children: <Widget>[
+                            CustomVideoPlayer(videoURL: videoURL),
+                            changeVideo(),
+                          ],
+                        ),
+                        createSpaceBetweenButtons(15),
+                        pageSubtitle(),
+                        Visibility(
+                          visible: (videoSelected == false),
+                          child: setVideoFromGallery(),
+                        ),
+                        Visibility(
+                          visible: (videoSelected == false),
+                          child: or(),
+                        ),
+                        Visibility(
+                          visible:(videoSelected == false),
+                          child: setVideoFromCamera(),
+                        ),
+
+                        /// location widgets:
+                        if(locationSelected == false ) Row(
+                          children: <Widget>[
+                            GeolocationServiceState().showLocation(userName, latitude, longitude),
+                            changeLocation(),
+                          ],
+                        ),
+                        Visibility(
+                          visible: locationSelected,
+                          child: setLocation(context),
+                        ),
+                        Visibility(
+                          visible: locationSelected,
+                          child: or(),
+                        ),
+                        Visibility(
+                          visible: locationSelected,
+                          child: setLocationOtherThanCurrentAsHome(),
+                        ),
+
+                        /// category widgets:
+                        if(isCategorySelected == true ) changeCategories(context),
+                        Visibility(
+                          visible: (isCategorySelected == false),
+                          child: getCategories(context),
+                        ),
+
+                        /// show save button if everything is selected:
+                        showSaveButton(context),
+                      ]
+                  );
+                  } return CircularProgressIndicator();
+                }
+              ),
+//          } return CircularProgressIndicator();
+//        }
+//      ),
     );
   }
 
+//  CustomForm(
+//  showFirstWidget: (video != null || _cameraVideo != null),
+//  firstWidget : CustomVideoPlayer(videoURL: videoURL),
+//  firstFieldName : 'video',
+//  subTitle: 'Advertisement: ',
+//  showFirstField: videoSelected,
+//  fieldFirstOptionOne: setVideoFromGallery(),
+//  fieldFirstOptionTwo: setVideoFromCamera(),
+//  showSecondWidget: locationSelected,
+//  secondWidget: GeolocationServiceState().showLocation(userName, latitude, longitude),
+//  secondFieldName : 'location',
+//  fieldSecondOptionOne: setLocation(context),
+//  fieldSecondOptionTwo: setLocationOtherThanCurrentAsHome(),
+//  showThirdWidget: isCategorySelected,
+//  thirdWidget: changeCategories(context),
+//  fieldThirdOptionOne: getCategories(context),
+//  save:showSaveButton(context),
+//  ),
+  
   changeVideo(){
     return CustomRaisedButton(
       child: CustomText(text :'Change Video'),
       onPressed: (){
         setState(() {
+          isBazaarWala = false;
           video = null;
           _cameraVideo = null;
           videoURL = null;
@@ -184,6 +258,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
       child: CustomText(text :'Change Location'),
       onPressed: (){
         setState(() {
+          isBazaarWala = false;
           _bazaarWalaLocation = null;
           latitude = null;
           longitude = null;
@@ -198,6 +273,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
       child: CustomText(text :'Change Category'),
       onPressed: (){
         setState(() {
+          isBazaarWala = false;
           isCategorySelected = false;
         });
       },
@@ -331,8 +407,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
       onPressed: () async{
         bool _isSelected = await _categorySelectorCheckListDialogBox(context);
         setState(() {
-          print("_isSelected: $_isSelected");
           isCategorySelected = _isSelected;
+          print("isCategorySelected: $isCategorySelected");
         });
       },
       child: Text("Select from category",style: GoogleFonts.openSans()),
@@ -340,6 +416,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
   Future<bool> _categorySelectorCheckListDialogBox(BuildContext context){
     return showDialog(
+      barrierDismissible: (isCategorySelected == false),
         context: context,
         builder: (context){
           return AlertDialog(
@@ -348,6 +425,12 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
+                    CustomRaisedButton(
+                      child: CustomText(text: 'back',),
+                      onPressed: (){
+                        Navigator.of(context).pop(false);
+                      },
+                    ),
                     StreamBuilder<QuerySnapshot>(
                         stream: Firestore.instance.collection("bazaarCategoryTypesAndImages").snapshots(),
                         builder: (context, snapshot) {
@@ -357,7 +440,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                           QuerySnapshot querySnapshot = snapshot.data;
 
                           List<DocumentSnapshot> listOfDocumentSnapshot = snapshot.data.documents;
-                          print("listOfDocumentSnapshot: ${querySnapshot.documents[4].data["name"]}");
 
                           int categoryLength = snapshot.data.documents.length;
 
@@ -370,7 +452,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                                 itemCount: categoryLength,
                                 shrinkWrap: true,
                                 itemBuilder: (BuildContext context, int index) {
-
+                                  String categoryName = querySnapshot.documents[index].data["name"];
                                   print("categoryLength in itembuilder:  $categoryLength");
                                   print("name $index : ${querySnapshot.documents[index].data["name"]}");
                                   //RenderFlex children have non-zero flex but incoming height constraints are unbounded.
@@ -383,12 +465,13 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                                           flex: 1,
                                           child: CheckboxListTile(
                                             title: Text(querySnapshot.documents[index].data["name"]),
-                                            value: inputs[index],
+                                            value: map[categoryName] == null ? false : map[categoryName],
+                                            //inputs[index],
                                             //controlAffinity: ListTileControlAffinity.leading,
                                             onChanged: (bool val){
                                               setState(() {
-                                                inputs[index] = val;
-                                                isCategorySelected = ifNoCategorySelected();
+                                                map[categoryName] = val; /// setting the new value as selected by user
+                                                isCategorySelected = categorySelected();
                                                 print("isSelected: $isCategorySelected");
                                               });
                                             },
@@ -405,12 +488,12 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                     MaterialButton(
                       onPressed: (){
                         // pushCategorySelectedToFirebase();
-                        if(ifNoCategorySelected() == true){
+                        if(categorySelected() == true){
                           Navigator.of(context).pop(true);
                         }
                         else Navigator.of(context).pop(false);
                       },
-                      child: ifNoCategorySelected() ? Text("Save") : null,
+                      child: categorySelected() ? Text("Save") : null,
                       //child: ifNoCategorySelected() ? Text("Save") : Text("Required"),//flip and show save once and required once
                     ),
                   ],
@@ -422,20 +505,23 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     );
   }
 
-  bool ifNoCategorySelected(){
-    for(int i=0; i<inputs.length; i++){
-      if(inputs[i] == true){
-        return true;
-      }
-    }
+  bool categorySelected(){
+    if(map.containsValue(true)) return true;
+    print("map.containsValue(true) ${map.containsValue(true)}");
     return false;
+//    for(int i=0; i<inputs.length; i++){
+//      if(inputs[i] == true){
+//        return true;
+//      }
+//    }
+//    return false;
   }
 
-  void itemChange(bool val, int indexVal){
-    setState(() {
-      inputs[indexVal] = val;
-    });
-  }
+//  void itemChange(bool val, int indexVal){
+//    setState(() {
+//      inputs[indexVal] = val;
+//    });
+//  }
 
 
   bool moveForward(bool isSelected) {
@@ -446,9 +532,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     print("bazaarwala location : $_bazaarWalaLocation");
     print("latitude: $latitude");
     print("result : $result");
-    setState(() {
+//    setState(() {
       saveButtonVisible = result;
-    });
+//    });
     return saveButtonVisible;
   }
 
@@ -456,14 +542,15 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
   showSaveButton(BuildContext context){
     bool isVisible;
-    setState(() {
+//    setState(() {
       isVisible = moveForward(isCategorySelected);
-    });
+//    });
     return Visibility(
       visible: isVisible,
       child: CustomRaisedButton(
         onPressed: () async{
-          await uploadVideoToFirestore(context);
+          await uploadVideoToFirestore();
+         // await createCategoriesForBazaarWalasBasicProfileListIfIsBazaarWalaFalse();
           await pushTobazaarWalasLocationCategoryBasicProfile();
 
           /// create some blank collections:
@@ -485,31 +572,36 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     );
   }
 
-  Future uploadVideoToFirestore(BuildContext context) async{
-    String fileName = basename(userPhoneNo+'bazaarProfilePicture');
-    //String fileName = basename(_galleryImage.path);
-    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);
-    StorageUploadTask uploadTask = firebaseStorageReference.putFile(video);
-    StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
-    String videoURL = await imageURLFuture.ref.getDownloadURL();
+  uploadVideoToFirestore() async{
+//    String fileName = basename(userPhoneNo+'bazaarProfilePicture');
+//    //String fileName = basename(_galleryImage.path);
+//    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);
+//    StorageUploadTask uploadTask = firebaseStorageReference.putFile(video);
+//    StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
+//    String videoURL = await imageURLFuture.ref.getDownloadURL();
     Firestore.instance.collection("videos").document(userPhoneNo).setData({'url':videoURL});
   }
 
 
-  pushTobazaarWalasLocationCategoryBasicProfile() async{
-    QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
+  pushTobazaarWalasLocationCategoryBasicProfile() async {
+    QuerySnapshot querySnapshot = await Firestore.instance.collection(
+        "bazaarCategoryTypesAndImages").getDocuments();
 
-    if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
+    if (querySnapshot == null)
+      return CircularProgressIndicator(); //to avoid red screen(error)
 
     String categoryName;
-    List<String> categoriesForBazaarWalasBasicProfile = new List();
 
-    for(int i=0; i<inputs.length; i++){
-      if(inputs[i] == true) {//if any cateogry is selected it would be true in input array
+    for (int i = 0; i < inputs.length; i++) {
+      if (inputs[i] ==
+          true) { //if any cateogry is selected it would be true in input array
         categoryName = querySnapshot.documents[i].documentID;
+
         /// creating new list to store in bazaarWalasBasicProfile
         categoriesForBazaarWalasBasicProfile.add(categoryName);
 
+//    for(int i=0; i<categoriesForBazaarWalasBasicProfile.length; i++){
+//      String categoryName = categoriesForBazaarWalasBasicProfile[i];
         var result = {
           userPhoneNo: {
             'name': userName
@@ -517,16 +609,40 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
         };
 
         ///push to bazaarWalasLocation collection
-        GeolocationServiceState().pushBazaarWalasLocationToFirebase(latitude, longitude, categoryName, userPhoneNo);
+        GeolocationServiceState().pushBazaarWalasLocationToFirebase(
+            latitude, longitude, categoryName, userPhoneNo);
+
         ///bazaarCategories
         ///if new user then dont merge, else merge
-        Firestore.instance.collection("bazaarCategories").document(categoryName).setData(result, merge: true);
+        Firestore.instance.collection("bazaarCategories")
+            .document(categoryName)
+            .setData(result, merge: true);
+      }
+
+      ///bazaarWalasBasicProfile
+      //var homeLocation = await GeolocationServiceState().getLocationInOurFormat(latitude, longitude);
+      /// update and not add
+      await BazaarWalasBasicProfile(
+          userPhoneNo: userPhoneNo, userName: userName).pushToFirebase(
+          videoURL, latitude, longitude, categoriesForBazaarWalasBasicProfile,
+          categoryName);
+    }
+  }
+
+  createCategoriesForBazaarWalasBasicProfileListIfIsBazaarWalaFalse() async{
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
+
+    if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
+
+    String categoryName;
+
+    for(int i=0; i<inputs.length; i++){
+      if(inputs[i] == true) {//if any cateogry is selected it would be true in input array
+        categoryName = querySnapshot.documents[i].documentID;
+        /// creating new list to store in bazaarWalasBasicProfile
+        categoriesForBazaarWalasBasicProfile.add(categoryName);
       }
     }
-
-    ///bazaarWalasBasicProfile
-    var homeLocation = await GeolocationServiceState().getLocationInOurFormat(latitude, longitude);
-    await BazaarWalasBasicProfile(userPhoneNo: userPhoneNo, userName: userName).pushToFirebase(videoURL, homeLocation, categoriesForBazaarWalasBasicProfile, categoryName);
   }
 
 }

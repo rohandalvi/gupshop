@@ -43,7 +43,8 @@ class CustomFutureBuilderForGetIsBazaarWala extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if(snapshot.connectionState == ConnectionState.done) {
             bool isBazaarWala = snapshot.data;
-            return isBazaarWala == true ? createIcon : editIcon;
+            print("isBazaarWala in CustomFutureBuilderForGetIsBazaarWala: $isBazaarWala");
+            return isBazaarWala == true ? editIcon : createIcon;
           }
           return CircularProgressIndicator();
         }

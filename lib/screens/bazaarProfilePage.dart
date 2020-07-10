@@ -13,6 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/bazaar/bazaarWalasBasicProfile.dart';
+import 'package:gupshop/bazaar/createMapFromListOfCategories.dart';
 import 'package:gupshop/bazaar/setDocumentIdsForCollections.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/screens/productDetail.dart';
@@ -78,13 +79,13 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
 
     Map mapOfDocumentSnapshots = querySnapshot.documents.asMap();
-    print("mapOfDocumentSnapshots : ${mapOfDocumentSnapshots[0].data}");
+    print("mapOfDocumentSnapshots : ${mapOfDocumentSnapshots[0].documentID}");
     mapOfDocumentSnapshots.forEach((key, value) {
-      String categoryNames = mapOfDocumentSnapshots[key].data["name"];
+      String categoryNames = mapOfDocumentSnapshots[key].documentID;
       map.putIfAbsent(categoryNames, () => false);
     });
     int size = querySnapshot.documents.length;
-    print("map : $map");
+    print("map in getCategorySizeFuture: $map");
     return size;
   }
 
@@ -139,7 +140,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                 future: Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).get(),
                 builder: (context, snapshot) {
                   if(snapshot.connectionState == ConnectionState.done){
-                    isBazaarWala = false;
+//                    isBazaarWala = false;
                   print("isBazaarWala: $isBazaarWala");
                   if(isBazaarWala == true){
                     video = new File("videoURL");
@@ -152,7 +153,10 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                     locationSelected = false;
 
                     isCategorySelected = true;
-                    //inputs = snapshot.data["categories"];
+                    ///create map here:
+                    List<String> listOfCategoriesSelected = snapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
+                    map = CreateMapFromListOfCategories().createMap(listOfCategoriesSelected, map);
+                    print("map in FutureBuilder : $map");
                   }
 
                   return ListView(
@@ -407,6 +411,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
       onPressed: () async{
         bool _isSelected = await _categorySelectorCheckListDialogBox(context);
         setState(() {
+          /// toDo - find why isCategorySelected is null if no category is selected
           isCategorySelected = _isSelected;
           print("isCategorySelected: $isCategorySelected");
         });
@@ -431,81 +436,66 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                         Navigator.of(context).pop(false);
                       },
                     ),
-                    StreamBuilder<QuerySnapshot>(
-                        stream: Firestore.instance.collection("bazaarCategoryTypesAndImages").snapshots(),
-                        builder: (context, snapshot) {
-
-                          if(snapshot.data == null) return CircularProgressIndicator();
-
-                          QuerySnapshot querySnapshot = snapshot.data;
-
-                          List<DocumentSnapshot> listOfDocumentSnapshot = snapshot.data.documents;
-
-                          int categoryLength = snapshot.data.documents.length;
-
-                          //A RenderFlex overflowed by 299361 pixels on the bottom.
-                          //solution - use Container and constraints
-                          return Container(//toDo- make the size of the container flexible
-                            height: 300,
-                            width: 300,
-                            child: ListView.builder(
-                                itemCount: categoryLength,
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  String categoryName = querySnapshot.documents[index].data["name"];
-                                  print("categoryLength in itembuilder:  $categoryLength");
-                                  print("name $index : ${querySnapshot.documents[index].data["name"]}");
-                                  //RenderFlex children have non-zero flex but incoming height constraints are unbounded.
-                                  return Container(//container was wrapped with sized box before, but we dont need it because we are using column and  flexible which are giving sizes
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Flexible(
-                                          fit: FlexFit.loose,
-                                          flex: 1,
-                                          child: CheckboxListTile(
-                                            title: Text(querySnapshot.documents[index].data["name"]),
-                                            value: map[categoryName] == null ? false : map[categoryName],
-                                            //inputs[index],
-                                            //controlAffinity: ListTileControlAffinity.leading,
-                                            onChanged: (bool val){
-                                              setState(() {
-                                                map[categoryName] = val; /// setting the new value as selected by user
-                                                isCategorySelected = categorySelected();
-                                                print("isSelected: $isCategorySelected");
-                                              });
-                                            },
-                                          ),
+                  /// A RenderFlex overflowed by 299361 pixels on the bottom.
+                  /// solution - use Container and constraints
+                    Container(//toDo- make the size of the container flexible
+                          height: 300,
+                          width: 300,
+                          child: ListView.builder(
+                              itemCount: map.length,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                String categoryName = map.keys.elementAt(index);///getting key in string from index in a map
+                                ///RenderFlex children have non-zero flex but incoming height constraints are unbounded.
+                                return Container(//container was wrapped with sized box before, but we dont need it because we are using column and  flexible which are giving sizes
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Flexible(
+                                        fit: FlexFit.loose,
+                                        flex: 1,
+                                        child: CheckboxListTile(
+                                          title: CustomText(text: categoryName,),
+                                          value: map[categoryName] == null ? false : map[categoryName],
+                                          //inputs[index],
+                                          //controlAffinity: ListTileControlAffinity.leading,
+                                          onChanged: (bool val){
+                                            setState(() {
+                                              map[categoryName] = val; /// setting the new value as selected by user
+                                              isCategorySelected = categorySelected();
+                                              print("isSelected: $isCategorySelected");
+                                            });
+                                          },
                                         ),
-                                      ],
-                                    ),
-                                  );
-                                }
-                            ),
-                          );
-                        }
-                    ),
-                    MaterialButton(
-                      onPressed: (){
-                        // pushCategorySelectedToFirebase();
-                        if(categorySelected() == true){
-                          Navigator.of(context).pop(true);
-                        }
-                        else Navigator.of(context).pop(false);
-                      },
-                      child: categorySelected() ? Text("Save") : null,
-                      //child: ifNoCategorySelected() ? Text("Save") : Text("Required"),//flip and show save once and required once
-                    ),
-                  ],
-                );
-              },
-            ),
-          );
-        }
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                          ),
+                        ),
+                  MaterialButton(
+                    onPressed: (){
+                      // pushCategorySelectedToFirebase();
+                      if(categorySelected() == true){
+                        Navigator.of(context).pop(true);
+                      }
+                      else Navigator.of(context).pop(false);
+                    },
+                    child: categorySelected() ? Text("Save") : null,
+                    //child: ifNoCategorySelected() ? Text("Save") : Text("Required"),//flip and show save once and required once
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      }
     );
   }
 
   bool categorySelected(){
+    print("map :$map");
     if(map.containsValue(true)) return true;
     print("map.containsValue(true) ${map.containsValue(true)}");
     return false;
@@ -592,16 +582,17 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
     String categoryName;
 
-    for (int i = 0; i < inputs.length; i++) {
-      if (inputs[i] ==
-          true) { //if any cateogry is selected it would be true in input array
-        categoryName = querySnapshot.documents[i].documentID;
+//    for (int i = 0; i < inputs.length; i++) {
+//      if (inputs[i] == true) { //if any cateogry is selected it would be true in input array
+//        categoryName = querySnapshot.documents[i].documentID;
 
         /// creating new list to store in bazaarWalasBasicProfile
-        categoriesForBazaarWalasBasicProfile.add(categoryName);
+//        categoriesForBazaarWalasBasicProfile.add(categoryName);
 
-//    for(int i=0; i<categoriesForBazaarWalasBasicProfile.length; i++){
-//      String categoryName = categoriesForBazaarWalasBasicProfile[i];
+    map.forEach((categoryNameInMap, value) {
+      if(value == true) {
+        String categoryName = categoryNameInMap;
+        categoriesForBazaarWalasBasicProfile.add(categoryName);
         var result = {
           userPhoneNo: {
             'name': userName
@@ -612,37 +603,33 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
         GeolocationServiceState().pushBazaarWalasLocationToFirebase(
             latitude, longitude, categoryName, userPhoneNo);
 
-        ///bazaarCategories
+        ///push to bazaarCategories
         ///if new user then dont merge, else merge
-        Firestore.instance.collection("bazaarCategories")
-            .document(categoryName)
-            .setData(result, merge: true);
+        Firestore.instance.collection("bazaarCategories").document(categoryName).setData(result, merge: true);
       }
+    });
 
-      ///bazaarWalasBasicProfile
-      //var homeLocation = await GeolocationServiceState().getLocationInOurFormat(latitude, longitude);
-      /// update and not add
+      ///push to bazaarWalasBasicProfile
+      /// update and not add if edit profile
       await BazaarWalasBasicProfile(
           userPhoneNo: userPhoneNo, userName: userName).pushToFirebase(
           videoURL, latitude, longitude, categoriesForBazaarWalasBasicProfile,
           categoryName);
     }
-  }
 
-  createCategoriesForBazaarWalasBasicProfileListIfIsBazaarWalaFalse() async{
-    QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
-
-    if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
-
-    String categoryName;
-
-    for(int i=0; i<inputs.length; i++){
-      if(inputs[i] == true) {//if any cateogry is selected it would be true in input array
-        categoryName = querySnapshot.documents[i].documentID;
-        /// creating new list to store in bazaarWalasBasicProfile
-        categoriesForBazaarWalasBasicProfile.add(categoryName);
-      }
-    }
-  }
-
+//  createCategoriesForBazaarWalasBasicProfileListIfIsBazaarWalaFalse() async{
+//    QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
+//
+//    if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
+//
+//    String categoryName;
+//
+//    for(int i=0; i<inputs.length; i++){
+//      if(inputs[i] == true) {//if any cateogry is selected it would be true in input array
+//        categoryName = querySnapshot.documents[i].documentID;
+//        /// creating new list to store in bazaarWalasBasicProfile
+//        categoriesForBazaarWalasBasicProfile.add(categoryName);
+//      }
+//    }
+//  }
 }

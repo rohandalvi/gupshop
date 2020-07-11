@@ -87,7 +87,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
     playerController = VideoPlayerController.asset('videos/LevenworthVideo.mp4');
     _initializeVideoPlayerFuture = playerController.initialize();
 
-    collectionReference = Firestore.instance.collection("bazaarReviews").document(userNumber).collection("reviews");
+    collectionReference = Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection("reviews");
     stream = collectionReference.snapshots();
 
     getUserName();
@@ -98,13 +98,13 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
     super.initState();
   }
 
-  @override
-  void dispose() {
-    // Ensure disposing of the VideoPlayerController to free up resources.
-    playerController.dispose();
-
-    super.dispose();
-  }
+//  @override
+//  void dispose() {
+//    // Ensure disposing of the VideoPlayerController to free up resources.
+//    playerController.dispose();
+//
+//    super.dispose();
+//  }
 
   goToBazaarIndividualCategoryListPage() async{
     print("in onWillPop");
@@ -128,7 +128,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           preferredSize: Size.fromHeight(70.0),
           child: CustomAppBar(
             title: CustomText(text: 'Product Detail', fontSize: 20,),
-            onPressed: NavigateToHome(userPhoneNo: userNumber, userName: userName).navigate(context),
+            onPressed: NavigateToBazaarIndiviudalCategoryList(category: category).navigate(context),
           ),
         ),
         body: Flex(//---> Expanded has to be wrapped in Flex always
@@ -234,9 +234,9 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                 //---> pushing review data to firebase bazaarReviews collection:
                 print("data: $data");
                 //print("what is : ${Firestore.instance.collection("bazaarReviews").document(userNumber).collection("reviews").document().setData(data)}");
-                Firestore.instance.collection("bazaarReviews").document(userNumber).collection("reviews").document().setData(data);
+                Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection("reviews").document().setData(data);
 
-                Firestore.instance.collection("bazaarRatingsNumbers").document(userNumber).updateData({"likes": likes, "dislikes":dislikes});
+                Firestore.instance.collection("bazaarRatingsNumbers").document(widget.productWalaNumber).updateData({"likes": likes, "dislikes":dislikes});
 
                 print("likeDislike befoew setting state: $likeOrDislike ");
                 writeReview= false;//---> to show the non textField view again, where we have only the reviews
@@ -323,7 +323,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         userNumber = numberSnapshot.data;
         return Card(
           child: FutureBuilder(
-            future: FirestoreShortcuts().getVideoURL(userNumber),
+            future: FirestoreShortcuts().getVideoURL(widget.productWalaNumber),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
                 String videoURL = snapshot.data["url"];
@@ -553,7 +553,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
   }
 
   numberOfLikes() async{
-    await Firestore.instance.collection("bazaarRatingsNumbers").document(userNumber).get().then((val){
+    await Firestore.instance.collection("bazaarRatingsNumbers").document(widget.productWalaNumber).get().then((val){
       setState(() {
         likes= val.data["dislikes"];
       });
@@ -562,8 +562,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
   }
 
   numberOfDislikes() async{
-    DocumentSnapshot dc =  await Firestore.instance.collection("bazaarRatingsNumbers").document(userNumber).get();
-    print("dislikes: ${dc.data}");
+    DocumentSnapshot dc =  await Firestore.instance.collection("bazaarRatingsNumbers").document(widget.productWalaNumber).get();
+    print("dislikes: ${dc}");
     setState(() {
       dislikes= dc.data["dislikes"];
     });

@@ -93,7 +93,7 @@ class GeolocationServiceState extends State<GeolocationService> {
   }
 
 
-  //use in bazaarHome_screen to set the user's location to firebase
+  ///use in bazaarHome_screen to set the user's location to firebase
   pushUsersLocationToFirebase(var latitude, var longitude, String phoneNo, String locationName, var address){//set users location to firebase
     GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
 

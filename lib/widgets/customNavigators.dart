@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:gupshop/bazaar/bazaarHome_screen.dart';
+import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/screens/bazaarProfilePage.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/screens/contactSearchPage.dart';
@@ -181,6 +182,24 @@ class NavigateToHome{
           context,
           MaterialPageRoute(
             builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName,),//pass Name() here and pass Home()in name_screen
+          )
+      );
+    };
+  }
+}
+
+class NavigateToBazaarIndiviudalCategoryList{
+  String category;
+
+
+  NavigateToBazaarIndiviudalCategoryList({this.category});
+
+  navigate(BuildContext context){
+    return (){
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BazaarIndividualCategoryList(category: category,),//pass Name() here and pass Home()in name_screen
           )
       );
     };

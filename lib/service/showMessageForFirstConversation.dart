@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-import 'customNavigators.dart';
+import '../widgets/customNavigators.dart';
 
 class ShowMessageForFirstConversation{
 

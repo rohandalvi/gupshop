@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/screens/home.dart';
-import 'package:gupshop/service/customNavigators.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'dart:io';

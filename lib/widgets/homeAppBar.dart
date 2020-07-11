@@ -7,7 +7,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
-import 'package:gupshop/service/customNavigators.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
@@ -72,6 +72,8 @@ class _HomeAppBarState extends State<HomeAppBar> {
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 bool isBazaarWala = snapshot.data;
+                if(isBazaarWala == null) isBazaarWala = false;
+                print("isBazaarWala: $isBazaarWala");
                 return Visibility(
                   visible: isBazaarWala,
                   child: CustomIconButton(

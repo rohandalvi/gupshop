@@ -7,7 +7,7 @@ import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
-import 'package:gupshop/service/customNavigators.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/widgets/customText.dart';
 class ContactSearch<T> extends StatefulWidget {

@@ -6,7 +6,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/screens/bazaarHome_screen.dart';
 import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/screens/home.dart';
-import 'package:gupshop/service/customNavigators.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -128,11 +128,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           preferredSize: Size.fromHeight(70.0),
           child: CustomAppBar(
             title: CustomText(text: 'Product Detail', fontSize: 20,),
-            onPressed:(){
-//              goToBazaarIndividualCategoryListPage();
-              //Navigator.pop(context);
-              CustomNavigator().navigateToBazaarHomeScreen(context, userNumber, userName);
-            },),
+            onPressed: NavigateToHome(userPhoneNo: userNumber, userName: userName).navigate(context),
+          ),
         ),
         body: Flex(//---> Expanded has to be wrapped in Flex always
             direction: Axis.vertical,//---> this is the required property of Flex

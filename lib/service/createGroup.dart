@@ -13,7 +13,7 @@ import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-import 'customNavigators.dart';
+import '../widgets/customNavigators.dart';
 
 class CreateGroup<T> extends StatefulWidget {
   String userPhoneNo;

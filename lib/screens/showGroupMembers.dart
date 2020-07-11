@@ -5,7 +5,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/screens/changeGroupName.dart';
 import 'package:gupshop/service/addNewGroupMember.dart';
 import 'package:gupshop/service/createGroup.dart';
-import 'package:gupshop/service/customNavigators.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/deleteMembersFromGroup.dart';
 import 'package:gupshop/service/getConversationDetails.dart';
 import 'package:gupshop/service/getGroupMemberNames.dart';

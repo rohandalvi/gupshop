@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/getCategoriesSubscribedTo.dart';
 import 'package:gupshop/service/contact_search.dart';
-import 'package:gupshop/service/customNavigators.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customSearch.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -55,7 +55,6 @@ class _SelectCategoryToShowInProductDetailsPageState extends State<SelectCategor
 
   Future<List<String>> searchCategoryList(String text) async {
     List<String> list = await GetCategoriesSubscribedTo(userNumber:widget.productWalaNumber, userName:widget.productWalaName).getCategories(text);
-    print("list in searchCategoryList :$list");
     return list.where((l) => l.toLowerCase()
         .contains(text.toLowerCase()) || l.contains(text)).toList();
   }

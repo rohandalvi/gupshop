@@ -168,6 +168,24 @@ class NavigateToBazaarProfilePage{
   }
 }
 
+class NavigateToHome{
+  String userName;
+  String userPhoneNo;
+
+
+  NavigateToHome({this.userName, this.userPhoneNo});
+
+  navigate(BuildContext context){
+    return (){
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName,),//pass Name() here and pass Home()in name_screen
+          )
+      );
+    };
+  }
+}
 
 
 //an If else in a navigation example:

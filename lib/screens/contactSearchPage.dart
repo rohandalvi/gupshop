@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
-import 'package:gupshop/service/customNavigators.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 
 class ContactSearchPage extends StatefulWidget {

@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
@@ -10,6 +11,7 @@ import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/verticalPadding.dart';
@@ -65,6 +67,23 @@ class _HomeAppBarState extends State<HomeAppBar> {
 //          child: CustomText(text: 'Refresh new contacts',),
 //        ),
         actions: <Widget>[
+          FutureBuilder(
+            future: UserDetails().getIsBazaarWalaInSharedPreferences(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                bool isBazaarWala = snapshot.data;
+                return Visibility(
+                  visible: isBazaarWala,
+                  child: CustomIconButton(
+                    onPressed: NavigateToSelectCategoryToShowInProductDetailsPage(productWalaNumber: userPhoneNo, productWalaName: userName).navigate(context),
+                    iconNameInImageFolder: 'bazaar',),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
           IconButton(
             icon: SvgPicture.asset('images/groupManWoman.svg',),
             onPressed: (){

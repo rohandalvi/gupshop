@@ -7,8 +7,8 @@ import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/screens/createGroupName_screen.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/individual_chat.dart';
-import 'package:gupshop/screens/productDetail.dart';
-import 'package:gupshop/screens/selectCategoryToShowInProductDetailsPage.dart';
+import 'package:gupshop/bazaar/productDetail.dart';
+import 'package:gupshop/bazaar/selectCategoryToShowInProductDetailsPage.dart';
 import 'package:gupshop/screens/showGroupMembers.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/service/createGroup.dart';
@@ -128,17 +128,19 @@ class NavigateToProductDetailsPage{
 class NavigateToSelectCategoryToShowInProductDetailsPage{
   String productWalaName;
   String productWalaNumber;
-  List<String> category;
 
 
-  NavigateToSelectCategoryToShowInProductDetailsPage({this.productWalaName, this.productWalaNumber, this.category});
+  NavigateToSelectCategoryToShowInProductDetailsPage({this.productWalaName, this.productWalaNumber});
 
   navigate(BuildContext context){
+    print("in navigate");
+    print("username in navigate : $productWalaName");
+    print("userNumber in navigate : $productWalaNumber");
     return (){
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SelectCategoryToShowInProductDetailsPage(productWalaName: productWalaName, productWalaNumber: productWalaNumber,category: category,),//pass Name() here and pass Home()in name_screen
+            builder: (context) => SelectCategoryToShowInProductDetailsPage(productWalaName: productWalaName, productWalaNumber: productWalaNumber,),//pass Name() here and pass Home()in name_screen
           )
       );
     };

@@ -16,7 +16,7 @@ import 'package:gupshop/bazaar/bazaarWalasBasicProfile.dart';
 import 'package:gupshop/bazaar/createMapFromListOfCategories.dart';
 import 'package:gupshop/bazaar/setDocumentIdsForCollections.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/screens/productDetail.dart';
+import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/service/checkBoxCategorySelector.dart';
 import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';

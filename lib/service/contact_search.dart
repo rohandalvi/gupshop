@@ -17,8 +17,9 @@ class ContactSearch<T> extends StatefulWidget {
   final data;
   final Widget Function(DocumentSnapshot item, int index) onItemFound;
   final Future<List<T>> Function(String text) onSearch;
+  final List<T> suggestions;
 
-  ContactSearch({@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch, this.createGroupSearch});
+  ContactSearch({@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch, this.createGroupSearch, this.suggestions});
 
   @override
   _ContactSearchState createState() => _ContactSearchState(userPhoneNo: userPhoneNo, userName: userName, data: data,createGroupSearch: createGroupSearch);
@@ -70,7 +71,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
           ),
           minimumChars: 1,/// minimum characters to enter to start the search
           loader: CircularProgressIndicator(),
-          suggestions: list == null ? new List() : list,
+          suggestions: widget.suggestions==null ? (list == null ? new List() : list) : widget.suggestions,
           /// as list is a future, the loading screen was
           /// throwing an error  before the list was loaded and was showing a red screen to the user.
           /// So, we are creating a placeholder new List() here till the list loads and becuase suggestions
@@ -188,6 +189,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
     }
 
     var tempList = temp.documents;
+    print("tempList : $tempList");
     print("list: $list");
     setState(() {
       list = tempList;

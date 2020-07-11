@@ -220,6 +220,7 @@ class ChatListState extends State<ChatList> {
                       ),
                       title: CustomText(text: friendName),
                       subtitle: lastMessageIsVideo == true ?
+                          ///futurebuilder demo:
                       FutureBuilder(
                         future: getVideoDetailsFromVideoChat(index),
                         builder: (BuildContext context, AsyncSnapshot snapshot) {

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/screens/productDetail.dart';
+import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class CustomListViewDisplay extends StatelessWidget {

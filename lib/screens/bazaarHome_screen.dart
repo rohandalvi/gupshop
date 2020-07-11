@@ -10,7 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/bazaar/getCategoriesSubscribedTo.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/screens/bazaarProfilePage.dart';
-import 'package:gupshop/screens/productDetail.dart';
+import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/service/customNavigators.dart';
 import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';

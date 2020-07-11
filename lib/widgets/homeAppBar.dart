@@ -72,7 +72,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 bool isBazaarWala = snapshot.data;
-                if(isBazaarWala == null) isBazaarWala = false;
+                if(isBazaarWala == null) isBazaarWala = false;/// if the user is not bazaarWala then isBazaarWala returns as null giving us an error
                 print("isBazaarWala: $isBazaarWala");
                 return Visibility(
                   visible: isBazaarWala,

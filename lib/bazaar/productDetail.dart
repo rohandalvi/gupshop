@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/screens/bazaarHome_screen.dart';
+import 'package:gupshop/bazaar/bazaarHome_screen.dart';
 import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/widgets/customNavigators.dart';

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/bazaar/likesAndDislikes.dart';
 import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/bazaar/bazaarHome_screen.dart';
@@ -44,7 +45,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
   bool writeReview;
   bool like=true;
   String reviewBody;
-  bool likeOrDislike= true;
+  bool likeOrDislike;
   String reviewNumberString;
   Timestamp timeStamp;
 
@@ -92,8 +93,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
     getUserName();
 
-    numberOfDislikes();
-    numberOfLikes();
+//    numberOfDislikes();
+//    numberOfLikes();
 
     super.initState();
   }
@@ -128,7 +129,10 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           preferredSize: Size.fromHeight(70.0),
           child: CustomAppBar(
             title: CustomText(text: 'Product Detail', fontSize: 20,),
-            onPressed: NavigateToBazaarIndiviudalCategoryList(category: category).navigate(context),
+            onPressed: (){
+              Navigator.pop(context);
+            }
+            //NavigateToBazaarIndiviudalCategoryList(category: category).navigate(context),
           ),
         ),
         body: Flex(//---> Expanded has to be wrapped in Flex always
@@ -231,12 +235,17 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                   "timestamp":DateTime.now(),
                 };
 
+                if(likeOrDislike == null || likeOrDislike == true){
+                  setState(() {
+                    likes++;
+                  });
+                } else dislikes++;
                 //---> pushing review data to firebase bazaarReviews collection:
                 print("data: $data");
                 //print("what is : ${Firestore.instance.collection("bazaarReviews").document(userNumber).collection("reviews").document().setData(data)}");
                 Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection("reviews").document().setData(data);
 
-                Firestore.instance.collection("bazaarRatingsNumbers").document(widget.productWalaNumber).updateData({"likes": likes, "dislikes":dislikes});
+                Firestore.instance.collection("bazaarRatingNumbers").document(widget.productWalaNumber).updateData({"likes": likes, "dislikes":dislikes});
 
                 print("likeDislike befoew setting state: $likeOrDislike ");
                 writeReview= false;//---> to show the non textField view again, where we have only the reviews
@@ -257,9 +266,10 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
       child: GestureDetector(
           onTap: (){
             setState(() {
-              likes++;
+              //likes++;
               like=true;
               likeOrDislike=true;
+              print("likes : $likes");
               print("likedislike in like==false: $likeOrDislike");
             });
           },
@@ -471,28 +481,51 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
   _buildRatingStars(int rating){
     return Row(
-      children: <Widget>[
-        Container(//wrapped in a container becuase if later the number of likes or  dislikes  become hummungus then it would not overflow
-            child: Row(
-              children: <Widget>[
-                Text('👍'),
-                Text(likes.toString()),
-              ],
-            )
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 12),
-            child: Row(
-              children: <Widget>[
-                Text('👎'),
-                Text(dislikes.toString()),
-              ],
-            )
-        ),
-      ],
-    );
+            children: <Widget>[
+              FutureBuilder(
+                future: LikesAndDislikes().numberOfLikes(widget.productWalaNumber),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    likes = snapshot.data;
+                    return  Container(//wrapped in a container becuase if later the number of likes or  dislikes  become hummungus then it would not overflow
+                        child: Row(
+                          children: <Widget>[
+                            Text('👍'),
+                            Text(likes.toString()),
+                          ],
+                        )
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+              FutureBuilder(
+                future: LikesAndDislikes().numberOfDislikes(widget.productWalaNumber),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    dislikes = snapshot.data;
+                    return
+                      Container(
+                          padding: EdgeInsets.only(left: 12),
+                          child: Row(
+                            children: <Widget>[
+                              Text('👎'),
+                              Text(dislikes.toString()),
+                            ],
+                          )
+                      );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+            ],
+          );
+        }
 
-  }
 
   _buildLikeOrDislike(bool likeOrDislike){
     if (likeOrDislike == true){
@@ -552,23 +585,24 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
     );
   }
 
-  numberOfLikes() async{
-    await Firestore.instance.collection("bazaarRatingsNumbers").document(widget.productWalaNumber).get().then((val){
-      setState(() {
-        likes= val.data["dislikes"];
-      });
-      print("dislikes: $dislikes");
-    });
-  }
-
-  numberOfDislikes() async{
-    DocumentSnapshot dc =  await Firestore.instance.collection("bazaarRatingsNumbers").document(widget.productWalaNumber).get();
-    print("dislikes: ${dc}");
-    setState(() {
-      dislikes= dc.data["dislikes"];
-    });
-
-  }
+//  numberOfLikes() async{
+//    await Firestore.instance.collection("bazaarRatingNumbers").document(widget.productWalaNumber).get().then((val){
+//      setState(() {
+//        likes= val.data["dislikes"];
+//      });
+//      print("dislikes: $dislikes");
+//    });
+//  }
+//
+//  numberOfDislikes() async{
+//    print("widget.productWalaNumber in numberOfDislikes: ${widget.productWalaNumber}");
+//    DocumentSnapshot dc =  await Firestore.instance.collection("bazaarRatingNumbers").document(widget.productWalaNumber).get();
+//    print("dislikes: ${dc.data}");
+//    setState(() {
+//      dislikes= dc.data["dislikes"];
+//    });
+//
+//  }
 
 
 

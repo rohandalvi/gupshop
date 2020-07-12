@@ -7,7 +7,9 @@ import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/service/filterBazaarWalas.dart';
 import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
+import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customListViewDisplay.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -54,22 +56,31 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
 
     return Scaffold(
       backgroundColor: Colors.blueGrey[50],
-      appBar: AppBar(
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.edit_location),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(70.0),
+        child: CustomAppBar(
+          title: CustomText(text: widget.category.toUpperCase(), fontSize: 20,),
           onPressed: (){
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  //builder: (context) => AddressBook(userPhoneNo:_userPhoneNo),//pass Name() here and pass Home()in name_screen
-                )
-            );
-          },
-          //take user to a new page, to select locations from a given list or add new one
+            Navigator.pop(context);
+          }
+        ),
       ),
-      ],
-      ),
+//      appBar: AppBar(
+//      actions: <Widget>[
+//        IconButton(
+//          icon: Icon(Icons.edit_location),
+//          onPressed: (){
+//            Navigator.push(
+//                context,
+//                MaterialPageRoute(
+//                  //builder: (context) => AddressBook(userPhoneNo:_userPhoneNo),//pass Name() here and pass Home()in name_screen
+//                )
+//            );
+//          },
+//          //take user to a new page, to select locations from a given list or add new one
+//      ),
+//      ],
+//      ),
       body: FutureBuilder(
             future: getListOfBazaarWalasInAGivenRadius(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {

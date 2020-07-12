@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LikesAndDislikes{
-  numberOfLikes(String productWalaNumber) async{
-    DocumentSnapshot dc = await Firestore.instance.collection("bazaarRatingNumbers").document(productWalaNumber).get();
+  numberOfLikes(String productWalaNumber, String category) async{
+    DocumentSnapshot dc = await Firestore.instance.collection("bazaarRatingNumbers").document(productWalaNumber).collection(category).document("ratings").get();
     return dc.data["likes"];
   }
 
-  numberOfDislikes(String productWalaNumber) async{
-    DocumentSnapshot dc =  await Firestore.instance.collection("bazaarRatingNumbers").document(productWalaNumber).get();
+  numberOfDislikes(String productWalaNumber, String category) async{
+    DocumentSnapshot dc =  await Firestore.instance.collection("bazaarRatingNumbers").document(productWalaNumber).collection(category).document("ratings").get();
     return dc.data["dislikes"];
   }
 }

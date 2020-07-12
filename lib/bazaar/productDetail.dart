@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/bazaar/bazaarFirestoreShortcuts.dart';
 import 'package:gupshop/bazaar/likesAndDislikes.dart';
 import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/modules/userDetails.dart';
@@ -223,7 +224,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         ),
         IconButton(
           icon: Icon(Icons.arrow_forward_ios),
-          onPressed: (){
+          onPressed: () {
             print("userName in iconButton: $userName");
 
             if(_formKey.currentState.validate()){
@@ -235,6 +236,9 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                   "timestamp":DateTime.now(),
                 };
 
+                if(likes == null) likes =0;
+                if(dislikes == null) dislikes =0;
+
                 if(likeOrDislike == null || likeOrDislike == true){
                   setState(() {
                     likes++;
@@ -243,13 +247,13 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                 //---> pushing review data to firebase bazaarReviews collection:
                 print("data: $data");
                 //print("what is : ${Firestore.instance.collection("bazaarReviews").document(userNumber).collection("reviews").document().setData(data)}");
-                Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection("reviews").document().setData(data);
+                BazaarFirestoreShortcuts().addReviewToBazaarReviewsCollection(widget.productWalaNumber, category, data);
 
-                Firestore.instance.collection("bazaarRatingNumbers").document(widget.productWalaNumber).updateData({"likes": likes, "dislikes":dislikes});
+                BazaarFirestoreShortcuts().updateRatingsInBazaarRatingNumbers(widget.productWalaNumber, category, likes, dislikes);
 
                 print("likeDislike befoew setting state: $likeOrDislike ");
-                writeReview= false;//---> to show the non textField view again, where we have only the reviews
-                like = true;//---> setting the like and dislike's state as false again, to make them appear on the review bar again
+                writeReview= false;///to show the non textField view again, where we have only the reviews
+                like = true;///setting the like and dislike's state as false again, to make them appear on the review bar again
                 //disLike = false;
                 print("likeDislike befoew after state: $likeOrDislike ");
               });
@@ -404,7 +408,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         children: <Widget>[
           StreamBuilder<QuerySnapshot>(
             //.orderBy("timestamp", descending: true)
-            stream: Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection("reviews").snapshots(),
+            stream: Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection(category).snapshots(),
             //Firestore.instance.collection("bazaarReviews").document(userNumber).snapshots(),
             builder: (context, snapshot) {
               if(snapshot.data == null) return CircularProgressIndicator();
@@ -478,15 +482,16 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
 
 
-
+///number of ratings
   _buildRatingStars(int rating){
     return Row(
             children: <Widget>[
               FutureBuilder(
-                future: LikesAndDislikes().numberOfLikes(widget.productWalaNumber),
+                future: LikesAndDislikes().numberOfLikes(widget.productWalaNumber, category),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     likes = snapshot.data;
+                    if(likes == null) likes = 0;
                     return  Container(//wrapped in a container becuase if later the number of likes or  dislikes  become hummungus then it would not overflow
                         child: Row(
                           children: <Widget>[
@@ -502,10 +507,11 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                 },
               ),
               FutureBuilder(
-                future: LikesAndDislikes().numberOfDislikes(widget.productWalaNumber),
+                future: LikesAndDislikes().numberOfDislikes(widget.productWalaNumber, category),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     dislikes = snapshot.data;
+                    if(dislikes == null) dislikes = 0;
                     return
                       Container(
                           padding: EdgeInsets.only(left: 12),
@@ -528,7 +534,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
 
   _buildLikeOrDislike(bool likeOrDislike){
-    if (likeOrDislike == true){
+    if (likeOrDislike == null || likeOrDislike == true){
       return Text('👍');
     } return Text ('👎');
   }

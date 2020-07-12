@@ -554,9 +554,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
          // await createCategoriesForBazaarWalasBasicProfileListIfIsBazaarWalaFalse();
           await pushTobazaarWalasLocationCategoryBasicProfile();
 
-          /// create some blank collections:
-          await SetDocumentIdsForCollections().setForBazaarRatingNumbers(userPhoneNo);
-          await SetDocumentIdsForCollections().setForBazaarReviews(userPhoneNo);
+//          /// create some blank collections:
+//          await SetDocumentIdsForCollections().setForBazaarRatingNumbers(userPhoneNo);
+//          await SetDocumentIdsForCollections().setForBazaarReviews(userPhoneNo);
 
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
@@ -600,7 +600,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
         /// creating new list to store in bazaarWalasBasicProfile
 //        categoriesForBazaarWalasBasicProfile.add(categoryName);
 
-    map.forEach((categoryNameInMap, value) {
+    map.forEach((categoryNameInMap, value) async{
       if(value == true) {
         String categoryName = categoryNameInMap;
         categoriesForBazaarWalasBasicProfile.add(categoryName);
@@ -616,7 +616,12 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
         ///push to bazaarCategories
         ///if new user then dont merge, else merge
-        Firestore.instance.collection("bazaarCategories").document(categoryName).setData(result, merge: true);
+        await Firestore.instance.collection("bazaarCategories").document(categoryName).setData(result, merge: true);
+
+        /// create some blank collections:
+        await SetDocumentIdsForCollections().setForBazaarRatingNumbers(userPhoneNo, categoryName);
+        await SetDocumentIdsForCollections().setForBazaarReviews(userPhoneNo);
+
       }
     });
 

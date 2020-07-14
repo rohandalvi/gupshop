@@ -1,16 +1,46 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gupshop/news/newsComposer.dart';
+import 'package:gupshop/service/addToFriendsCollection.dart';
+import 'package:gupshop/service/recentChats.dart';
+import 'package:gupshop/service/sendAndDisplayMessages.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 
 class BuildMessageComposer extends StatelessWidget {
   VoidCallback firstOnPressed;
   VoidCallback secondOnPressed;
   VoidCallback onPressedForSendingMessageIcon;
+  VoidCallback onPressedForNews;
   ValueChanged<String> onChangedForTextField;
   ScrollController scrollController;
   TextEditingController controller;
+  VoidCallback onEditingComplete;
 
-  BuildMessageComposer({this.firstOnPressed,this.secondOnPressed, this.onPressedForSendingMessageIcon, this.onChangedForTextField, this.scrollController, this.controller});
+  bool groupExits;
+  String friendN;
+  String userPhoneNo;
+  String userName;
+  List<dynamic> listOfFriendNumbers;
+  String conversationId;
+  String groupName;
+  String value;
+//  TextEditingController controller;
+  ScrollController listScrollController;
+
+  BuildMessageComposer({this.firstOnPressed,this.secondOnPressed, this.onPressedForSendingMessageIcon, this.onChangedForTextField, this.scrollController, this.controller, this.onPressedForNews,
+    this.groupExits,
+    this.friendN,
+    this.userPhoneNo,
+    this.userName,
+    this.listOfFriendNumbers,
+    this.conversationId,
+    this.groupName,
+    this.value,
+    this.listScrollController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +65,21 @@ class BuildMessageComposer extends StatelessWidget {
               scrollController: scrollController,
               controller: controller,//used to clear text when user hits send button
             ),
+          ),
+          CustomIconButton(
+            onPressed:NavigateToNewsComposer(
+              conversationId: conversationId,
+              userName: userName,
+              userPhoneNo: userPhoneNo,
+              groupName: groupName,
+              groupExits: groupExits,
+              friendN: friendN,
+              listOfFriendNumbers: listOfFriendNumbers,
+              value: value,
+              controller: controller,
+              listScrollController: listScrollController,
+            ).navigate(context),
+            iconNameInImageFolder: 'news',
           ),
           IconButton(
             icon: SvgPicture.asset('images/paperPlane.svg',),///or forward2

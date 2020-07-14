@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:gupshop/bazaar/bazaarHome_screen.dart';
+import 'package:gupshop/news/newsComposer.dart';
 import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/screens/bazaarProfilePage.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
@@ -200,6 +201,54 @@ class NavigateToBazaarIndiviudalCategoryList{
           context,
           MaterialPageRoute(
             builder: (context) => BazaarIndividualCategoryList(category: category,),//pass Name() here and pass Home()in name_screen
+          )
+      );
+    };
+  }
+}
+
+class NavigateToNewsComposer{
+  bool groupExits;
+  String friendN;
+  String userPhoneNo;
+  String userName;
+  List<dynamic> listOfFriendNumbers;
+  String conversationId;
+  String groupName;
+  String value;
+  TextEditingController controller;
+  ScrollController listScrollController;
+
+  NavigateToNewsComposer({
+    this.groupExits,
+    this.friendN,
+    this.userPhoneNo,
+    this.userName,
+    this.listOfFriendNumbers,
+    this.conversationId,
+    this.groupName,
+    this.value,
+    this.controller,
+    this.listScrollController,
+  });
+
+  navigate(BuildContext context){
+    return (){
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NewsComposer(
+              groupExits : groupExits,
+              friendN : friendN,
+              userPhoneNo : userPhoneNo,
+              userName : userName,
+              listOfFriendNumbers : listOfFriendNumbers,
+              conversationId : conversationId,
+              groupName : groupName,
+              value : value,
+              controller : controller,
+              listScrollController : listScrollController,
+            ),//pass Name() here and pass Home()in name_screen
           )
       );
     };

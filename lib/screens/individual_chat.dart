@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/modules/Presence.dart';
+import 'package:gupshop/news/newsComposer.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
@@ -394,10 +395,16 @@ class _IndividualChatState extends State<IndividualChat> {
                             var messageBody;
                             var imageURL;
                             var videoURL;
+                            var news;
 
-                            bool isLoading  = true;//for circularProgressIndicator
+                            news = documentList[index].data["news"];
 
-                            if(documentList[index].data["videoURL"] != null){
+                            bool isNews= false;
+                            if(news != null) {
+                              isNews = true;
+                              messageBody = news;
+                            }
+                            else if(documentList[index].data["videoURL"] != null){
                               videoURL = documentList[index].data["videoURL"];
                               controller = VideoPlayerController.network(videoURL);
                             }
@@ -419,6 +426,8 @@ class _IndividualChatState extends State<IndividualChat> {
                             if(latitude != null && longitude != null) isLocationMessage = true;
 
                             if (fromName == userName) isMe = true;
+
+                            String documentId =  documentList[index].documentID;
 
                             return ListTile(
                               title: GestureDetector(
@@ -528,11 +537,11 @@ class _IndividualChatState extends State<IndividualChat> {
                                   padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
                                   child: isLocationMessage ==true ? showLocation(fromName,latitude, longitude): videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
                                   CustomText(text: messageBody,): showImage(imageURL),
-                                  //message
                                 ),
                               ),
                               isThreeLine: true,
                               subtitle: FromNameAndTimeStamp(
+                                  isNews: isMe,
                                   visible: ((groupExits==null? false : groupExits) && isMe==false),/// groupExits==null? false : groupExits was showing error because groupExists takes time to calculate as it is a future, so we are just adding a placeholder,
                                   fromName:  CustomText(text: fromNameForGroup,fontSize: 12,),
                                   isMe: isMe,
@@ -544,38 +553,6 @@ class _IndividualChatState extends State<IndividualChat> {
                                     ),
                                   ),
                               ),
-//                              Column(
-//                                children: <Widget>[
-//                                  Visibility(
-//                                    visible: ((groupExits==null? false : groupExits) && isMe==false),/// groupExits==null? false : groupExits was showing error because groupExists takes time to calculate as it is a future, so we are just adding a placeholder
-//                                    child: Container(
-//                                      width: MediaQuery.of(context).size.width,
-//                                        alignment:  Alignment.centerLeft,
-//                                        padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
-//                                        child: CustomText(text: fromNameForGroup,fontSize: 12,)
-//                                    ),
-//                                  ),
-////                                  groupExits == true ?
-////                                  (isMe==false ? CustomText(text: fromNameForGroup,fontSize: 12,) : Container())
-////                                      : Container(),
-//                                  Container(
-//                                    width: MediaQuery.of(context).size.width,
-//                                   // height: MediaQuery.of(context).size.height,
-//                                    alignment: isMe? Alignment.centerRight: Alignment.centerLeft,
-//
-//
-////                            margin: isMe ? EdgeInsets.only(left: 40.0) : EdgeInsets.only(left: 0),//if not this then the timeStamp gets locked to the left side of the screen. So same logic as the messages above
-//                                    padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),//pretty padding- for some margin from the side of the screen as well as the top of parent message
-//                                    child: Text(//time
-//                                      DateFormat("dd MMM kk:mm")
-//                                          .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
-//                                      style: TextStyle(
-//                                          color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic
-//                                      ),
-//                                    ),
-//                                  ),
-//                                ],
-//                              ),
                             );
                           },
                           separatorBuilder: (context, index) => Divider(
@@ -704,6 +681,15 @@ class _IndividualChatState extends State<IndividualChat> {
               this.value=value;///by doing this we are setting the value to value globally
             });
           },
+          conversationId: conversationId,
+          userName: userName,
+          userPhoneNo: userPhoneNo,
+          groupName: groupName,
+          groupExits: groupExits,
+          friendN: friendN,
+          listOfFriendNumbers: listOfFriendNumbers,
+          value: value,
+          listScrollController: listScrollController,
           onPressedForSendingMessageIcon:() async{
             /// when mynumber sends message to a friendNumber in whose friends
             /// collection mynumber does not exist, we have to add that person in

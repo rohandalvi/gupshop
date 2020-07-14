@@ -12,4 +12,8 @@ class SendAndDisplayMessages {
     print("documentReference of new forwarded message in SendAndDisplayMessages: ${documentReference.documentID}");
     return documentReference;
   }
+
+  changeIncreaseDecreaseCountInConversationCollection(String conversationId, String documentId, String changeIn, int changeCount) async{
+    await Firestore.instance.collection("conversations").document(conversationId).collection("messages").document(documentId).setData({changeIn: changeIn}, merge: true);
+  }
 }

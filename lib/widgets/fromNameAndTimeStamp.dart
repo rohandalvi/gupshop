@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/news/trueFakeVotingIcons.dart';
+import 'package:gupshop/service/recentChats.dart';
+import 'package:gupshop/service/sendAndDisplayMessages.dart';
 
 //class FromNameAndTimeStamp extends StatefulWidget {
 //  bool visible;
@@ -16,30 +20,45 @@ class FromNameAndTimeStamp extends StatelessWidget {
   Widget fromName;
   bool isMe;
   Widget timeStamp;
+  bool isNews;
+  String conversationId;
+  String documentId;
+  int reportedByCount;
 
-  FromNameAndTimeStamp({this.visible, this.fromName, this.isMe, this.timeStamp});
+  FromNameAndTimeStamp({this.visible, this.fromName, this.isMe, this.timeStamp, this.isNews, this.conversationId,this.documentId, this.reportedByCount});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Visibility(
-          visible: visible,
-          child: Container(
+        return Column(
+          children: <Widget>[
+            Visibility(
+              visible: isNews,
+                child: TrueFakeVotingIcons(
+                  isMe: isMe,
+                  onTap1: (){
+                    /// push to conversationCollection:
+                    SendAndDisplayMessages().changeIncreaseDecreaseCountInConversationCollection(conversationId, documentId, 'reportedBy', reportedByCount);
+                  },
+                )
+            ),
+            Visibility(
+              visible: visible,
+              child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  alignment:  Alignment.centerLeft,
+                  padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+                  child: fromName,
+              ),
+            ),
+            Container(
               width: MediaQuery.of(context).size.width,
-              alignment:  Alignment.centerLeft,
-              padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
-              child: fromName,
-          ),
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          // height: MediaQuery.of(context).size.height,
-          alignment: isMe? Alignment.centerRight: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),//pretty padding- for some margin from the side of the screen as well as the top of parent message
-          child: timeStamp,
-        ),
-      ],
-    );
+              // height: MediaQuery.of(context).size.height,
+              alignment: isMe? Alignment.centerRight: Alignment.centerLeft,
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),//pretty padding- for some margin from the side of the screen as well as the top of parent message
+              child: timeStamp,
+            ),
+          ],
+        );
   }
+
 }

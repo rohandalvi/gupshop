@@ -396,15 +396,16 @@ class _IndividualChatState extends State<IndividualChat> {
                             var messageBody;
                             var imageURL;
                             var videoURL;
-                            var news;
 
-                            news = documentList[index].data["news"];
+                            String newsBody = documentList[index].data["news"];
+                            String newsTitle = documentList[index].data["title"];
+                            String newsLink = documentList[index].data["link"];
+                            int reportedByCount = documentList[index].data["reportedBy"];
+                            int trueByCount = documentList[index].data["trueBy"];
+                            int fakeByCount = documentList[index].data["fakeBy"];
 
                             bool isNews= false;
-                            if(news != null) {
-                              isNews = true;
-                              messageBody = news;
-                            }
+                            if(newsBody != null) {isNews = true;}
                             else if(documentList[index].data["videoURL"] != null){
                               videoURL = documentList[index].data["videoURL"];
                               controller = VideoPlayerController.network(videoURL);
@@ -540,12 +541,15 @@ class _IndividualChatState extends State<IndividualChat> {
                                   width: MediaQuery.of(context).size.width,
                                   alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
                                   padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
-                                  child: isNews == true ? NewsContainer() : isLocationMessage ==true ? showLocation(fromName,latitude, longitude): videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
+                                  child: isNews == true ? NewsContainer(title: newsTitle, link: newsLink, newsBody: newsBody,) : isLocationMessage ==true ? showLocation(fromName,latitude, longitude): videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
                                   CustomText(text: messageBody,): showImage(imageURL),
                                 ),
                               ),
                               isThreeLine: true,
                               subtitle: FromNameAndTimeStamp(
+                                  reportedByCount: reportedByCount,
+                                  trueByCount: trueByCount,
+                                  fakeByCount: fakeByCount,
                                   isNews: isNews,
                                   visible: ((groupExits==null? false : groupExits) && isMe==false),/// groupExits==null? false : groupExits was showing error because groupExists takes time to calculate as it is a future, so we are just adding a placeholder,
                                   fromName:  CustomText(text: fromNameForGroup,fontSize: 12,),

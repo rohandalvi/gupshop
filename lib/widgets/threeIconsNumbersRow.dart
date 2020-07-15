@@ -33,9 +33,9 @@ class ThreeIconsNumbersRow extends StatelessWidget {
                 ),
                 onTap: onTap1,
               ),
-              //CustomText(text: count1,),
+              CustomText(text: count1,),
               /// toDo - with large numbers, overflow would occur
-              CustomText(text: '9',),
+//              CustomText(text: '9',),
             ],
           ),
         ),
@@ -48,8 +48,8 @@ class ThreeIconsNumbersRow extends StatelessWidget {
                 ),
                 onTap: onTap2,
               ),
-              //CustomText(text: count2,),
-              CustomText(text: '10',)
+              CustomText(text: count2,),
+//              CustomText(text: '10',)
             ],
           ),
         ),
@@ -62,8 +62,8 @@ class ThreeIconsNumbersRow extends StatelessWidget {
                 ),
                 //onTap: onTap3,
               ),
-              //CustomText(text: count3,)
-              CustomText(text: '7',)
+              CustomText(text: count3,)
+//              CustomText(text: '7',)
             ],
           ),
         ),

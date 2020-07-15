@@ -1,28 +1,49 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/widgets/colorPalette.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
+import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class NewsContainer extends StatelessWidget {
+  String title;
+  String link;
+  String newsBody;
+
+  NewsContainer({this.title, this.link, this.newsBody});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 250,
       width: 250,
       child: Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(5.0),
+            side: BorderSide(color : Colors.black),
+          ),
           child: ListView(
             shrinkWrap: true,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CustomText(text :'Title'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  CustomIconButton(iconNameInImageFolder: 'news',onPressed: (){},),
+                  CustomText(text: 'NEWS',textColor: primaryColor,),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CustomText(text :'Link'),
+                child: CustomText(text :title),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CustomText(text :'News Introooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo'),
+                child: CustomText(text :link),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomText(text :newsBody),
               ),
             ],
           ),

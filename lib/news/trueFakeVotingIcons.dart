@@ -13,7 +13,7 @@ class TrueFakeVotingIcons extends StatelessWidget {
   String count3;
   GestureTapCallback onTap3;
 
-  TrueFakeVotingIcons({@required this.isMe, this.onTap1, this.onTap2, this.onTap3});
+  TrueFakeVotingIcons({@required this.isMe, this.onTap1, this.onTap2, this.onTap3, this.count1, this.count2, this.count3});
 
   @override
   Widget build(BuildContext context) {

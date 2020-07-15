@@ -161,9 +161,6 @@ class NewsComposerState extends State<NewsComposer> {
 
     if (link != "") {
       ///if there is not text, then dont send the message
-      print("link : $link");
-      print("title : $title");
-      print("news : $newsBody");
       var data = {
         "news": newsBody,
         "title" : title,
@@ -171,7 +168,10 @@ class NewsComposerState extends State<NewsComposer> {
         "fromName": userName,
         "fromPhoneNumber": userPhoneNo,
         "timeStamp": DateTime.now(),
-        "conversationId": conversationId
+        "conversationId": conversationId,
+        "reportedBy": 0,
+        "trueBy": 0,
+        "fakeBy":0,
       };
       SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
 

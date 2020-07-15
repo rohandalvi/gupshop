@@ -24,8 +24,10 @@ class FromNameAndTimeStamp extends StatelessWidget {
   String conversationId;
   String documentId;
   int reportedByCount;
+  int trueByCount;
+  int fakeByCount;
 
-  FromNameAndTimeStamp({this.visible, this.fromName, this.isMe, this.timeStamp, this.isNews, this.conversationId,this.documentId, this.reportedByCount});
+  FromNameAndTimeStamp({this.visible, this.fromName, this.isMe, this.timeStamp, this.isNews, this.conversationId,this.documentId, this.reportedByCount, this.trueByCount, this.fakeByCount});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,9 @@ class FromNameAndTimeStamp extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
                   child: TrueFakeVotingIcons(
                     isMe: isMe,
+                    count1: reportedByCount.toString(),
+                    count2: trueByCount.toString(),
+                    count3: fakeByCount.toString(),
                     onTap1: (){
                       /// push to conversationCollection:
                       SendAndDisplayMessages().changeIncreaseDecreaseCountInConversationCollection(conversationId, documentId, 'reportedBy', reportedByCount);

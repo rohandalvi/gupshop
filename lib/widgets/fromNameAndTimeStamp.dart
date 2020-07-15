@@ -35,12 +35,15 @@ class FromNameAndTimeStamp extends StatelessWidget {
             /// icons for news for voting:
             Visibility(
               visible: isNews,
-                child: TrueFakeVotingIcons(
-                  isMe: isMe,
-                  onTap1: (){
-                    /// push to conversationCollection:
-                    SendAndDisplayMessages().changeIncreaseDecreaseCountInConversationCollection(conversationId, documentId, 'reportedBy', reportedByCount);
-                  },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+                  child: TrueFakeVotingIcons(
+                    isMe: isMe,
+                    onTap1: (){
+                      /// push to conversationCollection:
+                      SendAndDisplayMessages().changeIncreaseDecreaseCountInConversationCollection(conversationId, documentId, 'reportedBy', reportedByCount);
+                    },
+                  ),
                 )
             ),
             /// fromName:

@@ -19,6 +19,10 @@ class ThreeIconsNumbersRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      /// for alignment to right or left depending on who has sent it, we are using mainAxisAlignment.
+      /// Normally we would use 'alignment: isMe? Alignment.centerRight: Alignment.centerLeft,' of the container
+      /// but it is not working  here for some reason
+      mainAxisAlignment: isMe?MainAxisAlignment.end : MainAxisAlignment.start,
       children: <Widget>[
         Container(
           child: Row(
@@ -30,9 +34,10 @@ class ThreeIconsNumbersRow extends StatelessWidget {
                 onTap: onTap1,
               ),
               //CustomText(text: count1,),
+              /// toDo - with large numbers, overflow would occur
+              CustomText(text: '9',),
             ],
           ),
-          alignment: isMe? Alignment.centerRight: Alignment.centerLeft,
         ),
         Container(
           child: Row(
@@ -43,10 +48,10 @@ class ThreeIconsNumbersRow extends StatelessWidget {
                 ),
                 onTap: onTap2,
               ),
-              //CustomText(text: count2,)
+              //CustomText(text: count2,),
+              CustomText(text: '10',)
             ],
           ),
-          alignment: isMe? Alignment.centerRight: Alignment.centerLeft,
         ),
         Container(
           child: Row(
@@ -58,9 +63,9 @@ class ThreeIconsNumbersRow extends StatelessWidget {
                 //onTap: onTap3,
               ),
               //CustomText(text: count3,)
+              CustomText(text: '7',)
             ],
           ),
-          alignment: isMe? Alignment.centerRight: Alignment.centerLeft,
         ),
       ],
     );

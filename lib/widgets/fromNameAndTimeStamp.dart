@@ -29,8 +29,10 @@ class FromNameAndTimeStamp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("isMe in FromNameAndTimeStamp: $isMe");
         return Column(
           children: <Widget>[
+            /// icons for news for voting:
             Visibility(
               visible: isNews,
                 child: TrueFakeVotingIcons(
@@ -41,6 +43,7 @@ class FromNameAndTimeStamp extends StatelessWidget {
                   },
                 )
             ),
+            /// fromName:
             Visibility(
               visible: visible,
               child: Container(
@@ -50,6 +53,7 @@ class FromNameAndTimeStamp extends StatelessWidget {
                   child: fromName,
               ),
             ),
+            /// timeStamp:
             Container(
               width: MediaQuery.of(context).size.width,
               // height: MediaQuery.of(context).size.height,

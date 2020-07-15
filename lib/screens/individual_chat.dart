@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/news/newsComposer.dart';
+import 'package:gupshop/news/newsContainer.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
@@ -418,7 +419,8 @@ class _IndividualChatState extends State<IndividualChat> {
                             var fromName = documentList[index].data["fromName"];
                             Timestamp timeStamp = documentList[index].data["timeStamp"];
                             String fromNameForGroup = documentList[index].data["fromName"]; /// for group messages
-                            bool isMe = false;
+//                            bool isMe = false;
+                            bool isMe;
 
                             double latitude = documentList[index].data["latitude"];
                             double longitude = documentList[index].data["longitude"];
@@ -426,8 +428,11 @@ class _IndividualChatState extends State<IndividualChat> {
                             if(latitude != null && longitude != null) isLocationMessage = true;
 
                             if (fromName == userName) isMe = true;
+                            else isMe = false;
 
                             String documentId =  documentList[index].documentID;
+
+                            print("isMe : $isMe");
 
                             return ListTile(
                               title: GestureDetector(
@@ -535,13 +540,13 @@ class _IndividualChatState extends State<IndividualChat> {
                                   width: MediaQuery.of(context).size.width,
                                   alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
                                   padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
-                                  child: isLocationMessage ==true ? showLocation(fromName,latitude, longitude): videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
+                                  child: isNews == true ? NewsContainer() : isLocationMessage ==true ? showLocation(fromName,latitude, longitude): videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
                                   CustomText(text: messageBody,): showImage(imageURL),
                                 ),
                               ),
                               isThreeLine: true,
                               subtitle: FromNameAndTimeStamp(
-                                  isNews: isMe,
+                                  isNews: isNews,
                                   visible: ((groupExits==null? false : groupExits) && isMe==false),/// groupExits==null? false : groupExits was showing error because groupExists takes time to calculate as it is a future, so we are just adding a placeholder,
                                   fromName:  CustomText(text: fromNameForGroup,fontSize: 12,),
                                   isMe: isMe,

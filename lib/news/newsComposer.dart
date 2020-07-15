@@ -59,7 +59,6 @@ class NewsComposerState extends State<NewsComposer> {
             title: CustomText(text : 'Create a NEWS !'),
             onPressed: (){Navigator.pop(context);},
           ),
-
       ),
       body: CustomScaffoldBody(
         body: NewsComposerBody(
@@ -67,6 +66,7 @@ class NewsComposerState extends State<NewsComposer> {
             CustomTextFormField(
               labelText: 'Enter the News Title',
               maxLength: 15,
+              initialValue: title,
               onChanged: (titleVal){
                 setState(() {
                   title = titleVal;
@@ -76,17 +76,18 @@ class NewsComposerState extends State<NewsComposer> {
             CustomTextFormField(
               labelText: 'Enter the News link',
               maxLines: 2,
+              initialValue: link,
               valForValidator: (val) => 'Link Required',
               onChanged: (linkVal){
                 setState(() {
                   link = linkVal;
-                  print("link in setState: $link");
                 });
               },
             ),
             CustomTextFormField(
               labelText: 'Give some intro about the news',
               maxLines: 2,
+              initialValue: newsBody,
               onChanged: (newsVal){
                 setState(() {
                   newsBody = newsVal;

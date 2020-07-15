@@ -13,6 +13,7 @@ import 'package:gupshop/news/newsContainer.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
+import 'package:gupshop/widgets/createMessageDataToPushToFirebase.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
@@ -178,6 +179,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
       if(data["videoURL"] != null) data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId, null);
       else if(data["imageURL"] != null) data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId, null);
+      else if(data["news"] != null) data = CreateMessageDataToPushToFirebase(isNews: true, userPhoneNo: userPhoneNo, userName: userName, conversationId: conversationId).create();
       ///Navigating to RecentChats page with pushes the data to firebase
       /// if group chat:
 
@@ -504,7 +506,7 @@ class _IndividualChatState extends State<IndividualChat> {
                                           ///on selecting a contact, send message to that contact
 
                                           var data;
-                                          if(forwardNews != null) data = {"news":newsBody, "link": newsLink, "title": newsTitle, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+                                          if(forwardNews != null) data = {"news":newsBody, "link": newsLink, "title": newsTitle, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId, "reportedBy": reportedByCount, "trueBy": trueByCount, "fakeBy":fakeByCount};
                                           else if(forwardMessage != null) data = {"body":forwardMessage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
                                           else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
                                           else data = {"imageURL":forwardImage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
@@ -533,7 +535,7 @@ class _IndividualChatState extends State<IndividualChat> {
                                               title: newsTitle,
                                               link: newsLink,
                                               newsBody: newsBody,
-                                              isForward: true,
+                                              isForward: data,
                                             )
                                             )
                                           );

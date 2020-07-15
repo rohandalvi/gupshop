@@ -10,6 +10,7 @@ import 'package:gupshop/service/sendAndDisplayMessages.dart';
 import 'package:gupshop/widgets/createMessageDataToPushToFirebase.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customScaffoldBody.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
@@ -28,7 +29,7 @@ class NewsComposer extends StatefulWidget {
   String title;
   String link;
   String newsBody;
-  bool isForward;
+  var isForward;
 
 
   NewsComposer({
@@ -57,7 +58,7 @@ class NewsComposerState extends State<NewsComposer> {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: CustomAppBar(
-            title: CustomText(text : 'Create a NEWS !'),
+            title: widget.isForward != null ? CustomText(text : 'Forward a NEWS !') : CustomText(text : 'Create a NEWS !'),
             onPressed: (){Navigator.pop(context);},
           ),
       ),
@@ -98,11 +99,25 @@ class NewsComposerState extends State<NewsComposer> {
             CustomIconButton(
 //              onPressed: widget.sendNewsOnPressed,
               onPressed: (){
-                sendToRecentChatsAndConversations(
-                    widget.groupExits, widget.friendN, widget.userPhoneNo, widget.userName,
-                    widget.listOfFriendNumbers, widget.conversationId, widget.groupName,
-                    widget.value, widget.controller, widget.listScrollController
-                );
+                if(widget.isForward == null) {
+                  sendToRecentChatsAndConversations(
+                      widget.groupExits,
+                      widget.friendN,
+                      widget.userPhoneNo,
+                      widget.userName,
+                      widget.listOfFriendNumbers,
+                      widget.conversationId,
+                      widget.groupName,
+                      widget.value,
+                      widget.controller,
+                      widget.listScrollController
+                  );
+                  /// widget.isForward is sending data to contact search which is required by individual chat for
+                  /// Conversations collection(display in individualchat) and recentChats(display in recentchats)
+                }else {
+                  widget.isForward["trueBy"]= widget.isForward["trueBy"]++;
+                  CustomNavigator().navigateToContactSearch(context, widget.userName,  widget.userPhoneNo, widget.isForward);
+                }
               },
               iconNameInImageFolder: 'paperPlane',
             ),

@@ -25,6 +25,11 @@ class NewsComposer extends StatefulWidget {
   String value;
   TextEditingController controller;
   ScrollController listScrollController;
+  String title;
+  String link;
+  String newsBody;
+  bool isForward;
+
 
   NewsComposer({
     this.groupExits,
@@ -37,6 +42,8 @@ class NewsComposer extends StatefulWidget {
     this.value,
     this.controller,
     this.listScrollController,
+    this.title,this.link,this.newsBody,
+    this.isForward,
   });
 
   @override
@@ -44,12 +51,6 @@ class NewsComposer extends StatefulWidget {
 }
 
 class NewsComposerState extends State<NewsComposer> {
-  String title;
-
-  String link;
-
-  String newsBody;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,31 +67,31 @@ class NewsComposerState extends State<NewsComposer> {
             CustomTextFormField(
               labelText: 'Enter the News Title',
               maxLength: 15,
-              initialValue: title,
+              initialValue: widget.title,/// for showing value of forward messages
               onChanged: (titleVal){
                 setState(() {
-                  title = titleVal;
+                  widget.title = titleVal;
                 });
               },
             ),
             CustomTextFormField(
               labelText: 'Enter the News link',
               maxLines: 2,
-              initialValue: link,
+              initialValue: widget.link,
               valForValidator: (val) => 'Link Required',
               onChanged: (linkVal){
                 setState(() {
-                  link = linkVal;
+                  widget.link = linkVal;
                 });
               },
             ),
             CustomTextFormField(
               labelText: 'Give some intro about the news',
               maxLines: 2,
-              initialValue: newsBody,
+              initialValue: widget.newsBody,
               onChanged: (newsVal){
                 setState(() {
-                  newsBody = newsVal;
+                  widget.newsBody = newsVal;
                 });
               },
             ),
@@ -117,7 +118,6 @@ class NewsComposerState extends State<NewsComposer> {
       List<dynamic> listOfFriendNumbers, String conversationId, String groupName,
       String value, TextEditingController controller, ScrollController listScrollController) async {
 
-    print("link in beginning : $link");
 
     if (groupExits == false) {
       var myNumberExistsInFriendsFriendsCollectionWaiting = await Firestore
@@ -160,12 +160,12 @@ class NewsComposerState extends State<NewsComposer> {
       }));
     }
 
-    if (link != "") {
+    if (widget.link != "") {
       ///if there is not text, then dont send the message
       var data = {
-        "news": newsBody,
-        "title" : title,
-        "link" : link,
+        "news": widget.newsBody,
+        "title" : widget.title,
+        "link" : widget.link,
         "fromName": userName,
         "fromPhoneNumber": userPhoneNo,
         "timeStamp": DateTime.now(),

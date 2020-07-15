@@ -471,10 +471,15 @@ class _IndividualChatState extends State<IndividualChat> {
                                     String forwardMessage;
                                     String forwardImage;
                                     String forwardVideo;
+                                    String forwardNews;
 
                                     ///extract the message in a variable called forwardMessage(ideally there should be
                                     /// a list of messages and not just one variable..this is a @todo )
-                                    if(messageBody != null){
+
+                                    if(newsBody != null){
+                                      forwardNews = newsBody;
+                                      print("forwardNews: $forwardNews");
+                                    }else if(messageBody != null){
                                       forwardMessage = messageBody;
                                     }else if(videoURL != null){
                                       forwardVideo = videoURL;
@@ -499,7 +504,8 @@ class _IndividualChatState extends State<IndividualChat> {
                                           ///on selecting a contact, send message to that contact
 
                                           var data;
-                                          if(forwardMessage != null) data = {"body":forwardMessage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+                                          if(forwardNews != null) data = {"news":newsBody, "link": newsLink, "title": newsTitle, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+                                          else if(forwardMessage != null) data = {"body":forwardMessage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
                                           else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
                                           else data = {"imageURL":forwardImage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
 
@@ -507,12 +513,36 @@ class _IndividualChatState extends State<IndividualChat> {
                                           print("data in flushbar: $data");
                                           print("userName: $userName");
                                           print("userPhoneNo: $userPhoneNo");
-                                          CustomNavigator().navigateToContactSearch(context, userName,  userPhoneNo, data);
+                                          /// go to newsComposer page if this is a news
+                                          if(forwardNews != null){
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                            NewsComposer(
+                                              conversationId: conversationId,
+                                              userName: userName,
+                                              userPhoneNo: userPhoneNo,
+                                              groupName: groupName,
+                                              groupExits: groupExits,
+                                              friendN: friendN,
+                                              listOfFriendNumbers: listOfFriendNumbers,
+                                              value: value,
+                                              controller: _controller,
+                                              listScrollController: listScrollController,
+                                              title: newsTitle,
+                                              link: newsLink,
+                                              newsBody: newsBody,
+                                              isForward: true,
+                                            )
+                                            )
+                                          );
+                                          }/// else go to contact search page
+                                          else CustomNavigator().navigateToContactSearch(context, userName,  userPhoneNo, data);
                                         },
                                       ),
                                       message: 'Change',
                                       onStatusChanged: (val){
-                                        print("val: $val");
                                         ///if the user longPresses the button once, dismesses it and later presses
                                         ///it again then the snackbar was not appearing, because isPressed was
                                         ///set to true. So when the flushbar is dismissed, we are setting isPressed
@@ -546,7 +576,7 @@ class _IndividualChatState extends State<IndividualChat> {
                                 ),
                               ),
                               isThreeLine: true,
-                              subtitle: FromNameAndTimeStamp(
+                              subtitle: FromNameAndTimeStamp(/// three icons are in this class
                                   reportedByCount: reportedByCount,
                                   trueByCount: trueByCount,
                                   fakeByCount: fakeByCount,

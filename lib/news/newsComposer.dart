@@ -115,7 +115,10 @@ class NewsComposerState extends State<NewsComposer> {
                   /// widget.isForward is sending data to contact search which is required by individual chat for
                   /// Conversations collection(display in individualchat) and recentChats(display in recentchats)
                 }else {
-                  widget.isForward["trueBy"]= widget.isForward["trueBy"]++;
+                  /// beforing forwarding, ask tell the user that forwarding means agreeing to whatever
+                  /// is there in the news. And increase the trueBy count as he agrees to it.
+                  int increaseTrueByCount = widget.isForward["trueBy"] + 1 ;
+                  widget.isForward["trueBy"]= increaseTrueByCount;
                   CustomNavigator().navigateToContactSearch(context, widget.userName,  widget.userPhoneNo, widget.isForward);
                 }
               },

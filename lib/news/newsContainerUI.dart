@@ -5,12 +5,12 @@ import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class NewsContainer extends StatelessWidget {
+class NewsContainerUI extends StatelessWidget {
   String title;
   String link;
   String newsBody;
 
-  NewsContainer({this.title, this.link, this.newsBody});
+  NewsContainerUI({this.title, this.link, this.newsBody});
 
   @override
   Widget build(BuildContext context) {

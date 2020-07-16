@@ -10,7 +10,7 @@ import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/news/forwardNewsCollection.dart';
 import 'package:gupshop/news/newsComposer.dart';
-import 'package:gupshop/news/newsContainer.dart';
+import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
@@ -576,7 +576,7 @@ class _IndividualChatState extends State<IndividualChat> {
                                   width: MediaQuery.of(context).size.width,
                                   alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
                                   padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
-                                  child: isNews == true ? NewsContainer(title: newsTitle, link: newsLink, newsBody: newsBody,) : isLocationMessage ==true ? showLocation(fromName,latitude, longitude): videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
+                                  child: isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody,) : isLocationMessage ==true ? showLocation(fromName,latitude, longitude): videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
                                   CustomText(text: messageBody,): showImage(imageURL),
                                 ),
                               ),

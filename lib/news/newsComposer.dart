@@ -180,7 +180,7 @@ class NewsComposerState extends State<NewsComposer> {
       }));
     }
 
-    if (widget.link != "") {
+    if (widget.link != null && widget.title != null) {
       ///if there is not text, then dont send the message
       var data = {
         "news": widget.newsBody,

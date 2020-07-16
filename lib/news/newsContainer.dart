@@ -35,14 +35,14 @@ class NewsContainer extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CustomText(text :title),
+                child: CustomText(text :title).bold(),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(8, 3, 8, 3),
                 child: CustomText(text :link),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(8, 3, 8, 3),
                 child: CustomText(text :newsBody),
               ),
             ],

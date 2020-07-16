@@ -49,4 +49,16 @@ class CustomText extends StatelessWidget {
       ),
     );
   }
+
+  bold(){
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+        textStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+        ),
+      ),
+    );
+  }
 }

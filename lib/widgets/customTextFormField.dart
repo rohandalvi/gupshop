@@ -20,25 +20,33 @@ class CustomTextFormField extends StatelessWidget {
   int maxLines;
   FormFieldValidator<String> valForValidator;
   String errorText;
+  GestureTapCallback onTap;
+  InputBorder border;
+  TextStyle textStyle;
+  TextStyle style;
 
-  CustomTextFormField({this.onFieldSubmitted, this.labelText, this.formKeyCustomText, this.onChanged, this.maxLength, this.initialValue, this.enabledBorder,this.onSaved, this.maxLines, this.valForValidator, this.onEditingComplete, this.errorText});
+  CustomTextFormField({this.onFieldSubmitted, this.labelText, this.formKeyCustomText, this.onChanged,
+    this.maxLength, this.initialValue, this.enabledBorder,this.onSaved, this.maxLines, this.valForValidator,
+    this.onEditingComplete, this.errorText, this.onTap, this.border, this.textStyle, this.style});
 
   @override
   Widget build(BuildContext context) {
     return Form(
       key : formKeyCustomText,
       child: TextFormField(
+        style: style,
         initialValue: initialValue,
         maxLength: maxLength,
         cursorColor: primaryColor,
         decoration: new InputDecoration(
+          border: border,
           errorText: errorText,
           labelText: labelText,
           labelStyle: GoogleFonts.openSans(
-            textStyle: TextStyle(
+            textStyle: textStyle == null ? TextStyle(
               fontWeight: FontWeight.w600,
               color: primaryColor,
-            ),
+            ) : textStyle,
           ),
           focusedBorder: new UnderlineInputBorder(
             borderSide: new BorderSide(color:ourBlack ),
@@ -54,6 +62,7 @@ class CustomTextFormField extends StatelessWidget {
         onSaved: onSaved,
         maxLines: maxLines,
         onEditingComplete: onEditingComplete,
+        onTap: onTap,
       ),
     );
   }

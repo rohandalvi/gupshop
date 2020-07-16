@@ -17,6 +17,7 @@ import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customScaffoldBody.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
+import 'package:gupshop/widgets/openLinks.dart';
 
 class NewsComposer extends StatefulWidget {
   bool groupExits;
@@ -89,7 +90,7 @@ class NewsComposerState extends State<NewsComposer> {
               },
             ),
             CustomTextFormField(
-              labelText: 'Enter the News link',
+              labelText: 'Enter a valid News link',
               maxLines: 2,
               initialValue: widget.link,
               errorText: widget.link == "" || (widget.link == null && linkEntered == false) ? 'Link Required' : null,
@@ -100,9 +101,23 @@ class NewsComposerState extends State<NewsComposer> {
                 setState(() {
                   widget.link = linkVal;
                   //linkEntered = true;
-                  CreateLinks(text: linkVal,);
+                  CreateLinks(text: widget.link,);
                 });
               },
+              /// different style of border:
+              /// border: OutlineInputBorder(
+              ///  borderRadius: BorderRadius.circular(10),
+              /// ),
+              onTap: (){
+                if(widget.link != null && widget.link != ""){
+                  OpenLinks().open(widget.link);
+                }
+              },
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.blue,
+                ///decoration: TextDecoration.underline/// this is giving an underline to Enter the link too
+              ) ,
             ),
             CustomTextFormField(
               labelText: 'Give some intro about the news',
@@ -247,6 +262,9 @@ class NewsComposerState extends State<NewsComposer> {
         "fakeBy":0,
         "newsId" : newsId,
       };
+
+      /// put increase trueBy code here:
+
       SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
 
       var dataForRecentChats = CreateMessageDataToPushToFirebase(isNews: true, userPhoneNo: userPhoneNo, userName: userName, conversationId: conversationId).create();

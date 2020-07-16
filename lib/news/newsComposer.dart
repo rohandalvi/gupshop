@@ -8,6 +8,7 @@ import 'package:gupshop/news/newsIdCollection.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/service/sendAndDisplayMessages.dart';
+import 'package:gupshop/widgets/createLinks.dart';
 import 'package:gupshop/widgets/createMessageDataToPushToFirebase.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
@@ -74,7 +75,7 @@ class NewsComposerState extends State<NewsComposer> {
           children: <Widget>[
             CustomTextFormField(
               labelText: 'Enter the News Title',
-              errorText:widget.title == null && titleEntered == false ? 'Title Required' : null,
+              errorText: (widget.title == "" || (widget.title == null && titleEntered == false)) ? 'Title Required' : null,
               maxLength: 15,
               initialValue: widget.title,/// for showing value of forward messages
               onFieldSubmitted: (val){
@@ -83,7 +84,7 @@ class NewsComposerState extends State<NewsComposer> {
               onChanged: (titleVal){
                 setState(() {
                   widget.title = titleVal;
-                  titleEntered = true;
+                  //titleEntered = true;
                 });
               },
             ),
@@ -91,14 +92,15 @@ class NewsComposerState extends State<NewsComposer> {
               labelText: 'Enter the News link',
               maxLines: 2,
               initialValue: widget.link,
-              errorText: widget.link == null && linkEntered == false ? 'Link Required' : null,
+              errorText: widget.link == "" || (widget.link == null && linkEntered == false) ? 'Link Required' : null,
               onFieldSubmitted: (val){
                 linkEntered = true;
               },
               onChanged: (linkVal){
                 setState(() {
                   widget.link = linkVal;
-                  linkEntered = true;
+                  //linkEntered = true;
+                  CreateLinks(text: linkVal,);
                 });
               },
             ),
@@ -106,20 +108,22 @@ class NewsComposerState extends State<NewsComposer> {
               labelText: 'Give some intro about the news',
               maxLines: 2,
               initialValue: widget.newsBody,
-//              errorText: ,
-              errorText: widget.newsBody == null && newsEntered == false ? 'News Required' : null,
+              errorText: widget.newsBody == "" || (widget.newsBody == null && newsEntered == false) ? 'News Required' : null,
               onFieldSubmitted: (val){
                 newsEntered = true;
               },
               onChanged: (newsVal){
                 setState(() {
                   widget.newsBody = newsVal;
-                  newsEntered = true;
+                  //newsEntered = true;
                 });
               },
             ),
             CustomIconButton(
               onPressed: () async{
+
+                /// widget.link == null, widget.title == null, widget.newsBody == null
+                /// to make the fields required:
                 if(widget.link == null ){
                   setState(() {
                     linkEntered = false;
@@ -135,18 +139,26 @@ class NewsComposerState extends State<NewsComposer> {
                     newsEntered = false;
                   });
                 }
-                print("link : $linkEntered title: $titleEntered news: $newsEntered");
-                print("widget.link : ${widget.link} widget.title: ${widget.title} widget.newsBody: ${widget.newsBody }");
 
-                if(widget.link != null && widget.title != null && widget.newsBody != null){
+                print("widget.link : ${widget.link} widget.title : ${widget.title} widget.newsBody : ${widget.newsBody}");
+                print("linkEntered : $linkEntered titleEntered : $titleEntered newsEntered : $newsEntered");
+
+                /// send data to recentchats and conversation collections only when
+                /// all the required fields are filled:
+                if(widget.link != null && widget.link != "" &&
+                    widget.title != null && widget.title != "" &&
+                    widget.newsBody != null && widget.newsBody != ""){
                   var newsData ={
                     'title' : widget.title,
                     'link' : widget.link,
                     'news' : widget.newsBody,
                   };
+
+                  /// creating a news Id for new news as it would be used to tag all
+                  /// the people who are forwarding the message
                   newsId = await NewsIdCollection().createNewsId(newsData);
 
-                  sendToRecentChatsAndConversations(
+                  await sendToRecentChatsAndConversations(
                     widget.groupExits,
                     widget.friendN,
                     widget.userPhoneNo,
@@ -159,6 +171,9 @@ class NewsComposerState extends State<NewsComposer> {
                     widget.listScrollController,
                     newsId,
                   );
+
+                  /// sending the user back to individual chat
+                  Navigator.pop(context);
                 }
               },
               iconNameInImageFolder: 'paperPlane',
@@ -170,16 +185,11 @@ class NewsComposerState extends State<NewsComposer> {
     );
   }
 
-  validateLink(){
-    if(widget.link != null && linkEntered == false) return "Link Required";
-    return null;
-  }
 
   sendToRecentChatsAndConversations(
       bool groupExits, String friendN, String userPhoneNo, String userName,
       List<dynamic> listOfFriendNumbers, String conversationId, String groupName,
       String value, TextEditingController controller, ScrollController listScrollController, String newsId) async {
-
 
     if (groupExits == false) {
       var myNumberExistsInFriendsFriendsCollectionWaiting = await Firestore

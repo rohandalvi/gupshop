@@ -24,16 +24,20 @@ class CustomTextFormField extends StatelessWidget {
   InputBorder border;
   TextStyle textStyle;
   TextStyle style;
+  TextInputAction textInputAction;
 
   CustomTextFormField({this.onFieldSubmitted, this.labelText, this.formKeyCustomText, this.onChanged,
     this.maxLength, this.initialValue, this.enabledBorder,this.onSaved, this.maxLines, this.valForValidator,
-    this.onEditingComplete, this.errorText, this.onTap, this.border, this.textStyle, this.style});
+    this.onEditingComplete, this.errorText, this.onTap, this.border, this.textStyle, this.style,
+    this.textInputAction,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Form(
       key : formKeyCustomText,
       child: TextFormField(
+        textInputAction: textInputAction,
         style: style,
         initialValue: initialValue,
         maxLength: maxLength,

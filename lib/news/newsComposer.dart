@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contact/generated/i18n.dart';
+import 'package:gupshop/links/checkLinkValidity.dart';
 import 'package:gupshop/news/fakeNewsText.dart';
 import 'package:gupshop/news/newsComposerBody.dart';
 import 'package:gupshop/news/newsIdCollection.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/service/sendAndDisplayMessages.dart';
-import 'package:gupshop/widgets/createLinks.dart';
+import 'package:gupshop/links/createLinks.dart';
 import 'package:gupshop/widgets/createMessageDataToPushToFirebase.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
@@ -17,7 +18,7 @@ import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customScaffoldBody.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
-import 'package:gupshop/widgets/openLinks.dart';
+import 'package:gupshop/links/openLinks.dart';
 
 class NewsComposer extends StatefulWidget {
   bool groupExits;
@@ -91,17 +92,19 @@ class NewsComposerState extends State<NewsComposer> {
             ),
             CustomTextFormField(
               labelText: 'Enter a valid News link',
-              maxLines: 2,
+              maxLines: 1,
               initialValue: widget.link,
-              errorText: widget.link == "" || (widget.link == null && linkEntered == false) ? 'Link Required' : null,
+              errorText: widget.link == "" || (widget.link == null && linkEntered == false) ? 'Valid Link Required' : null,
+              textInputAction: TextInputAction.next,
+              onEditingComplete: () => FocusScope.of(context).nextFocus(),
               onFieldSubmitted: (val){
                 linkEntered = true;
+                print("onFieldSubmitted");
               },
               onChanged: (linkVal){
                 setState(() {
                   widget.link = linkVal;
                   //linkEntered = true;
-                  CreateLinks(text: widget.link,);
                 });
               },
               /// different style of border:
@@ -133,6 +136,20 @@ class NewsComposerState extends State<NewsComposer> {
                   //newsEntered = true;
                 });
               },
+              onTap: () async{
+                bool isLinkValid;
+                if(widget.link != null || widget.link != ""){
+                  /// verify if the link is correct:
+                  try {
+                    isLinkValid = await CheckLinkValidity().check(widget.link);
+                  }
+                  catch (err) {
+                    setState(() {
+                      widget.link = "";
+                    });
+                  }
+                }
+              },
             ),
             CustomIconButton(
               onPressed: () async{
@@ -154,9 +171,6 @@ class NewsComposerState extends State<NewsComposer> {
                     newsEntered = false;
                   });
                 }
-
-                print("widget.link : ${widget.link} widget.title : ${widget.title} widget.newsBody : ${widget.newsBody}");
-                print("linkEntered : $linkEntered titleEntered : $titleEntered newsEntered : $newsEntered");
 
                 /// send data to recentchats and conversation collections only when
                 /// all the required fields are filled:

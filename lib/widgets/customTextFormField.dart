@@ -19,8 +19,9 @@ class CustomTextFormField extends StatelessWidget {
   FormFieldSetter<String> onSaved;
   int maxLines;
   FormFieldValidator<String> valForValidator;
+  String errorText;
 
-  CustomTextFormField({this.onFieldSubmitted, this.labelText, this.formKeyCustomText, this.onChanged, this.maxLength, this.initialValue, this.enabledBorder,this.onSaved, this.maxLines, this.valForValidator, this.onEditingComplete});
+  CustomTextFormField({this.onFieldSubmitted, this.labelText, this.formKeyCustomText, this.onChanged, this.maxLength, this.initialValue, this.enabledBorder,this.onSaved, this.maxLines, this.valForValidator, this.onEditingComplete, this.errorText});
 
   @override
   Widget build(BuildContext context) {
@@ -31,18 +32,14 @@ class CustomTextFormField extends StatelessWidget {
         maxLength: maxLength,
         cursorColor: primaryColor,
         decoration: new InputDecoration(
+          errorText: errorText,
           labelText: labelText,
-          labelStyle:
-          GoogleFonts.openSans(
+          labelStyle: GoogleFonts.openSans(
             textStyle: TextStyle(
               fontWeight: FontWeight.w600,
               color: primaryColor,
             ),
           ),
-//          new TextStyle(
-//              color: primaryColor,
-//
-//          ),
           focusedBorder: new UnderlineInputBorder(
             borderSide: new BorderSide(color:ourBlack ),
           ),

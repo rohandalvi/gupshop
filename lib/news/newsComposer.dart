@@ -55,6 +55,9 @@ class NewsComposer extends StatefulWidget {
 
 class NewsComposerState extends State<NewsComposer> {
   String newsId;
+  bool linkEntered = true;
+  bool titleEntered = true;
+  bool newsEntered = true;
 
   @override
   Widget build(BuildContext context) {
@@ -71,11 +74,16 @@ class NewsComposerState extends State<NewsComposer> {
           children: <Widget>[
             CustomTextFormField(
               labelText: 'Enter the News Title',
+              errorText:widget.title == null && titleEntered == false ? 'Title Required' : null,
               maxLength: 15,
               initialValue: widget.title,/// for showing value of forward messages
+              onFieldSubmitted: (val){
+                titleEntered = true;
+              },
               onChanged: (titleVal){
                 setState(() {
                   widget.title = titleVal;
+                  titleEntered = true;
                 });
               },
             ),
@@ -83,10 +91,14 @@ class NewsComposerState extends State<NewsComposer> {
               labelText: 'Enter the News link',
               maxLines: 2,
               initialValue: widget.link,
-              valForValidator: (val) => 'Link Required',
+              errorText: widget.link == null && linkEntered == false ? 'Link Required' : null,
+              onFieldSubmitted: (val){
+                linkEntered = true;
+              },
               onChanged: (linkVal){
                 setState(() {
                   widget.link = linkVal;
+                  linkEntered = true;
                 });
               },
             ),
@@ -94,35 +106,60 @@ class NewsComposerState extends State<NewsComposer> {
               labelText: 'Give some intro about the news',
               maxLines: 2,
               initialValue: widget.newsBody,
+//              errorText: ,
+              errorText: widget.newsBody == null && newsEntered == false ? 'News Required' : null,
+              onFieldSubmitted: (val){
+                newsEntered = true;
+              },
               onChanged: (newsVal){
                 setState(() {
                   widget.newsBody = newsVal;
+                  newsEntered = true;
                 });
               },
             ),
             CustomIconButton(
-//              onPressed: widget.sendNewsOnPressed,
               onPressed: () async{
+                if(widget.link == null ){
+                  setState(() {
+                    linkEntered = false;
+                  });
+                }
+                if(widget.title == null){
+                  setState(() {
+                    titleEntered = false;
+                  });
+                }
+                if(widget.newsBody == null){
+                  setState(() {
+                    newsEntered = false;
+                  });
+                }
+                print("link : $linkEntered title: $titleEntered news: $newsEntered");
+                print("widget.link : ${widget.link} widget.title: ${widget.title} widget.newsBody: ${widget.newsBody }");
+
+                if(widget.link != null && widget.title != null && widget.newsBody != null){
                   var newsData ={
                     'title' : widget.title,
                     'link' : widget.link,
                     'news' : widget.newsBody,
                   };
-                 newsId = await NewsIdCollection().createNewsId(newsData);
+                  newsId = await NewsIdCollection().createNewsId(newsData);
 
                   sendToRecentChatsAndConversations(
-                      widget.groupExits,
-                      widget.friendN,
-                      widget.userPhoneNo,
-                      widget.userName,
-                      widget.listOfFriendNumbers,
-                      widget.conversationId,
-                      widget.groupName,
-                      widget.value,
-                      widget.controller,
-                      widget.listScrollController,
-                      newsId,
+                    widget.groupExits,
+                    widget.friendN,
+                    widget.userPhoneNo,
+                    widget.userName,
+                    widget.listOfFriendNumbers,
+                    widget.conversationId,
+                    widget.groupName,
+                    widget.value,
+                    widget.controller,
+                    widget.listScrollController,
+                    newsId,
                   );
+                }
               },
               iconNameInImageFolder: 'paperPlane',
             ),
@@ -131,6 +168,11 @@ class NewsComposerState extends State<NewsComposer> {
         ),
       ),
     );
+  }
+
+  validateLink(){
+    if(widget.link != null && linkEntered == false) return "Link Required";
+    return null;
   }
 
   sendToRecentChatsAndConversations(

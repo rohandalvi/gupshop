@@ -8,12 +8,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/modules/Presence.dart';
+import 'package:gupshop/news/forwardNewsCollection.dart';
 import 'package:gupshop/news/newsComposer.dart';
 import 'package:gupshop/news/newsContainer.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/widgets/createMessageDataToPushToFirebase.dart';
+import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
@@ -434,6 +436,7 @@ class _IndividualChatState extends State<IndividualChat> {
                             else isMe = false;
 
                             String documentId =  documentList[index].documentID;
+                            String newsId = documentList[index].data["newsId"];
 
                             print("isMe : $isMe");
 
@@ -501,46 +504,46 @@ class _IndividualChatState extends State<IndividualChat> {
                                       forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
                                       titleText: ForwardMessagesSnackBarTitleText(
                                         ///what to do after the user longPresses a message
-                                        onTap: (){
+                                        onTap: () async{
                                           ///open search page
                                           ///on selecting a contact, send message to that contact
 
                                           var data;
-                                          if(forwardNews != null) data = {"news":newsBody, "link": newsLink, "title": newsTitle, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId, "reportedBy": reportedByCount, "trueBy": trueByCount, "fakeBy":fakeByCount};
-                                          else if(forwardMessage != null) data = {"body":forwardMessage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-                                          else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-                                          else data = {"imageURL":forwardImage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+                                          /// for news, we need to show a dialog, and if the dialog returns true then only the user gets
+                                          /// navigated to contactSearch
+                                          if(forwardNews != null) {
+                                            data = {"news":newsBody, "link": newsLink, "title": newsTitle, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId, "reportedBy": reportedByCount, "trueBy": trueByCount, "fakeBy":fakeByCount, "newsId": newsId};
+                                            /// beforing forwarding, ask tell the user that forwarding means agreeing to whatever
+                                            /// is there in the news. And increase the trueBy count as he agrees to it.
+                                            bool forwardYesOrNo = await CustomDialogForConfirmation(
+                                                title: "Forward the NEWS",
+                                                content: "Forwarding the news means you agree to the content "
+                                                    "to be true.",
+                                            ).dialog(context);
+                                            print("forwardYesOrNo : $forwardYesOrNo");
+
+                                            /// increasing the trueBy count by 1:
+                                            if(forwardYesOrNo == true){
+                                              /// increase the count only if the user doesnt exist in forwardNewsUsers collection
+                                              bool hasForwardedOrCreatedNewsAlready = await ForwardNewsCollection().addToSet(newsId, userPhoneNo, userName);
+                                              if(hasForwardedOrCreatedNewsAlready == false){
+                                                int increaseTrueByCount = data["trueBy"] + 1 ;
+                                                data["trueBy"]= increaseTrueByCount;
+                                              }
+                                              CustomNavigator().navigateToContactSearch(context, userName,  userPhoneNo, data);
+                                            }
+                                          }
+                                          else{
+                                            if(forwardMessage != null) data = {"body":forwardMessage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+                                            else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+                                            else data = {"imageURL":forwardImage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
 
 
-                                          print("data in flushbar: $data");
-                                          print("userName: $userName");
-                                          print("userPhoneNo: $userPhoneNo");
-                                          /// go to newsComposer page if this is a news
-                                          if(forwardNews != null){
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                            NewsComposer(
-                                              conversationId: conversationId,
-                                              userName: userName,
-                                              userPhoneNo: userPhoneNo,
-                                              groupName: groupName,
-                                              groupExits: groupExits,
-                                              friendN: friendN,
-                                              listOfFriendNumbers: listOfFriendNumbers,
-                                              value: value,
-                                              controller: _controller,
-                                              listScrollController: listScrollController,
-                                              title: newsTitle,
-                                              link: newsLink,
-                                              newsBody: newsBody,
-                                              isForward: data,
-                                            )
-                                            )
-                                          );
-                                          }/// else go to contact search page
-                                          else CustomNavigator().navigateToContactSearch(context, userName,  userPhoneNo, data);
+                                            print("data in flushbar: $data");
+                                            print("userName: $userName");
+                                            print("userPhoneNo: $userPhoneNo");
+                                            CustomNavigator().navigateToContactSearch(context, userName,  userPhoneNo, data);
+                                          }
                                         },
                                       ),
                                       message: 'Change',

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:gupshop/news/fakeNewsText.dart';
 import 'package:gupshop/news/newsComposerBody.dart';
+import 'package:gupshop/news/newsIdCollection.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/service/sendAndDisplayMessages.dart';
@@ -53,6 +54,8 @@ class NewsComposer extends StatefulWidget {
 }
 
 class NewsComposerState extends State<NewsComposer> {
+  String newsId;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +103,13 @@ class NewsComposerState extends State<NewsComposer> {
             CustomIconButton(
 //              onPressed: widget.sendNewsOnPressed,
               onPressed: () async{
-                if(widget.isForward == null) {
+                  var newsData ={
+                    'title' : widget.title,
+                    'link' : widget.link,
+                    'news' : widget.newsBody,
+                  };
+                 newsId = await NewsIdCollection().createNewsId(newsData);
+
                   sendToRecentChatsAndConversations(
                       widget.groupExits,
                       widget.friendN,
@@ -111,29 +120,9 @@ class NewsComposerState extends State<NewsComposer> {
                       widget.groupName,
                       widget.value,
                       widget.controller,
-                      widget.listScrollController
+                      widget.listScrollController,
+                      newsId,
                   );
-                  /// widget.isForward is sending data to contact search which is required by individual chat for
-                  /// Conversations collection(display in individualchat) and recentChats(display in recentchats)
-                }else {
-                  /// beforing forwarding, ask tell the user that forwarding means agreeing to whatever
-                  /// is there in the news. And increase the trueBy count as he agrees to it.
-                  bool forwardYesOrNo = await CustomDialogForConfirmation(
-                      title: "Is this News TRUE or FAKE",
-                      content: "Forwarding the news means you agree to the content "
-                          "to be true, meaning you are marking up the 'true-news' count. "
-                          "Your name now appears in the list of the people marking the "
-                          "news as TRUE."
-                  ).dialog(context);
-                  print("forwardYesOrNo : $forwardYesOrNo");
-
-                  /// increasing the trueBy count by 1:
-                  if(forwardYesOrNo == true){
-                    int increaseTrueByCount = widget.isForward["trueBy"] + 1 ;
-                    widget.isForward["trueBy"]= increaseTrueByCount;
-                    CustomNavigator().navigateToContactSearch(context, widget.userName,  widget.userPhoneNo, widget.isForward);
-                  }
-                }
               },
               iconNameInImageFolder: 'paperPlane',
             ),
@@ -147,7 +136,7 @@ class NewsComposerState extends State<NewsComposer> {
   sendToRecentChatsAndConversations(
       bool groupExits, String friendN, String userPhoneNo, String userName,
       List<dynamic> listOfFriendNumbers, String conversationId, String groupName,
-      String value, TextEditingController controller, ScrollController listScrollController) async {
+      String value, TextEditingController controller, ScrollController listScrollController, String newsId) async {
 
 
     if (groupExits == false) {
@@ -204,6 +193,7 @@ class NewsComposerState extends State<NewsComposer> {
         "reportedBy": 0,
         "trueBy": 0,
         "fakeBy":0,
+        "newsId" : newsId,
       };
       SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
 

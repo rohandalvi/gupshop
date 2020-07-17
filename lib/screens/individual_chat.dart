@@ -508,7 +508,7 @@ class _IndividualChatState extends State<IndividualChat> {
                                           ///open search page
                                           ///on selecting a contact, send message to that contact
 
-                                          var data = {};
+                                          var data;
                                           /// for news, we need to show a dialog, and if the dialog returns true then only the user gets
                                           /// navigated to contactSearch
                                           if(forwardNews != null) {

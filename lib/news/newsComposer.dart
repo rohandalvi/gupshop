@@ -205,17 +205,7 @@ class NewsComposerState extends State<NewsComposer> {
                   );
 
                   /// sending the user back to individual chat
-                  print("now popping");
-//                  navigator.pop();
                   Navigator.of(context).pop();
-//                  NavigateToIndividualChat(
-//                    listOfFriendsNumbers: widget.listOfFriendNumbers,
-//                    friendName: widget.friendN,
-//                    userName: widget.userName,
-//                    userPhoneNo: widget.userPhoneNo,
-//                    conversationId: widget.conversationId,
-//                  ).navigate(context);
-                  print("popped");
                 }
               },
               iconNameInImageFolder: 'paperPlane',

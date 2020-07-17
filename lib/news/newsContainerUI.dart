@@ -18,11 +18,11 @@ class NewsContainerUI extends StatelessWidget {
       height: 250,
       width: 250,
       child: Card(
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(5.0),
-            side: BorderSide(color : Colors.black),
-          ),
+//          elevation: 0,
+//          shape: RoundedRectangleBorder(
+//            borderRadius: new BorderRadius.circular(5.0),
+//            side: BorderSide(color : Colors.black),
+//          ),
           child: ListView(
             shrinkWrap: true,
             children: <Widget>[

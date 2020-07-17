@@ -8,7 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/modules/Presence.dart';
-import 'package:gupshop/news/forwardNewsCollection.dart';
+import 'package:gupshop/news/newsUsersCollection.dart';
 import 'package:gupshop/news/newsComposer.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
@@ -508,7 +508,7 @@ class _IndividualChatState extends State<IndividualChat> {
                                           ///open search page
                                           ///on selecting a contact, send message to that contact
 
-                                          var data;
+                                          var data = {};
                                           /// for news, we need to show a dialog, and if the dialog returns true then only the user gets
                                           /// navigated to contactSearch
                                           if(forwardNews != null) {
@@ -525,7 +525,7 @@ class _IndividualChatState extends State<IndividualChat> {
                                             /// increasing the trueBy count by 1:
                                             if(forwardYesOrNo == true){
                                               /// increase the count only if the user doesnt exist in forwardNewsUsers collection
-                                              bool hasForwardedOrCreatedNewsAlready = await ForwardNewsCollection().addToSet(newsId, userPhoneNo, userName);
+                                              bool hasForwardedOrCreatedNewsAlready = await NewsUsersCollection().addToSet(newsId, userPhoneNo, userName);
                                               if(hasForwardedOrCreatedNewsAlready == false){
                                                 int increaseTrueByCount = data["trueBy"] + 1 ;
                                                 data["trueBy"]= increaseTrueByCount;

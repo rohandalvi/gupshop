@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:gupshop/links/checkLinkValidity.dart';
 import 'package:gupshop/news/fakeNewsText.dart';
+import 'package:gupshop/news/newsUsersCollection.dart';
 import 'package:gupshop/news/newsComposerBody.dart';
 import 'package:gupshop/news/newsIdCollection.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
@@ -153,6 +154,8 @@ class NewsComposerState extends State<NewsComposer> {
             ),
             CustomIconButton(
               onPressed: () async{
+                final navigator = Navigator.of(context);
+                print("navigator: $navigator");
 
                 /// widget.link == null, widget.title == null, widget.newsBody == null
                 /// to make the fields required:
@@ -202,7 +205,17 @@ class NewsComposerState extends State<NewsComposer> {
                   );
 
                   /// sending the user back to individual chat
-                  Navigator.pop(context);
+                  print("now popping");
+//                  navigator.pop();
+                  Navigator.of(context).pop();
+//                  NavigateToIndividualChat(
+//                    listOfFriendsNumbers: widget.listOfFriendNumbers,
+//                    friendName: widget.friendN,
+//                    userName: widget.userName,
+//                    userPhoneNo: widget.userPhoneNo,
+//                    conversationId: widget.conversationId,
+//                  ).navigate(context);
+                  print("popped");
                 }
               },
               iconNameInImageFolder: 'paperPlane',
@@ -263,7 +276,9 @@ class NewsComposerState extends State<NewsComposer> {
 
     if (widget.link != null && widget.title != null) {
       ///if there is not text, then dont send the message
-      var data = {
+
+      var data;
+      data = {
         "news": widget.newsBody,
         "title" : widget.title,
         "link" : widget.link,
@@ -272,12 +287,17 @@ class NewsComposerState extends State<NewsComposer> {
         "timeStamp": DateTime.now(),
         "conversationId": conversationId,
         "reportedBy": 0,
-        "trueBy": 0,
+        "trueBy": 0,/// the trueBy count would be one always when the news gets created
         "fakeBy":0,
         "newsId" : newsId,
       };
 
-      /// put increase trueBy code here:
+      /// increase the count only if the user doesnt exist in forwardNewsUsers collection
+      bool hasForwardedOrCreatedNewsAlready = await NewsUsersCollection().addToSet(newsId, userPhoneNo, userName);
+      if(hasForwardedOrCreatedNewsAlready == false){
+        int increaseTrueByCount = data["trueBy"] + 1 ;
+        data["trueBy"]= increaseTrueByCount;
+      }
 
       SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
 
@@ -298,6 +318,7 @@ class NewsComposerState extends State<NewsComposer> {
         curve: Curves.easeOut,
         duration: const Duration(milliseconds: 300),
       );
+      print("data set in recentchats");
     }
   }
 }

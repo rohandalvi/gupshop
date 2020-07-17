@@ -255,6 +255,38 @@ class NavigateToNewsComposer{
   }
 }
 
+class NavigateToIndividualChat{
+  String conversationId;
+  String userName;
+  String userPhoneNo;
+  String friendName;
+  List<dynamic> listOfFriendsNumbers;
+  var data;
+  bool notGroupMemberAnymore;
+
+  NavigateToIndividualChat({this.conversationId, this.userName, this.userPhoneNo, this.friendName, this.data, this.notGroupMemberAnymore, this.listOfFriendsNumbers});
+
+  navigate(BuildContext context){
+    return (){
+      Navigator.push(
+        context,
+        MaterialPageRoute(//to send conversationId along with the navigator to the next page
+          builder: (context) => IndividualChat(
+            conversationId: conversationId,
+            userPhoneNo: userPhoneNo,
+            userName: userName,
+            friendName:friendName,
+            forwardMessage: data,
+            listOfFriendNumbers: listOfFriendsNumbers,
+            notGroupMemberAnymore: notGroupMemberAnymore,
+          ),
+        ),
+      );
+    };
+  }
+
+}
+
 
 //an If else in a navigation example:
 ///return Scaffold(

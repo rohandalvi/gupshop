@@ -4,7 +4,8 @@ class NewsIdCollection{
   createNewsId(var newsData) async{
     DocumentReference idReference = await Firestore.instance.collection("newsIds").add(newsData);
     String id =  idReference.documentID;
-    Firestore.instance.collection("newsIds").document(id).setData({'newsId':id });
+    await Firestore.instance.collection("newsIds").document(id).setData({'newsId':id , 'title': newsData["title"], 'link': newsData["link"], 'news':newsData["news"]});
+    print("data set in newsIds");
     return id;
   }
 

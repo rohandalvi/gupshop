@@ -8,3 +8,4 @@ const isMeChatColor = Color(0xFFE0F2F1);
 const notMeChatColor = Color(0xFF80CBC4);
 const deleteColor = Color(0xFFF44336);
 const archiveColor = Color(0xFFB3E5FC);
+const linkPreviewColor = Color(0xFFF1F8E9);

@@ -126,6 +126,7 @@ class NewsComposerState extends State<NewsComposer> {
             CustomTextFormField(
               labelText: 'Give some intro about the news',
               maxLines: 2,
+              maxLength: 50,
               initialValue: widget.newsBody,
               errorText: widget.newsBody == "" || (widget.newsBody == null && newsEntered == false) ? 'News Required' : null,
               onFieldSubmitted: (val){

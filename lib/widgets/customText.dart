@@ -61,4 +61,43 @@ class CustomText extends StatelessWidget {
       ),
     );
   }
+
+  hyperLink(){
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+        textStyle: TextStyle(
+          fontWeight: FontWeight.w600,
+          color: Colors.blue,
+            decoration: TextDecoration.underline
+          ///decoration: TextDecoration.underline/// this is giving an underline to Enter the link too
+        )
+      ),
+    );
+  }
+
+  graySubtitle(){
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+        textStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
+
+  nonBoldText(){
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+        //inconsolata
+        textStyle: TextStyle(
+          fontSize: fontSize != null ? fontSize : 16,
+        ),
+        color: textColor == null ? Colors.black : textColor,
+      ),
+    );
+  }
 }

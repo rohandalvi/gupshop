@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gupshop/individualChat/individualChatAppBar.dart';
+import 'package:gupshop/individualChat/messageDisplay.dart';
 import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/news/newsUsersCollection.dart';
@@ -227,13 +229,30 @@ class _IndividualChatState extends State<IndividualChat> {
             child: Scaffold(
               appBar: PreferredSize(
                 preferredSize: Size.fromHeight(60.0),//the distance between gupShop and tabBars
-                child: appBar(context, friendName),
+                child: IndividualChatAppBar(userPhoneNo: userPhoneNo, userName: userName,groupExits: groupExits,friendName: friendName,friendN: friendN, conversationId: conversationId,notGroupMemberAnymore: notGroupMemberAnymore,listOfFriendNumbers: listOfFriendNumbers,presence: presence,),
+                //appBar(context, friendName),
               ),
               //appBar(),
               /// if a member is removed from the group, then he should not be seeing the conversations
               /// once he enters the individual chat page
               /// So, displaying the conversations only when he is a group member
-              body: notGroupMemberAnymore == false ? showMessagesAndSendMessageBar(context)
+              body: notGroupMemberAnymore == false ? MessageDisplay(
+                conversationId: conversationId,
+                controller: controller,
+                controllerTwo: _controller,
+                documentList: documentList,
+                listOfFriendNumbers: listOfFriendNumbers,
+                listScrollController: listScrollController,
+                friendN: friendN,
+                userName: userName,
+                userPhoneNo: userPhoneNo,
+                isPressed: isPressed,
+                groupExits: groupExits,
+                groupName: groupName,
+                value: value,
+                scroll: scroll,
+              )
+//              body: notGroupMemberAnymore == false ? showMessagesAndSendMessageBar(context)
               : BlankScreen(),
             ),
           ),

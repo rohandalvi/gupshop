@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gupshop/individualChat/body.dart';
 import 'package:gupshop/individualChat/individualChatAppBar.dart';
 import 'package:gupshop/individualChat/messageDisplay.dart';
 import 'package:gupshop/models/chat_List.dart';
@@ -223,45 +224,42 @@ class _IndividualChatState extends State<IndividualChat> {
   Widget build(BuildContext context){
     return WillPopScope(
       onWillPop: () async => CustomNavigator().navigateToHome(context, userName, userPhoneNo),
-      child: Stack(
-        children: <Widget>[
-          Material(
-            child: Scaffold(
-              appBar: PreferredSize(
-                preferredSize: Size.fromHeight(60.0),//the distance between gupShop and tabBars
-                child: IndividualChatAppBar(userPhoneNo: userPhoneNo, userName: userName,groupExits: groupExits,friendName: friendName,friendN: friendN, conversationId: conversationId,notGroupMemberAnymore: notGroupMemberAnymore,listOfFriendNumbers: listOfFriendNumbers,presence: presence,),
-                //appBar(context, friendName),
-              ),
-              //appBar(),
-              /// if a member is removed from the group, then he should not be seeing the conversations
-              /// once he enters the individual chat page
-              /// So, displaying the conversations only when he is a group member
-              body: notGroupMemberAnymore == false ? MessageDisplay(
-                conversationId: conversationId,
-                controller: controller,
-                controllerTwo: _controller,
-                documentList: documentList,
-                listOfFriendNumbers: listOfFriendNumbers,
-                listScrollController: listScrollController,
-                friendN: friendN,
-                userName: userName,
-                userPhoneNo: userPhoneNo,
-                isPressed: isPressed,
-                groupExits: groupExits,
-                groupName: groupName,
-                value: value,
-                scroll: scroll,
-              )
-//              body: notGroupMemberAnymore == false ? showMessagesAndSendMessageBar(context)
-              : BlankScreen(),
-            ),
+      child: Material(
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(60.0),//the distance between gupShop and tabBars
+            child: IndividualChatAppBar(userPhoneNo: userPhoneNo, userName: userName,groupExits: groupExits,friendName: friendName,friendN: friendN, conversationId: conversationId,notGroupMemberAnymore: notGroupMemberAnymore,listOfFriendNumbers: listOfFriendNumbers,presence: presence,),
+            //appBar(context, friendName),
           ),
-          _scrollToBottomButton(),
-          shareLocation(),
-        ],
+          //appBar(),
+          /// if a member is removed from the group, then he should not be seeing the conversations
+          /// once he enters the individual chat page
+          /// So, displaying the conversations only when he is a group member
+          body: notGroupMemberAnymore == false ? MessageDisplay(
+            conversationId: conversationId,
+            controller: controller,
+            controllerTwo: _controller,
+            documentList: documentList,
+            listOfFriendNumbers: listOfFriendNumbers,
+            listScrollController: listScrollController,
+            friendN: friendN,
+            userName: userName,
+            userPhoneNo: userPhoneNo,
+            isPressed: isPressed,
+            groupExits: groupExits,
+            groupName: groupName,
+            value: value,
+            scroll: scroll,
+          ): BlankScreen(),
+//              body: notGroupMemberAnymore == false ? showMessagesAndSendMessageBar(context)
+//              : BlankScreen(),
+        ),
       ),
     );
   }
+
+//  _scrollToBottomButton(),
+//  shareLocation(),
 
   sendLocation(Position location){
     /// create data and push to conversations collection to display immediately
@@ -410,218 +408,230 @@ class _IndividualChatState extends State<IndividualChat> {
 //                      }
 
                       return NotificationListener<ScrollUpdateNotification>(
-                        child: ListView.separated(
-                          controller: listScrollController, //for scrolling messages
-                          //shrinkWrap: true,
-                          reverse: true,
-                          itemCount: documentList.length,
-                          itemBuilder: (context, index) {
-                            var messageBody;
-                            var imageURL;
-                            var videoURL;
-
-                            String newsBody = documentList[index].data["news"];
-                            String newsTitle = documentList[index].data["title"];
-                            String newsLink = documentList[index].data["link"];
-                            int reportedByCount = documentList[index].data["reportedBy"];
-                            int trueByCount = documentList[index].data["trueBy"];
-                            int fakeByCount = documentList[index].data["fakeBy"];
-
-                            bool isNews= false;
-                            if(newsBody != null) {isNews = true;}
-                            else if(documentList[index].data["videoURL"] != null){
-                              videoURL = documentList[index].data["videoURL"];
-                              controller = VideoPlayerController.network(videoURL);
-                            }
-                            else if(documentList[index].data["imageURL"] == null){
-                              messageBody = documentList[index].data["body"];
-
-                            }else{
-                              imageURL = documentList[index].data["imageURL"];
-                            }
-                            //var messageBody = documentList[index].data["body"];
-                            var fromName = documentList[index].data["fromName"];
-                            Timestamp timeStamp = documentList[index].data["timeStamp"];
-                            String fromNameForGroup = documentList[index].data["fromName"]; /// for group messages
-//                            bool isMe = false;
-                            bool isMe;
-
-                            double latitude = documentList[index].data["latitude"];
-                            double longitude = documentList[index].data["longitude"];
-                            bool isLocationMessage= false;
-                            if(latitude != null && longitude != null) isLocationMessage = true;
-
-                            if (fromName == userName) isMe = true;
-                            else isMe = false;
-
-                            String documentId =  documentList[index].documentID;
-                            String newsId = documentList[index].data["newsId"];
-
-                            print("isMe : $isMe");
-
-                            return ListTile(
-                              title: GestureDetector(
-                              onTap: (){
-                                String openMessage;
-                                bool isPicture;
-                               // FocusScope.of(context).unfocus();///Not working!!
-                                if(messageBody != null){
-                                  openMessage = null;
-                                }else if(videoURL != null){
-                                  openMessage = videoURL;
-                                  isPicture = false;
-                                }else {
-                                  openMessage = imageURL;
-                                  isPicture = true;
-                                }
-
-                                if(openMessage != null){
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ViewPicturesVideosFromChat(payLoad: openMessage, isPicture: isPicture,),//pass Name() here and pass Home()in name_screen
-                                      )
-                                  );
-                                }
-                              },
-//                                onDoubleTap: (){
-//                                if(isLocationMessage == true){
-//                                  GeolocationServiceState().launchMapsUrl(latitude, longitude);
-//                                }
-//                                },
-                                onLongPress: (){
-                                  if(isPressed == false){///show snackbar only once
-                                    isPressed = true;
-                                    String forwardMessage;
-                                    String forwardImage;
-                                    String forwardVideo;
-                                    String forwardNews;
-
-                                    ///extract the message in a variable called forwardMessage(ideally there should be
-                                    /// a list of messages and not just one variable..this is a @todo )
-
-                                    if(newsBody != null){
-                                      forwardNews = newsBody;
-                                      print("forwardNews: $forwardNews");
-                                    }else if(messageBody != null){
-                                      forwardMessage = messageBody;
-                                    }else if(videoURL != null){
-                                      forwardVideo = videoURL;
-                                    }else forwardImage = imageURL;
-
-
-                                    ///show snackbar
-                                    return Flushbar(
-                                      //showProgressIndicator: true,
-                                      flushbarStyle: FlushbarStyle.GROUNDED,
-                                      padding : EdgeInsets.all(6),
-                                      borderRadius: 8,
-                                      backgroundColor: Colors.white,
-
-                                      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-
-                                      forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-                                      titleText: ForwardMessagesSnackBarTitleText(
-                                        ///what to do after the user longPresses a message
-                                        onTap: () async{
-                                          ///open search page
-                                          ///on selecting a contact, send message to that contact
-
-                                          var data;
-                                          /// for news, we need to show a dialog, and if the dialog returns true then only the user gets
-                                          /// navigated to contactSearch
-                                          if(forwardNews != null) {
-                                            data = {"news":newsBody, "link": newsLink, "title": newsTitle, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId, "reportedBy": reportedByCount, "trueBy": trueByCount, "fakeBy":fakeByCount, "newsId": newsId};
-                                            /// beforing forwarding, ask tell the user that forwarding means agreeing to whatever
-                                            /// is there in the news. And increase the trueBy count as he agrees to it.
-                                            bool forwardYesOrNo = await CustomDialogForConfirmation(
-                                                title: "Forward the NEWS",
-                                                content: "Forwarding the news means you agree to the content "
-                                                    "to be true.",
-                                            ).dialog(context);
-                                            print("forwardYesOrNo : $forwardYesOrNo");
-
-                                            /// increasing the trueBy count by 1:
-                                            if(forwardYesOrNo == true){
-                                              /// increase the count only if the user doesnt exist in forwardNewsUsers collection
-                                              bool hasForwardedOrCreatedNewsAlready = await NewsUsersCollection().addToSet(newsId, userPhoneNo, userName);
-                                              if(hasForwardedOrCreatedNewsAlready == false){
-                                                int increaseTrueByCount = data["trueBy"] + 1 ;
-                                                data["trueBy"]= increaseTrueByCount;
-                                              }
-                                              CustomNavigator().navigateToContactSearch(context, userName,  userPhoneNo, data);
-                                            }
-                                          }
-                                          else{
-                                            if(forwardMessage != null) data = {"body":forwardMessage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-                                            else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-                                            else data = {"imageURL":forwardImage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-
-
-                                            print("data in flushbar: $data");
-                                            print("userName: $userName");
-                                            print("userPhoneNo: $userPhoneNo");
-                                            CustomNavigator().navigateToContactSearch(context, userName,  userPhoneNo, data);
-                                          }
-                                        },
-                                      ),
-                                      message: 'Change',
-                                      onStatusChanged: (val){
-                                        ///if the user longPresses the button once, dismesses it and later presses
-                                        ///it again then the snackbar was not appearing, because isPressed was
-                                        ///set to true. So when the flushbar is dismissed, we are setting isPressed
-                                        ///to false again, so the snackbar can appear again
-                                        if(val == FlushbarStatus.DISMISSED){
-                                          isPressed = false;
-                                        }
-                                      },
-
-                                    )..show(context);
-                                  } return Container();
-
-
-
-                                  /// UI:
-                                  /// on longPress show a mini snackBar which has the option of forward or copy
-                                  /// and remove the sendMessage box
-                                  /// On pressing forward, take the user to the search which is ordered in the
-                                  /// form of list of users(i.e search with the latest conversation on top)
-                                  /// On sending the message, take, keep a button of done on the search page
-                                  ///
-                                  /// backend:
-                                  ///
-                                },
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
-                                  padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
-                                  child: isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody,) : isLocationMessage ==true ? showLocation(fromName,latitude, longitude): videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
-                                  CustomText(text: messageBody,): showImage(imageURL),
-                                ),
-                              ),
-                              isThreeLine: true,
-                              subtitle: FromNameAndTimeStamp(/// three icons are in this class
-                                  reportedByCount: reportedByCount,
-                                  trueByCount: trueByCount,
-                                  fakeByCount: fakeByCount,
-                                  isNews: isNews,
-                                  visible: ((groupExits==null? false : groupExits) && isMe==false),/// groupExits==null? false : groupExits was showing error because groupExists takes time to calculate as it is a future, so we are just adding a placeholder,
-                                  fromName:  CustomText(text: fromNameForGroup,fontSize: 12,),
-                                  isMe: isMe,
-                                  timeStamp:Text(//time
-                                    DateFormat("dd MMM kk:mm")
-                                        .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic
-                                    ),
-                                  ),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) => Divider(
-                            color: Colors.white,
-                          ),
+                        child: Body(
+                          conversationId: conversationId,
+                          controller: controller,
+                          documentList: documentList,
+                          listScrollController: listScrollController,
+                          userName: userName,
+                          userPhoneNo: userPhoneNo,
+                          isPressed: isPressed,
+                          groupExits: groupExits,
+                          value: value,
+                          scroll: scroll,
                         ),
+//                        child: ListView.separated(
+//                          controller: listScrollController, //for scrolling messages
+//                          //shrinkWrap: true,
+//                          reverse: true,
+//                          itemCount: documentList.length,
+//                          itemBuilder: (context, index) {
+//                            var messageBody;
+//                            var imageURL;
+//                            var videoURL;
+//
+//                            String newsBody = documentList[index].data["news"];
+//                            String newsTitle = documentList[index].data["title"];
+//                            String newsLink = documentList[index].data["link"];
+//                            int reportedByCount = documentList[index].data["reportedBy"];
+//                            int trueByCount = documentList[index].data["trueBy"];
+//                            int fakeByCount = documentList[index].data["fakeBy"];
+//
+//                            bool isNews= false;
+//                            if(newsBody != null) {isNews = true;}
+//                            else if(documentList[index].data["videoURL"] != null){
+//                              videoURL = documentList[index].data["videoURL"];
+//                              controller = VideoPlayerController.network(videoURL);
+//                            }
+//                            else if(documentList[index].data["imageURL"] == null){
+//                              messageBody = documentList[index].data["body"];
+//
+//                            }else{
+//                              imageURL = documentList[index].data["imageURL"];
+//                            }
+//                            //var messageBody = documentList[index].data["body"];
+//                            var fromName = documentList[index].data["fromName"];
+//                            Timestamp timeStamp = documentList[index].data["timeStamp"];
+//                            String fromNameForGroup = documentList[index].data["fromName"]; /// for group messages
+////                            bool isMe = false;
+//                            bool isMe;
+//
+//                            double latitude = documentList[index].data["latitude"];
+//                            double longitude = documentList[index].data["longitude"];
+//                            bool isLocationMessage= false;
+//                            if(latitude != null && longitude != null) isLocationMessage = true;
+//
+//                            if (fromName == userName) isMe = true;
+//                            else isMe = false;
+//
+//                            String documentId =  documentList[index].documentID;
+//                            String newsId = documentList[index].data["newsId"];
+//
+//                            print("isMe : $isMe");
+//
+//                            return ListTile(
+//                              title: GestureDetector(
+//                              onTap: (){
+//                                String openMessage;
+//                                bool isPicture;
+//                               // FocusScope.of(context).unfocus();///Not working!!
+//                                if(messageBody != null){
+//                                  openMessage = null;
+//                                }else if(videoURL != null){
+//                                  openMessage = videoURL;
+//                                  isPicture = false;
+//                                }else {
+//                                  openMessage = imageURL;
+//                                  isPicture = true;
+//                                }
+//
+//                                if(openMessage != null){
+//                                  Navigator.push(
+//                                      context,
+//                                      MaterialPageRoute(
+//                                        builder: (context) => ViewPicturesVideosFromChat(payLoad: openMessage, isPicture: isPicture,),//pass Name() here and pass Home()in name_screen
+//                                      )
+//                                  );
+//                                }
+//                              },
+////                                onDoubleTap: (){
+////                                if(isLocationMessage == true){
+////                                  GeolocationServiceState().launchMapsUrl(latitude, longitude);
+////                                }
+////                                },
+//                                onLongPress: (){
+//                                  if(isPressed == false){///show snackbar only once
+//                                    isPressed = true;
+//                                    String forwardMessage;
+//                                    String forwardImage;
+//                                    String forwardVideo;
+//                                    String forwardNews;
+//
+//                                    ///extract the message in a variable called forwardMessage(ideally there should be
+//                                    /// a list of messages and not just one variable..this is a @todo )
+//
+//                                    if(newsBody != null){
+//                                      forwardNews = newsBody;
+//                                      print("forwardNews: $forwardNews");
+//                                    }else if(messageBody != null){
+//                                      forwardMessage = messageBody;
+//                                    }else if(videoURL != null){
+//                                      forwardVideo = videoURL;
+//                                    }else forwardImage = imageURL;
+//
+//
+//                                    ///show snackbar
+//                                    return Flushbar(
+//                                      //showProgressIndicator: true,
+//                                      flushbarStyle: FlushbarStyle.GROUNDED,
+//                                      padding : EdgeInsets.all(6),
+//                                      borderRadius: 8,
+//                                      backgroundColor: Colors.white,
+//
+//                                      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+//
+//                                      forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+//                                      titleText: ForwardMessagesSnackBarTitleText(
+//                                        ///what to do after the user longPresses a message
+//                                        onTap: () async{
+//                                          ///open search page
+//                                          ///on selecting a contact, send message to that contact
+//
+//                                          var data;
+//                                          /// for news, we need to show a dialog, and if the dialog returns true then only the user gets
+//                                          /// navigated to contactSearch
+//                                          if(forwardNews != null) {
+//                                            data = {"news":newsBody, "link": newsLink, "title": newsTitle, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId, "reportedBy": reportedByCount, "trueBy": trueByCount, "fakeBy":fakeByCount, "newsId": newsId};
+//                                            /// beforing forwarding, ask tell the user that forwarding means agreeing to whatever
+//                                            /// is there in the news. And increase the trueBy count as he agrees to it.
+//                                            bool forwardYesOrNo = await CustomDialogForConfirmation(
+//                                                title: "Forward the NEWS",
+//                                                content: "Forwarding the news means you agree to the content "
+//                                                    "to be true.",
+//                                            ).dialog(context);
+//                                            print("forwardYesOrNo : $forwardYesOrNo");
+//
+//                                            /// increasing the trueBy count by 1:
+//                                            if(forwardYesOrNo == true){
+//                                              /// increase the count only if the user doesnt exist in forwardNewsUsers collection
+//                                              bool hasForwardedOrCreatedNewsAlready = await NewsUsersCollection().addToSet(newsId, userPhoneNo, userName);
+//                                              if(hasForwardedOrCreatedNewsAlready == false){
+//                                                int increaseTrueByCount = data["trueBy"] + 1 ;
+//                                                data["trueBy"]= increaseTrueByCount;
+//                                              }
+//                                              CustomNavigator().navigateToContactSearch(context, userName,  userPhoneNo, data);
+//                                            }
+//                                          }
+//                                          else{
+//                                            if(forwardMessage != null) data = {"body":forwardMessage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+//                                            else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+//                                            else data = {"imageURL":forwardImage, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
+//
+//
+//                                            print("data in flushbar: $data");
+//                                            print("userName: $userName");
+//                                            print("userPhoneNo: $userPhoneNo");
+//                                            CustomNavigator().navigateToContactSearch(context, userName,  userPhoneNo, data);
+//                                          }
+//                                        },
+//                                      ),
+//                                      message: 'Change',
+//                                      onStatusChanged: (val){
+//                                        ///if the user longPresses the button once, dismesses it and later presses
+//                                        ///it again then the snackbar was not appearing, because isPressed was
+//                                        ///set to true. So when the flushbar is dismissed, we are setting isPressed
+//                                        ///to false again, so the snackbar can appear again
+//                                        if(val == FlushbarStatus.DISMISSED){
+//                                          isPressed = false;
+//                                        }
+//                                      },
+//
+//                                    )..show(context);
+//                                  } return Container();
+//
+//
+//
+//                                  /// UI:
+//                                  /// on longPress show a mini snackBar which has the option of forward or copy
+//                                  /// and remove the sendMessage box
+//                                  /// On pressing forward, take the user to the search which is ordered in the
+//                                  /// form of list of users(i.e search with the latest conversation on top)
+//                                  /// On sending the message, take, keep a button of done on the search page
+//                                  ///
+//                                  /// backend:
+//                                  ///
+//                                },
+//                                child: Container(
+//                                  width: MediaQuery.of(context).size.width,
+//                                  alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
+//                                  padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
+//                                  child: isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody,) : isLocationMessage ==true ? showLocation(fromName,latitude, longitude): videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
+//                                  CustomText(text: messageBody,): showImage(imageURL),
+//                                ),
+//                              ),
+//                              isThreeLine: true,
+//                              subtitle: FromNameAndTimeStamp(/// three icons are in this class
+//                                  reportedByCount: reportedByCount,
+//                                  trueByCount: trueByCount,
+//                                  fakeByCount: fakeByCount,
+//                                  isNews: isNews,
+//                                  visible: ((groupExits==null? false : groupExits) && isMe==false),/// groupExits==null? false : groupExits was showing error because groupExists takes time to calculate as it is a future, so we are just adding a placeholder,
+//                                  fromName:  CustomText(text: fromNameForGroup,fontSize: 12,),
+//                                  isMe: isMe,
+//                                  timeStamp:Text(//time
+//                                    DateFormat("dd MMM kk:mm")
+//                                        .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
+//                                    style: TextStyle(
+//                                        color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic
+//                                    ),
+//                                  ),
+//                              ),
+//                            );
+//                          },
+//                          separatorBuilder: (context, index) => Divider(
+//                            color: Colors.white,
+//                          ),
+//                        ),
                         onNotification: (notification) {
                           /// ScrollUpdateNotification :
                           /// for listining when the user scrolls up

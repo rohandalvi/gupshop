@@ -107,7 +107,8 @@ class _FromNameAndTimeStampVotingIconsDispalyState extends State<FromNameAndTime
 
                         FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,category, widget.trueByCount);
                       }else{
-                        CustomFlushBar(text: CustomText(text: 'News creator or forwarder cannot change their up vote',),contextual: context,).showFlushBar();
+                        Duration duration = new Duration(seconds: 2);
+                        CustomFlushBar(text: CustomText(text: 'News creator or forwarder cannot change their up vote',),contextual: context,duration: duration,).showFlushBar();
                       }
                     },
                     onTap3: () async{

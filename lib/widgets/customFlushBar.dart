@@ -6,8 +6,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 class CustomFlushBar extends StatelessWidget {
   final Widget text;
   final BuildContext contextual;
+  final Duration duration;
 
-  CustomFlushBar({this.text, this.contextual});
+  CustomFlushBar({this.text, this.contextual, this.duration});
 
   @override
   Widget build(context) {
@@ -34,7 +35,7 @@ class CustomFlushBar extends StatelessWidget {
         height: 30,
       ),
       backgroundColor: Colors.white,
-      duration: Duration(seconds: 5),
+      duration: duration == null ? Duration(seconds: 5) : duration,
       forwardAnimationCurve: Curves.decelerate,
       reverseAnimationCurve: Curves.easeOut,
       titleText: text,

@@ -39,7 +39,7 @@ import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:gupshop/widgets/displayPicture.dart';
 import 'package:gupshop/widgets/forwardMessagesSnackBarTitleText.dart';
-import 'package:gupshop/widgets/fromNameAndTimeStampVotingIcons.dart';
+import 'package:gupshop/individualChat/fromNameAndTimeStampVotingIconsDisplay.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 

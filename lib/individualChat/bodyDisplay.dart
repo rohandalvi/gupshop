@@ -10,7 +10,7 @@ import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/forwardMessagesSnackBarTitleText.dart';
-import 'package:gupshop/widgets/fromNameAndTimeStampVotingIcons.dart';
+import 'package:gupshop/individualChat/fromNameAndTimeStampVotingIconsDisplay.dart';
 import 'package:video_player/video_player.dart';
 import 'package:intl/intl.dart';
 import 'messageCardDisplay.dart';
@@ -72,6 +72,7 @@ class _BodyDisplayState extends State<BodyDisplay> {
 
   @override
   Widget build(BuildContext context) {
+    print("fakeByCount in bodyDisplay : ${widget.trueByCount}");
     return ListTile(
       title: GestureDetector(
         onTap: (){
@@ -193,7 +194,7 @@ class _BodyDisplayState extends State<BodyDisplay> {
         ),
       ),
       isThreeLine: true,
-      subtitle: FromNameAndTimeStampVotingIcons(/// three icons are in this class
+      subtitle: FromNameAndTimeStampVotingIconsDispaly(/// three icons are in this class
         newsId: widget.newsId,
         conversationId: widget.conversationId,
         documentId: widget.documentId,

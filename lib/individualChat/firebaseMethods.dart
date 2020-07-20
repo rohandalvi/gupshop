@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/service/recentChats.dart';
 
 class FirebaseMethods {
@@ -23,7 +24,22 @@ class FirebaseMethods {
     return dc.data;
   }
 
-  changeTrueByFakeByReservedByInNewsCollection(String newsId, String changeInName, int changeInCount){
+  updateVoteCountToNewsCollection(String newsId, String changeInName, int changeInCount){
     Firestore.instance.collection("news").document(newsId).updateData({changeInName : changeInCount});
+  }
+
+  getVoteTrueOrFalse(String newsId, String category) async{
+    String userNumber = await UserDetails().getUserPhoneNoFuture();
+    DocumentSnapshot dc = await Firestore.instance.collection("newsStatistics").document(newsId).collection(category).document(userNumber).get();
+    return dc.data['voteStatus'];
+  }
+
+  getVoteStatus(String newsId, String category) async{
+    return await FirebaseMethods().getVoteTrueOrFalse(newsId, category);
+  }
+
+  updateVoteStatusToNewsStatistics(String newsId, String category, bool updatedVoteStatus) async{
+    String userNumber = await UserDetails().getUserPhoneNoFuture();
+    await Firestore.instance.collection("newsStatistics").document(newsId).collection(category).document(userNumber).updateData({'voteStatus': updatedVoteStatus});
   }
 }

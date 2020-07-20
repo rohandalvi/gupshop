@@ -60,7 +60,7 @@ class ThreeIconsNumbersRow extends StatelessWidget {
                 child: CustomIconButton(
                   iconNameInImageFolder: icons3Name,
                 ),
-                //onTap: onTap3,
+                onTap: onTap3,
               ),
               CustomText(text: count3,)
 //              CustomText(text: '7',)

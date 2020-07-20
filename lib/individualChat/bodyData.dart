@@ -124,6 +124,8 @@ class BodyData extends StatelessWidget {
 //                    newsBody);
 //              }
 
+                print("fakeByCount in bodyData : $fakeByCount");
+
               return BodyDisplay(
                 conversationId: conversationId,
                 controller: controller,

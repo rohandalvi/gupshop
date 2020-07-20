@@ -26,8 +26,11 @@ class FromNameAndTimeStampVotingIcons extends StatefulWidget {
   int reportedByCount;
   int trueByCount;
   int fakeByCount;
+  String newsId;
 
-  FromNameAndTimeStampVotingIcons({this.visible, this.fromName, this.isMe, this.timeStamp, this.isNews, this.conversationId,this.documentId, this.reportedByCount, this.trueByCount, this.fakeByCount});
+  FromNameAndTimeStampVotingIcons({this.visible, this.fromName, this.isMe, this.timeStamp,
+    this.isNews, this.conversationId,this.documentId, this.reportedByCount, this.trueByCount,
+    this.fakeByCount, this.newsId});
 
   @override
   _FromNameAndTimeStampVotingIconsState createState() => _FromNameAndTimeStampVotingIconsState();
@@ -54,7 +57,7 @@ class _FromNameAndTimeStampVotingIconsState extends State<FromNameAndTimeStampVo
                       setState(() {
                         widget.reportedByCount++;
                       });
-                      FirebaseMethods().changeIncreaseDecreaseCountInConversationCollection(widget.conversationId, widget.documentId, 'reportedBy', widget.reportedByCount);
+                      FirebaseMethods().changeTrueByFakeByReservedByInNewsCollection(widget.newsId,'reportedBy', widget.reportedByCount);
                     },
                   ),
                 )

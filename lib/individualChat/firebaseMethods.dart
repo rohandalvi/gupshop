@@ -20,7 +20,10 @@ class FirebaseMethods {
 
   getNewsDetailsForDisplay(String newsId) async{
     DocumentSnapshot dc = await Firestore.instance.collection("news").document(newsId).get();
-    print("dc in getNewsDetailsForDisplay: ${dc.data}");
     return dc.data;
+  }
+
+  changeTrueByFakeByReservedByInNewsCollection(String newsId, String changeInName, int changeInCount){
+    Firestore.instance.collection("news").document(newsId).updateData({changeInName : changeInCount});
   }
 }

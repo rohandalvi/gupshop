@@ -194,6 +194,7 @@ class _BodyDisplayState extends State<BodyDisplay> {
       ),
       isThreeLine: true,
       subtitle: FromNameAndTimeStampVotingIcons(/// three icons are in this class
+        newsId: widget.newsId,
         conversationId: widget.conversationId,
         documentId: widget.documentId,
         reportedByCount: widget.reportedByCount,

@@ -6,12 +6,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:gupshop/individualChat/body.dart';
+import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/individualChatAppBar.dart';
-import 'package:gupshop/individualChat/messageDisplay.dart';
+import 'package:gupshop/individualChat/bodyScrollComposer.dart';
 import 'package:gupshop/models/chat_List.dart';
 import 'package:gupshop/modules/Presence.dart';
-import 'package:gupshop/news/newsUsersCollection.dart';
+import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/news/newsComposer.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
@@ -26,7 +26,7 @@ import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
-import 'package:gupshop/service/sendAndDisplayMessages.dart';
+import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/service/viewPicturesVideosFromChat.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
@@ -39,7 +39,7 @@ import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:gupshop/widgets/displayPicture.dart';
 import 'package:gupshop/widgets/forwardMessagesSnackBarTitleText.dart';
-import 'package:gupshop/widgets/fromNameAndTimeStamp.dart';
+import 'package:gupshop/widgets/fromNameAndTimeStampVotingIcons.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:intl/intl.dart';
 
@@ -180,7 +180,7 @@ class _IndividualChatState extends State<IndividualChat> {
       forwardMessage["conversationId"] = conversationId;
       var data = forwardMessage;
 
-      DocumentReference forwardedMessageId = await SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
+      DocumentReference forwardedMessageId = await FirebaseMethods().pushToFirebaseConversatinCollection(data);
 
       if(data["videoURL"] != null) data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId, null);
       else if(data["imageURL"] != null) data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId, null);
@@ -235,7 +235,7 @@ class _IndividualChatState extends State<IndividualChat> {
           /// if a member is removed from the group, then he should not be seeing the conversations
           /// once he enters the individual chat page
           /// So, displaying the conversations only when he is a group member
-          body: notGroupMemberAnymore == false ? MessageDisplay(
+          body: notGroupMemberAnymore == false ? BodyScrollComposer(
             conversationId: conversationId,
             controller: controller,
             controllerTwo: _controller,
@@ -408,7 +408,7 @@ class _IndividualChatState extends State<IndividualChat> {
 //                      }
 
                       return NotificationListener<ScrollUpdateNotification>(
-                        child: Body(
+                        child: BodyData(
                           conversationId: conversationId,
                           controller: controller,
                           documentList: documentList,
@@ -806,7 +806,7 @@ class _IndividualChatState extends State<IndividualChat> {
             if(value!="") {
               ///if there is not text, then dont send the message
               var data = {"body":value, "fromName":userName, "fromPhoneNumber":userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-              SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
+              FirebaseMethods().pushToFirebaseConversatinCollection(data);
 
               ///Navigating to RecentChats page with pushes the data to firebase
               RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName, listOfOtherNumbers: listOfFriendNumbers, groupExists:groupExits).getAllNumbersOfAConversation();

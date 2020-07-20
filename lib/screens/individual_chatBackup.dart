@@ -11,7 +11,7 @@
 //import 'package:gupshop/service/getConversationId.dart';
 //import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 //import 'package:gupshop/service/recentChats.dart';
-//import 'package:gupshop/service/sendAndDisplayMessages.dart';
+//import 'package:gupshop/service/firebaseMethods.dart';
 //import 'package:gupshop/service/videoPicker.dart';
 //import 'package:gupshop/widgets/buildMessageComposer.dart';
 //import 'package:gupshop/widgets/colorPalette.dart';

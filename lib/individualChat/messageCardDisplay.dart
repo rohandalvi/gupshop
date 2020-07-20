@@ -23,13 +23,13 @@ class MessageCardDisplay extends StatelessWidget {
   dynamic imageURL;
   dynamic messageBody;
   String newsId;
-  Map<String,NewsContainerUI> mapIsNewsGenerated = new Map();
+  Map<String,NewsContainerUI> mapIsNewsGenerated;
 
 
   MessageCardDisplay({this.isMe, this.isNews,this.newsTitle, this.newsLink,
     this.newsBody, this.isLocationMessage,this.fromName,this.latitude,
     this.longitude,this.controller, this.imageURL, this.videoURL, this.messageBody,
-    this.newsId,
+    this.newsId, this.mapIsNewsGenerated
   });
 
   @override
@@ -38,30 +38,19 @@ class MessageCardDisplay extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
       padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
-      child: isNews == true ? newsValidator() :
-      //isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody,) :
+      child:
+//      isNews == true ? displayNews() :
+      isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody,) :
       isLocationMessage ==true ? showLocation(fromName,latitude, longitude):
       videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
       CustomText(text: messageBody,): showImage(imageURL),
     );
   }
 
-  newsValidator(){
-      var newsObj;
-      print("mapIsNewsGenerated[newsId] : ${mapIsNewsGenerated[newsId]}");
-      if(mapIsNewsGenerated[newsId] != null) {
-        print("from cache:$newsId");
-        newsObj = mapIsNewsGenerated[newsId];
-      } else {
-        print("from firebase: $newsId");
-        newsObj = NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody);
-        mapIsNewsGenerated.putIfAbsent(newsId, () => newsObj);
-      }
-      print("newsObj : $newsObj");
-      print("map : $mapIsNewsGenerated");
-      return newsObj;
-//    isNews == true ?
-//    mapIsNewsGenerated['newsId'] == null ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody,) :
+  displayNews(){
+    print("mapIsNewsGenerated : $mapIsNewsGenerated");
+    print("mapIsNewsGenerated[newsId] : ${mapIsNewsGenerated[newsId]}");
+    return mapIsNewsGenerated[newsId];
   }
 
   showLocation(String senderName,double latitude, double longitude){/// todo - use the same method from GeolocationServiceState

@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:gupshop/links/checkLinkValidity.dart';
 import 'package:gupshop/news/fakeNewsText.dart';
-import 'package:gupshop/news/newsUsersCollection.dart';
+import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/news/newsComposerBody.dart';
 import 'package:gupshop/news/newsIdCollection.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/recentChats.dart';
-import 'package:gupshop/service/sendAndDisplayMessages.dart';
+import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/links/createLinks.dart';
 import 'package:gupshop/widgets/createMessageDataToPushToFirebase.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
@@ -219,10 +219,15 @@ class NewsComposerState extends State<NewsComposer> {
   }
 
 
+
   sendToRecentChatsAndConversations(
       bool groupExits, String friendN, String userPhoneNo, String userName,
       List<dynamic> listOfFriendNumbers, String conversationId, String groupName,
       String value, TextEditingController controller, ScrollController listScrollController, String newsId) async {
+
+    int trueBy=0;
+    int fakeBy =0;
+    int reportedBy =0;
 
     if (groupExits == false) {
       var myNumberExistsInFriendsFriendsCollectionWaiting = await Firestore
@@ -268,29 +273,35 @@ class NewsComposerState extends State<NewsComposer> {
     if (widget.link != null && widget.title != null) {
       ///if there is not text, then dont send the message
 
+
+      /// when a news gets created, it gets pushed to three collections:
+      /// 1) news collection
+      /// 2) conversations collection
+      /// 3) newsStatistics
+
+
+      /// data creation for pushing to conversations collection:
       var data;
       data = {
-        "news": widget.newsBody,
-        "title" : widget.title,
-        "link" : widget.link,
         "fromName": userName,
         "fromPhoneNumber": userPhoneNo,
         "timeStamp": DateTime.now(),
         "conversationId": conversationId,
-        "reportedBy": 0,
-        "trueBy": 0,/// the trueBy count would be one always when the news gets created
-        "fakeBy":0,
         "newsId" : newsId,
       };
 
-      /// increase the count only if the user doesnt exist in forwardNewsUsers collection
-      bool hasForwardedOrCreatedNewsAlready = await NewsUsersCollection().addToSet(newsId, userPhoneNo, userName);
-      if(hasForwardedOrCreatedNewsAlready == false){
-        int increaseTrueByCount = data["trueBy"] + 1 ;
-        data["trueBy"]= increaseTrueByCount;
-      }
+      /// pushing to newsStatistics:
+      /// increase the count only if the user doesnt exist in newsStatistics trueBy collection
+      bool hasForwardedOrCreatedNewsAlready = await NewsStatisticsCollection().addToSet(newsId, userPhoneNo, userName, 'trueBy');
+      await NewsStatisticsCollection().addToSet(newsId, userPhoneNo, userName, 'fakeBy');
+      await NewsStatisticsCollection().addToSet(newsId, userPhoneNo, userName, 'reportedBy');
+      if(hasForwardedOrCreatedNewsAlready == false){trueBy++;}
 
-      SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
+      /// pushing news to conversation collection
+      FirebaseMethods().pushToFirebaseConversatinCollection(data);
+
+      /// pushing news to news collection
+      FirebaseMethods().pushToNewsCollection(newsId, widget.link,  trueBy,  fakeBy,  reportedBy, widget.title, widget.newsBody);
 
       var dataForRecentChats = CreateMessageDataToPushToFirebase(isNews: true, userPhoneNo: userPhoneNo, userName: userName, conversationId: conversationId).create();
 
@@ -309,7 +320,6 @@ class NewsComposerState extends State<NewsComposer> {
         curve: Curves.easeOut,
         duration: const Duration(milliseconds: 300),
       );
-      print("data set in recentchats");
     }
   }
 }

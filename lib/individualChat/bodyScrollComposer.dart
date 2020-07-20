@@ -1,35 +1,22 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:gupshop/individualChat/body.dart';
-import 'package:gupshop/individualChat/messageCardDisplay.dart';
-import 'package:gupshop/news/newsContainerUI.dart';
-import 'package:gupshop/news/newsUsersCollection.dart';
+import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/geolocation_service.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
-import 'package:gupshop/service/sendAndDisplayMessages.dart';
+import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/service/viewPicturesVideosFromChat.dart';
 import 'package:gupshop/widgets/buildMessageComposer.dart';
-import 'package:gupshop/widgets/customDialogForConfirmation.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
-import 'package:gupshop/widgets/customRaisedButton.dart';
-import 'package:gupshop/widgets/customText.dart';
-import 'package:gupshop/widgets/customVideoPlayer.dart';
-import 'package:gupshop/widgets/displayPicture.dart';
-import 'package:gupshop/widgets/forwardMessagesSnackBarTitleText.dart';
-import 'package:gupshop/widgets/fromNameAndTimeStamp.dart';
 import 'package:video_player/video_player.dart';
-import 'package:intl/intl.dart';
 
-class MessageDisplay extends StatefulWidget {
+class BodyScrollComposer extends StatefulWidget {
   String conversationId;
   ScrollController listScrollController = new ScrollController(); //for scrolling the screen
   List<DocumentSnapshot> documentList;
@@ -45,16 +32,16 @@ class MessageDisplay extends StatefulWidget {
   List<dynamic> listOfFriendNumbers;
   TextEditingController controllerTwo;
 
-  MessageDisplay({this.conversationId, this.listScrollController, this.documentList, this.controller,
+  BodyScrollComposer({this.conversationId, this.listScrollController, this.documentList, this.controller,
     this.userName, this.isPressed, this.userPhoneNo, this.groupExits, this.scroll, this.value,
     this.friendN, this.groupName, this.listOfFriendNumbers,this.controllerTwo,
   });
 
   @override
-  _MessageDisplayState createState() => _MessageDisplayState();
+  _BodyScrollComposerState createState() => _BodyScrollComposerState();
 }
 
-class _MessageDisplayState extends State<MessageDisplay> {
+class _BodyScrollComposerState extends State<BodyScrollComposer> {
   int limitCounter = 1;
 
   @override
@@ -74,7 +61,7 @@ class _MessageDisplayState extends State<MessageDisplay> {
                       if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter document was called on null"
                       widget.documentList = snapshot.data.documents;
                       return NotificationListener<ScrollUpdateNotification>(
-                        child: Body(
+                        child: BodyData(
                           conversationId: widget.conversationId,
                           controller: widget.controller,
                           documentList: widget.documentList,
@@ -257,7 +244,7 @@ class _MessageDisplayState extends State<MessageDisplay> {
             if(widget.value!="") {
               ///if there is not text, then dont send the message
               var data = {"body":widget.value, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":widget.conversationId};
-              SendAndDisplayMessages().pushToFirebaseConversatinCollection(data);
+              FirebaseMethods().pushToFirebaseConversatinCollection(data);
 
               ///Navigating to RecentChats page with pushes the data to firebase
               RecentChats(message: data, convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists:widget.groupExits).getAllNumbersOfAConversation();

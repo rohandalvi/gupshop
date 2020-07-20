@@ -4,7 +4,7 @@ import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/threeIconsNumbersRow.dart';
 
-class TrueFakeVotingIcons extends StatelessWidget {
+class TrueFakeVotingIconsUI extends StatelessWidget {
   bool isMe;
   String count1;
   GestureTapCallback onTap1;
@@ -13,7 +13,7 @@ class TrueFakeVotingIcons extends StatelessWidget {
   String count3;
   GestureTapCallback onTap3;
 
-  TrueFakeVotingIcons({@required this.isMe, this.onTap1, this.onTap2, this.onTap3, this.count1, this.count2, this.count3});
+  TrueFakeVotingIconsUI({@required this.isMe, this.onTap1, this.onTap2, this.onTap3, this.count1, this.count2, this.count3});
 
   @override
   Widget build(BuildContext context) {

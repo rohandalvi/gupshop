@@ -37,10 +37,17 @@ class NewsStatisticsCollection{
 
 
   addToSet(String newsMessageId, String userNumber, String userName, String subCollectionName, bool votingStatus) async{
-    if(await checkIfUserExistsInSubCollection(newsMessageId, userNumber, subCollectionName) == false){
-      Firestore.instance.collection("newsStatistics").document(newsMessageId).collection(subCollectionName).document(userNumber).setData({'name': userName, 'number': userNumber, 'voteStatus':votingStatus});
-      return false;
-    }return true;
+    if(subCollectionName == 'trueBy'){
+      if(await checkIfUserExistsInSubCollection(newsMessageId, userNumber, subCollectionName) == false){
+        Firestore.instance.collection("newsStatistics").document(newsMessageId).collection(subCollectionName).document(userNumber).setData({'name': userName, 'number': userNumber, 'voteStatus':votingStatus, 'isOwner': true});
+        return false;
+      }return true;
+    }else{
+      if(await checkIfUserExistsInSubCollection(newsMessageId, userNumber, subCollectionName) == false){
+        Firestore.instance.collection("newsStatistics").document(newsMessageId).collection(subCollectionName).document(userNumber).setData({'name': userName, 'number': userNumber, 'voteStatus':votingStatus,});
+        return false;
+      }return true;
+    }
   }
 
   setDocument(String newsMessageId, String userNumber,) async{

@@ -1,9 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/news/trueFakeVotingIconsUI.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
+import 'package:gupshop/widgets/customFlushBar.dart';
+import 'package:gupshop/widgets/customText.dart';
 
 //class FromNameAndTimeStamp extends StatefulWidget {
 //  bool visible;
@@ -66,6 +71,7 @@ class _FromNameAndTimeStampVotingIconsDispalyState extends State<FromNameAndTime
                       String category = 'reportedBy';
 
                       bool voteStatus = await FirebaseMethods().getVoteTrueOrFalse(widget.newsId, category);
+
                       if(voteStatus == false){
                         setState(() {
                           widget.reportedByCount++;
@@ -84,22 +90,27 @@ class _FromNameAndTimeStampVotingIconsDispalyState extends State<FromNameAndTime
                       String category = 'trueBy';
 
                       bool voteStatus = await FirebaseMethods().getVoteTrueOrFalse(widget.newsId, category);
-                      if(voteStatus == false){
-                        setState(() {
-                          widget.trueByCount++;
-                        });
-                        FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, true);
-                      } else{
-                        setState(() {
-                          widget.trueByCount--;
-                        });
-                        FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
-                      }
+                      bool isOwner = await FirebaseMethods().getHasCreatedOrForwardedTheNews(widget.newsId, category);
 
-                      FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,category, widget.trueByCount);
+                      if(isOwner == false){
+                        if(voteStatus == false){
+                          setState(() {
+                            widget.trueByCount++;
+                          });
+                          FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, true);
+                        } else{
+                          setState(() {
+                            widget.trueByCount--;
+                          });
+                          FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
+                        }
+
+                        FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,category, widget.trueByCount);
+                      }else{
+                        CustomFlushBar(text: CustomText(text: 'News creator or forwarder cannot change their up vote',),contextual: context,).showFlushBar();
+                      }
                     },
                     onTap3: () async{
-                      print("fakeByCount: ${widget.fakeByCount}");
                       String category = 'fakeBy';
 
                       bool voteStatus = await FirebaseMethods().getVoteTrueOrFalse(widget.newsId, category);

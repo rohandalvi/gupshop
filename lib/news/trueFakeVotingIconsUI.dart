@@ -22,10 +22,10 @@ class TrueFakeVotingIconsUI extends StatelessWidget {
       icon1Name: 'warning',
       count1: count1,
       onTap1: onTap1,
-      icon2Name: 'like',
+      icon2Name: 'thumbsUpNoBackground',
       count2: count2,
       onTap2: onTap2,
-      icons3Name: 'skullAndBones',
+      icons3Name: 'thumbsDownNoBackground',
       count3: count3,
       onTap3: onTap3,
     );

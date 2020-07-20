@@ -42,4 +42,10 @@ class FirebaseMethods {
     String userNumber = await UserDetails().getUserPhoneNoFuture();
     await Firestore.instance.collection("newsStatistics").document(newsId).collection(category).document(userNumber).updateData({'voteStatus': updatedVoteStatus});
   }
+
+  getHasCreatedOrForwardedTheNews(String newsId, String category) async{
+    String userNumber = await UserDetails().getUserPhoneNoFuture();
+    DocumentSnapshot dc = await Firestore.instance.collection("newsStatistics").document(newsId).collection(category).document(userNumber).get();
+    return dc.data['isOwner'];
+  }
 }

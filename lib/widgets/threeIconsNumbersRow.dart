@@ -24,21 +24,22 @@ class ThreeIconsNumbersRow extends StatelessWidget {
       /// but it is not working  here for some reason
       mainAxisAlignment: isMe?MainAxisAlignment.end : MainAxisAlignment.start,
       children: <Widget>[
-        Container(
-          child: Row(
-            children: <Widget>[
-              GestureDetector(
-                child: CustomIconButton(
-                  iconNameInImageFolder: icon1Name,
-                ),
-                onTap: onTap1,
-              ),
-              CustomText(text: count1,),
-              /// toDo - with large numbers, overflow would occur
-//              CustomText(text: '9',),
-            ],
-          ),
-        ),
+        /// removing reportedBy (report inappropriate) button icon for now
+//        Container(
+//          child: Row(
+//            children: <Widget>[
+//              GestureDetector(
+//                child: CustomIconButton(
+//                  iconNameInImageFolder: icon1Name,
+//                ),
+//                onTap: onTap1,
+//              ),
+//              CustomText(text: count1,),
+//              /// toDo - with large numbers, overflow would occur
+////              CustomText(text: '9',),
+//            ],
+//          ),
+//        ),
         Container(
           child: Row(
             children: <Widget>[

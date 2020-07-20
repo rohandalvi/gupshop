@@ -20,6 +20,7 @@ class FirebaseMethods {
 
   getNewsDetailsForDisplay(String newsId) async{
     DocumentSnapshot dc = await Firestore.instance.collection("news").document(newsId).get();
-    return dc;
+    print("dc in getNewsDetailsForDisplay: ${dc.data}");
+    return dc.data;
   }
 }

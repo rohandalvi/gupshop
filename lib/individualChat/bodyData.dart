@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/individualChat/bodyDisplay.dart';
+import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/news/newsCache.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:video_player/video_player.dart';
@@ -80,15 +81,25 @@ class BodyData extends StatelessWidget {
         /// wrap BodyDisplay with futurebuilder to get from link, title, news from news collection
         /// get fromname, fromnumber and timestamp from conversation collection
           return FutureBuilder(
-            future: Firestore.instance.collection("news").document(newsId).get(),
+            future: FirebaseMethods().getNewsDetailsForDisplay(newsId),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
-              String newsBody = snapshot.data["customNewsDescription"];
-              String newsTitle = snapshot.data["customTitle"];
-              String newsLink = snapshot.data["link"];
-              int reportedByCount = snapshot.data["reportedBy"];
-              int trueByCount = snapshot.data["trueBy"];
-              int fakeByCount = snapshot.data["fakeBy"];
+                String newsBody;
+                String newsTitle;
+                String newsLink;
+                int reportedByCount;
+                int trueByCount;
+                int fakeByCount;
+
+                if(snapshot.data != null){
+                  newsBody = snapshot.data["customNewsDescription"];
+                  newsTitle = snapshot.data["customTitle"];
+                  newsLink = snapshot.data["link"];
+                  reportedByCount = snapshot.data["reportedBy"];
+                  trueByCount = snapshot.data["trueBy"];
+                  fakeByCount = snapshot.data["fakeBy"];
+                }
+
 
               bool isNews= false;
               if(newsBody != null) {isNews = true;}

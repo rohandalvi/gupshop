@@ -292,9 +292,9 @@ class NewsComposerState extends State<NewsComposer> {
 
       /// pushing to newsStatistics:
       /// increase the count only if the user doesnt exist in newsStatistics trueBy collection
-      bool hasForwardedOrCreatedNewsAlready = await NewsStatisticsCollection().addToSet(newsId, userPhoneNo, userName, 'trueBy');
-      await NewsStatisticsCollection().addToSet(newsId, userPhoneNo, userName, 'fakeBy');
-      await NewsStatisticsCollection().addToSet(newsId, userPhoneNo, userName, 'reportedBy');
+      bool hasForwardedOrCreatedNewsAlready = await NewsStatisticsCollection().addToSet(newsId, userPhoneNo, userName, 'trueBy', true);
+      await NewsStatisticsCollection().addToSet(newsId, userPhoneNo, userName, 'fakeBy', false);
+      await NewsStatisticsCollection().addToSet(newsId, userPhoneNo, userName, 'reportedBy', false);
       if(hasForwardedOrCreatedNewsAlready == false){trueBy++;}
 
       /// pushing news to conversation collection

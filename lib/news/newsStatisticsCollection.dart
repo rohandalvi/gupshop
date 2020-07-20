@@ -24,10 +24,11 @@ class NewsStatisticsCollection{
 //  }
 
   checkIfUserExistsInSubCollection(String newsMessageId,String userNumber,String subCollectionName) async{
-    QuerySnapshot value = await Firestore.instance.collection("newsStatistics").document(newsMessageId).collection(subCollectionName).where('number', isEqualTo: userNumber).getDocuments();
-    bool documentDoesntExists = value.documents.isEmpty;
+    DocumentSnapshot dc = await Firestore.instance.collection("newsStatistics").document(newsMessageId).collection(subCollectionName).document(userNumber).get();
+    print("documentDoesntExists: ${dc.data}");
+    var documentDoesntExists = dc.data;
 
-    if(documentDoesntExists == true) {
+    if(documentDoesntExists == null) {
       await setDocument(newsMessageId, userNumber);
       return false;/// then add the document using addToSet()
     }
@@ -35,9 +36,9 @@ class NewsStatisticsCollection{
   }
 
 
-  addToSet(String newsMessageId, String userNumber, String userName, String subCollectionName) async{
+  addToSet(String newsMessageId, String userNumber, String userName, String subCollectionName, bool votingStatus) async{
     if(await checkIfUserExistsInSubCollection(newsMessageId, userNumber, subCollectionName) == false){
-      Firestore.instance.collection("newsStatistics").document(newsMessageId).collection(subCollectionName).document(userNumber).setData({'name': userName, 'number': userNumber});
+      Firestore.instance.collection("newsStatistics").document(newsMessageId).collection(subCollectionName).document(userNumber).setData({'name': userName, 'number': userNumber, 'voteStatus':votingStatus});
       return false;
     }return true;
   }

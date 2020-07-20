@@ -151,10 +151,11 @@ class _BodyDisplayState extends State<BodyDisplay> {
                     /// increasing the trueBy count by 1:
                     if(forwardYesOrNo == true){
                       /// increase the count only if the user doesnt exist in newsStatistics trueBy collection
-                      bool hasForwardedOrCreatedNewsAlready = await NewsStatisticsCollection().addToSet(widget.newsId, widget.userPhoneNo, widget.userName, 'trueBy');
+                      bool hasForwardedOrCreatedNewsAlready = await NewsStatisticsCollection().checkIfUserExistsInSubCollection(widget.newsId, widget.userPhoneNo, 'trueBy');
                       if(hasForwardedOrCreatedNewsAlready == false){
                         int increaseTrueByCount = data["trueBy"] + 1 ;
                         data["trueBy"]= increaseTrueByCount;
+                        await NewsStatisticsCollection().addToSet(widget.newsId, widget.userName, widget.userPhoneNo, 'trueBy', true);
                       }
                       CustomNavigator().navigateToContactSearch(context, widget.userName,  widget.userPhoneNo, data);
                     }

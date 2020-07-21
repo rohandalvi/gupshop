@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/service/viewPicturesVideosFromChat.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:math';
 
@@ -60,25 +61,40 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
       decoration: BoxDecoration(),
       child: Stack(
         children: <Widget>[
-          FutureBuilder(
-            future: _initializeVideoPlayerFuture,
-            builder: (context, snapshot){
-              if(snapshot.connectionState == ConnectionState.done){
-                return FittedBox(
-                  fit: BoxFit.cover,
-                  child: SizedBox(
-                    width: width == null ? 240 : width,
-                    height: height == null ? 190 : height,
-                    child: VideoPlayer(controller),
-                  ),
-                );
+          GestureDetector(
+            child: FutureBuilder(
+              future: _initializeVideoPlayerFuture,
+              builder: (context, snapshot){
+                if(snapshot.connectionState == ConnectionState.done){
+                  return FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: width == null ? 240 : width,
+                      height: height == null ? 190 : height,
+                      child: VideoPlayer(controller),
+                    ),
+                  );
 /// FittedBox is used in placed of
 ///                  AspectRatio(
 ///                  aspectRatio: controller.value.aspectRatio,
 ///                 child: VideoPlayer(controller),
 ///                );
-              } return Center(
-                child: CircularProgressIndicator(),
+                } return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
+            onTap: (){
+              /// to stop the video from playing in background when then the
+              /// user navigates to ViewPicturesVideosFromChat
+              if (controller.value.isPlaying) {
+                controller.pause();
+              }
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ViewPicturesVideosFromChat(payLoad: videoURL, isPicture: false,),//pass Name() here and pass Home()in name_screen
+                  )
               );
             },
           ),

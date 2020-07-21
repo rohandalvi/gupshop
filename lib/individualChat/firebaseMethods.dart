@@ -25,6 +25,9 @@ class FirebaseMethods {
   }
 
   updateVoteCountToNewsCollection(String newsId, String changeInName, int changeInCount){
+    print("newsId: $newsId");
+    print("changeInName: $changeInName");
+    print("changeInCount : $changeInCount");
     Firestore.instance.collection("news").document(newsId).updateData({changeInName : changeInCount});
   }
 

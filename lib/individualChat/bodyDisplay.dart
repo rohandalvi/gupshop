@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/news/newsCache.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
@@ -89,7 +90,12 @@ class _BodyDisplayState extends State<BodyDisplay> {
             isPicture = true;
           }
 
-          if(openMessage != null){
+          /// here, only the picture message can be opened
+          /// video message opening logic is in CustomVideoPlayer because
+          /// it needs a controller to control the video to be played or
+          /// paused when the user navigates to ViewPicturesVideosFromChat
+          /// otherwise the video keeps playing in the background
+          if(openMessage != null && isPicture==true){
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -152,11 +158,17 @@ class _BodyDisplayState extends State<BodyDisplay> {
                     /// increasing the trueBy count by 1:
                     if(forwardYesOrNo == true){
                       /// increase the count only if the user doesnt exist in newsStatistics trueBy collection
+                      /// if the user has not forwarded or created before then his trueby will be false
+                      /// if trueBy is false and
+
                       bool hasForwardedOrCreatedNewsAlready = await NewsStatisticsCollection().checkIfUserExistsInSubCollection(widget.newsId, widget.userPhoneNo, 'trueBy');
+                      print("hasForwardedOrCreatedNewsAlready: $hasForwardedOrCreatedNewsAlready");
                       if(hasForwardedOrCreatedNewsAlready == false){
                         int increaseTrueByCount = data["trueBy"] + 1 ;
                         data["trueBy"]= increaseTrueByCount;
-                        await NewsStatisticsCollection().addToSet(widget.newsId, widget.userName, widget.userPhoneNo, 'trueBy', true);
+                        print("data[trueBy] : ${data["trueBy"]}");
+                        await NewsStatisticsCollection().addToSet(widget.newsId, widget.userPhoneNo,widget.userName, 'trueBy', true);
+                        await FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,'trueBy', data["trueBy"]);
                       }
                       CustomNavigator().navigateToContactSearch(context, widget.userName,  widget.userPhoneNo, data);
                     }

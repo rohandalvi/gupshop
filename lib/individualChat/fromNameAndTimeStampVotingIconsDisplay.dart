@@ -3,7 +3,9 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/news/trueFakeVotingIconsUI.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
@@ -89,6 +91,15 @@ class _FromNameAndTimeStampVotingIconsDispalyState extends State<FromNameAndTime
                     onTap2: () async{
                       String category = 'trueBy';
 
+                      /// first check if the user exists in newsStatistics,
+                      /// if not add him
+                      /// if yes do nothing
+                      String userNumber = await UserDetails().getUserPhoneNoFuture();
+                      String userName = await UserDetails().getUserNameFuture();
+                      if(await NewsStatisticsCollection().checkIfUserExistsInSubCollection(widget.newsId, userNumber, category) == false){
+                        await NewsStatisticsCollection().addToSet(widget.newsId, userNumber, userName, category, false);
+                      }
+
                       bool voteStatus = await FirebaseMethods().getVoteTrueOrFalse(widget.newsId, category);
                       bool isOwner = await FirebaseMethods().getHasCreatedOrForwardedTheNews(widget.newsId, category);
 
@@ -113,6 +124,11 @@ class _FromNameAndTimeStampVotingIconsDispalyState extends State<FromNameAndTime
                     },
                     onTap3: () async{
                       String category = 'fakeBy';
+                      String userNumber = await UserDetails().getUserPhoneNoFuture();
+                      String userName = await UserDetails().getUserNameFuture();
+                      if(await NewsStatisticsCollection().checkIfUserExistsInSubCollection(widget.newsId, userNumber, category) == false){
+                        await NewsStatisticsCollection().addToSet(widget.newsId, userNumber, userName, category, false);
+                      }
 
                       bool voteStatus = await FirebaseMethods().getVoteTrueOrFalse(widget.newsId, category);
                       if(voteStatus == false){

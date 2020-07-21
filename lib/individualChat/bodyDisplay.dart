@@ -167,7 +167,7 @@ class _BodyDisplayState extends State<BodyDisplay> {
                         int increaseTrueByCount = data["trueBy"] + 1 ;
                         data["trueBy"]= increaseTrueByCount;
                         print("data[trueBy] : ${data["trueBy"]}");
-                        await NewsStatisticsCollection().addToSet(widget.newsId, widget.userPhoneNo,widget.userName, 'trueBy', true);
+                        await NewsStatisticsCollection().checkIfUserExistsAndAddToSet(widget.newsId, widget.userPhoneNo,widget.userName, 'trueBy', true);
                         await FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,'trueBy', data["trueBy"]);
                       }
                       CustomNavigator().navigateToContactSearch(context, widget.userName,  widget.userPhoneNo, data);

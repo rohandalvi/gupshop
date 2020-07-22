@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/displayPicture.dart';
 
-class ViewPicturesVideosFromChat extends StatelessWidget {
+class ViewPicturesFromChat extends StatelessWidget {
   bool isPicture;
   String payLoad;
+  bool shouldZoom;
 
-  ViewPicturesVideosFromChat({this.isPicture, this.payLoad });
+  ViewPicturesFromChat({this.isPicture, this.payLoad , this.shouldZoom});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class ViewPicturesVideosFromChat extends StatelessWidget {
       body: Center(
         child: isPicture ?
         DisplayPicture().pictureFrame(payLoad) :
-        DisplayPicture().videoFrame(payLoad, 400, 400),
+        DisplayPicture().videoFrame(payLoad, 400, 400, shouldZoom),
       ),
     );
   }

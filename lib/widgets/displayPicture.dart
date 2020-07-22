@@ -76,11 +76,24 @@ class DisplayPicture extends StatelessWidget {
     );
   }
 
-  videoFrame(String videoURL, double width, double height){
+//  pictureFrameTwo(String videoURL, double width, double height){
+//    return Container(
+//      width: width,
+//      height: height,
+//      child: CustomVideoPlayer(videoURL: videoURL,),
+//      //child: CustomVideoPlayer(videoURL: videoURL, width: width, height: height,),
+//      decoration: BoxDecoration(
+//        color: Colors.white,
+//      ),
+//    );
+//  }
+
+  videoFrame(String videoURL,double width, double height, bool shouldZoom){
     return Container(
       width: width,
       height: height,
-      child: CustomVideoPlayer(videoURL: videoURL, width: width, height: height,),
+      child: CustomVideoPlayer(videoURL: videoURL, shouldZoom: shouldZoom,),
+      //child: CustomVideoPlayer(videoURL: videoURL, width: width, height: height,),
       decoration: BoxDecoration(
         color: Colors.white,
       ),

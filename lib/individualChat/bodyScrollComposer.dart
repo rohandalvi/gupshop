@@ -12,7 +12,7 @@ import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/service/videoPicker.dart';
-import 'package:gupshop/service/viewPicturesVideosFromChat.dart';
+import 'package:gupshop/service/viewPicturesFromChat.dart';
 import 'package:gupshop/widgets/buildMessageComposer.dart';
 import 'package:video_player/video_player.dart';
 

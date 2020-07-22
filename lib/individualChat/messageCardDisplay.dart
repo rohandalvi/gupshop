@@ -69,7 +69,8 @@ class MessageCardDisplay extends StatelessWidget {
   showVideo(String videoURL, VideoPlayerController controller){
     try{
       return
-        CustomVideoPlayer(videoURL: videoURL);
+        DisplayPicture().videoFrame(videoURL, 200, 200, true);
+        //CustomVideoPlayer(videoURL: videoURL);
     }
     catch (e){
       return Icon(Icons.image);}

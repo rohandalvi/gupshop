@@ -6,6 +6,7 @@ import 'package:gupshop/screens/welcomeScreen.dart';
 import 'package:gupshop/service/createGroup.dart';
 import 'package:gupshop/widgets/bazaarHomeGridView.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
+import 'package:gupshop/widgets/customVideoPlayer.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
 //        home: SideMenu(),
 //        home: ChangeProfilePicture(),
       home: WelcomeScreen(),
+        //home: CustomVideoPlayer(videoURL: 'https://www.youtube.com/watch?v=V41_-PNZ92U',),
 //      home: CreateGroup(),
 //        home: HomeScreen(),
       //home: BazaarProfilePage(),

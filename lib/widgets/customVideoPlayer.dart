@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/service/viewPicturesFromChat.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -23,27 +21,55 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   VideoPlayerController videoPlayerController;
   int _playBackTime = 0;
 
-  _initPlayer(){
+  var range;
+  var number;
+
+  _initPlayer() async{
     videoPlayerController = VideoPlayerController.network(widget.videoURL);
-    videoPlayerController.initialize();
+    /// Ensure the first frame is shown after the video is initialized,
+    /// even before the play button has been pressed
+    await videoPlayerController.initialize();
     setState(() {
 
     });
+    videoPlayerController.setLooping(true);
+  }
+
+  @override
+  void dispose() {
+    videoPlayerController.dispose();
+    super.dispose();
   }
 
 
   @override
   void initState() {
+    /// first there would arise an error:
+    /// There are multiple heroes that share the same tag within a subtree.
+    /// To remove this:
+    range = new Random();
+    number = new List.generate(12, (_) => range.nextInt(100));// TODO: check if this is correct
+
+
     _initPlayer();
     super.initState();
+
+    /// for scrolling the video ahead and back we need to add a listener
+    videoPlayerController.addListener(() {
+      setState(() {
+        _playBackTime = videoPlayerController.value.position.inSeconds;
+      });
+    });
   }
 
 
   @override
   Widget build(BuildContext context) {
+    //print("videoPlayerController : ${videoPlayerController.value}");
     return Scaffold(
-      body: videoPlayerWidget(),
+      body: videoPlayerController.value.initialized ? videoPlayerWidget(): Center(child: CircularProgressIndicator(),),
       floatingActionButton: CustomFloatingActionButton(
+        heroTag: "btn $number",
         child: videoPlayerController.value.isPlaying ? pause() : play(),
         onPressed: (){
           videoPlayerController.value.isPlaying ? videoPlayerController.pause() : videoPlayerController.play();
@@ -51,6 +77,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
           });
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
@@ -72,7 +99,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
           child: AspectRatio(
             aspectRatio: videoPlayerController.value.aspectRatio,
               child: VideoPlayer(videoPlayerController)
-            ),
+            ) ,
           onTap: (){
             /// to stop the video from playing in background when then the
             /// user navigates to ViewPicturesVideosFromChat
@@ -89,9 +116,14 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
             }
           },
         ),
-//        Slider(
-//
-//        ),
+        Slider(
+          value: _playBackTime.toDouble(),
+          max: videoPlayerController.value.initialized ? videoPlayerController.value.duration.inSeconds.toDouble() : 0,
+          min: 0,
+          onChanged: (v){
+            videoPlayerController.seekTo(Duration(seconds: v.toInt()));
+          },
+        ),
       ],
     );
   }

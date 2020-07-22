@@ -86,7 +86,6 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     return CustomIconButton(
       iconNameInImageFolder: 'playButton',
       onPressed:(){
-//      videoPlayerController.value.isPlaying ? videoPlayerController.pause() : videoPlayerController.play();
         videoPlayerController.play();
       setState(() {
       });
@@ -94,9 +93,9 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     );
   }
 
-  pause(){
-    return IconButton(icon: SvgPicture.asset('images/pauseButton.svg',));
-  }
+//  pause(){
+//    return IconButton(icon: SvgPicture.asset('images/pauseButton.svg',));
+//  }
 
   videoPlayerWidget(){
     print("videoPlayerController.value.isPlaying : ${videoPlayerController.value.isPlaying}");
@@ -140,7 +139,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
               },)
             ),
             Align(
-              alignment: Alignment.bottomCenter,
+              alignment: Alignment.bottomRight,
               child: Visibility(
                 visible: videoPlayerController.value.isPlaying == false,
                 child: play(),

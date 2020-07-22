@@ -84,7 +84,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
 
   play(){
     return CustomIconButton(
-      iconNameInImageFolder: 'playButton',
+      iconNameInImageFolder: 'youtubePlay',
       onPressed:(){
         videoPlayerController.play();
       setState(() {
@@ -117,7 +117,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                   setState(() {
                     videoPlayerController.pause();
                   });
-                }
+                } else videoPlayerController.play();/// this means even if the user taps the video, the video plays if not playing already instead of pressing the play button
               },
             ),
             Visibility(

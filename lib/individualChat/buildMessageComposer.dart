@@ -2,10 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gupshop/news/newsComposer.dart';
-import 'package:gupshop/service/addToFriendsCollection.dart';
-import 'package:gupshop/service/recentChats.dart';
-import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 

@@ -31,7 +31,7 @@ import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/service/viewPicturesFromChat.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
 import 'package:gupshop/widgets/blankScreen.dart';
-import 'package:gupshop/widgets/buildMessageComposer.dart';
+import 'package:gupshop/individualChat/buildMessageComposer.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';

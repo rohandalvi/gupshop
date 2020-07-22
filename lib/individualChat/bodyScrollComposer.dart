@@ -13,7 +13,8 @@ import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/service/viewPicturesFromChat.dart';
-import 'package:gupshop/widgets/buildMessageComposer.dart';
+import 'package:gupshop/individualChat/buildMessageComposer.dart';
+import 'package:gupshop/widgets/customBottomSheet.dart';
 import 'package:video_player/video_player.dart';
 
 class BodyScrollComposer extends StatefulWidget {
@@ -47,7 +48,8 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(), //to take out the keyboard when tapped on chat screen
+      onTap: () => FocusScope.of(context).requestFocus(new FocusNode()), //remove focus
+      //onTap: () => FocusScope.of(context).unfocus(), //to take out the keyboard when tapped on chat screen
       child: Stack(
         children: <Widget>[
           Flex(
@@ -170,100 +172,109 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
   }
 
   _buildMessageComposer() {//the type and send message box
-    return StatefulBuilder(
-      builder: (context, StateSetter setState){
-        return BuildMessageComposer(
-          firstOnPressed: () async{
-            var data = await sendImage();
-            pushMessageDataToFirebase(false,true,null,data);
-            setState(() {
+        return StatefulBuilder(
+          builder: (context, StateSetter setState){
+            return BuildMessageComposer(
+              firstOnPressed: () async{
+                return CustomBottomSheet(
+                  customContext: context,
+                  firstIconName: 'image2vector',
+                  firstIconText: 'Pick image from  gallery',
+                  firstIconAndTextOnPressed: (){},
+                  secondIconName: 'videoCamera',
+                  secondIconText: 'Pick image from camera',
+                  secondIconAndTextOnPressed: (){},
+                ).show();
+//            var data = await sendImage();
+//            pushMessageDataToFirebase(false,true,null,data);
+//            setState(() {
+//
+//            });
+              },
+              secondOnPressed: () async{
+                var data = await sendVideo();
+                pushMessageDataToFirebase(true,false,null,data);
+                setState(() {
 
-            });
-          },
-          secondOnPressed: () async{
-            var data = await sendVideo();
-            pushMessageDataToFirebase(true,false,null,data);
-            setState(() {
+                });
+              },
+              onChangedForTextField: (value){
+                setState(() {
+                  this.widget.value=value;///by doing this we are setting the value to value globally
+                });
+              },
+              conversationId: widget.conversationId,
+              userName: widget.userName,
+              userPhoneNo: widget.userPhoneNo,
+              groupName: widget.groupName,
+              groupExits: widget.groupExits,
+              friendN: widget.friendN,
+              listOfFriendNumbers: widget.listOfFriendNumbers,
+              value: widget.value,
+              listScrollController: widget.listScrollController,
+              onPressedForSendingMessageIcon:() async{
+                /// when mynumber sends message to a friendNumber in whose friends
+                /// collection mynumber does not exist, we have to add that person in
+                /// his friends because recent chats wont work then
 
-            });
-          },
-          onChangedForTextField: (value){
-            setState(() {
-              this.widget.value=value;///by doing this we are setting the value to value globally
-            });
-          },
-          conversationId: widget.conversationId,
-          userName: widget.userName,
-          userPhoneNo: widget.userPhoneNo,
-          groupName: widget.groupName,
-          groupExits: widget.groupExits,
-          friendN: widget.friendN,
-          listOfFriendNumbers: widget.listOfFriendNumbers,
-          value: widget.value,
-          listScrollController: widget.listScrollController,
-          onPressedForSendingMessageIcon:() async{
-            /// when mynumber sends message to a friendNumber in whose friends
-            /// collection mynumber does not exist, we have to add that person in
-            /// his friends because recent chats wont work then
-
-            ///push to all others friends collection here
-            ///this wont ever happen in case of groupchat, because in groupchat all members already have
-            ///group as their friend as we have set it this way in createNameForGroup_screen page
-            if(widget.groupExits == false){
-              var myNumberExistsInFriendsFriendsCollectionWaiting = await Firestore.instance.collection("friends_${widget.friendN}").document(widget.userPhoneNo).get();
-              var myNumberExistsInFriendsFriendsCollection = myNumberExistsInFriendsFriendsCollectionWaiting.data;
-              if(myNumberExistsInFriendsFriendsCollection == null){
-                List<String> nameListForOthers = new List();
-                nameListForOthers.add(widget.userName);
-                AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(widget.listOfFriendNumbers, widget.conversationId, widget.userPhoneNo, nameListForOthers, null, null);
-              }
-            }
-            if(widget.groupExits == true){
-              DocumentSnapshot adminNumberFuture = await Firestore.instance.collection("conversationMetadata").document(widget.conversationId).get();
-              String adminNumber = adminNumberFuture.data["admin"];
-              print("adminNumber: $adminNumber");
-
-              await Future.wait(widget.listOfFriendNumbers.map((element) async{
-//              listOfFriendNumbers.forEach((element) async {
-                print("element: $element");
-                var myNumberExistsInFriendsFriendsCollectionWaiting = await Firestore.instance.collection("friends_$element").document(widget.conversationId).get();
-                var myNumberExistsInFriendsFriendsCollection = myNumberExistsInFriendsFriendsCollectionWaiting.data;
-                print("myNumberExistsInFriendsFriendsCollection: $myNumberExistsInFriendsFriendsCollection");
-                if(myNumberExistsInFriendsFriendsCollection == null){
-                  List<String> nameListForOthers = new List();
-                  nameListForOthers.add(widget.groupName);
-                  AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(widget.listOfFriendNumbers, widget.conversationId, widget.conversationId, nameListForOthers, widget.groupName, adminNumber);
-//                                                                                        listOfNumbersInAGroup, id, id, nameList, groupName, userPhoneNo
+                ///push to all others friends collection here
+                ///this wont ever happen in case of groupchat, because in groupchat all members already have
+                ///group as their friend as we have set it this way in createNameForGroup_screen page
+                if(widget.groupExits == false){
+                  var myNumberExistsInFriendsFriendsCollectionWaiting = await Firestore.instance.collection("friends_${widget.friendN}").document(widget.userPhoneNo).get();
+                  var myNumberExistsInFriendsFriendsCollection = myNumberExistsInFriendsFriendsCollectionWaiting.data;
+                  if(myNumberExistsInFriendsFriendsCollection == null){
+                    List<String> nameListForOthers = new List();
+                    nameListForOthers.add(widget.userName);
+                    AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(widget.listOfFriendNumbers, widget.conversationId, widget.userPhoneNo, nameListForOthers, null, null);
+                  }
                 }
-              }));
+                if(widget.groupExits == true){
+                  DocumentSnapshot adminNumberFuture = await Firestore.instance.collection("conversationMetadata").document(widget.conversationId).get();
+                  String adminNumber = adminNumberFuture.data["admin"];
+                  print("adminNumber: $adminNumber");
 
-            }
+                  await Future.wait(widget.listOfFriendNumbers.map((element) async{
+//              listOfFriendNumbers.forEach((element) async {
+                    print("element: $element");
+                    var myNumberExistsInFriendsFriendsCollectionWaiting = await Firestore.instance.collection("friends_$element").document(widget.conversationId).get();
+                    var myNumberExistsInFriendsFriendsCollection = myNumberExistsInFriendsFriendsCollectionWaiting.data;
+                    print("myNumberExistsInFriendsFriendsCollection: $myNumberExistsInFriendsFriendsCollection");
+                    if(myNumberExistsInFriendsFriendsCollection == null){
+                      List<String> nameListForOthers = new List();
+                      nameListForOthers.add(widget.groupName);
+                      AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(widget.listOfFriendNumbers, widget.conversationId, widget.conversationId, nameListForOthers, widget.groupName, adminNumber);
+//                                                                                        listOfNumbersInAGroup, id, id, nameList, groupName, userPhoneNo
+                    }
+                  }));
+
+                }
 
 
 
-            if(widget.value!="") {
-              ///if there is not text, then dont send the message
-              var data = {"body":widget.value, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":widget.conversationId};
-              FirebaseMethods().pushToFirebaseConversatinCollection(data);
+                if(widget.value!="") {
+                  ///if there is not text, then dont send the message
+                  var data = {"body":widget.value, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":widget.conversationId};
+                  FirebaseMethods().pushToFirebaseConversatinCollection(data);
 
-              ///Navigating to RecentChats page with pushes the data to firebase
-              RecentChats(message: data, convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists:widget.groupExits).getAllNumbersOfAConversation();
+                  ///Navigating to RecentChats page with pushes the data to firebase
+                  RecentChats(message: data, convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists:widget.groupExits).getAllNumbersOfAConversation();
 
-              widget.controllerTwo.clear();//used to clear text when user hits send button
-              widget.listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-                0.0,
-                curve: Curves.easeOut,
-                duration: const Duration(milliseconds: 300),
-              );
-            }
+                  widget.controllerTwo.clear();//used to clear text when user hits send button
+                  widget.listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+                    0.0,
+                    curve: Curves.easeOut,
+                    duration: const Duration(milliseconds: 300),
+                  );
+                }
+              },
+
+              scrollController: new ScrollController(),
+              controller: widget.controllerTwo,
+            );
           },
 
-          scrollController: new ScrollController(),
-          controller: widget.controllerTwo,
         );
-      },
-
-    );
   }
 
   sendImage() async{

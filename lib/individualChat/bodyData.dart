@@ -114,7 +114,6 @@ class BodyData extends StatelessWidget {
                 imageURL = documentList[index].data["imageURL"];
               }
 
-              print("map in body: ${mapIsNewsGenerated}");
 //              if(isNews){
 //                mapIsNewsGenerated = NewsCache().newsValidator(
 //                    mapIsNewsGenerated,
@@ -124,7 +123,6 @@ class BodyData extends StatelessWidget {
 //                    newsBody);
 //              }
 
-                print("fakeByCount in bodyData : $fakeByCount");
 
               return BodyDisplay(
                 conversationId: conversationId,

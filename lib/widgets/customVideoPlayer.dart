@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/service/viewPicturesFromChat.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:math';
 
@@ -68,21 +69,29 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     //print("videoPlayerController : ${videoPlayerController.value}");
     return Scaffold(
       body: videoPlayerController.value.initialized ? videoPlayerWidget(): Center(child: CircularProgressIndicator(),),
-      floatingActionButton: CustomFloatingActionButton(
-        heroTag: "btn $number",
-        child: videoPlayerController.value.isPlaying ? pause() : play(),
-        onPressed: (){
-          videoPlayerController.value.isPlaying ? videoPlayerController.pause() : videoPlayerController.play();
-          setState(() {
-          });
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+//      floatingActionButton: CustomFloatingActionButton(
+//        heroTag: "btn $number",
+//        child: videoPlayerController.value.isPlaying ? pause() : play(),
+//        onPressed: (){
+//          videoPlayerController.value.isPlaying ? videoPlayerController.pause() : videoPlayerController.play();
+//          setState(() {
+//          });
+//        },
+//      ),
+//      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
   play(){
-    return IconButton(icon: SvgPicture.asset('images/playButton.svg',));
+    return CustomIconButton(
+      iconNameInImageFolder: 'playButton',
+      onPressed:(){
+//      videoPlayerController.value.isPlaying ? videoPlayerController.pause() : videoPlayerController.play();
+        videoPlayerController.play();
+      setState(() {
+      });
+    },
+    );
   }
 
   pause(){
@@ -90,33 +99,58 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   }
 
   videoPlayerWidget(){
+    print("videoPlayerController.value.isPlaying : ${videoPlayerController.value.isPlaying}");
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        GestureDetector(
-          child: AspectRatio(
-            aspectRatio: videoPlayerController.value.aspectRatio,
-              child: VideoPlayer(videoPlayerController)
-            ) ,
-          onTap: (){
-            /// to stop the video from playing in background when then the
-            /// user navigates to ViewPicturesVideosFromChat
-            if (videoPlayerController.value.isPlaying) {
-              videoPlayerController.pause();
-            }
-            if(widget.shouldZoom != null && widget.shouldZoom == true){
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ViewPicturesFromChat(payLoad: widget.videoURL, isPicture: false, shouldZoom: false,),//pass Name() here and pass Home()in name_screen
-                  )
-              );
-            }
-          },
+        Stack(
+          //alignment: Alignment.bottomLeft,
+          children: <Widget>[
+            GestureDetector(
+              child: AspectRatio(
+                aspectRatio: videoPlayerController.value.aspectRatio,
+                  child: VideoPlayer(videoPlayerController)
+                ),
+              onTap: (){
+                if(videoPlayerController.value.isPlaying){
+                  setState(() {
+                    videoPlayerController.pause();
+                  });
+                }
+              },
+            ),
+            Visibility(
+              visible: widget.shouldZoom,
+              child: CustomIconButton(
+                iconNameInImageFolder: 'fullScreen',
+                onPressed: (){
+                  /// to stop the video from playing in background when then the
+                  /// user navigates to ViewPicturesVideosFromChat
+                  if (videoPlayerController.value.isPlaying) {
+                    videoPlayerController.pause();
+                  }
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ViewPicturesFromChat(payLoad: widget.videoURL, isPicture: false, shouldZoom: false,),//pass Name() here and pass Home()in name_screen
+                      )
+                  );
+              },)
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Visibility(
+                visible: videoPlayerController.value.isPlaying == false,
+                child: play(),
+              ),
+            ),
+          ],
         ),
         Slider(
+          activeColor: Colors.black38,
+          inactiveColor: Colors.black38,
           value: _playBackTime.toDouble(),
           max: videoPlayerController.value.initialized ? videoPlayerController.value.duration.inSeconds.toDouble() : 0,
           min: 0,

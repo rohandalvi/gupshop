@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gupshop/widgets/colorPalette.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 
 class CustomAppBar extends StatelessWidget{
   final VoidCallback onPressed;

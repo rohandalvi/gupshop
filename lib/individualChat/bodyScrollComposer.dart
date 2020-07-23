@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
 import 'package:gupshop/image/createImageURL.dart';
 import 'package:gupshop/image/cropImage.dart';
 import 'package:gupshop/image/pickImageFromGallery.dart';
@@ -191,11 +192,19 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                   firstIconName: 'photoGallery',
                   firstIconText: 'Pick image from  Gallery',
                   firstIconAndTextOnPressed: () async{
-                    var data = await GalleryImagePickCropCreateData().main(widget.userName, widget.userPhoneNo, widget.conversationId);
-                    pushMessageDataToConversationAndRecentChatsCollection(false,true,null,data);
-                    setState(() {
+                    Navigator.pop(context);
+                    var conversationCollectionData = await GalleryImagePickCropCreateData().main(widget.userName, widget.userPhoneNo, widget.conversationId);
+                    var recentChatsData = RecentChatsDataScaffolds(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: DateTime.now()).forImageMessage();
+                    PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers,
+                        conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo,
+                        conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData,
+                        userName: widget.userName, groupExits: widget.groupExits).push();
 
-                    });
+//                    var data = await GalleryImagePickCropCreateData().main(widget.userName, widget.userPhoneNo, widget.conversationId);
+//                    pushMessageDataToConversationAndRecentChatsCollection(false,true,null,data);
+//                    setState(() {
+//
+//                    });
                   },
                   secondIconName: 'image2vector',
                   secondIconText: 'Click image from Camera',

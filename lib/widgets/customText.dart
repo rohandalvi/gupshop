@@ -24,6 +24,7 @@ class CustomText extends StatelessWidget {
     );
   }
 
+
   textWithOverFlow(){
     return Text(
       text,

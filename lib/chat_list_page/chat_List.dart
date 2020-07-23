@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/screens/individual_chat.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
@@ -223,13 +224,13 @@ class ChatListState extends State<ChatList> {
                         future: getVideoDetailsFromVideoChat(index),
                         builder: (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState == ConnectionState.done) {
-                            return CustomText(text: lastMessage);
+                            return CustomText(text: lastMessage, textColor: subtitleGray,);
                           }
                           return Center(
                             child: CircularProgressIndicator(),
                           );
                         },
-                      ): lastMessageIsImage == true ? CustomText(text: lastMessage) :
+                      ): lastMessageIsImage == true ? CustomText(text: lastMessage, textColor: subtitleGray,) :
                       CustomText(text: lastMessage).textWithOverFlow(),/// for dot dot at the end of the message
                       //dense: true,
                       trailing: Flex(/// renderflex overflow by 8 pixels, use flex -> expanded(icon as 1 child) and use text as other child

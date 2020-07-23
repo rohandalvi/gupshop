@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/individualChatAppBar.dart';
 import 'package:gupshop/individualChat/bodyScrollComposer.dart';
@@ -14,23 +15,11 @@ import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
-import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
-import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/service/getConversationId.dart';
-import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
-import 'package:gupshop/service/videoPicker.dart';
-import 'package:gupshop/widgets/CustomFutureBuilder.dart';
 import 'package:gupshop/widgets/blankScreen.dart';
-import 'package:gupshop/individualChat/buildMessageComposer.dart';
-import 'package:gupshop/widgets/colorPalette.dart';
-import 'package:gupshop/widgets/customDialogBox.dart';
-import 'package:gupshop/widgets/customRaisedButton.dart';
-import 'package:gupshop/widgets/customText.dart';
-import 'package:gupshop/widgets/customVideoPlayer.dart';
-import 'package:gupshop/widgets/displayPicture.dart';
 
 import 'dart:ui';
 
@@ -172,7 +161,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
       /// creating data to be pushed to recentChats
       if(data["videoURL"] != null) data = VideoMessage(videoURL:"📹", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: DateTime.now()).fromJson();
-      else if(data["imageURL"] != null) data = ImageMessage(imageUrl:"📸",  conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: DateTime.now()).fromJson();
+      else if(data["imageURL"] != null) data = RecentChatsDataScaffolds(conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: DateTime.now()).forImageMessage();
       else if(data["news"] != null) data = TextMessage(text: "📰 NEWS", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: DateTime.now()).fromJson();
       //if(data["videoURL"] != null) data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId, null);
       //else if(data["imageURL"] != null) data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId, null);

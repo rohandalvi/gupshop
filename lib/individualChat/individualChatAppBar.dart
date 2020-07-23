@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
-import 'package:gupshop/widgets/colorPalette.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';

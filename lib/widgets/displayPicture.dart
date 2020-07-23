@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/widgets/colorPalette.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'dart:io';
 

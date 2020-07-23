@@ -10,7 +10,7 @@ import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/service/pushToProfilePictures.dart';
-import 'package:gupshop/widgets/colorPalette.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customTextField.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';

@@ -21,7 +21,7 @@ import 'package:gupshop/service/checkBoxCategorySelector.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/videoPicker.dart';
-import 'package:gupshop/widgets/colorPalette.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customForm.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';

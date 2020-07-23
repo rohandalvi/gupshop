@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/service/auth_service.dart';
-import 'package:gupshop/widgets/colorPalette.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/countryCodeAndFlag.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';

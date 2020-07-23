@@ -49,16 +49,21 @@ class DisplayPicture extends StatelessWidget {
 
 
   chatPictureFrame(String imageURL){
-    return Container(
-        width: 240,
-        height: 190,
-        child: Image(
-          image: NetworkImage(imageURL),
-          fit: BoxFit.cover,
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: Container(
+            width: 240,
+            height: 190,
+            child: Image(
+              image: NetworkImage(imageURL),
+              fit: BoxFit.cover,
+            ),
+            decoration: BoxDecoration(
+            //shape: BoxShape.rectangle,
         ),
-        decoration: BoxDecoration(
-        //shape: BoxShape.rectangle,
-    ),
+        ),
+      ),
     );
   }
 
@@ -89,13 +94,18 @@ class DisplayPicture extends StatelessWidget {
 //  }
 
   videoFrame(String videoURL,double width, double height, bool shouldZoom){
-    return Container(
-      width: width,
-      height: height,
-      child: CustomVideoPlayer(videoURL: videoURL, shouldZoom: shouldZoom,),
-      //child: CustomVideoPlayer(videoURL: videoURL, width: width, height: height,),
-      decoration: BoxDecoration(
-        color: Colors.white,
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: Container(
+          width: width,
+          height: height,
+          child: CustomVideoPlayer(videoURL: videoURL, shouldZoom: shouldZoom,),
+          //child: CustomVideoPlayer(videoURL: videoURL, width: width, height: height,),
+          decoration: BoxDecoration(
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }

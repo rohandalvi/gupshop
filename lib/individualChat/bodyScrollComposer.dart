@@ -175,21 +175,34 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
         return StatefulBuilder(
           builder: (context, StateSetter setState){
             return BuildMessageComposer(
-              firstOnPressed: () async{
+              firstOnPressed: (){
                 return CustomBottomSheet(
                   customContext: context,
-                  firstIconName: 'image2vector',
-                  firstIconText: 'Pick image from  gallery',
-                  firstIconAndTextOnPressed: (){},
-                  secondIconName: 'videoCamera',
-                  secondIconText: 'Pick image from camera',
+                  firstIconName: 'photoGallery',
+                  firstIconText: 'Pick image from  Gallery',
+                  firstIconAndTextOnPressed: () async{
+                    var data = await sendImage();
+                    pushMessageDataToFirebase(false,true,null,data);
+                    setState(() {
+
+                    });
+                  },
+                  secondIconName: 'image2vector',
+                  secondIconText: 'Click image from Camera',
                   secondIconAndTextOnPressed: (){},
+                  thirdIconName: 'photoGallery',
+                  thirdIconText: 'Pick video from Gallery',
+                  thirdIconAndTextOnPressed: (){},
+                  fourthIconName: 'videoCamera',
+                  fourthIconText: 'Record video from Camera',
+                  fourthIconAndTextOnPressed: (){},
+                  fifthIconName: 'location',
+                  fifthIconText: 'Send Current Location',
+                  fifthIconAndTextOnPressed: (){},
+                  sixthIconName: 'locationPin',
+                  sixthIconText: 'Send location from Map',
+                  sixthIconAndTextOnPressed: (){},
                 ).show();
-//            var data = await sendImage();
-//            pushMessageDataToFirebase(false,true,null,data);
-//            setState(() {
-//
-//            });
               },
               secondOnPressed: () async{
                 var data = await sendVideo();

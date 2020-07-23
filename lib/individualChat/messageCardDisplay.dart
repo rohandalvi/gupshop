@@ -68,9 +68,7 @@ class MessageCardDisplay extends StatelessWidget {
 
   showVideo(String videoURL, VideoPlayerController controller){
     try{
-      return Card(
-        child: DisplayPicture().videoFrame(videoURL, 200, 200, true),
-      );
+      return DisplayPicture().videoFrame(videoURL, 240, 190, true);
 
         //CustomVideoPlayer(videoURL: videoURL);
     }
@@ -80,8 +78,7 @@ class MessageCardDisplay extends StatelessWidget {
 
   showImage(String imageURL){
     try{
-      return
-        DisplayPicture().chatPictureFrame(imageURL);
+      return DisplayPicture().chatPictureFrame(imageURL);
     }
     catch (e){
       return Icon(Icons.image);}

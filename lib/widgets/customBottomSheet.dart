@@ -10,9 +10,27 @@ class CustomBottomSheet extends StatelessWidget {
   final String secondIconName;
   final VoidCallback secondIconAndTextOnPressed;
   final String secondIconText;
+  final String thirdIconName;
+  final VoidCallback thirdIconAndTextOnPressed;
+  final String thirdIconText;
+  final String fourthIconName;
+  final VoidCallback fourthIconAndTextOnPressed;
+  final String fourthIconText;
+  final String fifthIconName;
+  final VoidCallback fifthIconAndTextOnPressed;
+  final String fifthIconText;
+  final String sixthIconName;
+  final VoidCallback sixthIconAndTextOnPressed;
+  final String sixthIconText;
 
-  CustomBottomSheet({this.customContext, this.firstIconName, this.firstIconAndTextOnPressed, this.firstIconText,
+
+  CustomBottomSheet({this.customContext,
+    this.firstIconName, this.firstIconAndTextOnPressed, this.firstIconText,
     this.secondIconName, this.secondIconAndTextOnPressed, this.secondIconText,
+    this.thirdIconName, this.thirdIconAndTextOnPressed, this.thirdIconText,
+    this.fourthIconName, this.fourthIconAndTextOnPressed, this.fourthIconText,
+    this.fifthIconName, this.fifthIconAndTextOnPressed, this.fifthIconText,
+    this.sixthIconName, this.sixthIconAndTextOnPressed, this.sixthIconText,
   });
 
   @override
@@ -31,7 +49,7 @@ class CustomBottomSheet extends StatelessWidget {
         context: customContext,
         builder: (BuildContext context){
           return Container(
-            height: 200,
+            height: 350,
             child: Column(
               children: <Widget>[
                 /// icon and name, so CustomIconButton and CustomText
@@ -53,7 +71,48 @@ class CustomBottomSheet extends StatelessWidget {
                     CustomText(text: secondIconText,)
                   ],
                 ),
-//                Row(),
+                Row(
+                  children: <Widget>[
+                    CustomIconButton(
+                      iconNameInImageFolder: thirdIconName,
+                      onPressed: thirdIconAndTextOnPressed,
+                    ),
+                    CustomText(text: thirdIconText,)
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    CustomIconButton(
+                      iconNameInImageFolder: fourthIconName,
+                      onPressed: fourthIconAndTextOnPressed,
+                    ),
+                    CustomText(text: fourthIconText,)
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    CustomIconButton(
+                      iconNameInImageFolder: fifthIconName,
+                      onPressed: fifthIconAndTextOnPressed,
+                    ),
+                    CustomText(text: fifthIconText,)
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    CustomIconButton(
+                      iconNameInImageFolder: sixthIconName,
+                      onPressed: sixthIconAndTextOnPressed,
+                    ),
+                    CustomText(text: sixthIconText,)
+                  ],
+                ),
+                CustomIconButton(
+                  iconNameInImageFolder: 'cancel',
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                )
               ],
             ),
           );

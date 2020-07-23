@@ -3,6 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contact/generated/i18n.dart';
 import 'package:gupshop/links/checkLinkValidity.dart';
+import 'package:gupshop/models/message.dart';
+import 'package:gupshop/models/news_message.dart';
+import 'package:gupshop/models/text_message.dart';
 import 'package:gupshop/news/fakeNewsText.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/news/newsComposerBody.dart';
@@ -281,14 +284,7 @@ class NewsComposerState extends State<NewsComposer> {
 
 
       /// data creation for pushing to conversations collection:
-      var data;
-      data = {
-        "fromName": userName,
-        "fromPhoneNumber": userPhoneNo,
-        "timeStamp": DateTime.now(),
-        "conversationId": conversationId,
-        "newsId" : newsId,
-      };
+      IMessage newsMessageForConversationCollection = NewsMessage(newsId: newsId, conversationId: conversationId, fromName: userName, fromNumber: userPhoneNo, timestamp: DateTime.now());
 
       /// pushing to newsStatistics:
       /// increase the count only if the user doesnt exist in newsStatistics trueBy collection
@@ -298,15 +294,17 @@ class NewsComposerState extends State<NewsComposer> {
       if(hasForwardedOrCreatedNewsAlready == false){trueBy++;}
 
       /// pushing news to conversation collection
-      FirebaseMethods().pushToFirebaseConversatinCollection(data);
+      FirebaseMethods().pushToFirebaseConversatinCollection(newsMessageForConversationCollection.fromJson());
 
       /// pushing news to news collection
       FirebaseMethods().pushToNewsCollection(newsId, widget.link,  trueBy,  fakeBy,  reportedBy, widget.title, widget.newsBody);
 
-      var dataForRecentChats = CreateMessageDataToPushToFirebase(isNews: true, userPhoneNo: userPhoneNo, userName: userName, conversationId: conversationId).create();
+      IMessage newsMessageForRecentChats = TextMessage(text: "📰 NEWS", fromNumber: userPhoneNo, fromName: userName, conversationId: conversationId,timestamp: DateTime.now());
+
+      //var dataForRecentChats = CreateMessageDataToPushToFirebase(isNews: true, userPhoneNo: userPhoneNo, userName: userName, conversationId: conversationId).create();
 
       ///Navigating to RecentChats page with pushes the data to firebase
-      RecentChats(message: dataForRecentChats,
+      RecentChats(message: newsMessageForRecentChats.fromJson(),
           convId: conversationId,
           userNumber: userPhoneNo,
           userName: userName,

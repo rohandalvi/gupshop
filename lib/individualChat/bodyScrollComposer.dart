@@ -5,7 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gupshop/image/createImageURL.dart';
+import 'package:gupshop/image/cropImage.dart';
+import 'package:gupshop/image/pickImageFromGallery.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
+import 'package:gupshop/individualChat/cameraImagePickCropCreateData.dart';
+import 'package:gupshop/individualChat/galleryImagePickCropCreateData.dart';
+import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsCollection.dart';
 import 'package:gupshop/models/image_message.dart';
 import 'package:gupshop/models/location_message.dart';
 import 'package:gupshop/models/message.dart';
@@ -13,14 +19,12 @@ import 'package:gupshop/models/text_message.dart';
 import 'package:gupshop/models/video_message.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/location/location_service.dart';
-import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
+import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/individualChat/buildMessageComposer.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
-import 'package:gupshop/widgets/customRaisedButton.dart';
-import 'package:gupshop/widgets/customText.dart';
 import 'package:video_player/video_player.dart';
 
 class BodyScrollComposer extends StatefulWidget {
@@ -187,20 +191,29 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                   firstIconName: 'photoGallery',
                   firstIconText: 'Pick image from  Gallery',
                   firstIconAndTextOnPressed: () async{
-                    var data = await galleryImagePickCropCreateData();
-                    pushMessageDataToConversationCollection(false,true,null,data);
+                    var data = await GalleryImagePickCropCreateData().main(widget.userName, widget.userPhoneNo, widget.conversationId);
+                    pushMessageDataToConversationAndRecentChatsCollection(false,true,null,data);
                     setState(() {
 
                     });
                   },
                   secondIconName: 'image2vector',
                   secondIconText: 'Click image from Camera',
-                  secondIconAndTextOnPressed: (){},
+                  secondIconAndTextOnPressed: () async{
+                    /// clicking image from camera flowchart:
+                    /// pop the bottom bar
+                    /// create data to push to conversation and recentchats collection
+                    Navigator.pop(context);
+                    var conversationCollectionData = await CameraImagePickCropCreateData().main(widget.userName, widget.userPhoneNo, widget.conversationId);
+                    var recentChatsData = ImageMessage(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: DateTime.now(), imageUrl: "📸 Image").fromJson();
+                    print("recentChats data : $recentChatsData");
+                    PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName, groupExits: widget.groupExits).push();
+                  },
                   thirdIconName: 'photoGallery',
                   thirdIconText: 'Pick video from Gallery',
                   thirdIconAndTextOnPressed: () async{
                     var data = await galleryVideoPickCreateData();
-                    pushMessageDataToConversationCollection(true,false,null,data);
+                    pushMessageDataToConversationAndRecentChatsCollection(true,false,null,data);
                     setState(() {
 
                     });
@@ -294,21 +307,21 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
         );
   }
 
-  galleryImagePickCropCreateData() async{
-    /// to make the user go to individualChat screen with no bottom bar open
-    /// we have to make sure that Navigator.pop(context); is used so that
-    /// when the user clicks pick image from camera(or any other option),
-    /// he is returned to individualChat with no bottom bar open
-    Navigator.pop(context);
-    int numberOfImageInConversation= 0;
-    numberOfImageInConversation++;
-
-    File image = await ImagesPickersDisplayPictureURLorFile().pickImageFromGallery();
-    File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(image);
-    String imageURL = await ImagesPickersDisplayPictureURLorFile().getImageURL(croppedImage, widget.userPhoneNo, numberOfImageInConversation);
-    IMessage message = new ImageMessage(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: DateTime.now(), imageUrl: imageURL);
-    return message.fromJson();
-  }
+//  galleryImagePickCropCreateData() async{
+//    /// to make the user go to individualChat screen with no bottom bar open
+//    /// we have to make sure that Navigator.pop(context); is used so that
+//    /// when the user clicks pick image from camera(or any other option),
+//    /// he is returned to individualChat with no bottom bar open
+//    Navigator.pop(context);
+//    int numberOfImageInConversation= 0;
+//    numberOfImageInConversation++;
+//
+//    File image = await PickImageFromGallery().pick();
+//    File croppedImage = await CropImage().crop(image);
+//    String imageURL = await CreateImageURL().create(croppedImage, widget.userPhoneNo, numberOfImageInConversation);
+//    IMessage message = new ImageMessage(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: DateTime.now(), imageUrl: imageURL);
+//    return message.fromJson();
+//  }
 
   galleryVideoPickCreateData() async{
     /// to make the user go to individualChat screen with no bottom bar open
@@ -329,14 +342,14 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
   sendLocation(Position location){
     /// create data and push to conversations collection to display immediately
     IMessage message = new LocationMessage(fromName:widget.userName, fromNumber:widget.userPhoneNo, conversationId:widget.conversationId, timestamp:DateTime.now(), latitude: location.latitude, longitude: location.longitude, text: location.toString());
-    pushMessageDataToConversationCollection(false,false,location,message.fromJson());
+    pushMessageDataToConversationAndRecentChatsCollection(false,false,location,message.fromJson());
     setState(() {
 
     });
   }
 
 
-  pushMessageDataToConversationCollection(bool isVideo, bool isImage, Position location, var data){
+  pushMessageDataToConversationAndRecentChatsCollection(bool isVideo, bool isImage, Position location, var data){
     Firestore.instance.collection("conversations").document(widget.conversationId).collection("messages").add(data);
     ///Navigating to RecentChats page with pushes the data to firebase
     if(isVideo == true){

@@ -2,9 +2,12 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gupshop/image/cropImage.dart';
+import 'package:gupshop/image/pickImageFromCamera.dart';
+import 'package:gupshop/image/pickImageFromGallery.dart';
 import 'package:gupshop/screens/home.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
-import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
+import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'dart:io';
 import 'package:image_cropper/image_cropper.dart';
@@ -236,9 +239,9 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// if the user goes to the camera/gallery and doesnt pick any image then the varibale
   /// File tempImage would be null.
   _pickImageFromGallery(StateSetter setState) async{
-    File tempImage = await ImagesPickersDisplayPictureURLorFile().pickImageFromGallery();
+    File tempImage = await PickImageFromGallery().pick();
 
-    File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(tempImage);
+    File croppedImage = await CropImage().crop(tempImage);
 
     setState((){
       if(tempImage != null){
@@ -252,9 +255,9 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
 
   /// This funcion will helps you to pick and Image from Camera
   _pickImageFromCamer(StateSetter setState) async{
-    File tempImage = await ImagesPickersDisplayPictureURLorFile().pickImageFromCamer();
+    File tempImage = await PickImageFromCamera().pick();
 
-    File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(tempImage);
+    File croppedImage = await CropImage().crop(tempImage);
 
     setState(() {
       if(tempImage != null){

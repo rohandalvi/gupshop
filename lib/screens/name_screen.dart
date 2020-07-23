@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
-import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
+import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';

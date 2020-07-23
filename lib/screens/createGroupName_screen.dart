@@ -7,7 +7,7 @@ import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/getConversationId.dart';
-import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
+import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/service/pushToProfilePictures.dart';
 import 'package:gupshop/widgets/colorPalette.dart';

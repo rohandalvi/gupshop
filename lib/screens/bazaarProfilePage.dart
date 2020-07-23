@@ -19,7 +19,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/service/checkBoxCategorySelector.dart';
 import 'package:gupshop/location/location_service.dart';
-import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
+import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';

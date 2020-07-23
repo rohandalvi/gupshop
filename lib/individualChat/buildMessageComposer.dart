@@ -47,12 +47,8 @@ class BuildMessageComposer extends StatelessWidget {
       child: Row(
         children: <Widget>[
           IconButton(
-            icon: SvgPicture.asset('images/image2vector.svg',),
+            icon: SvgPicture.asset('images/plus.svg',),
             onPressed: firstOnPressed,
-          ),
-          IconButton(
-            icon: SvgPicture.asset('images/videoCamera.svg',),
-            onPressed: secondOnPressed,
           ),
           Expanded(
             child: TextField(

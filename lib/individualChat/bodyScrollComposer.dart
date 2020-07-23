@@ -9,6 +9,7 @@ import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/models/image_message.dart';
 import 'package:gupshop/models/location_message.dart';
 import 'package:gupshop/models/message.dart';
+import 'package:gupshop/models/text_message.dart';
 import 'package:gupshop/models/video_message.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/location/location_service.dart';
@@ -186,7 +187,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                   firstIconName: 'photoGallery',
                   firstIconText: 'Pick image from  Gallery',
                   firstIconAndTextOnPressed: () async{
-                    var data = await sendImage();
+                    var data = await galleryImagePickCropCreateData();
                     pushMessageDataToConversationCollection(false,true,null,data);
                     setState(() {
 
@@ -198,7 +199,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                   thirdIconName: 'photoGallery',
                   thirdIconText: 'Pick video from Gallery',
                   thirdIconAndTextOnPressed: () async{
-                    var data = await sendVideo();
+                    var data = await galleryVideoPickCreateData();
                     pushMessageDataToConversationCollection(true,false,null,data);
                     setState(() {
 
@@ -218,13 +219,6 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                   sixthIconText: 'Send location from Map',
                   sixthIconAndTextOnPressed: (){},
                 ).show();
-              },
-              secondOnPressed: () async{
-                var data = await sendVideo();
-                pushMessageDataToConversationCollection(true,false,null,data);
-                setState(() {
-
-                });
               },
               onChangedForTextField: (value){
                 setState(() {
@@ -260,19 +254,14 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                 if(widget.groupExits == true){
                   DocumentSnapshot adminNumberFuture = await Firestore.instance.collection("conversationMetadata").document(widget.conversationId).get();
                   String adminNumber = adminNumberFuture.data["admin"];
-                  print("adminNumber: $adminNumber");
 
                   await Future.wait(widget.listOfFriendNumbers.map((element) async{
-//              listOfFriendNumbers.forEach((element) async {
-                    print("element: $element");
                     var myNumberExistsInFriendsFriendsCollectionWaiting = await Firestore.instance.collection("friends_$element").document(widget.conversationId).get();
                     var myNumberExistsInFriendsFriendsCollection = myNumberExistsInFriendsFriendsCollectionWaiting.data;
-                    print("myNumberExistsInFriendsFriendsCollection: $myNumberExistsInFriendsFriendsCollection");
                     if(myNumberExistsInFriendsFriendsCollection == null){
                       List<String> nameListForOthers = new List();
                       nameListForOthers.add(widget.groupName);
                       AddToFriendsCollection().extractNumbersFromListAndAddToFriendsCollection(widget.listOfFriendNumbers, widget.conversationId, widget.conversationId, nameListForOthers, widget.groupName, adminNumber);
-//                                                                                        listOfNumbersInAGroup, id, id, nameList, groupName, userPhoneNo
                     }
                   }));
 
@@ -282,11 +271,11 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
 
                 if(widget.value!="") {
                   ///if there is not text, then dont send the message
-                  var data = {"body":widget.value, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":widget.conversationId};
-                  FirebaseMethods().pushToFirebaseConversatinCollection(data);
+                  IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: DateTime.now(), conversationId: widget.conversationId);
+                  FirebaseMethods().pushToFirebaseConversatinCollection(textMessage.fromJson());
 
                   ///Navigating to RecentChats page with pushes the data to firebase
-                  RecentChats(message: data, convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists:widget.groupExits).getAllNumbersOfAConversation();
+                  RecentChats(message: textMessage.fromJson(), convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists:widget.groupExits).getAllNumbersOfAConversation();
 
                   widget.controllerTwo.clear();//used to clear text when user hits send button
                   widget.listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
@@ -305,7 +294,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
         );
   }
 
-  sendImage() async{
+  galleryImagePickCropCreateData() async{
     /// to make the user go to individualChat screen with no bottom bar open
     /// we have to make sure that Navigator.pop(context); is used so that
     /// when the user clicks pick image from camera(or any other option),
@@ -317,16 +306,11 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
     File image = await ImagesPickersDisplayPictureURLorFile().pickImageFromGallery();
     File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(image);
     String imageURL = await ImagesPickersDisplayPictureURLorFile().getImageURL(croppedImage, widget.userPhoneNo, numberOfImageInConversation);
-    print("widget.userName : ${widget.userName}");
-    print("widget.userPhoneNo : ${widget.userPhoneNo}");
     IMessage message = new ImageMessage(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: DateTime.now(), imageUrl: imageURL);
-    print("message in sendImage : ${message.fromJson()}");
     return message.fromJson();
-
-
   }
 
-  sendVideo() async{
+  galleryVideoPickCreateData() async{
     /// to make the user go to individualChat screen with no bottom bar open
     /// we have to make sure that Navigator.pop(context); is used so that
     /// when the user clicks pick image from camera(or any other option),
@@ -340,7 +324,6 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
     String videoURL = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, widget.userPhoneNo, numberOfImageInConversation);
     IMessage message = new VideoMessage(fromName:widget.userName, fromNumber:widget.userPhoneNo, conversationId:widget.conversationId, timestamp:DateTime.now(), videoURL:videoURL);
     return message.fromJson();
-    //return createMessageDataToPushToConversationCollection(true, false, videoURL, widget.userName, widget.userPhoneNo, widget.conversationId, null);
   }
 
   sendLocation(Position location){

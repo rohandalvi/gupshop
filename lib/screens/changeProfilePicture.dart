@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/chat_list_page/chat_List.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/sideMenu.dart';

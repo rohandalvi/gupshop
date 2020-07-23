@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:gupshop/service/geolocation_service.dart';
+import 'package:gupshop/location/location_service.dart';
 
 import 'getSharedPreferences.dart';
 
@@ -20,13 +20,13 @@ class UsersLocation{
 
 
     if(ifHomeExists == false) {
-      Position location = await GeolocationServiceState().getLocation();
+      Position location = await LocationServiceState().getLocation();
       var latitude = location.latitude;
       var longitude = location.longitude;
 
-      var address = await GeolocationServiceState().getAddress();
+      var address = await LocationServiceState().getAddress();
 
-      GeolocationServiceState().pushUsersLocationToFirebase(latitude, longitude, userPhoneNo, "home", address); //pass a name for the location also as a parameter
+      LocationServiceState().pushUsersLocationToFirebase(latitude, longitude, userPhoneNo, "home", address); //pass a name for the location also as a parameter
 
       print("location set");
     }

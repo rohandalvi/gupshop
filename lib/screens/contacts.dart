@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_contact/contacts.dart';
-import 'package:gupshop/models/contact_data.dart';
-import 'package:gupshop/service/contact_service.dart';
-import 'package:gupshop/service/contact_search.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-
 
 class Contacts extends StatefulWidget {
   @override

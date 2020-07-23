@@ -16,9 +16,9 @@ import 'package:gupshop/widgets/customText.dart';
 //import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class GeolocationService extends StatefulWidget {
+class LocationService extends StatefulWidget {
   @override
-  GeolocationServiceState createState() => GeolocationServiceState();
+  LocationServiceState createState() => LocationServiceState();
 }
 
 class  C {
@@ -28,7 +28,7 @@ class  C {
   C({@required s1, @required s2});
 }
 
-class GeolocationServiceState extends State<GeolocationService> {
+class LocationServiceState extends State<LocationService> {
 
   Position _location;
   double latitude;
@@ -190,7 +190,7 @@ class GeolocationServiceState extends State<GeolocationService> {
 //        side: BorderSide(color : Colors.black),
 //      ),
       onPressed: (){
-        GeolocationServiceState().launchMapsUrl(latitude, longitude);
+        LocationServiceState().launchMapsUrl(latitude, longitude);
       },
     );
   }

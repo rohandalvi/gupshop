@@ -5,7 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/service/filterBazaarWalas.dart';
-import 'package:gupshop/service/geolocation_service.dart';
+import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customListViewDisplay.dart';

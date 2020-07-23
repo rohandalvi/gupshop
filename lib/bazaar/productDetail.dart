@@ -3,18 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/bazaar/bazaarFirestoreShortcuts.dart';
 import 'package:gupshop/bazaar/likesAndDislikes.dart';
-import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/bazaar/bazaarHome_screen.dart';
 import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
-import 'package:gupshop/screens/home.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
-import 'package:gupshop/widgets/videoHeader.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 import 'package:intl/intl.dart';
 

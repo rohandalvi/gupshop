@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/location/locationDisplayAndLaunchInMap.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
-import 'package:gupshop/service/geolocation_service.dart';
+import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
@@ -41,7 +42,8 @@ class MessageCardDisplay extends StatelessWidget {
       child:
 //      isNews == true ? displayNews() :
       isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody,) :
-      isLocationMessage ==true ? showLocation(fromName,latitude, longitude):
+      isLocationMessage ==true ? LocationDisplayAndLaunchInMap(textOnButton: fromName, latitude: latitude,longitude: longitude, locationName: 'current location',):
+//      isLocationMessage ==true ? showLocation(fromName,latitude, longitude):
       videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
       CustomText(text: messageBody,): showImage(imageURL),
     );
@@ -61,7 +63,7 @@ class MessageCardDisplay extends StatelessWidget {
 //        side: BorderSide(color : Colors.black),
 //      ),
       onPressed: (){
-        GeolocationServiceState().launchMapsUrl(latitude, longitude);
+        LocationServiceState().launchMapsUrl(latitude, longitude);
       },
     );
   }

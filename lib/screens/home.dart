@@ -1,14 +1,9 @@
-//import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/chat_list_page/chat_List.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/bazaar/bazaarHome_screen.dart';
-import 'package:gupshop/screens/empty_chatList.dart';
-import 'package:gupshop/models/message_model.dart';
-import 'package:gupshop/screens/contacts.dart';
-import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/widgets/homeAppBar.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 
@@ -38,7 +33,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    print("userName in HomeState : $userName");
     return DefaultTabController(
       length: 2,
       initialIndex: 0,
@@ -50,7 +44,7 @@ class _HomeState extends State<Home> {
         body: TabBarView(
           children: <Widget>[
             //Contacts(),
-            chats.length>0 ? ChatList(myNumber: userPhoneNo, myName: userName,): EmptyChatList(),
+            ChatList(myNumber: userPhoneNo, myName: userName,),
             BazaarHomeScreen(userPhoneNo: userPhoneNo, userName: userName,),
             //Text('Calls',),
           ],

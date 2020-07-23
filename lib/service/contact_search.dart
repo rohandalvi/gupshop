@@ -3,13 +3,9 @@ import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gupshop/models/chat_List.dart';
-import 'package:gupshop/screens/home.dart';
-import 'package:gupshop/screens/individual_chat.dart';
-import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
-import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/widgets/customText.dart';
+
 class ContactSearch<T> extends StatefulWidget {
   bool createGroupSearch;
   final String userPhoneNo;

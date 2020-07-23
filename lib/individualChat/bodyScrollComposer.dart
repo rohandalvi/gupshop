@@ -6,15 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
+import 'package:gupshop/models/image_message.dart';
+import 'package:gupshop/models/location_message.dart';
+import 'package:gupshop/models/message.dart';
+import 'package:gupshop/models/video_message.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
-import 'package:gupshop/service/geolocation_service.dart';
+import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/service/videoPicker.dart';
-import 'package:gupshop/service/viewPicturesFromChat.dart';
 import 'package:gupshop/individualChat/buildMessageComposer.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
+import 'package:gupshop/widgets/customRaisedButton.dart';
+import 'package:gupshop/widgets/customText.dart';
 import 'package:video_player/video_player.dart';
 
 class BodyScrollComposer extends StatefulWidget {
@@ -182,7 +187,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                   firstIconText: 'Pick image from  Gallery',
                   firstIconAndTextOnPressed: () async{
                     var data = await sendImage();
-                    pushMessageDataToFirebase(false,true,null,data);
+                    pushMessageDataToConversationCollection(false,true,null,data);
                     setState(() {
 
                     });
@@ -192,13 +197,23 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                   secondIconAndTextOnPressed: (){},
                   thirdIconName: 'photoGallery',
                   thirdIconText: 'Pick video from Gallery',
-                  thirdIconAndTextOnPressed: (){},
+                  thirdIconAndTextOnPressed: () async{
+                    var data = await sendVideo();
+                    pushMessageDataToConversationCollection(true,false,null,data);
+                    setState(() {
+
+                    });
+                  },
                   fourthIconName: 'videoCamera',
                   fourthIconText: 'Record video from Camera',
                   fourthIconAndTextOnPressed: (){},
                   fifthIconName: 'location',
                   fifthIconText: 'Send Current Location',
-                  fifthIconAndTextOnPressed: (){},
+                  fifthIconAndTextOnPressed: () async{
+                    Navigator.pop(context);
+                    Position location  = await LocationServiceState().getLocation();//setting user's location
+                    sendLocation(location);
+                  },
                   sixthIconName: 'locationPin',
                   sixthIconText: 'Send location from Map',
                   sixthIconAndTextOnPressed: (){},
@@ -206,7 +221,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
               },
               secondOnPressed: () async{
                 var data = await sendVideo();
-                pushMessageDataToFirebase(true,false,null,data);
+                pushMessageDataToConversationCollection(true,false,null,data);
                 setState(() {
 
                 });
@@ -302,7 +317,12 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
     File image = await ImagesPickersDisplayPictureURLorFile().pickImageFromGallery();
     File croppedImage = await ImagesPickersDisplayPictureURLorFile().cropImage(image);
     String imageURL = await ImagesPickersDisplayPictureURLorFile().getImageURL(croppedImage, widget.userPhoneNo, numberOfImageInConversation);
-    return createDataToPushToFirebase(false, true, imageURL, widget.userName, widget.userPhoneNo, widget.conversationId, null);
+    print("widget.userName : ${widget.userName}");
+    print("widget.userPhoneNo : ${widget.userPhoneNo}");
+    IMessage message = new ImageMessage(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: DateTime.now(), imageUrl: imageURL);
+    print("message in sendImage : ${message.fromJson()}");
+    return message.fromJson();
+
 
   }
 
@@ -318,43 +338,42 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
     File video = await VideoPicker().pickVideoFromGallery();
 
     String videoURL = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, widget.userPhoneNo, numberOfImageInConversation);
-
-    return createDataToPushToFirebase(true, false, videoURL, widget.userName, widget.userPhoneNo, widget.conversationId, null);
-
+    IMessage message = new VideoMessage(fromName:widget.userName, fromNumber:widget.userPhoneNo, conversationId:widget.conversationId, timestamp:DateTime.now(), videoURL:videoURL);
+    return message.fromJson();
+    //return createMessageDataToPushToConversationCollection(true, false, videoURL, widget.userName, widget.userPhoneNo, widget.conversationId, null);
   }
 
-  pushMessageDataToFirebase(bool isVideo, bool isImage, Position location, var data){
-    print("in pushMessageDataToFirebase");
+  sendLocation(Position location){
+    /// create data and push to conversations collection to display immediately
+    IMessage message = new LocationMessage(fromName:widget.userName, fromNumber:widget.userPhoneNo, conversationId:widget.conversationId, timestamp:DateTime.now(), latitude: location.latitude, longitude: location.longitude, text: location.toString());
+    pushMessageDataToConversationCollection(false,false,location,message.fromJson());
+    setState(() {
+
+    });
+  }
+
+
+  pushMessageDataToConversationCollection(bool isVideo, bool isImage, Position location, var data){
     Firestore.instance.collection("conversations").document(widget.conversationId).collection("messages").add(data);
     ///Navigating to RecentChats page with pushes the data to firebase
     if(isVideo == true){
-      var data = createDataToPushToFirebase(true, false, "📹", widget.userName, widget.userPhoneNo, widget.conversationId, null);
-      RecentChats(message: data, convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName , listOfOtherNumbers: widget.listOfFriendNumbers, groupExists: widget.groupExits).getAllNumbersOfAConversation();
+      //var data = createMessageDataToPushToConversationCollection(true, false, "📹", widget.userName, widget.userPhoneNo, widget.conversationId, null);
+      IMessage data = VideoMessage(fromName: widget.userName, fromNumber:widget.userPhoneNo, conversationId:widget.conversationId, timestamp:DateTime.now(), videoURL:"📹 Video");
+      Map<String, dynamic> message = data.fromJson();
+      RecentChats(message: message, convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName , listOfOtherNumbers: widget.listOfFriendNumbers, groupExists: widget.groupExits).getAllNumbersOfAConversation();
     }
 
     if(isImage == true){
-      var data = createDataToPushToFirebase(false, true, "📸", widget.userName, widget.userPhoneNo, widget.conversationId, null);
-      RecentChats(message: data, convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists: widget.groupExits ).getAllNumbersOfAConversation();
+      //var data = createMessageDataToPushToConversationCollection(false, true, "📸", widget.userName, widget.userPhoneNo, widget.conversationId, null);
+      ImageMessage data = ImageMessage(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: DateTime.now(), imageUrl: "📸 Image");
+      Map<String, dynamic> message = data.fromJson();
+      RecentChats(message: message, convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists: widget.groupExits ).getAllNumbersOfAConversation();
     }
 
     if(location != null){
-      print("in location!=null");
-      var dataRecentChats = createDataToPushToFirebase(false, false, "📍 Location", widget.userName, widget.userPhoneNo, widget.conversationId, location);
-      RecentChats(message: dataRecentChats, convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists: widget.groupExits ).getAllNumbersOfAConversation();
+      IMessage locationMessage = new LocationMessage(fromName:widget.userName, fromNumber:widget.userPhoneNo, conversationId:widget.conversationId, timestamp:DateTime.now(), text:"📍 Location", latitude:location.latitude, longitude:location.longitude);
+      RecentChats(message: locationMessage.fromJson(), convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists: widget.groupExits ).getAllNumbersOfAConversation();
     }
-  }
-
-  createDataToPushToFirebase(bool isVideo, bool isImage, String value, String userName, String fromPhoneNumber, String conversationId, Position location){
-    if(location != null){
-      return {"body":value, "fromName":userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId, "latitude": location.latitude, "longitude": location.longitude};
-    }
-    if(isVideo == true){
-      return {"videoURL":value, "fromName":userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-    }
-
-    if(isImage == true){
-      return {"imageURL":value, "fromName":userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
-    } return {"body":value, "fromName":userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":conversationId};
   }
 
 }

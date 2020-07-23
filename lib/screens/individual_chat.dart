@@ -9,7 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/individualChatAppBar.dart';
 import 'package:gupshop/individualChat/bodyScrollComposer.dart';
-import 'package:gupshop/models/chat_List.dart';
+import 'package:gupshop/chat_list_page/chat_List.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/news/newsComposer.dart';
@@ -22,7 +22,7 @@ import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
-import 'package:gupshop/service/geolocation_service.dart';
+import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
@@ -281,7 +281,7 @@ class _IndividualChatState extends State<IndividualChat> {
       alignment: Alignment.topRight,
         child: FloatingActionButton(
           onPressed: () async{
-            Position location  = await GeolocationServiceState().getLocation();//setting user's location
+            Position location  = await LocationServiceState().getLocation();//setting user's location
             print("location : $location");
             sendLocation(location);
           },
@@ -725,7 +725,7 @@ class _IndividualChatState extends State<IndividualChat> {
 //        side: BorderSide(color : Colors.black),
 //      ),
       onPressed: (){
-        GeolocationServiceState().launchMapsUrl(latitude, longitude);
+        LocationServiceState().launchMapsUrl(latitude, longitude);
       },
     );
   }

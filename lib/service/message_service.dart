@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gupshop/models/message_model.dart';
 
 class MessageService{
 

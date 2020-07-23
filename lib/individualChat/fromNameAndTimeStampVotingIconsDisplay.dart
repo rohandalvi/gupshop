@@ -1,13 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flushbar/flushbar.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gupshop/models/message_model.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/news/trueFakeVotingIconsUI.dart';
-import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customText.dart';

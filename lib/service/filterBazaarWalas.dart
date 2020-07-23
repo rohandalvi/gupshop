@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gupshop/service/geolocation_service.dart';
+import 'package:gupshop/location/location_service.dart';
 
 
 class FilterBazaarWalas extends StatefulWidget{
@@ -22,7 +22,7 @@ class FilterBazaarWalasState extends State<FilterBazaarWalas> {
 
   getUserGeohash(String number) async{
     print("numbr in getUserGeohash: $number");
-    DocumentSnapshot userGeohash = await GeolocationServiceState().getUserLocation(number);
+    DocumentSnapshot userGeohash = await LocationServiceState().getUserLocation(number);
     print("userGeohash val: ${userGeohash.data}");
     return userGeohash.data["home"]["geohash"];
   }

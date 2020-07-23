@@ -18,7 +18,7 @@ import 'package:gupshop/bazaar/setDocumentIdsForCollections.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/service/checkBoxCategorySelector.dart';
-import 'package:gupshop/service/geolocation_service.dart';
+import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/service/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/widgets/colorPalette.dart';
@@ -196,7 +196,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                         /// location widgets:
                         if(locationSelected == false ) Row(
                           children: <Widget>[
-                            GeolocationServiceState().showLocation(userName, latitude, longitude),
+                            LocationServiceState().showLocation(userName, latitude, longitude),
                             changeLocation(),
                           ],
                         ),
@@ -354,7 +354,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   setLocation(BuildContext context){/// use usersLocation.dart
     return RaisedButton(
       onPressed: () async{
-        Position location  = await GeolocationServiceState().getLocation();//setting user's location
+        Position location  = await LocationServiceState().getLocation();//setting user's location
           setState(() {
             _bazaarWalaLocation = location;
 
@@ -398,7 +398,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   setLocationOtherThanCurrentAsHome(){
     return CustomRaisedButton(
       onPressed: (){
-        Future<Position> location  = GeolocationServiceState().getLocation();//setting user's location
+        Future<Position> location  = LocationServiceState().getLocation();//setting user's location
         location.then((val){
           setState(() {
             _bazaarWalaLocation = val;
@@ -611,7 +611,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
         };
 
         ///push to bazaarWalasLocation collection
-        GeolocationServiceState().pushBazaarWalasLocationToFirebase(
+        LocationServiceState().pushBazaarWalasLocationToFirebase(
             latitude, longitude, categoryName, userPhoneNo);
 
         ///push to bazaarCategories

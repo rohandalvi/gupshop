@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
 class RecentChats{
-  Map message;
+  Map<String, dynamic> message;
   String userNumber;
   String convId;
   String userName;

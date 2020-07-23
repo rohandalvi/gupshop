@@ -12,7 +12,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/screens/bazaarProfilePage.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
-import 'package:gupshop/service/geolocation_service.dart';
+import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
 import 'package:gupshop/service/usersLocation.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';

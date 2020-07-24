@@ -11,7 +11,9 @@ import 'package:gupshop/image/cropImage.dart';
 import 'package:gupshop/image/pickImageFromGallery.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/cameraImagePickCropCreateData.dart';
+import 'package:gupshop/individualChat/cameraVideoPickCreateData.dart';
 import 'package:gupshop/individualChat/galleryImagePickCropCreateData.dart';
+import 'package:gupshop/individualChat/galleryVideoPickCreateData.dart';
 import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsCollection.dart';
 import 'package:gupshop/models/image_message.dart';
 import 'package:gupshop/models/location_message.dart';
@@ -25,6 +27,8 @@ import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/individualChat/buildMessageComposer.dart';
+import 'package:gupshop/video/createVideoURL.dart';
+import 'package:gupshop/video/pickVideoFromCamera.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
 import 'package:video_player/video_player.dart';
 
@@ -199,12 +203,6 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                         conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo,
                         conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData,
                         userName: widget.userName, groupExits: widget.groupExits).push();
-
-//                    var data = await GalleryImagePickCropCreateData().main(widget.userName, widget.userPhoneNo, widget.conversationId);
-//                    pushMessageDataToConversationAndRecentChatsCollection(false,true,null,data);
-//                    setState(() {
-//
-//                    });
                   },
                   secondIconName: 'image2vector',
                   secondIconText: 'Click image from Camera',
@@ -213,23 +211,26 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                     /// pop the bottom bar
                     /// create data to push to conversation and recentchats collection
                     Navigator.pop(context);
-                    var conversationCollectionData = await CameraImagePickCropCreateData().main(widget.userName, widget.userPhoneNo, widget.conversationId);
-                    var recentChatsData = ImageMessage(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: DateTime.now(), imageUrl: "📸 Image").fromJson();
-                    print("recentChats data : $recentChatsData");
+                    Map<String, dynamic> conversationCollectionData = await CameraImagePickCropCreateData().main(widget.userName, widget.userPhoneNo, widget.conversationId);
+                    Map<String, dynamic> recentChatsData = RecentChatsDataScaffolds(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: DateTime.now()).forImageMessage();
                     PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName, groupExits: widget.groupExits).push();
                   },
-                  thirdIconName: 'photoGallery',
+                  thirdIconName: 'videoGallery',
                   thirdIconText: 'Pick video from Gallery',
                   thirdIconAndTextOnPressed: () async{
-                    var data = await galleryVideoPickCreateData();
-                    pushMessageDataToConversationAndRecentChatsCollection(true,false,null,data);
-                    setState(() {
-
-                    });
+                    Navigator.pop(context);
+                    Map<String, dynamic> conversationCollectionData = await GalleryVideoPickCreateData(userName: widget.userName, userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId,).main();
+                    Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: DateTime.now()).forVideoMessage();
+                    PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName, groupExits: widget.groupExits).push();
                   },
                   fourthIconName: 'videoCamera',
                   fourthIconText: 'Record video from Camera',
-                  fourthIconAndTextOnPressed: (){},
+                  fourthIconAndTextOnPressed: () async{
+                    Navigator.pop(context);
+                    Map<String, dynamic> conversationCollectionData = await CameraVideoPickCreateData(userName: widget.userName, userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId,).main();
+                    Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: DateTime.now()).forVideoMessage();
+                    PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName, groupExits: widget.groupExits).push();
+                  },
                   fifthIconName: 'location',
                   fifthIconText: 'Send Current Location',
                   fifthIconAndTextOnPressed: () async{
@@ -341,9 +342,9 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
     int numberOfImageInConversation= 0;
     numberOfImageInConversation++;
 
-    File video = await VideoPicker().pickVideoFromGallery();
+    File video = await PickVideoFromCamera().pick();
 
-    String videoURL = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, widget.userPhoneNo, numberOfImageInConversation);
+    String videoURL = await CreateVideoURL().create(video, widget.userPhoneNo, numberOfImageInConversation);
     IMessage message = new VideoMessage(fromName:widget.userName, fromNumber:widget.userPhoneNo, conversationId:widget.conversationId, timestamp:DateTime.now(), videoURL:videoURL);
     return message.fromJson();
   }

@@ -8,22 +8,10 @@ class VideoPicker{
 
   pickVideoFromGallery() async{
     return await ImagePicker.pickVideo(source: ImageSource.gallery);
-//    _video = video;
-//
-//    _videoPlayerController = VideoPlayerController.file(_video)..initialize().then((_){
-//      setState(() {
-//        _videoPlayerController.play();
-//      });
-//
-//    });
   }
 
 
   pickVideoFromCamer() async{
     return await ImagePicker.pickVideo(source: ImageSource.camera);
- //   _cameraVideoPlayerController = VideoPlayerController.file(_cameraVideo)..initialize().then((_){
-//      setState(() {});
-//      _cameraVideoPlayerController.play();
-//    });
   }
 }

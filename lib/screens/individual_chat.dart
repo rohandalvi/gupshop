@@ -163,13 +163,9 @@ class _IndividualChatState extends State<IndividualChat> {
       if(data["videoURL"] != null) data = VideoMessage(videoURL:"📹", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: DateTime.now()).fromJson();
       else if(data["imageURL"] != null) data = RecentChatsDataScaffolds(conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: DateTime.now()).forImageMessage();
       else if(data["news"] != null) data = TextMessage(text: "📰 NEWS", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: DateTime.now()).fromJson();
-      //if(data["videoURL"] != null) data = createDataToPushToFirebase(true, false, "📹", userName, userPhoneNo, conversationId, null);
-      //else if(data["imageURL"] != null) data = createDataToPushToFirebase(false, true, "📸", userName, userPhoneNo, conversationId, null);
-      //else if(data["news"] != null) data = CreateMessageDataToPushToFirebase(isNews: true, userPhoneNo: userPhoneNo, userName: userName, conversationId: conversationId).create();
       ///Navigating to RecentChats page with pushes the data to firebase
       /// if group chat:
 
-      print("listOfOtherNumbers: $listOfFriendNumbers");
       RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName, listOfOtherNumbers: listOfFriendNumbers, groupExists: groupExits ).getAllNumbersOfAConversation();
     }
   }

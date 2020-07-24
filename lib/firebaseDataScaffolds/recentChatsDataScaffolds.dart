@@ -13,4 +13,9 @@ class RecentChatsDataScaffolds{
     return recentChatsData;
   }
 
+  forVideoMessage(){
+    Map<String, dynamic> recentChatsData = ImageMessage(fromName:fromName, fromNumber:fromNumber, conversationId:conversationId, timestamp: DateTime.now(), imageUrl: "📹 Video").fromJson();
+    return recentChatsData;
+  }
+
 }

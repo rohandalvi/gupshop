@@ -23,7 +23,7 @@ class ViewPicturesFromChat extends StatelessWidget {
       body: Center(
         child: isPicture ?
         DisplayPicture().pictureFrame(payLoad) :
-        DisplayPicture().videoFrame(payLoad, 400, 400, shouldZoom),
+        DisplayPicture().videoFullFrame(payLoad,shouldZoom),
       ),
     );
   }

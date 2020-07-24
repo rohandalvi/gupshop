@@ -6,9 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
-import 'package:gupshop/image/createImageURL.dart';
-import 'package:gupshop/image/cropImage.dart';
-import 'package:gupshop/image/pickImageFromGallery.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/cameraImagePickCropCreateData.dart';
 import 'package:gupshop/individualChat/cameraVideoPickCreateData.dart';
@@ -22,10 +19,8 @@ import 'package:gupshop/models/text_message.dart';
 import 'package:gupshop/models/video_message.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/location/location_service.dart';
-import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
-import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/individualChat/buildMessageComposer.dart';
 import 'package:gupshop/video/createVideoURL.dart';
 import 'package:gupshop/video/pickVideoFromCamera.dart';
@@ -193,6 +188,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
               firstOnPressed: (){
                 return CustomBottomSheet(
                   customContext: context,
+
                   firstIconName: 'photoGallery',
                   firstIconText: 'Pick image from  Gallery',
                   firstIconAndTextOnPressed: () async{

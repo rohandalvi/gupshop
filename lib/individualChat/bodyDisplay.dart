@@ -3,7 +3,6 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
-import 'package:gupshop/news/newsCache.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/service/viewPicturesFromChat.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
+import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 import 'dart:io';
 
 import 'package:video_player/video_player.dart';
@@ -94,20 +95,17 @@ class DisplayPicture extends StatelessWidget {
 //  }
 
   videoFrame(String videoURL,double width, double height, bool shouldZoom){
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(3.0),
-        child: Container(
-          width: width,
-          height: height,
-          child: CustomVideoPlayer(videoURL: videoURL, shouldZoom: shouldZoom,),
-          //child: CustomVideoPlayer(videoURL: videoURL, width: width, height: height,),
-          decoration: BoxDecoration(
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
+    return
+       Card(
+          child: CustomVideoPlayerThumbnail(videoURL: videoURL, shouldZoom: shouldZoom,),
+        );
+
+  }
+
+  videoFullFrame(String videoURL,bool shouldZoom){
+    return
+      CustomVideoPlayer(videoURL: videoURL, shouldZoom: shouldZoom,);
+
   }
 
   ///used for sideMenu, chatList, individualchat

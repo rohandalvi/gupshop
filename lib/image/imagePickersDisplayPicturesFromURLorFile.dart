@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
 
+/// toDO- use video package method and delete this class
 class ImagesPickersDisplayPictureURLorFile {
 
   String imageURL;

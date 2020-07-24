@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:gupshop/models/message.dart';
 import 'package:gupshop/models/video_message.dart';
 import 'package:gupshop/video/createVideoURL.dart';
-import 'package:gupshop/video/pickVideoFromCamera.dart';
 import 'package:gupshop/video/pickVideoFromGallery.dart';
 
 class GalleryVideoPickCreateData{

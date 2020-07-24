@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,7 +35,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     setState(() {
 
     });
-    videoPlayerController.setLooping(true);
+    //videoPlayerController.setLooping(true);
   }
 
   @override
@@ -54,111 +56,46 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
 
     _initPlayer();
     super.initState();
-
-    /// for scrolling the video ahead and back we need to add a listener
-    videoPlayerController.addListener(() {
-      setState(() {
-        _playBackTime = videoPlayerController.value.position.inSeconds;
-      });
-    });
   }
 
 
   @override
   Widget build(BuildContext context) {
-    //print("videoPlayerController : ${videoPlayerController.value}");
-    return Scaffold(
-      body: videoPlayerController.value.initialized ? videoPlayerWidget(): Center(child: CircularProgressIndicator(),),
-//      floatingActionButton: CustomFloatingActionButton(
-//        heroTag: "btn $number",
-//        child: videoPlayerController.value.isPlaying ? pause() : play(),
-//        onPressed: (){
-//          videoPlayerController.value.isPlaying ? videoPlayerController.pause() : videoPlayerController.play();
-//          setState(() {
-//          });
-//        },
-//      ),
-//      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
+    return videoPlayerWidget();
   }
-
-  play(){
-    return CustomIconButton(
-      iconNameInImageFolder: 'youtubePlay',
-      onPressed:(){
-        videoPlayerController.play();
-      setState(() {
-      });
-    },
-    );
-  }
-
-//  pause(){
-//    return IconButton(icon: SvgPicture.asset('images/pauseButton.svg',));
-//  }
 
   videoPlayerWidget(){
-    print("videoPlayerController.value.isPlaying : ${videoPlayerController.value.isPlaying}");
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Stack(
-          //alignment: Alignment.bottomLeft,
-          children: <Widget>[
-            GestureDetector(
-              child: AspectRatio(
-                aspectRatio: videoPlayerController.value.aspectRatio,
-                  child: VideoPlayer(videoPlayerController)
-                ),
-              onTap: (){
-                if(videoPlayerController.value.isPlaying){
-                  setState(() {
-                    videoPlayerController.pause();
-                  });
-                } else videoPlayerController.play();/// this means even if the user taps the video, the video plays if not playing already instead of pressing the play button
-              },
-            ),
-            Visibility(
-              visible: widget.shouldZoom,
-              child: CustomIconButton(
-                iconNameInImageFolder: 'fullScreen',
-                onPressed: (){
-                  /// to stop the video from playing in background when then the
-                  /// user navigates to ViewPicturesVideosFromChat
-                  if (videoPlayerController.value.isPlaying) {
-                    videoPlayerController.pause();
-                  }
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ViewPicturesFromChat(payLoad: widget.videoURL, isPicture: false, shouldZoom: false,),//pass Name() here and pass Home()in name_screen
-                      )
-                  );
-              },)
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Visibility(
-                visible: videoPlayerController.value.isPlaying == false,
-                child: play(),
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          GestureDetector(
+            child: AspectRatio(
+              aspectRatio:videoPlayerController.value.aspectRatio,
+              //16/9,
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: <Widget>[
+                    VideoPlayer(videoPlayerController),
+                    VideoProgressIndicator(videoPlayerController, allowScrubbing: true,),
+                  ],
+                )
               ),
-            ),
-          ],
-        ),
-        Slider(
-          activeColor: Colors.black38,
-          inactiveColor: Colors.black38,
-          value: _playBackTime.toDouble(),
-          max: videoPlayerController.value.initialized ? videoPlayerController.value.duration.inSeconds.toDouble() : 0,
-          min: 0,
-          onChanged: (v){
-            videoPlayerController.seekTo(Duration(seconds: v.toInt()));
-          },
-        ),
-      ],
+            onTap: (){
+                if(videoPlayerController.value.isPlaying){
+                  videoPlayerController.pause();
+                }else {
+                videoPlayerController.play();/// this means even if the user taps the video, the video plays if not playing already instead of pressing the play button
+                }
+            },
+          ),
+        ],
+      ),
     );
+  }
+
+  videoPlayerThumbnail(){
+
   }
 }
 

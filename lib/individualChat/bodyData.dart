@@ -57,6 +57,8 @@ class BodyData extends StatelessWidget {
         String newsId = documentList[index].data["newsId"];
         bool isSaved = documentList[index].data["isSaved"];
 
+        String messageId = documentList[index].data["messageId"];
+
         /// wrap BodyDisplay with futurebuilder to get from link, title, news from news collection
         /// get fromname, fromnumber and timestamp from conversation collection
           return FutureBuilder(
@@ -130,7 +132,7 @@ class BodyData extends StatelessWidget {
                 fromNameForGroup:fromNameForGroup,
                 timeStamp:timeStamp,
                 documentId: documentId,
-                isSaved: isSaved,
+                messageId : messageId ,
               );
               } return Center(
                 child: CircularProgressIndicator(),

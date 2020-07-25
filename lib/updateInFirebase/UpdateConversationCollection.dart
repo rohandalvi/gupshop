@@ -8,7 +8,6 @@ class UpdateConversationCollection{
   UpdateConversationCollection({this.conversationId, this.documentId, this.isSaved});
 
   update(){
-    print("isSaved :$isSaved");
     Firestore.instance.collection("conversations").document(conversationId).collection("messages").document(documentId).updateData({'isSaved': isSaved});
   }
   

@@ -6,6 +6,7 @@ import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/individualChat/heartButton.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
+import 'package:gupshop/retriveFromFirebase/getMessageSavedStatusFromFirebase.dart';
 import 'package:gupshop/service/fullScreenPictureVideos.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -45,14 +46,14 @@ class BodyDisplay extends StatefulWidget {
   String fromNameForGroup;
   Timestamp timeStamp;
   String documentId;
-  bool isSaved;
+  String messageId;
 
   BodyDisplay({this.mapIsNewsGenerated, this.newsId, this.newsBody, this.newsLink,
   this.newsTitle, this.isNews, this.controller, this.messageBody, this.videoURL,
   this.longitude, this.latitude, this.fromName, this.isLocationMessage, this.imageURL,
   this.isMe, this.groupExits, this.isPressed, this.userPhoneNo, this.userName,
   this.conversationId, this.trueByCount, this.fakeByCount, this.reportedByCount,
-  this.timeStamp, this.fromNameForGroup,this.documentId, this.isSaved});
+  this.timeStamp, this.fromNameForGroup,this.documentId, this.messageId});
 
   @override
   _BodyDisplayState createState() => _BodyDisplayState();
@@ -195,7 +196,17 @@ class _BodyDisplayState extends State<BodyDisplay> {
         },
         child: Row(
           children: <Widget>[
-            HeartButton(isSaved: widget.isSaved, conversationId: widget.conversationId, documentId: widget.documentId,),
+            FutureBuilder(
+              future: GetMessageSavedStatusFromFirebase(messageId: widget.messageId).get(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return HeartButton(isSaved: snapshot.data, conversationId: widget.conversationId, documentId: widget.documentId,messageId: widget.messageId,);
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
             MessageCardDisplay(
               isMe: widget.isMe, isNews: widget.isNews, imageURL: widget.imageURL, isLocationMessage: widget.isLocationMessage,
               newsLink: widget.newsLink, newsBody: widget.newsBody, newsTitle: widget.newsTitle, fromName: widget.fromName,

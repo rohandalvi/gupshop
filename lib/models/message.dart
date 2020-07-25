@@ -3,14 +3,14 @@ abstract class IMessage {
 
   String fromName, fromNumber, conversationId;
   DateTime timestamp;
-  bool isSaved;
+  String messageId;
 
   IMessage({
     this.fromName,
     this.fromNumber ,
     this.conversationId ,
     this.timestamp,
-    this.isSaved,
+    this.messageId,
 });
 
   Map<String, dynamic> fromJson();

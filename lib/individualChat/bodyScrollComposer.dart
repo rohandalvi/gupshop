@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gupshop/PushToFirebase/pushToSaveCollection.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/cameraImagePickCropCreateData.dart';
@@ -84,6 +85,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                           groupExits: widget.groupExits,
                           value: widget.value,
                           scroll: widget.scroll,
+
                         ),
                         onNotification: (notification) {
                           /// ScrollUpdateNotification :
@@ -289,8 +291,23 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
 
 
                 if(widget.value!="") {
+                  /// create messageId:
+                  /// pass that message Id to messageId.
+                  /// (here):
+                  /// in save collection - save collection - messageId number- messageBody, isSave
+                  /// in conversation collection : messageId - messageId number
+                  ///
+                  /// display:(bodyDisplay)
+                  /// from save collection
+                  ///
+                  /// change:(heart button)
+                  /// in save collection
+
+                  String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'body').save();
+                  print("messageId: $messageId");
+
                   ///if there is not text, then dont send the message
-                  IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: DateTime.now(), conversationId: widget.conversationId, isSaved: false);
+                  IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: DateTime.now(), conversationId: widget.conversationId, messageId: messageId);
                   FirebaseMethods().pushToFirebaseConversatinCollection(textMessage.fromJson());
 
                   ///Navigating to RecentChats page with pushes the data to firebase

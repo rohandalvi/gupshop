@@ -92,10 +92,10 @@ class DisplayPicture extends StatelessWidget {
 //    );
 //  }
 
-  videoFrame(String videoURL,double width, double height, bool shouldZoom){
+  videoFrame(String videoURL,double width, double height){
     return
        Card(
-          child: CustomVideoPlayerThumbnail(videoURL: videoURL, shouldZoom: shouldZoom,),
+          child: CustomVideoPlayerThumbnail(videoURL: videoURL,),
         );
 
   }

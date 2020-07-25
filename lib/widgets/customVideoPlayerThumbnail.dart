@@ -1,15 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/service/fullScreenPictureVideos.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:video_player/video_player.dart';
 
 class CustomVideoPlayerThumbnail extends StatefulWidget {
   final String videoURL;
-  final bool shouldZoom;
 
-  CustomVideoPlayerThumbnail({this.videoURL, this.shouldZoom});
+  CustomVideoPlayerThumbnail({this.videoURL});
 
   @override
   _CustomVideoPlayerThumbnailState createState() => _CustomVideoPlayerThumbnailState();
@@ -20,8 +18,6 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
 
   _initPlayer() async{
     videoPlayerController = VideoPlayerController.network(widget.videoURL);
-    /// Ensure the first frame is shown after the video is initialized,
-    /// even before the play button has been pressed
     await videoPlayerController.initialize();
   }
 

@@ -112,8 +112,10 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   }
 
   widthSmallerThanHeight() {
-    print("width: ${videoPlayerController.value.size}");
-
+    /// to check if the video is portrait video or landscape video
+    /// because portriat needs Boxfit.cover and landcape needs Boxfit.contain,
+    /// we check if the width is smaller than height.
+    ///
     /// to avoid error:
     /// The getter 'width' was called on null.
     /// we use:

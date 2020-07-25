@@ -75,7 +75,7 @@ class MessageCardDisplay extends StatelessWidget {
           SizedBox(
             width: 240,
             height: 150,
-            child: DisplayPicture().videoFrame(videoURL, 240, 190, true),
+            child: DisplayPicture().videoFrame(videoURL, 240, 190),
           ),
 
         ],

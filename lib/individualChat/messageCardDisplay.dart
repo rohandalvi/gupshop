@@ -51,18 +51,6 @@ class MessageCardDisplay extends StatelessWidget {
     return mapIsNewsGenerated[newsId];
   }
 
-  showLocation(String senderName,double latitude, double longitude){/// todo - use the same method from GeolocationServiceState
-    return CustomRaisedButton(
-      child: CustomText(text: '$senderName \nCurrent Location 📍',),/// toDo- very very big name
-//      shape:  RoundedRectangleBorder(
-//        borderRadius: new BorderRadius.circular(5.0),
-//        side: BorderSide(color : Colors.black),
-//      ),
-      onPressed: (){
-        LocationServiceState().launchMapsUrl(latitude, longitude);
-      },
-    );
-  }
 
   showVideo(String videoURL, VideoPlayerController controller){
     try{

@@ -3,10 +3,12 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
+import 'package:gupshop/individualChat/heartButton.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/service/fullScreenPictureVideos.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/forwardMessagesSnackBarTitleText.dart';
@@ -43,13 +45,14 @@ class BodyDisplay extends StatefulWidget {
   String fromNameForGroup;
   Timestamp timeStamp;
   String documentId;
+  bool isSaved;
 
   BodyDisplay({this.mapIsNewsGenerated, this.newsId, this.newsBody, this.newsLink,
   this.newsTitle, this.isNews, this.controller, this.messageBody, this.videoURL,
   this.longitude, this.latitude, this.fromName, this.isLocationMessage, this.imageURL,
   this.isMe, this.groupExits, this.isPressed, this.userPhoneNo, this.userName,
   this.conversationId, this.trueByCount, this.fakeByCount, this.reportedByCount,
-  this.timeStamp, this.fromNameForGroup,this.documentId});
+  this.timeStamp, this.fromNameForGroup,this.documentId, this.isSaved});
 
   @override
   _BodyDisplayState createState() => _BodyDisplayState();
@@ -72,7 +75,6 @@ class _BodyDisplayState extends State<BodyDisplay> {
 
   @override
   Widget build(BuildContext context) {
-    print("fakeByCount in bodyDisplay : ${widget.trueByCount}");
     return ListTile(
       title: GestureDetector(
         onTap: (){
@@ -126,7 +128,6 @@ class _BodyDisplayState extends State<BodyDisplay> {
 
             ///show snackbar
             return Flushbar(
-              //showProgressIndicator: true,
               flushbarStyle: FlushbarStyle.GROUNDED,
               padding : EdgeInsets.all(6),
               borderRadius: 8,
@@ -191,13 +192,17 @@ class _BodyDisplayState extends State<BodyDisplay> {
 
             )..show(context);
           } return Container();
-
         },
-        child: MessageCardDisplay(
-          isMe: widget.isMe, isNews: widget.isNews, imageURL: widget.imageURL, isLocationMessage: widget.isLocationMessage,
-          newsLink: widget.newsLink, newsBody: widget.newsBody, newsTitle: widget.newsTitle, fromName: widget.fromName,
-          latitude: widget.latitude,longitude: widget.longitude,videoURL: widget.videoURL,messageBody: widget.messageBody,
-          controller: widget.controller, newsId: widget.newsId, mapIsNewsGenerated: widget.mapIsNewsGenerated,
+        child: Row(
+          children: <Widget>[
+            HeartButton(isSaved: widget.isSaved, conversationId: widget.conversationId, documentId: widget.documentId,),
+            MessageCardDisplay(
+              isMe: widget.isMe, isNews: widget.isNews, imageURL: widget.imageURL, isLocationMessage: widget.isLocationMessage,
+              newsLink: widget.newsLink, newsBody: widget.newsBody, newsTitle: widget.newsTitle, fromName: widget.fromName,
+              latitude: widget.latitude,longitude: widget.longitude,videoURL: widget.videoURL,messageBody: widget.messageBody,
+              controller: widget.controller, newsId: widget.newsId, mapIsNewsGenerated: widget.mapIsNewsGenerated,
+            ),
+          ],
         ),
       ),
       isThreeLine: true,

@@ -290,7 +290,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
 
                 if(widget.value!="") {
                   ///if there is not text, then dont send the message
-                  IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: DateTime.now(), conversationId: widget.conversationId);
+                  IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: DateTime.now(), conversationId: widget.conversationId, isSaved: false);
                   FirebaseMethods().pushToFirebaseConversatinCollection(textMessage.fromJson());
 
                   ///Navigating to RecentChats page with pushes the data to firebase

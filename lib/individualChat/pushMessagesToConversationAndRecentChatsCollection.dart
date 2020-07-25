@@ -22,7 +22,6 @@ class PushMessagesToConversationAndRecentChatsCollection{
 
 
   push(){
-    print("in PushMessagesToConversationAndRecentChatsCollection");
     ToConversationCollection().push(conversationId, conversationCollectionData);
     ToRecentChatsCollection().push(recentChatsData, conversationId, userPhoneNo, userName, listOfFriendNumbers, groupExits);
   }

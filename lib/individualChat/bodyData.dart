@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/individualChat/bodyDisplay.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
-import 'package:gupshop/news/newsCache.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:video_player/video_player.dart';
 
@@ -34,7 +33,6 @@ class BodyData extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       controller: listScrollController, //for scrolling messages
-      //shrinkWrap: true,
       reverse: true,
       itemCount: documentList.length,
       itemBuilder: (context, index) {
@@ -42,26 +40,6 @@ class BodyData extends StatelessWidget {
         var imageURL;
         var videoURL;
 
-//        String newsBody = documentList[index].data["news"];
-//        String newsTitle = documentList[index].data["title"];
-//        String newsLink = documentList[index].data["link"];
-//        int reportedByCount = documentList[index].data["reportedBy"];
-//        int trueByCount = documentList[index].data["trueBy"];
-//        int fakeByCount = documentList[index].data["fakeBy"];
-
-//        bool isNews= false;
-//        if(newsBody != null) {isNews = true;}
-//        else if(documentList[index].data["videoURL"] != null){
-//          videoURL = documentList[index].data["videoURL"];
-//          controller = VideoPlayerController.network(videoURL);
-//        }
-//        else if(documentList[index].data["imageURL"] == null){
-//          messageBody = documentList[index].data["body"];
-//
-//        }else{
-//          imageURL = documentList[index].data["imageURL"];
-//        }
-        //var messageBody = documentList[index].data["body"];
         var fromName = documentList[index].data["fromName"];
         Timestamp timeStamp = documentList[index].data["timeStamp"];
         String fromNameForGroup = documentList[index].data["fromName"]; /// for group messages
@@ -77,6 +55,7 @@ class BodyData extends StatelessWidget {
 
         String documentId =  documentList[index].documentID;
         String newsId = documentList[index].data["newsId"];
+        bool isSaved = documentList[index].data["isSaved"];
 
         /// wrap BodyDisplay with futurebuilder to get from link, title, news from news collection
         /// get fromname, fromnumber and timestamp from conversation collection
@@ -151,6 +130,7 @@ class BodyData extends StatelessWidget {
                 fromNameForGroup:fromNameForGroup,
                 timeStamp:timeStamp,
                 documentId: documentId,
+                isSaved: isSaved,
               );
               } return Center(
                 child: CircularProgressIndicator(),

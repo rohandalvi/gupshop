@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/individualChat/textMessageUI.dart';
 import 'package:gupshop/location/locationDisplayAndLaunchInMap.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/location/location_service.dart';
@@ -39,19 +40,14 @@ class MessageCardDisplay extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
       padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
-      child:
-//      isNews == true ? displayNews() :
-      isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody,) :
+      child: isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody,) :
       isLocationMessage ==true ? LocationDisplayAndLaunchInMap(textOnButton: fromName, latitude: latitude,longitude: longitude, locationName: 'current location',):
-//      isLocationMessage ==true ? showLocation(fromName,latitude, longitude):
       videoURL != null  ? showVideo(videoURL, controller) :imageURL == null?
-      CustomText(text: messageBody,): showImage(imageURL),
+      TextMessageUI(isMe: isMe, messageBody: messageBody,): showImage(imageURL),
     );
   }
 
   displayNews(){
-    print("mapIsNewsGenerated : $mapIsNewsGenerated");
-    print("mapIsNewsGenerated[newsId] : ${mapIsNewsGenerated[newsId]}");
     return mapIsNewsGenerated[newsId];
   }
 

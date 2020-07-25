@@ -161,11 +161,9 @@ class _BodyDisplayState extends State<BodyDisplay> {
                       /// if trueBy is false and
 
                       bool hasForwardedOrCreatedNewsAlready = await NewsStatisticsCollection().checkIfUserExistsInSubCollection(widget.newsId, widget.userPhoneNo, 'trueBy');
-                      print("hasForwardedOrCreatedNewsAlready: $hasForwardedOrCreatedNewsAlready");
                       if(hasForwardedOrCreatedNewsAlready == false){
                         int increaseTrueByCount = data["trueBy"] + 1 ;
                         data["trueBy"]= increaseTrueByCount;
-                        print("data[trueBy] : ${data["trueBy"]}");
                         await NewsStatisticsCollection().checkIfUserExistsAndAddToSet(widget.newsId, widget.userPhoneNo,widget.userName, 'trueBy', true);
                         await FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,'trueBy', data["trueBy"]);
                       }
@@ -176,8 +174,6 @@ class _BodyDisplayState extends State<BodyDisplay> {
                     if(forwardMessage != null) data = {"body":forwardMessage, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":widget.conversationId};
                     else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":widget.conversationId};
                     else data = {"imageURL":forwardImage, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":widget.conversationId};
-
-                    ;
                     CustomNavigator().navigateToContactSearch(context, widget.userName,  widget.userPhoneNo, data);
                   }
                 },

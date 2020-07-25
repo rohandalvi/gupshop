@@ -102,7 +102,7 @@ class DisplayPicture extends StatelessWidget {
 
   videoFullFrame(String videoURL,bool shouldZoom){
     return
-      CustomVideoPlayer(videoURL: videoURL, shouldZoom: shouldZoom,);
+      CustomVideoPlayer(videoURL: videoURL);
 
   }
 

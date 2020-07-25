@@ -52,7 +52,7 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CustomVideoPlayer(videoURL:widget.videoURL,shouldZoom: false,),//pass Name() here and pass Home()in name_screen
+                      builder: (context) => CustomVideoPlayer(videoURL:widget.videoURL),//pass Name() here and pass Home()in name_screen
                       //builder: (context) => FullScreenPictureAndVideos(payLoad:widget.videoURL, isPicture: false, shouldZoom: false,),//pass Name() here and pass Home()in name_screen
                     )
                 );
@@ -63,7 +63,7 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CustomVideoPlayer(videoURL:widget.videoURL,shouldZoom: false,),//pass Name() here and pass Home()in name_screen
+                builder: (context) => CustomVideoPlayer(videoURL:widget.videoURL),//pass Name() here and pass Home()in name_screen
               )
           );
         },)

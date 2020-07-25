@@ -8,10 +8,9 @@ import 'dart:math';
 
 
 class CustomVideoPlayer extends StatefulWidget {
-  String videoURL;
-  bool shouldZoom;
+  final String videoURL;
 
-  CustomVideoPlayer({this.videoURL, this.shouldZoom});
+  CustomVideoPlayer({this.videoURL});
 
   @override
   _CustomVideoPlayerState createState() => _CustomVideoPlayerState();

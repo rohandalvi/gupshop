@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white,
 //        primaryColor: Colors.grey,
-        accentColor: primaryColor,
+        accentColor: ourBlack,
       ),
       title: 'Chat home',
       debugShowCheckedModeBanner: false,

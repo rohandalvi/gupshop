@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/displayPicture.dart';
 
-class ViewPicturesFromChat extends StatelessWidget {
+class FullScreenPictureAndVideos extends StatelessWidget {
   bool isPicture;
   String payLoad;
   bool shouldZoom;
 
-  ViewPicturesFromChat({this.isPicture, this.payLoad , this.shouldZoom});
+  FullScreenPictureAndVideos({this.isPicture, this.payLoad , this.shouldZoom});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,10 @@ class ViewPicturesFromChat extends StatelessWidget {
       body: Center(
         child: isPicture ?
         DisplayPicture().pictureFrame(payLoad) :
-        DisplayPicture().videoFullFrame(payLoad,shouldZoom),
+        Container(
+          height: MediaQuery.of(context).size.height,
+          child: DisplayPicture().videoFullFrame(payLoad,shouldZoom),
+        ),
       ),
     );
   }

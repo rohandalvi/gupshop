@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
-import 'dart:io';
 
-import 'package:video_player/video_player.dart';
 
 class DisplayPicture extends StatelessWidget {
   ImageProvider image;

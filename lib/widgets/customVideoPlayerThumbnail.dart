@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/service/viewPicturesFromChat.dart';
+import 'package:gupshop/service/fullScreenPictureVideos.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
+import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:video_player/video_player.dart';
 
 class CustomVideoPlayerThumbnail extends StatefulWidget {
@@ -55,7 +56,8 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ViewPicturesFromChat(payLoad:widget.videoURL, isPicture: false, shouldZoom: false,),//pass Name() here and pass Home()in name_screen
+                      builder: (context) => CustomVideoPlayer(videoURL:widget.videoURL,shouldZoom: false,),//pass Name() here and pass Home()in name_screen
+                      //builder: (context) => FullScreenPictureAndVideos(payLoad:widget.videoURL, isPicture: false, shouldZoom: false,),//pass Name() here and pass Home()in name_screen
                     )
                 );
             },
@@ -65,7 +67,7 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ViewPicturesFromChat(payLoad:widget.videoURL, isPicture: false, shouldZoom: false,),//pass Name() here and pass Home()in name_screen
+                builder: (context) => CustomVideoPlayer(videoURL:widget.videoURL,shouldZoom: false,),//pass Name() here and pass Home()in name_screen
               )
           );
         },)

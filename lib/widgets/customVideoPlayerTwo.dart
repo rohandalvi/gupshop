@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/service/viewPicturesFromChat.dart';
+import 'package:gupshop/service/fullScreenPictureVideos.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:math';
 
@@ -93,7 +93,7 @@ class _CustomVideoPlayerStateTwo extends State<CustomVideoPlayerTwo> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ViewPicturesFromChat(payLoad: videoURL, isPicture: false,),//pass Name() here and pass Home()in name_screen
+                    builder: (context) => FullScreenPictureAndVideos(payLoad: videoURL, isPicture: false,),//pass Name() here and pass Home()in name_screen
                   )
               );
             },

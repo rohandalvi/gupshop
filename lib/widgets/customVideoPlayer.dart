@@ -2,9 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gupshop/service/viewPicturesFromChat.dart';
-import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:math';
@@ -22,12 +19,12 @@ class CustomVideoPlayer extends StatefulWidget {
 
 class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   VideoPlayerController videoPlayerController;
-  int _playBackTime = 0;
 
   var range;
   var number;
 
   _initPlayer() async{
+    videoPlayerController = VideoPlayerController.file(File(widget.videoURL));
     videoPlayerController = VideoPlayerController.network(widget.videoURL);
     /// Ensure the first frame is shown after the video is initialized,
     /// even before the play button has been pressed
@@ -36,6 +33,9 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
 
     });
     //videoPlayerController.setLooping(true);
+
+//    print("width :${videoPlayerController.value.size?.width}");
+//    print("height :${videoPlayerController.value.size?.height}");
   }
 
   @override
@@ -61,41 +61,67 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return videoPlayerWidget();
-  }
-
-  videoPlayerWidget(){
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          GestureDetector(
-            child: AspectRatio(
-              aspectRatio:videoPlayerController.value.aspectRatio,
-              //16/9,
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: <Widget>[
-                    VideoPlayer(videoPlayerController),
-                    VideoProgressIndicator(videoPlayerController, allowScrubbing: true,),
-                  ],
-                )
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Scaffold(
+        body: Stack(
+          children: <Widget>[
+            videoPlayerController.value.size == null ? Center(child: CircularProgressIndicator()) :
+            SizedBox.expand(
+              child: FittedBox(
+                fit: widthSmallerThanHeight() ? BoxFit.cover : BoxFit.contain,
+                child: GestureDetector(
+                  child: SizedBox(
+                      width: videoPlayerController.value.size?.width ?? 0,
+                      height: videoPlayerController.value.size?.height ?? 0,
+                      //aspectRatio:videoPlayerController.value.aspectRatio,
+                      //16/9,
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: <Widget>[
+                          VideoPlayer(videoPlayerController),
+                          VideoProgressIndicator(videoPlayerController, allowScrubbing: true,),
+                        ],
+                      )
+                  ),
+                  onTap: (){
+                    if(videoPlayerController.value.isPlaying){
+                      videoPlayerController.pause();
+                    }else {
+                      videoPlayerController.play();/// this means even if the user taps the video, the video plays if not playing already instead of pressing the play button
+                    }
+                  },
+                ),
               ),
-            onTap: (){
-                if(videoPlayerController.value.isPlaying){
-                  videoPlayerController.pause();
-                }else {
-                videoPlayerController.play();/// this means even if the user taps the video, the video plays if not playing already instead of pressing the play button
-                }
-            },
-          ),
-        ],
+            ),
+            Container(
+              height: 75,/// to increase the size of floatingActionButton use container along with FittedBox
+              width: 75,
+              child: FittedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: CustomIconButton(iconNameInImageFolder: 'backArrowColor', onPressed: (){Navigator.pop(context);},),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  videoPlayerThumbnail(){
+  widthSmallerThanHeight() {
+    print("width: ${videoPlayerController.value.size}");
 
+    /// to avoid error:
+    /// The getter 'width' was called on null.
+    /// we use:
+    /// videoPlayerController.value.size != null
+    if((videoPlayerController.value.size != null) && (videoPlayerController.value.size.width) < (videoPlayerController.value.size.height)){
+      return true;
+    }return false;
   }
+
 }
 

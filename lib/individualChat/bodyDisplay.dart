@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
-import 'package:gupshop/service/viewPicturesFromChat.dart';
+import 'package:gupshop/service/fullScreenPictureVideos.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -98,7 +98,7 @@ class _BodyDisplayState extends State<BodyDisplay> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ViewPicturesFromChat(payLoad: openMessage, isPicture: isPicture,),//pass Name() here and pass Home()in name_screen
+                  builder: (context) => FullScreenPictureAndVideos(payLoad: openMessage, isPicture: isPicture,),//pass Name() here and pass Home()in name_screen
                 )
             );
           }

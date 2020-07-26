@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class TextMessageUI extends StatelessWidget {
@@ -10,7 +11,8 @@ class TextMessageUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width*0.65,
+      //constraints: BoxConstraints(maxWidth: 300),
+      //width: MediaQuery.of(context).size.width*0.60,
       alignment: isMe? Alignment.centerRight: Alignment.centerLeft,
       child: CustomText(text: messageBody,),
     );

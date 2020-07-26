@@ -303,8 +303,8 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                   /// change:(heart button)
                   /// in save collection
 
-                  String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'body').save();
-                  print("messageId: $messageId");
+                  String boardName = 'general';
+                  String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'body',).save();
 
                   ///if there is not text, then dont send the message
                   IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: DateTime.now(), conversationId: widget.conversationId, messageId: messageId);

@@ -30,7 +30,10 @@ class _HeartButtonState extends State<HeartButton> {
         });
         /// update save collection
         UpdateSaveCollection(isSaved : widget.isSaved, messageId : widget.messageId,).updateIsSaved();
-        //UpdateConversationCollection(isSaved : widget.isSaved, conversationId: widget.conversationId, documentId: widget.documentId,).update();
+
+        /// if widget.isSaved == true :
+        /// save to users' saved collection:
+        //UpdateBoardCollection(userNumber : userNumber, boardName: boardName, isSaved : widget.isSaved, messageId : widget.messageId,).update();
       },
     );
   }

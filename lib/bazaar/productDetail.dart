@@ -9,6 +9,7 @@ import 'package:gupshop/bazaar/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
 import 'package:gupshop/timestamp/timeDisplay.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:video_player/video_player.dart';
@@ -58,20 +59,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
   int dislikes;
 
 
-
-//  void initState() {
-//    //adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
-//    //when user scrolls
-//    collectionReference = Firestore.instance.collection("conversations").document(conversationId).collection("messages");
-//    stream = collectionReference.orderBy("timeStamp", descending: true).limit(10).snapshots();
-//
-////    listScrollController = ScrollController();//ToDo - here
-////    listScrollController.addListener(scrollListener());
-//
-//    super.initState();
-//  }
-
-
   getUserName()async {
     String name = await UserDetails().getUserNameFuture();
     setState(() {
@@ -90,19 +77,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
     getUserName();
 
-//    numberOfDislikes();
-//    numberOfLikes();
-
     super.initState();
   }
-
-//  @override
-//  void dispose() {
-//    // Ensure disposing of the VideoPlayerController to free up resources.
-//    playerController.dispose();
-//
-//    super.dispose();
-//  }
 
   goToBazaarIndividualCategoryListPage() async{
     print("in onWillPop");
@@ -187,7 +163,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                     )),
                   ),
                   _showRatings(3),
-                  //numberOfLikesDislikes(),
                   if (writeReview==true && focus==false) _writeReview(),
                   _buildReviewList(context),
                 ],
@@ -202,7 +177,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
 
   _writeReview(){
-    print("like or not like? : $like");
     return Row(
       children: <Widget>[
           Row(
@@ -221,7 +195,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         IconButton(
           icon: Icon(Icons.arrow_forward_ios),
           onPressed: () {
-            print("userName in iconButton: $userName");
 
             if(_formKey.currentState.validate()){
               setState(() {
@@ -403,7 +376,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           StreamBuilder<QuerySnapshot>(
             //.orderBy("timestamp", descending: true)
             stream: Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection(category).snapshots(),
-            //Firestore.instance.collection("bazaarReviews").document(userNumber).snapshots(),
             builder: (context, snapshot) {
               if(snapshot.data == null) return CircularProgressIndicator();
 
@@ -414,8 +386,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
               return snapshot.data.documents == null ? Center(child: CustomText(text: 'No reviews yet',)):/// not showing up
               NotificationListener<ScrollUpdateNotification>(
                 child: ListView.separated(
-                  shrinkWrap: true,//throws exception if not used
-                  controller: new ScrollController(),//for scrolling screen
+                  shrinkWrap: true,///throws exception if not used
+                  controller: new ScrollController(),///for scrolling screen
                   itemCount: lengthOfReviews,
                   itemBuilder: (context, index){
                     String reviewerName = snapshot.data.documents[index].data["reviewerName"];
@@ -470,35 +442,28 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
               child: LikesDislikesFetchAndDisplay(productWalaNumber: widget.productWalaNumber, category: widget.category,)
               //_buildRatingStars(3),
           ),
-          //IconButton(icon: Icon(Icons.add),),
-          GestureDetector(
-            onTap: (){
-              setState(() {
-                writeReview = true;
-                focus = false;
-              });
-            },
-            child: userName != productWalaName ?
-             Container(
-              padding: EdgeInsets.only(left:5, right: 5),//for spacing bewteen Add review text from left and right side of the blue container
-              child: Text('Add review',style: GoogleFonts.openSans(
+          userName != productWalaName ?
+           Container(
+            padding: EdgeInsets.only(left:5, right: 5),//for spacing bewteen Add review text from left and right side of the blue container
+            child: CustomRaisedButton(
+              child: CustomText(
+                text: 'Add Review', fontSize: 12,),
+                onPressed: (){
+                  setState(() {
+                    writeReview = true;
+                    focus = false;
+                  });
+                },),
+            alignment: Alignment.center,
+          ) : Container(
+            padding: EdgeInsets.only(left:5, right: 5),//for spacing bewteen Add review text from left and right side of the blue container
+            child: Text('Add your advertisement',style: GoogleFonts.openSans(
                 fontSize: 12
-              )),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ) : Container(
-              padding: EdgeInsets.only(left:5, right: 5),//for spacing bewteen Add review text from left and right side of the blue container
-              child: Text('Add your advertisement',style: GoogleFonts.openSans(
-                  fontSize: 12
-              )),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
+            )),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Theme.of(context).accentColor,
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
 

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class CustomListViewDisplay extends StatelessWidget {
@@ -38,8 +39,11 @@ class CustomListViewDisplay extends StatelessWidget {
                         width:150,//to avoid overflow
                         child: display,
                       ),
-                      IconButton(
-                        icon: Icon(Icons.chat_bubble_outline),
+                      CustomIconButton(
+                        iconNameInImageFolder: 'chatBubble',
+                        onPressed: (){
+
+                        },
                       ),
                     ],
                   ),

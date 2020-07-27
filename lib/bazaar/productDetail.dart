@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/bazaar/bazaarFirestoreShortcuts.dart';
-import 'package:gupshop/bazaar/likesAndDislikes.dart';
+import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
+import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/bazaar/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
@@ -267,8 +268,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
               //likes++;
               like=true;
               likeOrDislike=true;
-              print("likes : $likes");
-              print("likedislike in like==false: $likeOrDislike");
             });
           },
           child: Container(
@@ -481,7 +480,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
     return Row(
             children: <Widget>[
               FutureBuilder(
-                future: LikesAndDislikes().numberOfLikes(widget.productWalaNumber, category),
+                future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikes(widget.productWalaNumber, category),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     likes = snapshot.data;
@@ -501,7 +500,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                 },
               ),
               FutureBuilder(
-                future: LikesAndDislikes().numberOfDislikes(widget.productWalaNumber, category),
+                future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfDislikes(widget.productWalaNumber, category),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     dislikes = snapshot.data;
@@ -536,8 +535,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
 
   _showRatings(int rating){
-    print("userName: $userName");
-    print("productWalaName: $productWalaName");
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -545,12 +542,12 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         children: <Widget>[
           Align(
               alignment: Alignment.centerLeft,
-              child: _buildRatingStars(3),
+              child: LikesDislikesFetchAndDisplay(productWalaNumber: widget.productWalaNumber, category: widget.category,)
+              //_buildRatingStars(3),
           ),
           //IconButton(icon: Icon(Icons.add),),
           GestureDetector(
             onTap: (){
-              print("in review");
               setState(() {
                 writeReview = true;
                 focus = false;

@@ -23,9 +23,6 @@ class BazaarIndividualCategoryList extends StatefulWidget {
 }
 
 class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryList> {
-//  String category = 'KamWali';
-
-
   Future<QuerySnapshot> getBazaarWalasInAGivenRadius;
 
   Position _location;
@@ -55,7 +52,6 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Colors.blueGrey[50],
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: CustomAppBar(
@@ -69,7 +65,6 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
             future: getListOfBazaarWalasInAGivenRadius(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
       if (snapshot.connectionState == ConnectionState.done) {
-        print("snapshot in futurebuilder: ${snapshot.data}");
         if (snapshot.data == null)
           return Container(child: Center(child: CustomText(text: 'No ${widget.category}s near you', fontSize: 35,).bold())); //for avoding  the erro
 
@@ -80,9 +75,7 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
           itemCount: numberOfBazaarWalasInList,
           itemBuilder: (BuildContext context, int index) {
             return StreamBuilder( //use bazaarcategory to display people insted becuase bazaarwalabasicprofile is categorized by phoneNumber now
-                stream: Firestore.instance.collection("bazaarCategories")
-                    .document(widget.category)
-                    .snapshots(),
+                stream: Firestore.instance.collection("bazaarCategories").document(widget.category).snapshots(),
                 builder: (context, streamSnapshot) {
                   if (streamSnapshot.data == null)
                     return CircularProgressIndicator(); //v v imp
@@ -103,7 +96,7 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
                           )
                       );
                     },
-                    display: CustomText(text: name,),
+                    display: CustomText(text: name, fontSize: 20,),
                     showRatings: Visibility(
                         visible: showRating,
                         child: _buildRatingStars(rating)

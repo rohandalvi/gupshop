@@ -4,10 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/bazaar/bazaarFirestoreShortcuts.dart';
 import 'package:gupshop/bazaar/likesDislikesDisplay.dart';
 import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
-import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/bazaar/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
+import 'package:gupshop/timestamp/timeDisplay.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
@@ -406,15 +406,10 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
             //Firestore.instance.collection("bazaarReviews").document(userNumber).snapshots(),
             builder: (context, snapshot) {
               if(snapshot.data == null) return CircularProgressIndicator();
-              print("what is this : $stream");
-              //Firestore.instance.collection("bazaarReviews").document(userNumber).collection("reviews").snapshots();
 
-              print("document is : ${snapshot.data.documents}");
               int lengthOfReviews = snapshot.data.documents.length;
 
               if(snapshot.data == null) return CircularProgressIndicator();
-//            print("snapshot.data.data: ${snapshot.data.data}");
-//            int numberOfReviews = snapshot.data.data.length;
 
               return snapshot.data.documents == null ? Center(child: CustomText(text: 'No reviews yet',)):/// not showing up
               NotificationListener<ScrollUpdateNotification>(
@@ -423,18 +418,17 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                   controller: new ScrollController(),//for scrolling screen
                   itemCount: lengthOfReviews,
                   itemBuilder: (context, index){
-                    print("revirwerName: ${snapshot.data.documents[index].data["reviewerName"]}");
                     String reviewerName = snapshot.data.documents[index].data["reviewerName"];
                     String reviewText = snapshot.data.documents[index].data["body"];
                     bool likeOrDislike = snapshot.data.documents[index].data["likeOrDislike"];
                     timeStamp = snapshot.data.documents[index].data["timestamp"];
-                    print("timestamp: $timeStamp");
                     return ListTile(
                       title: Text(reviewerName,style: GoogleFonts.openSans()),
                       subtitle: Text(reviewText,style: GoogleFonts.openSans()),
                       trailing: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: <Widget>[
-                          _timeMaker(),
+                          TimeDisplay(timeStamp: timeStamp,),
                           LikesDislikesDisplay(likeOrDislike: likeOrDislike).likesDislikesIconButton(),
                         ],
                       ),
@@ -452,17 +446,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
     );
   }
 
-
-  _timeMaker(){
-    return Text(//time
-        DateFormat("dd MMM kk:mm")
-            .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
-        style: TextStyle(
-        color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic
-        )
-    );
-  }
-
   _floatingActionButtonForMessaging(){
     return FloatingActionButton(
       heroTag: "button2",
@@ -472,13 +455,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
       onPressed: (){
       },
     );
-  }
-
-
-  _buildLikeOrDislike(bool likeOrDislike){
-    if (likeOrDislike == null || likeOrDislike == true){
-      return Text('👍');
-    } return Text ('👎');
   }
 
 
@@ -530,33 +506,4 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
       ),
     );
   }
-
-//  numberOfLikes() async{
-//    await Firestore.instance.collection("bazaarRatingNumbers").document(widget.productWalaNumber).get().then((val){
-//      setState(() {
-//        likes= val.data["dislikes"];
-//      });
-//      print("dislikes: $dislikes");
-//    });
-//  }
-//
-//  numberOfDislikes() async{
-//    print("widget.productWalaNumber in numberOfDislikes: ${widget.productWalaNumber}");
-//    DocumentSnapshot dc =  await Firestore.instance.collection("bazaarRatingNumbers").document(widget.productWalaNumber).get();
-//    print("dislikes: ${dc.data}");
-//    setState(() {
-//      dislikes= dc.data["dislikes"];
-//    });
-//
-//  }
-
-
-
-
-
-  //Future<String>  getUserName() async {
-//    await Firestore.instance.collection("users").document(myNumber).get().then((val){
-//      return val.toString();
-//    });
-//  }
 }

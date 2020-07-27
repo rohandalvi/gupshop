@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/bazaar/bazaarFirestoreShortcuts.dart';
+import 'package:gupshop/bazaar/likesDislikesDisplay.dart';
 import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
 import 'package:gupshop/modules/userDetails.dart';
@@ -434,7 +435,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                       trailing: Wrap(
                         children: <Widget>[
                           _timeMaker(),
-                          _buildLikeOrDislike(likeOrDislike),
+                          LikesDislikesDisplay(likeOrDislike: likeOrDislike).likesDislikesIconButton(),
                         ],
                       ),
                     );
@@ -472,58 +473,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
       },
     );
   }
-
-
-
-///number of ratings
-  _buildRatingStars(int rating){
-    return Row(
-            children: <Widget>[
-              FutureBuilder(
-                future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikes(widget.productWalaNumber, category),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    likes = snapshot.data;
-                    if(likes == null) likes = 0;
-                    return  Container(//wrapped in a container becuase if later the number of likes or  dislikes  become hummungus then it would not overflow
-                        child: Row(
-                          children: <Widget>[
-                            Text('👍'),
-                            Text(likes.toString()),
-                          ],
-                        )
-                    );
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              ),
-              FutureBuilder(
-                future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfDislikes(widget.productWalaNumber, category),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    dislikes = snapshot.data;
-                    if(dislikes == null) dislikes = 0;
-                    return
-                      Container(
-                          padding: EdgeInsets.only(left: 12),
-                          child: Row(
-                            children: <Widget>[
-                              Text('👎'),
-                              Text(dislikes.toString()),
-                            ],
-                          )
-                      );
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              ),
-            ],
-          );
-        }
 
 
   _buildLikeOrDislike(bool likeOrDislike){

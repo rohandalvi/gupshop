@@ -50,20 +50,8 @@ class ChatListState extends State<ChatList> {
     But this logic will not work when in case of a group.
    */
   getFriendPhoneNo(String conversationId, String myNumber) async {
-    String friendName;
     DocumentSnapshot temp = await Firestore.instance.collection(
         "conversationMetadata").document(conversationId).get();
-//    if(temp.data.containsKey("groupName")  == false){
-//      print("temp.data[] : ${temp.data["listOfOtherNumbers"]}");
-//      List<dynamic> friendNoList = temp.data["listOfOtherNumbers"];
-//      print("friendNoList : ${friendNoList}");
-//      friendName = friendNoList[0];
-//    } else{
-//      /// for groups, conversationId is used as documentId for
-//      /// getting profilePicture
-//      /// profile_pictures -> conversationId -> url
-//      friendName = conversationId;
-//    }
     return temp.data;
   }
 
@@ -80,12 +68,6 @@ class ChatListState extends State<ChatList> {
 
   extractFriendNo(DocumentSnapshot temp) async {
     return temp.data["listOfOtherNumbers"];
-//    for (int i = 0; i < 2; i++) {
-//      if (temp.data["members"][i] != myNumber) {
-//        return temp.data["members"][i];
-//      }
-//    }
-//    return myNumber;
   }
 
   @override
@@ -156,9 +138,6 @@ class ChatListState extends State<ChatList> {
                   String documentID = snapshot.data.documents[index].documentID;
                   String adminNumber;
 
-//                  DocumentReference deleteConversationFromConversationMetadata = Firestore.instance.collection("ConversationMetadata").document(documentID);
-//                  DocumentReference deleteConversationFromRecentChats = Firestore.instance.collection("recentChats").document(friendNumber).collection("conversations").document(documentID);
-
                   return CustomDismissible(
                     key: Key(documentID),
                     documentID: documentID,
@@ -167,7 +146,6 @@ class ChatListState extends State<ChatList> {
                       isGroup = await CheckIfGroup().ifThisIsAGroup(documentID);
                       adminNumber = await CheckIfGroup().getAdminNumber(documentID);
                       /// ToDo: not working called from DeleteChats
-//                      setState(() {
                         ///for individualChat, only delete from my recentChats
                         DeleteMembersFromGroup().deleteDocumentFromSnapshot(snapshot.data.documents[index].reference);///recentChats
                         if(direction == DismissDirection.startToEnd &&  isGroup == true && adminNumber == myNumber){

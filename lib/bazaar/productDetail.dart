@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/bazaar/bazaarFirestoreShortcuts.dart';
 import 'package:gupshop/bazaar/likesAndDislikes.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
+import 'package:gupshop/bazaar/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customText.dart';

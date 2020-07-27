@@ -65,34 +65,16 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
           }
         ),
       ),
-//      appBar: AppBar(
-//      actions: <Widget>[
-//        IconButton(
-//          icon: Icon(Icons.edit_location),
-//          onPressed: (){
-//            Navigator.push(
-//                context,
-//                MaterialPageRoute(
-//                  //builder: (context) => AddressBook(userPhoneNo:_userPhoneNo),//pass Name() here and pass Home()in name_screen
-//                )
-//            );
-//          },
-//          //take user to a new page, to select locations from a given list or add new one
-//      ),
-//      ],
-//      ),
       body: FutureBuilder(
             future: getListOfBazaarWalasInAGivenRadius(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
       if (snapshot.connectionState == ConnectionState.done) {
         print("snapshot in futurebuilder: ${snapshot.data}");
         if (snapshot.data == null)
-          return CircularProgressIndicator(); //for avoding  the erro
+          return Container(child: Center(child: CustomText(text: 'No ${widget.category}s near you', fontSize: 35,).bold())); //for avoding  the erro
 
         String bazaarWalaPhoneNo = snapshot.data[0].documentID;
         int numberOfBazaarWalasInList = snapshot.data.length; //for listView builder's itemcount
-        print("numberOfBazaarWalasInList : $numberOfBazaarWalasInList");
-        String nameOfPeopleInCategory;
 
         return ListView.builder(
           itemCount: numberOfBazaarWalasInList,

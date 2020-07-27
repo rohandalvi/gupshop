@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gupshop/screens/bazaarIndividualCategoryList.dart';
+import 'package:gupshop/bazaar/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class BazaarHomeGridView extends StatefulWidget {

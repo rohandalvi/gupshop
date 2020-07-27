@@ -4,7 +4,7 @@ import 'package:gupshop/screens/login_screen.dart';
 import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/screens/welcomeScreen.dart';
 import 'package:gupshop/service/createGroup.dart';
-import 'package:gupshop/widgets/bazaarHomeGridView.dart';
+import 'package:gupshop/bazaar/bazaarHomeGridView.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 

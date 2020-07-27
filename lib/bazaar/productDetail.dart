@@ -457,9 +457,15 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
             alignment: Alignment.center,
           ) : Container(
             padding: EdgeInsets.only(left:5, right: 5),//for spacing bewteen Add review text from left and right side of the blue container
-            child: Text('Add your advertisement',style: GoogleFonts.openSans(
-                fontSize: 12
-            )),
+            child: CustomRaisedButton(
+              child: CustomText(
+                text: 'Change Advertisement', fontSize: 12,),
+              onPressed: (){
+                /// change video logic
+              },),
+//            Text('Add your advertisement',style: GoogleFonts.openSans(
+//                fontSize: 12
+//            )),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Theme.of(context).accentColor,

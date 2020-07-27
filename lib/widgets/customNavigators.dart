@@ -8,7 +8,7 @@ import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/screens/createGroupName_screen.dart';
 import 'package:gupshop/screens/home.dart';
-import 'package:gupshop/screens/individual_chat.dart';
+import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/bazaar/selectCategoryToShowInProductDetailsPage.dart';
 import 'package:gupshop/screens/showGroupMembers.dart';
@@ -267,6 +267,7 @@ class NavigateToIndividualChat{
   NavigateToIndividualChat({this.conversationId, this.userName, this.userPhoneNo, this.friendName, this.data, this.notGroupMemberAnymore, this.listOfFriendsNumbers});
 
   navigate(BuildContext context){
+    print("in navigate NavigateToIndividualChat");
     return (){
       Navigator.push(
         context,
@@ -283,6 +284,23 @@ class NavigateToIndividualChat{
         ),
       );
     };
+  }
+
+  navigateNoBrackets(BuildContext context){
+    Navigator.push(
+      context,
+      MaterialPageRoute(//to send conversationId along with the navigator to the next page
+        builder: (context) => IndividualChat(
+          conversationId: conversationId,
+          userPhoneNo: userPhoneNo,
+          userName: userName,
+          friendName:friendName,
+          forwardMessage: data,
+          listOfFriendNumbers: listOfFriendsNumbers,
+          notGroupMemberAnymore: notGroupMemberAnymore,
+        ),
+      ),
+    );
   }
 
 }

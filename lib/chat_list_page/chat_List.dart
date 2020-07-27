@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/screens/individual_chat.dart';
+import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/deleteHelper.dart';

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/bazaar/bazaarFirestoreShortcuts.dart';
+import 'package:gupshop/bazaar/chatWithBazaarwala.dart';
 import 'package:gupshop/bazaar/likesDislikesDisplay.dart';
 import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
@@ -118,7 +119,12 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           ),
       ],
         ),
-        floatingActionButton: _floatingActionButtonForMessaging(),
+        floatingActionButton: ChatWithBazaarwala(
+          bazaarwalaNumber: widget.productWalaNumber,
+          bazaarwalaName: widget.productWalaName,
+          userName: userName,
+          userNumber: userNumber,
+        ),
       ),
     );
 
@@ -429,14 +435,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         ),
         onPressed: (){},
       );
-//    return FloatingActionButton(
-//      heroTag: "button2",
-//      child: IconButton(
-//        icon: Icon(Icons.chat_bubble_outline),
-//      ),
-//      onPressed: (){
-//      },
-//    );
   }
 
 

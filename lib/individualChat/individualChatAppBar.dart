@@ -33,8 +33,10 @@ class IndividualChatAppBar extends StatelessWidget {
       leading: IconButton(
           icon: SvgPicture.asset('images/backArrowColor.svg',),
           onPressed:(){
-            Navigator.pop(context);
-            CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+            if(groupExits){
+              CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+            }
+            else Navigator.pop(context);
           }
       ),
       title: Material(

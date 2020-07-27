@@ -92,38 +92,6 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                           /// ScrollUpdateNotification :
                           /// for listining when the user scrolls up
                           /// Show the scrolltobottom button only when the user scrolls up
-                          if(notification is ScrollUpdateNotification){
-                            /// *** explaintaion of if(notification.scrollDelta > 0):
-                            /// The problem we has was, setting the state of scroll to false in
-                            /// _scrollToTheBottom methos was making the scroll false, but while
-                            /// scrolling down there used to be another update on ScrollUpdateNotification
-                            /// and it would again set the scroll to true in setState
-                            /// So we had to figure out a way to set the state to true only when the
-                            /// user is scrolling up.
-                            /// if(notification.scrollDelta > 0):
-                            ///if we print notification, then we can note that if the screen scrolls
-                            ///down then the scrollDelta shows in minus.
-                            //someone from stackoverflow said :
-                            //if (scrollNotification.metrics.pixels - scrollNotification.dragDetails.delta.dy > 0)
-                            //but this was giving us error that delta was called on null, so i used :
-                            //if(notification.scrollDelta > 0)
-                            if(notification.scrollDelta > 0){
-                              setState(() {
-                                widget.scroll = true;
-                              });
-                            }
-
-
-                            ///scroll button to disappear when the user goes down manually
-                            ///without pressing the scrollDown button
-                            if(notification.metrics.atEdge
-                                &&  !((notification.metrics.pixels - notification.metrics.maxScrollExtent) >
-                                    (notification.metrics.minScrollExtent-notification.metrics.pixels))){
-                              setState(() {
-                                widget.scroll = false;
-                              });
-                            }
-                          }
 
                           ///onNotification allows us to know when we have reached the limit of the messages
                           ///once the limit is reached, documentList is updated again  with the next 10 messages using

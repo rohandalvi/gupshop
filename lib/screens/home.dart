@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:gupshop/chat_list_page/chat_List.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/bazaar/bazaarHome_screen.dart';
+import 'package:gupshop/savedMessages/displaySavedMessagedBoardNames.dart';
+import 'package:gupshop/savedMessages/displaySavedMessages.dart';
 import 'package:gupshop/widgets/homeAppBar.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 
@@ -34,7 +36,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       initialIndex: 0,
       child: Scaffold(
         appBar: PreferredSize(
@@ -45,6 +47,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             //Contacts(),
             ChatList(myNumber: userPhoneNo, myName: userName,),
+            DisplaySavedMessagesBoardNames(),
             BazaarHomeScreen(userPhoneNo: userPhoneNo, userName: userName,),
             //Text('Calls',),
           ],

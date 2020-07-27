@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/individualChat/updateSaveBoardCollection.dart';
+import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/updateInFirebase/updateBoardCollection.dart';
 import 'package:gupshop/updateInFirebase/updateSaveCollection.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
@@ -29,11 +32,7 @@ class _HeartButtonState extends State<HeartButton> {
           widget.isSaved = true;
         });
         /// update save collection
-        UpdateSaveCollection(isSaved : widget.isSaved, messageId : widget.messageId,).updateIsSaved();
-
-        /// if widget.isSaved == true :
-        /// save to users' saved collection:
-        //UpdateBoardCollection(userNumber : userNumber, boardName: boardName, isSaved : widget.isSaved, messageId : widget.messageId,).update();
+        UpdateSaveAndBoardCollection(messageId: widget.messageId, isSaved: widget.isSaved).update();
       },
     );
   }

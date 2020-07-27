@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/bazaar/bazaarFirestoreShortcuts.dart';
 import 'package:gupshop/bazaar/likesDislikesDisplay.dart';
@@ -9,6 +10,7 @@ import 'package:gupshop/bazaar/bazaarIndividualCategoryList.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
 import 'package:gupshop/timestamp/timeDisplay.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
@@ -374,8 +376,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         direction: Axis.vertical,
         children: <Widget>[
           StreamBuilder<QuerySnapshot>(
-            //.orderBy("timestamp", descending: true)
-            stream: Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection(category).snapshots(),
+            stream: Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection(category).orderBy("timestamp", descending: true).snapshots(),
             builder: (context, snapshot) {
               if(snapshot.data == null) return CircularProgressIndicator();
 
@@ -419,14 +420,23 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
   }
 
   _floatingActionButtonForMessaging(){
-    return FloatingActionButton(
-      heroTag: "button2",
-      child: IconButton(
-        icon: Icon(Icons.chat_bubble_outline),
-      ),
-      onPressed: (){
-      },
-    );
+      return CustomBigFloatingActionButton(
+        width: 80,
+        height: 80,
+        heroTag: "button2",
+        child: IconButton(
+            icon: SvgPicture.asset('images/chatBubble.svg',)
+        ),
+        onPressed: (){},
+      );
+//    return FloatingActionButton(
+//      heroTag: "button2",
+//      child: IconButton(
+//        icon: Icon(Icons.chat_bubble_outline),
+//      ),
+//      onPressed: (){
+//      },
+//    );
   }
 
 

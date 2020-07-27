@@ -129,7 +129,6 @@ class _HomeAppBarState extends State<HomeAppBar> {
         bottom: TabBar(
           tabs: <Widget>[
             Tab(child: CustomText(text: 'Chats',),),
-            Tab(child: CustomText(text: 'Savings',),),
             Tab(child: CustomText(text: 'Bazaar',),),
           ],
         ),

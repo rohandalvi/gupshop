@@ -193,45 +193,11 @@ class _BodyDisplayState extends State<BodyDisplay> {
             )..show(context);
           } return Container();
         },
-        child: Row(
-          mainAxisAlignment: widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Visibility(
-              visible: widget.isMe,
-              child: FutureBuilder(
-                future: GetMessageSavedStatusFromFirebase(messageId: widget.messageId,).get(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    return HeartButton(isSaved: snapshot.data, conversationId: widget.conversationId, documentId: widget.documentId,messageId: widget.messageId,);
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              ),
-            ),
-            MessageCardDisplay(
-              isMe: widget.isMe, isNews: widget.isNews, imageURL: widget.imageURL, isLocationMessage: widget.isLocationMessage,
-              newsLink: widget.newsLink, newsBody: widget.newsBody, newsTitle: widget.newsTitle, fromName: widget.fromName,
-              latitude: widget.latitude,longitude: widget.longitude,videoURL: widget.videoURL,messageBody: widget.messageBody,
-              controller: widget.controller, newsId: widget.newsId, mapIsNewsGenerated: widget.mapIsNewsGenerated,
-            ),
-            Visibility(
-              visible: widget.isMe == false,
-              child: FutureBuilder(
-                future: GetMessageSavedStatusFromFirebase(messageId: widget.messageId).get(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    return HeartButton(isSaved: snapshot.data, conversationId: widget.conversationId, documentId: widget.documentId,messageId: widget.messageId,);
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              ),
-            ),
-          ],
+        child: MessageCardDisplay(
+          isMe: widget.isMe, isNews: widget.isNews, imageURL: widget.imageURL, isLocationMessage: widget.isLocationMessage,
+          newsLink: widget.newsLink, newsBody: widget.newsBody, newsTitle: widget.newsTitle, fromName: widget.fromName,
+          latitude: widget.latitude,longitude: widget.longitude,videoURL: widget.videoURL,messageBody: widget.messageBody,
+          controller: widget.controller, newsId: widget.newsId, mapIsNewsGenerated: widget.mapIsNewsGenerated,
         ),
       ),
       isThreeLine: true,

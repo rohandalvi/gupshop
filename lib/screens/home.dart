@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       initialIndex: 0,
       child: Scaffold(
         appBar: PreferredSize(
@@ -47,7 +47,6 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             //Contacts(),
             ChatList(myNumber: userPhoneNo, myName: userName,),
-            DisplaySavedMessagesBoardNames(),
             BazaarHomeScreen(userPhoneNo: userPhoneNo, userName: userName,),
             //Text('Calls',),
           ],

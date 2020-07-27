@@ -12,7 +12,7 @@ class TextMessageUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       //constraints: BoxConstraints(maxWidth: 300),
-      //width: MediaQuery.of(context).size.width*0.60,
+      width: MediaQuery.of(context).size.width*0.65,
       alignment: isMe? Alignment.centerRight: Alignment.centerLeft,
       child: CustomText(text: messageBody,),
     );

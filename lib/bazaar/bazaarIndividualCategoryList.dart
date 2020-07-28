@@ -89,19 +89,9 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
                         name = nameSnapshot.data["name"];
                         thumbnailPicture = nameSnapshot.data["thumbnailPicture"];
                         return CustomListViewDisplay(
-                          onTapNavigateTo: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProductDetail(
-                                    productWalaName: name,
-                                    category: widget.category,
-                                    productWalaNumber: bazaarWalaPhoneNo,), //
-                                )
-                            );
-                          },
-                          display: CustomText(text: name, fontSize: 20,),
-                          showRatings: LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, category: widget.category,),
+                          bazaarWalaName: name,
+                          bazaarWalaPhoneNo: bazaarWalaPhoneNo,
+                          category: widget.category,
                         );
                       }
                       return Center(
@@ -115,7 +105,7 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
 
           );
         }
-            return CircularProgressIndicator();
+        return CircularProgressIndicator();
         }
       ),
     );

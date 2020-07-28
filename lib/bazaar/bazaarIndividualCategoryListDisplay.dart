@@ -5,12 +5,12 @@ import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class CustomListViewDisplay extends StatelessWidget {
+class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   final String bazaarWalaName;
   final String category;
   final String bazaarWalaPhoneNo;
 
-  CustomListViewDisplay({this.bazaarWalaPhoneNo, this.category, this.bazaarWalaName});
+  BazaarIndividualCategoryListDisplay({this.bazaarWalaPhoneNo, this.category, this.bazaarWalaName});
 
   @override
   Widget build(BuildContext context) {

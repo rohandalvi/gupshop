@@ -1,50 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
-import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/service/filterBazaarWalas.dart';
-import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
 import 'package:gupshop/streamShortcuts/bazaarRatingNumbers.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
-import 'package:gupshop/widgets/customListViewDisplay.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
+import 'package:gupshop/bazaar/bazaarIndividualCategoryListDisplay.dart';
 import 'package:gupshop/widgets/customText.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class BazaarIndividualCategoryList extends StatefulWidget {
-  String category;
+class BazaarIndividualCategoryListData extends StatelessWidget {
+  final String category;
 
-  BazaarIndividualCategoryList({@required this.category});
+  BazaarIndividualCategoryListData({this.category});
 
-  @override
-  _BazaarIndividualCategoryListState createState() => _BazaarIndividualCategoryListState();
-}
-
-class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryList> {
   Future<QuerySnapshot> getBazaarWalasInAGivenRadius;
-
   double latitude;
   double longitude;
-
-
   Future<dynamic> result;
   String userGeohashString;
-
   Future userPhoneNoFuture;
   String _userPhoneNo;
-
   List<DocumentSnapshot> list;
-
 
   getListOfBazaarWalasInAGivenRadius() async{
     var userPhoneNo = await GetSharedPreferences().getUserPhoneNoFuture();//get user phone no
     _userPhoneNo = userPhoneNo;
-    var listOfbazaarwalas = await FilterBazaarWalasState().getListOfBazaarWalasInAGivenRadius(userPhoneNo, widget.category);
+    var listOfbazaarwalas = await FilterBazaarWalasState().getListOfBazaarWalasInAGivenRadius(userPhoneNo, category);
     return listOfbazaarwalas;
   }
 
@@ -56,7 +38,7 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: CustomAppBar(
-          title: CustomText(text: widget.category.toUpperCase(), fontSize: 20,),
+          title: CustomText(text: category.toUpperCase(), fontSize: 20,),
           onPressed: (){
             Navigator.pop(context);
           }
@@ -67,16 +49,16 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
             builder: (BuildContext context, AsyncSnapshot snapshot) {
       if (snapshot.connectionState == ConnectionState.done) {
         if (snapshot.data == null)
-          return Container(child: Center(child: CustomText(text: 'No ${widget.category}s near you', fontSize: 35,).bold())); //for avoding  the erro
+          return Container(child: Center(child: CustomText(text: 'No ${category}s near you', fontSize: 35,).bold())); //for avoding  the erro
 
         String bazaarWalaPhoneNo = snapshot.data[0].documentID;
-        int numberOfBazaarWalasInList = snapshot.data.length; //for listView builder's itemcount
+        int numberOfBazaarWalasInList = snapshot.data.length; ///for listView builder's itemcount
 
         return ListView.builder(
           itemCount: numberOfBazaarWalasInList,
           itemBuilder: (BuildContext context, int index) {
             return StreamBuilder( //use bazaarcategory to display people insted becuase bazaarwalabasicprofile is categorized by phoneNumber now
-                stream: BazaarRatingNumbers(userNumber: bazaarWalaPhoneNo, categoryName: widget.category).getRatingSnapshot(),
+                stream: BazaarRatingNumbers(userNumber: bazaarWalaPhoneNo, categoryName: category).getRatingSnapshot(),
                 builder: (context, streamSnapshot) {
                   if (streamSnapshot.data == null) return CircularProgressIndicator(); //v v imp
                   String name;
@@ -88,10 +70,10 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
                       if (nameSnapshot.connectionState == ConnectionState.done) {
                         name = nameSnapshot.data["name"];
                         thumbnailPicture = nameSnapshot.data["thumbnailPicture"];
-                        return CustomListViewDisplay(
+                        return BazaarIndividualCategoryListDisplay(
                           bazaarWalaName: name,
                           bazaarWalaPhoneNo: bazaarWalaPhoneNo,
-                          category: widget.category,
+                          category: category,
                         );
                       }
                       return Center(

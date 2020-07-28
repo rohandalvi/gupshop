@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:gupshop/bazaar/bazaarHome_screen.dart';
 import 'package:gupshop/news/newsComposer.dart';
-import 'package:gupshop/bazaar/bazaarIndividualCategoryList.dart';
+import 'package:gupshop/bazaar/bazaarIndividualCategoryListData.dart';
 import 'package:gupshop/screens/bazaarProfilePage.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/screens/contactSearchPage.dart';
@@ -200,7 +200,7 @@ class NavigateToBazaarIndiviudalCategoryList{
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BazaarIndividualCategoryList(category: category,),//pass Name() here and pass Home()in name_screen
+            builder: (context) => BazaarIndividualCategoryListData(category: category,),//pass Name() here and pass Home()in name_screen
           )
       );
     };

@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
+import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/retriveFromFirebase/getConversationIdFromConversationMetadataCollection.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class BazaarIndividualCategoryListDisplay extends StatelessWidget {
@@ -53,8 +56,18 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                       ),
                       CustomIconButton(
                         iconNameInImageFolder: 'chatBubble',
-                        onPressed: (){
+                        onPressed: () async{
+                          List<dynamic> listOfFriendsNumbers = new List();
+                          listOfFriendsNumbers.add(bazaarWalaPhoneNo);
 
+                          String userNumber = await UserDetails().getUserPhoneNoFuture();
+                          String userName = await UserDetails().getUserNameFuture();
+
+                          String conversationId = await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber, friendNumber: bazaarWalaPhoneNo).getIndividualChatId();
+
+                          NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
+                              listOfFriendsNumbers: listOfFriendsNumbers, friendName: bazaarWalaName,
+                              userName: userName).navigateNoBrackets(context);
                         },
                       ),
                     ],

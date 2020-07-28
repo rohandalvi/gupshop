@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
+import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/service/filterBazaarWalas.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
+import 'package:gupshop/streamShortcuts/bazaarRatingNumbers.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customListViewDisplay.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
@@ -25,7 +28,6 @@ class BazaarIndividualCategoryList extends StatefulWidget {
 class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryList> {
   Future<QuerySnapshot> getBazaarWalasInAGivenRadius;
 
-  Position _location;
   double latitude;
   double longitude;
 
@@ -42,7 +44,6 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
   getListOfBazaarWalasInAGivenRadius() async{
     var userPhoneNo = await GetSharedPreferences().getUserPhoneNoFuture();//get user phone no
     _userPhoneNo = userPhoneNo;
-    print("widget.category : ${widget.category}");
     var listOfbazaarwalas = await FilterBazaarWalasState().getListOfBazaarWalasInAGivenRadius(userPhoneNo, widget.category);
     return listOfbazaarwalas;
   }
@@ -75,32 +76,38 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
           itemCount: numberOfBazaarWalasInList,
           itemBuilder: (BuildContext context, int index) {
             return StreamBuilder( //use bazaarcategory to display people insted becuase bazaarwalabasicprofile is categorized by phoneNumber now
-                stream: Firestore.instance.collection("bazaarCategories").document(widget.category).snapshots(),
+                stream: BazaarRatingNumbers(userNumber: bazaarWalaPhoneNo, categoryName: widget.category).getRatingSnapshot(),
                 builder: (context, streamSnapshot) {
-                  if (streamSnapshot.data == null)
-                    return CircularProgressIndicator(); //v v imp
+                  if (streamSnapshot.data == null) return CircularProgressIndicator(); //v v imp
+                  String name;
+                  String thumbnailPicture;
 
-                  String name = streamSnapshot.data[bazaarWalaPhoneNo]["name"];
-                  int rating = streamSnapshot.data[bazaarWalaPhoneNo]["rating"];
-                  bool showRating = !(rating==null);
-
-                  return CustomListViewDisplay(
-                    onTapNavigateTo: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProductDetail(
-                              productWalaName: name,
-                              category: widget.category,
-                              productWalaNumber: bazaarWalaPhoneNo,), //
-                          )
+                  return FutureBuilder(
+                    future: GetBazaarWalasBasicProfileInfo(userNumber: bazaarWalaPhoneNo).getNameAndThumbnailPicture(),
+                    builder: (BuildContext context, AsyncSnapshot nameSnapshot) {
+                      if (nameSnapshot.connectionState == ConnectionState.done) {
+                        name = nameSnapshot.data["name"];
+                        thumbnailPicture = nameSnapshot.data["thumbnailPicture"];
+                        return CustomListViewDisplay(
+                          onTapNavigateTo: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProductDetail(
+                                    productWalaName: name,
+                                    category: widget.category,
+                                    productWalaNumber: bazaarWalaPhoneNo,), //
+                                )
+                            );
+                          },
+                          display: CustomText(text: name, fontSize: 20,),
+                          showRatings: LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, category: widget.category,),
+                        );
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(),
                       );
                     },
-                    display: CustomText(text: name, fontSize: 20,),
-                    showRatings: Visibility(
-                        visible: showRating,
-                        child: _buildRatingStars(rating)
-                    ),
                   );
                 }
             );
@@ -112,18 +119,6 @@ class _BazaarIndividualCategoryListState extends State<BazaarIndividualCategoryL
         }
       ),
     );
-  }
-
-
-  Text _buildRatingStars(int rating){
-    String stars = '';
-    if(rating != null){
-      for(int i =0; i<rating; i++){
-        stars += '🤩';
-      }
-    }
-    stars.trim();
-    return Text(stars);
   }
 
 

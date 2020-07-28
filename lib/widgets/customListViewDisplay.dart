@@ -52,15 +52,6 @@ class CustomListViewDisplay extends StatelessWidget {
                   //SizedBox(height: 10,),
                   showRatings,
                   SizedBox(height: 5,),
-                  Container(
-                    child: Text('Rs'),
-                    alignment: Alignment.center,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).accentColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
                 ],
               ),
             ),

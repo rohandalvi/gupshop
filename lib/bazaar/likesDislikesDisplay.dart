@@ -23,8 +23,6 @@ class LikesDislikesDisplay extends StatelessWidget {
   }
 
   likesDislikesIconButton(){
-    print("like : $like");
-    print("dislike: $dislike");
     if ((like == null || like == true) && (dislike == null || dislike == false) ){
       return CustomIconButton(iconNameInImageFolder: 'thumbsUpNoBackground', onPressed: (){},);
     } return CustomIconButton(iconNameInImageFolder: 'thumbsDownNoBackground', onPressed: (){},);

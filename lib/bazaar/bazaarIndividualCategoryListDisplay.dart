@@ -34,7 +34,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
           },
           child: Container(//stack => container(Padding(Column(Row,text,star text, container))) and positioned[for profile pic]
             margin: EdgeInsets.fromLTRB(40,5,20,5),
-            height: 150,
+            height: MediaQuery.of(context).size.height * 0.2,
             width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -54,27 +54,28 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                         width:150,//to avoid overflow
                         child: CustomText(text: bazaarWalaName, fontSize: 20,),
                       ),
-                      CustomIconButton(
-                        iconNameInImageFolder: 'chatBubble',
-                        onPressed: () async{
-                          List<dynamic> listOfFriendsNumbers = new List();
-                          listOfFriendsNumbers.add(bazaarWalaPhoneNo);
+                      Container(
+                        width: 65,
+                        height: 65,
+                        child: CustomIconButton(
+                          iconNameInImageFolder: 'chatBubble',
+                          onPressed: () async{
+                            List<dynamic> listOfFriendsNumbers = new List();
+                            listOfFriendsNumbers.add(bazaarWalaPhoneNo);
 
-                          String userNumber = await UserDetails().getUserPhoneNoFuture();
-                          String userName = await UserDetails().getUserNameFuture();
+                            String userNumber = await UserDetails().getUserPhoneNoFuture();
+                            String userName = await UserDetails().getUserNameFuture();
 
-                          String conversationId = await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber, friendNumber: bazaarWalaPhoneNo).getIndividualChatId();
+                            String conversationId = await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber, friendNumber: bazaarWalaPhoneNo).getIndividualChatId();
 
-                          NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
-                              listOfFriendsNumbers: listOfFriendsNumbers, friendName: bazaarWalaName,
-                              userName: userName).navigateNoBrackets(context);
-                        },
+                            NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
+                                listOfFriendsNumbers: listOfFriendsNumbers, friendName: bazaarWalaName,
+                                userName: userName).navigateNoBrackets(context);
+                          },
+                        ),
                       ),
                     ],
                   ),
-                  //SizedBox(height: 20),
-                  //CustomText(text: 'speciality',),
-                  //SizedBox(height: 10,),
                   LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, category: category,),
                   SizedBox(height: 5,),
                 ],

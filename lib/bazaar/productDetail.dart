@@ -1,22 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:gupshop/bazaar/bazaarFirestoreShortcuts.dart';
 import 'package:gupshop/bazaar/chatWithBazaarwala.dart';
-import 'package:gupshop/bazaar/likesDislikesDisplay.dart';
-import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
+import 'package:gupshop/bazaar/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/bazaar/bazaarIndividualCategoryList.dart';
+import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
-import 'package:gupshop/timestamp/timeDisplay.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
-import 'package:gupshop/widgets/customFloatingActionButton.dart';
-import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
-import 'package:video_player/video_player.dart';
-import 'package:intl/intl.dart';
 
 class ProductDetail extends StatefulWidget {
   final String productWalaName;
@@ -38,10 +29,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
   _ProductDetailState({@required this.productWalaName, this.category});
 
-
-  VideoPlayerController playerController;
-  Future<void> _initializeVideoPlayerFuture;
-
   String userNumber;
   bool writeReview;
   bool like=true;
@@ -53,7 +40,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
   CollectionReference collectionReference;
   Stream<QuerySnapshot> stream;
 
-  final _formKey = GlobalKey<FormState>();//for sendReview()
 
   bool focus;//when user taps on add review but does not want to send the review anymore
   //he would tap on the screen
@@ -72,9 +58,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
   @override
   void initState() {
-    playerController = VideoPlayerController.asset('videos/LevenworthVideo.mp4');
-    _initializeVideoPlayerFuture = playerController.initialize();
-
     collectionReference = Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection("reviews");
     stream = collectionReference.snapshots();
 
@@ -83,18 +66,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
     super.initState();
   }
 
-  goToBazaarIndividualCategoryListPage() async{
-    print("in onWillPop");
-    await
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) {
-          return BazaarIndividualCategoryList();
-        },
-      ),
-          (Route<dynamic> route) => false,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,29 +123,24 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         ),
         SliverList(
           delegate: SliverChildListDelegate(
-            <Widget>[//---> to decrease space  between review stars and reviews use Stack and wrap everything in it
-              ListView(
-                controller: new ScrollController(),//---> for scrolling the screen
-                shrinkWrap: true,//---> Vertical viewport was given unbounded height.- this error thrown if not used
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left:8.0),
-                    child: Text(productWalaName,style: GoogleFonts.openSans(
-                      fontSize: 20,
-                    )),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left:8.0),
-                    child: Text(category,style: GoogleFonts.openSans(
-                      color: Colors.grey,
-                      fontSize: 13,
-                    )),
-                  ),
-                  _showRatings(3),
-                  if (writeReview==true && focus==false) _writeReview(),
-                  _buildReviewList(context),
-                ],
-              ),
+            <Widget>[ //---> to decrease space  between review stars and reviews use Stack and wrap everything in it
+              FutureBuilder(
+                future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikesAndDislikes(widget.productWalaNumber, widget.category),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    likes = snapshot.data['likes'];
+                    dislikes = snapshot.data['dislikes'];
+
+                    return ReviewBuilderAndDisplay(productWalaName:productWalaName, productWalaNumber: widget.productWalaNumber,
+                      category: category,writeReview: writeReview,focus: focus,userName: userName,
+                      reviewBody: reviewBody,likeOrDislike: likeOrDislike,likes: likes,dislikes: dislikes,
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              )
             ],
           ),
         ),
@@ -182,126 +148,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
       ],
     );
   }
-
-
-  _writeReview(){
-    return Row(
-      children: <Widget>[
-          Row(
-            children: <Widget>[
-              _isLike(),
-              _isDislike(),
-            ],
-          ),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 280),
-          child: Padding(
-            padding: EdgeInsets.only(left: 14),//---> for distance between left side of the screen and the review writing text bar
-            child: _sendReview(),
-          ),
-        ),
-        IconButton(
-          icon: Icon(Icons.arrow_forward_ios),
-          onPressed: () {
-
-            if(_formKey.currentState.validate()){
-              setState(() {
-                var data =  {
-                  "reviewerName":userName,
-                  "body":reviewBody,
-                  "likeOrDislike":likeOrDislike,
-                  "timestamp":DateTime.now(),
-                };
-
-                if(likes == null) likes =0;
-                if(dislikes == null) dislikes =0;
-
-                if(likeOrDislike == null || likeOrDislike == true){
-                  setState(() {
-                    likes++;
-                  });
-                } else dislikes++;
-                //---> pushing review data to firebase bazaarReviews collection:
-                print("data: $data");
-                //print("what is : ${Firestore.instance.collection("bazaarReviews").document(userNumber).collection("reviews").document().setData(data)}");
-                BazaarFirestoreShortcuts().addReviewToBazaarReviewsCollection(widget.productWalaNumber, category, data);
-
-                BazaarFirestoreShortcuts().updateRatingsInBazaarRatingNumbers(widget.productWalaNumber, category, likes, dislikes);
-
-                print("likeDislike befoew setting state: $likeOrDislike ");
-                writeReview= false;///to show the non textField view again, where we have only the reviews
-                like = true;///setting the like and dislike's state as false again, to make them appear on the review bar again
-                //disLike = false;
-                print("likeDislike befoew after state: $likeOrDislike ");
-              });
-            }
-          },
-        ),
-      ],
-    );
-  }
-
-  _isLike(){
-    return Padding(
-      padding: EdgeInsets.only(left:8.0),
-      child: GestureDetector(
-          onTap: (){
-            setState(() {
-              //likes++;
-              like=true;
-              likeOrDislike=true;
-            });
-          },
-          child: Container(
-            height: 20,
-            width: 20,
-            color: like == true ? Colors.grey : Colors.transparent,
-            child: Text('👍'),
-          )
-      ),
-    );
-  }
-
-  _isDislike(){
-    return Padding(
-      padding: EdgeInsets.only(left:8.0),
-      child: GestureDetector(
-        onTap: (){
-          setState(() {
-            dislikes++;
-            like=false;
-            likeOrDislike=false;
-            print("likedislike in dislike==false: $likeOrDislike");
-          });
-        },
-        child: Container(
-            height: 20,
-            width: 20,
-            color: like == false ? Colors.grey : Colors.transparent,
-            child: Text('👎')
-        ),
-      ),
-    );
-  }
-
-  _sendReview(){
-    print("inside form");
-  return Form(// a form gives
-    key: _formKey,
-    child: TextFormField(
-      validator: (value){
-        if(value.isEmpty) return 'Please write your review';
-        else{
-          reviewBody=value;//---> else this TextFormField was returning null and reviewBody was  getting  assigned null value; hence, we manually assigned the value of 'value' to reviewbody
-          return null;
-        }
-      },
-      maxLines: null,
-    ),
-  );
-}
-
-
 
   buildProductImagesWidget(){
     TabController imagesController = new TabController(length: 4, vsync: this);
@@ -357,11 +203,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                   ),
                 );
               }else{
-                // If the VideoPlayerController is still initializing, show a
-                // loading spinner.
                 return Center(child: CircularProgressIndicator());
               }
-
             }
           ),
         );
@@ -369,120 +212,4 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
     );
   }
 
-  
-  _buildReviewList(BuildContext context){
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
-        setState(() {
-          focus=true;
-        });
-      },
-      child: Flex(
-        direction: Axis.vertical,
-        children: <Widget>[
-          StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection(category).orderBy("timestamp", descending: true).snapshots(),
-            builder: (context, snapshot) {
-              if(snapshot.data == null) return CircularProgressIndicator();
-
-              int lengthOfReviews = snapshot.data.documents.length;
-
-              if(snapshot.data == null) return CircularProgressIndicator();
-
-              return snapshot.data.documents == null ? Center(child: CustomText(text: 'No reviews yet',)):/// not showing up
-              NotificationListener<ScrollUpdateNotification>(
-                child: ListView.separated(
-                  shrinkWrap: true,///throws exception if not used
-                  controller: new ScrollController(),///for scrolling screen
-                  itemCount: lengthOfReviews,
-                  itemBuilder: (context, index){
-                    String reviewerName = snapshot.data.documents[index].data["reviewerName"];
-                    String reviewText = snapshot.data.documents[index].data["body"];
-                    bool likeOrDislike = snapshot.data.documents[index].data["likeOrDislike"];
-                    timeStamp = snapshot.data.documents[index].data["timestamp"];
-                    return ListTile(
-                      title: Text(reviewerName,style: GoogleFonts.openSans()),
-                      subtitle: Text(reviewText,style: GoogleFonts.openSans()),
-                      trailing: Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: <Widget>[
-                          TimeDisplay(timeStamp: timeStamp,),
-                          LikesDislikesDisplay(likeOrDislike: likeOrDislike).likesDislikesIconButton(),
-                        ],
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => Divider(
-                    color: Colors.white,
-                  ),
-                ),
-              );
-            }
-          ),
-        ],
-      ),
-    );
-  }
-
-  _floatingActionButtonForMessaging(){
-      return CustomBigFloatingActionButton(
-        width: 80,
-        height: 80,
-        heroTag: "button2",
-        child: IconButton(
-            icon: SvgPicture.asset('images/chatBubble.svg',)
-        ),
-        onPressed: (){},
-      );
-  }
-
-
-
-  _showRatings(int rating){
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,//for spacing between rating stars and add review
-        children: <Widget>[
-          Align(
-              alignment: Alignment.centerLeft,
-              child: LikesDislikesFetchAndDisplay(productWalaNumber: widget.productWalaNumber, category: widget.category,)
-              //_buildRatingStars(3),
-          ),
-          userName != productWalaName ?
-           Container(
-            padding: EdgeInsets.only(left:5, right: 5),//for spacing bewteen Add review text from left and right side of the blue container
-            child: CustomRaisedButton(
-              child: CustomText(
-                text: 'Add Review', fontSize: 12,),
-                onPressed: (){
-                  setState(() {
-                    writeReview = true;
-                    focus = false;
-                  });
-                },),
-            alignment: Alignment.center,
-          ) : Container(
-            padding: EdgeInsets.only(left:5, right: 5),//for spacing bewteen Add review text from left and right side of the blue container
-            child: CustomRaisedButton(
-              child: CustomText(
-                text: 'Change Advertisement', fontSize: 12,),
-              onPressed: (){
-                /// change video logic
-              },),
-//            Text('Add your advertisement',style: GoogleFonts.openSans(
-//                fontSize: 12
-//            )),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-
-        ],
-      ),
-    );
-  }
 }

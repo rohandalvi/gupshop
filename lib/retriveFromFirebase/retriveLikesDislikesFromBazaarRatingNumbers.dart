@@ -10,4 +10,13 @@ class RetriveLikesAndDislikesFromBazaarRatingNumbers{
     DocumentSnapshot dc =  await Firestore.instance.collection("bazaarRatingNumbers").document(productWalaNumber).collection(category).document("ratings").get();
     return dc.data["dislikes"];
   }
+
+  numberOfLikesAndDislikes(String productWalaNumber, String category) async{
+    DocumentSnapshot dc = await Firestore.instance.collection("bazaarRatingNumbers").document(productWalaNumber).collection(category).document("ratings").get();
+    Map<String, int> map = new Map();
+    map['likes']= dc.data["likes"];
+    map['dislikes'] = dc.data["dislikes"];
+
+    return map;
+  }
 }

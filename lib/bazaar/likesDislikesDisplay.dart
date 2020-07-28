@@ -4,9 +4,10 @@ import 'package:gupshop/widgets/customIconButton.dart';
 class LikesDislikesDisplay extends StatelessWidget {
   final int likes;
   final int dislikes;
-  final bool likeOrDislike;
+  final bool like;
+  final bool dislike;
 
-  LikesDislikesDisplay({this.likes, this.dislikes, this.likeOrDislike});
+  LikesDislikesDisplay({this.likes, this.dislikes, this.like, this.dislike});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,9 @@ class LikesDislikesDisplay extends StatelessWidget {
   }
 
   likesDislikesIconButton(){
-    if (likeOrDislike == null || likeOrDislike == true){
+    print("like : $like");
+    print("dislike: $dislike");
+    if ((like == null || like == true) && (dislike == null || dislike == false) ){
       return CustomIconButton(iconNameInImageFolder: 'thumbsUpNoBackground', onPressed: (){},);
     } return CustomIconButton(iconNameInImageFolder: 'thumbsDownNoBackground', onPressed: (){},);
   }

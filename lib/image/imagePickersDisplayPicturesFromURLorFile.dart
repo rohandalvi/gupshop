@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/widgets/displayPicture.dart';
+import 'package:gupshop/image/displayCircularPicture.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -43,7 +43,7 @@ class ImagesPickersDisplayPictureURLorFile {
 
   displayPictureFromFile(File image, double height, double width){
     ImageProvider ip = new FileImage(image);
-    return DisplayPicture(height: height,width: width, image: ip);
+    return DisplayCircularPicture(height: height,width: width, image: ip);
   }
 
   displayPictureFromURL(String image, double height, double width){
@@ -56,7 +56,7 @@ class ImagesPickersDisplayPictureURLorFile {
       ip = AssetImage(image);
     }else ip = NetworkImage(image);
 
-    return DisplayPicture(height: height,width: width, image: ip);
+    return DisplayCircularPicture(height: height,width: width, image: ip);
   }
 
 

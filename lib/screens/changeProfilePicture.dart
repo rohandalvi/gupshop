@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/chat_list_page/chat_List.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
-import 'package:gupshop/widgets/sideMenu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:get/get.dart';
 
 import 'home.dart';
 
@@ -57,9 +54,9 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
       return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
-            child: CustomAppBar(onPressed:(){
+            child: CustomAppBar(
+              onPressed:(){
              // Navigator.pop(context);
-
               /// if navigating to home from here for change of profile picture for groupchat would give wrong username , because the username would pass as the groupName to the homescreen
             if(viewingFriendsProfile == true || groupConversationId != null){/// if its a group chat, then navigate to individualchat and not home
               Navigator.pop(context);

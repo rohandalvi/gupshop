@@ -126,46 +126,6 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
     return ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(image, height, width);
   }
 
-//  showPictureAndChangeButton(File image, double height, double width, BuildContext context){
-//    return ListView(
-//      shrinkWrap: true,
-//      children: <Widget>[
-//        ImagesPickersDisplayPictureURLorFile().displayPictureFromFile(image, height, width),
-//        CustomRaisedButton(
-//          onPressed: (){
-//            print("outside onPressed of showPictureAndChangeButton: $userName");
-//            if(userName != null){
-//              if(groupConversationId != null){
-//                ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, image);
-////                Navigator.popUntil(context, (route) => false);
-//
-//              }
-//
-//              else{
-//                ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, image);
-//                print("in onPressed of showPictureAndChangeButton: $userName");
-//                CustomNavigator().navigateToHome(context, userName, userPhoneNo);
-//              }
-//
-////              Navigator.push(
-////                  context,
-////                  MaterialPageRoute(
-////                    builder: (context) => Home(userName: "Purva Dalvi",userPhoneNo: userPhoneNo,),//pass Name() here and pass Home()in name_screen
-////                  )
-////              );
-//            }
-////            Navigator.pop(context);
-//            //Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
-////            Get.back();
-//          },
-//          child: IconButton(
-//            icon: SvgPicture.asset('images/done.svg',),
-//          ),
-//        ),
-//      ],
-//    );
-//  }
-
 
   Widget galleryApplyCameraButtons(BuildContext context, File _galleryImage, File _cameraImage ){
     print("in galleryApplyCameraButtons");

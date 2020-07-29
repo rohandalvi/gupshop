@@ -9,7 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/bazaar/getCategoriesSubscribedTo.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/screens/bazaarProfilePage.dart';
+import 'package:gupshop/bazaar/bazaarProfilePage.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/location/location_service.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
-import 'package:gupshop/widgets/displayPicture.dart';
+import 'package:gupshop/image/displayCircularPicture.dart';
 
 class FullScreenPictureAndVideos extends StatelessWidget {
   bool isPicture;
@@ -22,10 +22,10 @@ class FullScreenPictureAndVideos extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Center(
         child: isPicture ?
-        DisplayPicture().pictureFrame(payLoad) :
+        DisplayCircularPicture().pictureFrame(payLoad) :
         Container(
           height: MediaQuery.of(context).size.height,
-          child: DisplayPicture().videoFullFrame(payLoad,shouldZoom),
+          child: DisplayCircularPicture().videoFullFrame(payLoad,shouldZoom),
         ),
       ),
     );

@@ -16,7 +16,7 @@ class CameraImagePickCropCreateData{
 
     File image = await PickImageFromCamera().pick();
     File croppedImage = await CropImage().crop(image);
-    String imageURL = await CreateImageURL().create(croppedImage, userPhoneNo, numberOfImageInConversation);
+    String imageURL = await CreateImageURL().create(croppedImage, );
     IMessage message = new ImageMessage(fromName:userName, fromNumber: userPhoneNo, conversationId: conversationId, timestamp: DateTime.now(), imageUrl: imageURL, isSaved: false);
     return message.fromJson();
   }

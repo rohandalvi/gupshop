@@ -158,7 +158,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         userNumber = numberSnapshot.data;
         return Card(
           child: FutureBuilder(
-            future: FirestoreShortcuts().getVideoURL(widget.productWalaNumber),
+            future: FirestoreShortcuts().getVideoURL(widget.productWalaNumber),/// get it from bazaarWalas basic profile and not videos collection
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
                 String videoURL = snapshot.data["url"];
@@ -188,10 +188,10 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                                 ],
                               ),
                               Container(
-                                alignment: FractionalOffset(0.5,0.95),//placing the tabpagSelector at the bottom  center of the container
+                                alignment: FractionalOffset(0.5,0.95),///placing the tabpagSelector at the bottom  center of the container
                                 child: TabPageSelector(
-                                  controller: imagesController,//if this is not used then the images move but the tabpageSelector does not change the color of the tabs showing which image it is on
-                                  selectedColor: Colors.grey,//default color is blue
+                                  controller: imagesController,///if this is not used then the images move but the tabpageSelector does not change the color of the tabs showing which image it is on
+                                  selectedColor: Colors.grey,///default color is blue
                                   color: Colors.white,
                                 ),
                               ),

@@ -12,8 +12,9 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   final String bazaarWalaName;
   final String category;
   final String bazaarWalaPhoneNo;
+  final String thumbnailPicture;
 
-  BazaarIndividualCategoryListDisplay({this.bazaarWalaPhoneNo, this.category, this.bazaarWalaName});
+  BazaarIndividualCategoryListDisplay({this.bazaarWalaPhoneNo, this.category, this.bazaarWalaName, this.thumbnailPicture});
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +105,8 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: Image(
                 width: 110,
-                image: AssetImage('images/sampleProfilePicture.jpeg'),
+                image: NetworkImage(thumbnailPicture),
+                //AssetImage('images/sampleProfilePicture.jpeg'),
                 fit: BoxFit.fill,//to adjust the image with the container
               ),
             ),

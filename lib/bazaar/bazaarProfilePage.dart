@@ -1,10 +1,8 @@
-//import 'dart:html';
 import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,23 +13,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/bazaar/bazaarWalasBasicProfile.dart';
 import 'package:gupshop/bazaar/createMapFromListOfCategories.dart';
 import 'package:gupshop/bazaar/setDocumentIdsForCollections.dart';
+import 'package:gupshop/individualChat/messageCardDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/bazaar/productDetail.dart';
-import 'package:gupshop/service/checkBoxCategorySelector.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
+import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
-import 'package:gupshop/widgets/customForm.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
-import 'package:gupshop/widgets/videoPlayerAndSelectOptions.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 import 'package:video_player/video_player.dart';
-import 'package:path/path.dart';
 
 // bazaarHomeScreen=>
 // =>CheckBoxCategorySelector
@@ -141,8 +135,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                 future: Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).get(),
                 builder: (context, snapshot) {
                   if(snapshot.connectionState == ConnectionState.done){
-//                    isBazaarWala = false;
-                  print("isBazaarWala: $isBazaarWala");
                   if(isBazaarWala == true){
                     video = new File("videoURL");
                     videoURL = snapshot.data["videoURL"];
@@ -157,7 +149,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                     ///create map here:
                     List<String> listOfCategoriesSelected = snapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
                     map = CreateMapFromListOfCategories().createMap(listOfCategoriesSelected, map);
-                    print("map in FutureBuilder : $map");
                   }
 
                   return ListView(
@@ -174,7 +165,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 //                        ),
                         if((video != null || _cameraVideo != null)) Row(
                           children: <Widget>[
-                            CustomVideoPlayer(videoURL: videoURL),
+                            MessageCardDisplay().showVideo(videoURL,),
                             changeVideo(),
                           ],
                         ),
@@ -508,21 +499,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     print("map :$map");
     print("map.containsValue(true) : ${map.containsValue(true)}");
     return map.containsValue(true);
-
-
-//    for(int i=0; i<inputs.length; i++){
-//      if(inputs[i] == true){
-//        return true;
-//      }
-//    }
-//    return false;
   }
-
-//  void itemChange(bool val, int indexVal){
-//    setState(() {
-//      inputs[indexVal] = val;
-//    });
-//  }
 
 
   bool moveForward(bool isSelected) {
@@ -551,15 +528,13 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
       child: CustomRaisedButton(
         onPressed: () async{
           await uploadVideoToFirestore();
-         // await createCategoriesForBazaarWalasBasicProfileListIfIsBazaarWalaFalse();
-          await pushTobazaarWalasLocationCategoryBasicProfile();
 
-//          /// create some blank collections:
-//          await SetDocumentIdsForCollections().setForBazaarRatingNumbers(userPhoneNo);
-//          await SetDocumentIdsForCollections().setForBazaarReviews(userPhoneNo);
+          await pushTobazaarWalasLocationCategoryBasicProfile();
 
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
+
+          NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
 
 //          Navigator.push(
 //              context,
@@ -568,18 +543,12 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 //              )
 //          );
         },
-        child: CustomText(text: 'Save',),
+        child: CustomText(text: 'Click to add Advertisement Pictures',),
       ),
     );
   }
 
   uploadVideoToFirestore() async{
-//    String fileName = basename(userPhoneNo+'bazaarProfilePicture');
-//    //String fileName = basename(_galleryImage.path);
-//    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);
-//    StorageUploadTask uploadTask = firebaseStorageReference.putFile(video);
-//    StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
-//    String videoURL = await imageURLFuture.ref.getDownloadURL();
     Firestore.instance.collection("videos").document(userPhoneNo).setData({'url':videoURL});
   }
 
@@ -593,12 +562,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
     String categoryName;
 
-//    for (int i = 0; i < inputs.length; i++) {
-//      if (inputs[i] == true) { //if any cateogry is selected it would be true in input array
-//        categoryName = querySnapshot.documents[i].documentID;
-
         /// creating new list to store in bazaarWalasBasicProfile
-//        categoriesForBazaarWalasBasicProfile.add(categoryName);
 
     map.forEach((categoryNameInMap, value) async{
       if(value == true) {
@@ -628,24 +592,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
       ///push to bazaarWalasBasicProfile
       /// update and not add if edit profile
       await BazaarWalasBasicProfile(
-          userPhoneNo: userPhoneNo, userName: userName).pushToFirebase(
+          userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
           videoURL, latitude, longitude, categoriesForBazaarWalasBasicProfile,
           categoryName);
     }
-
-//  createCategoriesForBazaarWalasBasicProfileListIfIsBazaarWalaFalse() async{
-//    QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
-//
-//    if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
-//
-//    String categoryName;
-//
-//    for(int i=0; i<inputs.length; i++){
-//      if(inputs[i] == true) {//if any cateogry is selected it would be true in input array
-//        categoryName = querySnapshot.documents[i].documentID;
-//        /// creating new list to store in bazaarWalasBasicProfile
-//        categoriesForBazaarWalasBasicProfile.add(categoryName);
-//      }
-//    }
-//  }
 }

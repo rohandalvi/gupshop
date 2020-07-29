@@ -74,6 +74,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
                           bazaarWalaName: name,
                           bazaarWalaPhoneNo: bazaarWalaPhoneNo,
                           category: category,
+                          thumbnailPicture: thumbnailPicture,
                         );
                       }
                       return Center(

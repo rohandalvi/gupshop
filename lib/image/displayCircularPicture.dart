@@ -5,12 +5,12 @@ import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 
 
-class DisplayPicture extends StatelessWidget {
+class DisplayCircularPicture extends StatelessWidget {
   ImageProvider image;
   double height;
   double width;
 
-  DisplayPicture({this.image, this.height, this.width});
+  DisplayCircularPicture({this.image, this.height, this.width});
 
 
   /// ideal height width for full screen profile picture

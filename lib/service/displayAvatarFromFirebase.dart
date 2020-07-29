@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/widgets/displayPicture.dart';
+import 'package:gupshop/image/displayCircularPicture.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -71,7 +71,7 @@ class DisplayAvatarFromFirebase{
           if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
           print("imageUrl in sideMenu: ${snapshot.data['url']}");
           imageUrl = snapshot.data['url'];
-          return DisplayPicture(
+          return DisplayCircularPicture(
               height: 370,
               width: 370,
               image: NetworkImage(imageUrl),

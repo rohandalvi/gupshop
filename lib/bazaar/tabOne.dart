@@ -8,7 +8,7 @@ class TabOne extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: <Widget>[
         Image(
           image: NetworkImage(thumbnailPicture),

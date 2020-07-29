@@ -44,7 +44,6 @@ class CustomBottomSheet extends StatelessWidget {
   }
 
   show(){
-    print("customContext in customBottom: $customContext");
     return showBottomSheet(
         context: customContext,
         builder: (BuildContext context){
@@ -105,6 +104,46 @@ class CustomBottomSheet extends StatelessWidget {
                       onPressed: sixthIconAndTextOnPressed,
                     ),
                     CustomText(text: sixthIconText,)
+                  ],
+                ),
+                CustomIconButton(
+                  iconNameInImageFolder: 'cancel',
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            ),
+          );
+        }
+    );
+  }
+
+  showTwo(){
+    return showBottomSheet(
+        context: customContext,
+        builder: (BuildContext context){
+          return Container(
+            height: MediaQuery.of(context).size.height*0.2,
+            child: Column(
+              children: <Widget>[
+                /// icon and name, so CustomIconButton and CustomText
+                Row(
+                  children: <Widget>[
+                    CustomIconButton(
+                      iconNameInImageFolder: firstIconName,
+                      onPressed: firstIconAndTextOnPressed,
+                    ),
+                    CustomText(text: firstIconText,)
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    CustomIconButton(
+                      iconNameInImageFolder: secondIconName,
+                      onPressed: secondIconAndTextOnPressed,
+                    ),
+                    CustomText(text: secondIconText,)
                   ],
                 ),
                 CustomIconButton(

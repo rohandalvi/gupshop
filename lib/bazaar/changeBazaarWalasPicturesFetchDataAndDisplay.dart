@@ -25,6 +25,12 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
                 if(thumbnailPicture == null) thumbnailPicture =
                 "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
 
+                if(otherPictureOne == null) otherPictureOne =
+                "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
+
+                if(otherPictureTwo == null) otherPictureTwo =
+                "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
+
                 return ChangeBazaarWalasPicturesDisplay(
                   thumbnailPicture: thumbnailPicture,
                   otherPictureOne: otherPictureOne,

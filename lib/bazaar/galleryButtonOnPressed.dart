@@ -4,7 +4,7 @@ import 'package:gupshop/bazaar/galleryImagePickCropCreateURL.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 
-class GalleryAndCameraButtonsOnPressed{
+class GalleryButtonOnPressed{
 
     thumbnailPicture(BuildContext context) async {
         String imageURL = await GalleryImagePickCropCreateURL().pickCropReturnURL();

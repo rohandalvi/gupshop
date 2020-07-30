@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gupshop/bazaar/galleryAndCameraButtonsOnPressed.dart';
+import 'package:gupshop/bazaar/cameraButtonOnPressed.dart';
+import 'package:gupshop/bazaar/galleryButtonOnPressed.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -31,13 +32,19 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
                     firstIconName: 'photoGallery',
                     firstIconText: 'Pick image from  Gallery',
                     firstIconAndTextOnPressed: (){
-                      if(tabNumber == 0) GalleryAndCameraButtonsOnPressed().thumbnailPicture(context);
-                      if(tabNumber == 1) GalleryAndCameraButtonsOnPressed().otherPictureOne(context);
-                      if(tabNumber == 2) GalleryAndCameraButtonsOnPressed().otherPictureTwo(context);
+                      print("in firstIconAndTextOnPressed");
+                      print("tabNumber : $tabNumber");
+                      if(tabNumber == 0) GalleryButtonOnPressed().thumbnailPicture(context);
+                      if(tabNumber == 1) GalleryButtonOnPressed().otherPictureOne(context);
+                      if(tabNumber == 2) GalleryButtonOnPressed().otherPictureTwo(context);
                     },
                     secondIconName: 'image2vector',
                     secondIconText: 'Click image from Camera',
-                    secondIconAndTextOnPressed: (){},
+                    secondIconAndTextOnPressed: (){
+                      if(tabNumber == 0) CameraButtonOnPressed().thumbnailPicture(context);
+                      if(tabNumber == 1) CameraButtonOnPressed().otherPictureOne(context);
+                      if(tabNumber == 2) CameraButtonOnPressed().otherPictureTwo(context);
+                    },
                   ).showTwo();
                 },
               );

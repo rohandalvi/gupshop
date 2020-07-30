@@ -7,6 +7,7 @@ import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart'
 class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print("in ChangeBazaarWalasPicturesFetchDataAndDisplay");
     return FutureBuilder(
       future: UserDetails().getUserPhoneNoFuture(),
       builder: (BuildContext context, AsyncSnapshot userNumberSnapshot) {

@@ -26,6 +26,8 @@ class PushToBazaarWalasBasicProfile{
   }
 
   pushThumbnailPicture() async{
+    print("userPhoneNo in pushThumbnailPicture : $userPhoneNo");
+    print("thumbnailPicture : $thumbnailPicture");
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
         .setData({"thumbnailPicture":thumbnailPicture,}, merge: true);
   }

@@ -148,10 +148,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
                     isCategorySelected = true;
                     ///create map here:
-                    categoriesForBazaarWalasBasicProfile = snapshot.data["categories"].cast<String>();
-                    //List<String> listOfCategoriesSelected = snapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
+                    categoriesForBazaarWalasBasicProfile = snapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
                     map = CreateMapFromListOfCategories().createMap(categoriesForBazaarWalasBasicProfile, map);
-                    //map = CreateMapFromListOfCategories().createMap(listOfCategoriesSelected, map);
                   }
 
                   return ListView(

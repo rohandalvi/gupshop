@@ -11,6 +11,7 @@ class GalleryImagePickCropCreateURL{
 
   pickCropReturnURL() async{
     File image = await PickImageFromGallery().pick();/// pick
+    if(image == null) return null;
     File croppedImage = await CropImage().crop(image);/// crop
     /// create URL:
     String imageURL = await CreateImageURL().create(croppedImage);

@@ -12,8 +12,9 @@ class GalleryButtonOnPressed{
         /// push to bazaarWalasBasicProfile collection:
 
         String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
-
-        PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, thumbnailPicture: imageURL).pushThumbnailPicture();
+        if(imageURL != null){
+          PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, thumbnailPicture: imageURL).pushThumbnailPicture();
+        }
         NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
 
     }
@@ -25,7 +26,9 @@ class GalleryButtonOnPressed{
 
       String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
 
-      PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureOne: imageURL).pushOtherPictureOne();
+      if(imageURL != null){
+        PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureOne: imageURL).pushOtherPictureOne();
+      }
       NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
     }
 
@@ -36,7 +39,9 @@ class GalleryButtonOnPressed{
 
       String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
 
-      PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureTwo: imageURL).pushOtherPictureTwo();
+      if(imageURL != null){
+        PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureTwo: imageURL).pushOtherPictureTwo();
+      }
       NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
     }
 }

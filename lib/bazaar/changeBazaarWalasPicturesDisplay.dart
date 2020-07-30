@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gupshop/bazaar/changeBazaarWalasPicturesAppBar.dart';
 import 'package:gupshop/bazaar/changeBazaarWalasPicturesBottomBar.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -51,12 +52,8 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
-        child: CustomAppBar(
-          title: CustomText(text: 'Become a Bazaarwala', fontSize: 20,),
-          onPressed:(){
-            Navigator.pop(context);
-          },),
-        ),
+        child: ChangeBazaarWalasPicturesAppBar(tabNumber: _activeTabIndex,),
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -96,7 +93,6 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
           ),
         ),
       ),
-      floatingActionButton: ChangeBazaarWalasPicturesBottomBar(tabNumber: _activeTabIndex,),
     );
   }
 }

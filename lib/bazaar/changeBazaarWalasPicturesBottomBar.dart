@@ -19,31 +19,19 @@ class ChangeBazaarWalasPicturesBottomBar extends StatelessWidget {
         /// CustomIconButton needs to be wrapped in a builder to pass
         /// the context to CustomBottomSheet else it gives the error:
         /// no scaffold found
-    return Builder(
-            builder: (context) {
-              return CustomFloatingActionButton(
-                child: IconButton(
-                    icon: SvgPicture.asset('images/editPencil.svg',)
-                  //SvgPicture.asset('images/downChevron.svg',)
-                ),
-                onPressed: (){
-                  CustomBottomSheet(
-                    customContext: context,
-                    firstIconName: 'photoGallery',
-                    firstIconText: 'Pick image from  Gallery',
-                    firstIconAndTextOnPressed: (){
-                      print("tabNumber : $tabNumber");
-                      if(tabNumber == 0) GalleryAndCameraButtonsOnPressed().thumbnailPicture(context);
-                      if(tabNumber == 1) GalleryAndCameraButtonsOnPressed().otherPictureOne(context);
-                      if(tabNumber == 2) GalleryAndCameraButtonsOnPressed().otherPictureTwo(context);
-                    },
-                    secondIconName: 'image2vector',
-                    secondIconText: 'Click image from Camera',
-                    secondIconAndTextOnPressed: (){},
-                  ).showTwo();
-                },
-              );
-            }
-        );
-  }
+      return CustomBottomSheet(
+            customContext: context,
+            firstIconName: 'photoGallery',
+            firstIconText: 'Pick image from  Gallery',
+            firstIconAndTextOnPressed: (){
+              print("tabNumber : $tabNumber");
+              if(tabNumber == 0) GalleryAndCameraButtonsOnPressed().thumbnailPicture(context);
+              if(tabNumber == 1) GalleryAndCameraButtonsOnPressed().otherPictureOne(context);
+              if(tabNumber == 2) GalleryAndCameraButtonsOnPressed().otherPictureTwo(context);
+            },
+            secondIconName: 'image2vector',
+            secondIconText: 'Click image from Camera',
+            secondIconAndTextOnPressed: (){},
+        ).showTwo();
+      }
 }

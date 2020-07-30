@@ -67,7 +67,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   bool isCategorySelected = false;
   bool isBazaarWala;
 
-  Map<String, bool > map = new SplayTreeMap();
+  Map<String, bool > map = new SplayTreeMap();/// make it set
   getCategorySizeFuture() async{
     QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
 
@@ -148,8 +148,10 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
                     isCategorySelected = true;
                     ///create map here:
-                    List<String> listOfCategoriesSelected = snapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
-                    map = CreateMapFromListOfCategories().createMap(listOfCategoriesSelected, map);
+                    categoriesForBazaarWalasBasicProfile = snapshot.data["categories"].cast<String>();
+                    //List<String> listOfCategoriesSelected = snapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
+                    map = CreateMapFromListOfCategories().createMap(categoriesForBazaarWalasBasicProfile, map);
+                    //map = CreateMapFromListOfCategories().createMap(listOfCategoriesSelected, map);
                   }
 
                   return ListView(
@@ -568,7 +570,10 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     map.forEach((categoryNameInMap, value) async{
       if(value == true) {
         String categoryName = categoryNameInMap;
-        categoriesForBazaarWalasBasicProfile.add(categoryName);
+        if(categoriesForBazaarWalasBasicProfile.contains(categoryName) == false){
+          categoriesForBazaarWalasBasicProfile.add(categoryName);
+        }
+//        categoriesForBazaarWalasBasicProfile.add(categoryName);
         var result = {
           userPhoneNo: {
             'name': userName

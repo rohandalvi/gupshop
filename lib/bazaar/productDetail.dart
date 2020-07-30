@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/chatWithBazaarwala.dart';
 import 'package:gupshop/bazaar/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
@@ -158,10 +159,22 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         userNumber = numberSnapshot.data;
         return Card(
           child: FutureBuilder(
-            future: FirestoreShortcuts().getVideoURL(widget.productWalaNumber),/// get it from bazaarWalas basic profile and not videos collection
+            future: GetBazaarWalasBasicProfileInfo(userNumber: userNumber).getPictureList(),/// get it from bazaarWalas basic profile and not videos collection
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
-                String videoURL = snapshot.data["url"];
+                String thumbnailPicture = snapshot.data["thumbnailPicture"];
+                String otherPictureOne = snapshot.data["otherPictureOne"];
+                String otherPictureTwo = snapshot.data["otherPictureTwo"];
+
+                if(thumbnailPicture == null) thumbnailPicture =
+                "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
+
+                if(otherPictureOne == null) otherPictureOne =
+                "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
+
+                if(otherPictureTwo == null) otherPictureTwo =
+                "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
+
                 return Center(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),

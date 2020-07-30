@@ -135,6 +135,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                 future: Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).get(),
                 builder: (context, snapshot) {
                   if(snapshot.connectionState == ConnectionState.done){
+                    //isBazaarWala = false; /// toDo- change it ASAP
                   if(isBazaarWala == true){
                     video = new File("videoURL");
                     videoURL = snapshot.data["videoURL"];

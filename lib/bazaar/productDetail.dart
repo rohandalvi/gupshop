@@ -162,6 +162,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
             future: GetBazaarWalasBasicProfileInfo(userNumber: userNumber).getPictureList(),/// get it from bazaarWalas basic profile and not videos collection
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
+                String videoURL = snapshot.data["videoURL"];
                 String thumbnailPicture = snapshot.data["thumbnailPicture"];
                 String otherPictureOne = snapshot.data["otherPictureOne"];
                 String otherPictureTwo = snapshot.data["otherPictureTwo"];
@@ -190,13 +191,13 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                                 children: <Widget>[
                                   CustomVideoPlayer(videoURL: videoURL,),
                                   Image(
-                                    image: AssetImage('images/sampleProfilePicture.jpeg'),
+                                    image: NetworkImage(thumbnailPicture),
                                   ),
                                   Image(
-                                    image: AssetImage('images/sampleImageForBazaar.jpeg'),
+                                    image: NetworkImage(otherPictureOne),
                                   ),
                                   Image(
-                                    image: AssetImage('images/kamwali.png'),
+                                    image: NetworkImage(otherPictureTwo),
                                   ),
                                 ],
                               ),

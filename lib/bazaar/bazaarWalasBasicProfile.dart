@@ -12,6 +12,6 @@ class BazaarWalasBasicProfile{
     /// add videoURL
     /// home location
     /// categories
-    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({'bazaarWalaName': userName,'videoURL': videoURL, 'latitude': latitude, 'longitude': longitude, 'categories':categories, });
+    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({'bazaarWalaName': userName,'videoURL': videoURL, 'latitude': latitude, 'longitude': longitude, 'categories':categories,}, merge: true);
   }
 }

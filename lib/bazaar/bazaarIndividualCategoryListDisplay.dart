@@ -47,35 +47,41 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,//name,short description, ratings and rs all moves down a bit if this is removed
                 crossAxisAlignment: CrossAxisAlignment.start,//alignment of ratings and  short description
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //crossAxisAlignment: CrossAxisAlignment.start,//this is removed to decrease space between name and short description
-                    children: <Widget>[
-                      Container(
-                        width:150,//to avoid overflow
-                        child: CustomText(text: bazaarWalaName, fontSize: 20,),
-                      ),
-                      Container(
-                        width: 65,
-                        height: 65,
-                        child: CustomIconButton(
-                          iconNameInImageFolder: 'chatBubble',
-                          onPressed: () async{
-                            List<dynamic> listOfFriendsNumbers = new List();
-                            listOfFriendsNumbers.add(bazaarWalaPhoneNo);
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //crossAxisAlignment: CrossAxisAlignment.start,//this is removed to decrease space between name and short description
+                      children: <Widget>[
+                        Container(
+                          width:150,//to avoid overflow
+                          child: CustomText(text:bazaarWalaName, fontSize: 20,),
+                          //'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooong' )
 
-                            String userNumber = await UserDetails().getUserPhoneNoFuture();
-                            String userName = await UserDetails().getUserNameFuture();
-
-                            String conversationId = await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber, friendNumber: bazaarWalaPhoneNo).getIndividualChatId();
-
-                            NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
-                                listOfFriendsNumbers: listOfFriendsNumbers, friendName: bazaarWalaName,
-                                userName: userName).navigateNoBrackets(context);
-                          },
                         ),
-                      ),
-                    ],
+                        Expanded(
+                          child: Container(
+                            width: 65,
+                            height: 65,
+                            child: CustomIconButton(
+                              iconNameInImageFolder: 'chatBubble',
+                              onPressed: () async{
+                                List<dynamic> listOfFriendsNumbers = new List();
+                                listOfFriendsNumbers.add(bazaarWalaPhoneNo);
+
+                                String userNumber = await UserDetails().getUserPhoneNoFuture();
+                                String userName = await UserDetails().getUserNameFuture();
+
+                                String conversationId = await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber, friendNumber: bazaarWalaPhoneNo).getIndividualChatId();
+
+                                NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
+                                    listOfFriendsNumbers: listOfFriendsNumbers, friendName: bazaarWalaName,
+                                    userName: userName).navigateNoBrackets(context);
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, category: category,),
                   SizedBox(height: 5,),

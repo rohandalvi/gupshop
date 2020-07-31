@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/navigators/navigateToBazaarHomeScreen.dart';
+import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/service/filterBazaarWalas.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
@@ -40,7 +42,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
         child: CustomAppBar(
           title: CustomText(text: category.toUpperCase(), fontSize: 20,),
           onPressed: (){
-            Navigator.pop(context);
+           NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
           }
         ),
       ),
@@ -57,7 +59,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
         return ListView.builder(
           itemCount: numberOfBazaarWalasInList,
           itemBuilder: (BuildContext context, int index) {
-            return StreamBuilder( //use bazaarcategory to display people insted becuase bazaarwalabasicprofile is categorized by phoneNumber now
+            return StreamBuilder( ///use bazaarcategory to display people insted becuase bazaarwalabasicprofile is categorized by phoneNumber now
                 stream: BazaarRatingNumbers(userNumber: bazaarWalaPhoneNo, categoryName: category).getRatingSnapshot(),
                 builder: (context, streamSnapshot) {
                   if (streamSnapshot.data == null) return CircularProgressIndicator(); //v v imp

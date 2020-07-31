@@ -16,7 +16,8 @@ class Home extends StatefulWidget{
   final String userName;
   List<String> phoneNumberList;
   Presence presence;
-  Home({@required this.userPhoneNo, @required this.userName, @required this.phoneNumberList});
+  final int initialIndex;
+  Home({@required this.userPhoneNo, @required this.userName, @required this.phoneNumberList, this.initialIndex});
 
 
   @override
@@ -37,7 +38,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      initialIndex: 0,
+      initialIndex: widget.initialIndex == null ? 0 : widget.initialIndex,
       child: Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(100.0),//the distance between gupShop and tabBars

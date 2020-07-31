@@ -11,6 +11,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/PushToFirebase/pushToCategoriesMetadata.dart';
+import 'package:gupshop/bazaar/bazaarProfileLocation.dart';
+import 'package:gupshop/bazaar/bazaarProfileVideo.dart';
 import 'package:gupshop/bazaar/bazaarWalasBasicProfile.dart';
 import 'package:gupshop/bazaar/categories.dart';
 import 'package:gupshop/bazaar/createMapFromListOfCategories.dart';
@@ -20,10 +22,12 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
+import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -124,18 +128,11 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
           child: CustomAppBar(
             title: CustomText(text: 'Become a Bazaarwala', fontSize: 20,),
             onPressed:(){
-             Navigator.pop(context);
+              NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
           },),
         ),
-      backgroundColor: Colors.white,
-      body:
-//      FutureBuilder(
-//        future: UserDetails().getIsBazaarWalaInSharedPreferences(),
-//        builder: (context, snapshot) {
-//          if(snapshot.connectionState == ConnectionState.done){
-//            isBazaarWala = snapshot.data;
-
-          FutureBuilder(
+        backgroundColor: Colors.white,
+        body: FutureBuilder(
                 future: Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).get(),
                 builder: (context, snapshot) {
                   if(snapshot.connectionState == ConnectionState.done){
@@ -153,90 +150,107 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                   }
 
                   return ListView(
-                   // shrinkWrap: true,
                       children: <Widget>[
                         /// video widgets:
-//                        VideoPlayerAndSelectOptions(
-//                          video: video,
-//                          cameraVideo: _cameraVideo,
-//                          videoURL: videoURL,
-//                          videoSelected: videoSelected,
-//                          isBazaarWala: isBazaarWala,
-//                          userPhoneNo: userPhoneNo,
-//                        ),
-                        if((video != null || _cameraVideo != null)) Row(
+                        pageSubtitle('Add Advertisement video : '),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            MessageCardDisplay().showVideo(videoURL,),
-                            changeVideo(),
+                            BazaarProfileVideo(
+                              firstIconAndTextOnPressed: (){
+                                _pickVideoFromGallery();
+                              },
+                              secondIconAndTextOnPressed: (){
+                                _pickVideoFromCamer();
+                              },
+                            ),
+                            if((video != null || _cameraVideo != null)) MessageCardDisplay().showVideo(videoURL,),
                           ],
                         ),
                         createSpaceBetweenButtons(15),
-                        pageSubtitle(),
-                        Visibility(
-                          visible: (videoSelected == false),
-                          child: setVideoFromGallery(),
-                        ),
-                        Visibility(
-                          visible: (videoSelected == false),
-                          child: or(),
-                        ),
-                        Visibility(
-                          visible:(videoSelected == false),
-                          child: setVideoFromCamera(),
-                        ),
+                        pageSubtitle('Add Location : '),
+
+//                        Visibility(
+//                          visible: (videoSelected == false),
+//                          child: setVideoFromGallery(),
+//                        ),
+//                        Visibility(
+//                          visible: (videoSelected == false),
+//                          child: or(),
+//                        ),
+//                        Visibility(
+//                          visible:(videoSelected == false),
+//                          child: setVideoFromCamera(),
+//                        ),
 
                         /// location widgets:
-                        if(locationSelected == false ) Row(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            LocationServiceState().showLocation(userName, latitude, longitude),
-                            changeLocation(),
+                            BazaarProfileLocation(
+                              firstIconAndTextOnPressed: (){
+                                setLocation(context);
+                              },
+                              secondIconAndTextOnPressed: (){
+                                setLocation(context);
+                              },
+                            ),
+                            if(locationSelected == false ) LocationServiceState().showLocation(userName, latitude, longitude),
                           ],
                         ),
-                        Visibility(
-                          visible: locationSelected,
-                          child: setLocation(context),
-                        ),
-                        Visibility(
-                          visible: locationSelected,
-                          child: or(),
-                        ),
-                        Visibility(
-                          visible: locationSelected,
-                          child: setLocationOtherThanCurrentAsHome(),
-                        ),
+//                        if(locationSelected == false ) Row(
+//                          children: <Widget>[
+//                            LocationServiceState().showLocation(userName, latitude, longitude),
+//                            changeLocation(),
+//                          ],
+//                        ),
+//                        Visibility(
+//                          visible: locationSelected,
+//                          child: setLocation(context),
+//                        ),
+//                        Visibility(
+//                          visible: locationSelected,
+//                          child: or(),
+//                        ),
+//                        Visibility(
+//                          visible: locationSelected,
+//                          child: setLocationOtherThanCurrentAsHome(),
+//                        ),
 
                         /// category widgets:
                         //if(isCategorySelected == true ) changeCategories(context),
-                        FutureBuilder(
-                          future: GetCategoriesFromCategoriesMetadata().main(),
-                          builder: (BuildContext context, AsyncSnapshot categorySnapshot) {
-                            if (categorySnapshot.connectionState == ConnectionState.done) {
-                              /// if the user does not have bazaar profile yet:
-                              if(categorySnapshot.data != null){
-                                categoriesForBazaarWalasBasicProfile = categorySnapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
-                              }
-                              ///create map here:
-                              map = CreateMapFromListOfCategories().createMap(categoriesForBazaarWalasBasicProfile, map);
+                        pageSubtitle('Add categories : '),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            CustomRaisedButton(child: CustomText(text: 'Categories:',),),
+                            FutureBuilder(
+                              future: GetCategoriesFromCategoriesMetadata().main(),
+                              builder: (BuildContext context, AsyncSnapshot categorySnapshot) {
+                                if (categorySnapshot.connectionState == ConnectionState.done) {
+                                  /// if the user does not have bazaar profile yet:
+                                  if(categorySnapshot.data != null){
+                                    categoriesForBazaarWalasBasicProfile = categorySnapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
+                                  }
+                                  ///create map here:
+                                  map = CreateMapFromListOfCategories().createMap(categoriesForBazaarWalasBasicProfile, map);
 
-                              return Categories(map: map, isCategorySelected: isCategorySelected,);
-                              //return getCategories(context);
-                            }
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          },
+                                  return Categories(map: map, isCategorySelected: isCategorySelected,);
+                                  //return getCategories(context);
+                                }
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              },
+                            ),
+                          ],
                         ),
-
-                        /// show save button if everything is selected:
-                        showSaveButton(context),
                       ]
                   );
                   } return CircularProgressIndicator();
                 }
               ),
-//          } return CircularProgressIndicator();
-//        }
-//      ),
+      floatingActionButton: showSaveButton(context),
     );
   }
 
@@ -292,8 +306,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
 
 
-  pageSubtitle(){
-    return CustomText(text: 'Advertisement : ',);
+  pageSubtitle(String text){
+    return CustomText(text: text,);
   }
 
 
@@ -407,15 +421,22 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
   bool moveForward(bool isSelected) {
     bool result;
-      result = ((video != null || _cameraVideo != null) && isSelected == true && _bazaarWalaLocation != null);
-    print("Video : $video} and Camera: $_cameraVideo and IsSelected: $isSelected and bazaarwalalocation: $_bazaarWalaLocation");
-    print("result : $result");
-    print("bazaarwala location : $_bazaarWalaLocation");
-    print("latitude: $latitude");
-    print("result : $result");
-//    setState(() {
-      saveButtonVisible = result;
-//    });
+//      result = ((video != null || _cameraVideo != null) && isSelected == true && _bazaarWalaLocation != null);
+//    print("Video : $video} and Camera: $_cameraVideo and IsSelected: $isSelected and bazaarwalalocation: $_bazaarWalaLocation");
+//    print("result : $result");
+//    print("bazaarwala location : $_bazaarWalaLocation");
+//    print("latitude: $latitude");
+//    print("result : $result");
+////    setState(() {
+//
+////    });
+
+    if(isBazaarWala == true){
+      result = true;
+    }else {
+      result = ((video != null || _cameraVideo != null ) && isSelected == true && _bazaarWalaLocation != null);
+    }
+    saveButtonVisible = result;
     return saveButtonVisible;
   }
 
@@ -428,7 +449,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 //    });
     return Visibility(
       visible: isVisible,
-      child: CustomRaisedButton(
+      child: CustomFloatingActionButtonWithIcon(
+        iconName: 'forward2',
         onPressed: () async{
           await uploadVideoToFirestore();
 
@@ -448,15 +470,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
           NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
-
-//          Navigator.push(
-//              context,
-//              MaterialPageRoute(//todo- category is hardcoded here, we need to one category to ProductDetail page from the categories selected
-//                builder: (context) => ProductDetail(productWalaName: userName, category: categoryName, productWalaNumber: userPhoneNo,),//pass Name() here and pass Home()in name_screen
-//              )
-//          );
         },
-        child: CustomText(text: 'Click to add Advertisement Pictures',),
       ),
     );
   }

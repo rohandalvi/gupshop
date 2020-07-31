@@ -158,4 +158,29 @@ class CustomBottomSheet extends StatelessWidget {
         }
     );
   }
+
+  showOne(){
+    return showBottomSheet(
+        context: customContext,
+        builder: (BuildContext context){
+          return Container(
+            height: MediaQuery.of(context).size.height*0.2,
+            child: Column(
+              children: <Widget>[
+                /// icon and name, so CustomIconButton and CustomText
+                Row(
+                  children: <Widget>[
+                    CustomIconButton(
+                      iconNameInImageFolder: firstIconName,
+                      onPressed: firstIconAndTextOnPressed,
+                    ),
+                    CustomText(text: firstIconText,)
+                  ],
+                ),
+              ],
+            ),
+          );
+        }
+    );
+  }
 }

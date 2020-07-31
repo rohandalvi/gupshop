@@ -150,10 +150,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                     locationSelected = false;
 
                     isCategorySelected = true;
-                    ///create map here:
-//                    categoriesForBazaarWalasBasicProfile = snapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
-//                    print("categoriesForBazaarWalasBasicProfile : ${categoriesForBazaarWalasBasicProfile}");
-//                    map = CreateMapFromListOfCategories().createMap(categoriesForBazaarWalasBasicProfile, map);
                   }
 
                   return ListView(
@@ -212,14 +208,15 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                         /// category widgets:
                         //if(isCategorySelected == true ) changeCategories(context),
                         FutureBuilder(
-                          future: GetCategoriesFromCategoriesMetadata(userNumber: userPhoneNo).main(),
+                          future: GetCategoriesFromCategoriesMetadata().main(),
                           builder: (BuildContext context, AsyncSnapshot categorySnapshot) {
                             if (categorySnapshot.connectionState == ConnectionState.done) {
+                              /// if the user does not have bazaar profile yet:
                               if(categorySnapshot.data != null){
                                 categoriesForBazaarWalasBasicProfile = categorySnapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
                               }
+                              ///create map here:
                               map = CreateMapFromListOfCategories().createMap(categoriesForBazaarWalasBasicProfile, map);
-                              print("map in futurebuikder: $map");
 
                               return Categories(map: map, isCategorySelected: isCategorySelected,);
                               //return getCategories(context);

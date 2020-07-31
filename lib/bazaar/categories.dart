@@ -20,7 +20,7 @@ class _CategoriesState extends State<Categories> {
       onPressed: () async{
         bool _isSelected = await _categorySelectorCheckListDialogBox(context);
       },
-      child: CustomText(text: "Select from category",),
+      child: CustomText(text: "Category",),
       //Text("Select from category",style: GoogleFonts.openSans()),
     );
   }

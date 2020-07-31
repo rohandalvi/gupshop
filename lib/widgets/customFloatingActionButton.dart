@@ -56,6 +56,36 @@ class CustomBigFloatingActionButton extends StatelessWidget {
   }
 }
 
+class CustomFloatingActionButtonWithIcon extends StatelessWidget {
+  final String tooltip;
+  final VoidCallback onPressed;
+  final Object heroTag;
+  final double height;
+  final double width;
+  final String iconName;
+
+  CustomFloatingActionButtonWithIcon({this.tooltip, this.onPressed, this.heroTag, this.width, this.height, this.iconName});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height == null ? 100 : height,/// to increase the size of floatingActionButton use container along with FittedBox
+      width: width == null ? 100 : width,
+      child: FittedBox(
+        child: CustomFloatingActionButton(
+          heroTag: heroTag,
+          tooltip: tooltip,
+          child: IconButton(
+              icon: SvgPicture.asset('images/$iconName.svg',)
+            //SvgPicture.asset('images/downChevron.svg',)
+          ),
+          onPressed: onPressed,
+        ),
+      ),
+    );
+  }
+}
+
 
 //child: Container(
 //height: 100,/// to increase the size of floatingActionButton use container along with FittedBox

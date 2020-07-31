@@ -36,7 +36,7 @@ class GetBazaarWalasBasicProfileInfo{
     return dc[image];
   }
 
-  getPictureList() async{
+  getPictureListAndVideo() async{
     DocumentSnapshot dc = await Firestore.instance.collection("bazaarWalasBasicProfile")
         .document(userNumber).get();
 
@@ -44,6 +44,7 @@ class GetBazaarWalasBasicProfileInfo{
     map["thumbnailPicture"] = dc["thumbnailPicture"];
     map["otherPictureOne"] = dc["otherPictureOne"];
     map["otherPictureTwo"] = dc["otherPictureTwo"];
+    map["videoURL"] = dc["videoURL"];
 
     return map;
   }

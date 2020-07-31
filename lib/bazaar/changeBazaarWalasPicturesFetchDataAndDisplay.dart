@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/changeBazaarWalasPicturesDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
+import 'package:gupshop/widgets/customRaisedButton.dart';
+import 'package:gupshop/widgets/customText.dart';
 
 class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print("in ChangeBazaarWalasPicturesFetchDataAndDisplay");
     return FutureBuilder(
       future: UserDetails().getUserPhoneNoFuture(),
       builder: (BuildContext context, AsyncSnapshot userNumberSnapshot) {
@@ -16,7 +17,7 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
           String userNumber = userNumberSnapshot.data;
 
           return FutureBuilder(
-            future: GetBazaarWalasBasicProfileInfo(userNumber: userNumber).getPictureList(),
+            future: GetBazaarWalasBasicProfileInfo(userNumber: userNumber).getPictureListAndVideo(),
             builder: (BuildContext context, AsyncSnapshot picturesSnapshot) {
               if (picturesSnapshot.connectionState == ConnectionState.done) {
                 String thumbnailPicture = picturesSnapshot.data["thumbnailPicture"];

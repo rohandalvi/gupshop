@@ -7,11 +7,12 @@ class BazaarWalasBasicProfile{
 
   BazaarWalasBasicProfile({@required this.userPhoneNo, @required this.userName});
 
-  pushToFirebase(String videoURL, double latitude, double longitude, List<String> categories, String categoryName) async{
+  pushToFirebase(String videoURL, double latitude, double longitude) async{
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({}, merge: true);
     /// add videoURL
     /// home location
     /// categories
-    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({'bazaarWalaName': userName,'videoURL': videoURL, 'latitude': latitude, 'longitude': longitude, 'categories':categories,}, merge: true);
+    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({'bazaarWalaName': userName,'videoURL': videoURL, 'latitude': latitude, 'longitude': longitude,}, merge: true);
   }
+
 }

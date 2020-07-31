@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/PushToFirebase/pushToCategoriesMetadata.dart';
 import 'package:gupshop/bazaar/bazaarWalasBasicProfile.dart';
 import 'package:gupshop/bazaar/createMapFromListOfCategories.dart';
 import 'package:gupshop/bazaar/setDocumentIdsForCollections.dart';
@@ -18,9 +19,11 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
+import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
@@ -135,7 +138,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                 future: Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).get(),
                 builder: (context, snapshot) {
                   if(snapshot.connectionState == ConnectionState.done){
-                    //isBazaarWala = false; /// toDo- change it ASAP
                   if(isBazaarWala == true){
                     video = new File("videoURL");
                     videoURL = snapshot.data["videoURL"];
@@ -148,8 +150,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
                     isCategorySelected = true;
                     ///create map here:
-                    categoriesForBazaarWalasBasicProfile = snapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
-                    map = CreateMapFromListOfCategories().createMap(categoriesForBazaarWalasBasicProfile, map);
+//                    categoriesForBazaarWalasBasicProfile = snapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
+//                    print("categoriesForBazaarWalasBasicProfile : ${categoriesForBazaarWalasBasicProfile}");
+//                    map = CreateMapFromListOfCategories().createMap(categoriesForBazaarWalasBasicProfile, map);
                   }
 
                   return ListView(
@@ -206,10 +209,23 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                         ),
 
                         /// category widgets:
-                        if(isCategorySelected == true ) changeCategories(context),
-                        Visibility(
-                          visible: (isCategorySelected == false),
-                          child: getCategories(context),
+                        //if(isCategorySelected == true ) changeCategories(context),
+                        FutureBuilder(
+                          future: GetCategoriesFromCategoriesMetadata(userNumber: userPhoneNo).main(),
+                          builder: (BuildContext context, AsyncSnapshot categorySnapshot) {
+                            if (categorySnapshot.connectionState == ConnectionState.done) {
+                              if(categorySnapshot.data != null){
+                                categoriesForBazaarWalasBasicProfile = categorySnapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
+                              }
+                              map = CreateMapFromListOfCategories().createMap(categoriesForBazaarWalasBasicProfile, map);
+                              print("map in futurebuikder: $map");
+
+                              return getCategories(context);
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
                         ),
 
                         /// show save button if everything is selected:
@@ -280,6 +296,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
       onPressed: (){
         setState(() {
           isBazaarWala = false;
+          /// to change from changeCategory button to select category button:
           isCategorySelected = false;
         });
       },
@@ -412,11 +429,11 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     return CustomRaisedButton(
       onPressed: () async{
         bool _isSelected = await _categorySelectorCheckListDialogBox(context);
-        setState(() {
-          /// toDo - find why isCategorySelected is null if no category is selected
-          isCategorySelected = _isSelected;
-          print("isCategorySelected: $isCategorySelected");
-        });
+//        setState(() {
+//          /// toDo - find why isCategorySelected is null if no category is selected
+//          isCategorySelected = _isSelected;
+//          print("isCategorySelected: $isCategorySelected");
+//        });
       },
       child: Text("Select from category",style: GoogleFonts.openSans()),
     );
@@ -464,6 +481,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                                           onChanged: (bool val){
                                             setState(() {
                                               map[categoryName] = val; /// setting the new value as selected by user
+                                              print("map[categoryName] : ${map[categoryName]}");
+                                              print("map in onChanged: $map");
                                               isCategorySelected = categorySelected();
                                               print("isSelected: $isCategorySelected");
                                             });
@@ -532,6 +551,16 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
           await pushTobazaarWalasLocationCategoryBasicProfile();
 
+          ///push to bazaarWalasBasicProfile
+          /// update and not add if edit profile
+          await BazaarWalasBasicProfile(
+            userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
+              videoURL, latitude, longitude,);
+
+          print("categoriesForBazaarWalasBasicProfile : $categoriesForBazaarWalasBasicProfile");
+
+          await PushToCategoriesMatedata(userNumber: userPhoneNo, categories: categoriesForBazaarWalasBasicProfile).push();
+
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
@@ -561,16 +590,18 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     if (querySnapshot == null)
       return CircularProgressIndicator(); //to avoid red screen(error)
 
-    String categoryName;
-
         /// creating new list to store in bazaarWalasBasicProfile
 
+    print("map in push : ${map}");
     map.forEach((categoryNameInMap, value) async{
-      if(value == true) {
-        String categoryName = categoryNameInMap;
+      print(" map : $categoryNameInMap : $value");
+      String categoryName = categoryNameInMap;
+      if(value == true){
         if(categoriesForBazaarWalasBasicProfile.contains(categoryName) == false){
           categoriesForBazaarWalasBasicProfile.add(categoryName);
         }
+
+
 //        categoriesForBazaarWalasBasicProfile.add(categoryName);
         var result = {
           userPhoneNo: {
@@ -591,13 +622,10 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
         await SetDocumentIdsForCollections().setForBazaarReviews(userPhoneNo);
 
       }
-    });
 
-      ///push to bazaarWalasBasicProfile
-      /// update and not add if edit profile
-      await BazaarWalasBasicProfile(
-          userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
-          videoURL, latitude, longitude, categoriesForBazaarWalasBasicProfile,
-          categoryName);
+      if(value == false && categoriesForBazaarWalasBasicProfile.contains(categoryName) == true){
+        categoriesForBazaarWalasBasicProfile.remove(categoryName);
+      }
+    });
     }
 }

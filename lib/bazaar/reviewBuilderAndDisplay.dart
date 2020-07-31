@@ -6,6 +6,7 @@ import 'package:gupshop/PushToFirebase/pushToBazaarReviewsCollection.dart';
 import 'package:gupshop/bazaar/likesDislikesDisplay.dart';
 import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToBazaarProfilePage.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
 import 'package:gupshop/timestamp/timeDisplay.dart';
 import 'package:gupshop/updateInFirebase/updateBazaarRatingNumbersCollection.dart';
@@ -340,7 +341,8 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
               child: CustomText(
                 text: 'Change Advertisement', fontSize: 12,),
               onPressed: (){
-                /// change video logic
+                /// take the bazaarWala to bazaarProfile page"
+                NavigateToBazaarProfilePage().navigateNoBrackets(context);
               },),
 //            Text('Add your advertisement',style: GoogleFonts.openSans(
 //                fontSize: 12

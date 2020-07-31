@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/bazaar/bazaarProfilePage.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/screens/home.dart';
 
-class NavigateToHome {
-  int initialIndex;
-
-  NavigateToHome({this.initialIndex});
+class NavigateToBazaarProfilePage {
 
   navigate(BuildContext context) async {
     String userNumber = await UserDetails().getUserPhoneNoFuture();
@@ -17,10 +15,9 @@ class NavigateToHome {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                Home(
+                BazaarProfilePage(
                   userPhoneNo: userNumber,
                   userName: userName,
-                  initialIndex: initialIndex,
                 ),
           )
       );
@@ -35,10 +32,9 @@ class NavigateToHome {
         context,
         MaterialPageRoute(
           builder: (context) =>
-              Home(
+              BazaarProfilePage(
                 userPhoneNo: userNumber,
                 userName: userName,
-                initialIndex: initialIndex,
               ),
         )
     );

@@ -189,23 +189,6 @@ class NavigateToHome{
   }
 }
 
-class NavigateToBazaarIndiviudalCategoryList{
-  String category;
-
-
-  NavigateToBazaarIndiviudalCategoryList({this.category});
-
-  navigate(BuildContext context){
-    return (){
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BazaarIndividualCategoryListData(category: category,),//pass Name() here and pass Home()in name_screen
-          )
-      );
-    };
-  }
-}
 
 class NavigateToNewsComposer{
   bool groupExits;

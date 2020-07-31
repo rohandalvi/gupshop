@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/chatWithBazaarwala.dart';
 import 'package:gupshop/bazaar/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToBazaarIndividualCategoryList.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 
@@ -78,9 +80,9 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           child: CustomAppBar(
             title: CustomText(text: 'Product Detail', fontSize: 20,),
             onPressed: (){
-              Navigator.pop(context);
+              //Navigator.pop(context);
+              NavigateToBazaarIndiviudalCategoryList(category: category).navigateNoBrackets(context);
             }
-            //NavigateToBazaarIndiviudalCategoryList(category: category).navigate(context),
           ),
         ),
         body: Flex(//---> Expanded has to be wrapped in Flex always

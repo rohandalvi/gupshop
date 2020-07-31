@@ -312,7 +312,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
 
   likeDislikeIconsAndAddReviewButton(int rating){
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(5.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,//for spacing between rating stars and add review
         children: <Widget>[
@@ -347,8 +347,8 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
 //            )),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
-              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(1),
             ),
           ),
 

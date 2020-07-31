@@ -51,6 +51,6 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
             }
         ),
       ],
-    );
+    ).noLeading();
   }
 }

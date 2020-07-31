@@ -21,13 +21,17 @@ class CustomAppBar extends StatelessWidget{
       leading: IconButton(
         icon: SvgPicture.asset('images/backArrowColor.svg',),
         onPressed: onPressed,
-//        onPressed: (){//toDo- implement- if the parameter not given then use this
-//          Navigator.pop(context);
-//        },
       ),
-//      title: Material(
-//        color: Theme.of(context).primaryColor,
-//      ),
+    );
+  }
+
+  noLeading(){
+    return AppBar(
+      backgroundColor: secondryColor.withOpacity(.03),
+      elevation: 0,
+      title: title,
+      actions: actions,
+      automaticallyImplyLeading: false,
     );
   }
 }

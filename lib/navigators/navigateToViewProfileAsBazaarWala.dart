@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/bazaar/viewProfileAsBazaarWala.dart';
+import 'package:gupshop/bazaar/viewProfileAsBazaarWalaDisplay.dart';
 
 class NavigateToViewProfileAsBazaarWala{
 
@@ -12,7 +12,7 @@ class NavigateToViewProfileAsBazaarWala{
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ViewProfileAsBazaarWala(),
+            builder: (context) => ViewProfileAsBazaarWalaDisplay(),
           )
       );
     };
@@ -22,7 +22,7 @@ class NavigateToViewProfileAsBazaarWala{
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ViewProfileAsBazaarWala(),
+          builder: (context) => ViewProfileAsBazaarWalaDisplay(),
         )
     );
   }

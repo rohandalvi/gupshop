@@ -109,20 +109,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               });
                             },
                           ),
-//            new TextField(
-//              decoration: new InputDecoration(labelText: "Enter your number"),
-//              keyboardType: TextInputType.phone,
-//              onChanged: (val) {
-//
-//                setState(() {
-//                  this.phoneNo = val;
-//                  this.val=val;
-//
-//                  print("phoneNo: ${val}");
-//                });
-//              },
-//              // Only numbers can be entered
-//            ),
                       padding: EdgeInsets.only(left: 20, top: 35, right: 20),
                     ),
                   ),
@@ -148,19 +134,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() {
       val = countryCode + numberWithoutCode;
-      print("revised number: $val");
     });
 
     /// I dont think PhoneVerificationCompleted PhoneVerificationFailed is required @todo
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
-      print("verification done");
       AuthService().signIn(authResult);
     };
 
     final PhoneVerificationFailed verificationfailed = (AuthException authException) {
-      print("verification wrong");
-      print("error message: ${authException.message}");
-      //print('error message : ${authException.message}');
     };
     /// seperator
 
@@ -183,7 +164,6 @@ class _LoginScreenState extends State<LoginScreen> {
         FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
           //Navigator.of(context).pushNamed('loggedIn');
 
-          print("userphoneno: ${val}");
           Navigator.push(
               context,
               MaterialPageRoute(

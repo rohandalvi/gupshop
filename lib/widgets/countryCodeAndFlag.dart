@@ -11,7 +11,7 @@ class CountryCodeAndFlag extends StatelessWidget {
   Widget build(BuildContext context) {
     return CountryCodePicker(
       initialSelection: 'IN',
-      favorite: ['+1', '+33'],
+      favorite: ['+1', '+91'],
       onChanged: onChanged,
     );
   }

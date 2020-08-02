@@ -149,7 +149,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
           ),
           _scrollToBottomButton(),
           Align(
-            alignment: Alignment.bottomRight,
+            alignment: Alignment(0.85, 0.85),
               child: TypingStatusDisplay(conversationId: widget.conversationId, userNumber: widget.userPhoneNo,)
           ),
         ],

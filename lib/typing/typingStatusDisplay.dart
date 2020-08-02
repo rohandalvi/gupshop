@@ -43,7 +43,7 @@ class TypingStatusDisplay extends StatelessWidget {
           return Visibility(
             visible: hasMembers,
             child: CustomFloatingActionButtonWithIcon(
-              iconName: 'typing',
+              iconName: 'typingRed',
               onPressed: (){},
             ),
           );

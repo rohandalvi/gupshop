@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToSaveCollection.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
@@ -13,6 +14,8 @@ import 'package:gupshop/individualChat/cameraVideoPickCreateData.dart';
 import 'package:gupshop/individualChat/galleryImagePickCropCreateData.dart';
 import 'package:gupshop/individualChat/galleryVideoPickCreateData.dart';
 import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsCollection.dart';
+import 'package:gupshop/typing/typingStatusData.dart';
+import 'package:gupshop/typing/typingStatusDisplay.dart';
 import 'package:gupshop/models/image_message.dart';
 import 'package:gupshop/models/location_message.dart';
 import 'package:gupshop/models/message.dart';
@@ -56,6 +59,35 @@ class BodyScrollComposer extends StatefulWidget {
 class _BodyScrollComposerState extends State<BodyScrollComposer> {
   int limitCounter = 1;
   int startAfter = 1;
+
+  final myController = TextEditingController();
+
+  @override
+  void initState() {
+
+    myController.addListener(_printLatestValue);
+    
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+
+    myController.dispose();
+    super.dispose();
+  }
+
+  _printLatestValue(){
+    print("typing : ${myController.text}");
+   String isTyping = myController.text;
+   TypingStatusData(
+       isTyping: isTyping,
+       conversationId: widget.conversationId,
+      userPhoneNo: widget.userPhoneNo,
+   ).pushStatus();
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +148,10 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
             ],
           ),
           _scrollToBottomButton(),
+          Align(
+            alignment: Alignment.bottomRight,
+              child: TypingStatusDisplay(conversationId: widget.conversationId, userNumber: widget.userPhoneNo,)
+          ),
         ],
       ),
     );
@@ -281,7 +317,8 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                   ///Navigating to RecentChats page with pushes the data to firebase
                   RecentChats(message: textMessage.fromJson(), convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists:widget.groupExits).getAllNumbersOfAConversation();
 
-                  widget.controllerTwo.clear();//used to clear text when user hits send button
+                  myController.clear();
+                  //widget.controllerTwo.clear();//used to clear text when user hits send button
                   widget.listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
                     0.0,
                     curve: Curves.easeOut,
@@ -291,7 +328,8 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
               },
 
               scrollController: new ScrollController(),
-              controller: widget.controllerTwo,
+              controller: myController,
+              //widget.controllerTwo,
             );
           },
 

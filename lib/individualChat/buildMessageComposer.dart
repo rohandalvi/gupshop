@@ -36,6 +36,7 @@ class BuildMessageComposer extends StatelessWidget {
     this.groupName,
     this.value,
     this.listScrollController,
+    this.onEditingComplete,
   });
 
   @override
@@ -52,6 +53,7 @@ class BuildMessageComposer extends StatelessWidget {
           ),
           Expanded(
             child: TextField(
+              onEditingComplete: onEditingComplete,
               maxLines: null,
               onChanged: onChangedForTextField,
               scrollController: scrollController,

@@ -1,5 +1,5 @@
-import 'package:gupshop/service/deleteHelper.dart';
-import 'package:gupshop/service/deleteMembersFromGroup.dart';
+import 'package:gupshop/deleteFromFirebase/deleteHelper.dart';
+import 'package:gupshop/deleteFromFirebase/deleteMembersFromGroup.dart';
 
 class DeleteChats{
 

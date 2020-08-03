@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
 import 'package:gupshop/individualChat/individualChatAppBar.dart';
 import 'package:gupshop/individualChat/bodyScrollComposer.dart';
@@ -141,6 +142,9 @@ class _IndividualChatState extends State<IndividualChat> {
     /// also push the conversationId to conversations:
     Firestore.instance.collection("conversations").document(id).setData({});
 
+    /// setData to messageTyping collection:
+    PushToMessageTypingCollection(conversationId: conversationId, userNumber: userPhoneNo).pushTypingStatus();
+
     await forwardMessages(id);
   }
 
@@ -176,6 +180,7 @@ class _IndividualChatState extends State<IndividualChat> {
     streambuilder without initializing in initState also paginates alright.
      */
 
+    /// if new conversation, then conversationId == null
     if(conversationId == null) {
       getConversationId();
       /// also create a conversations_number collection

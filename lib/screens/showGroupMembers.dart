@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/screens/changeGroupName.dart';
-import 'package:gupshop/service/addNewGroupMember.dart';
+import 'package:gupshop/updateInFirebase/addNewGroupMember.dart';
 import 'package:gupshop/service/createGroup.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/deleteFromFirebase/deleteMembersFromGroup.dart';

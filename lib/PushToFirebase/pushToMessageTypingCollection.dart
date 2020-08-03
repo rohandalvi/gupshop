@@ -11,6 +11,7 @@ class PushToMessageTypingCollection{
 //        .setData({}, merge: true);
   List<String> members = new List();
   members.add(userNumber);
+  print("members in list: $members");
 
     Firestore.instance.collection("messageTyping").document(conversationId)
         .setData({'members': members}, merge: true);

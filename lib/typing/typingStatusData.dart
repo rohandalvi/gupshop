@@ -1,5 +1,6 @@
 import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
 import 'package:gupshop/deleteFromFirebase/deleteMemberFromMessageTyping.dart';
+import 'package:gupshop/updateInFirebase/updateTypingStatusToMessageTyping.dart';
 
 class TypingStatusData{
   String isTyping;
@@ -22,10 +23,14 @@ class TypingStatusData{
       print("typing");
       /// typing
       /// add to messageTyping
-      PushToMessageTypingCollection(
-        conversationId: conversationId,
-        userNumber: userPhoneNo,
-      ).pushTypingStatus();
+//      PushToMessageTypingCollection(
+//        conversationId: conversationId,
+//        userNumber: userPhoneNo,
+//      ).pushTypingStatus();
+    UpdateTypingStatusToMessageTyping(
+      conversationId: conversationId,
+      userNumber: userPhoneNo,
+    ).update();
     }
   }
 

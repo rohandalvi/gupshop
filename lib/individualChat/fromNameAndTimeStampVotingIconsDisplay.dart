@@ -31,10 +31,11 @@ class FromNameAndTimeStampVotingIconsDispaly extends StatefulWidget {
   int trueByCount;
   int fakeByCount;
   String newsId;
+  bool isRead;
 
   FromNameAndTimeStampVotingIconsDispaly({this.visible, this.fromName, this.isMe, this.timeStamp,
     this.isNews, this.conversationId,this.documentId, this.reportedByCount, this.trueByCount,
-    this.fakeByCount, this.newsId});
+    this.fakeByCount, this.newsId, this.isRead});
 
   @override
   _FromNameAndTimeStampVotingIconsDispalyState createState() => _FromNameAndTimeStampVotingIconsDispalyState();
@@ -43,7 +44,6 @@ class FromNameAndTimeStampVotingIconsDispaly extends StatefulWidget {
 class _FromNameAndTimeStampVotingIconsDispalyState extends State<FromNameAndTimeStampVotingIconsDispaly> {
   @override
   Widget build(BuildContext context) {
-    print("fakeByCount FromNameAndTimeStamp : ${widget.fakeByCount}");
 
         return Column(
           children: <Widget>[
@@ -162,6 +162,13 @@ class _FromNameAndTimeStampVotingIconsDispalyState extends State<FromNameAndTime
               padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),//pretty padding- for some margin from the side of the screen as well as the top of parent message
               child: widget.timeStamp,
             ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              alignment:  widget.isMe? Alignment.centerRight: Alignment.centerLeft,
+              padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+              child: widget.isRead == true ? CustomText(text: 'read',).blueSubtitle() : CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
+            ),
+
           ],
         );
   }

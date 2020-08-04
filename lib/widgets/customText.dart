@@ -89,6 +89,32 @@ class CustomText extends StatelessWidget {
     );
   }
 
+  blueSubtitle(){
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+        textStyle: TextStyle(
+          color: Colors.blue,
+          fontSize: 12,
+          fontStyle : FontStyle.italic,
+        ),
+      ),
+    );
+  }
+
+  graySubtitleItalic(){
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+        textStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 12,
+          fontStyle : FontStyle.italic,
+        ),
+      ),
+    );
+  }
+
   nonBoldText(){
     return Text(
       text,

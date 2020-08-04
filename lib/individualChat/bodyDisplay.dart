@@ -46,13 +46,15 @@ class BodyDisplay extends StatefulWidget {
   Timestamp timeStamp;
   String documentId;
   String messageId;
+  bool  isRead;
 
   BodyDisplay({this.mapIsNewsGenerated, this.newsId, this.newsBody, this.newsLink,
   this.newsTitle, this.isNews, this.controller, this.messageBody, this.videoURL,
   this.longitude, this.latitude, this.fromName, this.isLocationMessage, this.imageURL,
   this.isMe, this.groupExits, this.isPressed, this.userPhoneNo, this.userName,
   this.conversationId, this.trueByCount, this.fakeByCount, this.reportedByCount,
-  this.timeStamp, this.fromNameForGroup,this.documentId, this.messageId});
+  this.timeStamp, this.fromNameForGroup,this.documentId, this.messageId, this.isRead,
+  });
 
   @override
   _BodyDisplayState createState() => _BodyDisplayState();
@@ -202,6 +204,7 @@ class _BodyDisplayState extends State<BodyDisplay> {
       ),
       isThreeLine: true,
       subtitle: FromNameAndTimeStampVotingIconsDispaly(/// three icons are in this class
+        isRead: widget.isRead,
         newsId: widget.newsId,
         conversationId: widget.conversationId,
         documentId: widget.documentId,

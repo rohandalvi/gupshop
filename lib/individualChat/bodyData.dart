@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/individualChat/bodyDisplay.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
+import 'package:gupshop/messageReadUnread/listOfFriendsReadStatus.dart';
+import 'package:gupshop/messageReadUnread/messageReadUnreadData.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
+import 'package:gupshop/updateInFirebase/updateMessageReadUnreadCollection.dart';
 import 'package:video_player/video_player.dart';
 
 
@@ -24,9 +28,11 @@ class BodyData extends StatelessWidget {
   bool scroll = false;
   String value;
   Map<String,NewsContainerUI> mapIsNewsGenerated= new Map();
+  List<dynamic> listOfFriendNumbers;
 
   BodyData({this.conversationId, this.listScrollController, this.documentList, this.controller,
     this.userName, this.isPressed, this.userPhoneNo, this.groupExits, this.scroll, this.value,
+    this.listOfFriendNumbers,
   });
 
   @override
@@ -59,6 +65,7 @@ class BodyData extends StatelessWidget {
 
         String messageId = documentList[index].data["messageId"];
 
+        /// get news details from firebase news collection:
         /// wrap BodyDisplay with futurebuilder to get from link, title, news from news collection
         /// get fromname, fromnumber and timestamp from conversation collection
           return FutureBuilder(
@@ -95,6 +102,10 @@ class BodyData extends StatelessWidget {
                 imageURL = documentList[index].data["imageURL"];
               }
 
+              /// pushing messageReadUnread data to firebase:
+//              PushToMessageReadUnreadCollection(userNumber: userPhoneNo, messageId: messageId).pushLatestMessageId();
+                //UpdateMessageReadUnreadCollection(userNumber: userPhoneNo, messageId: messageId).update();
+
 //              if(isNews){
 //                mapIsNewsGenerated = NewsCache().newsValidator(
 //                    mapIsNewsGenerated,
@@ -104,38 +115,56 @@ class BodyData extends StatelessWidget {
 //                    newsBody);
 //              }
 
+                /// change this :
+                /// pass every number from listOfFriendNumbers to this number in MessageReadUnreadData
+                /// as done in ListOfFriendsStatus in messageReadUnread :
+                return FutureBuilder(
+                  future: ListOfFriendStatusReadStatus(listOfFriends: listOfFriendNumbers, conversationId: conversationId, conversationsLatestMessageTimestamp: timeStamp).readStatus(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      bool isRead = snapshot.data;
+                      print("isRead : $isRead");
 
-              return BodyDisplay(
-                conversationId: conversationId,
-                controller: controller,
-                userName: userName,
-                isPressed: isPressed,
-                userPhoneNo: userPhoneNo,
-                groupExits: groupExits,
-                mapIsNewsGenerated: mapIsNewsGenerated,
-                messageBody: messageBody,
-                imageURL:imageURL,
-                videoURL:videoURL,
-                newsBody:newsBody,
-                newsTitle:newsTitle,
-                newsLink:newsLink,
-                reportedByCount:reportedByCount,
-                trueByCount:trueByCount,
-                fakeByCount:fakeByCount,
-                newsId:newsId,
-                isMe:isMe,
-                latitude:latitude,
-                longitude:longitude,
-                isLocationMessage:isLocationMessage,
-                fromName:fromName,
-                isNews:isNews,
-                fromNameForGroup:fromNameForGroup,
-                timeStamp:timeStamp,
-                documentId: documentId,
-                messageId : messageId ,
-              );
-              } return Center(
-                child: CircularProgressIndicator(),
+                      return BodyDisplay(
+                        isRead: isRead,
+                        conversationId: conversationId,
+                        controller: controller,
+                        userName: userName,
+                        isPressed: isPressed,
+                        userPhoneNo: userPhoneNo,
+                        groupExits: groupExits,
+                        mapIsNewsGenerated: mapIsNewsGenerated,
+                        messageBody: messageBody,
+                        imageURL:imageURL,
+                        videoURL:videoURL,
+                        newsBody:newsBody,
+                        newsTitle:newsTitle,
+                        newsLink:newsLink,
+                        reportedByCount:reportedByCount,
+                        trueByCount:trueByCount,
+                        fakeByCount:fakeByCount,
+                        newsId:newsId,
+                        isMe:isMe,
+                        latitude:latitude,
+                        longitude:longitude,
+                        isLocationMessage:isLocationMessage,
+                        fromName:fromName,
+                        isNews:isNews,
+                        fromNameForGroup:fromNameForGroup,
+                        timeStamp:timeStamp,
+                        documentId: documentId,
+                        messageId : messageId ,
+                      );
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                );
+                /// message read unread data:
+
+                    }return Center(
+                  child: CircularProgressIndicator(),
               );
             }
           );

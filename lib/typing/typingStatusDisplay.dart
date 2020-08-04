@@ -14,7 +14,6 @@ class TypingStatusDisplay extends StatelessWidget {
     return StreamBuilder(
       stream: GetMessageTypingInfo(userNumber: userNumber, conversationId: conversationId).messageTypingStream(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        print("in streambuilder");
         if(snapshot.data == null ) return CircularProgressIndicator();
 //        print("snapshot.data.data : ${snapshot.data.data[""]}");
         bool hasMembers;

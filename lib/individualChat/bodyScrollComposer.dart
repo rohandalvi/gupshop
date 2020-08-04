@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToSaveCollection.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
@@ -14,6 +15,7 @@ import 'package:gupshop/individualChat/cameraVideoPickCreateData.dart';
 import 'package:gupshop/individualChat/galleryImagePickCropCreateData.dart';
 import 'package:gupshop/individualChat/galleryVideoPickCreateData.dart';
 import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsCollection.dart';
+import 'package:gupshop/messageReadUnread/listOfFriendsReadStatus.dart';
 import 'package:gupshop/typing/typingStatusData.dart';
 import 'package:gupshop/typing/typingStatusDisplay.dart';
 import 'package:gupshop/models/image_message.dart';
@@ -106,42 +108,48 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                     builder: (context, snapshot) {
                       if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter document was called on null"
                       widget.documentList = snapshot.data.documents;
-                      return NotificationListener<ScrollUpdateNotification>(
-                        child: BodyData(
-                          conversationId: widget.conversationId,
-                          controller: widget.controller,
-                          documentList: widget.documentList,
-                          listScrollController: widget.listScrollController,
-                          userName: widget.userName,
-                          userPhoneNo: widget.userPhoneNo,
-                          isPressed: widget.isPressed,
-                          groupExits: widget.groupExits,
-                          value: widget.value,
-                          scroll: widget.scroll,
 
-                        ),
-                        onNotification: (notification) {
-                          /// ScrollUpdateNotification :
-                          /// for listining when the user scrolls up
-                          /// Show the scrolltobottom button only when the user scrolls up
+                      String messageId = snapshot.data.documents[0].data["messageId"];
 
-                          ///onNotification allows us to know when we have reached the limit of the messages
-                          ///once the limit is reached, documentList is updated again  with the next 10 messages using
-                          ///the fetchAdditionalMesages()
-                          if(notification.metrics.atEdge
-                              &&  !((notification.metrics.pixels - notification.metrics.minScrollExtent) <
-                                  (notification.metrics.maxScrollExtent-notification.metrics.pixels))) {
+                      PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId).pushLatestMessageId();
+
+                        return NotificationListener<ScrollUpdateNotification>(
+                          child: BodyData(
+                            listOfFriendNumbers: widget.listOfFriendNumbers,
+                            conversationId: widget.conversationId,
+                            controller: widget.controller,
+                            documentList: widget.documentList,
+                            listScrollController: widget.listScrollController,
+                            userName: widget.userName,
+                            userPhoneNo: widget.userPhoneNo,
+                            isPressed: widget.isPressed,
+                            groupExits: widget.groupExits,
+                            value: widget.value,
+                            scroll: widget.scroll,
+
+                          ),
+                          onNotification: (notification) {
+                            /// ScrollUpdateNotification :
+                            /// for listining when the user scrolls up
+                            /// Show the scrolltobottom button only when the user scrolls up
+
+                            ///onNotification allows us to know when we have reached the limit of the messages
+                            ///once the limit is reached, documentList is updated again  with the next 10 messages using
+                            ///the fetchAdditionalMesages()
+                            if(notification.metrics.atEdge
+                                &&  !((notification.metrics.pixels - notification.metrics.minScrollExtent) <
+                                    (notification.metrics.maxScrollExtent-notification.metrics.pixels))) {
 
 //                        if(isLoading == true) {//ToDo- check if this is  working with an actual phone
 //                          CircularProgressIndicator();}
-                            setState(() {
-                              limitCounter++;
-                            });
-                            //fetchAdditionalMessages();
-                          }
-                          return true;
-                        },
-                      );
+                              setState(() {
+                                limitCounter++;
+                              });
+                              //fetchAdditionalMessages();
+                            }
+                            return true;
+                          },
+                        );
                     }),
               ),
               _buildMessageComposer(),//write and send new message bar
@@ -316,6 +324,8 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
 
                   ///Navigating to RecentChats page with pushes the data to firebase
                   RecentChats(message: textMessage.fromJson(), convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists:widget.groupExits).getAllNumbersOfAConversation();
+
+                  PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId).pushLatestMessageId();
 
                   myController.clear();
                   //widget.controllerTwo.clear();//used to clear text when user hits send button

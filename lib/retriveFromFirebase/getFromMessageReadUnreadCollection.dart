@@ -1,0 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class GetFromMessageReadUnreadCollection{
+  String userNumber;
+
+  GetFromMessageReadUnreadCollection({this.userNumber});
+
+  getLatestMessageId() async{
+    DocumentSnapshot dc = await Firestore.instance.collection("messageReadUnread")
+                          .document(userNumber).get();
+    //return dc.data["messageId"];
+    return dc.data["messageId"][0];
+  }
+}

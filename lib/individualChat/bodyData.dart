@@ -101,11 +101,7 @@ class BodyData extends StatelessWidget {
               }else{
                 imageURL = documentList[index].data["imageURL"];
               }
-
-              /// pushing messageReadUnread data to firebase:
-//              PushToMessageReadUnreadCollection(userNumber: userPhoneNo, messageId: messageId).pushLatestMessageId();
-                //UpdateMessageReadUnreadCollection(userNumber: userPhoneNo, messageId: messageId).update();
-
+              
 //              if(isNews){
 //                mapIsNewsGenerated = NewsCache().newsValidator(
 //                    mapIsNewsGenerated,
@@ -115,9 +111,7 @@ class BodyData extends StatelessWidget {
 //                    newsBody);
 //              }
 
-                /// change this :
-                /// pass every number from listOfFriendNumbers to this number in MessageReadUnreadData
-                /// as done in ListOfFriendsStatus in messageReadUnread :
+                /// messageReadUnread :
                 return FutureBuilder(
                   future: ListOfFriendStatusReadStatus(listOfFriends: listOfFriendNumbers, conversationId: conversationId, conversationsLatestMessageTimestamp: timeStamp).readStatus(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {

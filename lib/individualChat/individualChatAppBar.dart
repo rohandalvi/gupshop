@@ -61,7 +61,7 @@ class IndividualChatAppBar extends StatelessWidget {
           title: GestureDetector(
               child: CustomText(text: friendName,),
               onTap:(){
-                if(groupExits == false && notGroupMemberAnymore == false){
+                if(groupExits == true && notGroupMemberAnymore == false){
                   DialogHelper(userNumber: userPhoneNo, listOfGroupMemberNumbers: listOfFriendNumbers, conversationId: conversationId, isGroup: groupExits).customShowDialog(context);
                 }
               }

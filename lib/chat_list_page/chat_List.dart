@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/individualChat/individual_chat.dart';
+import 'package:gupshop/messageReadUnread/messageReadUnreadData.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/deleteFromFirebase/deleteHelper.dart';
@@ -211,16 +212,31 @@ class ChatListState extends State<ChatList> {
                       ): lastMessageIsImage == true ? CustomText(text: lastMessage, textColor: subtitleGray,) :
                       CustomText(text: lastMessage).textWithOverFlow(),/// for dot dot at the end of the message
                       //dense: true,
+                      /// read unread icon display:
                       trailing: Flex(/// renderflex overflow by 8 pixels, use flex -> expanded(icon as 1 child) and use text as other child
                         direction: Axis.vertical,
                         children: <Widget>[
-                          Visibility(/// show the new icon only if the message is unread
-                            visible: read==false,
-                            child: Expanded(
-                              child: IconButton(
-                                  icon: SvgPicture.asset('images/new.svg',),
-                              ),
-                            ),
+                          FutureBuilder(
+                            future: MessageReadUnreadData(conversationId: conversationId, number: myNumber, conversationsLatestMessageTimestamp: timeStamp).timestampDifference(),
+                            builder: (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.connectionState == ConnectionState.done) {
+                                if(snapshot.data < 0) read = false;
+                                else read = true;
+                                print("read in chatlist : $read");
+
+                                return Visibility(/// show the new icon only if the message is unread
+                                  visible: read==false,
+                                  child: Expanded(
+                                    child: IconButton(
+                                      icon: SvgPicture.asset('images/new.svg',),
+                                    ),
+                                  ),
+                                );
+                              }
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
                           ),
                           CustomText( //time
                             text: DateFormat("dd MMM kk:mm").format(/// todo- change to local time

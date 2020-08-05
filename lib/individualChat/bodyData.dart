@@ -64,6 +64,11 @@ class BodyData extends StatelessWidget {
         bool isSaved = documentList[index].data["isSaved"];
 
         String messageId = documentList[index].data["messageId"];
+        print("in body data");
+
+//        if(index ==0 ){
+//          PushToMessageReadUnreadCollection(userNumber: userPhoneNo, messageId: messageId, conversationId: conversationId).pushLatestMessageId();
+//        }
 
         /// get news details from firebase news collection:
         /// wrap BodyDisplay with futurebuilder to get from link, title, news from news collection
@@ -101,7 +106,7 @@ class BodyData extends StatelessWidget {
               }else{
                 imageURL = documentList[index].data["imageURL"];
               }
-              
+
 //              if(isNews){
 //                mapIsNewsGenerated = NewsCache().newsValidator(
 //                    mapIsNewsGenerated,

@@ -20,13 +20,10 @@ class MessageReadUnreadData{
 
   timestampDifference() async{
     /// use friendNumber as number here
-    print("number in timestampDifference : $number");
-    String usersLatestMessageId = await GetFromMessageReadUnreadCollection(userNumber: number).getLatestMessageId();
-    print("friends last messageId : $usersLatestMessageId");
+    String usersLatestMessageId = await GetFromMessageReadUnreadCollection(userNumber: number, conversationId: conversationId).getLatestMessageId();
     Timestamp usersLatestMessageTimestamp = await GetFromConversationCollection(conversationId: conversationId).getTimestamp(usersLatestMessageId);
-    print("timestamp in diff : $usersLatestMessageTimestamp");
-    print("last message timestamp : $conversationsLatestMessageTimestamp");
-    print("comparison: ${usersLatestMessageTimestamp.compareTo(conversationsLatestMessageTimestamp)}");
+    print("usersLatestMessageTimestamp : $usersLatestMessageTimestamp");
+    print("comparison : ${usersLatestMessageTimestamp.compareTo(conversationsLatestMessageTimestamp)}");
     return usersLatestMessageTimestamp.compareTo(conversationsLatestMessageTimestamp);
   }
 

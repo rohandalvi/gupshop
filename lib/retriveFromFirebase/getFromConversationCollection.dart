@@ -17,4 +17,19 @@ class GetFromConversationCollection{
     return ts;
   }
 
+  getStartAtDocumentConversationStream(DocumentSnapshot startAtDocument, int limitCounter){
+    print("in getStartAtDocumentConversationStream");
+    return Firestore.instance.collection("conversations")
+        .document(conversationId).collection("messages")
+        .orderBy("timeStamp", descending: true).startAtDocument(startAtDocument)
+        .limit(limitCounter*10).snapshots();
+  }
+
+  getConversationStream(int limitCounter){
+    print("in getConversationStream");
+    return Firestore.instance.collection("conversations")
+        .document(conversationId).collection("messages")
+        .orderBy("timeStamp", descending: true)
+        .limit(limitCounter*10).snapshots();
+  }
 }

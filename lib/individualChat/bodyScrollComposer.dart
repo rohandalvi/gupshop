@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/plusButtonMessageComposerNewsSend.dart';
+import 'package:gupshop/retriveFromFirebase/getFromConversationCollection.dart';
 import 'package:gupshop/typing/typingStatusData.dart';
 import 'package:gupshop/typing/typingStatusDisplay.dart';
 import 'package:video_player/video_player.dart';
@@ -37,12 +38,14 @@ class BodyScrollComposer extends StatefulWidget {
 class _BodyScrollComposerState extends State<BodyScrollComposer> {
   int limitCounter = 1;
   int startAfter = 1;
+  DocumentSnapshot startAtDocument;
+  DocumentSnapshot currentMessageDocumentSnapshot;
 
   final myController = TextEditingController();
 
   @override
   void initState() {
-
+    startAtDocument = null;
     myController.addListener(_printLatestValue);
     
     super.initState();
@@ -56,7 +59,6 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
   }
 
   _printLatestValue(){
-    print("typing : ${myController.text}");
    String isTyping = myController.text;
    TypingStatusData(
        isTyping: isTyping,
@@ -69,6 +71,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
 
   @override
   Widget build(BuildContext context) {
+    print("startdocument in bodyscroll : $startAtDocument");
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode()), //remove focus
       //onTap: () => FocusScope.of(context).unfocus(), //to take out the keyboard when tapped on chat screen
@@ -80,14 +83,16 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                     stream: Firestore.instance.collection("conversations").document(widget.conversationId).collection("messages").orderBy("timeStamp", descending: true).limit(limitCounter*10).snapshots(),
-                    //stream,
+                    //GetFromConversationCollection(conversationId: widget.conversationId).getConversationStream(limitCounter),
                     builder: (context, snapshot) {
                       if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter document was called on null"
                       widget.documentList = snapshot.data.documents;
 
+                      print("in bodyscroll");
+                      /// for message read unread collection:
                       String messageId = snapshot.data.documents[0].data["messageId"];
-
-                      PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId).pushLatestMessageId();
+                      currentMessageDocumentSnapshot = snapshot.data.documents[0];
+                      PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId, conversationId: widget.conversationId).pushLatestMessageId();
 
                         return NotificationListener<ScrollUpdateNotification>(
                           child: BodyData(
@@ -126,6 +131,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                     }),
               ),
               PlusButtonMessageComposerNewsSend(
+                  currentMessageDocumentSanpshot: currentMessageDocumentSnapshot,
                   conversationId: widget.conversationId,
                   userPhoneNo: widget.userPhoneNo,
                   listOfFriendNumbers: widget.listOfFriendNumbers,
@@ -137,6 +143,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                   value: widget.value,
                   friendN: widget.friendN,
                   myController: myController,
+                  startAtDocument : startAtDocument,
               ),
               //_buildMessageComposer(),//write and send new message bar
             ],

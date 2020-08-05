@@ -33,11 +33,13 @@ class PlusButtonMessageComposerNewsSend extends StatefulWidget {
   String friendN;
   List<dynamic> listOfFriendNumbers;
   TextEditingController myController;
+  DocumentSnapshot startAtDocument;
+  DocumentSnapshot currentMessageDocumentSanpshot;
 
   PlusButtonMessageComposerNewsSend({this.userPhoneNo, this.conversationId, this.listOfFriendNumbers,
   this.listScrollController, this.documentList, this.userName,
     this.groupExits, this.value, this.groupName, this.friendN,
-    this.myController,
+    this.myController, this.startAtDocument, this.currentMessageDocumentSanpshot,
   });
 
 
@@ -176,7 +178,8 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               ///Navigating to RecentChats page with pushes the data to firebase
               RecentChats(message: textMessage.fromJson(), convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists:widget.groupExits).getAllNumbersOfAConversation();
 
-              PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId).pushLatestMessageId();
+              print("in plus button ${widget.userName}");
+              PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId, conversationId: widget.conversationId).pushLatestMessageId();
 
               widget.myController.clear();
               //widget.controllerTwo.clear();//used to clear text when user hits send button
@@ -206,8 +209,13 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
     });
   }
 
-  pushMessageDataToConversationAndRecentChatsCollection(bool isVideo, bool isImage, Position location, var data){
+  pushMessageDataToConversationAndRecentChatsCollection(bool isVideo, bool isImage, Position location, var data) async{
+    print("in pushConversation");
     Firestore.instance.collection("conversations").document(widget.conversationId).collection("messages").add(data);
+
+//    print("DocumentReference : $dr");
+//    widget.startAtDocument = await dr.get();
+
     ///Navigating to RecentChats page with pushes the data to firebase
     if(isVideo == true){
       //var data = createMessageDataToPushToConversationCollection(true, false, "📹", widget.userName, widget.userPhoneNo, widget.conversationId, null);

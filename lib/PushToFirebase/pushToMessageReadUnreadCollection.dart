@@ -3,16 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PushToMessageReadUnreadCollection{
   String userNumber;
   String messageId;
+  String conversationId;
 
-  PushToMessageReadUnreadCollection({this.userNumber, this.messageId});
+  PushToMessageReadUnreadCollection({this.userNumber, this.messageId, this.conversationId});
 
   pushLatestMessageId(){
-    List<String> messageIdList = new List();
-    messageIdList.add(messageId);
-    print("members in list: $messageIdList");
-
+    print("userNumber in pushLatestMessageId : $userNumber");
     Firestore.instance.collection("messageReadUnread").document(userNumber)
-        .setData({"messageId": messageIdList}, merge: true);
+        .setData({conversationId : messageId});
   }
 
 }

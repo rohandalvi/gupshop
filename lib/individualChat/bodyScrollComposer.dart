@@ -40,6 +40,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
   int startAfter = 1;
   DocumentSnapshot startAtDocument;
   DocumentSnapshot currentMessageDocumentSnapshot;
+  String messageId;
 
   final myController = TextEditingController();
 
@@ -90,7 +91,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
 
                       print("in bodyscroll");
                       /// for message read unread collection:
-                      String messageId = snapshot.data.documents[0].data["messageId"];
+                      messageId = snapshot.data.documents[0].data["messageId"];
                       currentMessageDocumentSnapshot = snapshot.data.documents[0];
                       PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId, conversationId: widget.conversationId).pushLatestMessageId();
 
@@ -136,7 +137,6 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                   userPhoneNo: widget.userPhoneNo,
                   listOfFriendNumbers: widget.listOfFriendNumbers,
                   listScrollController: widget.listScrollController,
-                  documentList: widget.documentList,
                   userName: widget.userName,
                   groupName: widget.groupName,
                   groupExits: widget.groupExits,

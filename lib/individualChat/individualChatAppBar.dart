@@ -36,6 +36,7 @@ class IndividualChatAppBar extends StatelessWidget {
             if(groupExits){
               CustomNavigator().navigateToHome(context, userName, userPhoneNo);
             }
+//            Navigator.pop(context);
             else CustomNavigator().navigateToHome(context, userName, userPhoneNo);
           }
       ),

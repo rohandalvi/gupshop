@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/retriveFromFirebase/getFromConversationCollection.dart';
 import 'package:gupshop/retriveFromFirebase/getFromMessageReadUnreadCollection.dart';
 

@@ -24,7 +24,6 @@ import 'package:gupshop/widgets/customBottomSheet.dart';
 class PlusButtonMessageComposerNewsSend extends StatefulWidget {
   String conversationId;
   ScrollController listScrollController; //for scrolling the screen
-  List<DocumentSnapshot> documentList;
   String userName;
   String userPhoneNo;
   bool groupExits;
@@ -35,9 +34,10 @@ class PlusButtonMessageComposerNewsSend extends StatefulWidget {
   TextEditingController myController;
   DocumentSnapshot startAtDocument;
   DocumentSnapshot currentMessageDocumentSanpshot;
+  String messageId;
 
   PlusButtonMessageComposerNewsSend({this.userPhoneNo, this.conversationId, this.listOfFriendNumbers,
-  this.listScrollController, this.documentList, this.userName,
+  this.listScrollController,this.userName,
     this.groupExits, this.value, this.groupName, this.friendN,
     this.myController, this.startAtDocument, this.currentMessageDocumentSanpshot,
   });
@@ -50,6 +50,7 @@ class PlusButtonMessageComposerNewsSend extends StatefulWidget {
 class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageComposerNewsSend> {
   @override
   Widget build(BuildContext context) {
+
     return StatefulBuilder(
       builder: (context, StateSetter setState){
         return BuildMessageComposer(
@@ -179,7 +180,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               RecentChats(message: textMessage.fromJson(), convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists:widget.groupExits).getAllNumbersOfAConversation();
 
               print("in plus button ${widget.userName}");
-              PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId, conversationId: widget.conversationId).pushLatestMessageId();
+              //PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId, conversationId: widget.conversationId).pushLatestMessageId();
 
               widget.myController.clear();
               //widget.controllerTwo.clear();//used to clear text when user hits send button

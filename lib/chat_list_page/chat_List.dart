@@ -213,38 +213,41 @@ class ChatListState extends State<ChatList> {
                       CustomText(text: lastMessage).textWithOverFlow(),/// for dot dot at the end of the message
                       //dense: true,
                       /// read unread icon display:
-                      trailing: Flex(/// renderflex overflow by 8 pixels, use flex -> expanded(icon as 1 child) and use text as other child
-                        direction: Axis.vertical,
-                        children: <Widget>[
-                          FutureBuilder(
-                            future: MessageReadUnreadData(conversationId: conversationId, number: myNumber, conversationsLatestMessageTimestamp: timeStamp).timestampDifference(),
-                            builder: (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.connectionState == ConnectionState.done) {
-                                if(snapshot.data < 0) read = false;
-                                else read = true;
-                                print("read in chatlist : $read");
+                      trailing: SizedBox(
+                        width: 100,
+                        child: Flex(/// renderflex overflow by 8 pixels, use flex -> expanded(icon as 1 child) and use text as other child
+                          direction: Axis.vertical,
+                          children: <Widget>[
+                            FutureBuilder(
+                              future: MessageReadUnreadData(conversationId: conversationId, number: myNumber, conversationsLatestMessageTimestamp: timeStamp).timestampDifference(),
+                              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                if (snapshot.connectionState == ConnectionState.done) {
+                                  if(snapshot.data < 0) read = false;
+                                  else read = true;
+                                  print("read in chatlist : $read");
 
-                                return Visibility(/// show the new icon only if the message is unread
-                                  visible: read==false,
-                                  child: Expanded(
-                                    child: IconButton(
-                                      icon: SvgPicture.asset('images/new.svg',),
+                                  return Visibility(/// show the new icon only if the message is unread
+                                    visible: read==false,
+                                    child: Expanded(
+                                      child: IconButton(
+                                        icon: SvgPicture.asset('images/new.svg',),
+                                      ),
                                     ),
-                                  ),
+                                  );
+                                }
+                                return Center(
+                                  child: CircularProgressIndicator(),
                                 );
-                              }
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                          ),
-                          CustomText( //time
-                            text: DateFormat("dd MMM kk:mm").format(/// todo- change to local time
-                                DateTime.fromMillisecondsSinceEpoch(int.parse(
-                                    timeStamp.millisecondsSinceEpoch.toString()))),
-                            fontSize: 12,
-                          ),
-                        ],
+                              },
+                            ),
+                            CustomText( //time
+                              text: DateFormat("dd MMM kk:mm").format(/// todo- change to local time
+                                  DateTime.fromMillisecondsSinceEpoch(int.parse(
+                                      timeStamp.millisecondsSinceEpoch.toString()))),
+                              fontSize: 12,
+                            ),
+                          ],
+                        ),
                       ),
                       onTap: () {
                         Navigator.push(

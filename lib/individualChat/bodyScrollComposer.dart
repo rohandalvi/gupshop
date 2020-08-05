@@ -108,7 +108,6 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
                             groupExits: widget.groupExits,
                             value: widget.value,
                             scroll: widget.scroll,
-
                           ),
                           onNotification: (notification) {
                             /// ScrollUpdateNotification :

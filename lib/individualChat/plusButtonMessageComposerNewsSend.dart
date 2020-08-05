@@ -211,7 +211,6 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
   }
 
   pushMessageDataToConversationAndRecentChatsCollection(bool isVideo, bool isImage, Position location, var data) async{
-    print("in pushConversation");
     Firestore.instance.collection("conversations").document(widget.conversationId).collection("messages").add(data);
 
 //    print("DocumentReference : $dr");

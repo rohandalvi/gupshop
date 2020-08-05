@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/individualChat/bodyDisplay.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/messageReadUnread/listOfFriendsReadStatus.dart';
-import 'package:gupshop/messageReadUnread/messageReadUnreadData.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
-import 'package:gupshop/updateInFirebase/updateMessageReadUnreadCollection.dart';
 import 'package:video_player/video_player.dart';
 
 
@@ -64,11 +61,6 @@ class BodyData extends StatelessWidget {
         bool isSaved = documentList[index].data["isSaved"];
 
         String messageId = documentList[index].data["messageId"];
-        print("in body data");
-
-//        if(index ==0 ){
-//          PushToMessageReadUnreadCollection(userNumber: userPhoneNo, messageId: messageId, conversationId: conversationId).pushLatestMessageId();
-//        }
 
         /// get news details from firebase news collection:
         /// wrap BodyDisplay with futurebuilder to get from link, title, news from news collection
@@ -160,9 +152,8 @@ class BodyData extends StatelessWidget {
                     );
                   },
                 );
-                /// message read unread data:
 
-                    }return Center(
+                }return Center(
                   child: CircularProgressIndicator(),
               );
             }

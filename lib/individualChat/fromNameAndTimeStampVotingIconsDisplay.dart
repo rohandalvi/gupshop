@@ -8,17 +8,6 @@ import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-//class FromNameAndTimeStamp extends StatefulWidget {
-//  bool visible;
-//  Widget fromName;
-//  bool isMe;
-//  Widget timeStamp;
-//
-//  FromNameAndTimeStamp({this.visible, this.fromName, this.isMe, this.timeStamp});
-//  @override
-//  _FromNameAndTimeStampState createState() => _FromNameAndTimeStampState(visible: visible, fromName: fromName, isMe: isMe, timeStamp: timeStamp);
-//}
-
 class FromNameAndTimeStampVotingIconsDispaly extends StatefulWidget {
   bool visible;
   Widget fromName;

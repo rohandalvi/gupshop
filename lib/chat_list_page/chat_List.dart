@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gupshop/chat_list_page/readUnreadIcon.dart';
+import 'package:gupshop/chat_list_page/readUnreadIconDisplay.dart';
+import 'package:gupshop/chat_list_page/trailingDisplay.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/messageReadUnread/messageReadUnreadData.dart';
@@ -214,24 +215,10 @@ class ChatListState extends State<ChatList> {
                       CustomText(text: lastMessage).textWithOverFlow(),/// for dot dot at the end of the message
                       //dense: true,
                       /// read unread icon display:
-                      trailing: SizedBox(
-                        width: 100,
-                        child: Flex(/// renderflex overflow by 8 pixels, use flex -> expanded(icon as 1 child) and use text as other child
-                          direction: Axis.vertical,
-                          children: <Widget>[
-                            CustomText( //time
-                              text: DateFormat("dd MMM kk:mm").format(/// todo- change to local time
-                                  DateTime.fromMillisecondsSinceEpoch(int.parse(
-                                      timeStamp.millisecondsSinceEpoch.toString()))),
-                              fontSize: 12,
-                            ),
-                            ReadUnreadIcon(
-                              conversationId: conversationId,
-                              myNumber: myNumber,
-                              timeStamp: timeStamp,
-                            ),
-                          ],
-                        ),
+                      trailing: TrailingDisplay(
+                        conversationId: conversationId,
+                        myNumber: myNumber,
+                        timeStamp: timeStamp,
                       ),
                       onTap: () {
                         Navigator.push(

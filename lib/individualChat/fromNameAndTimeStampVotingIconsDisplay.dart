@@ -1,6 +1,8 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/messageReadUnread/listOfFriendsReadStatus.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/news/trueFakeVotingIconsUI.dart';
@@ -20,11 +22,12 @@ class FromNameAndTimeStampVotingIconsDispaly extends StatefulWidget {
   int trueByCount;
   int fakeByCount;
   String newsId;
-  bool isRead;
+  List<dynamic> listOfFriendNumbers;
+  Timestamp timestamp;
 
   FromNameAndTimeStampVotingIconsDispaly({this.visible, this.fromName, this.isMe, this.timeStamp,
     this.isNews, this.conversationId,this.documentId, this.reportedByCount, this.trueByCount,
-    this.fakeByCount, this.newsId, this.isRead});
+    this.fakeByCount, this.newsId, this.listOfFriendNumbers,  this.timestamp});
 
   @override
   _FromNameAndTimeStampVotingIconsDispalyState createState() => _FromNameAndTimeStampVotingIconsDispalyState();
@@ -152,14 +155,25 @@ class _FromNameAndTimeStampVotingIconsDispalyState extends State<FromNameAndTime
               child: widget.timeStamp,
             ),
             /// read stamp:
-            Visibility(
-              visible: widget.isMe,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                alignment:  Alignment.centerRight,
-                padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
-                child: widget.isRead == true ? CustomText(text: 'read',).blueSubtitle() : CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
-              ),
+            FutureBuilder(
+              future: ListOfFriendStatusReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId, conversationsLatestMessageTimestamp: widget.timestamp).readStatus(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  bool isRead = snapshot.data;
+                  return Visibility(
+                    visible: widget.isMe,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      alignment:  Alignment.centerRight,
+                      padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+                      child: isRead == true ? CustomText(text: 'read',).blueSubtitle() : CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
+                    ),
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
             ),
 
           ],

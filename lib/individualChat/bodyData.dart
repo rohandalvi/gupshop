@@ -32,6 +32,7 @@ class BodyData extends StatelessWidget {
     this.listOfFriendNumbers,
   });
 
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -39,6 +40,7 @@ class BodyData extends StatelessWidget {
       reverse: true,
       itemCount: documentList.length,
       itemBuilder: (context, index) {
+        print("in bodyData ListView.separated");
         var messageBody;
         var imageURL;
         var videoURL;
@@ -62,42 +64,80 @@ class BodyData extends StatelessWidget {
 
         String messageId = documentList[index].data["messageId"];
 
-        /// get news details from firebase news collection:
-        /// wrap BodyDisplay with futurebuilder to get from link, title, news from news collection
-        /// get fromname, fromnumber and timestamp from conversation collection
+        if(newsId == null){
+          if(documentList[index].data["videoURL"] != null){
+            videoURL = documentList[index].data["videoURL"];
+            controller = VideoPlayerController.network(videoURL);
+          }
+          else if(documentList[index].data["imageURL"] == null){
+            messageBody = documentList[index].data["body"];
+
+          }else{
+            imageURL = documentList[index].data["imageURL"];
+          }
+
+          return BodyDisplay(
+            listOfFriendNumbers: listOfFriendNumbers,
+            conversationId: conversationId,
+            controller: controller,
+            userName: userName,
+            isPressed: isPressed,
+            userPhoneNo: userPhoneNo,
+            groupExits: groupExits,
+            mapIsNewsGenerated: mapIsNewsGenerated,
+            messageBody: messageBody,
+            imageURL:imageURL,
+            videoURL:videoURL,
+            newsId:newsId,
+            isMe:isMe,
+            latitude:latitude,
+            longitude:longitude,
+            isLocationMessage:isLocationMessage,
+            fromName:fromName,
+            isNews:false,
+            fromNameForGroup:fromNameForGroup,
+            timeStamp:timeStamp,
+            documentId: documentId,
+            messageId : messageId ,
+                );
+        }else{
+          /// get news details from firebase news collection:
+          /// wrap BodyDisplay with futurebuilder to get from link, title, news from news collection
+          /// get fromname, fromnumber and timestamp from conversation collection
           return FutureBuilder(
-            future: FirebaseMethods().getNewsDetailsForDisplay(newsId),
-            builder: (context, snapshot) {
-              if(snapshot.connectionState == ConnectionState.done){
-                String newsBody;
-                String newsTitle;
-                String newsLink;
-                int reportedByCount;
-                int trueByCount;
-                int fakeByCount;
+              future: FirebaseMethods().getNewsDetailsForDisplay(newsId),
+              builder: (context, snapshot) {
+                if(snapshot.connectionState == ConnectionState.done){
+                  print("in bodyData news FutureBuilder");
+                  String newsBody;
+                  String newsTitle;
+                  String newsLink;
+                  int reportedByCount;
+                  int trueByCount;
+                  int fakeByCount;
 
-                if(snapshot.data != null){
-                  newsBody = snapshot.data["customNewsDescription"];
-                  newsTitle = snapshot.data["customTitle"];
-                  newsLink = snapshot.data["link"];
-                  reportedByCount = snapshot.data["reportedBy"];
-                  trueByCount = snapshot.data["trueBy"];
-                  fakeByCount = snapshot.data["fakeBy"];
-                }
+                  if(snapshot.data != null){
+                    newsBody = snapshot.data["customNewsDescription"];
+                    newsTitle = snapshot.data["customTitle"];
+                    newsLink = snapshot.data["link"];
+                    reportedByCount = snapshot.data["reportedBy"];
+                    trueByCount = snapshot.data["trueBy"];
+                    fakeByCount = snapshot.data["fakeBy"];
+                  }
 
 
-              bool isNews= false;
-              if(newsBody != null) {isNews = true;}
-              else if(documentList[index].data["videoURL"] != null){
-                videoURL = documentList[index].data["videoURL"];
-                controller = VideoPlayerController.network(videoURL);
-              }
-              else if(documentList[index].data["imageURL"] == null){
-                messageBody = documentList[index].data["body"];
+                  bool isNews= false;
+                  if(newsBody != null) {isNews = true;}
+                  else if(documentList[index].data["videoURL"] != null){
+                    videoURL = documentList[index].data["videoURL"];
+                    controller = VideoPlayerController.network(videoURL);
+                  }
+                  else if(documentList[index].data["imageURL"] == null){
+                    messageBody = documentList[index].data["body"];
 
-              }else{
-                imageURL = documentList[index].data["imageURL"];
-              }
+                  }else{
+                    imageURL = documentList[index].data["imageURL"];
+                  }
 
 //              if(isNews){
 //                mapIsNewsGenerated = NewsCache().newsValidator(
@@ -108,56 +148,58 @@ class BodyData extends StatelessWidget {
 //                    newsBody);
 //              }
 
-                /// messageReadUnread :
-                return FutureBuilder(
-                  future: ListOfFriendStatusReadStatus(listOfFriends: listOfFriendNumbers, conversationId: conversationId, conversationsLatestMessageTimestamp: timeStamp).readStatus(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      bool isRead = snapshot.data;
-                      print("isRead : $isRead");
+                  /// messageReadUnread :
+                  return FutureBuilder(
+                    future: ListOfFriendStatusReadStatus(listOfFriends: listOfFriendNumbers, conversationId: conversationId, conversationsLatestMessageTimestamp: timeStamp).readStatus(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        print("in bodyData read FutureBuilder");
+                        bool isRead = snapshot.data;
+                        print("isRead : $isRead");
 
-                      return BodyDisplay(
-                        isRead: isRead,
-                        conversationId: conversationId,
-                        controller: controller,
-                        userName: userName,
-                        isPressed: isPressed,
-                        userPhoneNo: userPhoneNo,
-                        groupExits: groupExits,
-                        mapIsNewsGenerated: mapIsNewsGenerated,
-                        messageBody: messageBody,
-                        imageURL:imageURL,
-                        videoURL:videoURL,
-                        newsBody:newsBody,
-                        newsTitle:newsTitle,
-                        newsLink:newsLink,
-                        reportedByCount:reportedByCount,
-                        trueByCount:trueByCount,
-                        fakeByCount:fakeByCount,
-                        newsId:newsId,
-                        isMe:isMe,
-                        latitude:latitude,
-                        longitude:longitude,
-                        isLocationMessage:isLocationMessage,
-                        fromName:fromName,
-                        isNews:isNews,
-                        fromNameForGroup:fromNameForGroup,
-                        timeStamp:timeStamp,
-                        documentId: documentId,
-                        messageId : messageId ,
+                        return BodyDisplay(
+                          listOfFriendNumbers: listOfFriendNumbers,
+                          conversationId: conversationId,
+                          controller: controller,
+                          userName: userName,
+                          isPressed: isPressed,
+                          userPhoneNo: userPhoneNo,
+                          groupExits: groupExits,
+                          mapIsNewsGenerated: mapIsNewsGenerated,
+                          messageBody: messageBody,
+                          imageURL:imageURL,
+                          videoURL:videoURL,
+                          newsBody:newsBody,
+                          newsTitle:newsTitle,
+                          newsLink:newsLink,
+                          reportedByCount:reportedByCount,
+                          trueByCount:trueByCount,
+                          fakeByCount:fakeByCount,
+                          newsId:newsId,
+                          isMe:isMe,
+                          latitude:latitude,
+                          longitude:longitude,
+                          isLocationMessage:isLocationMessage,
+                          fromName:fromName,
+                          isNews:isNews,
+                          fromNameForGroup:fromNameForGroup,
+                          timeStamp:timeStamp,
+                          documentId: documentId,
+                          messageId : messageId ,
+                        );
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(),
                       );
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  },
-                );
+                    },
+                  );
 
                 }return Center(
                   child: CircularProgressIndicator(),
-              );
-            }
+                );
+              }
           );
+        }
       },
       separatorBuilder: (context, index) => Divider(
         color: Colors.white,

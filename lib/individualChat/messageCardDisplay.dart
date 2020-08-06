@@ -61,11 +61,6 @@ class MessageCardDisplay extends StatelessWidget {
     );
   }
 
-
-  displayNews(){
-    return mapIsNewsGenerated[newsId];
-  }
-
   showVideo(String videoURL,){
     try{
       return Column(

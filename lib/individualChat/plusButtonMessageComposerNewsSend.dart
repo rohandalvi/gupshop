@@ -171,6 +171,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               /// change:(heart button)
               /// in save collection
 
+              /// waiting for this messageId creation is causing delay in the display on tapping send button
               String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'body',).save();
 
               ///if there is not text, then dont send the message

@@ -1,4 +1,4 @@
-import 'package:gupshop/PushToFirebase/toConversationCollection.dart';
+import 'package:gupshop/PushToFirebase/pushToConversationCollection.dart';
 import 'package:gupshop/PushToFirebase/toRecentChatsCollection.dart';
 
 class PushMessagesToConversationAndRecentChatsCollection{
@@ -22,7 +22,7 @@ class PushMessagesToConversationAndRecentChatsCollection{
 
 
   push(){
-    ToConversationCollection().push(conversationId, conversationCollectionData);
+    PushToConversationCollection().push(conversationCollectionData);
     ToRecentChatsCollection().push(recentChatsData, conversationId, userPhoneNo, userName, listOfFriendNumbers, groupExits);
   }
 }

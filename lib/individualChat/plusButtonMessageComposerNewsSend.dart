@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gupshop/PushToFirebase/pushToConversationCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToSaveCollection.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
@@ -174,7 +175,8 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
 
               ///if there is not text, then dont send the message
               IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: DateTime.now(), conversationId: widget.conversationId, messageId: messageId);
-              FirebaseMethods().pushToFirebaseConversatinCollection(textMessage.fromJson());
+//              FirebaseMethods().pushToFirebaseConversatinCollection(textMessage.fromJson());
+              PushToConversationCollection().push(textMessage.fromJson());
 
               ///Navigating to RecentChats page with pushes the data to firebase
               RecentChats(message: textMessage.fromJson(), convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists:widget.groupExits).getAllNumbersOfAConversation();

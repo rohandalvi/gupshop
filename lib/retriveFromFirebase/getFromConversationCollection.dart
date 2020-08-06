@@ -32,4 +32,28 @@ class GetFromConversationCollection{
         .orderBy("timeStamp", descending: true)
         .limit(limitCounter*10).snapshots();
   }
+
+  getMessagesAsList(int limitCounter) async{
+    print("stream: ${Firestore.instance.collection("conversations")
+        .document(conversationId).collection("messages")
+        .orderBy("timeStamp", descending: true)
+        .limit(limitCounter*10).snapshots().toList()}");
+
+
+    List<QuerySnapshot> list =  await Firestore.instance.collection("conversations")
+        .document(conversationId).collection("messages")
+        .orderBy("timeStamp", descending: true)
+        .limit(limitCounter*10).snapshots().toList();
+
+    return list[0];
+
+  }
+
+
+  getFirstTenMessages(int limitCounter){
+    return Firestore.instance.collection("conversations")
+        .document(conversationId).collection("messages")
+        .orderBy("timeStamp", descending: true)
+        .limit(limitCounter*10);
+  }
 }

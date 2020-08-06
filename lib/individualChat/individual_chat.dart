@@ -8,6 +8,7 @@ import 'package:gupshop/individualChat/bodyScrollComposer.dart';
 import 'package:gupshop/models/text_message.dart';
 import 'package:gupshop/models/video_message.dart';
 import 'package:gupshop/modules/Presence.dart';
+import 'package:gupshop/retriveFromFirebase/getFromConversationCollection.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/widgets/customNavigators.dart';

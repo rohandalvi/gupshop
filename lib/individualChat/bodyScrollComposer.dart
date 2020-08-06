@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/plusButtonMessageComposerNewsSend.dart';
+import 'package:gupshop/individualChat/streamSingleton.dart';
 import 'package:gupshop/retriveFromFirebase/getFromConversationCollection.dart';
 import 'package:gupshop/typing/typingStatusData.dart';
 import 'package:gupshop/typing/typingStatusDisplay.dart';
@@ -41,6 +44,7 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
   DocumentSnapshot startAtDocument;
   DocumentSnapshot currentMessageDocumentSnapshot;
   String messageId;
+  Stream stream;
 
   final myController = TextEditingController();
 
@@ -48,14 +52,18 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
   void initState() {
     startAtDocument = null;
     myController.addListener(_printLatestValue);
-    
+
+    stream = new StreamSingleton().getMessageStream(widget.conversationId);//GetFromConversationCollection(conversationId: widget.conversationId).getConversationStream(limitCounter);
+    print("stream in body: $stream");
+
     super.initState();
   }
 
   @override
   void dispose() {
-
     myController.dispose();
+    print("Disposing  stream to null");
+    stream  = null;
     super.dispose();
   }
 
@@ -83,8 +91,10 @@ class _BodyScrollComposerState extends State<BodyScrollComposer> {
             children: <Widget>[
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
-                    stream: Firestore.instance.collection("conversations").document(widget.conversationId).collection("messages").orderBy("timeStamp", descending: true).limit(limitCounter*10).snapshots(),
-                    //GetFromConversationCollection(conversationId: widget.conversationId).getConversationStream(limitCounter),
+                  //initialData: GetFromConversationCollection().getMessagesAsList(limitCounter),
+                    stream: stream,
+                      //Firestore.instance.collection("conversations").document(widget.conversationId).collection("messages").orderBy("timeStamp", descending: true).limit(limitCounter*10).snapshots(),
+//                    GetFromConversationCollection(conversationId: widget.conversationId).getConversationStream(limitCounter),
                     builder: (context, snapshot) {
                       if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter document was called on null"
                       widget.documentList = snapshot.data.documents;

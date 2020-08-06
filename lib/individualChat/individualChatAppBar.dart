@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gupshop/individualChat/streamSingleton.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
@@ -20,6 +21,7 @@ class IndividualChatAppBar extends StatelessWidget {
   List<dynamic> listOfFriendNumbers;
   final Presence presence;
 
+
   IndividualChatAppBar({this.userName, this.userPhoneNo, this.groupExits,
     this.friendName, this.friendN, this.conversationId, this.notGroupMemberAnymore,
     this.listOfFriendNumbers,this.presence,
@@ -27,17 +29,17 @@ class IndividualChatAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    StreamSingleton streamSingleton = new StreamSingleton();
     return AppBar(
       backgroundColor: secondryColor.withOpacity(.03),
       elevation: 0,
       leading: IconButton(
           icon: SvgPicture.asset('images/backArrowColor.svg',),
           onPressed:(){
-            if(groupExits){
-              CustomNavigator().navigateToHome(context, userName, userPhoneNo);
-            }
-//            Navigator.pop(context);
-            else CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+            /// on back navigation.
+            print("in back");
+            streamSingleton.setStream(null);
+            CustomNavigator().navigateToHome(context, userName, userPhoneNo);
           }
       ),
       title: Material(

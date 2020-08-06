@@ -100,9 +100,11 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
 
                       print("in bodyscroll");
                       /// for message read unread collection:
-                      messageId = snapshot.data.documents[0].data["messageId"];
-                      currentMessageDocumentSnapshot = snapshot.data.documents[0];
-                      PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId, conversationId: widget.conversationId).pushLatestMessageId();
+                      if(!(widget.documentList.isEmpty || widget.documentList == null)){
+                        messageId = snapshot.data.documents[0].data["messageId"];
+                        currentMessageDocumentSnapshot = snapshot.data.documents[0];
+                        PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId, conversationId: widget.conversationId).pushLatestMessageId();
+                      }
 
                         return NotificationListener<ScrollUpdateNotification>(
                           child: BodyData(

@@ -8,12 +8,11 @@ import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/plusButtonMessageComposerNewsSend.dart';
 import 'package:gupshop/individualChat/streamSingleton.dart';
-import 'package:gupshop/retriveFromFirebase/getFromConversationCollection.dart';
 import 'package:gupshop/typing/typingStatusData.dart';
 import 'package:gupshop/typing/typingStatusDisplay.dart';
 import 'package:video_player/video_player.dart';
 
-class BodyScrollComposer extends StatefulWidget {
+class BodyPlusScrollComposerData extends StatefulWidget {
   String conversationId;
   ScrollController listScrollController = new ScrollController(); //for scrolling the screen
   List<DocumentSnapshot> documentList;
@@ -29,16 +28,16 @@ class BodyScrollComposer extends StatefulWidget {
   List<dynamic> listOfFriendNumbers;
   TextEditingController controllerTwo;
 
-  BodyScrollComposer({this.conversationId, this.listScrollController, this.documentList, this.controller,
+  BodyPlusScrollComposerData({this.conversationId, this.listScrollController, this.documentList, this.controller,
     this.userName, this.isPressed, this.userPhoneNo, this.groupExits, this.scroll, this.value,
     this.friendN, this.groupName, this.listOfFriendNumbers,this.controllerTwo,
   });
 
   @override
-  _BodyScrollComposerState createState() => _BodyScrollComposerState();
+  _BodyPlusScrollComposerDataState createState() => _BodyPlusScrollComposerDataState();
 }
 
-class _BodyScrollComposerState extends State<BodyScrollComposer> {
+class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData> {
   int limitCounter = 1;
   int startAfter = 1;
   DocumentSnapshot startAtDocument;

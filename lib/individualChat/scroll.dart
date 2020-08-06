@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gupshop/individualChat/bodyScrollComposer.dart';
+import 'package:gupshop/individualChat/bodyPlusScrollComposerData.dart';
 
 class Scroll extends StatefulWidget {
   bool scroll = false;
@@ -70,7 +70,7 @@ class _ScrollState extends State<Scroll> {
 //        }
         return true;
       },
-      child: BodyScrollComposer(),
+      child: BodyPlusScrollComposerData(),
     );
   }
 

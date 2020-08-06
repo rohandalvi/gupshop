@@ -63,6 +63,7 @@ class BodyData extends StatelessWidget {
         bool isSaved = documentList[index].data["isSaved"];
 
         String messageId = documentList[index].data["messageId"];
+//        String messageId = documentList[index].documentID;
 
         if(newsId == null){
           if(documentList[index].data["videoURL"] != null){

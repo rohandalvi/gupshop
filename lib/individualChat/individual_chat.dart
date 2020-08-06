@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
 import 'package:gupshop/individualChat/individualChatAppBar.dart';
-import 'package:gupshop/individualChat/bodyScrollComposer.dart';
+import 'package:gupshop/individualChat/bodyPlusScrollComposerData.dart';
 import 'package:gupshop/models/text_message.dart';
 import 'package:gupshop/models/video_message.dart';
 import 'package:gupshop/modules/Presence.dart';
@@ -213,7 +213,7 @@ class _IndividualChatState extends State<IndividualChat> {
           /// if a member is removed from the group, then he should not be seeing the conversations
           /// once he enters the individual chat page
           /// So, displaying the conversations only when he is a group member
-          body: (notGroupMemberAnymore == false || notGroupMemberAnymore == null) ? BodyScrollComposer(
+          body: (notGroupMemberAnymore == false || notGroupMemberAnymore == null) ? BodyPlusScrollComposerData(
             conversationId: conversationId,
             controller: controller,
             controllerTwo: _controller,

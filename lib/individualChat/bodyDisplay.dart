@@ -12,7 +12,7 @@ import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/forwardMessagesSnackBarTitleText.dart';
-import 'package:gupshop/individualChat/fromNameAndTimeStampVotingIconsDisplay.dart';
+import 'package:gupshop/individualChat/fromNameAndTimeStampVotingRead.dart';
 import 'package:video_player/video_player.dart';
 import 'package:intl/intl.dart';
 import 'messageCardDisplay.dart';
@@ -203,7 +203,7 @@ class _BodyDisplayState extends State<BodyDisplay> {
         ),
       ),
       isThreeLine: true,
-      subtitle: FromNameAndTimeStampVotingIconsDispaly(/// three icons are in this class
+      subtitle: FromNameAndTimeStampVotingRead(/// three icons are in this class
         timestamp: widget.timeStamp,
         listOfFriendNumbers: widget.listOfFriendNumbers,
         newsId: widget.newsId,

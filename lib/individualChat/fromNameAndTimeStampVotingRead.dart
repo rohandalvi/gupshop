@@ -10,7 +10,7 @@ import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class FromNameAndTimeStampVotingIconsDispaly extends StatefulWidget {
+class FromNameAndTimeStampVotingRead extends StatefulWidget {
   bool visible;
   Widget fromName;
   bool isMe;
@@ -25,15 +25,15 @@ class FromNameAndTimeStampVotingIconsDispaly extends StatefulWidget {
   List<dynamic> listOfFriendNumbers;
   Timestamp timestamp;
 
-  FromNameAndTimeStampVotingIconsDispaly({this.visible, this.fromName, this.isMe, this.timeStamp,
+  FromNameAndTimeStampVotingRead({this.visible, this.fromName, this.isMe, this.timeStamp,
     this.isNews, this.conversationId,this.documentId, this.reportedByCount, this.trueByCount,
     this.fakeByCount, this.newsId, this.listOfFriendNumbers,  this.timestamp});
 
   @override
-  _FromNameAndTimeStampVotingIconsDispalyState createState() => _FromNameAndTimeStampVotingIconsDispalyState();
+  _FromNameAndTimeStampVotingReadState createState() => _FromNameAndTimeStampVotingReadState();
 }
 
-class _FromNameAndTimeStampVotingIconsDispalyState extends State<FromNameAndTimeStampVotingIconsDispaly> {
+class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVotingRead> {
   @override
   Widget build(BuildContext context) {
 
@@ -155,6 +155,9 @@ class _FromNameAndTimeStampVotingIconsDispalyState extends State<FromNameAndTime
               child: widget.timeStamp,
             ),
             /// read stamp:
+            /// here we are not taking the read data from bodyDisplay class but
+            /// we are directly getting the data from ListOfFriendStatusReadStatus
+            /// to decouple the display and lessen the latency
             FutureBuilder(
               future: ListOfFriendStatusReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId, conversationsLatestMessageTimestamp: widget.timestamp).readStatus(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {

@@ -7,9 +7,13 @@ class PushToSaveCollection{
 
   PushToSaveCollection({@required this.messageBody, @required this.messageType,});
 
-  save() async{
+  saveAndGenerateId() async{
     DocumentReference dr =  await Firestore.instance.collection("save").add({messageType:messageBody, 'isSaved': false});
     return dr.documentID;
+  }
+
+  save(String messageId){
+    Firestore.instance.collection("save").document(messageId).setData({messageType:messageBody, 'isSaved': false});
   }
 
 }

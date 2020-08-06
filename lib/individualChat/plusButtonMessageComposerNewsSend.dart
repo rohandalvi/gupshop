@@ -172,12 +172,15 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               /// in save collection
 
               /// waiting for this messageId creation is causing delay in the display on tapping send button
-              String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'body',).save();
+              String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'body',).saveAndGenerateId();
 
               ///if there is not text, then dont send the message
               IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: DateTime.now(), conversationId: widget.conversationId, messageId: messageId);
+//              IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: DateTime.now(), conversationId: widget.conversationId,);
 //              FirebaseMethods().pushToFirebaseConversatinCollection(textMessage.fromJson());
               PushToConversationCollection().push(textMessage.fromJson());
+//              String messageId = await PushToConversationCollection().push(textMessage.fromJson());
+//              PushToSaveCollection(messageBody: widget.value, messageType: 'body',).save(messageId);
 
               ///Navigating to RecentChats page with pushes the data to firebase
               RecentChats(message: textMessage.fromJson(), convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists:widget.groupExits).getAllNumbersOfAConversation();

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 
-class AvatarData extends StatelessWidget {
+class AvatarDataAndDisplay extends StatelessWidget {
   final String myNumber;
   final String conversationId;
   bool notAGroupMemberAnymore;
@@ -13,9 +13,19 @@ class AvatarData extends StatelessWidget {
   List<dynamic> friendNumberList;
   List<dynamic> memberList;
 
-  AvatarData({this.myNumber, this.conversationId, this.notAGroupMemberAnymore,
+  AvatarDataAndDisplay({this.myNumber, this.conversationId, this.notAGroupMemberAnymore,
     this.groupExists, this.friendNumber, this.memberList, this.friendNumberList,
   });
+
+  /*
+  Add photo to users  avatar- 1:
+    Taking profile picture from profile picture collection
+    But it needs the phone number of the friend.
+    In recent chats, we its difficult to understand what the phone number of the friend is.
+    So we have to make another query to conversationMetadata where we can search the friends number using the conversationId obtained from recent chats.
+    So, we take the phone number which is not ours.
+    But this logic will not work when in case of a group.
+   */
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +33,7 @@ class AvatarData extends StatelessWidget {
       future: getFriendPhoneNo(conversationId, myNumber),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+
           memberList = snapshot.data["members"];
 
           /// if a member is removed from the group, then he should not be seeing the conversations
@@ -34,6 +45,7 @@ class AvatarData extends StatelessWidget {
             /// 1. extract memberList from conversationMetadata for navigating to individualChat
             memberList = snapshot.data["members"];
             /// 2. extract friendNumber for DisplayAvatarFromFirebase
+            print("memberlist in avatarDisplay : $memberList");
             friendNumber = FindFriendNumber().friendNumber(memberList, myNumber);
             /// 3. create friendNumberList to send to individualChat
             friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);

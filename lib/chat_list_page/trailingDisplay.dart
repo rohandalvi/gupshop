@@ -8,7 +8,7 @@ class TrailingDisplay extends StatelessWidget {
   final String myNumber;
   final String conversationId;
 
-  TrailingDisplay({this.timeStamp, this.myNumber, this.conversationId});
+  TrailingDisplay({this.timeStamp, this.myNumber, this.conversationId, });
 
   @override
   Widget build(BuildContext context) {

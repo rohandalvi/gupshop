@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gupshop/chat_list_page/avatarData.dart';
 import 'package:gupshop/chat_list_page/readUnreadIconDisplay.dart';
 import 'package:gupshop/chat_list_page/trailingDisplay.dart';
 import 'package:gupshop/colors/colorPalette.dart';
@@ -52,11 +53,11 @@ class ChatListState extends State<ChatList> {
     So, we take the phone number which is not ours.
     But this logic will not work when in case of a group.
    */
-  getFriendPhoneNo(String conversationId, String myNumber) async {
-    DocumentSnapshot temp = await Firestore.instance.collection(
-        "conversationMetadata").document(conversationId).get();
-    return temp.data;
-  }
+//  getFriendPhoneNo(String conversationId, String myNumber) async {
+//    DocumentSnapshot temp = await Firestore.instance.collection(
+//        "conversationMetadata").document(conversationId).get();
+//    return temp.data;
+//  }
 
 
   getVideoDetailsFromVideoChat(int index) async{
@@ -165,39 +166,15 @@ class ChatListState extends State<ChatList> {
                         }
                     },
                     child: ListTile( ///main widget that creates the message box
-                      leading: FutureBuilder(
-                        future: getFriendPhoneNo(conversationId, myNumber),
-                        builder: (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.connectionState == ConnectionState.done) {
-                            memberList = snapshot.data["members"];
-
-                            /// if a member is removed from the group, then he should not be seeing the conversations
-                            /// once he enters the individual chat page
-                            if(memberList.contains(myNumber) == false) notAGroupMemberAnymore = true;
-
-                            if(snapshot.data["groupName"]  == null){
-                              groupExists = false;
-                              /// 1. extract memberList from conversationMetadata for navigating to individualChat
-                              memberList = snapshot.data["members"];
-                              /// 2. extract friendNumber for DisplayAvatarFromFirebase
-                              friendNumber = FindFriendNumber().friendNumber(memberList, myNumber);
-                              /// 3. create friendNumberList to send to individualChat
-                              friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
-                            } else{
-                              groupExists = true;
-                              /// for groups, conversationId is used as documentId for
-                              /// getting profilePicture
-                              /// profile_pictures -> conversationId -> url
-                              friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
-                              friendNumber = conversationId;
-                            }
-                            return DisplayAvatarFromFirebase()
-                                .displayAvatarFromFirebase(friendNumber, 30, 27,
-                                false);
-                          }
-                          return CircularProgressIndicator();
-                        },
-                      ),
+                      leading: AvatarData(
+                        myNumber: myNumber,
+                        conversationId: conversationId,
+                        notAGroupMemberAnymore: notAGroupMemberAnymore,
+                        groupExists: groupExists,
+                        friendNumber: friendNumber,
+                        friendNumberList: friendNumberList,
+                        memberList: memberList,
+                        ),
                       title: CustomText(text: friendName),
                       subtitle: lastMessageIsVideo == true ?
                           ///futurebuilder demo:

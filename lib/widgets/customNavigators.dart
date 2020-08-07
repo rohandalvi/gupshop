@@ -13,7 +13,7 @@ import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/bazaar/selectCategoryToShowInProductDetailsPage.dart';
 import 'package:gupshop/screens/showGroupMembers.dart';
 import 'package:gupshop/service/contact_search.dart';
-import 'package:gupshop/service/createGroup.dart';
+import 'package:gupshop/group/createGroup.dart';
 
 class CustomNavigator{
   navigateToHome(BuildContext context, String userName, String userPhoneNo){

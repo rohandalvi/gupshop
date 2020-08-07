@@ -72,6 +72,8 @@ dependencies:
   html: ^0.14.0+3
   http: ^0.12.2
 
+  image_downloader: ^0.20.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

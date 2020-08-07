@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/service/createGroup.dart';
+import 'package:gupshop/group/createGroup.dart';
 
 class DeleteListOfGroup extends StatelessWidget {
   List<dynamic> listOfGroupMemberNumbers;

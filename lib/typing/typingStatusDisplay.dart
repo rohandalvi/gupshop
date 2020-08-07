@@ -17,7 +17,6 @@ class TypingStatusDisplay extends StatelessWidget {
         if(snapshot.data == null ) return CircularProgressIndicator();
 //        print("snapshot.data.data : ${snapshot.data.data[""]}");
         bool hasMembers;
-        print("snapshot.data.data[members] : ${snapshot.data.data["members"]}");
 
 //        List<String> list = snapshot.data.data["members"];
 

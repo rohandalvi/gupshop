@@ -7,7 +7,7 @@ import 'package:gupshop/individualChat/heartButton.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/retriveFromFirebase/getMessageSavedStatusFromFirebase.dart';
-import 'package:gupshop/service/fullScreenPictureVideos.dart';
+import 'package:gupshop/image/fullScreenPictureVideos.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';

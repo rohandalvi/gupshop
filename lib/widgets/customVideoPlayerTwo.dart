@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/service/fullScreenPictureVideos.dart';
+import 'package:gupshop/image/fullScreenPictureVideos.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:math';
 

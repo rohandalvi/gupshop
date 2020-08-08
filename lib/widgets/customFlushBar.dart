@@ -5,10 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomFlushBar extends StatelessWidget {
   final Widget text;
-  final BuildContext contextual;
+  final BuildContext customContext;
   final Duration duration;
+  final String iconName;
+  final String message;
 
-  CustomFlushBar({this.text, this.contextual, this.duration});
+  CustomFlushBar({this.text, this.customContext, this.duration, this.iconName, this.message});
 
   @override
   Widget build(context) {
@@ -24,10 +26,10 @@ class CustomFlushBar extends StatelessWidget {
       reverseAnimationCurve: Curves.easeOut,
       titleText: text,
       message: "Please enter your name to move forward",
-    )..show(contextual);
+    )..show(customContext);
   }
 
-  showFlushBar(){
+  showFlushBarStopHand(){
     return Flushbar( /// for the flushBar if the user enters wrong verification code
       icon: SvgPicture.asset(
         'images/stopHand.svg',
@@ -40,6 +42,22 @@ class CustomFlushBar extends StatelessWidget {
       reverseAnimationCurve: Curves.easeOut,
       titleText: text,
       message: "Please enter your name to move forward",
-    )..show(contextual);
+    )..show(customContext);
+  }
+
+  showFlushBar(){
+    return Flushbar( /// for the flushBar if the user enters wrong verification code
+      icon: SvgPicture.asset(
+        'images/$iconName.svg',
+        width: 30,
+        height: 30,
+      ),
+      backgroundColor: Colors.white,
+      duration: duration == null ? Duration(seconds: 5) : duration,
+      forwardAnimationCurve: Curves.decelerate,
+      reverseAnimationCurve: Curves.easeOut,
+      titleText: text,
+      message: message,
+    )..show(customContext);
   }
 }

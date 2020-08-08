@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_downloader/image_downloader.dart';
 
@@ -14,5 +15,13 @@ class DownloadImage{
     }on PlatformException catch (error){
       print(error);
     }
+  }
+
+  progressIndicator(){
+    return ImageDownloader.callback(
+        onProgressUpdate: (String s, int i){
+          CircularProgressIndicator();
+        }
+    );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/individualChat/downloadImageDisplayAndData.dart';
+import 'package:gupshop/individualChat/showImageAndDownload.dart';
 import 'package:gupshop/individualChat/textMessageUI.dart';
 import 'package:gupshop/location/locationDisplayAndLaunchInMap.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
@@ -46,7 +46,7 @@ class MessageCardDisplay extends StatelessWidget {
       isLocationMessage ==true ? LocationDisplayAndLaunchInMap(textOnButton: fromName, latitude: latitude,longitude: longitude, locationName: 'current location',):
       videoURL != null  ? showVideo(videoURL,) :imageURL == null?
       //showText(context): showImage(imageURL),
-      TextMessageUI(isMe: isMe, messageBody: messageBody,): DownloadImageDisplayAndData(imageURL: imageURL,)
+      TextMessageUI(isMe: isMe, messageBody: messageBody,): ShowImageAndDownload(imageURL: imageURL,)
       //showImage(imageURL),
     );
   }
@@ -81,12 +81,12 @@ class MessageCardDisplay extends StatelessWidget {
       return Icon(Icons.image);}
   }
 
-  showImage(String imageURL){
-    try{
-      return DisplayCircularPicture().chatPictureFrame(imageURL);
-    }
-    catch (e){
-      return Icon(Icons.image);}
-  }
+//  showImage(String imageURL){
+//    try{
+//      return DisplayCircularPicture().chatPictureFrame(imageURL);
+//    }
+//    catch (e){
+//      return Icon(Icons.image);}
+//  }
 
 }

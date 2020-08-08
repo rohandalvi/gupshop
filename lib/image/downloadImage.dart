@@ -14,6 +14,7 @@ class DownloadImage{
       return imageId;
     }on PlatformException catch (error){
       print(error);
+      return null; /// todo- correct??
     }
   }
 

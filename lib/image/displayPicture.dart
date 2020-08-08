@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:gupshop/image/imageZoom.dart';
 
 class DisplayPicture extends StatelessWidget {
   final String imageURL;
@@ -13,6 +15,22 @@ class DisplayPicture extends StatelessWidget {
         child: Image(
           image: NetworkImage(imageURL),
         )
+    );
+  }
+
+  zoomableFullScreen(context){
+    return Container(
+      width: MediaQuery.of(context).size.height / 1.25,
+      height: MediaQuery.of(context).size.width / 1.25,
+      /// for zoom:
+      child: new ImageZoom(
+        new NetworkImage(imageURL),
+        placeholder: Center(child: CircularProgressIndicator(),),
+        //fit: BoxFit.contain,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+      ),
     );
   }
 }

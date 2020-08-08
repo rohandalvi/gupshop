@@ -66,10 +66,12 @@ class DisplayCircularPicture extends StatelessWidget {
     );
   }
 
+  /// used in fullScreenPicture
   pictureFrame(String imageURL){
     return Container(
       width: 400,
       height: 400,
+      /// for zoom:
       child: Image(
         image: NetworkImage(imageURL),
         fit: BoxFit.contain,

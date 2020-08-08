@@ -16,3 +16,5 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 image_downloader plugin settings required to be made to ios
+
+zoomable_image: ^1.3.1 # no seperate ios setting

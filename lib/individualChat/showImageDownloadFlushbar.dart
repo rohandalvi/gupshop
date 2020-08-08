@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/image/displayCircularPicture.dart';
+import 'package:gupshop/image/displayPicture.dart';
 import 'package:gupshop/image/downloadImage.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -26,7 +26,7 @@ class _ShowImageDownloadFlushbarState extends State<ShowImageDownloadFlushbar> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        DisplayCircularPicture().chatPictureFrame(widget.imageURL),
+        DisplayPicture(imageURL: widget.imageURL,).chatPictureFrame( context),
         CustomIconButton(
           onPressed: () async{
             CustomFlushBar(

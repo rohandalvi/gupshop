@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/individualChat/showImageDownloadFlushbar.dart';
+import 'package:gupshop/individualChat/showVideoThumbnail.dart';
 import 'package:gupshop/individualChat/textMessageUI.dart';
 import 'package:gupshop/location/locationDisplayAndLaunchInMap.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
@@ -44,7 +45,8 @@ class MessageCardDisplay extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
       child: isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody,) :
       isLocationMessage ==true ? LocationDisplayAndLaunchInMap(textOnButton: fromName, latitude: latitude,longitude: longitude, locationName: 'current location',):
-      videoURL != null  ? showVideo(videoURL,) :imageURL == null?
+      videoURL != null  ? ShowVideoThumbnail(videoURL: videoURL,):imageURL == null?
+      //showVideo(videoURL,) :imageURL == null?
       //showText(context): showImage(imageURL),
       TextMessageUI(isMe: isMe, messageBody: messageBody,): ShowImageDownloadFlushbar(imageURL: imageURL,)
       //showImage(imageURL),

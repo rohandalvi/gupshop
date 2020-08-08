@@ -47,24 +47,24 @@ class DisplayCircularPicture extends StatelessWidget {
   }
 
 
-  chatPictureFrame(String imageURL){
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(3.0),
-        child: Container(
-            width: 240,
-            height: 190,
-            child: Image(
-              image: NetworkImage(imageURL),
-              fit: BoxFit.cover,
-            ),
-            decoration: BoxDecoration(
-            //shape: BoxShape.rectangle,
-        ),
-        ),
-      ),
-    );
-  }
+//  chatPictureFrame(String imageURL, context){
+//    return Card(
+//      child: Padding(
+//        padding: const EdgeInsets.all(3.0),
+//        child: Container(
+//          width: MediaQuery.of(context).size.height / 2.75,
+//          height: MediaQuery.of(context).size.width / 2.25,
+//            child: Image(
+//              image: NetworkImage(imageURL),
+//              fit: BoxFit.cover,
+//            ),
+//            decoration: BoxDecoration(
+//            //shape: BoxShape.rectangle,
+//        ),
+//        ),
+//      ),
+//    );
+//  }
 
   /// used in fullScreenPicture
   pictureFrame(String imageURL){

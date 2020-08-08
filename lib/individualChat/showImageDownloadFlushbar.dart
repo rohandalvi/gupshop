@@ -6,16 +6,16 @@ import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class ShowImageAndDownload extends StatefulWidget {
+class ShowImageDownloadFlushbar extends StatefulWidget {
   final String imageURL;
 
-  ShowImageAndDownload({this.imageURL});
+  ShowImageDownloadFlushbar({this.imageURL});
 
   @override
-  _ShowImageAndDownloadState createState() => _ShowImageAndDownloadState();
+  _ShowImageDownloadFlushbarState createState() => _ShowImageDownloadFlushbarState();
 }
 
-class _ShowImageAndDownloadState extends State<ShowImageAndDownload> {
+class _ShowImageDownloadFlushbarState extends State<ShowImageDownloadFlushbar> {
 
   @override
   void initState() {

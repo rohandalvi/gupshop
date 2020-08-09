@@ -14,7 +14,10 @@ class ConversationService{
 
   StreamController<QuerySnapshot> streamController = new StreamController();
 
-  ConversationService({@required this.conversationId});
+  ConversationService(String conversationId) {
+    this.conversationId = conversationId;
+    subscribeToLatest();
+  }
 
   StreamSubscription<QuerySnapshot> subscription;
 
@@ -72,7 +75,5 @@ class ConversationService{
       }
     });
   }
-
-
 
 }

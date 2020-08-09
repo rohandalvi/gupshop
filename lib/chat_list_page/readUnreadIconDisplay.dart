@@ -21,6 +21,7 @@ class ReadUnreadIcon extends StatelessWidget {
           bool read;
           if(snapshot.data == null) read = false;
           else if(snapshot.data < 0) read = false;
+          else if(snapshot.data == 0) read = true;
           else read = true;
           print("read in chatlist : $read");
 

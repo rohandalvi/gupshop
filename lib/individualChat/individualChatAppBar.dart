@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/individualChat/streamSingleton.dart';
 import 'package:gupshop/modules/Presence.dart';
+import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/service/displayAvatarFromFirebase.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
 import 'package:gupshop/colors/colorPalette.dart';
@@ -20,11 +21,12 @@ class IndividualChatAppBar extends StatelessWidget {
   bool notGroupMemberAnymore;
   List<dynamic> listOfFriendNumbers;
   final Presence presence;
+  ConversationService conversationService;
 
 
   IndividualChatAppBar({this.userName, this.userPhoneNo, this.groupExits,
     this.friendName, this.friendN, this.conversationId, this.notGroupMemberAnymore,
-    this.listOfFriendNumbers,this.presence,
+    this.listOfFriendNumbers,this.presence, this.conversationService
   });
 
   @override
@@ -38,7 +40,8 @@ class IndividualChatAppBar extends StatelessWidget {
           onPressed:(){
             /// on back navigation.
             print("in back");
-            streamSingleton.setStream(null);
+            conversationService.disableActiveSubscription();
+            //streamSingleton.setStream(null);
             CustomNavigator().navigateToHome(context, userName, userPhoneNo);
           }
       ),

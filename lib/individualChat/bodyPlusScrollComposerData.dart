@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,7 @@ import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/plusButtonMessageComposerNewsSend.dart';
 import 'package:gupshop/individualChat/streamSingleton.dart';
+import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/typing/typingStatusData.dart';
 import 'package:gupshop/typing/typingStatusDisplay.dart';
 import 'package:video_player/video_player.dart';
@@ -15,7 +17,6 @@ import 'package:video_player/video_player.dart';
 class BodyPlusScrollComposerData extends StatefulWidget {
   String conversationId;
   ScrollController listScrollController = new ScrollController(); //for scrolling the screen
-  List<DocumentSnapshot> documentList;
   VideoPlayerController controller;
   String userName;
   bool isPressed;
@@ -27,10 +28,11 @@ class BodyPlusScrollComposerData extends StatefulWidget {
   String friendN;
   List<dynamic> listOfFriendNumbers;
   TextEditingController controllerTwo;
+  ConversationService conversationService;
 
-  BodyPlusScrollComposerData({this.conversationId, this.listScrollController, this.documentList, this.controller,
+  BodyPlusScrollComposerData({this.conversationId, this.listScrollController, this.controller,
     this.userName, this.isPressed, this.userPhoneNo, this.groupExits, this.scroll, this.value,
-    this.friendN, this.groupName, this.listOfFriendNumbers,this.controllerTwo,
+    this.friendN, this.groupName, this.listOfFriendNumbers,this.controllerTwo, this.conversationService
   });
 
   @override
@@ -44,6 +46,9 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
   DocumentSnapshot currentMessageDocumentSnapshot;
   String messageId;
   Stream stream;
+  List<DocumentSnapshot> documentList;
+  Map<String, DocumentSnapshot> map = new HashMap();
+//  ConversationService conversationService;
 
   final myController = TextEditingController();
 
@@ -51,9 +56,11 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
   void initState() {
     startAtDocument = null;
     myController.addListener(_printLatestValue);
+    documentList = null;
+    //conversationService = new ConversationService(widget.conversationId);
+//    stream = widget.conversationService.getStream();
+    //stream = new StreamSingleton().getMessageStream(widget.conversationId);//GetFromConversationCollection(conversationId: widget.conversationId).getConversationStream(limitCounter);
 
-    stream = new StreamSingleton().getMessageStream(widget.conversationId);//GetFromConversationCollection(conversationId: widget.conversationId).getConversationStream(limitCounter);
-    print("stream in body: $stream");
 
     super.initState();
   }
@@ -79,7 +86,6 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
 
   @override
   Widget build(BuildContext context) {
-    print("startdocument in bodyscroll : $startAtDocument");
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode()), //remove focus
       //onTap: () => FocusScope.of(context).unfocus(), //to take out the keyboard when tapped on chat screen
@@ -90,17 +96,30 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
             children: <Widget>[
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
-                  //initialData: GetFromConversationCollection().getMessagesAsList(limitCounter),
-                    stream: stream,
+                    stream: widget.conversationService.getStream(),
                       //Firestore.instance.collection("conversations").document(widget.conversationId).collection("messages").orderBy("timeStamp", descending: true).limit(limitCounter*10).snapshots(),
 //                    GetFromConversationCollection(conversationId: widget.conversationId).getConversationStream(limitCounter),
                     builder: (context, snapshot) {
+                      print("connection state before : ${snapshot.connectionState}");
                       if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter document was called on null"
-                      widget.documentList = snapshot.data.documents;
+                      print("DocumentList $documentList");
+
+                      snapshot.data.documents.forEach((element) {
+
+                        map.putIfAbsent(element.documentID, () => element);
+                      });
+                      documentList = map.values.toList()..sort((e1, e2) {
+                        Timestamp t1 = e1.data["timeStamp"];
+                        Timestamp t2 = e2.data["timeStamp"];
+                        return t1.compareTo(t2);
+                      });
+
+                      print("new docs : ${snapshot.data.documents}");
+                      print("connection state : ${snapshot.connectionState}");
 
                       print("in bodyscroll");
                       /// for message read unread collection:
-                      if(!(widget.documentList.isEmpty || widget.documentList == null)){
+                      if(!(documentList.isEmpty || documentList == null)){
                         messageId = snapshot.data.documents[0].data["messageId"];
                         currentMessageDocumentSnapshot = snapshot.data.documents[0];
                         PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId, conversationId: widget.conversationId).pushLatestMessageId();
@@ -111,7 +130,7 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                             listOfFriendNumbers: widget.listOfFriendNumbers,
                             conversationId: widget.conversationId,
                             controller: widget.controller,
-                            documentList: widget.documentList,
+                            documentList: documentList,
                             listScrollController: widget.listScrollController,
                             userName: widget.userName,
                             userPhoneNo: widget.userPhoneNo,
@@ -131,9 +150,10 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                             if(notification.metrics.atEdge
                                 &&  !((notification.metrics.pixels - notification.metrics.minScrollExtent) <
                                     (notification.metrics.maxScrollExtent-notification.metrics.pixels))) {
-                              setState(() {
-                                limitCounter++;
-                              });
+                              widget.conversationService.paginate();
+//                            w  setState(() {
+//                                limitCounter++;
+//                              });
                               //fetchAdditionalMessages();
                             }
                             return true;

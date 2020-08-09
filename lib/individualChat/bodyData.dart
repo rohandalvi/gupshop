@@ -37,7 +37,7 @@ class BodyData extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       controller: listScrollController, //for scrolling messages
-      reverse: true,
+      reverse: false,
       itemCount: documentList.length,
       itemBuilder: (context, index) {
         print("in bodyData ListView.separated");

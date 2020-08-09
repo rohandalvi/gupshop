@@ -11,6 +11,7 @@ import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/retriveFromFirebase/getFromConversationCollection.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
+import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/service/getConversationId.dart';
@@ -76,7 +77,7 @@ class _IndividualChatState extends State<IndividualChat> {
   TextEditingController _controller = new TextEditingController(); //to clear the text  when user hits send button//TODO- for enter
   ScrollController listScrollController = new ScrollController(); //for scrolling the screen
   StreamController streamController= new StreamController();
-  List<DocumentSnapshot> documentList;//made for getting old batch of messages when the scrolling limit of 10 messages at a time is reached
+
   List<DocumentSnapshot> additionalList;
   CollectionReference collectionReference;
   Stream<QuerySnapshot> stream;
@@ -91,6 +92,8 @@ class _IndividualChatState extends State<IndividualChat> {
   String friendN;
   var groupExits;
   String groupName;
+
+  ConversationService conversationService;
 
   checkIfGroup() async{
     bool temp = await CheckIfGroup().ifThisIsAGroup(conversationId);
@@ -192,6 +195,8 @@ class _IndividualChatState extends State<IndividualChat> {
       forwardMessages(conversationId);
     }
 
+
+
     super.initState();
   }
 
@@ -200,13 +205,15 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   Widget build(BuildContext context){
+    conversationService = new ConversationService(widget.conversationId);
     return WillPopScope(
       onWillPop: () async => CustomNavigator().navigateToHome(context, userName, userPhoneNo),
       child: Material(
         child: Scaffold(
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(60.0),//the distance between gupShop and tabBars
-            child: IndividualChatAppBar(userPhoneNo: userPhoneNo, userName: userName,groupExits: groupExits,friendName: friendName,friendN: friendN, conversationId: conversationId,notGroupMemberAnymore: notGroupMemberAnymore,listOfFriendNumbers: listOfFriendNumbers,presence: presence,),
+            child: IndividualChatAppBar(userPhoneNo: userPhoneNo, userName: userName,groupExits: groupExits,friendName: friendName,friendN: friendN, conversationId: conversationId,notGroupMemberAnymore: notGroupMemberAnymore,
+              listOfFriendNumbers: listOfFriendNumbers,presence: presence, conversationService: conversationService,),
             //appBar(context, friendName),
           ),
           //appBar(),
@@ -214,10 +221,10 @@ class _IndividualChatState extends State<IndividualChat> {
           /// once he enters the individual chat page
           /// So, displaying the conversations only when he is a group member
           body: (notGroupMemberAnymore == false || notGroupMemberAnymore == null) ? BodyPlusScrollComposerData(
+            conversationService: conversationService,
             conversationId: conversationId,
             controller: controller,
             controllerTwo: _controller,
-            documentList: documentList,
             listOfFriendNumbers: listOfFriendNumbers,
             listScrollController: listScrollController,
             friendN: friendN,

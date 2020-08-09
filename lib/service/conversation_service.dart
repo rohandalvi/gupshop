@@ -6,6 +6,8 @@ import 'package:gupshop/service/message_service.dart';
 
 class ConversationService{
 
+  static final int INITIAL_MESSAGE_COUNT = 10;
+  static final int PAGINATION_LIMIT = 10;
   MessageService messageService = new MessageService();
   String conversationId;
   DocumentSnapshot startBefore = null;
@@ -29,12 +31,11 @@ class ConversationService{
   subscribeToLatest() {
 
     if(startAfter == null) {
-      print("StartAfter is null");
-      subscription = Firestore.instance.collection("conversations").document(conversationId).collection("messages").limit(12).orderBy("timeStamp", descending: true).snapshots().listen((event) {
+
+      subscription = Firestore.instance.collection("conversations").document(conversationId).collection("messages").limit(INITIAL_MESSAGE_COUNT).orderBy("timeStamp", descending: true).snapshots().listen((event) {
         act(event);
       });
     } else {
-      print("StartAfter is NOT null");
       subscription = Firestore.instance.collection("conversations").document(conversationId).collection("messages").orderBy("timeStamp", descending: false).startAfterDocument(startAfter).snapshots().listen((event) {
         act(event);
       });
@@ -44,6 +45,8 @@ class ConversationService{
 
   void disableActiveSubscription() {
     subscription.cancel();
+    streamController.close();
+    print("Cancelling subscription and closing stream");
   }
 
   void act(QuerySnapshot event) {
@@ -68,7 +71,7 @@ class ConversationService{
 
 
   void paginate() {
-    Firestore.instance.collection("conversations").document(conversationId).collection("messages").startAfterDocument(startBefore).orderBy("timeStamp", descending: true).limit(3).snapshots().listen((event) {
+    Firestore.instance.collection("conversations").document(conversationId).collection("messages").startAfterDocument(startBefore).orderBy("timeStamp", descending: true).limit(PAGINATION_LIMIT).snapshots().listen((event) {
       if(event.documents.isNotEmpty) {
         print("Start before ${startBefore.data["body"]}");
         print("Ev ${event.documents.map((e) => e.data["body"])}");

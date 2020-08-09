@@ -9,7 +9,7 @@ class ShowVideoThumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: <Widget>[
         SizedBox(
           width: MediaQuery.of(context).size.height / 2.75,

@@ -8,12 +8,13 @@ class DownloadVideo{
 
   downloadVideo() async{
     Dio dio = new Dio();
-
+    var dir;
     try{
-      var dir = await getApplicationDocumentsDirectory();
-      await dio.download(videoURL, "${dir.path}");
+      dir = await getApplicationDocumentsDirectory();
+      var result = await dio.download(videoURL, "${dir.path}/myFile.txt");
+      return result;
     }catch(e){
-
+      return null;
     }
 
   }

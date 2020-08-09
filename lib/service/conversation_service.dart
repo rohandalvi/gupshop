@@ -29,10 +29,12 @@ class ConversationService{
   subscribeToLatest() {
 
     if(startAfter == null) {
-      subscription = Firestore.instance.collection("conversations").document(conversationId).collection("messages").limit(3).orderBy("timeStamp", descending: true).snapshots().listen((event) {
+      print("StartAfter is null");
+      subscription = Firestore.instance.collection("conversations").document(conversationId).collection("messages").limit(12).orderBy("timeStamp", descending: true).snapshots().listen((event) {
         act(event);
       });
     } else {
+      print("StartAfter is NOT null");
       subscription = Firestore.instance.collection("conversations").document(conversationId).collection("messages").orderBy("timeStamp", descending: false).startAfterDocument(startAfter).snapshots().listen((event) {
         act(event);
       });
@@ -48,7 +50,7 @@ class ConversationService{
     if(event.documents.isNotEmpty) {
       if(startBefore == null) startBefore = event.documents[event.documents.length-1];
       print("Got event ${event.documents[0].data["body"]}");
-      startAfter = event.documents[event.documents.length-1];
+      startAfter = event.documents[0];
       print("StartAfter ${startAfter.documentID}");
       streamController.add(event);
       change();

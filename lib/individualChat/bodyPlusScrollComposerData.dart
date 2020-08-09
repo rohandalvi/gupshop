@@ -108,11 +108,12 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
 
                         map.putIfAbsent(element.documentID, () => element);
                       });
-                      documentList = map.values.toList()..sort((e1, e2) {
+                      List<DocumentSnapshot> list = map.values.toList()..sort((e1, e2) {
                         Timestamp t1 = e1.data["timeStamp"];
                         Timestamp t2 = e2.data["timeStamp"];
                         return t1.compareTo(t2);
                       });
+                      this.documentList = list.reversed.toList();
 
                       print("new docs : ${snapshot.data.documents}");
                       print("connection state : ${snapshot.connectionState}");
@@ -208,7 +209,7 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
               setState(() {
                 widget.scroll = false;
               });
-              widget.listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+              widget.listScrollController.animateTo(///for scrolling to the bottom of the screen when a next text is send
                 0.0,
                 curve: Curves.easeOut,
                 duration: const Duration(milliseconds: 300),

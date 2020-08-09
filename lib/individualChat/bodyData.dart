@@ -35,12 +35,15 @@ class BodyData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ///If you use a shrink-wrapped ListView with reverse: true, scrolling it to 0.0,
+    ///then the user scrolls down to the latest message of the screen
+    ///when he enters the screen
     return ListView.separated(
+      shrinkWrap: true, /// for scrolling to the end of the screen when the user enters the screen
       controller: listScrollController, //for scrolling messages
-      reverse: false,
+      reverse: true,/// for scrolling to the end of the screen when the user enters the screen
       itemCount: documentList.length,
       itemBuilder: (context, index) {
-        print("in bodyData ListView.separated");
         var messageBody;
         var imageURL;
         var videoURL;
@@ -154,9 +157,7 @@ class BodyData extends StatelessWidget {
                     future: ListOfFriendStatusReadStatus(listOfFriends: listOfFriendNumbers, conversationId: conversationId, conversationsLatestMessageTimestamp: timeStamp).readStatus(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
-                        print("in bodyData read FutureBuilder");
                         bool isRead = snapshot.data;
-                        print("isRead : $isRead");
 
                         return BodyDisplay(
                           listOfFriendNumbers: listOfFriendNumbers,

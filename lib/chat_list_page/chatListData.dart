@@ -48,6 +48,9 @@ class ChatListData extends StatelessWidget {
 
         ///for sending to individual_chat.dart:
         String conversationId = list[index].data["message"]["conversationId"];
+        print("conversations last message : $lastMessage ");
+        print("conversations last messageId : ${list[index]
+            .data["message"]["messageId"]} ");
 
         String documentID = list[index].documentID;
         String adminNumber;

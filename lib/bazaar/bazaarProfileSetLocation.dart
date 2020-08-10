@@ -1,24 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:gupshop/bazaar/bazaarProfileLocation.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
-class SetLocation extends StatefulWidget {
+class BazaarProfileSetLocation extends StatefulWidget {
   bool locationSelected;
   Position bazaarWalaLocation;
   double latitude;
   double longitude;
   String userName;
 
-  SetLocation({this.locationSelected, this.bazaarWalaLocation, this.longitude, this.latitude, this.userName});
+  BazaarProfileSetLocation({this.locationSelected, this.bazaarWalaLocation, this.longitude, this.latitude, this.userName});
 
   @override
-  _SetLocationState createState() => _SetLocationState();
+  _BazaarProfileSetLocationState createState() => _BazaarProfileSetLocationState();
 }
 
-class _SetLocationState extends State<SetLocation> {
+class _BazaarProfileSetLocationState extends State<BazaarProfileSetLocation> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -42,7 +41,7 @@ class _SetLocationState extends State<SetLocation> {
               ).showTwo();
             },
           ),
-        if(widget.locationSelected == false ) LocationServiceState().showLocation(widget.userName, widget.latitude, widget.longitude),
+        if(widget.locationSelected == true ) LocationServiceState().showLocation(widget.userName, widget.latitude, widget.longitude),
       ],
     );
   }
@@ -51,7 +50,7 @@ class _SetLocationState extends State<SetLocation> {
     Navigator.pop(context);
     Position location  = await LocationServiceState().getLocation();//setting user's location
     setState(() {
-      widget.locationSelected = false;
+      widget.locationSelected = true;
       widget.bazaarWalaLocation = location;
 
       widget.latitude = widget.bazaarWalaLocation.latitude;

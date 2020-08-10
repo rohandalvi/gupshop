@@ -3,38 +3,29 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/PushToFirebase/pushToCategoriesMetadata.dart';
-import 'package:gupshop/bazaar/bazaarProfileLocation.dart';
-import 'package:gupshop/bazaar/bazaarProfileVideo.dart';
+import 'package:gupshop/bazaar/bazaarProfileSetVideo.dart';
 import 'package:gupshop/bazaar/bazaarWalasBasicProfile.dart';
 import 'package:gupshop/bazaar/categories.dart';
 import 'package:gupshop/bazaar/createMapFromListOfCategories.dart';
 import 'package:gupshop/bazaar/setDocumentIdsForCollections.dart';
-import 'package:gupshop/bazaar/setLocation.dart';
-import 'package:gupshop/individualChat/messageCardDisplay.dart';
+import 'package:gupshop/bazaar/bazaarProfileSetLocation.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
-import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
-import 'package:gupshop/service/videoPicker.dart';
-import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
-import 'package:gupshop/widgets/customIconButton.dart';
+import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
-import 'package:gupshop/widgets/customVideoPlayer.dart';
-import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
-import 'package:video_player/video_player.dart';
+
 
 // bazaarHomeScreen=>
 // =>CheckBoxCategorySelector
@@ -72,9 +63,15 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   File _cameraVideo;
 
   bool videoSelected = false;
-  bool locationSelected = true;
+  bool locationSelected = false;
   bool isCategorySelected = false;
   bool isBazaarWala;
+
+  BazaarProfileSetVideo isVideo;
+  BazaarProfileSetLocation isLocation;
+  Categories categorySelection;
+
+  Map<dynamic, dynamic> cache = new Map();
 
   Map<String, bool > map = new SplayTreeMap();/// make it set
   getCategorySizeFuture() async{
@@ -121,6 +118,37 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     });
   }
 
+  selectVideo(){
+    isVideo = new BazaarProfileSetVideo(userPhoneNo: userPhoneNo,
+      videoURL: videoURL,
+      videoSelected: videoSelected,
+      video: video,
+      cameraVideo: _cameraVideo,);
+
+      cache["video"] = isVideo;
+//      print("isVideo.videoSelected : ${isVideo.videoSelected}");
+//      videoSelected = isVideo.videoSelected;
+
+    return isVideo;
+  }
+
+  selectLocation(){
+    isLocation = new BazaarProfileSetLocation(
+      bazaarWalaLocation: _bazaarWalaLocation,
+      locationSelected: locationSelected,
+      longitude: longitude,
+      latitude: latitude,
+      userName : userName,
+    );
+
+    cache["location"] = isLocation;
+//    print("isVideo.isLocation : ${isLocation.locationSelected}");
+//    locationSelected = isLocation.locationSelected;
+
+    return isLocation;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,86 +178,19 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                     isCategorySelected = true;
                   }
 
+                  print("cache[video]: ${cache[video]}");
+
                   return ListView(
                       children: <Widget>[
                         /// video widgets:
                         pageSubtitle('Add Advertisement video : '),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            BazaarProfileVideo(
-                              firstIconAndTextOnPressed: (){
-                                _pickVideoFromGallery();
-                              },
-                              secondIconAndTextOnPressed: (){
-                                _pickVideoFromCamer();
-                              },
-                            ),
-                            if((video != null || _cameraVideo != null)) MessageCardDisplay().showVideo(videoURL,),
-                          ],
-                        ),
+                        cache["video"] == null ? selectVideo() : cache["video"],
                         createSpaceBetweenButtons(15),
                         pageSubtitle('Add Location : '),
 
-//                        Visibility(
-//                          visible: (videoSelected == false),
-//                          child: setVideoFromGallery(),
-//                        ),
-//                        Visibility(
-//                          visible: (videoSelected == false),
-//                          child: or(),
-//                        ),
-//                        Visibility(
-//                          visible:(videoSelected == false),
-//                          child: setVideoFromCamera(),
-//                        ),
 
                         /// location widgets:
-                          SetLocation(
-                            bazaarWalaLocation: _bazaarWalaLocation,
-                            locationSelected: locationSelected,
-                            longitude: longitude,
-                            latitude: latitude,
-                            userName : userName,
-                          ),
-//                        Row(
-//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                          children: <Widget>[
-//                            BazaarProfileLocation(
-//                              firstIconAndTextOnPressed: (){
-////                                setLocation(context);
-//                                SetLocation(
-//                                  bazaarWalaLocation: _bazaarWalaLocation,
-//                                  locationSelected: locationSelected,
-//                                  longitude: longitude,
-//                                  latitude: latitude,
-//                                );
-//                              },
-//                              secondIconAndTextOnPressed: (){
-//                                setLocation(context);
-//                              },
-//                            ),
-//                            if(locationSelected == false ) LocationServiceState().showLocation(userName, latitude, longitude),
-//                          ],
-//                        ),
-//                        if(locationSelected == false ) Row(
-//                          children: <Widget>[
-//                            LocationServiceState().showLocation(userName, latitude, longitude),
-//                            changeLocation(),
-//                          ],
-//                        ),
-//                        Visibility(
-//                          visible: locationSelected,
-//                          child: setLocation(context),
-//                        ),
-//                        Visibility(
-//                          visible: locationSelected,
-//                          child: or(),
-//                        ),
-//                        Visibility(
-//                          visible: locationSelected,
-//                          child: setLocationOtherThanCurrentAsHome(),
-//                        ),
+                        cache["location"] == null ? selectLocation() :  cache["location"],
 
                         /// category widgets:
                         //if(isCategorySelected == true ) changeCategories(context),
@@ -249,7 +210,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                                   ///create map here:
                                   map = CreateMapFromListOfCategories().createMap(categoriesForBazaarWalasBasicProfile, map);
 
-                                  return Categories(map: map, isCategorySelected: isCategorySelected,);
+                                  categorySelection = new Categories(map: map, isCategorySelected: isCategorySelected,);
+                                  isCategorySelected = categorySelection.isCategorySelected;
+                                  return categorySelection;
                                   //return getCategories(context);
                                 }
                                 return Center(
@@ -268,49 +231,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     );
   }
 
-  
-  changeVideo(){
-    return CustomRaisedButton(
-      child: CustomText(text :'Change Video'),
-      onPressed: (){
-        setState(() {
-          isBazaarWala = false;
-          video = null;
-          _cameraVideo = null;
-          videoURL = null;
-          videoSelected = false;
-        });
-      },
-    );
-  }
 
-  changeLocation(){
-    return CustomRaisedButton(
-      child: CustomText(text :'Change Location'),
-      onPressed: (){
-        setState(() {
-          isBazaarWala = false;
-          _bazaarWalaLocation = null;
-          latitude = null;
-          longitude = null;
-          locationSelected = true;
-        });
-      },
-    );
-  }
-
-  changeCategories(BuildContext context){
-    return CustomRaisedButton(
-      child: CustomText(text :'Change Category'),
-      onPressed: (){
-        setState(() {
-          isBazaarWala = false;
-          /// to change from changeCategory button to select category button:
-          isCategorySelected = false;
-        });
-      },
-    );
-  }
 
   createSpaceBetweenButtons(double height){
     return SizedBox(
@@ -318,112 +239,10 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     );
   }
 
-
-
   pageSubtitle(String text){
     return CustomText(text: text,);
   }
 
-
-  setVideoFromGallery(){
-    return CustomRaisedButton(
-      onPressed: (){
-        _pickVideoFromGallery();
-      },
-      child: Text("Choose a video from Gallery",style: GoogleFonts.openSans()),
-    );
-  }
-  /// used in setVideoFromGallery(),
-  _pickVideoFromGallery() async{
-    File _video = await VideoPicker().pickVideoFromGallery();
-    video = _video;
-    String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(video, userPhoneNo, null);
-    setState(() {
-      videoURL = url;
-      videoSelected = true;
-    });
-  }
-
-
-  or(){
-    return Text('or',style: GoogleFonts.openSans());
-  }
-
-
-  setVideoFromCamera(){
-    return RaisedButton(
-      onPressed: (){
-        _pickVideoFromCamer();
-      },
-      child: Text("Record from camera",style: GoogleFonts.openSans()),
-    );
-  }
-  _pickVideoFromCamer() async{
-    File _video = await VideoPicker().pickVideoFromCamer();
-    _cameraVideo = _video;
-    String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(_cameraVideo, userPhoneNo, null);
-    setState(() {
-      videoURL = url;
-      videoSelected = true;
-    });
-  }
-
-  setLocation(BuildContext context) async{
-    Navigator.pop(context);
-    Position location  = await LocationServiceState().getLocation();//setting user's location
-    setState(() {
-      locationSelected = false;
-      _bazaarWalaLocation = location;
-
-      latitude = _bazaarWalaLocation.latitude;
-      longitude =  _bazaarWalaLocation.longitude;
-    });
-  }
-
-
-//  setLocation(BuildContext context){/// use usersLocation.dart
-//    return RaisedButton(
-//      onPressed: () async{
-//        Position location  = await LocationServiceState().getLocation();//setting user's location
-//          setState(() {
-//            _bazaarWalaLocation = location;
-//
-//            latitude = _bazaarWalaLocation.latitude;
-//            longitude =  _bazaarWalaLocation.longitude;
-//
-//            Flushbar( /// for the flushBar if the user enters wrong verification code
-//              icon: SvgPicture.asset(
-//                'images/stopHand.svg',
-//                width: 30,
-//                height: 30,
-//              ),
-//              backgroundColor: Colors.white,
-//              duration: Duration(seconds: 5),
-//              forwardAnimationCurve: Curves.decelerate,
-//              reverseAnimationCurve: Curves.easeOut,
-//              titleText: Text(
-//                'Currenr Location saved as Home Location',
-//                style: GoogleFonts.openSans(
-//                  textStyle: TextStyle(
-//                    fontWeight: FontWeight.w600,
-//                    color: ourBlack,
-//                  ),
-//                ),
-//              ),
-//              message: "Please enter your name to move forward",
-//            )..show(context);
-//            //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Currenr Location saved as Home Location '),));
-//
-//          });
-//
-//        setState(() {
-//          locationSelected = false;
-//        });
-//
-//      },
-//      child: Text("Click to set current location as home location",style: GoogleFonts.openSans()),
-//    );
-//  }
 
   setLocationOtherThanCurrentAsHome(){
     return CustomRaisedButton(
@@ -447,20 +266,17 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
   bool moveForward(bool isSelected) {
     bool result;
-//      result = ((video != null || _cameraVideo != null) && isSelected == true && _bazaarWalaLocation != null);
-//    print("Video : $video} and Camera: $_cameraVideo and IsSelected: $isSelected and bazaarwalalocation: $_bazaarWalaLocation");
-//    print("result : $result");
-//    print("bazaarwala location : $_bazaarWalaLocation");
-//    print("latitude: $latitude");
-//    print("result : $result");
-////    setState(() {
-//
-////    });
-
     if(isBazaarWala == true){
       result = true;
     }else {
-      result = ((video != null || _cameraVideo != null ) && isSelected == true && _bazaarWalaLocation != null);
+      setState(() {
+
+      });
+      print("videoSelected : $videoSelected");
+      print("locationSelected : $locationSelected");
+      result = (videoSelected == true  && locationSelected == true);
+      print("result : $result");
+//      result = ((video != null || _cameraVideo != null ) && isSelected == true && _bazaarWalaLocation != null);
     }
     saveButtonVisible = result;
     return saveButtonVisible;
@@ -469,36 +285,68 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
 
   showSaveButton(BuildContext context){
-    bool isVisible;
-//    setState(() {
-      isVisible = moveForward(isCategorySelected);
-//    });
-    return Visibility(
-      visible: isVisible,
-      child: CustomFloatingActionButtonWithIcon(
+
+      return CustomFloatingActionButtonWithIcon(
         iconName: 'forward2',
         onPressed: () async{
-          await uploadVideoToFirestore();
+          setState(() {
+            if(isVideo != null) videoSelected = isVideo.videoSelected;
+            if(isLocation != null) locationSelected = isLocation.locationSelected;
+            if(isCategorySelected != null) isCategorySelected = categorySelection.isCategorySelected;
+          });
+          if(locationSelected == true && videoSelected == true && isCategorySelected == true){
+            await uploadVideoToFirestore();
 
-          await pushTobazaarWalasLocationCategoryBasicProfile();
+            await pushTobazaarWalasLocationCategoryBasicProfile();
 
-          ///push to bazaarWalasBasicProfile
-          /// update and not add if edit profile
-          await BazaarWalasBasicProfile(
-            userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
+            ///push to bazaarWalasBasicProfile
+            /// update and not add if edit profile
+            await BazaarWalasBasicProfile(
+              userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
               videoURL, latitude, longitude,);
 
-          print("categoriesForBazaarWalasBasicProfile : $categoriesForBazaarWalasBasicProfile");
+            print("categoriesForBazaarWalasBasicProfile : $categoriesForBazaarWalasBasicProfile");
 
-          await PushToCategoriesMatedata(userNumber: userPhoneNo, categories: categoriesForBazaarWalasBasicProfile).push();
+            await PushToCategoriesMatedata(userNumber: userPhoneNo, categories: categoriesForBazaarWalasBasicProfile).push();
 
-          /// saving user as a bazaarwala in his shared preferences
-          UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
+            /// saving user as a bazaarwala in his shared preferences
+            UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
-          NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
+            NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
+          }else{
+            if(locationSelected == false && videoSelected == false && isCategorySelected == false){
+              CustomFlushBar(
+                customContext: context,
+                text: CustomText(text: 'Select Video,Location and Category',),
+                iconName: 'stopHand',
+                message: 'Select Video,Location and Category',
+              ).showFlushBar();
+            }else if(locationSelected == false){
+              CustomFlushBar(
+                customContext: context,
+                text: CustomText(text: 'Select Location',),
+                iconName: 'stopHand',
+                message: 'Select Location',
+              ).showFlushBar();
+            }else if(videoSelected == false){
+              CustomFlushBar(
+                customContext: context,
+                text: CustomText(text: 'Select Video',),
+                iconName: 'stopHand',
+                message: 'Select Video',
+              ).showFlushBar();
+            }else if(isCategorySelected == false){
+              CustomFlushBar(
+                customContext: context,
+                text: CustomText(text: 'Select Category',),
+                iconName: 'stopHand',
+                message: 'Select Category',
+              ).showFlushBar();
+            }
+
+          }
         },
-      ),
-    );
+      );
   }
 
   uploadVideoToFirestore() async{

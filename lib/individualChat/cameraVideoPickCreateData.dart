@@ -8,8 +8,9 @@ class CameraVideoPickCreateData{
   String userPhoneNo;
   String userName;
   String conversationId;
+  String messageId;
 
-  CameraVideoPickCreateData({this.conversationId, this.userPhoneNo, this.userName});
+  CameraVideoPickCreateData({this.conversationId, this.userPhoneNo, this.userName, this.messageId});
 
   main() async{
     /// to make the user go to individualChat screen with no bottom bar open
@@ -22,7 +23,7 @@ class CameraVideoPickCreateData{
     File video = await PickVideoFromCamera().pick();
 
     String videoURL = await CreateVideoURL().create(video, userPhoneNo, numberOfImageInConversation);
-    IMessage message = new VideoMessage(fromName:userName, fromNumber:userPhoneNo, conversationId:conversationId, timestamp:DateTime.now(), videoURL:videoURL);
+    IMessage message = new VideoMessage(fromName:userName, fromNumber:userPhoneNo, conversationId:conversationId, timestamp:DateTime.now(), videoURL:videoURL, messageId: messageId);
     return message.fromJson();
   }
 }

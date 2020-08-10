@@ -11,9 +11,9 @@ class LocationMessage extends IMessage {
     this.text,
     this.latitude,
     this.longitude,
-    String fromName, String fromNumber, String conversationId, DateTime timestamp,
+    String fromName, String fromNumber, String conversationId, DateTime timestamp,String messageId
   }):
-      super(fromNumber: fromNumber, fromName: fromName, conversationId: conversationId, timestamp: timestamp);
+      super(fromNumber: fromNumber, fromName: fromName, conversationId: conversationId, timestamp: timestamp, messageId: messageId);
 
 
   @override
@@ -25,7 +25,8 @@ class LocationMessage extends IMessage {
       "timeStamp": super.timestamp,
       "conversationId": super.conversationId,
       "latitude": latitude,
-      "longitude": longitude
+      "longitude": longitude,
+      "messageId": super.messageId,
     };
   }
 

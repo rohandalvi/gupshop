@@ -118,7 +118,7 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                       print("new docs : ${snapshot.data.documents}");
                       print("connection state : ${snapshot.connectionState}");
 
-                      print("in bodyscroll");
+                      print("documentList in bodyPlus : $documentList");
                       /// for message read unread collection:
                       if(!(documentList.isEmpty || documentList == null)){
                         messageId = snapshot.data.documents[0].data["messageId"];

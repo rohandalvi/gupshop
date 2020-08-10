@@ -180,7 +180,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'body',).saveAndGenerateId();
 
               ///if there is not text, then dont send the message
-              IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: DateTime.now(), conversationId: widget.conversationId, messageId: messageId);
+              IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: DateTime.now(), conversationId: widget.conversationId,messageId: messageId );//
 //              IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: DateTime.now(), conversationId: widget.conversationId,);
 //              FirebaseMethods().pushToFirebaseConversatinCollection(textMessage.fromJson());
               PushToConversationCollection().push(textMessage.fromJson());

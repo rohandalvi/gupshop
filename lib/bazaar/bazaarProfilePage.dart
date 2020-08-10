@@ -17,6 +17,7 @@ import 'package:gupshop/bazaar/bazaarWalasBasicProfile.dart';
 import 'package:gupshop/bazaar/categories.dart';
 import 'package:gupshop/bazaar/createMapFromListOfCategories.dart';
 import 'package:gupshop/bazaar/setDocumentIdsForCollections.dart';
+import 'package:gupshop/bazaar/setLocation.dart';
 import 'package:gupshop/individualChat/messageCardDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
@@ -184,20 +185,33 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 //                        ),
 
                         /// location widgets:
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            BazaarProfileLocation(
-                              firstIconAndTextOnPressed: (){
-                                setLocation(context);
-                              },
-                              secondIconAndTextOnPressed: (){
-                                setLocation(context);
-                              },
-                            ),
-                            if(locationSelected == false ) LocationServiceState().showLocation(userName, latitude, longitude),
-                          ],
-                        ),
+                          SetLocation(
+                            bazaarWalaLocation: _bazaarWalaLocation,
+                            locationSelected: locationSelected,
+                            longitude: longitude,
+                            latitude: latitude,
+                            userName : userName,
+                          ),
+//                        Row(
+//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                          children: <Widget>[
+//                            BazaarProfileLocation(
+//                              firstIconAndTextOnPressed: (){
+////                                setLocation(context);
+//                                SetLocation(
+//                                  bazaarWalaLocation: _bazaarWalaLocation,
+//                                  locationSelected: locationSelected,
+//                                  longitude: longitude,
+//                                  latitude: latitude,
+//                                );
+//                              },
+//                              secondIconAndTextOnPressed: (){
+//                                setLocation(context);
+//                              },
+//                            ),
+//                            if(locationSelected == false ) LocationServiceState().showLocation(userName, latitude, longitude),
+//                          ],
+//                        ),
 //                        if(locationSelected == false ) Row(
 //                          children: <Widget>[
 //                            LocationServiceState().showLocation(userName, latitude, longitude),
@@ -354,50 +368,62 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     });
   }
 
+  setLocation(BuildContext context) async{
+    Navigator.pop(context);
+    Position location  = await LocationServiceState().getLocation();//setting user's location
+    setState(() {
+      locationSelected = false;
+      _bazaarWalaLocation = location;
 
-  setLocation(BuildContext context){/// use usersLocation.dart
-    return RaisedButton(
-      onPressed: () async{
-        Position location  = await LocationServiceState().getLocation();//setting user's location
-          setState(() {
-            _bazaarWalaLocation = location;
-
-            latitude = _bazaarWalaLocation.latitude;
-            longitude =  _bazaarWalaLocation.longitude;
-
-            Flushbar( /// for the flushBar if the user enters wrong verification code
-              icon: SvgPicture.asset(
-                'images/stopHand.svg',
-                width: 30,
-                height: 30,
-              ),
-              backgroundColor: Colors.white,
-              duration: Duration(seconds: 5),
-              forwardAnimationCurve: Curves.decelerate,
-              reverseAnimationCurve: Curves.easeOut,
-              titleText: Text(
-                'Currenr Location saved as Home Location',
-                style: GoogleFonts.openSans(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: ourBlack,
-                  ),
-                ),
-              ),
-              message: "Please enter your name to move forward",
-            )..show(context);
-            //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Currenr Location saved as Home Location '),));
-
-          });
-
-        setState(() {
-          locationSelected = false;
-        });
-
-      },
-      child: Text("Click to set current location as home location",style: GoogleFonts.openSans()),
-    );
+      latitude = _bazaarWalaLocation.latitude;
+      longitude =  _bazaarWalaLocation.longitude;
+    });
   }
+
+
+//  setLocation(BuildContext context){/// use usersLocation.dart
+//    return RaisedButton(
+//      onPressed: () async{
+//        Position location  = await LocationServiceState().getLocation();//setting user's location
+//          setState(() {
+//            _bazaarWalaLocation = location;
+//
+//            latitude = _bazaarWalaLocation.latitude;
+//            longitude =  _bazaarWalaLocation.longitude;
+//
+//            Flushbar( /// for the flushBar if the user enters wrong verification code
+//              icon: SvgPicture.asset(
+//                'images/stopHand.svg',
+//                width: 30,
+//                height: 30,
+//              ),
+//              backgroundColor: Colors.white,
+//              duration: Duration(seconds: 5),
+//              forwardAnimationCurve: Curves.decelerate,
+//              reverseAnimationCurve: Curves.easeOut,
+//              titleText: Text(
+//                'Currenr Location saved as Home Location',
+//                style: GoogleFonts.openSans(
+//                  textStyle: TextStyle(
+//                    fontWeight: FontWeight.w600,
+//                    color: ourBlack,
+//                  ),
+//                ),
+//              ),
+//              message: "Please enter your name to move forward",
+//            )..show(context);
+//            //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Currenr Location saved as Home Location '),));
+//
+//          });
+//
+//        setState(() {
+//          locationSelected = false;
+//        });
+//
+//      },
+//      child: Text("Click to set current location as home location",style: GoogleFonts.openSans()),
+//    );
+//  }
 
   setLocationOtherThanCurrentAsHome(){
     return CustomRaisedButton(

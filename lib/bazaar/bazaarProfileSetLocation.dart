@@ -41,7 +41,7 @@ class _BazaarProfileSetLocationState extends State<BazaarProfileSetLocation> {
               ).showTwo();
             },
           ),
-        if(widget.locationSelected == true ) LocationServiceState().showLocation(widget.userName, widget.latitude, widget.longitude),
+        if(widget.locationSelected == true ) Padding(child: LocationServiceState().showLocation(widget.userName, widget.latitude, widget.longitude), padding: EdgeInsets.only(right: 5),)
       ],
     );
   }

@@ -16,12 +16,15 @@ class Categories extends StatefulWidget {
 class _CategoriesState extends State<Categories> {
   @override
   Widget build(BuildContext context) {
-    return CustomRaisedButton(
-      onPressed: () async{
-        bool _isSelected = await _categorySelectorCheckListDialogBox(context);
-      },
-      child: CustomText(text: "Category",),
-      //Text("Select from category",style: GoogleFonts.openSans()),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CustomRaisedButton(
+        onPressed: () async{
+          bool _isSelected = await _categorySelectorCheckListDialogBox(context);
+        },
+        child: CustomText(text: "Category",),
+        //Text("Select from category",style: GoogleFonts.openSans()),
+      ),
     );
   }
 
@@ -68,10 +71,7 @@ class _CategoriesState extends State<Categories> {
                                       onChanged: (bool val){
                                         setState(() {
                                           widget.map[categoryName] = val; /// setting the new value as selected by user
-                                          print("map[categoryName] : ${widget.map[categoryName]}");
-//                                          print("map in onChanged: $map");
                                           widget.isCategorySelected = categorySelected();
-//                                          print("isSelected: $isCategorySelected");
                                         });
                                       },
                                     ),

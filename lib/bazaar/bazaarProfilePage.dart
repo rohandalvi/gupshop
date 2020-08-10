@@ -195,12 +195,10 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                         cache["location"] == null ? selectLocation() :  cache["location"],
 
                         /// category widgets:
-                        //if(isCategorySelected == true ) changeCategories(context),
                         pageSubtitle('Add categories : '),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            CustomRaisedButton(child: CustomText(text: 'Categories:',),),
                             FutureBuilder(
                               future: GetCategoriesFromCategoriesMetadata().main(),
                               builder: (BuildContext context, AsyncSnapshot categorySnapshot) {

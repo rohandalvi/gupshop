@@ -118,18 +118,22 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     });
   }
 
-  selectVideo(){
-    isVideo = new BazaarProfileSetVideo(userPhoneNo: userPhoneNo,
+  selectVideo() {
+    isVideo = BazaarProfileSetVideo(userPhoneNo: userPhoneNo,
       videoURL: videoURL,
       videoSelected: videoSelected,
       video: video,
       cameraVideo: _cameraVideo,);
 
-      cache["video"] = isVideo;
-//      print("isVideo.videoSelected : ${isVideo.videoSelected}");
-//      videoSelected = isVideo.videoSelected;
+    cache["video"] = isVideo;
 
     return isVideo;
+  }
+
+  cacheVideo(){
+    setState(() {
+      cache["video"] = isVideo;
+    });
   }
 
   selectLocation(){
@@ -173,21 +177,19 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                     longitude = snapshot.data["longitude"];
                     latitude = snapshot.data["latitude"];
                     _bazaarWalaLocation = new Position(longitude: longitude, latitude: latitude);
-                    locationSelected = false;
+                    locationSelected = true;
 
                     isCategorySelected = true;
                   }
-
-                  print("cache[video]: ${cache[video]}");
 
                   return ListView(
                       children: <Widget>[
                         /// video widgets:
                         pageSubtitle('Add Advertisement video : '),
                         cache["video"] == null ? selectVideo() : cache["video"],
+
                         createSpaceBetweenButtons(15),
                         pageSubtitle('Add Location : '),
-
 
                         /// location widgets:
                         cache["location"] == null ? selectLocation() :  cache["location"],
@@ -264,27 +266,12 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
 
 
-  bool moveForward(bool isSelected) {
-    bool result;
-    if(isBazaarWala == true){
-      result = true;
-    }else {
-      setState(() {
-
-      });
-      print("videoSelected : $videoSelected");
-      print("locationSelected : $locationSelected");
-      result = (videoSelected == true  && locationSelected == true);
-      print("result : $result");
-//      result = ((video != null || _cameraVideo != null ) && isSelected == true && _bazaarWalaLocation != null);
-    }
-    saveButtonVisible = result;
-    return saveButtonVisible;
-  }
-
-
 
   showSaveButton(BuildContext context){
+    /// when the video is uploaded first, then the map has video as empty value,
+    /// hence by setting state again, we are setting the value of isVideo as
+    /// is given by BazaarProfileSetVideo class
+    cacheVideo();
 
       return CustomFloatingActionButtonWithIcon(
         iconName: 'forward2',
@@ -295,17 +282,16 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
             if(isCategorySelected != null) isCategorySelected = categorySelection.isCategorySelected;
           });
           if(locationSelected == true && videoSelected == true && isCategorySelected == true){
-            await uploadVideoToFirestore();
+            await uploadToVideoCollection();
 
-            await pushTobazaarWalasLocationCategoryBasicProfile();
+            await pushTobazaarWalasLocationCategory();
 
             ///push to bazaarWalasBasicProfile
             /// update and not add if edit profile
             await BazaarWalasBasicProfile(
               userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
-              videoURL, latitude, longitude,);
+              isVideo.videoURL, isLocation.latitude, isLocation.longitude,);
 
-            print("categoriesForBazaarWalasBasicProfile : $categoriesForBazaarWalasBasicProfile");
 
             await PushToCategoriesMatedata(userNumber: userPhoneNo, categories: categoriesForBazaarWalasBasicProfile).push();
 
@@ -349,12 +335,14 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
       );
   }
 
-  uploadVideoToFirestore() async{
-    Firestore.instance.collection("videos").document(userPhoneNo).setData({'url':videoURL});
+  uploadToVideoCollection() async{
+    Firestore.instance.collection("videos").document(userPhoneNo).setData({'url':isVideo.videoURL});
   }
 
 
-  pushTobazaarWalasLocationCategoryBasicProfile() async {
+  pushTobazaarWalasLocationCategory() async {
+    print("isVideo.videoURL: ${isVideo.videoURL}");
+    print("isLocation details :${isLocation.latitude}");
     QuerySnapshot querySnapshot = await Firestore.instance.collection(
         "bazaarCategoryTypesAndImages").getDocuments();
 
@@ -363,17 +351,13 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
         /// creating new list to store in bazaarWalasBasicProfile
 
-    print("map in push : ${map}");
     map.forEach((categoryNameInMap, value) async{
-      print(" map : $categoryNameInMap : $value");
       String categoryName = categoryNameInMap;
       if(value == true){
         if(categoriesForBazaarWalasBasicProfile.contains(categoryName) == false){
           categoriesForBazaarWalasBasicProfile.add(categoryName);
         }
 
-
-//        categoriesForBazaarWalasBasicProfile.add(categoryName);
         var result = {
           userPhoneNo: {
             'name': userName
@@ -382,7 +366,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
         ///push to bazaarWalasLocation collection
         LocationServiceState().pushBazaarWalasLocationToFirebase(
-            latitude, longitude, categoryName, userPhoneNo);
+            isLocation.latitude, isLocation.longitude, categoryName, userPhoneNo);
 
         ///push to bazaarCategories
         ///if new user then dont merge, else merge

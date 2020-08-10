@@ -6,6 +6,7 @@ import 'package:gupshop/screens/welcomeScreen.dart';
 import 'package:gupshop/group/createGroup.dart';
 import 'package:gupshop/bazaar/bazaarHomeGridView.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/video/video.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 
 void main() {
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
 //        home: ContactSearch(),
 //        home: SideMenu(),
 //        home: ChangeProfilePicture(),
-      home: WelcomeScreen(),
+      home: TestScreen(),
         //home: CustomVideoPlayer(videoURL: 'https://www.youtube.com/watch?v=V41_-PNZ92U',),
 //      home: CreateGroup(),
 //        home: HomeScreen(),

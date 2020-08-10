@@ -8,6 +8,7 @@ import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/plusButtonMessageComposerNewsSend.dart';
 import 'package:gupshop/individualChat/streamSingleton.dart';
+import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/typing/typingStatusData.dart';
 import 'package:gupshop/typing/typingStatusDisplay.dart';
 import 'package:video_player/video_player.dart';
@@ -52,7 +53,7 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
     startAtDocument = null;
     myController.addListener(_printLatestValue);
 
-    stream = new StreamSingleton().getMessageStream(widget.conversationId);//GetFromConversationCollection(conversationId: widget.conversationId).getConversationStream(limitCounter);
+    stream = new ConversationService(widget.conversationId).getStream();//GetFromConversationCollection(conversationId: widget.conversationId).getConversationStream(limitCounter);
     print("stream in body: $stream");
 
     super.initState();
@@ -75,7 +76,6 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
    ).pushStatus();
 
   }
-
 
   @override
   Widget build(BuildContext context) {

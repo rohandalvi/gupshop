@@ -30,7 +30,7 @@ class ConversationService{
 
     if(startAfter == null) {
       print("StartAfter is null");
-      subscription = Firestore.instance.collection("conversations").document(conversationId).collection("messages").limit(12).orderBy("timeStamp", descending: true).snapshots().listen((event) {
+      subscription = Firestore.instance.collection("conversations").document(conversationId).collection("messages").limit(5).orderBy("timeStamp", descending: true).snapshots().listen((event) {
         act(event);
       });
     } else {

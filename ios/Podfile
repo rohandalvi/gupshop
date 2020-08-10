@@ -35,6 +35,14 @@ end
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
+  
+  pod 'AWSCognitoIdentityProvider'
+  pod 'AWSMobileClient'
+  pod 'CommonCryptoModule'
+  pod 'AWSKinesisVideo'
+  pod 'AWSKinesisVideoSignaling'
+  pod 'GoogleWebRTC', '~> 1.1'
+  pod 'Starscream', '~> 3.0'
 
   # Flutter Pod
 

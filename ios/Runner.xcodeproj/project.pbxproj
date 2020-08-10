@@ -3,76 +3,71 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03C9E4A247066E6FB68A772C /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2483AA2CAFEB3735851FBF /* Pods_Runner.framework */; };
-		09FDBD27247CAD3B00A352CA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09FDBD26247CAD3B00A352CA /* GoogleService-Info.plist */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
-		56206289247C68CE005792DD /* firebase_auth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56206288247C68CE005792DD /* firebase_auth.framework */; };
-		5620628B247F9364005792DD /* permission_handler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5620628A247F9364005792DD /* permission_handler.framework */; };
-		5620628E247F936C005792DD /* contacts_service.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5620628D247F936C005792DD /* contacts_service.framework */; };
-		56206291247F9383005792DD /* geolocator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56206290247F9383005792DD /* geolocator.framework */; };
-		56206294247F9395005792DD /* geocoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56206293247F9395005792DD /* geocoder.framework */; };
-		56206297247F93A0005792DD /* geoflutterfire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56206296247F93A0005792DD /* geoflutterfire.framework */; };
-		56380E42247C5987004A47EC /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 56380E41247C5987004A47EC /* libc++.tbd */; };
-		56380E44247C5A83004A47EC /* absl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56380E43247C5A83004A47EC /* absl.framework */; };
-		56380E46247C5A9D004A47EC /* leveldb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56380E45247C5A9D004A47EC /* leveldb.framework */; };
-		56380E48247C5AB1004A47EC /* grpc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56380E47247C5AB1004A47EC /* grpc.framework */; };
-		56380E4A247C5B2D004A47EC /* grpcpp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56380E49247C5B2D004A47EC /* grpcpp.framework */; };
-		56380E4C247C5B7D004A47EC /* openssl_grpc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56380E4B247C5B7D004A47EC /* openssl_grpc.framework */; };
-		56380E4E247C5BB2004A47EC /* firebase_analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56380E4D247C5BB2004A47EC /* firebase_analytics.framework */; };
-		56380E50247C5C1D004A47EC /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 56380E4F247C5C1D004A47EC /* libsqlite3.tbd */; };
-		56380E52247C5C27004A47EC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 56380E51247C5C27004A47EC /* libz.tbd */; };
-		56380E54247C5D0A004A47EC /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56380E53247C5D0A004A47EC /* FirebaseCore.framework */; };
-		5681905D247C6146006CD976 /* FirebaseFirestore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5681905C247C6146006CD976 /* FirebaseFirestore.framework */; };
-		5681905F247C6163006CD976 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5681905E247C6163006CD976 /* GoogleUtilities.framework */; };
-		56819061247C621E006CD976 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56819060247C621E006CD976 /* nanopb.framework */; };
-		56819063247C635B006CD976 /* FirebaseInstallations.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56819062247C635B006CD976 /* FirebaseInstallations.framework */; };
+		4ADD237CDEAEC4CAD5D8B7FF /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B292242261692BBC4159F29 /* Pods_Runner.framework */; };
+		568D78A2242E9A9F0024CE9E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 568D78A1242E9A9F0024CE9E /* GoogleService-Info.plist */; };
+		56AC8A9924E0F03000A6E36C /* SignalingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC8A9824E0F03000A6E36C /* SignalingClient.swift */; };
+		56AC8A9B24E0F8D900A6E36C /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC8A9A24E0F8D900A6E36C /* Message.swift */; };
+		56AC8A9D24E0F8EF00A6E36C /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC8A9C24E0F8EF00A6E36C /* VideoViewController.swift */; };
+		56AC8A9F24E0F9D600A6E36C /* WebRTCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC8A9E24E0F9D600A6E36C /* WebRTCClient.swift */; };
+		56AC8AA124E0FF2200A6E36C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC8AA024E0FF2200A6E36C /* Event.swift */; };
+		56AC8AA324E1022400A6E36C /* ChannelConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC8AA224E1022400A6E36C /* ChannelConfigurationViewController.swift */; };
+		56AC8AA524E106E700A6E36C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC8AA424E106E700A6E36C /* Constants.swift */; };
+		56AC8AA724E1078D00A6E36C /* KVSSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC8AA624E1078D00A6E36C /* KVSSigner.swift */; };
+		56AC8AA924E1086B00A6E36C /* Video.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56AC8AA824E1086B00A6E36C /* Video.storyboard */; };
+		56AC8AAB24E1105700A6E36C /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC8AAA24E1105700A6E36C /* SignInViewController.swift */; };
+		56AC8AAD24E11B5A00A6E36C /* WebviewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC8AAC24E11B5A00A6E36C /* WebviewFactory.swift */; };
+		56AC8AAF24E11B9200A6E36C /* MyWebview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC8AAE24E11B9200A6E36C /* MyWebview.swift */; };
+		56AC8AB124E1D19D00A6E36C /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 56AC8AB024E1D19D00A6E36C /* awsconfiguration.json */; };
+		56AC8AB424E1E87E00A6E36C /* VideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56AC8AB324E1E87E00A6E36C /* VideoViewController.xib */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		09FDBD26247CAD3B00A352CA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		09FDBD28247CB1C700A352CA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
-		2FA2FF1FDB8FC311A07720DD /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
-		3D0CB02362BBB269F077925E /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
-		56206288247C68CE005792DD /* firebase_auth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = firebase_auth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5620628A247F9364005792DD /* permission_handler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = permission_handler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5620628D247F936C005792DD /* contacts_service.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = contacts_service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56206290247F9383005792DD /* geolocator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = geolocator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56206293247F9395005792DD /* geocoder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = geocoder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56206296247F93A0005792DD /* geoflutterfire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = geoflutterfire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56380E41247C5987004A47EC /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		56380E43247C5A83004A47EC /* absl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = absl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56380E45247C5A9D004A47EC /* leveldb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = leveldb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56380E47247C5AB1004A47EC /* grpc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = grpc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56380E49247C5B2D004A47EC /* grpcpp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = grpcpp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56380E4B247C5B7D004A47EC /* openssl_grpc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = openssl_grpc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56380E4D247C5BB2004A47EC /* firebase_analytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = firebase_analytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56380E4F247C5C1D004A47EC /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		56380E51247C5C27004A47EC /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		56380E53247C5D0A004A47EC /* FirebaseCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56380E55247C5DFA004A47EC /* firebase_analytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = firebase_analytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56819058247C5F11006CD976 /* FirebaseCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5681905A247C5F40006CD976 /* firebase_core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = firebase_core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5681905C247C6146006CD976 /* FirebaseFirestore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseFirestore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5681905E247C6163006CD976 /* GoogleUtilities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56819060247C621E006CD976 /* nanopb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = nanopb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56819062247C635B006CD976 /* FirebaseInstallations.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseInstallations.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56DEE316248055AF009F6D47 /* RunnerDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RunnerDebug.entitlements; sourceTree = "<group>"; };
-		68DF111F6ADED0836F57B6ED /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
+		465567C0D5767CF4432A1BD9 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
+		568D78A1242E9A9F0024CE9E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		56AC8A9824E0F03000A6E36C /* SignalingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalingClient.swift; sourceTree = "<group>"; };
+		56AC8A9A24E0F8D900A6E36C /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		56AC8A9C24E0F8EF00A6E36C /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		56AC8A9E24E0F9D600A6E36C /* WebRTCClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTCClient.swift; sourceTree = "<group>"; };
+		56AC8AA024E0FF2200A6E36C /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		56AC8AA224E1022400A6E36C /* ChannelConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelConfigurationViewController.swift; sourceTree = "<group>"; };
+		56AC8AA424E106E700A6E36C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		56AC8AA624E1078D00A6E36C /* KVSSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVSSigner.swift; sourceTree = "<group>"; };
+		56AC8AA824E1086B00A6E36C /* Video.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Video.storyboard; sourceTree = "<group>"; };
+		56AC8AAA24E1105700A6E36C /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		56AC8AAC24E11B5A00A6E36C /* WebviewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebviewFactory.swift; sourceTree = "<group>"; };
+		56AC8AAE24E11B9200A6E36C /* MyWebview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWebview.swift; sourceTree = "<group>"; };
+		56AC8AB024E1D19D00A6E36C /* awsconfiguration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		56AC8AB324E1E87E00A6E36C /* VideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoViewController.xib; path = "../../../../IosProjects/amazon-kinesis-video-streams-webrtc-sdk-ios/Swift/KVSiOSApp/VideoViewController.xib"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
+		8B292242261692BBC4159F29 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,7 +75,8 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BD2483AA2CAFEB3735851FBF /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3D3A7BACCE31CCF45FC5A11 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
+		F7EEA10B3EFF78DA4EDBBC3A /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,72 +84,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56206289247C68CE005792DD /* firebase_auth.framework in Frameworks */,
-				56819063247C635B006CD976 /* FirebaseInstallations.framework in Frameworks */,
-				56819061247C621E006CD976 /* nanopb.framework in Frameworks */,
-				5681905F247C6163006CD976 /* GoogleUtilities.framework in Frameworks */,
-				56206291247F9383005792DD /* geolocator.framework in Frameworks */,
-				5681905D247C6146006CD976 /* FirebaseFirestore.framework in Frameworks */,
-				56206294247F9395005792DD /* geocoder.framework in Frameworks */,
-				56380E52247C5C27004A47EC /* libz.tbd in Frameworks */,
-				56380E50247C5C1D004A47EC /* libsqlite3.tbd in Frameworks */,
-				5620628E247F936C005792DD /* contacts_service.framework in Frameworks */,
-				56380E4E247C5BB2004A47EC /* firebase_analytics.framework in Frameworks */,
-				56206297247F93A0005792DD /* geoflutterfire.framework in Frameworks */,
-				56380E4C247C5B7D004A47EC /* openssl_grpc.framework in Frameworks */,
-				56380E4A247C5B2D004A47EC /* grpcpp.framework in Frameworks */,
-				56380E48247C5AB1004A47EC /* grpc.framework in Frameworks */,
-				5620628B247F9364005792DD /* permission_handler.framework in Frameworks */,
-				56380E46247C5A9D004A47EC /* leveldb.framework in Frameworks */,
-				56380E44247C5A83004A47EC /* absl.framework in Frameworks */,
-				56380E42247C5987004A47EC /* libc++.tbd in Frameworks */,
-				03C9E4A247066E6FB68A772C /* Pods_Runner.framework in Frameworks */,
-				56380E54247C5D0A004A47EC /* FirebaseCore.framework in Frameworks */,
+				4ADD237CDEAEC4CAD5D8B7FF /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		252E13C8C23A831465FC57A1 /* Frameworks */ = {
+		56AC8A9724E0F00C00A6E36C /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				56206296247F93A0005792DD /* geoflutterfire.framework */,
-				56206293247F9395005792DD /* geocoder.framework */,
-				56206290247F9383005792DD /* geolocator.framework */,
-				5620628D247F936C005792DD /* contacts_service.framework */,
-				5620628A247F9364005792DD /* permission_handler.framework */,
-				56206288247C68CE005792DD /* firebase_auth.framework */,
-				56819062247C635B006CD976 /* FirebaseInstallations.framework */,
-				56819060247C621E006CD976 /* nanopb.framework */,
-				5681905E247C6163006CD976 /* GoogleUtilities.framework */,
-				5681905C247C6146006CD976 /* FirebaseFirestore.framework */,
-				5681905A247C5F40006CD976 /* firebase_core.framework */,
-				56819058247C5F11006CD976 /* FirebaseCore.framework */,
-				56380E55247C5DFA004A47EC /* firebase_analytics.framework */,
-				56380E53247C5D0A004A47EC /* FirebaseCore.framework */,
-				56380E51247C5C27004A47EC /* libz.tbd */,
-				56380E4F247C5C1D004A47EC /* libsqlite3.tbd */,
-				56380E4D247C5BB2004A47EC /* firebase_analytics.framework */,
-				56380E4B247C5B7D004A47EC /* openssl_grpc.framework */,
-				56380E49247C5B2D004A47EC /* grpcpp.framework */,
-				56380E47247C5AB1004A47EC /* grpc.framework */,
-				56380E45247C5A9D004A47EC /* leveldb.framework */,
-				56380E43247C5A83004A47EC /* absl.framework */,
-				56380E41247C5987004A47EC /* libc++.tbd */,
-				BD2483AA2CAFEB3735851FBF /* Pods_Runner.framework */,
+				56AC8AB324E1E87E00A6E36C /* VideoViewController.xib */,
+				56AC8A9824E0F03000A6E36C /* SignalingClient.swift */,
+				56AC8A9A24E0F8D900A6E36C /* Message.swift */,
+				56AC8A9C24E0F8EF00A6E36C /* VideoViewController.swift */,
+				56AC8A9E24E0F9D600A6E36C /* WebRTCClient.swift */,
+				56AC8AA024E0FF2200A6E36C /* Event.swift */,
+				56AC8AA224E1022400A6E36C /* ChannelConfigurationViewController.swift */,
+				56AC8AA424E106E700A6E36C /* Constants.swift */,
+				56AC8AA624E1078D00A6E36C /* KVSSigner.swift */,
+				56AC8AAA24E1105700A6E36C /* SignInViewController.swift */,
+				56AC8AAC24E11B5A00A6E36C /* WebviewFactory.swift */,
+				56AC8AAE24E11B9200A6E36C /* MyWebview.swift */,
 			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		947D61220DB2A2E7A577EFAC /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				2FA2FF1FDB8FC311A07720DD /* Pods-Runner.debug.xcconfig */,
-				3D0CB02362BBB269F077925E /* Pods-Runner.release.xcconfig */,
-				68DF111F6ADED0836F57B6ED /* Pods-Runner.profile.xcconfig */,
-			);
-			path = Pods;
+			path = Video;
 			sourceTree = "<group>";
 		};
 		9740EEB11CF90186004384FC /* Flutter */ = {
@@ -170,12 +124,14 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
-				09FDBD26247CAD3B00A352CA /* GoogleService-Info.plist */,
+				56AC8AB024E1D19D00A6E36C /* awsconfiguration.json */,
+				56AC8A9724E0F00C00A6E36C /* Video */,
+				568D78A1242E9A9F0024CE9E /* GoogleService-Info.plist */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
-				947D61220DB2A2E7A577EFAC /* Pods */,
-				252E13C8C23A831465FC57A1 /* Frameworks */,
+				AC768AF7A58254FC31283738 /* Pods */,
+				F8CE881B89F4426EA476A5F0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -190,8 +146,6 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				56DEE316248055AF009F6D47 /* RunnerDebug.entitlements */,
-				09FDBD28247CB1C700A352CA /* GoogleService-Info.plist */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -201,6 +155,7 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
+				56AC8AA824E1086B00A6E36C /* Video.storyboard */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -212,6 +167,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		AC768AF7A58254FC31283738 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				465567C0D5767CF4432A1BD9 /* Pods-Runner.debug.xcconfig */,
+				E3D3A7BACCE31CCF45FC5A11 /* Pods-Runner.release.xcconfig */,
+				F7EEA10B3EFF78DA4EDBBC3A /* Pods-Runner.profile.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		F8CE881B89F4426EA476A5F0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8B292242261692BBC4159F29 /* Pods_Runner.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -219,13 +192,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
-				90E6AE74F9FB0C6BD62FACE6 /* [CP] Check Pods Manifest.lock */,
+				79EF2854AC0D5DC68CE07B10 /* [CP] Check Pods Manifest.lock */,
 				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
+				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
-				C7C328D577D56BB6F16AB5BB /* [CP] Embed Pods Frameworks */,
+				82718BB197DB953572A2F5B4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -242,17 +216,18 @@
 		97C146E61CF9000F007C117D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "The Chromium Authors";
 				TargetAttributes = {
 					97C146ED1CF9000F007C117D = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = S78HU4ZMUE;
 						LastSwiftMigration = 1100;
 					};
 				};
 			};
 			buildConfigurationList = 97C146E91CF9000F007C117D /* Build configuration list for PBXProject "Runner" */;
-			compatibilityVersion = "Xcode 10.0";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -275,9 +250,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
+				56AC8AB124E1D19D00A6E36C /* awsconfiguration.json in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
-				09FDBD27247CAD3B00A352CA /* GoogleService-Info.plist in Resources */,
+				56AC8AA924E1086B00A6E36C /* Video.storyboard in Resources */,
+				568D78A2242E9A9F0024CE9E /* GoogleService-Info.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
+				56AC8AB424E1E87E00A6E36C /* VideoViewController.xib in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,9 +275,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin\n";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
 		};
-		90E6AE74F9FB0C6BD62FACE6 /* [CP] Check Pods Manifest.lock */ = {
+		79EF2854AC0D5DC68CE07B10 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -321,6 +299,108 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		82718BB197DB953572A2F5B4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AWSAuthCore/AWSAuthCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCognitoIdentityProvider/AWSCognitoIdentityProvider.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCognitoIdentityProviderASF/AWSCognitoIdentityProviderASF.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSKinesisVideo/AWSKinesisVideo.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSKinesisVideoSignaling/AWSKinesisVideoSignaling.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSMobileClient/AWSMobileClient.framework",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/CommonCryptoModule/CommonCryptoModule.framework",
+				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
+				"${PODS_ROOT}/../Flutter/Flutter.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${PODS_ROOT}/GoogleWebRTC/Frameworks/frameworks/WebRTC.framework",
+				"${BUILT_PRODUCTS_DIR}/Mantle/Mantle.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImageWebPCoder/SDWebImageWebPCoder.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
+				"${BUILT_PRODUCTS_DIR}/TOCropViewController/TOCropViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/abseil/absl.framework",
+				"${BUILT_PRODUCTS_DIR}/contacts_service/contacts_service.framework",
+				"${BUILT_PRODUCTS_DIR}/flutter_contact/flutter_contact.framework",
+				"${BUILT_PRODUCTS_DIR}/flutter_image_compress/flutter_image_compress.framework",
+				"${BUILT_PRODUCTS_DIR}/flutter_plugin_android_lifecycle/flutter_plugin_android_lifecycle.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/geocoder/geocoder.framework",
+				"${BUILT_PRODUCTS_DIR}/geoflutterfire/geoflutterfire.framework",
+				"${BUILT_PRODUCTS_DIR}/geolocator/geolocator.framework",
+				"${BUILT_PRODUCTS_DIR}/google_api_availability/google_api_availability.framework",
+				"${BUILT_PRODUCTS_DIR}/image_cropper/image_cropper.framework",
+				"${BUILT_PRODUCTS_DIR}/image_downloader/image_downloader.framework",
+				"${BUILT_PRODUCTS_DIR}/image_picker/image_picker.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
+				"${BUILT_PRODUCTS_DIR}/location/location.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+				"${BUILT_PRODUCTS_DIR}/path_provider/path_provider.framework",
+				"${BUILT_PRODUCTS_DIR}/shared_preferences/shared_preferences.framework",
+				"${BUILT_PRODUCTS_DIR}/sqflite/sqflite.framework",
+				"${BUILT_PRODUCTS_DIR}/url_launcher/url_launcher.framework",
+				"${BUILT_PRODUCTS_DIR}/video_player/video_player.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSAuthCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCognitoIdentityProvider.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCognitoIdentityProviderASF.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSKinesisVideo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSKinesisVideoSignaling.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSMobileClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CommonCryptoModule.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Flutter.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebRTC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mantle.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImageWebPCoder.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TOCropViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/absl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/contacts_service.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_contact.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_image_compress.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_plugin_android_lifecycle.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/geocoder.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/geoflutterfire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/geolocator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/google_api_availability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/image_cropper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/image_downloader.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/image_picker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/location.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/path_provider.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/shared_preferences.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/sqflite.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/url_launcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/video_player.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9740EEB61CF901F6004384FC /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -335,23 +415,6 @@
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
 		};
-		C7C328D577D56BB6F16AB5BB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -359,8 +422,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56AC8AAB24E1105700A6E36C /* SignInViewController.swift in Sources */,
+				56AC8AA724E1078D00A6E36C /* KVSSigner.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
+				56AC8A9B24E0F8D900A6E36C /* Message.swift in Sources */,
+				56AC8A9924E0F03000A6E36C /* SignalingClient.swift in Sources */,
+				56AC8AA324E1022400A6E36C /* ChannelConfigurationViewController.swift in Sources */,
+				56AC8A9D24E0F8EF00A6E36C /* VideoViewController.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				56AC8AAD24E11B5A00A6E36C /* WebviewFactory.swift in Sources */,
+				56AC8AA124E0FF2200A6E36C /* Event.swift in Sources */,
+				56AC8AAF24E11B9200A6E36C /* MyWebview.swift in Sources */,
+				56AC8A9F24E0F9D600A6E36C /* WebRTCClient.swift in Sources */,
+				56AC8AA524E106E700A6E36C /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,20 +525,11 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-Objc",
-					"-framework",
-					Flutter,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = simpleapps.com.gupshop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -522,7 +587,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -572,12 +637,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -589,7 +653,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Runner/RunnerDebug.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = S78HU4ZMUE;
 				ENABLE_BITCODE = NO;
@@ -598,20 +661,11 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-Objc",
-					"-framework",
-					Flutter,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = simpleapps.com.gupshop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -636,20 +690,11 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-Objc",
-					"-framework",
-					Flutter,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = simpleapps.com.gupshop;
 				PRODUCT_NAME = "$(TARGET_NAME)";

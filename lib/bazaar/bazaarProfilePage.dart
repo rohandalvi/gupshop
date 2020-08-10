@@ -242,7 +242,10 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   }
 
   pageSubtitle(String text){
-    return CustomText(text: text,);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CustomText(text: text,),
+    );
   }
 
 

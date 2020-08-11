@@ -21,10 +21,6 @@ class MessageReadUnreadData{
     /// use friendNumber as number here
     String usersLatestMessageId = await GetFromMessageReadUnreadCollection(userNumber: number, conversationId: conversationId).getLatestMessageId();
     Timestamp usersLatestMessageTimestamp = await GetFromConversationCollection(conversationId: conversationId).getTimestamp(usersLatestMessageId);
-    print("usersLast MessageId : $usersLatestMessageId");
-    print("usersLatestMessageTimestamp : $usersLatestMessageTimestamp");
-    print("conversationsLatestMessageTimestamp : $conversationsLatestMessageTimestamp");
-    print("comparison : ${usersLatestMessageTimestamp.compareTo(conversationsLatestMessageTimestamp)}");
     return usersLatestMessageTimestamp.compareTo(conversationsLatestMessageTimestamp);
   }
 

@@ -49,6 +49,7 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
   List<DocumentSnapshot> documentList;
   Map<String, DocumentSnapshot> map = new HashMap();
 //  ConversationService conversationService;
+  Map<String, bool> readCache;
 
   final myController = TextEditingController();
 
@@ -61,6 +62,7 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
 //    stream = widget.conversationService.getStream();
     //stream = new StreamSingleton().getMessageStream(widget.conversationId);//GetFromConversationCollection(conversationId: widget.conversationId).getConversationStream(limitCounter);
 
+    readCache = new Map();
 
     super.initState();
   }
@@ -97,12 +99,8 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                     stream: widget.conversationService.getStream(),
-                      //Firestore.instance.collection("conversations").document(widget.conversationId).collection("messages").orderBy("timeStamp", descending: true).limit(limitCounter*10).snapshots(),
-//                    GetFromConversationCollection(conversationId: widget.conversationId).getConversationStream(limitCounter),
                     builder: (context, snapshot) {
-                      print("connection state before : ${snapshot.connectionState}");
                       if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter document was called on null"
-                      print("DocumentList $documentList");
 
                       snapshot.data.documents.forEach((element) {
 
@@ -115,21 +113,18 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                       });
                       this.documentList = list.reversed.toList();
 
-                      print("new docs : ${snapshot.data.documents}");
-                      print("connection state : ${snapshot.connectionState}");
 
-                      print("documentList in bodyPlus : $documentList");
                       /// for message read unread collection:
                       if(!(documentList.isEmpty || documentList == null)){
                         messageId = documentList[0].data["messageId"];
-                        print("message text : ${documentList[0].data["body"]}");
-//                        messageId = snapshot.data.documents[0].data["messageId"];
                         currentMessageDocumentSnapshot = snapshot.data.documents[0];
                         PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId, conversationId: widget.conversationId).pushLatestMessageId();
                       }
 
+
                         return NotificationListener<ScrollUpdateNotification>(
                           child: BodyData(
+                            readCache: readCache,
                             listOfFriendNumbers: widget.listOfFriendNumbers,
                             conversationId: widget.conversationId,
                             controller: widget.controller,
@@ -154,10 +149,6 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                                 &&  !((notification.metrics.pixels - notification.metrics.minScrollExtent) <
                                     (notification.metrics.maxScrollExtent-notification.metrics.pixels))) {
                               widget.conversationService.paginate();
-//                            w  setState(() {
-//                                limitCounter++;
-//                              });
-                              //fetchAdditionalMessages();
                             }
                             return true;
                           },

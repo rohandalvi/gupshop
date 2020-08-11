@@ -162,7 +162,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
             }
 
 
-
+            print("widget.value = ${widget.value}");
             if(widget.value!="") {
               /// create messageId:
               /// pass that message Id to messageId.

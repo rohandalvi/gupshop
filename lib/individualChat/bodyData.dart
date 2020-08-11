@@ -26,10 +26,11 @@ class BodyData extends StatelessWidget {
   String value;
   Map<String,NewsContainerUI> mapIsNewsGenerated= new Map();
   List<dynamic> listOfFriendNumbers;
+  Map<String, bool> readCache;
 
   BodyData({this.conversationId, this.listScrollController, this.documentList, this.controller,
     this.userName, this.isPressed, this.userPhoneNo, this.groupExits, this.scroll, this.value,
-    this.listOfFriendNumbers,
+    this.listOfFriendNumbers, this.readCache
   });
 
 
@@ -79,8 +80,9 @@ class BodyData extends StatelessWidget {
           }else{
             imageURL = documentList[index].data["imageURL"];
           }
-
+          readCache[messageId] = false;
           return BodyDisplay(
+            readCache: readCache,
             listOfFriendNumbers: listOfFriendNumbers,
             conversationId: conversationId,
             controller: controller,

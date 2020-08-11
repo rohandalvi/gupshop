@@ -47,13 +47,15 @@ class BodyDisplay extends StatefulWidget {
   String documentId;
   String messageId;
   List<dynamic> listOfFriendNumbers;
+  Map<String, bool> readCache;
 
   BodyDisplay({this.mapIsNewsGenerated, this.newsId, this.newsBody, this.newsLink,
-  this.newsTitle, this.isNews, this.controller, this.messageBody, this.videoURL,
-  this.longitude, this.latitude, this.fromName, this.isLocationMessage, this.imageURL,
-  this.isMe, this.groupExits, this.isPressed, this.userPhoneNo, this.userName,
-  this.conversationId, this.trueByCount, this.fakeByCount, this.reportedByCount,
-  this.timeStamp, this.fromNameForGroup,this.documentId, this.messageId,this.listOfFriendNumbers,
+    this.newsTitle, this.isNews, this.controller, this.messageBody, this.videoURL,
+    this.longitude, this.latitude, this.fromName, this.isLocationMessage, this.imageURL,
+    this.isMe, this.groupExits, this.isPressed, this.userPhoneNo, this.userName,
+    this.conversationId, this.trueByCount, this.fakeByCount, this.reportedByCount,
+    this.timeStamp, this.fromNameForGroup,this.documentId, this.messageId,this.listOfFriendNumbers,
+    this.readCache,
   });
 
   @override
@@ -204,6 +206,8 @@ class _BodyDisplayState extends State<BodyDisplay> {
       ),
       isThreeLine: true,
       subtitle: FromNameAndTimeStampVotingRead(/// three icons are in this class
+        messageId: widget.messageId,
+        readCache: widget.readCache,
         timestamp: widget.timeStamp,
         listOfFriendNumbers: widget.listOfFriendNumbers,
         newsId: widget.newsId,

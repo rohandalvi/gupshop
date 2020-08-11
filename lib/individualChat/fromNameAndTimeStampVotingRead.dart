@@ -24,10 +24,14 @@ class FromNameAndTimeStampVotingRead extends StatefulWidget {
   String newsId;
   List<dynamic> listOfFriendNumbers;
   Timestamp timestamp;
+  Map<String, bool> readCache;
+  String messageId;
 
   FromNameAndTimeStampVotingRead({this.visible, this.fromName, this.isMe, this.timeStamp,
     this.isNews, this.conversationId,this.documentId, this.reportedByCount, this.trueByCount,
-    this.fakeByCount, this.newsId, this.listOfFriendNumbers,  this.timestamp});
+    this.fakeByCount, this.newsId, this.listOfFriendNumbers,  this.timestamp, this.readCache,
+    this.messageId,
+  });
 
   @override
   _FromNameAndTimeStampVotingReadState createState() => _FromNameAndTimeStampVotingReadState();
@@ -36,7 +40,7 @@ class FromNameAndTimeStampVotingRead extends StatefulWidget {
 class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVotingRead> {
   @override
   Widget build(BuildContext context) {
-
+    print("readCache in fromName : ${widget.readCache}");
         return Column(
           children: <Widget>[
             /// icons for news for voting:
@@ -158,28 +162,32 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
             /// here we are not taking the read data from bodyDisplay class but
             /// we are directly getting the data from ListOfFriendStatusReadStatus
             /// to decouple the display and lessen the latency
-            FutureBuilder(
+            widget.readCache[widget.messageId] == false ? FutureBuilder(
               future: ListOfFriendStatusReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId, conversationsLatestMessageTimestamp: widget.timestamp).readStatus(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   bool isRead = snapshot.data;
-                  return Visibility(
-                    visible: widget.isMe,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      alignment:  Alignment.centerRight,
-                      padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
-                      child: isRead == true ? CustomText(text: 'read',).blueSubtitle() : CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
-                    ),
-                  );
+                 return readUnreadContainer(context, isRead);
                 }
                 return Center(
                   child: CircularProgressIndicator(),
                 );
               },
-            ),
+            ) : readUnreadContainer(context, widget.readCache[widget.messageId]),
 
           ],
         );
+  }
+
+  Visibility readUnreadContainer(BuildContext context, bool isRead) {
+    return Visibility(
+      visible: widget.isMe,
+      child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      alignment:  Alignment.centerRight,
+                      padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+                      child: isRead == true ? CustomText(text: 'read',).blueSubtitle() : CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
+                    ),
+    );
   }
 }

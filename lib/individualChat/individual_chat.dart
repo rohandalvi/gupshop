@@ -242,33 +242,6 @@ class _IndividualChatState extends State<IndividualChat> {
       ),
     );
   }
-
-
-  ///fetching next batch of messages when user scrolls up for previous messages
-//  fetchAdditionalMessages() async {
-//    try {
-//      print("Fetching ${documentList[documentList.length-1]}");
-//      print("Size  ${documentList.length}");
-//      List<DocumentSnapshot>  newDocumentList  =  (await Firestore.instance.collection("conversations").document(conversationId).collection("messages")
-//          .orderBy("timeStamp", descending: true)
-//          .startAfterDocument(documentList[documentList.length-1])
-//          .limit(10).getDocuments())
-//          .documents;
-//
-//      print("Got additional messges of size ${newDocumentList.length}");
-//      if(newDocumentList.isEmpty) return;
-//      additionalList = [];
-//
-//      setState(() {//setting state is essential, or new messages(next batch of old messages) does not get loaded
-//        additionalList.addAll(newDocumentList);
-//      });
-//    } catch(e) {
-//      streamController.sink.addError(e);
-//    }
-//
-//  }
-
-
 }
 
 

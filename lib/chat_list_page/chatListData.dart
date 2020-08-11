@@ -7,7 +7,7 @@ import 'package:gupshop/deleteFromFirebase/deleteMembersFromGroup.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/widgets/customDismissible.dart';
 
-class ChatListData extends StatelessWidget {
+class ChatListData extends StatefulWidget {
   List<DocumentSnapshot> list;
   final String myNumber;
   bool notAGroupMemberAnymore;
@@ -19,40 +19,47 @@ class ChatListData extends StatelessWidget {
   });
 
   @override
+  _ChatListDataState createState() => _ChatListDataState();
+}
+
+class _ChatListDataState extends State<ChatListData> {
+  @override
+  void initState() {
+    print("in chatList data initstate");
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView.separated( ///to create the seperated view of each chat, has to be used with separatorBuilder: (context, index) => Divider
-      itemCount: list.length,
+      itemCount: widget.list.length,
       itemBuilder: (context, index) {
         bool lastMessageIsVideo=false;
         bool lastMessageIsImage=false;
         String lastMessage;
 
-        String friendName = list[index].data["name"];
-        if (list[index].data["message"]["videoURL"] != null) {
+        String friendName = widget.list[index].data["name"];
+        if (widget.list[index].data["message"]["videoURL"] != null) {
           lastMessageIsVideo = true;
-          lastMessage = list[index].data["message"]["videoURL"];
+          lastMessage = widget.list[index].data["message"]["videoURL"];
         }
-        else if (list[index].data["message"]["imageURL"] != null) {
+        else if (widget.list[index].data["message"]["imageURL"] != null) {
           lastMessageIsImage = true;
-          lastMessage = list[index].data["message"]["imageURL"];
+          lastMessage = widget.list[index].data["message"]["imageURL"];
         } else {
-          lastMessage = list[index].data["message"]["body"];
+          lastMessage = widget.list[index].data["message"]["body"];
         }
-        Timestamp timeStamp = list[index]
+        Timestamp timeStamp = widget.list[index]
             .data["message"]["timeStamp"];
-        bool read = list[index].data["read"];
+        bool read = widget.list[index].data["read"];
 
         String friendNumber;
         List<dynamic> memberList;
         List<dynamic> friendNumberList;
 
         ///for sending to individual_chat.dart:
-        String conversationId = list[index].data["message"]["conversationId"];
-        print("conversations last message : $lastMessage ");
-        print("conversations last messageId : ${list[index]
-            .data["message"]["messageId"]} ");
-
-        String documentID = list[index].documentID;
+        String conversationId = widget.list[index].data["message"]["conversationId"];
+        String documentID = widget.list[index].documentID;
         String adminNumber;
 
         return CustomDismissible(
@@ -64,12 +71,12 @@ class ChatListData extends StatelessWidget {
             adminNumber = await CheckIfGroup().getAdminNumber(documentID);
             /// ToDo: not working called from DeleteChats
             ///for individualChat, only delete from my recentChats
-            DeleteMembersFromGroup().deleteDocumentFromSnapshot(list[index].reference);///recentChats
-            if(direction == DismissDirection.startToEnd &&  isGroup == true && adminNumber == myNumber){
+            DeleteMembersFromGroup().deleteDocumentFromSnapshot(widget.list[index].reference);///recentChats
+            if(direction == DismissDirection.startToEnd &&  isGroup == true && adminNumber == widget.myNumber){
               /// also delete from profilePictures
 
               DeleteMembersFromGroup().deleteConversationMetadata(documentID);///conversationMetadata
-              DeleteHelper().deleteFromFriendsCollection(myNumber, documentID);///friends collection
+              DeleteHelper().deleteFromFriendsCollection(widget.myNumber, documentID);///friends collection
               /// delete from the recentChats of all members(memberList, which includes me too)
               /// delete from the friends collection of all members(memberList, which includes me too)
               for(int i=0; i<memberList.length; i++){
@@ -79,10 +86,10 @@ class ChatListData extends StatelessWidget {
             }
           },
           child: ChatListDisplay(
-            myNumber: myNumber,
+            myNumber: widget.myNumber,
             conversationId: conversationId,
-            notAGroupMemberAnymore: notAGroupMemberAnymore,
-            groupExists: groupExists,
+            notAGroupMemberAnymore: widget.notAGroupMemberAnymore,
+            groupExists: widget.groupExists,
             friendNumber: friendNumber,
             friendNumberList: friendNumberList,
             memberList: memberList,
@@ -91,7 +98,7 @@ class ChatListData extends StatelessWidget {
             lastMessageIsVideo: lastMessageIsVideo,
             index: index,
             timeStamp: timeStamp,
-            myName: myName,
+            myName: widget.myName,
             friendName: friendName,
           ),
         );

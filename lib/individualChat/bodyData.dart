@@ -80,7 +80,20 @@ class BodyData extends StatelessWidget {
           }else{
             imageURL = documentList[index].data["imageURL"];
           }
-          readCache[messageId] = false;
+
+          /// readUnread cache:
+          /// first time when individual chat screen is loaded, all the
+          /// messages will be stored as false in the map(readCache).
+          /// Then at the fromNameTimeStamp page, the actual futurebuilder will
+          /// be called which will check the status of the message from
+          /// messageReadUnread collection. If the message is read, then it gets
+          /// stored as true in the map and next time when this screen is called
+          /// if the message is true then the future call for messageReadUnread
+          /// collection will not be made.
+          if(readCache[messageId] == null){
+            readCache[messageId] = false;
+          }
+
           return BodyDisplay(
             readCache: readCache,
             listOfFriendNumbers: listOfFriendNumbers,

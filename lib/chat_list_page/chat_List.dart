@@ -55,22 +55,6 @@ class ChatListState extends State<ChatList> {
     So, we take the phone number which is not ours.
     But this logic will not work when in case of a group.
    */
-//  getFriendPhoneNo(String conversationId, String myNumber) async {
-//    DocumentSnapshot temp = await Firestore.instance.collection(
-//        "conversationMetadata").document(conversationId).get();
-//    return temp.data;
-//  }
-
-
-//  getVideoDetailsFromVideoChat(int index) async{
-//    QuerySnapshot querySnapshot = await Firestore.instance.collection("recentChats").document(
-//        myNumber).collection("conversations").getDocuments();
-//
-//    DocumentSnapshot ds =  querySnapshot.documents[index];
-//    String videoIcon = ds.data["message"]["videoURL"];
-//    return videoIcon;
-//
-//  }
 
   extractFriendNo(DocumentSnapshot temp) async {
     return temp.data["listOfOtherNumbers"];

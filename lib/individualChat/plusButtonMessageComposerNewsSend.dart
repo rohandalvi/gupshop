@@ -164,6 +164,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
 
             print("widget.value = ${widget.value}");
             if(widget.value!="") {
+              print("in blank value");
               /// create messageId:
               /// pass that message Id to messageId.
               /// (here):
@@ -200,6 +201,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
                 curve: Curves.easeOut,
                 duration: const Duration(milliseconds: 300),
               );
+              widget.value ="";
             }
           },
 

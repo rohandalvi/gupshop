@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/messageReadUnread/messageReadUnreadData.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 
 class ReadUnreadIcon extends StatelessWidget {
   final String conversationId;
@@ -27,19 +28,21 @@ class ReadUnreadIcon extends StatelessWidget {
 
           return Visibility(/// show the new icon only if the message is unread
             visible: read==false,
-            child: Expanded(
-              child: IconButton(
-                icon: SvgPicture.asset('images/new.svg',),
-              ),
-            ),
+            child: icon('new'),
           );
         }
-        return Center(
-          child: CircularProgressIndicator(
-            valueColor: new AlwaysStoppedAnimation<Color>(white),
-          ),
-        );
+        return icon('transparent');
       },
     );
   }
+
+  Expanded icon(String iconName) {
+    return Expanded(
+            child: CustomIconButton(
+              iconNameInImageFolder: iconName,
+            ),
+          );
+  }
+
+
 }

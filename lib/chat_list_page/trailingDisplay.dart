@@ -15,15 +15,15 @@ class TrailingDisplay extends StatelessWidget {
     return SizedBox(
       width: 100,
       child: Flex(/// renderflex overflow by 8 pixels, use flex -> expanded(icon as 1 child) and use text as other child
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         direction: Axis.vertical,
         children: <Widget>[
-          TimeDisplay(timeStamp: timeStamp,),
           ReadUnreadIcon(
             conversationId: conversationId,
             myNumber: myNumber,
             timeStamp: timeStamp,
           ),
+          TimeDisplay(timeStamp: timeStamp,),
         ],
       ),
     );

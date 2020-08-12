@@ -168,27 +168,6 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
         );
   }
 
-//  extractReadData() {
-//    return  widget.readCache[widget.messageId] == false ? FutureBuilder(
-//            future: ListOfFriendStatusReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId, conversationsLatestMessageTimestamp: widget.timestamp).readStatus(),
-//            builder: (BuildContext context, AsyncSnapshot snapshot) {
-//              if (snapshot.connectionState == ConnectionState.done) {
-//                bool isRead = snapshot.data;
-//                if(isRead == true) {
-//                  widget.readCache[widget.messageId] = true;
-//                  print("true set");
-//                }
-//               return readUnreadContainer(context, isRead);
-//              }
-//              return Container(
-//                width: MediaQuery.of(context).size.width,
-//                alignment:  Alignment.centerRight,
-//                padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
-//                child: CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
-//              );
-//            },
-//          ): readUnreadContainer(context, widget.readCache[widget.messageId]);
-//  }
 
   Visibility readUnreadContainer(BuildContext context, bool isRead) {
     return Visibility(

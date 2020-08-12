@@ -5,7 +5,6 @@ import 'package:gupshop/messageReadUnread/messageReadUnreadData.dart';
 import 'package:gupshop/messageReadUnread/readUnreadDisplay.dart';
 import 'package:gupshop/messageReadUnread/unreadDisplay.dart';
 import 'package:gupshop/retriveFromFirebase/getFromMessageReadUnreadCollection.dart';
-import 'package:gupshop/widgets/customText.dart';
 
 class FriendReadStatus{
   List<dynamic> listOfFriends;
@@ -15,7 +14,6 @@ class FriendReadStatus{
   FriendReadStatus({this.listOfFriends, this.conversationId, this.conversationsLatestMessageTimestamp});
 
   readStatus() async{
-    print("listOfFriendsNumbers in ListOfFriendStatusReadStatus: $listOfFriends");
     for(int i =0; i<listOfFriends.length; i++){
       int comparison = await (
           MessageReadUnreadData(
@@ -23,7 +21,6 @@ class FriendReadStatus{
             conversationId: conversationId,
             conversationsLatestMessageTimestamp: conversationsLatestMessageTimestamp,
           ).timestampDifference());
-      print("comparison  in readStatus : $comparison");
 
       if(comparison < 0) return false;
     } return true;
@@ -31,6 +28,8 @@ class FriendReadStatus{
   }
 
   readStream(BuildContext context, Map<String, bool>readCache, String messageId, bool isMe){
+    int trueCount=0;
+    bool collectiveRead= false;
     for(int i =0; i<listOfFriends.length; i++){
       return Visibility(
         visible: isMe,
@@ -45,9 +44,14 @@ class FriendReadStatus{
                 if (readSnapshot.connectionState == ConnectionState.done) {
                   bool isRead = readSnapshot.data;
                   if(isRead == true) {
-                    readCache[messageId] = true;
+                    //readCache[messageId] = true;
+                    trueCount++;
                   }
-                  return ReadUnreadDisplay(context: context, isRead: isRead, isMe: isMe);
+                  if(trueCount == listOfFriends.length) collectiveRead = true;
+                  if(collectiveRead == true){
+                    readCache[messageId] = true;
+                    return ReadUnreadDisplay(context: context, isRead: collectiveRead, isMe: isMe);
+                  }
                 }
                 return UnreadDisplay(context: context);
               },

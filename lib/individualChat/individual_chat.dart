@@ -177,6 +177,7 @@ class _IndividualChatState extends State<IndividualChat> {
   @override
   void initState() {
 
+    print("in individualchat initstate");
     /*
     adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
     when user scrolls
@@ -195,6 +196,7 @@ class _IndividualChatState extends State<IndividualChat> {
       forwardMessages(conversationId);
     }
 
+    conversationService = new ConversationService(widget.conversationId);
 
 
     super.initState();
@@ -205,7 +207,6 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   Widget build(BuildContext context){
-    conversationService = new ConversationService(widget.conversationId);
     return WillPopScope(
       onWillPop: () async => CustomNavigator().navigateToHome(context, userName, userPhoneNo),
       child: Material(

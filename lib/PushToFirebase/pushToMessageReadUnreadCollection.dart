@@ -11,7 +11,7 @@ class PushToMessageReadUnreadCollection{
     print("messageId in pushLatestId: $messageId");
     print("userNumber in pushLatestMessageId : $userNumber");
     Firestore.instance.collection("messageReadUnread").document(userNumber)
-        .setData({conversationId : messageId});
+        .setData({conversationId : messageId}, merge: true);
   }
 
 }

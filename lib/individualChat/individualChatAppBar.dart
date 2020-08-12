@@ -31,16 +31,15 @@ class IndividualChatAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StreamSingleton streamSingleton = new StreamSingleton();
     return AppBar(
       backgroundColor: secondryColor.withOpacity(.03),
       elevation: 0,
       leading: IconButton(
           icon: SvgPicture.asset('images/backArrowColor.svg',),
-          onPressed:(){
+          onPressed:() async{
             /// on back navigation.
-            print("in back");
-            conversationService.disableActiveSubscription();
+            print("hashcode in indivichat : ${conversationService.hashCode}");
+            await conversationService.disableActiveSubscription();
             //streamSingleton.setStream(null);
             CustomNavigator().navigateToHome(context, userName, userPhoneNo);
           }

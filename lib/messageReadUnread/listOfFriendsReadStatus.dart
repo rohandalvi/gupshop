@@ -30,7 +30,6 @@ class ListOfFriendStatusReadStatus{
 
   readStatusStream(BuildContext context, Map<String, bool>readCache, String messageId, bool isMe){
     for(int i =0; i<listOfFriends.length; i++){
-      print("isMe : ${isMe}");
       return Visibility(
         visible: isMe,
         child: StreamBuilder(

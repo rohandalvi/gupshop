@@ -67,8 +67,8 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
 
   @override
   void dispose() {
+    print("in stream dispose");
     myController.dispose();
-    stream  = null;
     super.dispose();
   }
 
@@ -98,7 +98,11 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                     stream: widget.conversationService.getStream(),
                     builder: (context, snapshot) {
                       /// to avoid forever circularProgressIndicator
-                      if(snapshot.data == null) return Container();
+                      print("widget.conversationService.isValidStream() : ${widget.conversationService.isValidStream()}");
+                      print("hashcode in bodyScroll : ${widget.conversationService.hashCode}");
+                      if(snapshot.data == null || widget.conversationService.isValidStream() == false) return Container();
+
+                      print("in this streambuilder");
 
                       snapshot.data.documents.forEach((element) {
 

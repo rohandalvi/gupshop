@@ -13,10 +13,15 @@ class ConversationService{
   DocumentSnapshot startBefore = null;
   DocumentSnapshot startAfter = null;
   List<dynamic> list = [];
+  bool validStream;
 
   StreamController<QuerySnapshot> streamController = new StreamController();
 
   ConversationService(String conversationId) {
+    print("creating new conversationService :${validStream}");
+    if(validStream != false){
+      validStream = true;
+    }
     this.conversationId = conversationId;
     subscribeToLatest();
   }
@@ -43,18 +48,23 @@ class ConversationService{
 
   }
 
-  void disableActiveSubscription() {
-    subscription.cancel();
-    streamController.close();
+  bool isValidStream(){
+    return validStream;
+  }
+
+  disableActiveSubscription()  async {
     print("Cancelling subscription and closing stream");
+    validStream = false;
+    print("validStream :$validStream");
+    await subscription.cancel();
+    await streamController.close();
+
   }
 
   void act(QuerySnapshot event) {
     if(event.documents.isNotEmpty) {
       if(startBefore == null) startBefore = event.documents[event.documents.length-1];
-      print("Got event ${event.documents[0].data["body"]}");
       startAfter = event.documents[0];
-      print("StartAfter ${startAfter.documentID}");
       streamController.add(event);
       change();
     }

@@ -36,7 +36,6 @@ class TypingStatusDisplay extends StatelessWidget {
           hasMembers = true;
         }
         //bool hasMembers = !(snapshot.data.data == null || snapshot.data.data["members"] == []);
-        print("hasMembers : $hasMembers");
           //print("typing snapshot: ${snapshot.data["members"]}");
           return Visibility(
             visible: hasMembers,

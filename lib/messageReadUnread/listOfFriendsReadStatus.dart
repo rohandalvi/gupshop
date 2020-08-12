@@ -35,7 +35,7 @@ class ListOfFriendStatusReadStatus{
         child: StreamBuilder(
           stream: GetFromMessageReadUnreadCollection(userNumber:listOfFriends[i], conversationId: conversationId).getLatestMessageIdStream(),
           builder: (context, snapshot) {
-            if(snapshot.data == null) return CircularProgressIndicator();
+            if(snapshot.data == null) return unreadContainer(context);
             String friendsLatestMessageId = snapshot.data[conversationId];
              return FutureBuilder(
               future: MessageReadUnreadData(conversationId: conversationId, conversationsLatestMessageTimestamp: conversationsLatestMessageTimestamp, number: listOfFriends[i],).friendReadStatus(friendsLatestMessageId),
@@ -47,18 +47,22 @@ class ListOfFriendStatusReadStatus{
                   }
                   return readUnreadContainer(context, isRead, isMe);
                 }
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  alignment:  Alignment.centerRight,
-                  padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
-                  child: CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
-                );
+                return unreadContainer(context);
               },
             );
           },
         ),
       );
     }
+  }
+
+  Container unreadContainer(BuildContext context) {
+    return Container(
+                width: MediaQuery.of(context).size.width,
+                alignment:  Alignment.centerRight,
+                padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+                child: CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
+              );
   }
 
   Visibility readUnreadContainer(BuildContext context, bool isRead, bool isMe) {

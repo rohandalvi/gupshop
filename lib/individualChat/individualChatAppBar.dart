@@ -45,7 +45,6 @@ class IndividualChatAppBar extends StatelessWidget {
           }
       ),
       title: Material(
-        //color: Theme.of(context).primaryColor,
         child: ListTile(
           contentPadding: EdgeInsets.only(top: 4),
           leading: GestureDetector(
@@ -60,7 +59,7 @@ class IndividualChatAppBar extends StatelessWidget {
               }
               else CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true, friendN, null);/// if its a group then profile pictures are searched using conversationId
             },
-            child: friendN == null ? CircularProgressIndicator() : DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendN, 25, 23.5, false),
+            child: friendN == null ? DisplayAvatarFromFirebase().avatarPlaceholder(25, 23.5) : DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendN, 25, 23.5, false),
           ),
           title: GestureDetector(
               child: CustomText(text: friendName,),

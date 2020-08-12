@@ -61,6 +61,7 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                     setState(() {
                       this.groupName= val;
                     });
+                    print("groupName in onChanged : $groupName");
                   },
                   formKeyCustomText: formKey,
                   onFieldSubmitted: (name){
@@ -101,7 +102,8 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
 
                   PushToProfilePictures().newGroupProfilePicture(id);
 
-                  if(groupName == null){
+                  print("groupName : $groupName");
+                  if(groupName == null || groupName == ""){
                     Flushbar(
                       icon: SvgPicture.asset(
                         'images/stopHand.svg',
@@ -121,11 +123,9 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                           ),
                         ),
                       ),
-                      message: "Please enter your name to move forward",
+                      message: "Please enter name to move forward",
                     )..show(context);
-                  }
-
-                  if(groupName != null){
+                  } else{
                     CustomNavigator().navigateToIndividualChat(context, id, userName, userPhoneNo, groupName, listOfNumbersInAGroup, null, false);
                   }
                 },

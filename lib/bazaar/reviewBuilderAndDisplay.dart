@@ -88,9 +88,10 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
         IconButton(
           icon: Icon(Icons.arrow_forward_ios),
           onPressed: () {
-            print("likeClicked : $likeClicked");
-            print("dislikeClicked : $dislikeClicked");
             if((likeClicked == null || likeClicked == true) && (dislikeClicked == null || dislikeClicked == false)){
+              /// first time when the user has not given any reviews, then
+              /// likeClicked would be null, and likes would also be null,
+              /// hence checking that condition
               if(likeClicked == null){
                 setState(() {
                   widget.likes = 1;
@@ -99,7 +100,6 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
                 });
               }
               else setState(() {
-                print("widget.likes : ${widget.likes}");
                 widget.likes++;
                 widget.writeReview= false;///to show the non textField view again, where we have only the reviews
               });

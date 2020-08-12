@@ -12,7 +12,6 @@ class StreamSingleton {
 
 
     Stream getMessageStream(String conversationId) {
-      print("messageStream in streamSingleton : $_messageStream");
       _messageStream = Firestore.instance.collection("conversations")
           .document(conversationId).collection("messages")
           .orderBy("timeStamp", descending: true)
@@ -21,7 +20,6 @@ class StreamSingleton {
     }
 
     void setStream(Stream stream) {
-      print("setting stream to : $stream");
       _messageStream = stream;
     }
 

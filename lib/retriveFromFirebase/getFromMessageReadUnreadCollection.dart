@@ -12,4 +12,9 @@ class GetFromMessageReadUnreadCollection{
     //return dc.data["messageId"];
     return dc.data[conversationId];
   }
+
+  getLatestMessageIdStream(){
+    return Firestore.instance.collection("messageReadUnread")
+        .document(userNumber).snapshots();
+  }
 }

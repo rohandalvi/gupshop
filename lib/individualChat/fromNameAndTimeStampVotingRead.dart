@@ -162,24 +162,30 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
             /// here we are not taking the read data from bodyDisplay class but
             /// we are directly getting the data from ListOfFriendStatusReadStatus
             /// to decouple the display and lessen the latency
-            extractReadData(),
+//            extractReadData(),
+            widget.readCache[widget.messageId] == false ?ListOfFriendStatusReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId, conversationsLatestMessageTimestamp: widget.timestamp).readStatusStream(context, widget.readCache, widget.messageId, widget.isMe)
+            : readUnreadContainer(context, widget.readCache[widget.messageId]),
           ],
         );
   }
 
   extractReadData() {
-    print("value in extractDeta : ${widget.readCache[widget.messageId]}");
     return  widget.readCache[widget.messageId] == false ? FutureBuilder(
             future: ListOfFriendStatusReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId, conversationsLatestMessageTimestamp: widget.timestamp).readStatus(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                print("in false ${widget.messageId}");
                 bool isRead = snapshot.data;
-                if(isRead == true) widget.readCache[widget.messageId] = true;
+                if(isRead == true) {
+                  widget.readCache[widget.messageId] = true;
+                  print("true set");
+                }
                return readUnreadContainer(context, isRead);
               }
-              return Center(
-                child: CircularProgressIndicator(),
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                alignment:  Alignment.centerRight,
+                padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+                child: CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
               );
             },
           ): readUnreadContainer(context, widget.readCache[widget.messageId]);

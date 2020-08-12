@@ -9,6 +9,7 @@ import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/plusButtonMessageComposerNewsSend.dart';
 import 'package:gupshop/individualChat/streamSingleton.dart';
+import 'package:gupshop/messageReadUnread/readSingleton.dart';
 import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/typing/typingStatusData.dart';
 import 'package:gupshop/typing/typingStatusDisplay.dart';
@@ -48,8 +49,7 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
   Stream stream;
   List<DocumentSnapshot> documentList;
   Map<String, DocumentSnapshot> map = new HashMap();
-//  ConversationService conversationService;
-  Map<String, bool> readCache;
+  Map<String, bool> readCache;/// create singleton here
 
   final myController = TextEditingController();
 
@@ -58,11 +58,9 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
     startAtDocument = null;
     myController.addListener(_printLatestValue);
     documentList = null;
-    //conversationService = new ConversationService(widget.conversationId);
-//    stream = widget.conversationService.getStream();
-    //stream = new StreamSingleton().getMessageStream(widget.conversationId);//GetFromConversationCollection(conversationId: widget.conversationId).getConversationStream(limitCounter);
 
-    readCache = new Map();
+//    readCache = new Map();
+    readCache = new ReadSingleton().getReadCacheMap();
 
     super.initState();
   }
@@ -70,7 +68,6 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
   @override
   void dispose() {
     myController.dispose();
-    print("Disposing  stream to null");
     stream  = null;
     super.dispose();
   }

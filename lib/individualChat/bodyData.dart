@@ -92,7 +92,10 @@ class BodyData extends StatelessWidget {
           /// collection will not be made.
           if(readCache[messageId] == null){
             readCache[messageId] = false;
+          }else if(readCache.containsKey(messageId)== false){
+            readCache[messageId] = false;
           }
+
 
           return BodyDisplay(
             readCache: readCache,

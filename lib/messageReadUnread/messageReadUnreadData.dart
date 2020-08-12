@@ -37,4 +37,12 @@ class MessageReadUnreadData{
    return result;
   }
 
+  Future<bool> friendReadStatus(String usersLatestMessageId) async{
+    /// use friendNumber as number here
+    Timestamp usersLatestMessageTimestamp = await GetFromConversationCollection(conversationId: conversationId).getTimestamp(usersLatestMessageId);
+    int diff =  usersLatestMessageTimestamp.compareTo(conversationsLatestMessageTimestamp);
+    if(diff < 0) return false;
+    return true;
+  }
+
 }

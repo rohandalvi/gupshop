@@ -7,6 +7,8 @@ class GetConversationIdFromConversationMetadataCollection{
   GetConversationIdFromConversationMetadataCollection({this.userNumber, this.friendNumber});
   
   getIndividualChatId() async{
+    print("friendNumber in getConvId : ${friendNumber}");
+    print("myNumber in getConvId : : $userNumber");
     QuerySnapshot qc = await Firestore.instance.collection("conversationMetadata").where("members", arrayContains: friendNumber).getDocuments();
 
     for(int i=0; i<qc.documents.length; i++){

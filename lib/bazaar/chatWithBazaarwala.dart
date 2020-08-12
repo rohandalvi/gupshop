@@ -1,35 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/retriveFromFirebase/getConversationIdFromConversationMetadataCollection.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 
 class ChatWithBazaarwala extends StatelessWidget {
   final String bazaarwalaNumber;
-  final String userNumber;
   final String bazaarwalaName;
   final String userName;
+  BuildContext customContext;
 
-  ChatWithBazaarwala({this.bazaarwalaNumber, this.userNumber, this.bazaarwalaName, this.userName,});
+  ChatWithBazaarwala({this.bazaarwalaNumber, this.bazaarwalaName, this.userName, this.customContext});
 
   @override
   Widget build(BuildContext context) {
-    return CustomBigFloatingActionButton(
-      width: 80,
-      height: 80,
-      heroTag: "chatWithBazaarwalaButton",
-      child: IconButton(
-          icon: SvgPicture.asset('images/chatBubble.svg',)
-      ),
+    return CustomIconButton(
+      iconNameInImageFolder: 'chatBubble',
       onPressed: () async{
+        String userNumber = await UserDetails().getUserPhoneNoFuture();
         List<dynamic> listOfFriendsNumbers = new List();
         listOfFriendsNumbers.add(bazaarwalaNumber);
 
-        String conversationId = await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber, friendNumber: bazaarwalaNumber).getIndividualChatId();
+        String conversationId = await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber,
+            friendNumber: bazaarwalaNumber).getIndividualChatId();
+        print("convId in customIconButton :$conversationId");
 
-        NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber, listOfFriendsNumbers: listOfFriendsNumbers, friendName: bazaarwalaName, userName: userName).navigateNoBrackets(context);
+        NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
+            listOfFriendsNumbers: listOfFriendsNumbers, friendName: bazaarwalaName, userName: userName)
+            .navigateNoBrackets(customContext);
       },
     );
   }
+
 }

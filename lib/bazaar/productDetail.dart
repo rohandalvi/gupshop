@@ -79,6 +79,14 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           preferredSize: Size.fromHeight(70.0),
           child: CustomAppBar(
             title: CustomText(text: 'Product Detail', fontSize: 20,),
+            actions: <Widget>[
+              ChatWithBazaarwala(
+                bazaarwalaNumber: widget.productWalaNumber,
+                bazaarwalaName: widget.productWalaName,
+                userName: userName,
+                customContext:context,
+              ),
+            ],
             onPressed: (){
               //Navigator.pop(context);
               NavigateToBazaarIndiviudalCategoryList(category: category).navigateNoBrackets(context);
@@ -92,12 +100,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
             child: _buildProductDetailsPage(context),
           ),
       ],
-        ),
-        floatingActionButton: ChatWithBazaarwala(
-          bazaarwalaNumber: widget.productWalaNumber,
-          bazaarwalaName: widget.productWalaName,
-          userName: userName,
-          userNumber: userNumber,
         ),
       ),
     );
@@ -155,77 +157,71 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
   buildProductImagesWidget(){
     TabController imagesController = new TabController(length: 4, vsync: this);
 
-    return FutureBuilder(
-      future: UserDetails().getUserPhoneNoFuture(),
-      builder: (context, numberSnapshot) {
-        userNumber = numberSnapshot.data;
-        return Card(
-          child: FutureBuilder(
-            future: GetBazaarWalasBasicProfileInfo(userNumber: userNumber).getPictureListAndVideo(),/// get it from bazaarWalas basic profile and not videos collection
-            builder: (context, snapshot) {
-              if(snapshot.connectionState == ConnectionState.done){
-                String videoURL = snapshot.data["videoURL"];
-                String thumbnailPicture = snapshot.data["thumbnailPicture"];
-                String otherPictureOne = snapshot.data["otherPictureOne"];
-                String otherPictureTwo = snapshot.data["otherPictureTwo"];
+      return Card(
+        child: FutureBuilder(
+          future: GetBazaarWalasBasicProfileInfo(userNumber: widget.productWalaNumber).getPictureListAndVideo(),/// get it from bazaarWalas basic profile and not videos collection
+          builder: (context, snapshot) {
+            if(snapshot.connectionState == ConnectionState.done){
+              String videoURL = snapshot.data["videoURL"];
+              String thumbnailPicture = snapshot.data["thumbnailPicture"];
+              String otherPictureOne = snapshot.data["otherPictureOne"];
+              String otherPictureTwo = snapshot.data["otherPictureTwo"];
 
-                if(thumbnailPicture == null) thumbnailPicture =
-                "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
+              if(thumbnailPicture == null) thumbnailPicture =
+              "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
 
-                if(otherPictureOne == null) otherPictureOne =
-                "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
+              if(otherPictureOne == null) otherPictureOne =
+              "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
 
-                if(otherPictureTwo == null) otherPictureTwo =
-                "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
+              if(otherPictureTwo == null) otherPictureTwo =
+              "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
 
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      height: 250.0,
-                      child: Center(
-                        child: DefaultTabController(
-                          length: 4,
-                          child: Stack(
-                            children: <Widget>[
-                              TabBarView(
-                                controller: imagesController,
-                                children: <Widget>[
-                                  CustomVideoPlayer(videoURL: videoURL,),
-                                  Image(
-                                    image: NetworkImage(thumbnailPicture),
-                                  ),
-                                  Image(
-                                    image: NetworkImage(otherPictureOne),
-                                  ),
-                                  Image(
-                                    image: NetworkImage(otherPictureTwo),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                alignment: FractionalOffset(0.5,0.95),///placing the tabpagSelector at the bottom  center of the container
-                                child: TabPageSelector(
-                                  controller: imagesController,///if this is not used then the images move but the tabpageSelector does not change the color of the tabs showing which image it is on
-                                  selectedColor: Colors.grey,///default color is blue
-                                  color: Colors.white,
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Container(
+                    height: 250.0,
+                    child: Center(
+                      child: DefaultTabController(
+                        length: 4,
+                        child: Stack(
+                          children: <Widget>[
+                            TabBarView(
+                              controller: imagesController,
+                              children: <Widget>[
+                                CustomVideoPlayer(videoURL: videoURL,),
+                                Image(
+                                  image: NetworkImage(thumbnailPicture),
                                 ),
+                                Image(
+                                  image: NetworkImage(otherPictureOne),
+                                ),
+                                Image(
+                                  image: NetworkImage(otherPictureTwo),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              alignment: FractionalOffset(0.5,0.95),///placing the tabpagSelector at the bottom  center of the container
+                              child: TabPageSelector(
+                                controller: imagesController,///if this is not used then the images move but the tabpageSelector does not change the color of the tabs showing which image it is on
+                                selectedColor: Colors.grey,///default color is blue
+                                color: Colors.white,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
-                );
-              }else{
-                return Center(child: CircularProgressIndicator());
-              }
+                ),
+              );
+            }else{
+              return Center(child: CircularProgressIndicator());
             }
-          ),
-        );
-      }
-    );
+          }
+        ),
+      );
   }
 
 }

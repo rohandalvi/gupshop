@@ -40,7 +40,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
   final _formKey = GlobalKey<FormState>();
   String userNumber;
   Timestamp timeStamp;
-  bool like;
+  bool likeClicked;
   bool dislikeClicked;
 
   @override
@@ -88,8 +88,18 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
         IconButton(
           icon: Icon(Icons.arrow_forward_ios),
           onPressed: () {
-            if((like == null || like == true) && (dislikeClicked == null || dislikeClicked == false)){
-              setState(() {
+            print("likeClicked : $likeClicked");
+            print("dislikeClicked : $dislikeClicked");
+            if((likeClicked == null || likeClicked == true) && (dislikeClicked == null || dislikeClicked == false)){
+              if(likeClicked == null){
+                setState(() {
+                  widget.likes = 1;
+                  widget.writeReview= false;
+                  likeClicked = true;
+                });
+              }
+              else setState(() {
+                print("widget.likes : ${widget.likes}");
                 widget.likes++;
                 widget.writeReview= false;///to show the non textField view again, where we have only the reviews
               });
@@ -106,7 +116,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
               var data =  {
                 "reviewerName":widget.userName,
                 "body":widget.reviewBody,
-                "like":like,
+                "like":likeClicked,
                 "dislike":dislikeClicked,
                 "timestamp":DateTime.now(),
               };
@@ -130,7 +140,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
           onTap: (){
             setState(() {
               //widget.likes++;
-              like=true;
+              likeClicked=true;
               dislikeClicked = false;
               //widget.likeOrDislike=true;
             });
@@ -138,7 +148,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
           child: Container(
             height: 20,
             width: 20,
-            color: like == true ? Colors.grey : Colors.transparent,
+            color: likeClicked == true ? Colors.grey : Colors.transparent,
             child: Text('👍'),
           )
       ),
@@ -154,7 +164,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
             //widget.dislikes++;
             dislikeClicked = true;
             print("dislikeClicked :$dislikeClicked");
-            like=false;
+            likeClicked=false;
             //widget.likeOrDislike=false;
           });
         },

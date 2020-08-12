@@ -30,30 +30,34 @@ class ListOfFriendStatusReadStatus{
 
   readStatusStream(BuildContext context, Map<String, bool>readCache, String messageId, bool isMe){
     for(int i =0; i<listOfFriends.length; i++){
-      return StreamBuilder(
-        stream: GetFromMessageReadUnreadCollection(userNumber:listOfFriends[i], conversationId: conversationId).getLatestMessageIdStream(),
-        builder: (context, snapshot) {
-          if(snapshot.data == null) return CircularProgressIndicator();
-          String friendsLatestMessageId = snapshot.data[conversationId];
-           return FutureBuilder(
-            future: MessageReadUnreadData(conversationId: conversationId, conversationsLatestMessageTimestamp: conversationsLatestMessageTimestamp, number: listOfFriends[i],).friendReadStatus(friendsLatestMessageId),
-            builder: (BuildContext context, AsyncSnapshot readSnapshot) {
-              if (readSnapshot.connectionState == ConnectionState.done) {
-                bool isRead = readSnapshot.data;
-                if(isRead == true) {
-                  readCache[messageId] = true;
+      print("isMe : ${isMe}");
+      return Visibility(
+        visible: isMe,
+        child: StreamBuilder(
+          stream: GetFromMessageReadUnreadCollection(userNumber:listOfFriends[i], conversationId: conversationId).getLatestMessageIdStream(),
+          builder: (context, snapshot) {
+            if(snapshot.data == null) return CircularProgressIndicator();
+            String friendsLatestMessageId = snapshot.data[conversationId];
+             return FutureBuilder(
+              future: MessageReadUnreadData(conversationId: conversationId, conversationsLatestMessageTimestamp: conversationsLatestMessageTimestamp, number: listOfFriends[i],).friendReadStatus(friendsLatestMessageId),
+              builder: (BuildContext context, AsyncSnapshot readSnapshot) {
+                if (readSnapshot.connectionState == ConnectionState.done) {
+                  bool isRead = readSnapshot.data;
+                  if(isRead == true) {
+                    readCache[messageId] = true;
+                  }
+                  return readUnreadContainer(context, isRead, isMe);
                 }
-                return readUnreadContainer(context, isRead, isMe);
-              }
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                alignment:  Alignment.centerRight,
-                padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
-                child: CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
-              );
-            },
-          );
-        },
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  alignment:  Alignment.centerRight,
+                  padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+                  child: CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
+                );
+              },
+            );
+          },
+        ),
       );
     }
   }

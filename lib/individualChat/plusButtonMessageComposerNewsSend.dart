@@ -191,11 +191,12 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               ///Navigating to RecentChats page with pushes the data to firebase
               RecentChats(message: textMessage.fromJson(), convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists:widget.groupExits).getAllNumbersOfAConversation();
 
-              print("in plus button ${widget.userName}");
               //PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId, conversationId: widget.conversationId).pushLatestMessageId();
 
               widget.myController.clear();
               //widget.controllerTwo.clear();//used to clear text when user hits send button
+
+              /// giving error : ScrollController not attached to any scroll views.
               widget.listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
                 0.0,
                 curve: Curves.easeOut,

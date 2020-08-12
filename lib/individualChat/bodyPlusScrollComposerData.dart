@@ -97,9 +97,8 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                 child: StreamBuilder<QuerySnapshot>(
                     stream: widget.conversationService.getStream(),
                     builder: (context, snapshot) {
-                      print("i am here : ${snapshot.data}");
+                      /// to avoid forever circularProgressIndicator
                       if(snapshot.data == null) return Container();
-                      //if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter document was called on null"
 
                       snapshot.data.documents.forEach((element) {
 

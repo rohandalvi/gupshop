@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/screens/changeGroupName.dart';
+import 'package:gupshop/group/changeGroupName.dart';
 import 'package:gupshop/updateInFirebase/addNewGroupMember.dart';
 import 'package:gupshop/group/createGroup.dart';
 import 'package:gupshop/widgets/customNavigators.dart';

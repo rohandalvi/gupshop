@@ -16,7 +16,7 @@ import 'package:gupshop/widgets/customTextField.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home.dart';
+import '../screens/home.dart';
 
 //=>LoginScreen => NameScreen => Home
 

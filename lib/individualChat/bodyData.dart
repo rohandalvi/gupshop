@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/individualChat/bodyDisplay.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
-import 'package:gupshop/messageReadUnread/listOfFriendsReadStatus.dart';
+import 'package:gupshop/messageReadUnread/friendsReadStatus.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:video_player/video_player.dart';
 
@@ -172,7 +172,7 @@ class BodyData extends StatelessWidget {
 
                   /// messageReadUnread :
                   return FutureBuilder(
-                    future: ListOfFriendStatusReadStatus(listOfFriends: listOfFriendNumbers, conversationId: conversationId, conversationsLatestMessageTimestamp: timeStamp).readStatus(),
+                    future: FriendReadStatus(listOfFriends: listOfFriendNumbers, conversationId: conversationId, conversationsLatestMessageTimestamp: timeStamp).readStatus(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         bool isRead = snapshot.data;

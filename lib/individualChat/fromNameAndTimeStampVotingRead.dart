@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/messageReadUnread/listOfFriendsReadStatus.dart';
+import 'package:gupshop/messageReadUnread/friendsReadStatus.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/news/trueFakeVotingIconsUI.dart';
@@ -162,34 +162,33 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
             /// here we are not taking the read data from bodyDisplay class but
             /// we are directly getting the data from ListOfFriendStatusReadStatus
             /// to decouple the display and lessen the latency
-//            extractReadData(),
-            widget.readCache[widget.messageId] == false ?ListOfFriendStatusReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId, conversationsLatestMessageTimestamp: widget.timestamp).readStatusStream(context, widget.readCache, widget.messageId, widget.isMe)
+            widget.readCache[widget.messageId] == false ?FriendReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId, conversationsLatestMessageTimestamp: widget.timestamp).readStream(context, widget.readCache, widget.messageId, widget.isMe)
             : readUnreadContainer(context, widget.readCache[widget.messageId]),
           ],
         );
   }
 
-  extractReadData() {
-    return  widget.readCache[widget.messageId] == false ? FutureBuilder(
-            future: ListOfFriendStatusReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId, conversationsLatestMessageTimestamp: widget.timestamp).readStatus(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                bool isRead = snapshot.data;
-                if(isRead == true) {
-                  widget.readCache[widget.messageId] = true;
-                  print("true set");
-                }
-               return readUnreadContainer(context, isRead);
-              }
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                alignment:  Alignment.centerRight,
-                padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
-                child: CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
-              );
-            },
-          ): readUnreadContainer(context, widget.readCache[widget.messageId]);
-  }
+//  extractReadData() {
+//    return  widget.readCache[widget.messageId] == false ? FutureBuilder(
+//            future: ListOfFriendStatusReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId, conversationsLatestMessageTimestamp: widget.timestamp).readStatus(),
+//            builder: (BuildContext context, AsyncSnapshot snapshot) {
+//              if (snapshot.connectionState == ConnectionState.done) {
+//                bool isRead = snapshot.data;
+//                if(isRead == true) {
+//                  widget.readCache[widget.messageId] = true;
+//                  print("true set");
+//                }
+//               return readUnreadContainer(context, isRead);
+//              }
+//              return Container(
+//                width: MediaQuery.of(context).size.width,
+//                alignment:  Alignment.centerRight,
+//                padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+//                child: CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
+//              );
+//            },
+//          ): readUnreadContainer(context, widget.readCache[widget.messageId]);
+//  }
 
   Visibility readUnreadContainer(BuildContext context, bool isRead) {
     return Visibility(

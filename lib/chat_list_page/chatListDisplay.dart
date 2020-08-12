@@ -66,7 +66,8 @@ class ChatListDisplay extends StatelessWidget {
                 .displayAvatarFromFirebase(friendNumber, 30, 27,
                 false);
           }
-          return CircularProgressIndicator();
+          return DisplayAvatarFromFirebase().avatarPlaceholder(30, 27);
+            //CircularProgressIndicator();
         },
       ),
       title: CustomText(text: friendName),

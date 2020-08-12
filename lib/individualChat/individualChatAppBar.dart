@@ -70,7 +70,7 @@ class IndividualChatAppBar extends StatelessWidget {
               }
           ),
           //CustomText(text: presence.getStatus(friendN)).subTitle()
-          subtitle: new CustomFutureBuilder(future: presence.getStatus(friendN), dataReadyWidgetType: CustomText, inProgressWidget: CircularProgressIndicator()),
+          subtitle: new CustomFutureBuilder(future: presence.getStatus(friendN), dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle()),
           trailing: Wrap(
             children: <Widget>[
               IconButton(

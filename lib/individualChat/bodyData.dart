@@ -69,6 +69,21 @@ class BodyData extends StatelessWidget {
         String messageId = documentList[index].data["messageId"];
 //        String messageId = documentList[index].documentID;
 
+        /// readUnread cache:
+        /// first time when individual chat screen is loaded, all the
+        /// messages will be stored as false in the map(readCache).
+        /// Then at the fromNameTimeStamp page, the actual futurebuilder will
+        /// be called which will check the status of the message from
+        /// messageReadUnread collection. If the message is read, then it gets
+        /// stored as true in the map and next time when this screen is called
+        /// if the message is true then the future call for messageReadUnread
+        /// collection will not be made.
+        if(readCache[messageId] == null){
+          readCache[messageId] = false;
+        }else if(readCache.containsKey(messageId)== false){
+          readCache[messageId] = false;
+        }
+
         if(newsId == null){
           if(documentList[index].data["videoURL"] != null){
             videoURL = documentList[index].data["videoURL"];
@@ -90,11 +105,11 @@ class BodyData extends StatelessWidget {
           /// stored as true in the map and next time when this screen is called
           /// if the message is true then the future call for messageReadUnread
           /// collection will not be made.
-          if(readCache[messageId] == null){
-            readCache[messageId] = false;
-          }else if(readCache.containsKey(messageId)== false){
-            readCache[messageId] = false;
-          }
+//          if(readCache[messageId] == null){
+//            readCache[messageId] = false;
+//          }else if(readCache.containsKey(messageId)== false){
+//            readCache[messageId] = false;
+//          }
 
 
           return BodyDisplay(
@@ -160,57 +175,36 @@ class BodyData extends StatelessWidget {
                     imageURL = documentList[index].data["imageURL"];
                   }
 
-//              if(isNews){
-//                mapIsNewsGenerated = NewsCache().newsValidator(
-//                    mapIsNewsGenerated,
-//                    newsId,
-//                    newsTitle,
-//                    newsLink,
-//                    newsBody);
-//              }
-
-                  /// messageReadUnread :
-                  return FutureBuilder(
-                    future: FriendReadStatus(listOfFriends: listOfFriendNumbers, conversationId: conversationId, conversationsLatestMessageTimestamp: timeStamp).readStatus(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        bool isRead = snapshot.data;
-
-                        return BodyDisplay(
-                          listOfFriendNumbers: listOfFriendNumbers,
-                          conversationId: conversationId,
-                          controller: controller,
-                          userName: userName,
-                          isPressed: isPressed,
-                          userPhoneNo: userPhoneNo,
-                          groupExits: groupExits,
-                          mapIsNewsGenerated: mapIsNewsGenerated,
-                          messageBody: messageBody,
-                          imageURL:imageURL,
-                          videoURL:videoURL,
-                          newsBody:newsBody,
-                          newsTitle:newsTitle,
-                          newsLink:newsLink,
-                          reportedByCount:reportedByCount,
-                          trueByCount:trueByCount,
-                          fakeByCount:fakeByCount,
-                          newsId:newsId,
-                          isMe:isMe,
-                          latitude:latitude,
-                          longitude:longitude,
-                          isLocationMessage:isLocationMessage,
-                          fromName:fromName,
-                          isNews:isNews,
-                          fromNameForGroup:fromNameForGroup,
-                          timeStamp:timeStamp,
-                          documentId: documentId,
-                          messageId : messageId ,
-                        );
-                      }
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
+                  return BodyDisplay(
+                    readCache: readCache,
+                    listOfFriendNumbers: listOfFriendNumbers,
+                    conversationId: conversationId,
+                    controller: controller,
+                    userName: userName,
+                    isPressed: isPressed,
+                    userPhoneNo: userPhoneNo,
+                    groupExits: groupExits,
+                    mapIsNewsGenerated: mapIsNewsGenerated,
+                    messageBody: messageBody,
+                    imageURL:imageURL,
+                    videoURL:videoURL,
+                    newsBody:newsBody,
+                    newsTitle:newsTitle,
+                    newsLink:newsLink,
+                    reportedByCount:reportedByCount,
+                    trueByCount:trueByCount,
+                    fakeByCount:fakeByCount,
+                    newsId:newsId,
+                    isMe:isMe,
+                    latitude:latitude,
+                    longitude:longitude,
+                    isLocationMessage:isLocationMessage,
+                    fromName:fromName,
+                    isNews:isNews,
+                    fromNameForGroup:fromNameForGroup,
+                    timeStamp:timeStamp,
+                    documentId: documentId,
+                    messageId : messageId ,
                   );
 
                 }return Center(

@@ -4,8 +4,8 @@ import 'package:gupshop/models/message.dart';
 class NewsMessage extends IMessage {
   String newsId;
 
-  NewsMessage({this.newsId,String fromName, String fromNumber, String conversationId, Timestamp timestamp,}):
-        super(fromNumber: fromNumber, fromName: fromName, conversationId: conversationId, timestamp: timestamp);
+  NewsMessage({this.newsId,String fromName, String fromNumber, String conversationId, Timestamp timestamp,String messageId}):
+        super(fromNumber: fromNumber, fromName: fromName, conversationId: conversationId, timestamp: timestamp, messageId: messageId);
 
 
   @override
@@ -15,7 +15,8 @@ class NewsMessage extends IMessage {
       "fromName": super.fromName,
       "fromPhoneNumber": super.fromNumber,
       "timeStamp": super.timestamp,
-      "conversationId": super.conversationId
+      "conversationId": super.conversationId,
+      "messageId": super.messageId,
     };
   }
 

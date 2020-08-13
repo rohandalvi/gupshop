@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/models/image_message.dart';
 import 'package:gupshop/models/location_message.dart';
+import 'package:gupshop/models/text_message.dart';
 
 class RecentChatsDataScaffolds{
   String fromName;
@@ -34,6 +35,13 @@ class RecentChatsDataScaffolds{
         longitude:location.longitude,
         messageId: messageId,
     ).fromJson();
+    return recentChatsData;
+  }
+
+  forNews(){
+    Map<String, dynamic> recentChatsData = TextMessage(text: "📰 NEWS",
+        fromNumber: fromNumber, fromName: fromName, conversationId: conversationId,
+        timestamp: Timestamp.now(), messageId : messageId).fromJson();
     return recentChatsData;
   }
 

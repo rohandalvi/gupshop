@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/PushToFirebase/pushToSaveCollection.dart';
+import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
+import 'package:gupshop/individualChat/newsData.dart';
+import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsCollection.dart';
 import 'package:gupshop/links/checkLinkValidity.dart';
 import 'package:gupshop/models/message.dart';
 import 'package:gupshop/models/news_message.dart';
@@ -245,7 +249,6 @@ class NewsComposerState extends State<NewsComposer> {
       DocumentSnapshot adminNumberFuture = await Firestore.instance.collection(
           "conversationMetadata").document(conversationId).get();
       String adminNumber = adminNumberFuture.data["admin"];
-      print("adminNumber: $adminNumber");
 
       await Future.wait(listOfFriendNumbers.map((element) async {
         print("element: $element");
@@ -277,9 +280,12 @@ class NewsComposerState extends State<NewsComposer> {
       /// 2) conversations collection
       /// 3) newsStatistics
 
+      String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'body',).saveAndGenerateId();
 
       /// data creation for pushing to conversations collection:
-      IMessage newsMessageForConversationCollection = NewsMessage(newsId: newsId, conversationId: conversationId, fromName: userName, fromNumber: userPhoneNo, timestamp: Timestamp.now());
+
+      Map<String, dynamic> conversationCollectionData = await NewsData(newsId: newsId, conversationId: conversationId, userName: userName, userPhoneNo: userPhoneNo, messageId: messageId).main();
+      //IMessage newsMessageForConversationCollection = NewsMessage(newsId: newsId, conversationId: conversationId, fromName: userName, fromNumber: userPhoneNo, timestamp: Timestamp.now(), messageId: messageId);
 
       /// pushing to newsStatistics:
       /// increase the count only if the user doesnt exist in newsStatistics trueBy collection
@@ -289,22 +295,24 @@ class NewsComposerState extends State<NewsComposer> {
       if(hasForwardedOrCreatedNewsAlready == false){trueBy++;}
 
       /// pushing news to conversation collection
-      FirebaseMethods().pushToFirebaseConversatinCollection(newsMessageForConversationCollection.fromJson());
+      //FirebaseMethods().pushToFirebaseConversatinCollection(newsMessageForConversationCollection.fromJson());
 
       /// pushing news to news collection
       FirebaseMethods().pushToNewsCollection(newsId, widget.link,  trueBy,  fakeBy,  reportedBy, widget.title, widget.newsBody);
 
-      IMessage newsMessageForRecentChats = TextMessage(text: "📰 NEWS", fromNumber: userPhoneNo, fromName: userName, conversationId: conversationId,timestamp: Timestamp.now());
+      Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(), messageId: messageId,).forNews();
+      //IMessage newsMessageForRecentChats = TextMessage(text: "📰 NEWS", fromNumber: userPhoneNo, fromName: userName, conversationId: conversationId,timestamp: Timestamp.now());
 
       //var dataForRecentChats = CreateMessageDataToPushToFirebase(isNews: true, userPhoneNo: userPhoneNo, userName: userName, conversationId: conversationId).create();
+      PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName, groupExits: widget.groupExits).push();
 
       ///Navigating to RecentChats page with pushes the data to firebase
-      RecentChats(message: newsMessageForRecentChats.fromJson(),
-          convId: conversationId,
-          userNumber: userPhoneNo,
-          userName: userName,
-          listOfOtherNumbers: listOfFriendNumbers,
-          groupExists: groupExits).getAllNumbersOfAConversation();
+     // RecentChats(message: newsMessageForRecentChats.fromJson(),
+//          convId: conversationId,
+//          userNumber: userPhoneNo,
+//          userName: userName,
+//          listOfOtherNumbers: listOfFriendNumbers,
+//          groupExists: groupExits).getAllNumbersOfAConversation();
 
       controller.clear(); //used to clear text when user hits send button
       listScrollController

@@ -18,6 +18,7 @@ class ReadUnreadIcon extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           bool read;
+          print("snapshot.data in readUnread $conversationId : ${snapshot.data}");
           if(snapshot.data == null) read = false;
           else if(snapshot.data < 0) read = false;
           else if(snapshot.data == 0) read = true;

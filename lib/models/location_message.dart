@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/models/message.dart';
 
 class LocationMessage extends IMessage {
@@ -11,7 +12,7 @@ class LocationMessage extends IMessage {
     this.text,
     this.latitude,
     this.longitude,
-    String fromName, String fromNumber, String conversationId, DateTime timestamp,String messageId
+    String fromName, String fromNumber, String conversationId, Timestamp timestamp,String messageId
   }):
       super(fromNumber: fromNumber, fromName: fromName, conversationId: conversationId, timestamp: timestamp, messageId: messageId);
 

@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/models/message.dart';
 
 class ImageMessage extends IMessage {
   String imageUrl;
-  ImageMessage({this.imageUrl, String fromName, String fromNumber, String conversationId, DateTime timestamp, bool isSaved, String messageId}) :
+  ImageMessage({this.imageUrl, String fromName, String fromNumber, String conversationId, Timestamp timestamp, bool isSaved, String messageId}) :
         super(fromName: fromName, fromNumber: fromNumber, conversationId: conversationId, timestamp: timestamp, messageId: messageId);
 
   @override

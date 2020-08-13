@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_contact/generated/i18n.dart';
 import 'package:gupshop/links/checkLinkValidity.dart';
 import 'package:gupshop/models/message.dart';
 import 'package:gupshop/models/news_message.dart';
@@ -280,7 +279,7 @@ class NewsComposerState extends State<NewsComposer> {
 
 
       /// data creation for pushing to conversations collection:
-      IMessage newsMessageForConversationCollection = NewsMessage(newsId: newsId, conversationId: conversationId, fromName: userName, fromNumber: userPhoneNo, timestamp: DateTime.now());
+      IMessage newsMessageForConversationCollection = NewsMessage(newsId: newsId, conversationId: conversationId, fromName: userName, fromNumber: userPhoneNo, timestamp: Timestamp.now());
 
       /// pushing to newsStatistics:
       /// increase the count only if the user doesnt exist in newsStatistics trueBy collection
@@ -295,7 +294,7 @@ class NewsComposerState extends State<NewsComposer> {
       /// pushing news to news collection
       FirebaseMethods().pushToNewsCollection(newsId, widget.link,  trueBy,  fakeBy,  reportedBy, widget.title, widget.newsBody);
 
-      IMessage newsMessageForRecentChats = TextMessage(text: "📰 NEWS", fromNumber: userPhoneNo, fromName: userName, conversationId: conversationId,timestamp: DateTime.now());
+      IMessage newsMessageForRecentChats = TextMessage(text: "📰 NEWS", fromNumber: userPhoneNo, fromName: userName, conversationId: conversationId,timestamp: Timestamp.now());
 
       //var dataForRecentChats = CreateMessageDataToPushToFirebase(isNews: true, userPhoneNo: userPhoneNo, userName: userName, conversationId: conversationId).create();
 

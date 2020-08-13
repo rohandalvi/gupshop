@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:gupshop/PushToFirebase/pushToSaveCollection.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/image/createImageURL.dart';
 import 'package:gupshop/image/cropImage.dart';
 import 'package:gupshop/image/pickImageFromCamera.dart';
@@ -12,13 +12,11 @@ class CameraImagePickCropCreateData{
     /// we have to make sure that Navigator.pop(context); is used so that
     /// when the user clicks pick image from camera(or any other option),
     /// he is returned to individualChat with no bottom bar open
-    int numberOfImageInConversation= 0;
-    numberOfImageInConversation++;
 
     File image = await PickImageFromCamera().pick();
     File croppedImage = await CropImage().crop(image);
     String imageURL = await CreateImageURL().create(croppedImage, );
-    IMessage message = new ImageMessage(fromName:userName, fromNumber: userPhoneNo, conversationId: conversationId, timestamp: DateTime.now(), imageUrl: imageURL, isSaved: false, messageId: messageId);
+    IMessage message = new ImageMessage(fromName:userName, fromNumber: userPhoneNo, conversationId: conversationId, timestamp: Timestamp.now(), imageUrl: imageURL, isSaved: false, messageId: messageId);
     return message.fromJson();
   }
 }

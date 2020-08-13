@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/models/message.dart';
 
 class VideoMessage extends IMessage{
@@ -5,7 +6,7 @@ class VideoMessage extends IMessage{
 
   VideoMessage({
     this.videoURL,
-    String fromName, String fromNumber, String conversationId, DateTime timestamp,String messageId
+    String fromName, String fromNumber, String conversationId, Timestamp timestamp,String messageId
   }):super(fromName: fromName, fromNumber: fromNumber, conversationId: conversationId, timestamp: timestamp, messageId: messageId);
 
   @override

@@ -46,10 +46,7 @@ class MessageCardDisplay extends StatelessWidget {
       child: isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody,) :
       isLocationMessage ==true ? LocationDisplayAndLaunchInMap(textOnButton: fromName, latitude: latitude,longitude: longitude, locationName: 'current location',):
       videoURL != null  ? ShowVideoThumbnail(videoURL: videoURL,):imageURL == null?
-      //showVideo(videoURL,) :imageURL == null?
-      //showText(context): showImage(imageURL),
       TextMessageUI(isMe: isMe, messageBody: messageBody,): ShowImageDownloadFlushbar(imageURL: imageURL,)
-      //showImage(imageURL),
     );
   }
 

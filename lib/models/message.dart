@@ -1,8 +1,10 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 abstract class IMessage {
 
   String fromName, fromNumber, conversationId;
-  DateTime timestamp;
+  Timestamp timestamp;
   String messageId;
 
   IMessage({

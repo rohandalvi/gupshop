@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/models/message.dart';
 import 'package:gupshop/models/video_message.dart';
 import 'package:gupshop/video/createVideoURL.dart';
@@ -23,7 +24,7 @@ class CameraVideoPickCreateData{
     File video = await PickVideoFromCamera().pick();
 
     String videoURL = await CreateVideoURL().create(video, userPhoneNo, numberOfImageInConversation);
-    IMessage message = new VideoMessage(fromName:userName, fromNumber:userPhoneNo, conversationId:conversationId, timestamp:DateTime.now(), videoURL:videoURL, messageId: messageId);
+    IMessage message = new VideoMessage(fromName:userName, fromNumber:userPhoneNo, conversationId:conversationId, timestamp:Timestamp.now(), videoURL:videoURL, messageId: messageId);
     return message.fromJson();
   }
 }

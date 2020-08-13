@@ -163,9 +163,9 @@ class _IndividualChatState extends State<IndividualChat> {
       DocumentReference forwardedMessageId = await FirebaseMethods().pushToFirebaseConversatinCollection(data);
 
       /// creating data to be pushed to recentChats
-      if(data["videoURL"] != null) data = VideoMessage(videoURL:"📹", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: DateTime.now()).fromJson();
-      else if(data["imageURL"] != null) data = RecentChatsDataScaffolds(conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: DateTime.now()).forImageMessage();
-      else if(data["news"] != null) data = TextMessage(text: "📰 NEWS", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: DateTime.now()).fromJson();
+      if(data["videoURL"] != null) data = VideoMessage(videoURL:"📹", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: Timestamp.now()).fromJson();
+      else if(data["imageURL"] != null) data = RecentChatsDataScaffolds(conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: Timestamp.now()).forImageMessage();
+      else if(data["news"] != null) data = TextMessage(text: "📰 NEWS", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: Timestamp.now()).fromJson();
       ///Navigating to RecentChats page with pushes the data to firebase
       /// if group chat:
 

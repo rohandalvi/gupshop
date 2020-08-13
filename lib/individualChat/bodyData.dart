@@ -130,7 +130,6 @@ class BodyData extends StatelessWidget {
               future: FirebaseMethods().getNewsDetailsForDisplay(newsId),
               builder: (context, snapshot) {
                 if(snapshot.connectionState == ConnectionState.done){
-                  print("in bodyData news FutureBuilder");
                   String newsBody;
                   String newsTitle;
                   String newsLink;

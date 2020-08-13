@@ -36,6 +36,7 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
 
   @override
   Widget build(BuildContext context) {
+    _initPlayer();
     return Stack(
       alignment: Alignment.center,
       children: <Widget>[

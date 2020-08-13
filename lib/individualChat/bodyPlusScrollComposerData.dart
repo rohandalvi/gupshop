@@ -98,11 +98,7 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                     stream: widget.conversationService.getStream(),
                     builder: (context, snapshot) {
                       /// to avoid forever circularProgressIndicator
-                      print("widget.conversationService.isValidStream() : ${widget.conversationService.isValidStream()}");
-                      print("hashcode in bodyScroll : ${widget.conversationService.hashCode}");
                       if(snapshot.data == null || widget.conversationService.isValidStream() == false) return Container();
-
-                      print("in this streambuilder");
 
                       snapshot.data.documents.forEach((element) {
 

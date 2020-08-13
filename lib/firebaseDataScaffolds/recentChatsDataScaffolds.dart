@@ -5,16 +5,17 @@ class RecentChatsDataScaffolds{
   String fromNumber;
   String conversationId;
   DateTime timestamp;
+  String messageId;
 
-  RecentChatsDataScaffolds({this.fromName, this.fromNumber, this.conversationId, this.timestamp});
+  RecentChatsDataScaffolds({this.fromName, this.fromNumber, this.conversationId, this.timestamp, this.messageId});
 
   forImageMessage(){
-    Map<String, dynamic> recentChatsData = ImageMessage(fromName:fromName, fromNumber:fromNumber, conversationId:conversationId, timestamp: DateTime.now(), imageUrl: "📸 Image").fromJson();
+    Map<String, dynamic> recentChatsData = ImageMessage(fromName:fromName, fromNumber:fromNumber, conversationId:conversationId, timestamp: DateTime.now(), imageUrl: "📸 Image", messageId: messageId).fromJson();
     return recentChatsData;
   }
 
   forVideoMessage(){
-    Map<String, dynamic> recentChatsData = ImageMessage(fromName:fromName, fromNumber:fromNumber, conversationId:conversationId, timestamp: DateTime.now(), imageUrl: "📹 Video").fromJson();
+    Map<String, dynamic> recentChatsData = ImageMessage(fromName:fromName, fromNumber:fromNumber, conversationId:conversationId, timestamp: DateTime.now(), imageUrl: "📹 Video", messageId: messageId).fromJson();
     return recentChatsData;
   }
 

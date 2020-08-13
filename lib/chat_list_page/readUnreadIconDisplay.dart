@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/messageReadUnread/messageReadUnreadData.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 

@@ -119,6 +119,7 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                       /// for message read unread collection:
                       if(!(documentList.isEmpty || documentList == null)){
                         messageId = documentList[0].data["messageId"];
+                        print("messageId in bodyPlusScroll : $messageId");
                         currentMessageDocumentSnapshot = snapshot.data.documents[0];
                         PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId, conversationId: widget.conversationId).pushLatestMessageId();
                       }

@@ -22,6 +22,7 @@ class PushMessagesToConversationAndRecentChatsCollection{
 
 
   push(){
+    print("conversationCollectionData in push : ${conversationCollectionData["messageId"]}");
     PushToConversationCollection().push(conversationCollectionData);
     ToRecentChatsCollection().push(recentChatsData, conversationId, userPhoneNo, userName, listOfFriendNumbers, groupExits);
   }

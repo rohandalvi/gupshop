@@ -36,7 +36,14 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
 
   @override
   Widget build(BuildContext context) {
+    /// if a video is sent for the first time in individualchat, then
+    /// the initstate would get called and the thumbnail would get generated,
+    /// but next time, the old video's thumbnail would show up because the
+    /// initstate does not get called again.
+    /// So, we put the method generating the thunmbnail in build method:
+    /// ToDo - _initPlayer() take it out from initstate
     _initPlayer();
+
     return Stack(
       alignment: Alignment.center,
       children: <Widget>[

@@ -2,15 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/PushToFirebase/pushToConversationCollection.dart';
-import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToSaveCollection.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
 import 'package:gupshop/individualChat/buildMessageComposer.dart';
 import 'package:gupshop/individualChat/cameraImagePickCropCreateData.dart';
 import 'package:gupshop/individualChat/cameraVideoPickCreateData.dart';
-import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/individualChat/galleryImagePickCropCreateData.dart';
 import 'package:gupshop/individualChat/galleryVideoPickCreateData.dart';
+import 'package:gupshop/individualChat/locationData.dart';
 import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsCollection.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/models/image_message.dart';
@@ -21,6 +20,7 @@ import 'package:gupshop/models/video_message.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
+
 
 class PlusButtonMessageComposerNewsSend extends StatefulWidget {
   String conversationId;
@@ -107,7 +107,12 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
                 Navigator.pop(context);
                 String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'videoURL',).saveAndGenerateId();
                 Position location  = await LocationServiceState().getLocation();//setting user's location
-                sendLocation(location, messageId);
+
+                Map<String, dynamic> conversationCollectionData = await LocationData(userName: widget.userName, userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId, messageId:messageId, location: location).main();
+                Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(), messageId: messageId, location: location).forLocationMessage();
+                PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName, groupExits: widget.groupExits).push();
+
+                //sendLocation(location, messageId);
               },
               sixthIconName: 'locationPin',
               sixthIconText: 'Send location from Map',
@@ -215,39 +220,39 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
     );
   }
 
-  sendLocation(Position location, String messageId){
-    /// create data and push to conversations collection to display immediately
-    IMessage message = new LocationMessage(fromName:widget.userName, fromNumber:widget.userPhoneNo, conversationId:widget.conversationId, timestamp:Timestamp.now(), latitude: location.latitude, longitude: location.longitude, text: location.toString(), messageId : messageId);
-    pushMessageDataToConversationAndRecentChatsCollection(false,false,location,message.fromJson());
-    setState(() {
-
-    });
-  }
-
-  pushMessageDataToConversationAndRecentChatsCollection(bool isVideo, bool isImage, Position location, var data) async{
-    Firestore.instance.collection("conversations").document(widget.conversationId).collection("messages").add(data);
-
-//    print("DocumentReference : $dr");
-//    widget.startAtDocument = await dr.get();
-
-    ///Navigating to RecentChats page with pushes the data to firebase
-    if(isVideo == true){
-      //var data = createMessageDataToPushToConversationCollection(true, false, "📹", widget.userName, widget.userPhoneNo, widget.conversationId, null);
-      IMessage data = VideoMessage(fromName: widget.userName, fromNumber:widget.userPhoneNo, conversationId:widget.conversationId, timestamp:Timestamp.now(), videoURL:"📹 Video");
-      Map<String, dynamic> message = data.fromJson();
-      RecentChats(message: message, convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName , listOfOtherNumbers: widget.listOfFriendNumbers, groupExists: widget.groupExits).getAllNumbersOfAConversation();
-    }
-
-    if(isImage == true){
-      //var data = createMessageDataToPushToConversationCollection(false, true, "📸", widget.userName, widget.userPhoneNo, widget.conversationId, null);
-      ImageMessage data = ImageMessage(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(), imageUrl: "📸 Image");
-      Map<String, dynamic> message = data.fromJson();
-      RecentChats(message: message, convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists: widget.groupExits ).getAllNumbersOfAConversation();
-    }
-
-    if(location != null){
-      IMessage locationMessage = new LocationMessage(fromName:widget.userName, fromNumber:widget.userPhoneNo, conversationId:widget.conversationId, timestamp:Timestamp.now(), text:"📍 Location", latitude:location.latitude, longitude:location.longitude);
-      RecentChats(message: locationMessage.fromJson(), convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists: widget.groupExits ).getAllNumbersOfAConversation();
-    }
-  }
+//  sendLocation(Position location, String messageId){
+//    /// create data and push to conversations collection to display immediately
+//    IMessage message = new LocationMessage(fromName:widget.userName, fromNumber:widget.userPhoneNo, conversationId:widget.conversationId, timestamp:Timestamp.now(), latitude: location.latitude, longitude: location.longitude, text: location.toString(), messageId : messageId);
+//    pushMessageDataToConversationAndRecentChatsCollection(false,false,location,message.fromJson());
+//    setState(() {
+//
+//    });
+//  }
+//
+//  pushMessageDataToConversationAndRecentChatsCollection(bool isVideo, bool isImage, Position location, var data) async{
+//    Firestore.instance.collection("conversations").document(widget.conversationId).collection("messages").add(data);
+//
+////    print("DocumentReference : $dr");
+////    widget.startAtDocument = await dr.get();
+//
+//    ///Navigating to RecentChats page with pushes the data to firebase
+//    if(isVideo == true){
+//      //var data = createMessageDataToPushToConversationCollection(true, false, "📹", widget.userName, widget.userPhoneNo, widget.conversationId, null);
+//      IMessage data = VideoMessage(fromName: widget.userName, fromNumber:widget.userPhoneNo, conversationId:widget.conversationId, timestamp:Timestamp.now(), videoURL:"📹 Video");
+//      Map<String, dynamic> message = data.fromJson();
+//      RecentChats(message: message, convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName , listOfOtherNumbers: widget.listOfFriendNumbers, groupExists: widget.groupExits).getAllNumbersOfAConversation();
+//    }
+//
+//    if(isImage == true){
+//      //var data = createMessageDataToPushToConversationCollection(false, true, "📸", widget.userName, widget.userPhoneNo, widget.conversationId, null);
+//      ImageMessage data = ImageMessage(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(), imageUrl: "📸 Image");
+//      Map<String, dynamic> message = data.fromJson();
+//      RecentChats(message: message, convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists: widget.groupExits ).getAllNumbersOfAConversation();
+//    }
+//
+//    if(location != null){
+//      IMessage locationMessage = new LocationMessage(fromName:widget.userName, fromNumber:widget.userPhoneNo, conversationId:widget.conversationId, timestamp:Timestamp.now(), text:"📍 Location", latitude:location.latitude, longitude:location.longitude);
+//      RecentChats(message: locationMessage.fromJson(), convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists: widget.groupExits ).getAllNumbersOfAConversation();
+//    }
+//  }
 }

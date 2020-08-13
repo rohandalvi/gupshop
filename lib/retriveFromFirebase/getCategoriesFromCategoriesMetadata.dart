@@ -3,7 +3,7 @@ import 'package:gupshop/modules/userDetails.dart';
 
 class GetCategoriesFromCategoriesMetadata{
 
-  main() async{
+  Future<Map<String, List>> main() async{
     String userNumber = await UserDetails().getUserPhoneNoFuture();
     DocumentSnapshot dc = await Firestore.instance.collection("bazaarCategoriesMetadata").document(userNumber).get();
     print("dc.data : ${dc.data}");

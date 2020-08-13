@@ -204,8 +204,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                               builder: (BuildContext context, AsyncSnapshot categorySnapshot) {
                                 if (categorySnapshot.connectionState == ConnectionState.done) {
                                   /// if the user does not have bazaar profile yet:
+                                  Map<String, List> categories = categorySnapshot.data;
                                   if(categorySnapshot.data != null){
-                                    categoriesForBazaarWalasBasicProfile = categorySnapshot.data["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
+                                    categoriesForBazaarWalasBasicProfile = categories["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
                                   }
                                   ///create map here:
                                   map = CreateMapFromListOfCategories().createMap(categoriesForBazaarWalasBasicProfile, map);

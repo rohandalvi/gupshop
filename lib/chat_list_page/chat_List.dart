@@ -1,24 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gupshop/chat_list_page/avatarDataAndDisplay.dart';
+import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/chatListData.dart';
-import 'package:gupshop/chat_list_page/readUnreadIconDisplay.dart';
-import 'package:gupshop/chat_list_page/subtitleDataAndDisplay.dart';
-import 'package:gupshop/chat_list_page/trailingDisplay.dart';
-import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/individualChat/individual_chat.dart';
-import 'package:gupshop/messageReadUnread/messageReadUnreadData.dart';
-import 'package:gupshop/service/conversationDetails.dart';
+import 'package:gupshop/chat_list_page/chatListSingleton.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
-import 'package:gupshop/deleteFromFirebase/deleteHelper.dart';
-import 'package:gupshop/deleteFromFirebase/deleteMembersFromGroup.dart';
-import 'package:gupshop/service/displayAvatarFromFirebase.dart';
-import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/service/showMessageForFirstConversation.dart';
-import 'package:gupshop/widgets/customDismissible.dart';
-import 'package:gupshop/widgets/customText.dart';
-import 'package:intl/intl.dart';
 
 
 //chatList => individualChat
@@ -46,6 +32,8 @@ class ChatListState extends State<ChatList> {
   bool isGroup;
   bool notAGroupMemberAnymore = false;
 
+  Map<String, ChatListCache> chatListCache;
+
   /*
   Add photo to users  avatar- 1:
     Taking profile picture from profile picture collection
@@ -66,6 +54,7 @@ class ChatListState extends State<ChatList> {
     /// *** this might be getting triggred everytime the user comes to the
     /// chat_list page. Check it @todo
     CreateFriendsCollection(userName: myName, userPhoneNo: myNumber,).getUnionContacts();
+    chatListCache = ChatListSingleton().getChatListCacheMap();
     super.initState();
   }
 
@@ -97,6 +86,7 @@ class ChatListState extends State<ChatList> {
               }
 
               return ChatListData(
+                chatListCache: chatListCache,
                 list: snapshot.data.documents,
                 myNumber: myNumber,
                 notAGroupMemberAnymore: notAGroupMemberAnymore,

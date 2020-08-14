@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/avatarDataAndDisplay.dart';
+import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/subtitleDataAndDisplay.dart';
 import 'package:gupshop/chat_list_page/trailingDisplay.dart';
 import 'package:gupshop/individualChat/individual_chat.dart';
-import 'package:gupshop/service/displayAvatarFromFirebase.dart';
+import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -24,20 +25,28 @@ class ChatListDisplay extends StatelessWidget {
   bool lastMessageIsImage;
   final Timestamp timeStamp;
   String myName;
+  Map<String, ChatListCache> chatListCache;
 
   ChatListDisplay({this.myNumber, this.conversationId, this.notAGroupMemberAnymore,
     this.groupExists, this.friendNumber, this.memberList, this.friendNumberList,
     this.friendName, this.lastMessageIsVideo, this.index, this.lastMessage,
-    this.lastMessageIsImage, this.timeStamp, this.myName,
+    this.lastMessageIsImage, this.timeStamp, this.myName, this.chatListCache,
   });
 
   @override
   Widget build(BuildContext context) {
+    print("avatar cache in chatListDisplay : $chatListCache");
     return ListTile( ///main widget that creates the message box
-      leading: FutureBuilder(
+      leading: /// leading is avatar
+      /// check if the avatar is in the cache.
+      /// if not, then call the futurebuilder,
+      /// else return froom the cache
+      chatListCache.containsKey(conversationId) ==  false ?
+      FutureBuilder(
         future: getFriendPhoneNo(conversationId, myNumber),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
+            print("no cache");
 
             memberList = snapshot.data["members"];
 
@@ -62,14 +71,15 @@ class ChatListDisplay extends StatelessWidget {
               friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
               friendNumber = conversationId;
             }
-            return DisplayAvatarFromFirebase()
-                .displayAvatarFromFirebase(friendNumber, 30, 27,
-                false);
+            return DisplayAvatar()
+                .displayAvatarFromProfilePictures(friendNumber, 30, 27,
+                false, chatListCache, conversationId);
           }
-          return DisplayAvatarFromFirebase().avatarPlaceholder(30, 27);
+          return DisplayAvatar().avatarPlaceholder(30, 27);
             //CircularProgressIndicator();
         },
-      ),
+      ) : cache(),
+      //chatListCache[conversationId].circleAvatar,
       title: CustomText(text: friendName),
       subtitle: SubtitleDataAndDisplay(
         lastMessage: lastMessage,
@@ -107,5 +117,9 @@ class ChatListDisplay extends StatelessWidget {
     DocumentSnapshot temp = await Firestore.instance.collection(
         "conversationMetadata").document(conversationId).get();
     return temp.data;
+  }
+
+  cache(){
+    return chatListCache[conversationId].circleAvatar;
   }
 }

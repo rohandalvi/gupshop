@@ -8,7 +8,7 @@ import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
-import 'package:gupshop/service/displayAvatarFromFirebase.dart';
+import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -55,7 +55,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
               onTap: (){
                 CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo, null);
               },
-              child: DisplayAvatarFromFirebase().displayAvatarFromFirebase(userPhoneNo, 30, 25, false),
+              child: DisplayAvatar().displayAvatarFromFirebase(userPhoneNo, 30, 25, false),
             ),
           ),
         ),

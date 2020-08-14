@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/chatListDisplay.dart';
 import 'package:gupshop/deleteFromFirebase/deleteHelper.dart';
 import 'package:gupshop/deleteFromFirebase/deleteMembersFromGroup.dart';
@@ -13,9 +14,10 @@ class ChatListData extends StatefulWidget {
   bool notAGroupMemberAnymore;
   bool groupExists;
   String myName;
+  Map<String, ChatListCache> chatListCache;
 
   ChatListData({this.list, this.myNumber, this.notAGroupMemberAnymore,
-    this.groupExists, this.myName,
+    this.groupExists, this.myName, this.chatListCache,
   });
 
   @override
@@ -86,6 +88,7 @@ class _ChatListDataState extends State<ChatListData> {
             }
           },
           child: ChatListDisplay(
+            chatListCache: widget.chatListCache,
             myNumber: widget.myNumber,
             conversationId: conversationId,
             notAGroupMemberAnymore: widget.notAGroupMemberAnymore,

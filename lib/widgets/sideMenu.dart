@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/bazaar/bazaarProfilePage.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
-import 'package:gupshop/service/displayAvatarFromFirebase.dart';
+import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/image/displayCircularPicture.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,7 +61,7 @@ class SideMenuState extends State<SideMenu> {
                       )
                   );
                 },
-                child: DisplayAvatarFromFirebase().getProfilePicture(userPhoneNo, 35),
+                child: DisplayAvatar().getProfilePicture(userPhoneNo, 35),
                 //getProfilePicture(userPhoneNo),//Todo- use Profile picture class getUserProfilePicture()
 //                StreamBuilder(
 //                  stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),

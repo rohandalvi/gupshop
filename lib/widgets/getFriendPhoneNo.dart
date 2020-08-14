@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/service/displayAvatarFromFirebase.dart';
+import 'package:gupshop/image/displayAvatar.dart';
 
 class GetFriendPhoneNo extends StatelessWidget {
   final String conversationId;
@@ -19,7 +19,7 @@ class GetFriendPhoneNo extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           friendNumber = snapshot.data;
           //return DisplayAvatarFromFirebase().getProfilePicture(friendNumber, 35);
-          return DisplayAvatarFromFirebase()
+          return DisplayAvatar()
               .displayAvatarFromFirebase(friendNumber, 30, 27,
               false); //ToDo- check is false is right here
         }

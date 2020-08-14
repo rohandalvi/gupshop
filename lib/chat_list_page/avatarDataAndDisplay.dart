@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/service/displayAvatarFromFirebase.dart';
+import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 
 class AvatarDataAndDisplay extends StatelessWidget {
@@ -57,7 +57,7 @@ class AvatarDataAndDisplay extends StatelessWidget {
             friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
             friendNumber = conversationId;
           }
-          return DisplayAvatarFromFirebase()
+          return DisplayAvatar()
               .displayAvatarFromFirebase(friendNumber, 30, 27,
               false);
         }

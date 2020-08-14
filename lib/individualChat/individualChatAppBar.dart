@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/individualChat/streamSingleton.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/service/conversation_service.dart';
-import 'package:gupshop/service/displayAvatarFromFirebase.dart';
+import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
@@ -59,7 +59,7 @@ class IndividualChatAppBar extends StatelessWidget {
               }
               else CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true, friendN, null);/// if its a group then profile pictures are searched using conversationId
             },
-            child: friendN == null ? DisplayAvatarFromFirebase().avatarPlaceholder(25, 23.5) : DisplayAvatarFromFirebase().displayAvatarFromFirebase(friendN, 25, 23.5, false),
+            child: friendN == null ? DisplayAvatar().avatarPlaceholder(25, 23.5) : DisplayAvatar().displayAvatarFromFirebase(friendN, 25, 23.5, false),
           ),
           title: GestureDetector(
               child: CustomText(text: friendName,),

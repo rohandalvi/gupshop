@@ -90,8 +90,17 @@ class IndividualChatAppBar extends StatelessWidget {
   }
 
   displayPictureAvatar(){
-    return chatListCache.containsKey(conversationId) == true ?
-    chatListCache[conversationId].circleAvatar:
-    friendN == null ? DisplayAvatar().avatarPlaceholder(25, 23.5) : DisplayAvatar().displayAvatarFromFirebase(friendN, 25, 23.5, false);
+    /// take value from chatListCache
+    if(chatListCache != null) {
+      return chatListCache.containsKey(conversationId) == true ?
+      chatListCache[conversationId].circleAvatar :
+      friendN == null
+          ? DisplayAvatar().avatarPlaceholder(25, 23.5)
+          : DisplayAvatar().displayAvatarFromFirebase(friendN, 25, 23.5, false);
+    }else{
+      return friendN == null
+          ? DisplayAvatar().avatarPlaceholder(25, 23.5)
+          : DisplayAvatar().displayAvatarFromFirebase(friendN, 25, 23.5, false);
+    }
   }
 }

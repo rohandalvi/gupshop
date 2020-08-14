@@ -69,6 +69,7 @@ class BodyData extends StatelessWidget {
         String messageId = documentList[index].data["messageId"];
 //        String messageId = documentList[index].documentID;
 
+
         /// readUnread cache:
         /// first time when individual chat screen is loaded, all the
         /// messages will be stored as false in the map(readCache).

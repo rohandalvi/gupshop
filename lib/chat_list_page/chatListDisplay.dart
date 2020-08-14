@@ -7,6 +7,7 @@ import 'package:gupshop/chat_list_page/subtitleDataAndDisplay.dart';
 import 'package:gupshop/chat_list_page/trailingDisplay.dart';
 import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/image/displayAvatar.dart';
+import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -37,48 +38,48 @@ class ChatListDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     print("avatar cache in chatListDisplay : $chatListCache");
     return ListTile( ///main widget that creates the message box
-      leading: /// leading is avatar
+      leading:
+      /// leading is avatar
       /// check if the avatar is in the cache.
       /// if not, then call the futurebuilder,
       /// else return froom the cache
-      chatListCache.containsKey(conversationId) ==  false ?
-      FutureBuilder(
-        future: getFriendPhoneNo(conversationId, myNumber),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            print("no cache");
+      cachedData(context),
 
-            memberList = snapshot.data["members"];
-
-            /// if a member is removed from the group, then he should not be seeing the conversations
-            /// once he enters the individual chat page
-            if(memberList.contains(myNumber) == false) notAGroupMemberAnymore = true;
-
-            if(snapshot.data["groupName"]  == null){
-              groupExists = false;
-              /// 1. extract memberList from conversationMetadata for navigating to individualChat
-              memberList = snapshot.data["members"];
-              /// 2. extract friendNumber for DisplayAvatarFromFirebase
-              print("memberlist in avatarDisplay : $memberList");
-              friendNumber = FindFriendNumber().friendNumber(memberList, myNumber);
-              /// 3. create friendNumberList to send to individualChat
-              friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
-            } else{
-              groupExists = true;
-              /// for groups, conversationId is used as documentId for
-              /// getting profilePicture
-              /// profile_pictures -> conversationId -> url
-              friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
-              friendNumber = conversationId;
-            }
-            return DisplayAvatar()
-                .displayAvatarFromProfilePictures(friendNumber, 30, 27,
-                false, chatListCache, conversationId);
-          }
-          return DisplayAvatar().avatarPlaceholder(30, 27);
-            //CircularProgressIndicator();
-        },
-      ) : cache(),
+//      chatListCache.containsKey(conversationId) ==  false ?
+//      FutureBuilder(
+//        future: ConversationMetaData().get(conversationId, myNumber),
+//        builder: (BuildContext context, AsyncSnapshot snapshot) {
+//          if (snapshot.connectionState == ConnectionState.done) {
+//            memberList = snapshot.data["members"];
+//
+//            /// if a member is removed from the group, then he should not be seeing the conversations
+//            /// once he enters the individual chat page
+//            if(memberList.contains(myNumber) == false) notAGroupMemberAnymore = true;
+//
+//            if(snapshot.data["groupName"]  == null){
+//              groupExists = false;
+//              /// 1. extract memberList from conversationMetadata for navigating to individualChat
+//              memberList = snapshot.data["members"];
+//              /// 2. extract friendNumber for DisplayAvatarFromFirebase
+//              friendNumber = FindFriendNumber().friendNumber(memberList, myNumber);
+//              /// 3. create friendNumberList to send to individualChat
+//              friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
+//            } else{
+//              groupExists = true;
+//              /// for groups, conversationId is used as documentId for
+//              /// getting profilePicture
+//              /// profile_pictures -> conversationId -> url
+//              friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
+//              friendNumber = conversationId;
+//            }
+//            return DisplayAvatar()
+//                .displayAvatarFromProfilePictures(friendNumber, 30, 27,
+//                false, chatListCache, conversationId);
+//          }
+//          return DisplayAvatar().avatarPlaceholder(30, 27);
+//            //CircularProgressIndicator();
+//        },
+//      ) : cacheAvatar(),
       //chatListCache[conversationId].circleAvatar,
       title: CustomText(text: friendName),
       subtitle: SubtitleDataAndDisplay(
@@ -113,13 +114,119 @@ class ChatListDisplay extends StatelessWidget {
     );
   }
 
-  getFriendPhoneNo(String conversationId, String myNumber) async {
-    DocumentSnapshot temp = await Firestore.instance.collection(
-        "conversationMetadata").document(conversationId).get();
-    return temp.data;
+
+  cacheAvatar(){
+    print("cache in cacheAvatar : ${chatListCache["vI42xysaLTh2tygLyKaD"].isGroup}");
+    return chatListCache[conversationId].circleAvatar;
   }
 
-  cache(){
-    return chatListCache[conversationId].circleAvatar;
+  cachedData(BuildContext context){
+
+    /// if its a group and its cached:
+    if( chatListCache.containsKey(conversationId) == true && chatListCache[conversationId].isGroup == true){
+      print("in group chat");
+      return FutureBuilder(
+        future: ConversationMetaData().get(conversationId, myNumber),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            memberList = snapshot.data["members"];
+
+            /// if a member is removed from the group, then he should not be seeing the conversations
+            /// once he enters the individual chat page
+            if (memberList.contains(myNumber) == false)
+              notAGroupMemberAnymore = true;
+
+            if (snapshot.data["groupName"] == null) {
+              groupExists = false;
+
+              /// 1. extract memberList from conversationMetadata for navigating to individualChat
+              memberList = snapshot.data["members"];
+
+              /// 2. extract friendNumber for DisplayAvatarFromFirebase
+              friendNumber =
+                  FindFriendNumber().friendNumber(memberList, myNumber);
+
+              /// 3. create friendNumberList to send to individualChat
+              friendNumberList =
+                  FindFriendNumber().createListOfFriends(memberList, myNumber);
+            } else {
+              groupExists = true;
+
+              /// for groups, conversationId is used as documentId for
+              /// getting profilePicture
+              /// profile_pictures -> conversationId -> url
+              friendNumberList =
+                  FindFriendNumber().createListOfFriends(memberList, myNumber);
+              friendNumber = conversationId;
+            }
+            return cacheAvatar();
+          }
+          return cacheAvatar();
+        },
+      );
+      /// if  individualChat and its cached:
+    }else if(chatListCache.containsKey(conversationId) == true){
+      print("in two people chat");
+      memberList = chatListCache[conversationId].memberList;
+      groupExists = false;
+
+
+      /// 1. extract friendNumber for DisplayAvatarFromFirebase
+      friendNumber =
+          FindFriendNumber().friendNumber(memberList, myNumber);
+
+      /// 2. create friendNumberList to send to individualChat
+      friendNumberList =
+          FindFriendNumber().createListOfFriends(memberList, myNumber);
+      return cacheAvatar();
+    }
+    /// if any type of chat and its not cached:
+    else if (chatListCache.containsKey(conversationId) == false){
+      return FutureBuilder(
+        future: ConversationMetaData().get(conversationId, myNumber),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            memberList = snapshot.data["members"];
+            ChatListCache cache = new ChatListCache();
+            cache.memberList = memberList;/// adding to cache
+
+            /// if a member is removed from the group, then he should not be seeing the conversations
+            /// once he enters the individual chat page
+            if (memberList.contains(myNumber) == false)
+              notAGroupMemberAnymore = true;
+
+            if (snapshot.data["groupName"] == null) {
+              groupExists = false;
+
+              /// 1. extract memberList from conversationMetadata for navigating to individualChat
+              memberList = snapshot.data["members"];
+
+              /// 2. extract friendNumber for DisplayAvatarFromFirebase
+              friendNumber =
+                  FindFriendNumber().friendNumber(memberList, myNumber);
+
+              /// 3. create friendNumberList to send to individualChat
+              friendNumberList =
+                  FindFriendNumber().createListOfFriends(memberList, myNumber);
+            } else {
+              groupExists = true;
+
+              /// for groups, conversationId is used as documentId for
+              /// getting profilePicture
+              /// profile_pictures -> conversationId -> url
+              friendNumberList =
+                  FindFriendNumber().createListOfFriends(memberList, myNumber);
+              friendNumber = conversationId;
+            }
+            cache.isGroup = groupExists;
+
+            return DisplayAvatar()
+                .displayAvatarFromProfilePictures(friendNumber, 30, 27,
+                false, chatListCache, conversationId, cache);
+          }
+          return DisplayAvatar().avatarPlaceholder(30, 27);
+        },
+      );
+    }
   }
 }

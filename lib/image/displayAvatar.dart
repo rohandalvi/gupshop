@@ -58,7 +58,7 @@ class DisplayAvatar{
     );
   }
 
-  displayAvatarFromProfilePictures(String userPhoneNo, double radius, double innerRadius, bool isFirstTime, Map<String, ChatListCache> chatListCache, String conversationId){
+  displayAvatarFromProfilePictures(String userPhoneNo, double radius, double innerRadius, bool isFirstTime, Map<String, ChatListCache> chatListCache, String conversationId, ChatListCache cache){
     print("avatar cache in displayAvatar : $chatListCache");
     DocumentReference isProfilePictureAdded = Firestore.instance.collection("profilePictures").document(userPhoneNo);
     return StreamBuilder(
@@ -75,10 +75,18 @@ class DisplayAvatar{
             isFirstTime = true;
           }
           CircleAvatar avatar=  customCircleAvatar(imageUrl, radius, innerRadius);
+
+          /// this streambuilder will be called only in two cases:
+          /// 1. first time to populate the cache
+          /// 2. when the streambuilder listens any change(this will occur when
+          /// a user has changed his profile picture)
+          ///
+          /// so, if it is case 1 , add the avatar to cache.
+          /// if it is case 2, remove the old avatar, so a new call to
+          /// streambuilder will be made the next time the page is called
           if(chatListCache.containsKey(conversationId)){
             chatListCache.remove(conversationId);
           }else {
-            ChatListCache cache = new ChatListCache();
             cache.circleAvatar = avatar;
             chatListCache[conversationId] = cache;
           }

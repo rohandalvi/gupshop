@@ -91,6 +91,9 @@ class IndividualChatAppBar extends StatelessWidget {
 
   displayPictureAvatar(){
     /// take value from chatListCache
+
+    /// if the chat is coming from bazaar then chatListCache would be
+    /// be null, hence this check chatListCache != null
     if(chatListCache != null) {
       return chatListCache.containsKey(conversationId) == true ?
       chatListCache[conversationId].circleAvatar :

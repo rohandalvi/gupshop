@@ -10,6 +10,7 @@ class GetConversationId{
     temp.addAll(contactPhoneNumber);
     temp.add(myPhoneNumber);
     if(groupName ==  null){  /// individual chat
+      print("in groupName == null in GetConvId");
      // dc = await Firestore.instance.collection("conversationMetadata").add({ 'myNumber': myPhoneNumber, 'listOfOtherNumbers':contactPhoneNumber});///2
       dc = await Firestore.instance.collection("conversationMetadata").add({'members':temp});
     }

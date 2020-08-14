@@ -150,7 +150,7 @@ class _BodyDisplayState extends State<BodyDisplay> {
                   /// for news, we need to show a dialog, and if the dialog returns true then only the user gets
                   /// navigated to contactSearch
                   if(forwardNews != null) {
-                    data = {"news":widget.newsBody, "link": widget.newsLink, "title": widget.newsTitle, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":widget.conversationId, "reportedBy": widget.reportedByCount, "trueBy": widget.trueByCount, "fakeBy":widget.fakeByCount, "newsId": widget.newsId};
+                    data = {"news":widget.newsBody, "link": widget.newsLink, "title": widget.newsTitle, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId, "reportedBy": widget.reportedByCount, "trueBy": widget.trueByCount, "fakeBy":widget.fakeByCount, "newsId": widget.newsId};
                     /// beforing forwarding, ask tell the user that forwarding means agreeing to whatever
                     /// is there in the news. And increase the trueBy count as he agrees to it.
                     bool forwardYesOrNo = await CustomDialogForConfirmation(
@@ -176,9 +176,9 @@ class _BodyDisplayState extends State<BodyDisplay> {
                     }
                   }
                   else{
-                    if(forwardMessage != null) data = {"body":forwardMessage, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":widget.conversationId};
-                    else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":widget.conversationId};
-                    else data = {"imageURL":forwardImage, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":DateTime.now(), "conversationId":widget.conversationId};
+                    if(forwardMessage != null) data = {"body":forwardMessage, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
+                    else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
+                    else data = {"imageURL":forwardImage, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
                     CustomNavigator().navigateToContactSearch(context, widget.userName,  widget.userPhoneNo, data);
                   }
                 },

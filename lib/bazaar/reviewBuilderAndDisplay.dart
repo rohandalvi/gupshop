@@ -118,7 +118,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
                 "body":widget.reviewBody,
                 "like":likeClicked,
                 "dislike":dislikeClicked,
-                "timestamp":DateTime.now(),
+                "timestamp":Timestamp.now(),
               };
 
               if(widget.likes == null) widget.likes =0;

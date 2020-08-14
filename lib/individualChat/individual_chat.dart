@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
+import 'package:gupshop/PushToFirebase/pushToSaveCollection.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
 import 'package:gupshop/individualChat/individualChatAppBar.dart';
@@ -124,6 +125,7 @@ class _IndividualChatState extends State<IndividualChat> {
     /// an individualChat would always have groupName as null,
     /// only a groupChat would have groupName
     String id = await GetConversationId().createNewConversationId(userPhoneNo, listOfFriendNumbers, null);
+    print("id in getConvId : $id");
 
     setState(() {
       conversationId = id;
@@ -165,9 +167,26 @@ class _IndividualChatState extends State<IndividualChat> {
       DocumentReference forwardedMessageId = await FirebaseMethods().pushToFirebaseConversatinCollection(data);
 
       /// creating data to be pushed to recentChats
-      if(data["videoURL"] != null) data = VideoMessage(videoURL:"📹", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: Timestamp.now()).fromJson();
-      else if(data["imageURL"] != null) data = RecentChatsDataScaffolds(conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: Timestamp.now()).forImageMessage();
-      else if(data["news"] != null) data = TextMessage(text: "📰 NEWS", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: Timestamp.now()).fromJson();
+      if(data["videoURL"] != null) {
+        String messageId = await PushToSaveCollection(messageBody: data["videoURL"], messageType: 'videoURL',).
+        saveAndGenerateId();
+        data = VideoMessage(videoURL:"📹", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: Timestamp.now(), messageId: messageId).fromJson();
+      }
+      else if(data["imageURL"] != null) {
+        String messageId = await PushToSaveCollection(messageBody: data["imageURL"], messageType: 'imageURL',).
+        saveAndGenerateId();
+        data = RecentChatsDataScaffolds(conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,
+            timestamp: Timestamp.now(), messageId: messageId).forImageMessage();
+      }
+      else if(data["news"] != null) {
+        String messageId = await PushToSaveCollection(messageBody: data["news"], messageType: 'body',).
+        saveAndGenerateId();
+        data = TextMessage(text: "📰 NEWS", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,
+            timestamp: Timestamp.now()).fromJson();
+      }else{
+        String messageId = await PushToSaveCollection(messageBody: data["body"], messageType: 'body',).saveAndGenerateId();
+        data["messageId"] = messageId;
+      }
       ///Navigating to RecentChats page with pushes the data to firebase
       /// if group chat:
 

@@ -7,6 +7,8 @@ import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
 import 'package:gupshop/individualChat/individualChatAppBar.dart';
 import 'package:gupshop/individualChat/bodyPlusScrollComposerData.dart';
+import 'package:gupshop/individualChat/locationData.dart';
+import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsCollection.dart';
 import 'package:gupshop/models/text_message.dart';
 import 'package:gupshop/models/video_message.dart';
 import 'package:gupshop/modules/Presence.dart';
@@ -170,36 +172,72 @@ class _IndividualChatState extends State<IndividualChat> {
         String messageId = await PushToSaveCollection(messageBody: data["videoURL"], messageType: 'videoURL',).
         saveAndGenerateId();
         data["messageId"] = messageId;
-        DocumentReference forwardedMessageId = await FirebaseMethods().pushToFirebaseConversatinCollection(data);
-        data = VideoMessage(videoURL:"📹", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: Timestamp.now(), messageId: messageId).fromJson();
+        Map<String, dynamic> conversationCollectionData = data;
+        //FirebaseMethods().pushToFirebaseConversatinCollection(data);
+        Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
+            fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
+            messageId: messageId).forVideoMessage();
+        PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers,
+            conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo,
+            conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName,
+            groupExits: groupExits).push();
+        //data = VideoMessage(videoURL:"📹", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: Timestamp.now(), messageId: messageId).fromJson();
       }
       else if(data["imageURL"] != null) {
         String messageId = await PushToSaveCollection(messageBody: data["imageURL"], messageType: 'imageURL',).
         saveAndGenerateId();
         data["messageId"] = messageId;
-        DocumentReference forwardedMessageId = await FirebaseMethods().pushToFirebaseConversatinCollection(data);
-        data = RecentChatsDataScaffolds(conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,
-            timestamp: Timestamp.now(), messageId: messageId).forImageMessage();
+        Map<String, dynamic> conversationCollectionData = data;
+        //FirebaseMethods().pushToFirebaseConversatinCollection(data);
+        Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
+            fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
+            messageId: messageId).forImageMessage();
+        PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers,
+            conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData:
+            conversationCollectionData,recentChatsData: recentChatsData, userName:widget.userName,
+            groupExits: groupExits).push();
+//        data = RecentChatsDataScaffolds(conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,
+//            timestamp: Timestamp.now(), messageId: messageId).forImageMessage();
       }
       else if(data["news"] != null) {
         String messageId = await PushToSaveCollection(messageBody: data["news"], messageType: 'body',).
         saveAndGenerateId();
         data["messageId"] = messageId;
-        DocumentReference forwardedMessageId = await FirebaseMethods().pushToFirebaseConversatinCollection(data);
+        FirebaseMethods().pushToFirebaseConversatinCollection(data);
         data = TextMessage(text: "📰 NEWS", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,
             timestamp: Timestamp.now(), messageId: messageId).fromJson();
-      }else{
+        RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo,
+            userName: userName, listOfOtherNumbers: listOfFriendNumbers,
+            groupExists: groupExits).getAllNumbersOfAConversation();
+      }else if(data["latitude"] != null){
+        String messageId = await PushToSaveCollection(messageBody: data["body"], messageType: 'location',).saveAndGenerateId();
+        data["messageId"] = messageId;
+        //FirebaseMethods().pushToFirebaseConversatinCollection(data);
+        Map<String, dynamic> conversationCollectionData = data;
+        Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
+            fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
+            messageId: messageId, longitude: data["longitude"], latitude: data["latitude"]).forLocationMessage();
+        PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers,
+            conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo,
+            conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName,
+            groupExits: groupExits).push();
+        }
+      else{
         String messageId = await PushToSaveCollection(messageBody: data["body"], messageType: 'body',).saveAndGenerateId();
         data["messageId"] = messageId;
-        DocumentReference forwardedMessageId = await FirebaseMethods().pushToFirebaseConversatinCollection(data);
-        print("data in indivichat : $data");
+        FirebaseMethods().pushToFirebaseConversatinCollection(data);
+        RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo,
+            userName: userName, listOfOtherNumbers: listOfFriendNumbers,
+            groupExists: groupExits).getAllNumbersOfAConversation();
       }
 
 
       ///Navigating to RecentChats page with pushes the data to firebase
       /// if group chat:
 
-      RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName, listOfOtherNumbers: listOfFriendNumbers, groupExists: groupExits).getAllNumbersOfAConversation();
+//      RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo,
+//          userName: userName, listOfOtherNumbers: listOfFriendNumbers,
+//          groupExists: groupExits).getAllNumbersOfAConversation();
     }
   }
 

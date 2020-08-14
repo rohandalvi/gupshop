@@ -116,14 +116,19 @@ class _BodyDisplayState extends State<BodyDisplay> {
             String forwardImage;
             String forwardVideo;
             String forwardNews;
+            String forwardLocation;
 
             ///extract the message in a variable called forwardMessage(ideally there should be
             /// a list of messages and not just one variable..this is a @todo )
 
+            print("widget.latitude: ${widget.latitude}");
             if(widget.newsBody != null){
               forwardNews = widget.newsBody;
-              print("forwardNews: $forwardNews");
-            }else if(widget.messageBody != null){
+            }else if(widget.messageBody != null && widget.latitude != null){
+              forwardLocation = widget.messageBody;
+              print("forwardLocation : $forwardLocation");
+            }
+            else if(widget.messageBody != null){
               forwardMessage = widget.messageBody;
             }else if(widget.videoURL != null){
               forwardVideo = widget.videoURL;
@@ -176,7 +181,12 @@ class _BodyDisplayState extends State<BodyDisplay> {
                     }
                   }
                   else{
-                    if(forwardMessage != null) data = {"body":forwardMessage, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
+                    if(forwardLocation != null) {
+                      print("in forwardLocation");
+                      data = {"body":forwardLocation, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId, "latitude" : widget.latitude, "longitude" : widget.longitude};
+                      print("data in foraward : $data");
+                    }
+                    else if(forwardMessage != null) data = {"body":forwardMessage, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
                     else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
                     else data = {"imageURL":forwardImage, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
                     CustomNavigator().navigateToContactSearch(context, widget.userName,  widget.userPhoneNo, data);

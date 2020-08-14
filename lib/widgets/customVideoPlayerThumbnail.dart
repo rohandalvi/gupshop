@@ -15,10 +15,17 @@ class CustomVideoPlayerThumbnail extends StatefulWidget {
 
 class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail> {
   VideoPlayerController videoPlayerController;
+  bool isInitialized = false;
 
   _initPlayer() async{
     videoPlayerController = VideoPlayerController.network(widget.videoURL);
-    await videoPlayerController.initialize();
+    videoPlayerController.initialize();
+//        .then((_) {
+////      setState(() {
+////
+////      });
+////    });
+    
   }
 
   @override
@@ -30,7 +37,7 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
 
   @override
   void initState() {
-    _initPlayer();
+    //_initPlayer();
     super.initState();
   }
 
@@ -42,7 +49,9 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
     /// initstate does not get called again.
     /// So, we put the method generating the thunmbnail in build method:
     /// ToDo - _initPlayer() take it out from initstate
-    _initPlayer();
+//    if(isInitialized == false){
+      _initPlayer();
+//    }
 
     return Stack(
       alignment: Alignment.center,

@@ -11,8 +11,12 @@ class RecentChatsDataScaffolds{
   Timestamp timestamp;
   String messageId;
   Position location;
+  double latitude;
+  double longitude;
 
-  RecentChatsDataScaffolds({this.fromName, this.fromNumber, this.conversationId, this.timestamp, this.messageId, this.location});
+
+  RecentChatsDataScaffolds({this.fromName, this.fromNumber, this.conversationId,
+    this.timestamp, this.messageId, this.location, this.longitude, this.latitude});
 
   forImageMessage(){
     Map<String, dynamic> recentChatsData = ImageMessage(fromName:fromName, fromNumber:fromNumber, conversationId:conversationId, timestamp: Timestamp.now(), imageUrl: "📸 Image", messageId: messageId).fromJson();
@@ -31,8 +35,8 @@ class RecentChatsDataScaffolds{
     Map<String, dynamic> recentChatsData = LocationMessage(fromName:fromName,
         fromNumber:fromNumber, conversationId:conversationId,
         timestamp:Timestamp.now(),
-        text:"📍 Location", latitude:location.latitude,
-        longitude:location.longitude,
+        text:"📍 Location", latitude: latitude == null ? location.latitude : latitude,
+        longitude: longitude==null ? location.longitude : longitude,
         messageId: messageId,
     ).fromJson();
     return recentChatsData;

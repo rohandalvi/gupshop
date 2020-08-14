@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/individualChat/streamSingleton.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/service/conversation_service.dart';
@@ -22,11 +23,12 @@ class IndividualChatAppBar extends StatelessWidget {
   List<dynamic> listOfFriendNumbers;
   final Presence presence;
   ConversationService conversationService;
+  Map<String, ChatListCache> chatListCache;
 
 
   IndividualChatAppBar({this.userName, this.userPhoneNo, this.groupExits,
     this.friendName, this.friendN, this.conversationId, this.notGroupMemberAnymore,
-    this.listOfFriendNumbers,this.presence, this.conversationService
+    this.listOfFriendNumbers,this.presence, this.conversationService, this.chatListCache,
   });
 
   @override
@@ -46,7 +48,8 @@ class IndividualChatAppBar extends StatelessWidget {
       ),
       title: Material(
         child: ListTile(
-          contentPadding: EdgeInsets.only(top: 4),
+          contentPadding: EdgeInsets.all(4),
+          //EdgeInsets.only(top: 4),
           leading: GestureDetector(
             onTap: (){
               if(groupExits){
@@ -59,8 +62,8 @@ class IndividualChatAppBar extends StatelessWidget {
               }
               else CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true, friendN, null);/// if its a group then profile pictures are searched using conversationId
             },
-            child: friendN == null ? DisplayAvatar().avatarPlaceholder(25, 23.5) : DisplayAvatar().displayAvatarFromFirebase(friendN, 25, 23.5, false),
-          ),
+            child: displayPictureAvatar(),
+          ) ,
           title: GestureDetector(
               child: CustomText(text: friendName,),
               onTap:(){
@@ -84,5 +87,11 @@ class IndividualChatAppBar extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  displayPictureAvatar(){
+    return chatListCache.containsKey(conversationId) == true ?
+    chatListCache[conversationId].circleAvatar:
+    friendN == null ? DisplayAvatar().avatarPlaceholder(25, 23.5) : DisplayAvatar().displayAvatarFromFirebase(friendN, 25, 23.5, false);
   }
 }

@@ -101,6 +101,7 @@ class ChatListDisplay extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) =>
                   IndividualChat(
+                    chatListCache: chatListCache,
                     friendName: friendName,
                     conversationId: conversationId,
                     userName: myName,

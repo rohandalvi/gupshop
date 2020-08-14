@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
+import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
 import 'package:gupshop/individualChat/individualChatAppBar.dart';
 import 'package:gupshop/individualChat/bodyPlusScrollComposerData.dart';
@@ -33,10 +34,11 @@ class IndividualChat extends StatefulWidget {
   List<dynamic> listOfFriendNumbers;
   final Map forwardMessage;
   final bool notGroupMemberAnymore;
+  Map<String, ChatListCache> chatListCache;
 
 
   IndividualChat(
-      {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName,this.forwardMessage, this.listOfFriendNumbers, this.notGroupMemberAnymore})
+      {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName,this.forwardMessage, this.listOfFriendNumbers, this.notGroupMemberAnymore, this.chatListCache})
       : super(key: key);
   @override
   _IndividualChatState createState() => _IndividualChatState(
@@ -207,14 +209,13 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   Widget build(BuildContext context){
-    print("listOfFriendNumbers in individualchat : $listOfFriendNumbers");
     return WillPopScope(
       onWillPop: () async => CustomNavigator().navigateToHome(context, userName, userPhoneNo),
       child: Material(
         child: Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60.0),//the distance between gupShop and tabBars
-            child: IndividualChatAppBar(userPhoneNo: userPhoneNo, userName: userName,groupExits: groupExits,friendName: friendName,friendN: friendN, conversationId: conversationId,notGroupMemberAnymore: notGroupMemberAnymore,
+            preferredSize: Size.fromHeight(63.0),//the distance between gupShop and tabBars
+            child: IndividualChatAppBar(chatListCache : widget.chatListCache,userPhoneNo: userPhoneNo, userName: userName,groupExits: groupExits,friendName: friendName,friendN: friendN, conversationId: conversationId,notGroupMemberAnymore: notGroupMemberAnymore,
               listOfFriendNumbers: listOfFriendNumbers,presence: presence, conversationService: conversationService,),
             //appBar(context, friendName),
           ),

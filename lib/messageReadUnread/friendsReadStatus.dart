@@ -40,7 +40,7 @@ class FriendReadStatus{
             if(snapshot.data == null) return UnreadDisplay(context: context);
             String friendsLatestMessageId = snapshot.data[conversationId];
              return FutureBuilder(
-              future: MessageReadUnreadData(conversationId: conversationId, conversationsLatestMessageTimestamp: conversationsLatestMessageTimestamp, number: listOfFriends[i],).friendReadStatus(friendsLatestMessageId),
+              future: MessageReadUnreadData(conversationId: conversationId, conversationsLatestMessageTimestamp: conversationsLatestMessageTimestamp, number: listOfFriends[i],conversationsLatestMessageId: messageId).friendReadStatus(friendsLatestMessageId),
               builder: (BuildContext context, AsyncSnapshot readSnapshot) {
                 if (readSnapshot.connectionState == ConnectionState.done) {
                   bool isRead = readSnapshot.data;
@@ -51,6 +51,7 @@ class FriendReadStatus{
                   if(trueCount == listOfFriends.length) collectiveRead = true;
                   if(collectiveRead == true){
                     readCache[messageId] = true;
+                    print("everyone has read");
                     return ReadUnreadDisplay(context: context, isRead: collectiveRead, isMe: isMe);
                   }
                 }

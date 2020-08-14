@@ -157,6 +157,7 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
   forwardMessages(String conversationId) async{
+    print("listOfFriends : $listOfFriendNumbers");
     await checkIfGroup();
     if(forwardMessage != null) {
 
@@ -164,41 +165,47 @@ class _IndividualChatState extends State<IndividualChat> {
       forwardMessage["conversationId"] = conversationId;
       var data = forwardMessage;
 
-      DocumentReference forwardedMessageId = await FirebaseMethods().pushToFirebaseConversatinCollection(data);
-
       /// creating data to be pushed to recentChats
       if(data["videoURL"] != null) {
         String messageId = await PushToSaveCollection(messageBody: data["videoURL"], messageType: 'videoURL',).
         saveAndGenerateId();
+        data["messageId"] = messageId;
+        DocumentReference forwardedMessageId = await FirebaseMethods().pushToFirebaseConversatinCollection(data);
         data = VideoMessage(videoURL:"📹", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: Timestamp.now(), messageId: messageId).fromJson();
       }
       else if(data["imageURL"] != null) {
         String messageId = await PushToSaveCollection(messageBody: data["imageURL"], messageType: 'imageURL',).
         saveAndGenerateId();
+        data["messageId"] = messageId;
+        DocumentReference forwardedMessageId = await FirebaseMethods().pushToFirebaseConversatinCollection(data);
         data = RecentChatsDataScaffolds(conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,
             timestamp: Timestamp.now(), messageId: messageId).forImageMessage();
       }
       else if(data["news"] != null) {
         String messageId = await PushToSaveCollection(messageBody: data["news"], messageType: 'body',).
         saveAndGenerateId();
+        data["messageId"] = messageId;
+        DocumentReference forwardedMessageId = await FirebaseMethods().pushToFirebaseConversatinCollection(data);
         data = TextMessage(text: "📰 NEWS", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,
-            timestamp: Timestamp.now()).fromJson();
+            timestamp: Timestamp.now(), messageId: messageId).fromJson();
       }else{
         String messageId = await PushToSaveCollection(messageBody: data["body"], messageType: 'body',).saveAndGenerateId();
         data["messageId"] = messageId;
+        DocumentReference forwardedMessageId = await FirebaseMethods().pushToFirebaseConversatinCollection(data);
+        print("data in indivichat : $data");
       }
+
+
       ///Navigating to RecentChats page with pushes the data to firebase
       /// if group chat:
 
-      RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName, listOfOtherNumbers: listOfFriendNumbers, groupExists: groupExits ).getAllNumbersOfAConversation();
+      RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo, userName: userName, listOfOtherNumbers: listOfFriendNumbers, groupExists: groupExits).getAllNumbersOfAConversation();
     }
   }
 
 
   @override
   void initState() {
-
-    print("in individualchat initstate");
     /*
     adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
     when user scrolls

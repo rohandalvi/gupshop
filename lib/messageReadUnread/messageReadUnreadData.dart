@@ -13,20 +13,26 @@ class MessageReadUnreadData{
   Timestamp conversationsLatestMessageTimestamp;
   String conversationId;
   String number;
+  String conversationsLatestMessageId;
 
-  MessageReadUnreadData({this.conversationsLatestMessageTimestamp, this.conversationId, this.number});
+  MessageReadUnreadData({this.conversationsLatestMessageTimestamp, this.conversationId, this.number, this.conversationsLatestMessageId});
 
 
   timestampDifference() async{
-    /// use friendNumber as number here
     String usersLatestMessageId = await GetFromMessageReadUnreadCollection(userNumber: number, conversationId: conversationId).getLatestMessageId();
-    Timestamp usersLatestMessageTimestamp = await GetFromConversationCollection(conversationId: conversationId).getTimestamp(usersLatestMessageId);
-    print("usersLatestMessageTimestamp $conversationId : $usersLatestMessageTimestamp");
-    print("conversationsLatestMessageTimestamp $conversationId : $conversationsLatestMessageTimestamp");
-    /// usersLatestMessageTimestamp.seconds is essential for images and videos
-    /// because there is a time lag between the timestamp of database and
-    ///
-    return usersLatestMessageTimestamp.seconds.compareTo(conversationsLatestMessageTimestamp.seconds);
+    if(usersLatestMessageId == conversationsLatestMessageId) return true;
+    //if(identical(usersLatestMessageId, conversationsLatestMessageId)) return true;
+    return false;
+
+    /// use friendNumber as number here
+//    String usersLatestMessageId = await GetFromMessageReadUnreadCollection(userNumber: number, conversationId: conversationId).getLatestMessageId();
+//    Timestamp usersLatestMessageTimestamp = await GetFromConversationCollection(conversationId: conversationId).getTimestamp(usersLatestMessageId);
+//    print("usersLatestMessageTimestamp $conversationId : $usersLatestMessageTimestamp");
+//    print("conversationsLatestMessageTimestamp $conversationId : $conversationsLatestMessageTimestamp");
+//    /// usersLatestMessageTimestamp.seconds is essential for images and videos
+//    /// because there is a time lag between the timestamp of database and
+//    ///
+//    return usersLatestMessageTimestamp.seconds.compareTo(conversationsLatestMessageTimestamp.seconds);
     //return usersLatestMessageTimestamp.compareTo(conversationsLatestMessageTimestamp);
   }
 
@@ -45,7 +51,12 @@ class MessageReadUnreadData{
 
   Future<bool> friendReadStatus(String usersLatestMessageId) async{
     /// use friendNumber as number here
+//    if(identical(usersLatestMessageId, conversationsLatestMessageId)) return true;
+//    return false;
+
     Timestamp usersLatestMessageTimestamp = await GetFromConversationCollection(conversationId: conversationId).getTimestamp(usersLatestMessageId);
+    print("usersLatestMessageTimestamp $conversationId : $usersLatestMessageTimestamp");
+    print("conversationsLatestMessageTimestamp $conversationId : $conversationsLatestMessageTimestamp");
     int diff =  usersLatestMessageTimestamp.compareTo(conversationsLatestMessageTimestamp);
     if(diff < 0) return false;
     return true;

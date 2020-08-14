@@ -27,11 +27,13 @@ class ChatListDisplay extends StatelessWidget {
   final Timestamp timeStamp;
   String myName;
   Map<String, ChatListCache> chatListCache;
+  String conversationsLatestMessageId;
 
   ChatListDisplay({this.myNumber, this.conversationId, this.notAGroupMemberAnymore,
     this.groupExists, this.friendNumber, this.memberList, this.friendNumberList,
     this.friendName, this.lastMessageIsVideo, this.index, this.lastMessage,
     this.lastMessageIsImage, this.timeStamp, this.myName, this.chatListCache,
+    this.conversationsLatestMessageId,
   });
 
   @override
@@ -94,6 +96,7 @@ class ChatListDisplay extends StatelessWidget {
         conversationId: conversationId,
         myNumber: myNumber,
         timeStamp: timeStamp,
+        conversationsLatestMessageId: conversationsLatestMessageId,
       ),
       onTap: () {
         Navigator.push(

@@ -131,6 +131,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
 
   /// searchList is basically friends_number collection
   Future<List<DocumentSnapshot>> searchList(String text) async {
+    print("search list");
     var list = await Firestore.instance.collection(
         "friends_${widget.userPhoneNo}").getDocuments();
 
@@ -142,6 +143,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
     ///ToDo- here not just 0, but on every index of the list
 
     if(createGroupSearch){
+      print("in group of create group");
       return list.documents.where((l) =>
       l.data["isMe"] == null && /// to remove myName from search
       l.data["groupName"] == null && ///to take group out of search
@@ -149,6 +151,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
           .toLowerCase()
           .contains(text.toLowerCase()) || l.documentID.contains(text)).toList();
     }
+
 
     return list.documents.where((l) =>
     l.data["nameList"][0]

@@ -55,6 +55,8 @@ class _ChatListDataState extends State<ChatListData> {
             .data["message"]["timeStamp"];
         bool read = widget.list[index].data["read"];
 
+        String messageId = widget.list[index].data["message"]["messageId"];
+
         String friendNumber;
         List<dynamic> memberList;
         List<dynamic> friendNumberList;
@@ -103,6 +105,7 @@ class _ChatListDataState extends State<ChatListData> {
             timeStamp: timeStamp,
             myName: widget.myName,
             friendName: friendName,
+            conversationsLatestMessageId: messageId,
           ),
         );
       },

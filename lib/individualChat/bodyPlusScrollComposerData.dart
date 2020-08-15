@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
+import 'package:gupshop/individualChat/individualChatCache.dart';
+import 'package:gupshop/individualChat/individualChatSingleton.dart';
 import 'package:gupshop/individualChat/plusButtonMessageComposerNewsSend.dart';
-import 'package:gupshop/individualChat/streamSingleton.dart';
 import 'package:gupshop/messageReadUnread/readSingleton.dart';
 import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/typing/typingStatusData.dart';
@@ -50,6 +51,7 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
   List<DocumentSnapshot> documentList;
   Map<String, DocumentSnapshot> map = new HashMap();
   Map<String, bool> readCache;/// create singleton here
+  Map<String, IndividualChatCache> individualChatCache;
 
   final myController = TextEditingController();
 
@@ -59,15 +61,16 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
     myController.addListener(_printLatestValue);
     documentList = null;
 
-//    readCache = new Map();
+    /// read cache
     readCache = new ReadSingleton().getReadCacheMap();
+    /// message display cache
+    individualChatCache = new IndividualChatSingleton().getIndvidualChatCacheMap();
 
     super.initState();
   }
 
   @override
   void dispose() {
-    print("in stream dispose");
     myController.dispose();
     super.dispose();
   }
@@ -116,7 +119,6 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                       /// for message read unread collection:
                       if(!(documentList.isEmpty || documentList == null)){
                         messageId = documentList[0].data["messageId"];
-                        print("messageId in bodyPlusScroll : $messageId");
                         currentMessageDocumentSnapshot = snapshot.data.documents[0];
                         PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId, conversationId: widget.conversationId).pushLatestMessageId();
                       }
@@ -124,6 +126,7 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
 
                         return NotificationListener<ScrollUpdateNotification>(
                           child: BodyData(
+                            individualChatCache: individualChatCache,
                             readCache: readCache,
                             listOfFriendNumbers: widget.listOfFriendNumbers,
                             conversationId: widget.conversationId,

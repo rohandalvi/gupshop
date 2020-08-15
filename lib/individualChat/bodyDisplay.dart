@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/individualChat/heartButton.dart';
+import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/retriveFromFirebase/getMessageSavedStatusFromFirebase.dart';
@@ -48,6 +49,7 @@ class BodyDisplay extends StatefulWidget {
   String messageId;
   List<dynamic> listOfFriendNumbers;
   Map<String, bool> readCache;
+  Map<String, IndividualChatCache> individualChatCache;
 
   BodyDisplay({this.mapIsNewsGenerated, this.newsId, this.newsBody, this.newsLink,
     this.newsTitle, this.isNews, this.controller, this.messageBody, this.videoURL,
@@ -55,7 +57,7 @@ class BodyDisplay extends StatefulWidget {
     this.isMe, this.groupExits, this.isPressed, this.userPhoneNo, this.userName,
     this.conversationId, this.trueByCount, this.fakeByCount, this.reportedByCount,
     this.timeStamp, this.fromNameForGroup,this.documentId, this.messageId,this.listOfFriendNumbers,
-    this.readCache,
+    this.readCache, this.individualChatCache,
   });
 
   @override
@@ -66,6 +68,7 @@ class _BodyDisplayState extends State<BodyDisplay> {
 
   @override
   void initState() {
+    print("individualchache in bodyDisplay : ${widget.individualChatCache}");
 //    if(widget.isNews){
 //      widget.mapIsNewsGenerated = NewsCache().newsValidator(
 //          widget.mapIsNewsGenerated,
@@ -181,11 +184,7 @@ class _BodyDisplayState extends State<BodyDisplay> {
                     }
                   }
                   else{
-                    if(forwardLocation != null) {
-                      print("in forwardLocation");
-                      data = {"body":forwardLocation, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId, "latitude" : widget.latitude, "longitude" : widget.longitude};
-                      print("data in foraward : $data");
-                    }
+                    if(forwardLocation != null) data = {"body":forwardLocation, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId, "latitude" : widget.latitude, "longitude" : widget.longitude};
                     else if(forwardMessage != null) data = {"body":forwardMessage, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
                     else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
                     else data = {"imageURL":forwardImage, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
@@ -207,12 +206,14 @@ class _BodyDisplayState extends State<BodyDisplay> {
             )..show(context);
           } return Container();
         },
-        child: MessageCardDisplay(
+        child: messageCached() == false?
+        MessageCardDisplay(
           isMe: widget.isMe, isNews: widget.isNews, imageURL: widget.imageURL, isLocationMessage: widget.isLocationMessage,
           newsLink: widget.newsLink, newsBody: widget.newsBody, newsTitle: widget.newsTitle, fromName: widget.fromName,
           latitude: widget.latitude,longitude: widget.longitude,videoURL: widget.videoURL,messageBody: widget.messageBody,
           controller: widget.controller, newsId: widget.newsId, mapIsNewsGenerated: widget.mapIsNewsGenerated,
-        ),
+          individualChatCache: widget.individualChatCache,messageId: widget.messageId,
+        ) : getCachedMessageContainer(),
       ),
       isThreeLine: true,
       subtitle: FromNameAndTimeStampVotingRead(/// three icons are in this class
@@ -239,5 +240,19 @@ class _BodyDisplayState extends State<BodyDisplay> {
         ),
       ),
     );
+  }
+
+  getCachedMessageContainer(){
+    print("returning cache");
+    print("messageContainer ${widget.messageId}: ${widget.individualChatCache[widget.messageId].messageContainer}");
+    return widget.individualChatCache[widget.messageId].messageContainer;
+  }
+
+  messageCached(){
+    print("(widget.individualChatCache : ${widget.individualChatCache == null}");
+    if(widget.individualChatCache == null) return false;
+    print("messageId in bodyDisplay : ${widget.messageId}");
+    print("widget.individualChatCache.containsKey : ${widget.individualChatCache.containsKey("messageId")}");
+    return widget.individualChatCache.containsKey(widget.messageId);
   }
 }

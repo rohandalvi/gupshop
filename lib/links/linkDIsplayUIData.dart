@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class LinkDisplayUI extends StatelessWidget {
@@ -8,12 +9,15 @@ class LinkDisplayUI extends StatelessWidget {
   String title;
   String description;
   String link;
+  IndividualChatCache cache = new IndividualChatCache();
 
-  LinkDisplayUI({this.image, this.description, this.title, this.link});
+  LinkDisplayUI({this.image, this.description, this.title, this.link, this.cache});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    print("in non cache news");
+
+    Container newsContainer =  Container(
       color: linkPreviewColor,
       child: Row(
         children: <Widget>[
@@ -39,5 +43,15 @@ class LinkDisplayUI extends StatelessWidget {
         ],
       ),
     );
+
+    if(cache != null){
+      cache.newsLinkContainer = newsContainer;
+      cache.newsLink = link;
+      cache.newsTitle = title;
+      cache.newsBody = description;
+    }
+
+
+    return newsContainer;
   }
 }

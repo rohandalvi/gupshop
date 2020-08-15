@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/individualChat/showImageDownloadFlushbar.dart';
 import 'package:gupshop/individualChat/showVideoThumbnail.dart';
 import 'package:gupshop/individualChat/textMessageUI.dart';
@@ -28,26 +29,33 @@ class MessageCardDisplay extends StatelessWidget {
   dynamic messageBody;
   String newsId;
   Map<String,NewsContainerUI> mapIsNewsGenerated;
+  Map<String, IndividualChatCache> individualChatCache;
+  String messageId;
+  IndividualChatCache cache = new IndividualChatCache();
 
 
   MessageCardDisplay({this.isMe, this.isNews,this.newsTitle, this.newsLink,
     this.newsBody, this.isLocationMessage,this.fromName,this.latitude,
     this.longitude,this.controller, this.imageURL, this.videoURL, this.messageBody,
-    this.newsId, this.mapIsNewsGenerated
+    this.newsId, this.mapIsNewsGenerated, this.individualChatCache, this.messageId,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    print("returning non cache");
+    Container messageContainer =  Container(
 //        width: MediaQuery.of(context).size.width*0.75,
 //        height: MediaQuery.of(context).size.height*0.75,
       alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
       padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
-      child: isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody,) :
+      child: isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody, individualChatCache: individualChatCache, messageId: messageId, cache: cache) :
       isLocationMessage ==true ? LocationDisplayAndLaunchInMap(textOnButton: fromName, latitude: latitude,longitude: longitude, locationName: 'current location',):
       videoURL != null  ? ShowVideoThumbnail(videoURL: videoURL,):imageURL == null?
       TextMessageUI(isMe: isMe, messageBody: messageBody,): ShowImageDownloadFlushbar(imageURL: imageURL,)
     );
+
+    addToCache(messageContainer);
+    return messageContainer;
   }
 
   showText(context){
@@ -80,12 +88,12 @@ class MessageCardDisplay extends StatelessWidget {
       return Icon(Icons.image);}
   }
 
-//  showImage(String imageURL){
-//    try{
-//      return DisplayCircularPicture().chatPictureFrame(imageURL);
-//    }
-//    catch (e){
-//      return Icon(Icons.image);}
-//  }
+  addToCache(Container messageContainer){
+    print("in add to cache");
+    cache.messageContainer = messageContainer;
+    print("messageId in addToCache : $messageId");
+    individualChatCache[messageId] = cache;
+    print("UhXWqn1RpCC96QbvEGDD : ${individualChatCache["UhXWqn1RpCC96QbvEGDD"]}");
+  }
 
 }

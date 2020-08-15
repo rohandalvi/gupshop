@@ -71,9 +71,6 @@ class _IndividualChatState extends State<IndividualChat> {
   final bool notGroupMemberAnymore;
   final Presence presence;
 
-  static int numberOfImageInConversation = 0;///for giving number to the images sent in conversation for
-  ///storing in firebase
-
   _IndividualChatState(
       {@required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName, this.forwardMessage, this.listOfFriendNumbers, this.notGroupMemberAnymore, this.presence});
 
@@ -173,7 +170,6 @@ class _IndividualChatState extends State<IndividualChat> {
         saveAndGenerateId();
         data["messageId"] = messageId;
         Map<String, dynamic> conversationCollectionData = data;
-        //FirebaseMethods().pushToFirebaseConversatinCollection(data);
         Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
             fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
             messageId: messageId).forVideoMessage();
@@ -181,14 +177,12 @@ class _IndividualChatState extends State<IndividualChat> {
             conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo,
             conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName,
             groupExits: groupExits).push();
-        //data = VideoMessage(videoURL:"📹", conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,timestamp: Timestamp.now(), messageId: messageId).fromJson();
       }
       else if(data["imageURL"] != null) {
         String messageId = await PushToSaveCollection(messageBody: data["imageURL"], messageType: 'imageURL',).
         saveAndGenerateId();
         data["messageId"] = messageId;
         Map<String, dynamic> conversationCollectionData = data;
-        //FirebaseMethods().pushToFirebaseConversatinCollection(data);
         Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
             fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
             messageId: messageId).forImageMessage();
@@ -196,8 +190,6 @@ class _IndividualChatState extends State<IndividualChat> {
             conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData:
             conversationCollectionData,recentChatsData: recentChatsData, userName:widget.userName,
             groupExits: groupExits).push();
-//        data = RecentChatsDataScaffolds(conversationId: conversationId,fromName: userName,fromNumber: userPhoneNo,
-//            timestamp: Timestamp.now(), messageId: messageId).forImageMessage();
       }
       else if(data["news"] != null) {
         String messageId = await PushToSaveCollection(messageBody: data["news"], messageType: 'body',).
@@ -212,7 +204,6 @@ class _IndividualChatState extends State<IndividualChat> {
       }else if(data["latitude"] != null){
         String messageId = await PushToSaveCollection(messageBody: data["body"], messageType: 'location',).saveAndGenerateId();
         data["messageId"] = messageId;
-        //FirebaseMethods().pushToFirebaseConversatinCollection(data);
         Map<String, dynamic> conversationCollectionData = data;
         Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
             fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
@@ -231,13 +222,6 @@ class _IndividualChatState extends State<IndividualChat> {
             groupExists: groupExits).getAllNumbersOfAConversation();
       }
 
-
-      ///Navigating to RecentChats page with pushes the data to firebase
-      /// if group chat:
-
-//      RecentChats(message: data, convId: conversationId, userNumber:userPhoneNo,
-//          userName: userName, listOfOtherNumbers: listOfFriendNumbers,
-//          groupExists: groupExits).getAllNumbersOfAConversation();
     }
   }
 
@@ -281,9 +265,7 @@ class _IndividualChatState extends State<IndividualChat> {
             preferredSize: Size.fromHeight(63.0),//the distance between gupShop and tabBars
             child: IndividualChatAppBar(chatListCache : widget.chatListCache,userPhoneNo: userPhoneNo, userName: userName,groupExits: groupExits,friendName: friendName,friendN: friendN, conversationId: conversationId,notGroupMemberAnymore: notGroupMemberAnymore,
               listOfFriendNumbers: listOfFriendNumbers,presence: presence, conversationService: conversationService,),
-            //appBar(context, friendName),
           ),
-          //appBar(),
           /// if a member is removed from the group, then he should not be seeing the conversations
           /// once he enters the individual chat page
           /// So, displaying the conversations only when he is a group member

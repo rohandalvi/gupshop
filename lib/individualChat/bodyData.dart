@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/individualChat/bodyDisplay.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
-import 'package:gupshop/messageReadUnread/friendsReadStatus.dart';
+import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
+import 'package:gupshop/news/newsLinkPlaceholder.dart';
 import 'package:video_player/video_player.dart';
+import 'package:gupshop/links/linkDIsplayUIData.dart';
 
 
 
@@ -27,10 +29,11 @@ class BodyData extends StatelessWidget {
   Map<String,NewsContainerUI> mapIsNewsGenerated= new Map();
   List<dynamic> listOfFriendNumbers;
   Map<String, bool> readCache;
+  Map<String, IndividualChatCache> individualChatCache;
 
   BodyData({this.conversationId, this.listScrollController, this.documentList, this.controller,
     this.userName, this.isPressed, this.userPhoneNo, this.groupExits, this.scroll, this.value,
-    this.listOfFriendNumbers, this.readCache
+    this.listOfFriendNumbers, this.readCache, this.individualChatCache
   });
 
 
@@ -112,8 +115,8 @@ class BodyData extends StatelessWidget {
 //            readCache[messageId] = false;
 //          }
 
-
           return BodyDisplay(
+            individualChatCache: individualChatCache,
             readCache: readCache,
             listOfFriendNumbers: listOfFriendNumbers,
             conversationId: conversationId,
@@ -142,82 +145,221 @@ class BodyData extends StatelessWidget {
           /// get news details from firebase news collection:
           /// wrap BodyDisplay with futurebuilder to get from link, title, news from news collection
           /// get fromname, fromnumber and timestamp from conversation collection
-          return FutureBuilder(
-              future: FirebaseMethods().getNewsDetailsForDisplay(newsId),
-              builder: (context, snapshot) {
-                if(snapshot.connectionState == ConnectionState.done){
-                  String newsBody;
-                  String newsTitle;
-                  String newsLink;
-                  int reportedByCount;
-                  int trueByCount;
-                  int fakeByCount;
-
-                  if(snapshot.data != null){
-                    newsBody = snapshot.data["customNewsDescription"];
-                    newsTitle = snapshot.data["customTitle"];
-                    newsLink = snapshot.data["link"];
-                    reportedByCount = snapshot.data["reportedBy"];
-                    trueByCount = snapshot.data["trueBy"];
-                    fakeByCount = snapshot.data["fakeBy"];
-                  }
-
-
-                  bool isNews= false;
-                  if(newsBody != null) {isNews = true;}
-                  else if(documentList[index].data["videoURL"] != null){
-                    videoURL = documentList[index].data["videoURL"];
-                    controller = VideoPlayerController.network(videoURL);
-                  }
-                  else if(documentList[index].data["imageURL"] == null){
-                    messageBody = documentList[index].data["body"];
-
-                  }else{
-                    imageURL = documentList[index].data["imageURL"];
-                  }
-
-                  return BodyDisplay(
-                    readCache: readCache,
-                    listOfFriendNumbers: listOfFriendNumbers,
-                    conversationId: conversationId,
-                    controller: controller,
-                    userName: userName,
-                    isPressed: isPressed,
-                    userPhoneNo: userPhoneNo,
-                    groupExits: groupExits,
-                    mapIsNewsGenerated: mapIsNewsGenerated,
-                    messageBody: messageBody,
-                    imageURL:imageURL,
-                    videoURL:videoURL,
-                    newsBody:newsBody,
-                    newsTitle:newsTitle,
-                    newsLink:newsLink,
-                    reportedByCount:reportedByCount,
-                    trueByCount:trueByCount,
-                    fakeByCount:fakeByCount,
-                    newsId:newsId,
-                    isMe:isMe,
-                    latitude:latitude,
-                    longitude:longitude,
-                    isLocationMessage:isLocationMessage,
-                    fromName:fromName,
-                    isNews:isNews,
-                    fromNameForGroup:fromNameForGroup,
-                    timeStamp:timeStamp,
-                    documentId: documentId,
-                    messageId : messageId ,
-                  );
-
-                }return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-          );
+           return helper(messageId, messageBody, imageURL, videoURL, null, null, null, newsId,
+             isMe, latitude, longitude, isLocationMessage, fromName, true, fromNameForGroup, timeStamp,
+             documentId, index
+           );
+//          return FutureBuilder(
+//              future: FirebaseMethods().getNewsDetailsForDisplay(newsId),
+//              builder: (context, snapshot) {
+//                if(snapshot.connectionState == ConnectionState.done){
+//                  String newsBody;
+//                  String newsTitle;
+//                  String newsLink;
+//                  int reportedByCount;
+//                  int trueByCount;
+//                  int fakeByCount;
+//
+//                  if(snapshot.data != null){
+//                    newsBody = snapshot.data["customNewsDescription"];
+//                    newsTitle = snapshot.data["customTitle"];
+//                    newsLink = snapshot.data["link"];
+//                    reportedByCount = snapshot.data["reportedBy"];
+//                    trueByCount = snapshot.data["trueBy"];
+//                    fakeByCount = snapshot.data["fakeBy"];
+//                  }
+//
+//
+//                  bool isNews= false;
+//                  if(newsBody != null) {isNews = true;}
+//                  else if(documentList[index].data["videoURL"] != null){
+//                    videoURL = documentList[index].data["videoURL"];
+//                    controller = VideoPlayerController.network(videoURL);
+//                  }
+//                  else if(documentList[index].data["imageURL"] == null){
+//                    messageBody = documentList[index].data["body"];
+//
+//                  }else{
+//                    imageURL = documentList[index].data["imageURL"];
+//                  }
+//
+//                  return BodyDisplay(
+//                    individualChatCache: individualChatCache,
+//                    readCache: readCache,
+//                    listOfFriendNumbers: listOfFriendNumbers,
+//                    conversationId: conversationId,
+//                    controller: controller,
+//                    userName: userName,
+//                    isPressed: isPressed,
+//                    userPhoneNo: userPhoneNo,
+//                    groupExits: groupExits,
+//                    mapIsNewsGenerated: mapIsNewsGenerated,
+//                    messageBody: messageBody,
+//                    imageURL:imageURL,
+//                    videoURL:videoURL,
+//                    newsBody:newsBody,
+//                    newsTitle:newsTitle,
+//                    newsLink:newsLink,
+//                    reportedByCount:reportedByCount,
+//                    trueByCount:trueByCount,
+//                    fakeByCount:fakeByCount,
+//                    newsId:newsId,
+//                    isMe:isMe,
+//                    latitude:latitude,
+//                    longitude:longitude,
+//                    isLocationMessage:isLocationMessage,
+//                    fromName:fromName,
+//                    isNews:isNews,
+//                    fromNameForGroup:fromNameForGroup,
+//                    timeStamp:timeStamp,
+//                    documentId: documentId,
+//                    messageId : messageId ,
+//                  );
+//
+//                }return// NewsContainerUI(title: NewsLinkPlaceholder().linkTitle, newsBody: NewsLinkPlaceholder().linkDescription,);
+////                  LinkDisplayUI(
+////                  link: NewsLinkPlaceholder().link,
+////                  title: NewsLinkPlaceholder().linkTitle,
+////                  description:  NewsLinkPlaceholder().linkDescription,
+////                  image:  NewsLinkPlaceholder().imageLink,
+////                  cache: null,);
+//                  Center(
+//                  child: CircularProgressIndicator(),
+//                );
+//              }
+//          );
         }
       },
       separatorBuilder: (context, index) => Divider(
         color: Colors.white,
       ),
     );
+  }
+
+
+  helper(String messageId,String messageBody,String imageURL, String videoURL, int reportedByCount,
+      int trueByCount, int fakeByCount, String newsId, bool isMe,
+      double latitude, double longitude, bool isLocationMessage,
+      String fromName, bool isNews, String fromNameForGroup, Timestamp timeStamp, String documentId,
+      int index,
+      ){
+    if(individualChatCache.containsKey(messageId)){
+      String newsBody = individualChatCache[messageId].newsBody;
+      String newsTitle = individualChatCache[messageId].newsTitle;
+      String newsLink = individualChatCache[messageId].newsLink;
+
+      return BodyDisplay(
+        individualChatCache: individualChatCache,
+        readCache: readCache,
+        listOfFriendNumbers: listOfFriendNumbers,
+        conversationId: conversationId,
+        controller: controller,
+        userName: userName,
+        isPressed: isPressed,
+        userPhoneNo: userPhoneNo,
+        groupExits: groupExits,
+        mapIsNewsGenerated: mapIsNewsGenerated,
+        messageBody: messageBody,
+        imageURL:imageURL,
+        videoURL:videoURL,
+        newsBody:newsBody,
+        newsTitle:newsTitle,
+        newsLink:newsLink,
+        reportedByCount:reportedByCount,
+        trueByCount:trueByCount,
+        fakeByCount:fakeByCount,
+        newsId:newsId,
+        isMe:isMe,
+        latitude:latitude,
+        longitude:longitude,
+        isLocationMessage:isLocationMessage,
+        fromName:fromName,
+        isNews:isNews,
+        fromNameForGroup:fromNameForGroup,
+        timeStamp:timeStamp,
+        documentId: documentId,
+        messageId : messageId ,
+      );
+    } else{
+      return FutureBuilder(
+          future: FirebaseMethods().getNewsDetailsForDisplay(newsId),
+          builder: (context, snapshot) {
+            if(snapshot.connectionState == ConnectionState.done){
+              String newsBody;
+              String newsTitle;
+              String newsLink;
+              int reportedByCount;
+              int trueByCount;
+              int fakeByCount;
+
+              if(snapshot.data != null){
+                newsBody = snapshot.data["customNewsDescription"];
+                newsTitle = snapshot.data["customTitle"];
+                newsLink = snapshot.data["link"];
+                reportedByCount = snapshot.data["reportedBy"];
+                trueByCount = snapshot.data["trueBy"];
+                fakeByCount = snapshot.data["fakeBy"];
+              }
+
+
+              bool isNews= false;
+              if(newsBody != null) {isNews = true;}
+              else if(documentList[index].data["videoURL"] != null){
+                videoURL = documentList[index].data["videoURL"];
+                controller = VideoPlayerController.network(videoURL);
+              }
+              else if(documentList[index].data["imageURL"] == null){
+                messageBody = documentList[index].data["body"];
+
+              }else{
+                imageURL = documentList[index].data["imageURL"];
+              }
+
+              return BodyDisplay(
+                individualChatCache: individualChatCache,
+                readCache: readCache,
+                listOfFriendNumbers: listOfFriendNumbers,
+                conversationId: conversationId,
+                controller: controller,
+                userName: userName,
+                isPressed: isPressed,
+                userPhoneNo: userPhoneNo,
+                groupExits: groupExits,
+                mapIsNewsGenerated: mapIsNewsGenerated,
+                messageBody: messageBody,
+                imageURL:imageURL,
+                videoURL:videoURL,
+                newsBody:newsBody,
+                newsTitle:newsTitle,
+                newsLink:newsLink,
+                reportedByCount:reportedByCount,
+                trueByCount:trueByCount,
+                fakeByCount:fakeByCount,
+                newsId:newsId,
+                isMe:isMe,
+                latitude:latitude,
+                longitude:longitude,
+                isLocationMessage:isLocationMessage,
+                fromName:fromName,
+                isNews:isNews,
+                fromNameForGroup:fromNameForGroup,
+                timeStamp:timeStamp,
+                documentId: documentId,
+                messageId : messageId ,
+              );
+
+            }return// NewsContainerUI(title: NewsLinkPlaceholder().linkTitle, newsBody: NewsLinkPlaceholder().linkDescription,);
+//                  LinkDisplayUI(
+//                  link: NewsLinkPlaceholder().link,
+//                  title: NewsLinkPlaceholder().linkTitle,
+//                  description:  NewsLinkPlaceholder().linkDescription,
+//                  image:  NewsLinkPlaceholder().imageLink,
+//                  cache: null,);
+              Center(
+                child: CircularProgressIndicator(),
+              );
+          }
+      );
+    }
   }
 }

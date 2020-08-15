@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/links/fetchLinkPreview.dart';
 import 'package:gupshop/links/linkDIsplayUIData.dart';
 import 'package:gupshop/links/openLinks.dart';
@@ -16,8 +17,11 @@ class NewsContainerUI extends StatelessWidget {
   String linkTitle;
   String linkDescription;
   String linkImage;
+  Map<String, IndividualChatCache> individualChatCache;
+  String messageId;
+  IndividualChatCache cache = new IndividualChatCache();
 
-  NewsContainerUI({this.title, this.link, this.newsBody});
+  NewsContainerUI({this.title, this.link, this.newsBody, this.individualChatCache, this.messageId, this.cache});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +49,7 @@ class NewsContainerUI extends StatelessWidget {
                 child: CustomText(text :title).nonBoldText(),
               ),
               GestureDetector(
-                child: FutureBuilder(
+                child: newsCache() == false ? FutureBuilder(
                   future: FetchLinkPreviewData().fetch(link, linkTitle, linkDescription, linkImage),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
@@ -53,26 +57,17 @@ class NewsContainerUI extends StatelessWidget {
                       linkDescription = snapshot.data[1];/// [1] as description
                       linkImage = snapshot.data[2];/// [2] as image
                       link = snapshot.data[3];/// [3] as link
-                      return LinkDisplayUI(link: link, title: linkTitle, description: linkDescription, image: linkImage,);
+                      return LinkDisplayUI(link: link, title: linkTitle, description: linkDescription, image: linkImage, cache: cache,);
                     }
                     return Center(
                       child: CircularProgressIndicator(),
                     );
                   },
-                ),
+                ) : getCachedNews(),
                 onTap: (){
                   OpenLinks().open(link);
                 },
               ),
-//              Padding(
-//                padding: const EdgeInsets.fromLTRB(8, 3, 8, 3),
-//                child: GestureDetector(
-//                    child: CustomText(text :link).hyperLink(),
-//                    onTap: (){
-//                      OpenLinks().open(link);
-//                    },
-//                ),
-//              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 5, 8, 3),
                 child: CustomText(text :newsBody),
@@ -81,5 +76,16 @@ class NewsContainerUI extends StatelessWidget {
           ),
       ),
     );
+  }
+
+  newsCache(){
+    if(individualChatCache == null) return false;
+    print("individualChatCache[messageId].newsLinkContainer : ${individualChatCache[messageId].newsLinkContainer}");
+    return individualChatCache[messageId].newsLinkContainer != null ;
+  }
+
+  getCachedNews(){
+    print("in getCacheNews");
+    return individualChatCache[messageId].newsLinkContainer;
   }
 }

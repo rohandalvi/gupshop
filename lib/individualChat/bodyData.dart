@@ -248,6 +248,7 @@ class BodyData extends StatelessWidget {
       String newsTitle = individualChatCache[messageId].newsTitle;
       String newsLink = individualChatCache[messageId].newsLink;
 
+      print("from cache");
       return BodyDisplay(
         individualChatCache: individualChatCache,
         readCache: readCache,
@@ -281,6 +282,7 @@ class BodyData extends StatelessWidget {
         messageId : messageId ,
       );
     } else{
+      print("from non cache");
       return FutureBuilder(
           future: FirebaseMethods().getNewsDetailsForDisplay(newsId),
           builder: (context, snapshot) {

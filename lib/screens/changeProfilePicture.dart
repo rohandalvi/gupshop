@@ -1,6 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/chat_list_page/chatListCache.dart';
+import 'package:gupshop/modules/Presence.dart';
+import 'package:gupshop/navigators/navigateToIndividualChat.dart';
+import 'package:gupshop/navigators/navigateToIndividualChatAppBar.dart';
+import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,8 +18,22 @@ class ChangeProfilePicture extends StatefulWidget {
   String userPhoneNo;
   bool viewingFriendsProfile;
   String groupConversationId;
+  Map<String, ChatListCache> chatListCache;
+  String conversationId;
 
-  ChangeProfilePicture({@required this.userName, @required this.viewingFriendsProfile, @required this.userPhoneNo, this.groupConversationId});
+  bool groupExits;
+  List<dynamic> listOfFriendNumbers;
+  final Presence presence;
+  ConversationService conversationService;
+  String friendName;
+  String friendN;
+  bool notGroupMemberAnymore;
+
+  ChangeProfilePicture({@required this.userName, @required this.viewingFriendsProfile,
+    @required this.userPhoneNo, this.groupConversationId, this.chatListCache, this.conversationId,
+    this.listOfFriendNumbers, this.conversationService, this.groupExits, this.presence, this.friendN,
+    this.friendName, this.notGroupMemberAnymore,
+  });
 
   @override
   _ChangeProfilePictureState createState() => _ChangeProfilePictureState(userName: userName, viewingFriendsProfile: viewingFriendsProfile, userPhoneNo: userPhoneNo, groupConversationId: groupConversationId);
@@ -59,7 +78,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
              // Navigator.pop(context);
               /// if navigating to home from here for change of profile picture for groupchat would give wrong username , because the username would pass as the groupName to the homescreen
             if(viewingFriendsProfile == true || groupConversationId != null){/// if its a group chat, then navigate to individualchat and not home
-              Navigator.pop(context);
+              Navigator.pop(context, true);
             } else{
               Navigator.push(
                   context,
@@ -83,7 +102,11 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                     imageUrl = snapshot.data['url'];
                     if(imageUrl == null) imageUrl = 'images/user.png';///this is the placeholder for the 1st time user, test it using an actual phone
 
-                    return ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 360, width: 360,userName: userName, viewingFriendsProfile: viewingFriendsProfile, groupConversationId: groupConversationId,);
+                    return ProfilePictureAndButtonsScreen(
+                      userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 360, width: 360,userName: userName,
+                      viewingFriendsProfile: viewingFriendsProfile, groupConversationId: groupConversationId,
+                      chatListCache: widget.chatListCache, conversationId: widget.conversationId,
+                    );
                   }
               ),
         ),

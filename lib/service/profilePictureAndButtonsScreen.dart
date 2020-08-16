@@ -2,6 +2,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/image/cropImage.dart';
 import 'package:gupshop/image/pickImageFromCamera.dart';
 import 'package:gupshop/image/pickImageFromGallery.dart';
@@ -23,11 +24,14 @@ class ProfilePictureAndButtonsScreen extends StatefulWidget {
   double width;
   bool viewingFriendsProfile;
   String groupConversationId;
+  Map<String, ChatListCache> chatListCache;
+  String conversationId;
   //bool displayPicture;
   //bool applyButtons;
   //bool allowListView;
 
-  ProfilePictureAndButtonsScreen({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName, this.viewingFriendsProfile, this.groupConversationId});
+  ProfilePictureAndButtonsScreen({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName,
+    this.viewingFriendsProfile, this.groupConversationId, this.chatListCache, this.conversationId});
 
   @override
   _ProfilePictureAndButtonsScreenState createState() => _ProfilePictureAndButtonsScreenState(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: height, width:width, userName: userName, viewingFriendsProfile: viewingFriendsProfile, groupConversationId: groupConversationId);
@@ -49,8 +53,10 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
 
   File _galleryImage ;
   File _cameraImage;
+  bool profilePictureChanged;
 
-  _ProfilePictureAndButtonsScreenState({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName, this.viewingFriendsProfile, this.groupConversationId});
+  _ProfilePictureAndButtonsScreenState({this.userPhoneNo, this.imageUrl, this.height, this.width,
+    this.userName, this.viewingFriendsProfile, this.groupConversationId,});
 
 
 
@@ -136,7 +142,8 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
               icon: SvgPicture.asset('images/photoGallery.svg',),
               onPressed: () async{
                 File tempImage = await _pickImageFromGallery(setState);
-                if(userName != null){
+                if(userName != null && tempImage != null){
+//                if(userName != null){
                   if(groupConversationId != null){
                     await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, tempImage);
                   }
@@ -144,6 +151,11 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
                     await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, tempImage);
                     CustomNavigator().navigateToHome(context, userName, userPhoneNo);
                   }
+                  print("chatListCachen profilePicture before : ${widget.chatListCache}");
+                  print("conversationIdprofilePicture : ${widget.conversationId}");
+                  widget.chatListCache.remove(widget.conversationId);
+                  profilePictureChanged = true;
+                  print("chatListCachen profilePicture after : ${widget.chatListCache}");
                 }
               },
             ),

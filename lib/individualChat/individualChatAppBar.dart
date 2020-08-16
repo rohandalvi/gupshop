@@ -4,6 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/individualChat/streamSingleton.dart';
 import 'package:gupshop/modules/Presence.dart';
+import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
+import 'package:gupshop/navigators/navigateToIndividualChatAppBar.dart';
+import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
@@ -12,7 +15,7 @@ import 'package:gupshop/widgets/customDialogBox.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class IndividualChatAppBar extends StatelessWidget {
+class IndividualChatAppBar extends StatefulWidget {
   String userName;
   String userPhoneNo;
   bool groupExits;
@@ -32,6 +35,19 @@ class IndividualChatAppBar extends StatelessWidget {
   });
 
   @override
+  _IndividualChatAppBarState createState() => _IndividualChatAppBarState();
+}
+
+class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
+  bool checkCache;
+
+  @override
+  void initState() {
+    checkCache = widget.chatListCache.containsKey(widget.conversationId);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: secondryColor.withOpacity(.03),
@@ -40,10 +56,10 @@ class IndividualChatAppBar extends StatelessWidget {
           icon: SvgPicture.asset('images/backArrowColor.svg',),
           onPressed:() async{
             /// on back navigation.
-            print("hashcode in indivichat : ${conversationService.hashCode}");
-            await conversationService.disableActiveSubscription();
+            print("hashcode in indivichat : ${widget.conversationService.hashCode}");
+            await widget.conversationService.disableActiveSubscription();
             //streamSingleton.setStream(null);
-            CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+            CustomNavigator().navigateToHome(context, widget.userName, widget.userPhoneNo);
           }
       ),
       title: Material(
@@ -52,28 +68,30 @@ class IndividualChatAppBar extends StatelessWidget {
           //EdgeInsets.only(top: 4),
           leading: GestureDetector(
             onTap: (){
-              if(groupExits){
+              if(widget.groupExits){
                 /// if  its a group, then change profile picture can be done by anyone
-                CustomNavigator().navigateToChangeProfilePicture(context, friendName,  false, friendN, conversationId);/// if its a group then profile pictures are searched using conversationId
+
+                changeProfilePicture(context);
                 /// if curfew on for group then  change profile picture can be done by only by admin
 //                if(iAmAdmin == true){
 //                  CustomNavigator().navigateToChangeProfilePicture(context, friendName,  false, friendN, conversationId);/// if its a group then profile pictures are searched using conversationId
 //                }
               }
-              else CustomNavigator().navigateToChangeProfilePicture(context, friendName,  true, friendN, null);/// if its a group then profile pictures are searched using conversationId
+              else CustomNavigator().navigateToChangeProfilePicture(context, widget.friendName,  true, widget.friendN, null);/// if its a group then profile pictures are searched using conversationId
             },
             child: displayPictureAvatar(),
           ) ,
           title: GestureDetector(
-              child: CustomText(text: friendName,),
+              child: CustomText(text: widget.friendName,),
               onTap:(){
-                if(groupExits == true && notGroupMemberAnymore == false){
-                  DialogHelper(userNumber: userPhoneNo, listOfGroupMemberNumbers: listOfFriendNumbers, conversationId: conversationId, isGroup: groupExits).customShowDialog(context);
+                if(widget.groupExits == true && widget.notGroupMemberAnymore == false){
+                  DialogHelper(userNumber: widget.userPhoneNo, listOfGroupMemberNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, isGroup: widget.groupExits).customShowDialog(context);
                 }
               }
           ),
           //CustomText(text: presence.getStatus(friendN)).subTitle()
-          subtitle: new CustomFutureBuilder(future: presence.getStatus(friendN), dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle()),
+          //subtitle: new CustomText(text: ,)
+          //CustomFutureBuilder(future: presence.getStatus(friendN), dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle()),
           trailing: Wrap(
             children: <Widget>[
               IconButton(
@@ -90,20 +108,43 @@ class IndividualChatAppBar extends StatelessWidget {
   }
 
   displayPictureAvatar(){
+    print("in displayAvatar");
     /// take value from chatListCache
+
 
     /// if the chat is coming from bazaar then chatListCache would be
     /// be null, hence this check chatListCache != null
-    if(chatListCache != null) {
-      return chatListCache.containsKey(conversationId) == true ?
-      chatListCache[conversationId].circleAvatar :
-      friendN == null
+    if(widget.chatListCache != null) {
+      return widget.chatListCache.containsKey(widget.conversationId) == true ?
+      widget.chatListCache[widget.conversationId].circleAvatar :
+      widget.friendN == null
           ? DisplayAvatar().avatarPlaceholder(25, 23.5)
-          : DisplayAvatar().displayAvatarFromFirebase(friendN, 25, 23.5, false);
+          : DisplayAvatar().displayAvatarFromFirebase(widget.friendN, 25, 23.5, false);
     }else{
-      return friendN == null
+      return widget.friendN == null
           ? DisplayAvatar().avatarPlaceholder(25, 23.5)
-          : DisplayAvatar().displayAvatarFromFirebase(friendN, 25, 23.5, false);
+          : DisplayAvatar().displayAvatarFromFirebase(widget.friendN, 25, 23.5, false);
     }
+  }
+
+  changeProfilePicture(BuildContext context) async{
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChangeProfilePicture(
+            userName: widget.friendName,
+            viewingFriendsProfile:false,
+            userPhoneNo: widget.friendN,
+            groupConversationId: widget.conversationId,
+            conversationId: widget.conversationId,
+            chatListCache: widget.chatListCache,),//pass Name() here and pass Home()in name_screen
+        )
+    );
+    print("in helper");
+    setState(() {
+      checkCache = false;
+    });
+
+    return result;
   }
 }

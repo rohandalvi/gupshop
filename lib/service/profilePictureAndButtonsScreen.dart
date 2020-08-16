@@ -62,7 +62,18 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
 
   @override
   Widget build(BuildContext context) {
-        return pictureAndFlushbar(context, _galleryImage, _cameraImage);
+        return dpAndOptions();
+          //pictureAndFlushbar(context, _galleryImage, _cameraImage);
+  }
+
+  dpAndOptions(){
+    return Scaffold(
+      body: displayPicture(imageUrl, _galleryImage, _cameraImage, height, width, context),
+      bottomSheet: Visibility(
+          visible: viewingFriendsProfile == false,
+          child: galleryApplyCameraButtons(context, _galleryImage, _cameraImage)
+      ),
+    );
   }
 
   ///uses displayPicture and galleryApplyCameraButtons methods

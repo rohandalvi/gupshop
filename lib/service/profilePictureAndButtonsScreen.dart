@@ -78,33 +78,33 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
 
   ///uses displayPicture and galleryApplyCameraButtons methods
   ///when the user taps the picture then only the galleryApplyCameraButtons get displayed
-  pictureAndFlushbar(BuildContext context, File _galleryImage, File _cameraImage){
-            return Container(
-              //padding: EdgeInsets.only(top: 10),//make child as cirularprogressindicator
-              child : GestureDetector(
-                  child: displayPicture(imageUrl, _galleryImage, _cameraImage, height, width, context),
-
-                  onTap: (){
-                    if(isClicked == false && viewingFriendsProfile == false){
-                      isClicked = true;
-                      return Flushbar(
-                        padding : EdgeInsets.all(10),
-                        borderRadius: 8,
-                        backgroundColor: Colors.white,
-
-                        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-
-                        forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-                        titleText: galleryApplyCameraButtons(context, _galleryImage, _cameraImage),
-                        message: 'Change',
-
-                      )..show(context);
-                    } return Container();
-                  },
-                )
-
-              );
-  }
+//  pictureAndFlushbar(BuildContext context, File _galleryImage, File _cameraImage){
+//            return Container(
+//              //padding: EdgeInsets.only(top: 10),//make child as cirularprogressindicator
+//              child : GestureDetector(
+//                  child: displayPicture(imageUrl, _galleryImage, _cameraImage, height, width, context),
+//
+//                  onTap: (){
+//                    if(isClicked == false && viewingFriendsProfile == false){
+//                      isClicked = true;
+//                      return Flushbar(
+//                        padding : EdgeInsets.all(10),
+//                        borderRadius: 8,
+//                        backgroundColor: Colors.white,
+//
+//                        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+//
+//                        forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+//                        titleText: galleryApplyCameraButtons(context, _galleryImage, _cameraImage),
+//                        message: 'Change',
+//
+//                      )..show(context);
+//                    } return Container();
+//                  },
+//                )
+//
+//              );
+//  }
 
 
   ///when the image gets displayed in the changeProfilePage then that would be the image
@@ -162,11 +162,10 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
                     await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, tempImage);
                     CustomNavigator().navigateToHome(context, userName, userPhoneNo);
                   }
-                  print("chatListCachen profilePicture before : ${widget.chatListCache}");
-                  print("conversationIdprofilePicture : ${widget.conversationId}");
+
                   widget.chatListCache.remove(widget.conversationId);
                   profilePictureChanged = true;
-                  print("chatListCachen profilePicture after : ${widget.chatListCache}");
+
                 }
               },
             ),
@@ -175,7 +174,8 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
               icon: SvgPicture.asset('images/image2vector.svg',),
               onPressed: () async{
                 File tempImage = await _pickImageFromCamer(setState);
-                if(userName != null){
+                if(userName != null && tempImage != null){
+                //if(userName != null){
                   if(groupConversationId != null){
                     await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, tempImage);
                   }
@@ -184,6 +184,8 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
                     print("in onPressed of showPictureAndChangeButton: $userName");
                     CustomNavigator().navigateToHome(context, userName, userPhoneNo);
                   }
+                  widget.chatListCache.remove(widget.conversationId);
+                  profilePictureChanged = true;
                 }
               },
             ),

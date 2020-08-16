@@ -243,16 +243,11 @@ class _BodyDisplayState extends State<BodyDisplay> {
   }
 
   getCachedMessageContainer(){
-    print("returning cache");
-    print("messageContainer ${widget.messageId}: ${widget.individualChatCache[widget.messageId].messageContainer}");
     return widget.individualChatCache[widget.messageId].messageContainer;
   }
 
   messageCached(){
-    print("(widget.individualChatCache : ${widget.individualChatCache == null}");
     if(widget.individualChatCache == null) return false;
-    print("messageId in bodyDisplay : ${widget.messageId}");
-    print("widget.individualChatCache.containsKey : ${widget.individualChatCache.containsKey("messageId")}");
     return widget.individualChatCache.containsKey(widget.messageId);
   }
 }

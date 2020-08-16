@@ -28,7 +28,6 @@ class FriendReadStatus{
   }
 
   readStream(BuildContext context, Map<String, bool>readCache, String messageId, bool isMe){
-    print("listOfFriends in friendReadStatus : $listOfFriends");
     int trueCount=0;
     bool collectiveRead= false;
     for(int i =0; i<listOfFriends.length; i++){
@@ -51,7 +50,6 @@ class FriendReadStatus{
                   if(trueCount == listOfFriends.length) collectiveRead = true;
                   if(collectiveRead == true){
                     readCache[messageId] = true;
-                    print("everyone has read");
                     return ReadUnreadDisplay(context: context, isRead: collectiveRead, isMe: isMe);
                   }
                 }

@@ -180,8 +180,10 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
             /// here we are not taking the read data from bodyDisplay class but
             /// we are directly getting the data from ListOfFriendStatusReadStatus
             /// to decouple the display and lessen the latency
-            widget.readCache[widget.messageId] == false ?FriendReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId, conversationsLatestMessageTimestamp: widget.timestamp).readStream(context, widget.readCache, widget.messageId, widget.isMe)
-            : readUnreadContainer(context, widget.readCache[widget.messageId]),
+            read(),
+//            widget.readCache[widget.messageId] == false ?FriendReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId,
+//            conversationsLatestMessageTimestamp: widget.timestamp).readStream(context, widget.readCache, widget.messageId, widget.isMe)
+//            : readUnreadContainer(context, widget.readCache[widget.messageId]),
           ],
         );
   }
@@ -197,5 +199,12 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
               child: isRead == true ? CustomText(text: 'read',).blueSubtitle() : CustomText(text: 'unread',fontSize: 12,).graySubtitleItalic(),
             ),
     );
+  }
+
+  read(){
+    if(widget.readCache != null && widget.readCache.containsKey(widget.messageId)){
+      return FriendReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId,
+            conversationsLatestMessageTimestamp: widget.timestamp).readStream(context, widget.readCache, widget.messageId, widget.isMe);
+    } return readUnreadContainer(context, widget.readCache[widget.messageId]);
   }
 }

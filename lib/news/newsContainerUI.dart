@@ -26,8 +26,10 @@ class NewsContainerUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      //height: MediaQuery.of(context).size.height * 0.5,
 //      height: 250,
-      width: 290,
+      width: MediaQuery.of(context).size.width * 0.7,
+      //290,
       child: Card(
 //          elevation: 0,
 //          shape: RoundedRectangleBorder(
@@ -80,12 +82,10 @@ class NewsContainerUI extends StatelessWidget {
 
   newsCache(){
     if(individualChatCache == null) return false;
-    print("individualChatCache[messageId].newsLinkContainer : ${individualChatCache[messageId].newsLinkContainer}");
     return individualChatCache[messageId].newsLinkContainer != null ;
   }
 
   getCachedNews(){
-    print("in getCacheNews");
     return individualChatCache[messageId].newsLinkContainer;
   }
 }

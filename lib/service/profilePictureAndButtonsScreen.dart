@@ -45,9 +45,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   double width;
   bool viewingFriendsProfile;
   String groupConversationId;
-//  bool showPicture;
-//  bool applyButtons;
-//  bool allowListView;
+
 
   bool isClicked = false;
 

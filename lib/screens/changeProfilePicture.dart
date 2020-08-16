@@ -21,18 +21,9 @@ class ChangeProfilePicture extends StatefulWidget {
   Map<String, ChatListCache> chatListCache;
   String conversationId;
 
-  bool groupExits;
-  List<dynamic> listOfFriendNumbers;
-  final Presence presence;
-  ConversationService conversationService;
-  String friendName;
-  String friendN;
-  bool notGroupMemberAnymore;
 
   ChangeProfilePicture({@required this.userName, @required this.viewingFriendsProfile,
     @required this.userPhoneNo, this.groupConversationId, this.chatListCache, this.conversationId,
-    this.listOfFriendNumbers, this.conversationService, this.groupExits, this.presence, this.friendN,
-    this.friendName, this.notGroupMemberAnymore,
   });
 
   @override

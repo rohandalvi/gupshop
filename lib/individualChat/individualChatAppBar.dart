@@ -43,7 +43,10 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
 
   @override
   void initState() {
-    checkCache = widget.chatListCache.containsKey(widget.conversationId);
+    if(widget.chatListCache != null){/// to avoid The method 'containsKey' was called on null.
+      checkCache = widget.chatListCache.containsKey(widget.conversationId);
+    }
+
     super.initState();
   }
 
@@ -68,14 +71,9 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
           //EdgeInsets.only(top: 4),
           leading: GestureDetector(
             onTap: (){
-              if(widget.groupExits){
+              if(isGroup()){
                 /// if  its a group, then change profile picture can be done by anyone
-
                 changeProfilePicture(context);
-                /// if curfew on for group then  change profile picture can be done by only by admin
-//                if(iAmAdmin == true){
-//                  CustomNavigator().navigateToChangeProfilePicture(context, friendName,  false, friendN, conversationId);/// if its a group then profile pictures are searched using conversationId
-//                }
               }
               else CustomNavigator().navigateToChangeProfilePicture(context, widget.friendName,  true, widget.friendN, null);/// if its a group then profile pictures are searched using conversationId
             },
@@ -84,14 +82,14 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
           title: GestureDetector(
               child: CustomText(text: widget.friendName,),
               onTap:(){
-                if(widget.groupExits == true && widget.notGroupMemberAnymore == false){
-                  DialogHelper(userNumber: widget.userPhoneNo, listOfGroupMemberNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, isGroup: widget.groupExits).customShowDialog(context);
+                if(isGroup()){//widget.groupExits == true && widget.notGroupMemberAnymore == false){
+                  DialogHelper(userNumber: widget.userPhoneNo, listOfGroupMemberNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, isGroup: isIndividual()).customShowDialog(context);
                 }
               }
           ),
-          //CustomText(text: presence.getStatus(friendN)).subTitle()
-          //subtitle: new CustomText(text: ,)
-          //CustomFutureBuilder(future: presence.getStatus(friendN), dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle()),
+          subtitle:Visibility(
+              visible: isIndividual(),//widget.groupExits == false,////
+              child: CustomFutureBuilder(future: widget.presence.getStatus(widget.friendN), dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle())),
           trailing: Wrap(
             children: <Widget>[
               IconButton(
@@ -107,8 +105,10 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
     );
   }
 
+  bool isIndividual() => widget.groupExits == false;
+  bool isGroup() => widget.groupExits == true && widget.notGroupMemberAnymore == false;
+
   displayPictureAvatar(){
-    print("in displayAvatar");
     /// take value from chatListCache
 
 
@@ -140,7 +140,6 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
             chatListCache: widget.chatListCache,),//pass Name() here and pass Home()in name_screen
         )
     );
-    print("in helper");
     setState(() {
       checkCache = false;
     });

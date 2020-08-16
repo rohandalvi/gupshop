@@ -120,7 +120,7 @@ class ChatListDisplay extends StatelessWidget {
 
 
   cacheAvatar(){
-    print("cache in cacheAvatar : ${chatListCache["vI42xysaLTh2tygLyKaD"].isGroup}");
+    //print("cache in cacheAvatar : ${chatListCache["vI42xysaLTh2tygLyKaD"].isGroup}");
     return chatListCache[conversationId].circleAvatar;
   }
 

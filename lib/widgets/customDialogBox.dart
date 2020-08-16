@@ -42,13 +42,13 @@ class ContainerForDialogBox extends StatelessWidget{
   }
 }
 
-class DialogHelper{
+class groupMemberDialogHelper{
   String userNumber;
   List<dynamic> listOfGroupMemberNumbers;
   String conversationId;
   bool isGroup;
 
-  DialogHelper({@required this.userNumber, @required this.listOfGroupMemberNumbers, @required this.conversationId, this.isGroup});
+  groupMemberDialogHelper({@required this.userNumber, @required this.listOfGroupMemberNumbers, @required this.conversationId, this.isGroup});
 
   customShowDialog(BuildContext context){
     return showDialog(

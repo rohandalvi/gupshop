@@ -82,8 +82,8 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
           title: GestureDetector(
               child: CustomText(text: widget.friendName,),
               onTap:(){
-                if(isGroup()){//widget.groupExits == true && widget.notGroupMemberAnymore == false){
-                  DialogHelper(userNumber: widget.userPhoneNo, listOfGroupMemberNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, isGroup: isIndividual()).customShowDialog(context);
+                if(isGroup()){
+                  groupMemberDialogHelper(userNumber: widget.userPhoneNo, listOfGroupMemberNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, isGroup: isIndividual()).customShowDialog(context);
                 }
               }
           ),

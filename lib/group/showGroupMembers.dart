@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/group/changeGroupName.dart';
 import 'package:gupshop/updateInFirebase/addNewGroupMember.dart';
@@ -75,26 +76,24 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
                   if (snapshot.connectionState == ConnectionState.done) {
                     String groupName = snapshot.data;
                     String newGroupName;
-                    return CustomTextFormField(
-                      onChanged:(val){
-                        newGroupName= val;
-                      },
-                      onFieldSubmitted:(result){
-                        print("in onFieldSubmitted");
-                        setState(() {
-                          groupName = newGroupName;
-                        });
-                        print("groupName: $groupName");
-                        ChangeGroupName().changeName(widget.listOfGroupMemberNumbers, widget.conversationId, groupName);
-                      } ,
-                      onSaved:(change){
-                        print("onchange");
-                      },
-                      initialValue: groupName,
-                      labelText: 'Change group name',
-                      //maxLength: 20,
-                      enabledBorder: null,
-                    );
+                    return CustomText(text: groupName,textColor: primaryColor,);
+//                      CustomTextFormField(
+//                      onChanged:(val){
+//                        newGroupName= val;
+//                      },
+//                      onFieldSubmitted:(result){
+//                        setState(() {
+//                          groupName = newGroupName;
+//                        });
+//                        ChangeGroupName().changeName(widget.listOfGroupMemberNumbers, widget.conversationId, groupName);
+//                      } ,
+//                      onSaved:(change){
+//                      },
+//                      initialValue: groupName,
+//                      labelText: 'Change group name',
+//                      //maxLength: 20,
+//                      enabledBorder: null,
+//                    );
                   }return Center(
                     child: CircularProgressIndicator(),
                   );

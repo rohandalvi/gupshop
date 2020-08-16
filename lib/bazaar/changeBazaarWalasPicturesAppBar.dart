@@ -16,7 +16,7 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
     return CustomAppBar(
       title: CustomText(text: 'Become a Bazaarwala', fontSize: 20,),
       onPressed:(){
-        Navigator.pop(context);
+        //Navigator.pop(context);
       },
       actions: <Widget>[
         /// CustomIconButton needs to be wrapped in a builder to pass

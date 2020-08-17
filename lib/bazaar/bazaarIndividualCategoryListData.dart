@@ -70,12 +70,14 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
                   String name;
                   String thumbnailPicture;
 
+
                   return FutureBuilder(
                     future: GetBazaarWalasBasicProfileInfo(userNumber: bazaarWalaPhoneNo).getNameAndThumbnailPicture(),
                     builder: (BuildContext context, AsyncSnapshot nameSnapshot) {
                       if (nameSnapshot.connectionState == ConnectionState.done) {
                         name = nameSnapshot.data["name"];
                         thumbnailPicture = nameSnapshot.data["thumbnailPicture"];
+                        if(thumbnailPicture == null ) thumbnailPicture = PlaceHolderImages().noDpPlaceholder;
                         return BazaarIndividualCategoryListDisplay(
                           bazaarWalaName: name,
                           bazaarWalaPhoneNo: bazaarWalaPhoneNo,

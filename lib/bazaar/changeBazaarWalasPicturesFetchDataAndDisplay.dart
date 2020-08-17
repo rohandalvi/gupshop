@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/changeBazaarWalasPicturesDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
-import 'package:gupshop/widgets/customRaisedButton.dart';
-import 'package:gupshop/widgets/customText.dart';
 
 class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
   @override

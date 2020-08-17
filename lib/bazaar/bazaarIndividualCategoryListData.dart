@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/bazaar/placeHolderImages.dart';
 import 'package:gupshop/navigators/navigateToBazaarHomeScreen.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
@@ -24,6 +25,9 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
   Future userPhoneNoFuture;
   String _userPhoneNo;
   List<DocumentSnapshot> list;
+
+  String bazaarWalaPhoneNo;
+  int numberOfBazaarWalasInList;
 
   getListOfBazaarWalasInAGivenRadius() async{
     var userPhoneNo = await GetSharedPreferences().getUserPhoneNoFuture();//get user phone no
@@ -53,8 +57,8 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
         if (snapshot.data == null)
           return Container(child: Center(child: CustomText(text: 'No ${category}s near you', fontSize: 35,).bold())); //for avoding  the erro
 
-        String bazaarWalaPhoneNo = snapshot.data[0].documentID;
-        int numberOfBazaarWalasInList = snapshot.data.length; ///for listView builder's itemcount
+        bazaarWalaPhoneNo = snapshot.data[0].documentID;
+        numberOfBazaarWalasInList = snapshot.data.length; ///for listView builder's itemcount
 
         return ListView.builder(
           itemCount: numberOfBazaarWalasInList,
@@ -79,9 +83,13 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
                           thumbnailPicture: thumbnailPicture,
                         );
                       }
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      return Center(child: CircularProgressIndicator());
+//                        BazaarIndividualCategoryListDisplay(
+//                        bazaarWalaName: category.toString(),
+//                        bazaarWalaPhoneNo: bazaarWalaPhoneNo,
+//                        category: category,
+//                        thumbnailPicture: PlaceHolderImages().bazaarWalaThumbnailPicture,
+//                      );
                     },
                   );
                 }
@@ -90,11 +98,25 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
 
           );
         }
-        return CircularProgressIndicator();
+        return //listOfBazaarWalasPlaceholder(numberOfBazaarWalasInList, bazaarWalaPhoneNo);
+          Center(child: CircularProgressIndicator());
         }
       ),
     );
   }
 
+  listOfBazaarWalasPlaceholder(int numberOfBazaarWalasInList, String bazaarWalaPhoneNo){
+    return ListView.builder(
+        itemCount: 1,
+        itemBuilder: (BuildContext context, int index){
+          return BazaarIndividualCategoryListDisplay(
+            bazaarWalaName: category.toString(),
+            bazaarWalaPhoneNo: bazaarWalaPhoneNo,
+            category: category,
+            thumbnailPicture: PlaceHolderImages().bazaarWalaThumbnailPicture,
+          );
+        }
+    );
+  }
 
 }

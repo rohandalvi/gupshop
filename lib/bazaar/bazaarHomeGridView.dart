@@ -32,7 +32,6 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
                 itemBuilder: (BuildContext context, int index){
                   String catergoryName = snapshot.data.documents[index].data['name'];
                   String categoryNameForBazaarIndividualCategoryList = snapshot.data.documents[index].documentID;
-                  print("categoryNameForBazaarIndividualCategoryList : $categoryNameForBazaarIndividualCategoryList");
                   String image = snapshot.data.documents[index].data['icon'];
 
                   return Container(

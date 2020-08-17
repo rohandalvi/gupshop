@@ -52,6 +52,7 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    print("friendN : ${widget.friendN}");
     return AppBar(
       backgroundColor: secondryColor.withOpacity(.03),
       elevation: 0,
@@ -88,7 +89,8 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
               }
           ),
           subtitle:Visibility(
-              visible: isIndividual(),//widget.groupExits == false,////
+              visible: isIndividual(),
+              //isIndividualNonBazaarContact(),//widget.groupExits == false,////
               child: CustomFutureBuilder(future: widget.presence.getStatus(widget.friendN), dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle())),
           trailing: Wrap(
             children: <Widget>[
@@ -107,6 +109,10 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
 
   bool isIndividual() => widget.groupExits == false;
   bool isGroup() => widget.groupExits == true && widget.notGroupMemberAnymore == false;
+
+  /// when an individualChat is created as a result of bazaar, we dont share their numbers
+  /// to each other, so here friendN would be null.
+  bool isIndividualNonBazaarContact() => widget.groupExits == false && widget.friendN != null;
 
   displayPictureAvatar(){
     /// take value from chatListCache

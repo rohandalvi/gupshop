@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 class FindFriendNumber{
 
   friendNumber(List<dynamic> memberList, String myNumber){
@@ -6,7 +8,10 @@ class FindFriendNumber{
       if(memberList[i] != myNumber) {
         return memberList[i];
       }
-    }
+    }return myNumber;/// for chatting with self
+
+//  Set set = new HashSet();
+//  set.addAll(memberList);
 
   }
 
@@ -17,7 +22,7 @@ class FindFriendNumber{
       if(memberList[i] != myNumber) {
         friendNumberList.add(memberList[i]);
       }
-    }
+    }if(friendNumberList.isEmpty) friendNumberList.add(myNumber);/// for chatting with self
     return friendNumberList;
   }
 

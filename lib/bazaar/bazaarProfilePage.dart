@@ -203,7 +203,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                               future: GetCategoriesFromCategoriesMetadata().selectedCategories(),
                               builder: (BuildContext context, AsyncSnapshot categorySnapshot) {
                                 if (categorySnapshot.connectionState == ConnectionState.done) {
-                                  print("categories in getCategory : ${categorySnapshot}");
                                   /// if the user does not have bazaar profile yet:
 //
                                   /// Below line giving error:

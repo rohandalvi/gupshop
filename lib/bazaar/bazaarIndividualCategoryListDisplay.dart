@@ -4,6 +4,7 @@ import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/retriveFromFirebase/getConversationIdFromConversationMetadataCollection.dart';
+import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -71,7 +72,8 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                                 String userNumber = await UserDetails().getUserPhoneNoFuture();
                                 String userName = await UserDetails().getUserNameFuture();
 
-                                String conversationId = await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber, friendNumber: bazaarWalaPhoneNo).getIndividualChatId();
+                                String conversationId = await GetFromFriendsCollection(userNumber: userNumber,friendNumber: bazaarWalaPhoneNo).getConversationId();
+                                //await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber, friendNumber: bazaarWalaPhoneNo).getIndividualChatId();
 
                                 NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
                                     listOfFriendsNumbers: listOfFriendsNumbers, friendName: bazaarWalaName,

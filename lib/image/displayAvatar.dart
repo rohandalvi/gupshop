@@ -50,7 +50,8 @@ class DisplayAvatar{
           }
           catch (e){
             print("in catch");
-            imageUrl = 'images/user.png';
+            imageUrl = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/user.png?alt=media&token=28bcfc15-31da-4847-8f7c-efdd60428714";
+            //imageUrl = 'images/user.png';
             isFirstTime = true;
           }
           return customCircleAvatar(imageUrl, radius, innerRadius);
@@ -71,7 +72,8 @@ class DisplayAvatar{
           }
           catch (e){
             print("in catch");
-            imageUrl = 'images/user.png';
+            imageUrl = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/user.png?alt=media&token=28bcfc15-31da-4847-8f7c-efdd60428714";
+            //imageUrl = 'images/user.png';
             isFirstTime = true;
           }
           CircleAvatar avatar=  customCircleAvatar(imageUrl, radius, innerRadius);

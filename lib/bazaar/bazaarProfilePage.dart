@@ -200,11 +200,19 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             FutureBuilder(
-                              future: GetCategoriesFromCategoriesMetadata().main(),
+                              future: GetCategoriesFromCategoriesMetadata().selectedCategories(),
                               builder: (BuildContext context, AsyncSnapshot categorySnapshot) {
                                 if (categorySnapshot.connectionState == ConnectionState.done) {
+                                  print("categories in getCategory : ${categorySnapshot}");
                                   /// if the user does not have bazaar profile yet:
-                                  Map<String, List> categories = categorySnapshot.data;
+//
+                                  /// Below line giving error:
+                                  /// type '_InternalLinkedHashMap<String, dynamic>' is not a subtype
+                                  /// of type 'Map<String, List<dynamic>>'
+                                  /// so using var categories insted
+                                  /// **** Map<String, List<dynamic>> categories = categorySnapshot.data; ****
+                                  var categories = categorySnapshot.data;
+
                                   if(categorySnapshot.data != null){
                                     categoriesForBazaarWalasBasicProfile = categories["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
                                   }
@@ -286,6 +294,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
           if(locationSelected == true && videoSelected == true && isCategorySelected == true){
             await uploadToVideoCollection();
 
+
             await pushTobazaarWalasLocationCategory();
 
             ///push to bazaarWalasBasicProfile
@@ -294,7 +303,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
               userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
               isVideo.videoURL, isLocation.latitude, isLocation.longitude,);
 
-
+            print("categories in bazaarProfilePage : ${categoriesForBazaarWalasBasicProfile}");
             await PushToCategoriesMatedata(userNumber: userPhoneNo, categories: categoriesForBazaarWalasBasicProfile).push();
 
             /// saving user as a bazaarwala in his shared preferences

@@ -8,9 +8,10 @@ class ViewProfileAsBazaarWalaData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: GetCategoriesFromCategoriesMetadata().main(),
+      future: GetCategoriesFromCategoriesMetadata().selectedCategories(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          print("snapshot.data in  viewProfile : ${snapshot.data}");
 
           int categoriesLength = snapshot.data["categories"].length;
 

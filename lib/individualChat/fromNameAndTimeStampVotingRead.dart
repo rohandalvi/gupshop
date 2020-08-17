@@ -60,6 +60,10 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
                         fakeByCount = snapshot.data["fakeBy"];
                       }
 
+                      if(reportedByCount == null) reportedByCount =0;
+                      if(trueByCount == null) trueByCount = 0;
+                      if(fakeByCount == null) fakeByCount = 0;
+
                       return TrueFakeVotingIconsUI(
                         isMe: widget.isMe,
                         count1: reportedByCount.toString(),

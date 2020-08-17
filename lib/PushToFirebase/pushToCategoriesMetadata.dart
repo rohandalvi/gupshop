@@ -9,6 +9,6 @@ class PushToCategoriesMatedata{
   push() async{
     print("in PushToCategoriesMatedata");
     print("categories : $categories");
-    await Firestore.instance.collection("bazaarCategoriesMetadata").document(userNumber).setData({'categories':categories});
+    await Firestore.instance.collection("bazaarCategoriesMetadata").document(userNumber).setData({'categories':categories}, merge: true);
   }
 }

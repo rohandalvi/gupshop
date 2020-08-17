@@ -92,7 +92,7 @@ class _IndividualChatState extends State<IndividualChat> {
   VideoPlayerController controller;
 
   String friendN;
-  var groupExits;
+  bool groupExits;
   String groupName;
 
   ConversationService conversationService;
@@ -156,7 +156,6 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
   forwardMessages(String conversationId) async{
-    print("listOfFriends : $listOfFriendNumbers");
     await checkIfGroup();
     if(forwardMessage != null) {
 

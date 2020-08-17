@@ -18,7 +18,6 @@ class CustomFutureBuilder extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(snapshot.connectionState == ConnectionState.done) {
 
-          print("Snapshot ${snapshot.data}");
           switch(dataReadyWidgetType) {
             case CustomText: return new CustomText(text: snapshot.data!=null ? snapshot.data : "").subTitle(); //TODO - change this text message to actual snapshot.data;
             default: throw new Exception("Widget type not supported by this custom future builder");

@@ -111,6 +111,7 @@ class ChatListDisplay extends StatelessWidget {
                     userPhoneNo: myNumber,
                     listOfFriendNumbers: friendNumberList,
                     notGroupMemberAnymore: notAGroupMemberAnymore,
+
                   ), //pass Name() here and pass Home()in name_screen
             )
         );

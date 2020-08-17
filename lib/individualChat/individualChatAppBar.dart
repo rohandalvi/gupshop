@@ -107,7 +107,7 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
     );
   }
 
-  bool isIndividual() => widget.groupExits == false;
+  bool isIndividual() => widget.groupExits == false ||  widget.groupExits == null;/// a group will have groupExits== null because in database we are storing it as null
   bool isGroup() => widget.groupExits == true && widget.notGroupMemberAnymore == false;
 
   /// when an individualChat is created as a result of bazaar, we dont share their numbers

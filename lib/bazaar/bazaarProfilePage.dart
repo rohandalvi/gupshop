@@ -212,7 +212,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                                   /// **** Map<String, List<dynamic>> categories = categorySnapshot.data; ****
                                   var categories = categorySnapshot.data;
 
-                                  if(categorySnapshot.data != null){
+                                  print("categories in bazaarProfilePage : ${categories.isEmpty}");
+                                  if(categories != null && categories.isEmpty == false){
+                                  //if(categorySnapshot.data != null){
                                     categoriesForBazaarWalasBasicProfile = categories["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
                                   }
                                   ///create map here:

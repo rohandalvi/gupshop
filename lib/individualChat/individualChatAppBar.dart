@@ -61,7 +61,9 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
           onPressed:() async{
             /// on back navigation.
             print("hashcode in indivichat : ${widget.conversationService.hashCode}");
-            await widget.conversationService.disableActiveSubscription();
+            if(widget.notGroupMemberAnymore == false){
+              await widget.conversationService.disableActiveSubscription();
+            }
             //streamSingleton.setStream(null);
             CustomNavigator().navigateToHome(context, widget.userName, widget.userPhoneNo);
           }
@@ -84,7 +86,7 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
               child: CustomText(text: widget.friendName,),
               onTap:(){
                 if(isGroup()){
-                  groupMemberDialogHelper(userNumber: widget.userPhoneNo, listOfGroupMemberNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, isGroup: isIndividual()).customShowDialog(context);
+                  groupMemberDialogHelper(userNumber: widget.userPhoneNo, listOfGroupMemberNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, isGroup: widget.groupExits).customShowDialog(context);
                 }
               }
           ),
@@ -113,6 +115,7 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
   /// when an individualChat is created as a result of bazaar, we dont share their numbers
   /// to each other, so here friendN would be null.
   bool isIndividualNonBazaarContact() => widget.groupExits == false && widget.friendN != null;
+
 
   displayPictureAvatar(){
     /// take value from chatListCache

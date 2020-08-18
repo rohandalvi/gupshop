@@ -76,24 +76,25 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
                   if (snapshot.connectionState == ConnectionState.done) {
                     String groupName = snapshot.data;
                     String newGroupName;
-                    return CustomText(text: groupName,textColor: primaryColor,);
-//                      CustomTextFormField(
-//                      onChanged:(val){
-//                        newGroupName= val;
-//                      },
-//                      onFieldSubmitted:(result){
-//                        setState(() {
-//                          groupName = newGroupName;
-//                        });
-//                        ChangeGroupName().changeName(widget.listOfGroupMemberNumbers, widget.conversationId, groupName);
-//                      } ,
-//                      onSaved:(change){
-//                      },
-//                      initialValue: groupName,
-//                      labelText: 'Change group name',
-//                      //maxLength: 20,
-//                      enabledBorder: null,
-//                    );
+                    return
+                      //CustomText(text: groupName,textColor: primaryColor,);
+                      CustomTextFormField(
+                      onChanged:(val){
+                        newGroupName= val;
+                      },
+                      onFieldSubmitted:(result){
+                        setState(() {
+                          groupName = newGroupName;
+                        });
+                        ChangeGroupName().changeName(widget.listOfGroupMemberNumbers, widget.conversationId, groupName);
+                      } ,
+                      onSaved:(change){
+                      },
+                      initialValue: groupName,
+                      labelText: 'Change group name',
+                      //maxLength: 20,
+                      enabledBorder: null,
+                    );
                   }return Center(
                     child: CircularProgressIndicator(),
                   );

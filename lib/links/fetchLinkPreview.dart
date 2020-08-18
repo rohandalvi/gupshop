@@ -26,6 +26,7 @@ class FetchLinkPreviewData{
 
       if(tmp.attributes['property'] == 'og:image'){
         image = tmp.attributes['content'];
+        /// adding place holder when no URI host specified
       }
     });
 

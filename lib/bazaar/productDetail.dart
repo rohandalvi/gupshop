@@ -9,6 +9,7 @@ import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRating
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
+import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 
 class ProductDetail extends StatefulWidget {
   final String productWalaName;
@@ -187,7 +188,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                             TabBarView(
                               controller: imagesController,
                               children: <Widget>[
-                                CustomVideoPlayer(videoURL: videoURL,),
+                                CustomVideoPlayerThumbnail(videoURL: videoURL,),
+                                //CustomVideoPlayer(videoURL: videoURL,),
                                 Image(
                                   image: NetworkImage(thumbnailPicture),
                                 ),

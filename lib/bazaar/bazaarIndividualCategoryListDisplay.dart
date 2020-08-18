@@ -19,6 +19,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("bazaarWalaPhoneNo in display : $bazaarWalaPhoneNo");
     return Stack(
       children: <Widget>[
         GestureDetector(//for navigation to Product detial page

@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/bazaar/bazaarIndividualCategoryNameDpBuilder.dart';
 import 'package:gupshop/bazaar/placeHolderImages.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarHomeScreen.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
@@ -30,9 +32,10 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
   int numberOfBazaarWalasInList;
 
   getListOfBazaarWalasInAGivenRadius() async{
-    var userPhoneNo = await GetSharedPreferences().getUserPhoneNoFuture();//get user phone no
+    var userPhoneNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
     _userPhoneNo = userPhoneNo;
     var listOfbazaarwalas = await FilterBazaarWalasState().getListOfBazaarWalasInAGivenRadius(userPhoneNo, category);
+    print("listOfbazaarwalas in getList : ${listOfbazaarwalas[0].data} ${listOfbazaarwalas[1].data} ");
     return listOfbazaarwalas;
   }
 
@@ -51,51 +54,21 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
         ),
       ),
       body: FutureBuilder(
-            future: getListOfBazaarWalasInAGivenRadius(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-      if (snapshot.connectionState == ConnectionState.done) {
-        if (snapshot.data == null)
-          return Container(child: Center(child: CustomText(text: 'No ${category}s near you', fontSize: 35,).bold())); //for avoding  the erro
+        future: getListOfBazaarWalasInAGivenRadius(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+        if (snapshot.data == null) return Container(child: Center(child: CustomText(text: 'No ${category}s near you', fontSize: 35,).bold())); //for avoding  the erro
 
-        bazaarWalaPhoneNo = snapshot.data[0].documentID;
+        var list = snapshot.data;
+
         numberOfBazaarWalasInList = snapshot.data.length; ///for listView builder's itemcount
 
         return ListView.builder(
           itemCount: numberOfBazaarWalasInList,
           itemBuilder: (BuildContext context, int index) {
-            return StreamBuilder( ///use bazaarcategory to display people insted becuase bazaarwalabasicprofile is categorized by phoneNumber now
-                stream: BazaarRatingNumbers(userNumber: bazaarWalaPhoneNo, categoryName: category).getRatingSnapshot(),
-                builder: (context, streamSnapshot) {
-                  if (streamSnapshot.data == null) return CircularProgressIndicator(); //v v imp
-                  String name;
-                  String thumbnailPicture;
-
-
-                  return FutureBuilder(
-                    future: GetBazaarWalasBasicProfileInfo(userNumber: bazaarWalaPhoneNo).getNameAndThumbnailPicture(),
-                    builder: (BuildContext context, AsyncSnapshot nameSnapshot) {
-                      if (nameSnapshot.connectionState == ConnectionState.done) {
-                        name = nameSnapshot.data["name"];
-                        thumbnailPicture = nameSnapshot.data["thumbnailPicture"];
-                        if(thumbnailPicture == null ) thumbnailPicture = PlaceHolderImages().noDpPlaceholder;
-                        return BazaarIndividualCategoryListDisplay(
-                          bazaarWalaName: name,
-                          bazaarWalaPhoneNo: bazaarWalaPhoneNo,
-                          category: category,
-                          thumbnailPicture: thumbnailPicture,
-                        );
-                      }
-                      return Center(child: CircularProgressIndicator());
-//                        BazaarIndividualCategoryListDisplay(
-//                        bazaarWalaName: category.toString(),
-//                        bazaarWalaPhoneNo: bazaarWalaPhoneNo,
-//                        category: category,
-//                        thumbnailPicture: PlaceHolderImages().bazaarWalaThumbnailPicture,
-//                      );
-                    },
-                  );
-                }
-            );
+            print("list members : ${list[index].documentID}");
+            bazaarWalaPhoneNo = list[index].documentID;
+            return BazaarIndividualCategoryNameDpBuilder(bazaarWalaPhoneNo: bazaarWalaPhoneNo, category: category,);
           },
 
           );

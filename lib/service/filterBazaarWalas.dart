@@ -15,7 +15,7 @@ class FilterBazaarWalasState extends State<FilterBazaarWalas> {
     print("userGeoHash: $userGeohash");
 
     var listOfUpperGeohashBazaarWalas = await getListOfUpperGeohashBazaarWalas(userGeohash, category );
-    print("listOfUpperGeohashBazaarWalas: $listOfUpperGeohashBazaarWalas");
+    //print("listOfUpperGeohashBazaarWalas: ${listOfUpperGeohashBazaarWalas[0].documentId}, ${listOfUpperGeohashBazaarWalas[1].documentId} ");
 
     return filterListOfLowerGeohashBazaarWalas(listOfUpperGeohashBazaarWalas, userGeohash);
   }
@@ -39,12 +39,14 @@ class FilterBazaarWalasState extends State<FilterBazaarWalas> {
   filterListOfLowerGeohashBazaarWalas(List<DocumentSnapshot> list, String userGeohash){
     List<DocumentSnapshot> result = new List();
 
+    print("list in filterListOfLowerGeohashBazaarWalas : ${list[0].documentID} , ${list[1].documentID}");
+
     for(int i=0; i<list.length; i++){
       String lowerGeoHash=list[i].data["lowerGeoHash"];
       if(userGeohash.compareTo(lowerGeoHash) >= 0)  result.add(list[i]);
 
     }
-    print("result list: ${result[0].documentID}");
+    print("result list: ${result[0].documentID}, ${result[1].documentID}");
     return result;
   }
 

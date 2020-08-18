@@ -270,6 +270,7 @@ class _IndividualChatState extends State<IndividualChat> {
           /// So, displaying the conversations only when he is a group member
           body: (notGroupMemberAnymore == false || notGroupMemberAnymore == null) ? BodyPlusScrollComposerData(
             conversationService: conversationService,
+            friendName: friendName,
             conversationId: conversationId,
             controller: controller,
             controllerTwo: _controller,

@@ -42,7 +42,6 @@ class MessageCardDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("returning non cache");
     Container messageContainer =  Container(
 //        width: MediaQuery.of(context).size.width*0.75,
 //        height: MediaQuery.of(context).size.height*0.75,
@@ -89,11 +88,8 @@ class MessageCardDisplay extends StatelessWidget {
   }
 
   addToCache(Container messageContainer){
-    print("in add to cache");
     cache.messageContainer = messageContainer;
-    print("messageId in addToCache : $messageId");
     individualChatCache[messageId] = cache;
-    print("UhXWqn1RpCC96QbvEGDD : ${individualChatCache["UhXWqn1RpCC96QbvEGDD"]}");
   }
 
 }

@@ -13,6 +13,7 @@ class ShowVideoThumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("in ShowVideoThumbnail build");
     return Stack(
       children: <Widget>[
         SizedBox(

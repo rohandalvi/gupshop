@@ -18,13 +18,19 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
   bool isInitialized = false;
 
   _initPlayer() async{
-    videoPlayerController = VideoPlayerController.network(widget.videoURL);
-    videoPlayerController.initialize();
+    print("in _initPlayer()");
+    videoPlayerController = VideoPlayerController.network(widget.videoURL)..initialize()
+        .then((_) {
+      setState(() {
+
+      });
+    });
+//    videoPlayerController.initialize()
 //        .then((_) {
-////      setState(() {
-////
-////      });
-////    });
+//      setState(() {
+//
+//      });
+//    });
     
   }
 
@@ -34,10 +40,15 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(CustomVideoPlayerThumbnail oldWidget) {
+    _initPlayer();
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   void initState() {
-    //_initPlayer();
+    _initPlayer();
     super.initState();
   }
 
@@ -50,8 +61,11 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
     /// So, we put the method generating the thunmbnail in build method:
     /// ToDo - _initPlayer() take it out from initstate
 //    if(isInitialized == false){
-      _initPlayer();
+//      _initPlayer();
 //    }
+
+  print("in thumbnail build");
+
 
     return Stack(
       alignment: Alignment.center,
@@ -59,12 +73,12 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
         Card(
           margin: EdgeInsets.all(0.3),
           child: GestureDetector(
-            child: AspectRatio(
+            child: videoPlayerController.value.initialized ? AspectRatio(
                 aspectRatio:
                 //videoPlayerController.value.aspectRatio,
                 16/10,
                 child: VideoPlayer(videoPlayerController),
-            ),
+            ) : CircularProgressIndicator(),
             onTap: (){
                 Navigator.push(
                     context,

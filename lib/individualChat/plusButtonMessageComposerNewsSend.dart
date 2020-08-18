@@ -1,22 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/PushToFirebase/pushToConversationCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToSaveCollection.dart';
+import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
 import 'package:gupshop/individualChat/buildMessageComposer.dart';
 import 'package:gupshop/individualChat/cameraImagePickCropCreateData.dart';
 import 'package:gupshop/individualChat/cameraVideoPickCreateData.dart';
 import 'package:gupshop/individualChat/galleryImagePickCropCreateData.dart';
 import 'package:gupshop/individualChat/galleryVideoPickCreateData.dart';
+import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/individualChat/locationData.dart';
 import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsCollection.dart';
 import 'package:gupshop/location/location_service.dart';
-import 'package:gupshop/models/image_message.dart';
-import 'package:gupshop/models/location_message.dart';
 import 'package:gupshop/models/message.dart';
 import 'package:gupshop/models/text_message.dart';
-import 'package:gupshop/models/video_message.dart';
+import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
@@ -36,11 +37,14 @@ class PlusButtonMessageComposerNewsSend extends StatefulWidget {
   DocumentSnapshot startAtDocument;
   DocumentSnapshot currentMessageDocumentSanpshot;
   String messageId;
+  Map<String, ChatListCache> chatListCache;
+  String friendName;
 
   PlusButtonMessageComposerNewsSend({this.userPhoneNo, this.conversationId, this.listOfFriendNumbers,
   this.listScrollController,this.userName,
     this.groupExits, this.value, this.groupName, this.friendN,
-    this.myController, this.startAtDocument, this.currentMessageDocumentSanpshot,
+    this.myController, this.startAtDocument, this.currentMessageDocumentSanpshot,this.chatListCache,
+    this.friendName,
   });
 
 
@@ -92,6 +96,15 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               thirdIconText: 'Pick video from Gallery',
               thirdIconAndTextOnPressed: () async{
                 Navigator.pop(context);
+//                NavigateToIndividualChat(
+//                  chatListCache: widget.chatListCache,
+//                  friendName: widget.friendName,
+//                  conversationId: widget.conversationId,
+//                  userName: widget.userName,
+//                  userPhoneNo: widget.userPhoneNo,
+//                  listOfFriendNumbers: widget.listOfFriendNumbers,
+//                  notGroupMemberAnymore: null,
+//                ).navigateNoBrackets(context);
                 String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'videoURL',).saveAndGenerateId();
                 Map<String, dynamic> conversationCollectionData = await GalleryVideoPickCreateData(userName: widget.userName, userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId, messageId: messageId).main();
                 Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(), messageId: messageId).forVideoMessage();

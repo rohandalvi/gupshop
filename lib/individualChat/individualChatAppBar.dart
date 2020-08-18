@@ -59,12 +59,14 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
       leading: IconButton(
           icon: SvgPicture.asset('images/backArrowColor.svg',),
           onPressed:() async{
-            /// on back navigation.
-            print("hashcode in indivichat : ${widget.conversationService.hashCode}");
+
+            /// if a person is removed from the group, then the subscription
+            /// cannot be cancelled.
+            /// Hence, first check if he is a member or not.
             if(widget.notGroupMemberAnymore == false){
               await widget.conversationService.disableActiveSubscription();
             }
-            //streamSingleton.setStream(null);
+
             CustomNavigator().navigateToHome(context, widget.userName, widget.userPhoneNo);
           }
       ),

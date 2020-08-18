@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
+import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/individualChat/individualChatSingleton.dart';
@@ -31,10 +32,13 @@ class BodyPlusScrollComposerData extends StatefulWidget {
   List<dynamic> listOfFriendNumbers;
   TextEditingController controllerTwo;
   ConversationService conversationService;
+  Map<String, ChatListCache> chatListCache;
+  String friendName;
 
   BodyPlusScrollComposerData({this.conversationId, this.listScrollController, this.controller,
     this.userName, this.isPressed, this.userPhoneNo, this.groupExits, this.scroll, this.value,
-    this.friendN, this.groupName, this.listOfFriendNumbers,this.controllerTwo, this.conversationService
+    this.friendN, this.groupName, this.listOfFriendNumbers,this.controllerTwo, this.conversationService,
+    this.chatListCache,this.friendName
   });
 
   @override
@@ -158,6 +162,8 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                     }),
               ),
               PlusButtonMessageComposerNewsSend(
+                  chatListCache: widget.chatListCache,
+                  friendName: widget.friendName,
                   currentMessageDocumentSanpshot: currentMessageDocumentSnapshot,
                   conversationId: widget.conversationId,
                   userPhoneNo: widget.userPhoneNo,

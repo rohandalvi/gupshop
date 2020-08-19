@@ -64,7 +64,14 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
         ),
         likeDislikeIconsAndAddReviewButton(3),
         if (widget.writeReview==true && widget.focus==false) _writeReview(),
-        _buildReviewList(context),
+        GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());/// not working
+              widget.focus=true;
+          },
+          child:  _buildReviewList(context),
+        ),
+
       ],
     );
   }
@@ -264,7 +271,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
   }
 
 
-  _buildReviewList(BuildContext context){
+  _buildReviewList(context){
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(new FocusNode());

@@ -42,87 +42,90 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
   @override
   Widget build(BuildContext context) {
 //    createSearchSuggestions();/// to get the list of contacts as suggestion
-    return Scaffold(
-      body: SafeArea(
-        child: SearchBar<DocumentSnapshot>(
-          searchBarPadding: EdgeInsets.all(10),
-          emptyWidget: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomText(
-              text: ':( This name does not match your contacts ',),
-          ),
-          cancellationWidget: IconButton( /// cancel button
-            icon: SvgPicture.asset('images/cancel.svg',),
-            /// onPressed is taken care by the cancellationWidget
-          ),
-          icon: GestureDetector(
-            onTap: () { /// back arrow
-              CustomNavigator().navigateToHome(context, userName, userPhoneNo);
-            },
-            child: SvgPicture.asset('images/backArrowColor.svg',
-              width: 35,
-              height: 35,
-              //placeholderBuilder: CircularProgressIndicator(),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+      child: Scaffold(
+        body: SafeArea(
+          child: SearchBar<DocumentSnapshot>(
+            searchBarPadding: EdgeInsets.all(10),
+            emptyWidget: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomText(
+                text: ':( This name does not match your contacts ',),
             ),
-          ),
-          minimumChars: 1,/// minimum characters to enter to start the search
-          loader: CircularProgressIndicator(),
-          suggestions: widget.suggestions==null ? (list == null ? new List() : list) : widget.suggestions,
-          /// as list is a future, the loading screen was
-          /// throwing an error  before the list was loaded and was showing a red screen to the user.
-          /// So, we are creating a placeholder new List() here till the list loads and becuase suggestions
-          /// doesnt accept CircularProgressIndicator() we are using new List().
-          hintText: 'Search contacts',
-          hintStyle: GoogleFonts.openSans(
-            textStyle: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 16,
+            cancellationWidget: IconButton( /// cancel button
+              icon: SvgPicture.asset('images/cancel.svg',),
+              /// onPressed is taken care by the cancellationWidget
             ),
-          ),
-          onSearch: widget.onSearch == null? searchList : widget.onSearch,
-          onItemFound: widget.onItemFound == null ? (DocumentSnapshot doc, int index) {
-            List<dynamic> friendNo;
-            /// individualChats have friendNumber list in phone and groupChats have
-            /// friendNumber list in phoneList.
-            /// phone has conversationId in groupChat and not phone numbers.
-            /// Reason: phone is also needed and phoneList is also needed in some cases.
-            if(doc.data["groupName"] == null){friendNo = doc.data["phone"];}
-            else friendNo = doc.data["phoneList"];
-
-            /// if it is the first time conversation the there will be no conversationId
-            /// it will be created in individualChat, if a null conversationId is sent
-            String conversationId = doc.data["conversationId"];
-            print("conversationId in search : $friendNo: $conversationId");
-            //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, contactPhoneNumber)
-
-            return ListTile(
-              title: CustomText(text: doc.data["nameList"][0]),
-              ///displaying on the display name
-              onTap: () {
-                String friendName = doc.data["nameList"][0];
-                if (data != null) {
-                  /// forward message needs to be given searched friends conversationId
-                  /// corresponding change can also be found in individualChat forwardMessage() method:
-                  ///
-                  /// forward messages needs to be given this conversation's conversationId:
-                  ///      forwardMessage["conversationId"] = conversationId;
-                  data["conversationId"] = conversationId;
-                  print("data[conversationId] = ${data["conversationId"]}");
-                }
-                //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, friendNo);
-                CustomNavigator().navigateToIndividualChat(
-                    context,
-                    conversationId,
-                    userName,
-                    userPhoneNo,
-                    friendName,
-                    friendNo,
-                    data,
-                    false
-                );
+            icon: GestureDetector(
+              onTap: () { /// back arrow
+                CustomNavigator().navigateToHome(context, userName, userPhoneNo);
               },
-            );
-          } : widget.onItemFound,
+              child: SvgPicture.asset('images/backArrowColor.svg',
+                width: 35,
+                height: 35,
+                //placeholderBuilder: CircularProgressIndicator(),
+              ),
+            ),
+            minimumChars: 1,/// minimum characters to enter to start the search
+            loader: CircularProgressIndicator(),
+            suggestions: widget.suggestions==null ? (list == null ? new List() : list) : widget.suggestions,
+            /// as list is a future, the loading screen was
+            /// throwing an error  before the list was loaded and was showing a red screen to the user.
+            /// So, we are creating a placeholder new List() here till the list loads and becuase suggestions
+            /// doesnt accept CircularProgressIndicator() we are using new List().
+            hintText: 'Search contacts',
+            hintStyle: GoogleFonts.openSans(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+              ),
+            ),
+            onSearch: widget.onSearch == null? searchList : widget.onSearch,
+            onItemFound: widget.onItemFound == null ? (DocumentSnapshot doc, int index) {
+              List<dynamic> friendNo;
+              /// individualChats have friendNumber list in phone and groupChats have
+              /// friendNumber list in phoneList.
+              /// phone has conversationId in groupChat and not phone numbers.
+              /// Reason: phone is also needed and phoneList is also needed in some cases.
+              if(doc.data["groupName"] == null){friendNo = doc.data["phone"];}
+              else friendNo = doc.data["phoneList"];
+
+              /// if it is the first time conversation the there will be no conversationId
+              /// it will be created in individualChat, if a null conversationId is sent
+              String conversationId = doc.data["conversationId"];
+              print("conversationId in search : $friendNo: $conversationId");
+              //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, contactPhoneNumber)
+
+              return ListTile(
+                title: CustomText(text: doc.data["nameList"][0]),
+                ///displaying on the display name
+                onTap: () {
+                  String friendName = doc.data["nameList"][0];
+                  if (data != null) {
+                    /// forward message needs to be given searched friends conversationId
+                    /// corresponding change can also be found in individualChat forwardMessage() method:
+                    ///
+                    /// forward messages needs to be given this conversation's conversationId:
+                    ///      forwardMessage["conversationId"] = conversationId;
+                    data["conversationId"] = conversationId;
+                    print("data[conversationId] = ${data["conversationId"]}");
+                  }
+                  //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, friendNo);
+                  CustomNavigator().navigateToIndividualChat(
+                      context,
+                      conversationId,
+                      userName,
+                      userPhoneNo,
+                      friendName,
+                      friendNo,
+                      data,
+                      false
+                  );
+                },
+              );
+            } : widget.onItemFound,
+          ),
         ),
       ),
     );

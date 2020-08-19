@@ -42,6 +42,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
   @override
   Widget build(BuildContext context) {
 //    createSearchSuggestions();/// to get the list of contacts as suggestion
+  /// for removing the keyboard when user taps the screen
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
       child: Scaffold(
@@ -68,7 +69,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
               ),
             ),
             minimumChars: 1,/// minimum characters to enter to start the search
-            loader: CircularProgressIndicator(),
+            loader: Center(child: CircularProgressIndicator()),
             suggestions: widget.suggestions==null ? (list == null ? new List() : list) : widget.suggestions,
             /// as list is a future, the loading screen was
             /// throwing an error  before the list was loaded and was showing a red screen to the user.
@@ -94,7 +95,6 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
               /// if it is the first time conversation the there will be no conversationId
               /// it will be created in individualChat, if a null conversationId is sent
               String conversationId = doc.data["conversationId"];
-              print("conversationId in search : $friendNo: $conversationId");
               //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, contactPhoneNumber)
 
               return ListTile(
@@ -109,7 +109,6 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
                     /// forward messages needs to be given this conversation's conversationId:
                     ///      forwardMessage["conversationId"] = conversationId;
                     data["conversationId"] = conversationId;
-                    print("data[conversationId] = ${data["conversationId"]}");
                   }
                   //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, friendNo);
                   CustomNavigator().navigateToIndividualChat(

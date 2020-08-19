@@ -29,11 +29,13 @@ class IndividualChatAppBar extends StatefulWidget {
   final Presence presence;
   ConversationService conversationService;
   Map<String, ChatListCache> chatListCache;
+  bool groupDeleted;
 
 
   IndividualChatAppBar({this.userName, this.userPhoneNo, this.groupExits,
     this.friendName, this.friendN, this.conversationId, this.notGroupMemberAnymore,
     this.listOfFriendNumbers,this.presence, this.conversationService, this.chatListCache,
+    this.groupDeleted
   });
 
   @override
@@ -64,7 +66,7 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
             /// if a person is removed from the group, then the subscription
             /// cannot be cancelled.
             /// Hence, first check if he is a member or not.
-            if(widget.notGroupMemberAnymore == false){
+            if(widget.notGroupMemberAnymore == false && widget.groupDeleted == false){
               await widget.conversationService.disableActiveSubscription();
             }
 
@@ -89,7 +91,8 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
               child: CustomText(text: widget.friendName,),
               onTap:(){
                 if(isGroup()){
-                  groupMemberDialogHelper(userNumber: widget.userPhoneNo, listOfGroupMemberNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, isGroup: widget.groupExits).customShowDialog(context);
+                  groupMemberDialogHelper(userNumber: widget.userPhoneNo, listOfGroupMemberNumbers: widget.listOfFriendNumbers,
+                      conversationId: widget.conversationId, isGroup: widget.groupExits).customShowDialog(context);
                 }
               }
           ),

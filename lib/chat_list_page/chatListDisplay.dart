@@ -28,6 +28,7 @@ class ChatListDisplay extends StatelessWidget {
   String myName;
   Map<String, ChatListCache> chatListCache;
   String conversationsLatestMessageId;
+  bool groupDeleted;
 
   ChatListDisplay({this.myNumber, this.conversationId, this.notAGroupMemberAnymore,
     this.groupExists, this.friendNumber, this.memberList, this.friendNumberList,
@@ -75,7 +76,7 @@ class ChatListDisplay extends StatelessWidget {
                     userPhoneNo: myNumber,
                     listOfFriendNumbers: friendNumberList,
                     notGroupMemberAnymore: notAGroupMemberAnymore,
-
+                    groupDeleted: groupDeleted,
                   ), //pass Name() here and pass Home()in name_screen
             )
         );
@@ -100,9 +101,12 @@ class ChatListDisplay extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             memberList = snapshot.data["members"];
 
+            /// first check if the group is deleted
+            if(memberList.isEmpty == true) groupDeleted = true;
+
             /// if a member is removed from the group, then he should not be seeing the conversations
             /// once he enters the individual chat page
-            if (memberList.contains(myNumber) == false)
+            else if (memberList.contains(myNumber) == false)
               notAGroupMemberAnymore = true;
 
             if (snapshot.data["groupName"] == null) {

@@ -7,8 +7,10 @@ import 'package:gupshop/deleteFromFirebase/deleteHelper.dart';
 import 'package:gupshop/deleteFromFirebase/deleteMembersFromGroup.dart';
 import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
 import 'package:gupshop/service/conversationDetails.dart';
+import 'package:gupshop/widgets/customDialogBox.dart';
 import 'package:gupshop/widgets/customDismissible.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
+import 'package:gupshop/widgets/customText.dart';
 
 class ChatListData extends StatefulWidget {
   List<DocumentSnapshot> list;
@@ -74,7 +76,7 @@ class _ChatListDataState extends State<ChatListData> {
           /// onDismissed has all the delete logic:
           onDismissed: (direction) async{
             var temp = await ConversationMetaData().get(conversationId, widget.myNumber);
-            print("memberlist in customdismissble : $temp");
+
             memberList = temp["members"];
             bool isGroup = await CheckIfGroup().ifThisIsAGroup(documentID);
             adminNumber = await CheckIfGroup().getAdminNumber(documentID);
@@ -84,15 +86,18 @@ class _ChatListDataState extends State<ChatListData> {
             if(direction == DismissDirection.startToEnd &&  isGroup == true && adminNumber == widget.myNumber){
               /// also delete from profilePictures
 
-              DeleteMembersFromGroup().deleteConversationMetadata(documentID);///conversationMetadata
+              //DeleteMembersFromGroup().deleteConversationMetadata(documentID);///conversationMetadata
               DeleteHelper().deleteFromFriendsCollection(widget.myNumber, documentID);///friends collection
+              DeleteMembersFromGroup().deleteAGroupMember(widget.myNumber, documentID);
               /// delete from the recentChats of all members(memberList, which includes me too)
               /// delete from the friends collection of all members(memberList, which includes me too)
               for(int i=0; i<memberList.length; i++){
                 DeleteMembersFromGroup().deleteFromFriendsCollection(memberList[i], documentID);
-                DeleteMembersFromGroup().deleteFromRecentChats(memberList[i], documentID);
+                DeleteMembersFromGroup().deleteAGroupMember(memberList[i], documentID);
+                //DeleteMembersFromGroup().deleteFromRecentChats(memberList[i], documentID);
               }
-              //CustomFlushBar(iconName: 'speaker',message: "$friendName Deleted",).dismissible();
+
+              /// add group delete notification here
             }
           },
           child: ChatListDisplay(

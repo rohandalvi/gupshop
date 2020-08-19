@@ -38,10 +38,11 @@ class IndividualChat extends StatefulWidget {
   final Map forwardMessage;
   final bool notGroupMemberAnymore;
   Map<String, ChatListCache> chatListCache;
+  bool groupDeleted;
 
 
   IndividualChat(
-      {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName,this.forwardMessage, this.listOfFriendNumbers, this.notGroupMemberAnymore, this.chatListCache})
+      {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName,this.forwardMessage, this.listOfFriendNumbers, this.notGroupMemberAnymore, this.chatListCache, this.groupDeleted})
       : super(key: key);
   @override
   _IndividualChatState createState() => _IndividualChatState(
@@ -124,7 +125,6 @@ class _IndividualChatState extends State<IndividualChat> {
     /// an individualChat would always have groupName as null,
     /// only a groupChat would have groupName
     String id = await GetConversationId().createNewConversationId(userPhoneNo, listOfFriendNumbers, null);
-    print("id in getConvId : $id");
 
     setState(() {
       conversationId = id;
@@ -265,12 +265,12 @@ class _IndividualChatState extends State<IndividualChat> {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(63.0),//the distance between gupShop and tabBars
             child: IndividualChatAppBar(chatListCache : widget.chatListCache,userPhoneNo: userPhoneNo, userName: userName,groupExits: groupExits,friendName: friendName,friendN: friendN, conversationId: conversationId,notGroupMemberAnymore: notGroupMemberAnymore,
-              listOfFriendNumbers: listOfFriendNumbers,presence: presence, conversationService: conversationService,),
+              listOfFriendNumbers: listOfFriendNumbers,presence: presence, conversationService: conversationService, groupDeleted: widget.groupDeleted,),
           ),
           /// if a member is removed from the group, then he should not be seeing the conversations
           /// once he enters the individual chat page
           /// So, displaying the conversations only when he is a group member
-          body: (notGroupMemberAnymore == false || notGroupMemberAnymore == null) ? BodyPlusScrollComposerData(
+          body: widget.groupDeleted == true ? BlankScreen(message: 'This group is Deleted !',) :  (notGroupMemberAnymore == false || notGroupMemberAnymore == null) ? BodyPlusScrollComposerData(
             conversationService: conversationService,
             friendName: friendName,
             conversationId: conversationId,

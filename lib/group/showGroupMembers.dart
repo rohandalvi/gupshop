@@ -4,7 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/group/changeGroupName.dart';
-import 'package:gupshop/updateInFirebase/addNewGroupMember.dart';
+import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
+import 'package:gupshop/updateInFirebase/updateConversationMetadata.dart';
 import 'package:gupshop/group/createGroup.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/deleteFromFirebase/deleteMembersFromGroup.dart';
@@ -107,7 +108,14 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
                 visible: widget.isGroup,
                 child: IconButton(
                   icon: SvgPicture.asset('images/exit.svg',),
-                  onPressed: (){/// remove yourself from group
+                  onPressed: () async{/// remove yourself from group
+                    String adminNumber = await ConversationMetaData(conversationId: widget.conversationId, myNumber: widget.userNumber).getAdminNumber();
+
+                    if(adminNumber == widget.userNumber){
+                      String newAdmin = widget.listOfGroupMemberNumbers[0];
+                      UpdateConversationMetadata().replaceAdmin(widget.conversationId, newAdmin);
+                    }
+
                     if(widget.isGroup == true){
                       DeleteMembersFromGroup().deleteAGroupMember(widget.userNumber, widget.conversationId);
                       DeleteMembersFromGroup().deleteFromFriendsCollection(widget.userNumber, widget.conversationId);

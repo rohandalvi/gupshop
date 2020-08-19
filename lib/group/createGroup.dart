@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/updateInFirebase/addNewGroupMember.dart';
+import 'package:gupshop/updateInFirebase/updateConversationMetadata.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -135,7 +135,7 @@ class _CreateGroupState<T> extends State<CreateGroup<T>> {
                   if(shouldAddNewMemberToTheGroup){
                     print("new list in createGroup: $listOfNumbersInAGroup");
                     CustomNavigator().navigateToHome(context, userName, userPhoneNo);
-                    AddNewGroupMember().addToConversationMetadata(conversationId, listOfNumbersInAGroup);
+                    UpdateConversationMetadata().addNewMembers(conversationId, listOfNumbersInAGroup);
                   }
                   else CustomNavigator().navigateToCreateGroupName_Screen(context, userName, userPhoneNo, listOfNumbersInAGroup);
                 }

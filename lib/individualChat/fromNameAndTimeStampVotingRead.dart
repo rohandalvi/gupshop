@@ -212,7 +212,7 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
     print("widget.isMe : ${widget.isMe}");
     print("widget.readCache[widget.messageId] : ${widget.readCache[widget.messageId]}");
     print("widget.listOfFriendNumbers : ${widget.listOfFriendNumbers}");
-    if(widget.readCache != null && widget.readCache.containsKey(widget.messageId)){
+    if(widget.readCache != null && widget.readCache.containsKey(widget.messageId) == false){
       return FriendReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId,
             conversationsLatestMessageTimestamp: widget.timestamp).readStream(context, widget.readCache, widget.messageId, widget.isMe);
     } return readUnreadContainer(context, widget.readCache[widget.messageId]);

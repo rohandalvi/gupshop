@@ -54,6 +54,12 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
     super.initState();
   }
 
+  bool conversationExists(){
+    return ((widget.notGroupMemberAnymore == false || widget.notGroupMemberAnymore == null)
+        && (widget.groupDeleted == false || widget.groupDeleted == null));
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -66,7 +72,8 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
             /// if a person is removed from the group, then the subscription
             /// cannot be cancelled.
             /// Hence, first check if he is a member or not.
-            if(widget.notGroupMemberAnymore == false && widget.groupDeleted == false){
+            print("conversationExists :${conversationExists()}");
+            if(conversationExists() == true){
               await widget.conversationService.disableActiveSubscription();
             }
 
@@ -83,14 +90,21 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
                 /// if  its a group, then change profile picture can be done by anyone
                 changeProfilePicture(context);
               }
+              /// if an individual, then only the view option and not
+              /// the change options are visible
               else CustomNavigator().navigateToChangeProfilePicture(context, widget.friendName,  true, widget.friendN, null);/// if its a group then profile pictures are searched using conversationId
             },
             child: displayPictureAvatar(),
           ) ,
+
+          /// Name of the conversation(name of group or an individual):
           title: GestureDetector(
               child: CustomText(text: widget.friendName,),
               onTap:(){
                 if(isGroup()){
+                  /// if its a group, then on clicking the name,
+                  /// a dialog box appears which displays the name of the
+                  /// members, where the members can be deleted
                   groupMemberDialogHelper(userNumber: widget.userPhoneNo, listOfGroupMemberNumbers: widget.listOfFriendNumbers,
                       conversationId: widget.conversationId, isGroup: widget.groupExits).customShowDialog(context);
                 }
@@ -100,9 +114,10 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
+                /// show presence only when its an individual conversation, not
+                /// in group conversation
                 child: Visibility(
                     visible: isIndividual(),
-                    //isIndividualNonBazaarContact(),//widget.groupExits == false,////
                     child: CustomFutureBuilder(future: widget.presence.getStatus(widget.friendN), dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle())
                 ),
               ),

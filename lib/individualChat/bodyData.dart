@@ -82,11 +82,11 @@ class BodyData extends StatelessWidget {
         /// stored as true in the map and next time when this screen is called
         /// if the message is true then the future call for messageReadUnread
         /// collection will not be made.
-        if(readCache[messageId] == null){
-          readCache[messageId] = false;
-        }else if(readCache.containsKey(messageId)== false){
-          readCache[messageId] = false;
-        }
+//        if(readCache[messageId] == null){
+//          readCache[messageId] = false;
+//        }else if(readCache.containsKey(messageId)== false){
+//          readCache[messageId] = false;
+//        }
 
         if(newsId == null){
           if(documentList[index].data["videoURL"] != null){

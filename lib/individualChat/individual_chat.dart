@@ -267,6 +267,11 @@ class _IndividualChatState extends State<IndividualChat> {
             child: IndividualChatAppBar(chatListCache : widget.chatListCache,userPhoneNo: userPhoneNo, userName: userName,groupExits: groupExits,friendName: friendName,friendN: friendN, conversationId: conversationId,notGroupMemberAnymore: notGroupMemberAnymore,
               listOfFriendNumbers: listOfFriendNumbers,presence: presence, conversationService: conversationService, groupDeleted: widget.groupDeleted,),
           ),
+          /// 1st check : check if its a  group and if yes, is it deleted?
+          /// yes, then show a deleted group screen
+          ///
+          /// 2nd check :  if the person is removed from the group
+          ///
           /// if a member is removed from the group, then he should not be seeing the conversations
           /// once he enters the individual chat page
           /// So, displaying the conversations only when he is a group member

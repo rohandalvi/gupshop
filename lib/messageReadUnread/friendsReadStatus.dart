@@ -49,6 +49,7 @@ class FriendReadStatus{
                   }
                   if(trueCount == listOfFriends.length) collectiveRead = true;
                   if(collectiveRead == true){
+                    /// if every member has read the message, then add it to cache
                     readCache[messageId] = true;
                     return ReadUnreadDisplay(context: context, isRead: collectiveRead, isMe: isMe);
                   }

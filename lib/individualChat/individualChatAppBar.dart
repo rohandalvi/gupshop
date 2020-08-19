@@ -13,6 +13,7 @@ import 'package:gupshop/typing/typingStatusDisplay.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -107,11 +108,13 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
           ),
           trailing: Wrap(
             children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.video_call),
+              CustomIconButton(
+                iconNameInImageFolder: 'videoCall',
+                onPressed: (){},
               ),
-              IconButton(
-                icon: Icon(Icons.phone),
+              CustomIconButton(
+                iconNameInImageFolder: 'audioCall',
+                onPressed: (){},
               ),
             ],
           ),

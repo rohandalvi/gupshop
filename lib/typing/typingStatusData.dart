@@ -15,6 +15,7 @@ class TypingStatusData{
       print("not typing");
       /// not typing
       /// delete from messageTyping
+      print("userPhoneNo in TypingStatusData : $userPhoneNo");
       DeleteMemberFromMessageTyping(
         conversationId: conversationId,
         userNumber: userPhoneNo,
@@ -23,10 +24,6 @@ class TypingStatusData{
       print("typing");
       /// typing
       /// add to messageTyping
-//      PushToMessageTypingCollection(
-//        conversationId: conversationId,
-//        userNumber: userPhoneNo,
-//      ).pushTypingStatus();
     UpdateTypingStatusToMessageTyping(
       conversationId: conversationId,
       userNumber: userPhoneNo,

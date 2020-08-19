@@ -47,42 +47,6 @@ class ChatListDisplay extends StatelessWidget {
       /// else return froom the cache
       cachedData(context),
 
-//      chatListCache.containsKey(conversationId) ==  false ?
-//      FutureBuilder(
-//        future: ConversationMetaData().get(conversationId, myNumber),
-//        builder: (BuildContext context, AsyncSnapshot snapshot) {
-//          if (snapshot.connectionState == ConnectionState.done) {
-//            memberList = snapshot.data["members"];
-//
-//            /// if a member is removed from the group, then he should not be seeing the conversations
-//            /// once he enters the individual chat page
-//            if(memberList.contains(myNumber) == false) notAGroupMemberAnymore = true;
-//
-//            if(snapshot.data["groupName"]  == null){
-//              groupExists = false;
-//              /// 1. extract memberList from conversationMetadata for navigating to individualChat
-//              memberList = snapshot.data["members"];
-//              /// 2. extract friendNumber for DisplayAvatarFromFirebase
-//              friendNumber = FindFriendNumber().friendNumber(memberList, myNumber);
-//              /// 3. create friendNumberList to send to individualChat
-//              friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
-//            } else{
-//              groupExists = true;
-//              /// for groups, conversationId is used as documentId for
-//              /// getting profilePicture
-//              /// profile_pictures -> conversationId -> url
-//              friendNumberList = FindFriendNumber().createListOfFriends(memberList, myNumber);
-//              friendNumber = conversationId;
-//            }
-//            return DisplayAvatar()
-//                .displayAvatarFromProfilePictures(friendNumber, 30, 27,
-//                false, chatListCache, conversationId);
-//          }
-//          return DisplayAvatar().avatarPlaceholder(30, 27);
-//            //CircularProgressIndicator();
-//        },
-//      ) : cacheAvatar(),
-      //chatListCache[conversationId].circleAvatar,
       title: CustomText(text: friendName),
       subtitle: SubtitleDataAndDisplay(
         lastMessage: lastMessage,
@@ -129,7 +93,7 @@ class ChatListDisplay extends StatelessWidget {
 
     /// if its a group and its cached:
     if( chatListCache.containsKey(conversationId) == true && chatListCache[conversationId].isGroup == true){
-      print("in group chat");
+
       return FutureBuilder(
         future: ConversationMetaData().get(conversationId, myNumber),
         builder: (BuildContext context, AsyncSnapshot snapshot) {

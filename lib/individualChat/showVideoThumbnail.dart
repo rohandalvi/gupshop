@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/video/downloadVideo.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -9,7 +10,7 @@ import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 class ShowVideoThumbnail extends StatelessWidget {
   final String videoURL;
 
-  ShowVideoThumbnail({this.videoURL});
+  ShowVideoThumbnail({this.videoURL,});
 
   @override
   Widget build(BuildContext context) {

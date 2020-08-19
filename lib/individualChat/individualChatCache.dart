@@ -10,5 +10,6 @@ class IndividualChatCache{
   int reportedByCount;
   int trueByCount;
   int fakeByCount;
+  GestureDetector video;
 
 }

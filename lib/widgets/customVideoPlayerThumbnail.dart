@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:video_player/video_player.dart';
@@ -7,7 +8,7 @@ import 'package:video_player/video_player.dart';
 class CustomVideoPlayerThumbnail extends StatefulWidget {
   final String videoURL;
 
-  CustomVideoPlayerThumbnail({this.videoURL});
+  CustomVideoPlayerThumbnail({this.videoURL,});
 
   @override
   _CustomVideoPlayerThumbnailState createState() => _CustomVideoPlayerThumbnailState();
@@ -42,6 +43,10 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
 
   @override
   void didUpdateWidget(CustomVideoPlayerThumbnail oldWidget) {
+    /// if a video is sent for the first time in individualchat, then
+    /// the initstate would get called and the thumbnail would get generated,
+    /// but next time, the old video's thumbnail would show up because the
+    /// initstate does not get called again.
     _initPlayer();
     super.didUpdateWidget(oldWidget);
   }
@@ -54,17 +59,9 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
 
   @override
   Widget build(BuildContext context) {
-    /// if a video is sent for the first time in individualchat, then
-    /// the initstate would get called and the thumbnail would get generated,
-    /// but next time, the old video's thumbnail would show up because the
-    /// initstate does not get called again.
+
     /// So, we put the method generating the thunmbnail in build method:
     /// ToDo - _initPlayer() take it out from initstate
-//    if(isInitialized == false){
-//      _initPlayer();
-//    }
-
-  print("in thumbnail build");
 
 
     return Stack(

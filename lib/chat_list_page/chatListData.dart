@@ -5,8 +5,10 @@ import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/chatListDisplay.dart';
 import 'package:gupshop/deleteFromFirebase/deleteHelper.dart';
 import 'package:gupshop/deleteFromFirebase/deleteMembersFromGroup.dart';
+import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/widgets/customDismissible.dart';
+import 'package:gupshop/widgets/customFlushBar.dart';
 
 class ChatListData extends StatefulWidget {
   List<DocumentSnapshot> list;
@@ -71,6 +73,9 @@ class _ChatListDataState extends State<ChatListData> {
           documentID: documentID,
           /// onDismissed has all the delete logic:
           onDismissed: (direction) async{
+            var temp = await ConversationMetaData().get(conversationId, widget.myNumber);
+            print("memberlist in customdismissble : $temp");
+            memberList = temp["members"];
             bool isGroup = await CheckIfGroup().ifThisIsAGroup(documentID);
             adminNumber = await CheckIfGroup().getAdminNumber(documentID);
             /// ToDo: not working called from DeleteChats
@@ -87,6 +92,7 @@ class _ChatListDataState extends State<ChatListData> {
                 DeleteMembersFromGroup().deleteFromFriendsCollection(memberList[i], documentID);
                 DeleteMembersFromGroup().deleteFromRecentChats(memberList[i], documentID);
               }
+              //CustomFlushBar(iconName: 'speaker',message: "$friendName Deleted",).dismissible();
             }
           },
           child: ChatListDisplay(

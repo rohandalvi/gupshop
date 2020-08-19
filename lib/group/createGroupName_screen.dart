@@ -3,6 +3,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
@@ -101,6 +102,9 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                   Firestore.instance.collection("conversations").document(id).setData({});
 
                   PushToProfilePictures().newGroupProfilePicture(id);
+
+                  /// setData to messageTyping collection:
+                  PushToMessageTypingCollection(conversationId: id, userNumber: userPhoneNo).pushTypingStatus();
 
                   print("groupName : $groupName");
                   if(groupName == null || groupName == ""){

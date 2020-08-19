@@ -60,4 +60,23 @@ class CustomFlushBar extends StatelessWidget {
       message: message,
     )..show(customContext);
   }
+
+  dismissible(){
+    print("in dismissable flushbar");
+    return Flushbar( /// for the flushBar if the user enters wrong verification code
+      icon: SvgPicture.asset(
+        'images/$iconName.svg',
+        width: 30,
+        height: 30,
+      ),
+      backgroundColor: Colors.white,
+      duration: null,
+      isDismissible: true,
+      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+      forwardAnimationCurve: Curves.decelerate,
+      reverseAnimationCurve: Curves.easeOut,
+      titleText: text,
+      message: message,
+    )..show(customContext);
+  }
 }

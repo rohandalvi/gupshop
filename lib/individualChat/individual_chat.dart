@@ -149,6 +149,7 @@ class _IndividualChatState extends State<IndividualChat> {
     /// also push the conversationId to conversations:
     Firestore.instance.collection("conversations").document(id).setData({});
 
+    print("userPhoneNo before setData to messageTyping : $userPhoneNo");
     /// setData to messageTyping collection:
     PushToMessageTypingCollection(conversationId: conversationId, userNumber: userPhoneNo).pushTypingStatus();
 
@@ -235,6 +236,7 @@ class _IndividualChatState extends State<IndividualChat> {
      */
 
     /// if new conversation, then conversationId == null
+    print("conversationId in individualchat initstate : $conversationId");
     if(conversationId == null) {
       getConversationId();
       /// also create a conversations_number collection

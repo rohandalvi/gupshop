@@ -2,12 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/retriveFromFirebase/getMessageTypingInfo.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
+import 'package:gupshop/widgets/customText.dart';
 
 class TypingStatusDisplay extends StatelessWidget {
   final String conversationId;
   final String userNumber;
+  final String  userName;
+  bool groupExits;
 
-  TypingStatusDisplay({this.conversationId, this.userNumber});
+  TypingStatusDisplay({this.conversationId, this.userNumber, this.userName, this.groupExits});
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +42,11 @@ class TypingStatusDisplay extends StatelessWidget {
           //print("typing snapshot: ${snapshot.data["members"]}");
           return Visibility(
             visible: hasMembers,
-            child: CustomFloatingActionButtonWithIcon(
-              iconName: 'typingRed',
-              onPressed: (){},
-            ),
+            child: groupExits == true ? CustomText(text: "$userName typing..",).italic() : CustomText(text: "typing..",).italic(),
+//            CustomFloatingActionButtonWithIcon(
+//              iconName: 'typingRed',
+//              onPressed: (){},
+//            ),
           );
       },
     );

@@ -115,6 +115,19 @@ class CustomText extends StatelessWidget {
     );
   }
 
+  italic(){
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+        textStyle: TextStyle(
+          color: textColor == null ? Colors.redAccent : textColor,
+          fontSize: 12,
+          fontStyle : FontStyle.italic,
+        ),
+      ),
+    );
+  }
+
   nonBoldText(){
     return Text(
       text,

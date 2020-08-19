@@ -9,6 +9,7 @@ import 'package:gupshop/navigators/navigateToIndividualChatAppBar.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/image/displayAvatar.dart';
+import 'package:gupshop/typing/typingStatusDisplay.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
@@ -52,7 +53,6 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    print("friendN : ${widget.friendN}");
     return AppBar(
       backgroundColor: secondryColor.withOpacity(.03),
       elevation: 0,
@@ -72,7 +72,7 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
       ),
       title: Material(
         child: ListTile(
-          contentPadding: EdgeInsets.all(4),
+          contentPadding: EdgeInsets.all(2),
           //EdgeInsets.only(top: 4),
           leading: GestureDetector(
             onTap: (){
@@ -92,10 +92,19 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
                 }
               }
           ),
-          subtitle:Visibility(
-              visible: isIndividual(),
-              //isIndividualNonBazaarContact(),//widget.groupExits == false,////
-              child: CustomFutureBuilder(future: widget.presence.getStatus(widget.friendN), dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle())),
+          subtitle:Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                child: Visibility(
+                    visible: isIndividual(),
+                    //isIndividualNonBazaarContact(),//widget.groupExits == false,////
+                    child: CustomFutureBuilder(future: widget.presence.getStatus(widget.friendN), dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle())
+                ),
+              ),
+              Container(child: TypingStatusDisplay(conversationId: widget.conversationId, userNumber: widget.userPhoneNo,userName: widget.userName,groupExits: widget.groupExits,)),
+            ],
+          ),
           trailing: Wrap(
             children: <Widget>[
               IconButton(

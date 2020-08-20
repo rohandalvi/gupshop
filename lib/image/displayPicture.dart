@@ -52,4 +52,15 @@ class DisplayPicture extends StatelessWidget {
       ),
     );
   }
+
+  forGrid(context){
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(imageURL),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
 }

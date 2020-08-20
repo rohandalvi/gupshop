@@ -6,8 +6,9 @@ class CustomText extends StatelessWidget {
   final String text;
   final double fontSize;
   final Color textColor;
+  final FontWeight fontWeight;
 
-  const CustomText({Key key, @required this.text, this.fontSize, this.textColor});
+  const CustomText({Key key, @required this.text, this.fontSize, this.textColor, this.fontWeight});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class CustomText extends StatelessWidget {
       style: GoogleFonts.openSans(
         //inconsolata
         textStyle: TextStyle(
-          fontWeight: FontWeight.w600,
+          fontWeight: fontWeight == null ? FontWeight.w600 : fontWeight,
           fontSize: fontSize != null ? fontSize : 16,
         ),
         color: textColor == null ? Colors.black : textColor,

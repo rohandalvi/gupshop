@@ -26,7 +26,8 @@ class FullScreenPictureAndVideos extends StatelessWidget {
         Container(
           width: MediaQuery.of(context).size.height,
           height: MediaQuery.of(context).size.width,
-            child : DisplayPicture(imageURL: payLoad,).zoomableFullScreen(context)
+            child: DisplayPicture(imageURL: payLoad,).zoom(context),
+            //child : DisplayPicture(imageURL: payLoad,).zoomableFullScreen(context)
         ):
         //DisplayCircularPicture().pictureFrame(payLoad) :
         Container(

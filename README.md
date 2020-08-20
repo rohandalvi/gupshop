@@ -20,3 +20,5 @@ image_downloader plugin settings required to be made to ios
 zoomable_image: ^1.3.1 # no seperate ios setting
 
 dio # no seperate ios setting
+
+photo_view: ^0.10.1 # no seperate ios setting

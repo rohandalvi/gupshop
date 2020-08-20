@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/image/imageZoom.dart';
+import 'package:photo_view/photo_view.dart';
 
 class DisplayPicture extends StatelessWidget {
   final String imageURL;
@@ -33,6 +34,19 @@ class DisplayPicture extends StatelessWidget {
       ),
     );
   }
+
+  zoom(context){
+    return Container(
+      width: MediaQuery.of(context).size.height / 1.25,
+      height: MediaQuery.of(context).size.width / 1.25,
+      /// for zoom:
+      child: PhotoView(
+        imageProvider: NetworkImage(imageURL),
+      ),
+    );
+  }
+
+
 
   chatPictureFrame(context){
     return Card(

@@ -124,8 +124,10 @@ class CustomBottomSheet extends StatelessWidget {
         context: customContext,
         builder: (BuildContext context){
           return Container(
-            height: MediaQuery.of(context).size.height*0.2,
+            //height: MediaQuery.of(context).size.height*0.22,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 /// icon and name, so CustomIconButton and CustomText
                 Container(
@@ -189,4 +191,46 @@ class CustomBottomSheet extends StatelessWidget {
         }
     );
   }
+
+  showOneWithCancel(){
+    return showBottomSheet(
+        context: customContext,
+        builder: (BuildContext context){
+          return Container(
+            child: Column(
+              /// to make the bottom sheet take only the width and height as
+              /// is required we use :
+              /// mainAxisAlignment - To align the contents to the bottom
+              /// mainAxisSize - To make the bottom sheet take the minimum
+              /// space required
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                /// icon and name, so CustomIconButton and CustomText
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      CustomIconButton(
+                        iconNameInImageFolder: firstIconName,
+                        onPressed: firstIconAndTextOnPressed,
+                      ),
+                      CustomText(text: firstIconText,)
+                    ],
+                  ),
+                ),
+                Container(
+                  child: CustomIconButton(
+                    iconNameInImageFolder: 'cancel',
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                  ),
+                )
+              ],
+            ),
+          );
+        }
+    );
+  }
+
 }

@@ -29,16 +29,16 @@ class _BazaarProfileSetLocationState extends State<BazaarProfileSetLocation> {
               CustomBottomSheet(
                 customContext: context,
                 firstIconName: 'home',
-                firstIconText: 'Set current location as home location',
+                firstIconText: 'Set current location as service location',
                 firstIconAndTextOnPressed: (){
                   set();
                 },
-                secondIconName: 'locationPin',
-                secondIconText: 'Set other location as home location',
-                secondIconAndTextOnPressed: (){
-                  set();
-                },
-              ).showTwo();
+//                secondIconName: 'locationPin',
+//                secondIconText: 'Set other location as home location',
+//                secondIconAndTextOnPressed: (){
+//                  set();
+//                },
+              ).showOneWithCancel();
             },
           ),
         if(widget.locationSelected == true ) Padding(child: LocationServiceState().showLocation(widget.userName, widget.latitude, widget.longitude), padding: EdgeInsets.only(right: 5),)

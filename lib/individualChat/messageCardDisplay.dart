@@ -49,7 +49,7 @@ class MessageCardDisplay extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
       child: isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody, individualChatCache: individualChatCache, messageId: messageId, cache: cache) :
       isLocationMessage ==true ? LocationDisplayAndLaunchInMap(textOnButton: fromName, latitude: latitude,longitude: longitude, locationName: 'current location',):
-      videoURL != null  ? ShowVideoThumbnail(videoURL: videoURL,):imageURL == null?
+      videoURL != null  ? ShowVideoThumbnail(videoURL: videoURL,cache: cache,):imageURL == null?
       TextMessageUI(isMe: isMe, messageBody: messageBody,): ShowImageDownloadFlushbar(imageURL: imageURL,)
     );
 

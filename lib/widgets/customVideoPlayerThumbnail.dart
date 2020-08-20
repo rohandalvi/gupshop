@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/individualChat/individualChatCache.dart';
 
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
@@ -7,8 +8,9 @@ import 'package:video_player/video_player.dart';
 
 class CustomVideoPlayerThumbnail extends StatefulWidget {
   final String videoURL;
+  IndividualChatCache cache = new IndividualChatCache();
 
-  CustomVideoPlayerThumbnail({this.videoURL,});
+  CustomVideoPlayerThumbnail({this.videoURL, this.cache});
 
   @override
   _CustomVideoPlayerThumbnailState createState() => _CustomVideoPlayerThumbnailState();
@@ -26,13 +28,6 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
 
       });
     });
-//    videoPlayerController.initialize()
-//        .then((_) {
-//      setState(() {
-//
-//      });
-//    });
-    
   }
 
   @override
@@ -69,13 +64,14 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
       children: <Widget>[
         Card(
           margin: EdgeInsets.all(0.3),
-          child: GestureDetector(
-            child: videoPlayerController.value.initialized ? AspectRatio(
+          child: //widget.cache.video == null ? helper()
+          GestureDetector(
+            child: AspectRatio(
                 aspectRatio:
                 //videoPlayerController.value.aspectRatio,
                 16/10,
                 child: VideoPlayer(videoPlayerController),
-            ) : CircularProgressIndicator(),
+            ) ,
             onTap: (){
                 Navigator.push(
                     context,
@@ -86,6 +82,7 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
                 );
             },
           ),
+//        : cachedVideo(),
         ),
         CustomIconButton(iconNameInImageFolder: 'playButton', onPressed: (){
           Navigator.push(
@@ -97,5 +94,40 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
         },)
       ],
     );
+  }
+
+  GestureDetector helper(){
+    print("non cache");
+    GestureDetector result = new  GestureDetector(
+      child: AspectRatio(
+      //videoPlayerController.value.initialized ? AspectRatio(
+        aspectRatio:
+        //videoPlayerController.value.aspectRatio,
+        16/10,
+        child: VideoPlayer(videoPlayerController),
+      ) ,
+            //: CircularProgressIndicator(),
+      onTap: (){
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CustomVideoPlayer(videoURL:widget.videoURL),//pass Name() here and pass Home()in name_screen
+              //builder: (context) => FullScreenPictureAndVideos(payLoad:widget.videoURL, isPicture: false, shouldZoom: false,),//pass Name() here and pass Home()in name_screen
+            )
+        );
+      },
+    );
+
+    if(widget.cache != null) {
+      widget.cache.video = result;
+    }
+    return result;
+  }
+
+  cachedVideo(){
+    print("in cache");
+    print("cachedVideo : ${widget.cache.video}");
+    print("videoPlayerController.value.initialized : ${videoPlayerController.value.initialized}");
+    return widget.cache.video;
   }
 }

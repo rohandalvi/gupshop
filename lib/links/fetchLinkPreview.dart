@@ -1,3 +1,4 @@
+import 'package:gupshop/placeholders/newsImagePlaceholder.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 
@@ -7,6 +8,7 @@ class FetchLinkPreviewData{
     final response = await http.get(url);
     final document = parse(response.body);
 
+    print("in fetch");
 
 
     List elements = document.getElementsByTagName('meta');
@@ -26,7 +28,6 @@ class FetchLinkPreviewData{
 
       if(tmp.attributes['property'] == 'og:image'){
         image = tmp.attributes['content'];
-        /// adding place holder when no URI host specified
       }
     });
 

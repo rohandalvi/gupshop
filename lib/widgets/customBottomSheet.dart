@@ -128,29 +128,35 @@ class CustomBottomSheet extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 /// icon and name, so CustomIconButton and CustomText
-                Row(
-                  children: <Widget>[
-                    CustomIconButton(
-                      iconNameInImageFolder: firstIconName,
-                      onPressed: firstIconAndTextOnPressed,
-                    ),
-                    CustomText(text: firstIconText,)
-                  ],
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      CustomIconButton(
+                        iconNameInImageFolder: firstIconName,
+                        onPressed: firstIconAndTextOnPressed,
+                      ),
+                      CustomText(text: firstIconText,)
+                    ],
+                  ),
                 ),
-                Row(
-                  children: <Widget>[
-                    CustomIconButton(
-                      iconNameInImageFolder: secondIconName,
-                      onPressed: secondIconAndTextOnPressed,
-                    ),
-                    CustomText(text: secondIconText,)
-                  ],
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      CustomIconButton(
+                        iconNameInImageFolder: secondIconName,
+                        onPressed: secondIconAndTextOnPressed,
+                      ),
+                      CustomText(text: secondIconText,)
+                    ],
+                  ),
                 ),
-                CustomIconButton(
-                  iconNameInImageFolder: 'cancel',
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
+                Container(
+                  child: CustomIconButton(
+                    iconNameInImageFolder: 'cancel',
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                  ),
                 )
               ],
             ),

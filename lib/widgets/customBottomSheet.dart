@@ -48,8 +48,10 @@ class CustomBottomSheet extends StatelessWidget {
         context: customContext,
         builder: (BuildContext context){
           return Container(
-            height: 350,
+            //height: 350,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 /// icon and name, so CustomIconButton and CustomText
                 Row(

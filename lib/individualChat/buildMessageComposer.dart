@@ -43,7 +43,7 @@ class BuildMessageComposer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.0),
-      height: 70,
+      height: 70, /// ToDo - change this - height
       color: Colors.white,
       child: Row(
         children: <Widget>[

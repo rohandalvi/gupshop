@@ -229,11 +229,18 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               //widget.controllerTwo.clear();//used to clear text when user hits send button
 
               /// giving error : ScrollController not attached to any scroll views.
-              widget.listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-                0.0,
-                curve: Curves.easeOut,
-                duration: const Duration(milliseconds: 300),
-              );
+              if(widget.listScrollController.hasClients == true){
+                widget.listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+                  0.0,
+                  curve: Curves.easeOut,
+                  duration: const Duration(milliseconds: 300),
+                );
+              }
+//              widget.listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+//                0.0,
+//                curve: Curves.easeOut,
+//                duration: const Duration(milliseconds: 300),
+//              );
               widget.value ="";
             }
           },

@@ -5,14 +5,23 @@ import 'package:flutter_svg/flutter_svg.dart';
 class CustomIconButton extends StatelessWidget {
   final VoidCallback onPressed;
   String iconNameInImageFolder;
+  double iconsize;
 
-  CustomIconButton({this.onPressed, this.iconNameInImageFolder});
+  CustomIconButton({this.onPressed, this.iconNameInImageFolder, this.iconsize});
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       icon: SvgPicture.asset('images/$iconNameInImageFolder.svg',),
       onPressed: onPressed,
+    );
+  }
+
+  resize(){
+    return IconButton(
+      icon: SvgPicture.asset('images/$iconNameInImageFolder.svg',),
+      onPressed: onPressed,
+      iconSize: iconsize,
     );
   }
 }

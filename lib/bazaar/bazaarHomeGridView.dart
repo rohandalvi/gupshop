@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/bazaarIndividualCategoryListData.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class BazaarHomeGridView extends StatefulWidget {
@@ -33,37 +34,14 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
                 String image = snapshot.data.documents[index].data['icon'];
 
                 return Container(
+                  width: SizeConfig.widthMultiplier,/// todo - required?
+                  height: SizeConfig.heightMultiplier,/// todo - required?
                   padding: EdgeInsets.all(16),
-                  //padding: EdgeInsets.only(left: 16, right: 16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
                   ),
                   child: pictureContainer(image, categoryNameForBazaarIndividualCategoryList, catergoryName),
-//                    Column(
-//                      mainAxisSize: MainAxisSize.min,
-//                      children: <Widget>[
-//                        //SizedBox(height: 14,),//for space between icon and box on top
-//                        InkWell(
-//                          onTap: (){
-//                            print("categoryNameForBazaarIndividualCategoryList in onTap: $categoryNameForBazaarIndividualCategoryList");
-//                            Navigator.push(
-//                                context,
-//                                MaterialPageRoute(
-//                                  builder: (context) => BazaarIndividualCategoryListData(category: categoryNameForBazaarIndividualCategoryList,),//pass Name() here and pass Home()in name_screen
-//                                )
-//                            );
-//                          },
-//                          child:
-//                          //DisplayPicture(imageURL: image,).forGrid(context),
-//                          Image(
-//                            image: NetworkImage(image),
-//                          )
-//                        ),
-//                        SizedBox(height: 14,),//this creates a good padding between category name and icon
-//                        CustomText(text: catergoryName,),
-//                      ],
-//                    ),
                 );
               },
           ),
@@ -84,9 +62,7 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
                   )
               );
             },
-            child:
-            //DisplayPicture(imageURL: image,).forGrid(context),
-            Container(
+            child: Container(
               width: MediaQuery.of(context).size.width * 1.25,
               height: MediaQuery.of(context).size.height * 0.13,
               child: Image(
@@ -97,7 +73,7 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
         ),
         Container(
           color: white,
-            child: CustomText(text: catergoryName, fontWeight: FontWeight.bold,).bigFont()
+            child: CustomText(text: catergoryName, fontWeight: FontWeight.bold,)
         ),
       ].toList(),
     );

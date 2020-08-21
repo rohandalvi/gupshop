@@ -9,6 +9,7 @@ class SizeConfig{
   static double textMultiplier;
   static double imageSizeMultiplier;
   static double heightMultiplier;
+  static double widthMultiplier;
 
   void init(BoxConstraints constraints, Orientation orientation){
     if(orientation == Orientation.portrait){
@@ -25,6 +26,7 @@ class SizeConfig{
     textMultiplier = _blockSizeVertical;/// 8.16
     imageSizeMultiplier = _blockSizeHorizontal;/// 4.32
     heightMultiplier = _blockSizeVertical;
+    widthMultiplier = _blockSizeHorizontal;
 
     print("horizontal : $_blockSizeHorizontal");
     print("vertical : $_blockSizeVertical");

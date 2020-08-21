@@ -17,7 +17,6 @@ import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsC
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/models/message.dart';
 import 'package:gupshop/models/text_message.dart';
-import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
@@ -53,6 +52,13 @@ class PlusButtonMessageComposerNewsSend extends StatefulWidget {
 }
 
 class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageComposerNewsSend> {
+
+  @override
+  void initState() {
+    widget.listScrollController = ScrollController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -229,18 +235,16 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               //widget.controllerTwo.clear();//used to clear text when user hits send button
 
               /// giving error : ScrollController not attached to any scroll views.
-              if(widget.listScrollController.hasClients == true){
-                widget.listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-                  0.0,
-                  curve: Curves.easeOut,
-                  duration: const Duration(milliseconds: 300),
-                );
+
+              if(widget.listScrollController.hasClients == false){
+
               }
-//              widget.listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
-//                0.0,
-//                curve: Curves.easeOut,
-//                duration: const Duration(milliseconds: 300),
-//              );
+              print("widget.listScrollController : ${widget.listScrollController}");
+              widget.listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
+                0.0,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );
               widget.value ="";
             }
           },

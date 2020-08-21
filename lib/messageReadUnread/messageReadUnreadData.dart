@@ -20,8 +20,9 @@ class MessageReadUnreadData{
 
   timestampDifference() async{
     String usersLatestMessageId = await GetFromMessageReadUnreadCollection(userNumber: number, conversationId: conversationId).getLatestMessageId();
+    print("usersLatestMessageId $conversationId :$usersLatestMessageId");
+    if(usersLatestMessageId == null ) return false; /// 1st message to a new conversation
     if(usersLatestMessageId == conversationsLatestMessageId) return true;
-    //if(identical(usersLatestMessageId, conversationsLatestMessageId)) return true;
     return false;
 
     /// use friendNumber as number here
@@ -45,18 +46,13 @@ class MessageReadUnreadData{
   containsMessageId(String messageId) async{
    DocumentSnapshot dc = await Firestore.instance.collection("messageReadUnread").document(number).get();
    bool result = dc.data["messageId"].contains(messageId);
-   print("result : $result");
    return result;
   }
 
   Future<bool> friendReadStatus(String usersLatestMessageId) async{
     /// use friendNumber as number here
-//    if(identical(usersLatestMessageId, conversationsLatestMessageId)) return true;
-//    return false;
-
+    if(usersLatestMessageId == null) return false;
     Timestamp usersLatestMessageTimestamp = await GetFromConversationCollection(conversationId: conversationId).getTimestamp(usersLatestMessageId);
-    print("usersLatestMessageTimestamp $conversationId : $usersLatestMessageTimestamp");
-    print("conversationsLatestMessageTimestamp $conversationId : $conversationsLatestMessageTimestamp");
     int diff =  usersLatestMessageTimestamp.compareTo(conversationsLatestMessageTimestamp);
     if(diff < 0) return false;
     return true;

@@ -147,9 +147,9 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
 
                 //sendLocation(location, messageId);
               },
-              sixthIconName: 'locationPin',
-              sixthIconText: 'Send location from Map',
-              sixthIconAndTextOnPressed: (){},
+//              sixthIconName: 'locationPin',
+//              sixthIconText: 'Send location from Map',
+//              sixthIconAndTextOnPressed: (){},
             ).show();
           },
           onChangedForTextField: (value){

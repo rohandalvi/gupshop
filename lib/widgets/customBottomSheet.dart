@@ -99,15 +99,15 @@ class CustomBottomSheet extends StatelessWidget {
                     CustomText(text: fifthIconText,)
                   ],
                 ),
-                Row(
-                  children: <Widget>[
-                    CustomIconButton(
-                      iconNameInImageFolder: sixthIconName,
-                      onPressed: sixthIconAndTextOnPressed,
-                    ),
-                    CustomText(text: sixthIconText,)
-                  ],
-                ),
+//                Row(
+//                  children: <Widget>[
+//                    CustomIconButton(
+//                      iconNameInImageFolder: sixthIconName,
+//                      onPressed: sixthIconAndTextOnPressed,
+//                    ),
+//                    CustomText(text: sixthIconText,)
+//                  ],
+//                ),
                 CustomIconButton(
                   iconNameInImageFolder: 'cancel',
                   onPressed: (){

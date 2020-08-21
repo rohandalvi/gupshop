@@ -240,14 +240,12 @@ class _IndividualChatState extends State<IndividualChat> {
      */
 
     /// if new conversation, then conversationId == null
-    print("conversationId in individualchat initstate : $conversationId");
     if(conversationId == null) {
       getConversationId();
       /// also create a conversations_number collection
     }else{
       ///if forwardMessage == true, then initialize that method of sending the message
       ///here in the initstate():
-      print("conversationId in individualChat in else: $conversationId");
       forwardMessages(conversationId);
     }
 

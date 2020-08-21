@@ -112,19 +112,23 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
                 }
               }
           ),
-          subtitle:Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                /// show presence only when its an individual conversation, not
-                /// in group conversation
-                child: Visibility(
-                    visible: isIndividual(),
-                    child: CustomFutureBuilder(future: widget.presence.getStatus(widget.friendN), dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle())
+          subtitle:Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  /// show presence only when its an individual conversation, not
+                  /// in group conversation
+                  child: Visibility(
+                      visible: isIndividual(),
+                      child: CustomFutureBuilder(future: widget.presence.getStatus(widget.friendN), dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle())
+                  ),
                 ),
-              ),
-              Container(child: TypingStatusDisplay(conversationId: widget.conversationId, userNumber: widget.userPhoneNo,userName: widget.userName,groupExits: widget.groupExits,)),
-            ],
+                Container(child: TypingStatusDisplay(conversationId: widget.conversationId, userNumber: widget.userPhoneNo,userName: widget.userName,groupExits: widget.groupExits,)),
+              ],
+            ),
           ),
           trailing: Wrap(
             children: <Widget>[

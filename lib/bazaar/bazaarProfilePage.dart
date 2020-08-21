@@ -265,15 +265,13 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
         location.then((val){
           setState(() {
             _bazaarWalaLocation = val;
-            print("val in _bazaarWalaLocation: $val");
-            print("_bazaarWalaLocation in initstate = $_bazaarWalaLocation");
             latitude = _bazaarWalaLocation.latitude;
             longitude =  _bazaarWalaLocation.longitude;
             locationSelected = false;
           });
         });
       },
-      child: Text("Click to set other location as home location",style: GoogleFonts.openSans()),
+      child: CustomText(text: "Click to set other location as home location",)
     );
   }
 

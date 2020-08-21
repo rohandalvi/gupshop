@@ -14,8 +14,8 @@ class CustomDialogForConfirmation{
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: title == null?const CustomText(text: "Hey group admin, are you sure ?"): CustomText(text: title),
-            content: content == null?const CustomText(text: "The member will be deleted from the group"): CustomText(text: content),
+            title: title == null?CustomText(text: "Hey group admin, are you sure ?"): CustomText(text: title),
+            content: content == null?CustomText(text: "The member will be deleted from the group"): CustomText(text: content),
             actions: <Widget>[
               IconButton(
                   icon: SvgPicture.asset('images/alarm.svg',)
@@ -23,11 +23,11 @@ class CustomDialogForConfirmation{
               ),
               FlatButton(
                   onPressed: () => Navigator.of(context).pop(true),
-                  child: const CustomText(text:"YES")
+                  child: CustomText(text:"YES")
               ),
               FlatButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: const CustomText(text:"NO"),
+                child: CustomText(text:"NO"),
               ),
             ],
           );

@@ -57,8 +57,8 @@ class _CustomDismissibleState extends State<CustomDismissible> {
             context: context,
             builder: (BuildContext context) {
           return AlertDialog(
-            title: const CustomText(text: "Hey group admin, are you sure ?"),
-            content: const CustomText(text: "The group will be deleted permenantly"),
+            title: CustomText(text: "Hey group admin, are you sure ?"),
+            content: CustomText(text: "The group will be deleted permenantly"),
             actions: <Widget>[
               IconButton(
                   icon: SvgPicture.asset('images/alarm.svg',)
@@ -66,11 +66,11 @@ class _CustomDismissibleState extends State<CustomDismissible> {
               ),
               FlatButton(
                   onPressed: () => Navigator.of(context).pop(true),
-                  child: const CustomText(text:"YES")
+                  child: CustomText(text:"YES")
               ),
               FlatButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: const CustomText(text:"NO"),
+                child: CustomText(text:"NO"),
               ),
             ],
           );

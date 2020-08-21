@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/widgets/customText.dart';
 
 class ClickableText extends StatelessWidget {
   final String text;
@@ -9,16 +9,7 @@ class ClickableText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: Text(
-        text,
-        style:
-        GoogleFonts.openSans(
-          textStyle: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
-        ),
-      ),
+      child: CustomText(text: text,),
       onTap: onTap
     );
   }

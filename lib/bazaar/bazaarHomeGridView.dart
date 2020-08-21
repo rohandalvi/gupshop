@@ -97,7 +97,7 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
         ),
         Container(
           color: white,
-            child: CustomText(text: catergoryName, fontSize: 18, fontWeight: FontWeight.bold,)
+            child: CustomText(text: catergoryName, fontWeight: FontWeight.bold,).bigFont()
         ),
       ].toList(),
     );

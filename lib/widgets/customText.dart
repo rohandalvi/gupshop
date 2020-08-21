@@ -1,24 +1,61 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/responsive/sizeConfig.dart';
 
 class CustomText extends StatelessWidget {
-  final String text;
+  String text;
   final double fontSize;
   final Color textColor;
   final FontWeight fontWeight;
 
-  const CustomText({Key key, @required this.text, this.fontSize, this.textColor, this.fontWeight});
+  final double standardFontSize;
+  final double bigFontSize;
+  final double subtitleFontSize;
+  final double welcomeTitleSize;
+
+  CustomText({Key key, @required this.text, this.fontSize, this.textColor, this.fontWeight}) :
+        standardFontSize =  SizeConfig.textMultiplier * 2,
+        bigFontSize = SizeConfig.textMultiplier * 2.5,
+        subtitleFontSize = SizeConfig.textMultiplier * 1.5,
+        welcomeTitleSize =  SizeConfig.textMultiplier * 11;
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
       style: GoogleFonts.openSans(
-        //inconsolata
         textStyle: TextStyle(
           fontWeight: fontWeight == null ? FontWeight.w600 : fontWeight,
-          fontSize: fontSize != null ? fontSize : 16,
+            /// screen size verticle = 8.16(SizeConfig.textMultiplier = _blockSizeVertical),
+            /// so 8*2 = 16, that is our font size
+          fontSize: standardFontSize
+          //fontSize != null ? fontSize : 16,
+        ),
+        color: textColor == null ? Colors.black : textColor,
+      ),
+    );
+  }
+
+  welcomeTitle(){
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+        textStyle: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: welcomeTitleSize,
+        ),
+      ),
+    );
+  }
+
+  bigFont(){
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+        textStyle: TextStyle(
+            fontWeight: fontWeight == null ? FontWeight.w600 : fontWeight,
+            fontSize: bigFontSize
         ),
         color: textColor == null ? Colors.black : textColor,
       ),
@@ -33,7 +70,7 @@ class CustomText extends StatelessWidget {
         //inconsolata
         textStyle: TextStyle(
           fontWeight: FontWeight.w600,
-          fontSize: fontSize != null ? fontSize : 16,
+          fontSize: standardFontSize,
         ),
       ),
       overflow: TextOverflow.ellipsis,
@@ -46,7 +83,7 @@ class CustomText extends StatelessWidget {
       style: GoogleFonts.openSans(
         textStyle: TextStyle(
           fontWeight: FontWeight.w600,
-          fontSize: 12,
+          fontSize: subtitleFontSize,
         ),
       ),
     );
@@ -58,7 +95,7 @@ class CustomText extends StatelessWidget {
       style: GoogleFonts.openSans(
         textStyle: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 16,
+          fontSize: standardFontSize,
         ),
       ),
     );
@@ -84,7 +121,7 @@ class CustomText extends StatelessWidget {
       style: GoogleFonts.openSans(
         textStyle: TextStyle(
           color: Colors.grey,
-          fontSize: 12,
+          fontSize: subtitleFontSize,
         ),
       ),
     );
@@ -96,7 +133,7 @@ class CustomText extends StatelessWidget {
       style: GoogleFonts.openSans(
         textStyle: TextStyle(
           color: Colors.blue,
-          fontSize: 12,
+          fontSize: subtitleFontSize,
           fontStyle : FontStyle.italic,
         ),
       ),
@@ -109,7 +146,7 @@ class CustomText extends StatelessWidget {
       style: GoogleFonts.openSans(
         textStyle: TextStyle(
           color: Colors.grey,
-          fontSize: 12,
+          fontSize: subtitleFontSize,
           fontStyle : FontStyle.italic,
         ),
       ),
@@ -122,7 +159,7 @@ class CustomText extends StatelessWidget {
       style: GoogleFonts.openSans(
         textStyle: TextStyle(
           color: textColor == null ? Colors.redAccent : textColor,
-          fontSize: 12,
+          fontSize: subtitleFontSize,
           fontStyle : FontStyle.italic,
         ),
       ),
@@ -135,7 +172,7 @@ class CustomText extends StatelessWidget {
       style: GoogleFonts.openSans(
         //inconsolata
         textStyle: TextStyle(
-          fontSize: fontSize != null ? fontSize : 16,
+          fontSize: standardFontSize,
         ),
         color: textColor == null ? Colors.black : textColor,
       ),

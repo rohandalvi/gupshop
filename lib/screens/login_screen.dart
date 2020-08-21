@@ -11,6 +11,7 @@ import 'package:gupshop/screens/name_screen.dart';
 import 'package:gupshop/service/auth_service.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/countryCodeAndFlag.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,26 +58,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                   ),
                   Container(
-                    child: Text(
-                      'Gup',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 90,
-                      ),
-                    ),
+                    child: CustomText(text: 'Gup',).welcomeTitle(),
                     padding: EdgeInsets.fromLTRB(15, 120, 0, 0),
                     /// padding: EdgeInsets.fromLTRB(35, 110, 0, 0)==>if this is not included
                     /// then the words gup shup would be displayed in the upper left corner
                     /// of the screen
                   ),
                   Container(
-                    child: Text(
-                      'Shop',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 90,
-                      ),
-                    ),
+                    child: CustomText(text: 'Shup',).welcomeTitle(),
                     padding: EdgeInsets.fromLTRB(50, 190, 0, 0),
                   )
                 ],
@@ -104,7 +93,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               setState(() {
                                 this.phoneNo = val;
                                 this.val=val;
-                                print("phoneNo: ${this.val}");
                                 numberWithoutCode = this.val;
                               });
                             },
@@ -114,9 +102,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
-              IconButton(
+              CustomIconButton(
                 onPressed: verifyphone,
-                icon: SvgPicture.asset('images/nextArrow.svg',),
+                iconNameInImageFolder: 'nextArrow',
               ),
             ],
           ),
@@ -184,18 +172,9 @@ class _LoginScreenState extends State<LoginScreen> {
             duration: Duration(seconds: 5),
             forwardAnimationCurve: Curves.decelerate,
             reverseAnimationCurve: Curves.easeOut,
-            titleText: Text(
-              'Wrong verification code',
-              style: GoogleFonts.openSans(
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: ourBlack,
-                ),
-              ),
-            ),
+            titleText: CustomText(text: 'Wrong verification code',),
             message: "Please enter your name to move forward",
           )..show(context);
-          print("Got error $e");
         });
 
 
@@ -271,9 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
         barrierDismissible: false, //@Todo-why??
         builder: (BuildContext context) {
           return new AlertDialog(
-            title: Text(
-              'Enter sms code',
-            ),
+            title: CustomText(text: 'Enter sms code',),
             content: TextField(
               onChanged: (value) {
                 this.smsCode = value;
@@ -281,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text('Ok'),
+                child:CustomText(text: 'Ok',),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

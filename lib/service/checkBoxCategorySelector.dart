@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/widgets/customText.dart';
 
 // =>bazaarProfilePage
 
@@ -83,7 +84,7 @@ class CheckBoxCategorySelectorState extends State<CheckBoxCategorySelector> {
                 });
                 print("context: false");
               },
-               child: ifNoCategorySelected() ? Text("Save") : null,
+               child: ifNoCategorySelected() ? CustomText(text : "Save") : null,
               //child: ifNoCategorySelected() ? Text("Save") : Text("Required"),//flip and show save once and required once
             )
           ],
@@ -131,7 +132,7 @@ class CheckBoxCategorySelectorState extends State<CheckBoxCategorySelector> {
                           fit: FlexFit.loose,
                           flex: 1,
                           child: CheckboxListTile(
-                            title: Text(querySnapshot.documents[index].documentID),
+                            title: CustomText(text : querySnapshot.documents[index].documentID),
                             value: inputs[index],
                             //controlAffinity: ListTileControlAffinity.leading,
                             onChanged: (bool val){

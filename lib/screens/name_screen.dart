@@ -8,6 +8,7 @@ import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
+import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextField.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -127,15 +128,7 @@ class _NameScreenState extends State<NameScreen> {
                         duration: Duration(seconds: 5),
                         forwardAnimationCurve: Curves.decelerate,
                         reverseAnimationCurve: Curves.easeOut,
-                        titleText: Text(
-                          'Name required',
-                          style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: ourBlack,
-                            ),
-                          ),
-                        ),
+                        titleText: CustomText(text : 'Name required'),
                         message: "Please enter your name to move forward",
                       )..show(context);
                     }

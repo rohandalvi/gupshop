@@ -179,6 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
               width: 30,
               height: 30,
             ),
+            flushbarStyle: FlushbarStyle.GROUNDED,
             backgroundColor: Colors.white,
             duration: Duration(seconds: 5),
             forwardAnimationCurve: Curves.decelerate,

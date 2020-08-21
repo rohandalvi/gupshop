@@ -114,6 +114,7 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                         width: 30,
                         height: 30,
                       ),
+                      flushbarStyle: FlushbarStyle.GROUNDED,
                       backgroundColor: Colors.white,
                       duration: Duration(seconds: 5),
                       forwardAnimationCurve: Curves.decelerate,

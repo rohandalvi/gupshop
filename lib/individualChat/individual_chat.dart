@@ -39,10 +39,13 @@ class IndividualChat extends StatefulWidget {
   final bool notGroupMemberAnymore;
   Map<String, ChatListCache> chatListCache;
   bool groupDeleted;
+  String imageURL;
 
 
   IndividualChat(
-      {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName, @required this.friendName,this.forwardMessage, this.listOfFriendNumbers, this.notGroupMemberAnymore, this.chatListCache, this.groupDeleted})
+      {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName,
+        @required this.friendName,this.forwardMessage, this.listOfFriendNumbers, this.notGroupMemberAnymore,
+        this.chatListCache, this.groupDeleted, this.imageURL})
       : super(key: key);
   @override
   _IndividualChatState createState() => _IndividualChatState(
@@ -228,6 +231,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   void initState() {
+    print("imageURL in indichat : ${widget.imageURL}");
     /*
     adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
     when user scrolls
@@ -265,7 +269,8 @@ class _IndividualChatState extends State<IndividualChat> {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(63.0),//the distance between gupShop and tabBars
             child: IndividualChatAppBar(chatListCache : widget.chatListCache,userPhoneNo: userPhoneNo, userName: userName,groupExits: groupExits,friendName: friendName,friendN: friendN, conversationId: conversationId,notGroupMemberAnymore: notGroupMemberAnymore,
-              listOfFriendNumbers: listOfFriendNumbers,presence: presence, conversationService: conversationService, groupDeleted: widget.groupDeleted,),
+              listOfFriendNumbers: listOfFriendNumbers,presence: presence, conversationService: conversationService,
+              groupDeleted: widget.groupDeleted,imageURL: widget.imageURL,),
           ),
           /// 1st check : check if its a  group and if yes, is it deleted?
           /// yes, then show a deleted group screen

@@ -8,6 +8,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class DisplayAvatar{
+  String imageUrl;
+
+  DisplayAvatar({this.imageUrl});
 
   getProfilePicture(String userPhoneNo, double radius){
     String imageUrl;
@@ -44,7 +47,7 @@ class DisplayAvatar{
           ///          }else imageUrl = snapshot.data['url'];
           ///
           /// So we use a try catch insted
-          String imageUrl;
+
           try{
             imageUrl = snapshot.data['url'];
           }
@@ -54,6 +57,8 @@ class DisplayAvatar{
             //imageUrl = 'images/user.png';
             isFirstTime = true;
           }
+
+          print("imageURL in displayAvatar : $imageUrl");
           return customCircleAvatar(imageUrl, radius, innerRadius);
         }
     );

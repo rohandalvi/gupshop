@@ -7,6 +7,7 @@ import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/navigators/navigateToIndividualChatAppBar.dart';
 import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
+import 'package:gupshop/streamShortcuts/profilePictures.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,10 +21,12 @@ class ChangeProfilePicture extends StatefulWidget {
   String groupConversationId;
   Map<String, ChatListCache> chatListCache;
   String conversationId;
+  String imageURL;
 
 
   ChangeProfilePicture({@required this.userName, @required this.viewingFriendsProfile,
     @required this.userPhoneNo, this.groupConversationId, this.chatListCache, this.conversationId,
+    this.imageURL
   });
 
   @override
@@ -61,6 +64,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     /// Update: As we no longer user the snackbar we dont need the  Builder
     @override
     Widget build(BuildContext context) {
+      print("imageURL in changeProfile : $imageURL");
       return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
@@ -83,25 +87,45 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         backgroundColor: Colors.white,
         body: Container(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: StreamBuilder(
-                  stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
-                  builder: (context, snapshot) {
-                    String imageUrl;
-
-                    if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
-
-                    imageUrl = snapshot.data['url'];
-                    if(imageUrl == null) imageUrl = 'images/user.png';///this is the placeholder for the 1st time user, test it using an actual phone
-
-                    return ProfilePictureAndButtonsScreen(
-                      userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 360, width: 360,userName: userName,
-                      viewingFriendsProfile: viewingFriendsProfile, groupConversationId: groupConversationId,
-                      chatListCache: widget.chatListCache, conversationId: widget.conversationId,
-                    );
-                  }
+              child: ProfilePictureAndButtonsScreen(
+                userPhoneNo: userPhoneNo, imageUrl: widget.imageURL, height: 360, width: 360,userName: userName,
+                viewingFriendsProfile: viewingFriendsProfile, groupConversationId: groupConversationId,
+                chatListCache: widget.chatListCache, conversationId: widget.conversationId,
               ),
+//              StreamBuilder(
+//                  stream:
+//                  //ProfilePictures(userPhoneNo: userPhoneNo).stream(),
+//                  Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
+//                  builder: (context, snapshot) {
+//                    String imageUrl;
+//
+//                    if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
+//
+//                    imageUrl = snapshot.data['url'];
+//                    if(imageUrl == null) imageUrl = 'images/user.png';///this is the placeholder for the 1st time user, test it using an actual phone
+//
+//                    return ProfilePictureAndButtonsScreen(
+//                      userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 360, width: 360,userName: userName,
+//                      viewingFriendsProfile: viewingFriendsProfile, groupConversationId: groupConversationId,
+//                      chatListCache: widget.chatListCache, conversationId: widget.conversationId,
+//                    );
+//                  }
+//              )
         ),
       );
+    }
+
+    cache(){
+      return (widget.chatListCache != null && widget.chatListCache.containsKey(widget.conversationId) == true
+      && widget.chatListCache[widget.conversationId].fullScreenPicture != null);
+    }
+
+    cachedDp(){
+      return widget.chatListCache[widget.conversationId].fullScreenPicture;
+    }
+
+    addToCache(ProfilePictureAndButtonsScreen dp){
+      widget.chatListCache[widget.conversationId].fullScreenPicture = dp;
     }
 
 

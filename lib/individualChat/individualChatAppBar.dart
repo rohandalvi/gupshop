@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
+import 'package:gupshop/chat_list_page/displayDP.dart';
 import 'package:gupshop/individualChat/streamSingleton.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
@@ -30,12 +32,13 @@ class IndividualChatAppBar extends StatefulWidget {
   ConversationService conversationService;
   Map<String, ChatListCache> chatListCache;
   bool groupDeleted;
+  String imageURL;
 
 
   IndividualChatAppBar({this.userName, this.userPhoneNo, this.groupExits,
     this.friendName, this.friendN, this.conversationId, this.notGroupMemberAnymore,
     this.listOfFriendNumbers,this.presence, this.conversationService, this.chatListCache,
-    this.groupDeleted
+    this.groupDeleted,this.imageURL
   });
 
   @override
@@ -72,7 +75,6 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
             /// if a person is removed from the group, then the subscription
             /// cannot be cancelled.
             /// Hence, first check if he is a member or not.
-            print("conversationExists :${conversationExists()}");
             if(conversationExists() == true){
               await widget.conversationService.disableActiveSubscription();
             }
@@ -150,6 +152,7 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
 
 
   displayPictureAvatar(){
+    //da = DisplayAvatar(imageUrl: imageURL).displayAvatarFromFirebase(widget.friendN, 25, 23.5, false);
     /// take value from chatListCache
 
 
@@ -169,6 +172,7 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
   }
 
   changeProfilePicture(BuildContext context) async{
+    print("imageURL in changeProfile : ${widget.imageURL}");
     final result = await Navigator.push(
         context,
         MaterialPageRoute(
@@ -178,11 +182,14 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
             userPhoneNo: widget.friendN,
             groupConversationId: widget.conversationId,
             conversationId: widget.conversationId,
-            chatListCache: widget.chatListCache,),//pass Name() here and pass Home()in name_screen
+            chatListCache: widget.chatListCache,
+            imageURL: widget.imageURL,
+          ),//pass Name() here and pass Home()in name_screen
         )
     );
     setState(() {
       checkCache = false;
+
     });
 
     return result;

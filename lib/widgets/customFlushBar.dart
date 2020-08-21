@@ -41,6 +41,7 @@ class CustomFlushBar extends StatelessWidget {
       forwardAnimationCurve: Curves.decelerate,
       reverseAnimationCurve: Curves.easeOut,
       titleText: text,
+      flushbarStyle: FlushbarStyle.GROUNDED,
       message: "Please enter your name to move forward",
     )..show(customContext);
   }
@@ -58,6 +59,7 @@ class CustomFlushBar extends StatelessWidget {
       reverseAnimationCurve: Curves.easeOut,
       titleText: text,
       message: message,
+      flushbarStyle: FlushbarStyle.GROUNDED,
     )..show(customContext);
   }
 
@@ -77,6 +79,7 @@ class CustomFlushBar extends StatelessWidget {
       reverseAnimationCurve: Curves.easeOut,
       titleText: text,
       message: message,
+      flushbarStyle: FlushbarStyle.GROUNDED,
     )..show(customContext);
   }
 }

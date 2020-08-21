@@ -29,6 +29,7 @@ class ChatListDisplay extends StatelessWidget {
   Map<String, ChatListCache> chatListCache;
   String conversationsLatestMessageId;
   bool groupDeleted;
+  String imageURL;
 
   ChatListDisplay({this.myNumber, this.conversationId, this.notAGroupMemberAnymore,
     this.groupExists, this.friendNumber, this.memberList, this.friendNumberList,
@@ -77,6 +78,7 @@ class ChatListDisplay extends StatelessWidget {
                     listOfFriendNumbers: friendNumberList,
                     notGroupMemberAnymore: notAGroupMemberAnymore,
                     groupDeleted: groupDeleted,
+                    imageURL: imageURL,
                   ), //pass Name() here and pass Home()in name_screen
             )
         );
@@ -193,7 +195,7 @@ class ChatListDisplay extends StatelessWidget {
             }
             cache.isGroup = groupExists;
 
-            return DisplayAvatar()
+            return DisplayAvatar(imageUrl: imageURL)
                 .displayAvatarFromProfilePictures(friendNumber, 30, 27,
                 false, chatListCache, conversationId, cache);
           }

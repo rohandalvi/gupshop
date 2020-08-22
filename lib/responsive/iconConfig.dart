@@ -5,4 +5,5 @@ class IconConfig{
   /// imageSizeMultiplier = 4.32
   static double bigIcon = SizeConfig.imageSizeMultiplier * 9.25;
   static double flushbarIcon = SizeConfig.imageSizeMultiplier * 7; /// 30/4.32
+  static double bazaarIndividualCategoryChatBubble = SizeConfig.imageSizeMultiplier * 15;/// 65/4.32
 }

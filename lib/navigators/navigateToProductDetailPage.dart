@@ -5,12 +5,14 @@ import 'package:gupshop/modules/userDetails.dart';
 
 class NavigateToProductDetailPage {
   String category;
+  String bazaarWalaName;
+  String bazaarWalaPhoneNo;
 
-  NavigateToProductDetailPage({this.category});
+  NavigateToProductDetailPage({this.category,this.bazaarWalaPhoneNo, this.bazaarWalaName});
 
   navigate(BuildContext context) async {
-    String userNumber = await UserDetails().getUserPhoneNoFuture();
-    String userName = await UserDetails().getUserNameFuture();
+//    String userNumber = await UserDetails().getUserPhoneNoFuture();
+//    String userName = await UserDetails().getUserNameFuture();
 
     return () {
       Navigator.push(
@@ -18,8 +20,8 @@ class NavigateToProductDetailPage {
           MaterialPageRoute(
             builder: (context) =>
                 ProductDetail(
-                  productWalaNumber: userNumber,
-                  productWalaName: userName,
+                  productWalaNumber: bazaarWalaPhoneNo,
+                  productWalaName: bazaarWalaName,
                   category: category,
                 ),
           )

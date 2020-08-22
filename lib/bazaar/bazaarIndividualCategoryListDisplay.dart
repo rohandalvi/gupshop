@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/retriveFromFirebase/getConversationIdFromConversationMetadataCollection.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
@@ -62,8 +62,8 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                         ),
                         Expanded(
                           child: Container(
-                            width: 65,
-                            height: 65,
+                            width: IconConfig.bazaarIndividualCategoryChatBubble,
+                            height: IconConfig.bazaarIndividualCategoryChatBubble,
                             child: CustomIconButton(
                               iconNameInImageFolder: 'chatBubble',
                               onPressed: () async{
@@ -98,24 +98,16 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
           top: 15,
           bottom: 15,
           child: GestureDetector(//for navigation to Product detial page
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProductDetail(
-                      productWalaName: bazaarWalaName,
-                      category: category,
-                      productWalaNumber: bazaarWalaPhoneNo,
-                    ), //
-                  )
-              );
-            },
+            onTap: NavigateToProductDetailsPage(
+                  productWalaNumber: bazaarWalaPhoneNo,
+                  category: category,
+                  productWalaName: bazaarWalaName,
+                  ).navigate(context),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image(
-                width: 110,
+                width: 110,///110,
                 image: NetworkImage(thumbnailPicture),
-                //AssetImage('images/sampleProfilePicture.jpeg'),
                 fit: BoxFit.fill,//to adjust the image with the container
               ),
             ),

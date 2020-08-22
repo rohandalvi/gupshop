@@ -20,13 +20,6 @@ class ReadUnreadIcon extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           bool read = snapshot.data;
           if(read == null) read =false;
-          print("snapshot.data in readUnread $conversationId : ${snapshot.data}");
-
-//          if(snapshot.data == null) read = false;
-//          else if(snapshot.data < 0) read = false;
-//          else if(snapshot.data == 0) read = true;
-//          else read = true;
-          print("read in chatlist : $read");
 
           return Visibility(/// show the new icon only if the message is unread
             visible: read==false,

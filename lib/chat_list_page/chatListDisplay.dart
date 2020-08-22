@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/chat_list_page/avatarDataAndDisplay.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/subtitleDataAndDisplay.dart';
 import 'package:gupshop/chat_list_page/trailingDisplay.dart';
 import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/image/displayAvatar.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -30,17 +30,19 @@ class ChatListDisplay extends StatelessWidget {
   String conversationsLatestMessageId;
   bool groupDeleted;
   String imageURL;
+  double radius;
+  double innerRadius;
 
   ChatListDisplay({this.myNumber, this.conversationId, this.notAGroupMemberAnymore,
     this.groupExists, this.friendNumber, this.memberList, this.friendNumberList,
     this.friendName, this.lastMessageIsVideo, this.index, this.lastMessage,
     this.lastMessageIsImage, this.timeStamp, this.myName, this.chatListCache,
     this.conversationsLatestMessageId,
-  });
+  }): radius = ImageConfig.radius,/// 30
+        innerRadius = ImageConfig.innerRadius;/// 27
 
   @override
   Widget build(BuildContext context) {
-    print("avatar cache in chatListDisplay : $chatListCache");
     return ListTile( ///main widget that creates the message box
       leading:
       /// leading is avatar
@@ -196,10 +198,10 @@ class ChatListDisplay extends StatelessWidget {
             cache.isGroup = groupExists;
 
             return DisplayAvatar(imageUrl: imageURL)
-                .displayAvatarFromProfilePictures(friendNumber, 30, 27,
+                .displayAvatarFromProfilePictures(friendNumber, radius, innerRadius,
                 false, chatListCache, conversationId, cache);
           }
-          return DisplayAvatar().avatarPlaceholder(30, 27);
+          return DisplayAvatar().avatarPlaceholder(radius, innerRadius);
         },
       );
     }

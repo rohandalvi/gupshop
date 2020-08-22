@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
-import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/image/displayAvatar.dart';

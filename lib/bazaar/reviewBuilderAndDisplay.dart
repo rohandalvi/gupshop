@@ -339,7 +339,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
             padding: EdgeInsets.only(left:5, right: 5),//for spacing bewteen Add review text from left and right side of the blue container
             child: CustomRaisedButton(
               child: CustomText(
-                text: 'Add Review', fontSize: 12,),
+                text: 'Add Review',).subTitle(),
               onPressed: (){
                 setState(() {
                   widget.writeReview = true;

@@ -44,8 +44,8 @@ class IndividualChatAppBar extends StatefulWidget {
     this.friendName, this.friendN, this.conversationId, this.notGroupMemberAnymore,
     this.listOfFriendNumbers,this.presence, this.conversationService, this.chatListCache,
     this.groupDeleted,this.imageURL
-  }): radius = ImageConfig.radius,/// 25
-        innerRadius = ImageConfig.innerRadius;///23.5
+  }): radius = ImageConfig.smallRadius,/// 25
+        innerRadius = ImageConfig.smallInnerRadius;///23.5
 
   @override
   _IndividualChatAppBarState createState() => _IndividualChatAppBarState();

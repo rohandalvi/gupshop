@@ -38,8 +38,8 @@ class ChatListDisplay extends StatelessWidget {
     this.friendName, this.lastMessageIsVideo, this.index, this.lastMessage,
     this.lastMessageIsImage, this.timeStamp, this.myName, this.chatListCache,
     this.conversationsLatestMessageId,
-  }): radius = ImageConfig.radius,/// 30
-        innerRadius = ImageConfig.innerRadius;/// 27
+  }): radius = ImageConfig.smallRadius,/// 30
+        innerRadius = ImageConfig.smallInnerRadius;/// 27
 
   @override
   Widget build(BuildContext context) {

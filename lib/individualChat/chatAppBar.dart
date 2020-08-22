@@ -27,7 +27,7 @@ class ChatAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.only(top: 10),
       child: Container(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,7 +39,7 @@ class ChatAppBar extends StatelessWidget {
                   children: <Widget>[
                     /// back Arrow:
                     Padding(
-                      padding: EdgeInsets.only(top: 3),
+                      padding: EdgeInsets.only(top: 12),
                       child: CustomIconButton(
                         iconNameInImageFolder: 'backArrowColor',
                         onPressed: backOnPressed,

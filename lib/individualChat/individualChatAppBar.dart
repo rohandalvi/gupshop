@@ -1,24 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
-import 'package:gupshop/chat_list_page/displayDP.dart';
-import 'package:gupshop/individualChat/streamSingleton.dart';
 import 'package:gupshop/modules/Presence.dart';
-import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
-import 'package:gupshop/navigators/navigateToIndividualChatAppBar.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
-import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/image/displayAvatar.dart';
-import 'package:gupshop/typing/typingStatusDisplay.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
-import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/individualChat/chatAppBar.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
-import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 

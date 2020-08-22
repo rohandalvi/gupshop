@@ -265,7 +265,7 @@ class _IndividualChatState extends State<IndividualChat> {
       child: Material(
         child: Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60.0),//the distance between gupShop and tabBars
+            preferredSize: Size.fromHeight(72.0),//the distance between gupShop and tabBars
             child: IndividualChatAppBar(chatListCache : widget.chatListCache,userPhoneNo: userPhoneNo, userName: userName,groupExits: groupExits,friendName: friendName,friendN: friendN, conversationId: conversationId,notGroupMemberAnymore: notGroupMemberAnymore,
               listOfFriendNumbers: listOfFriendNumbers,presence: presence, conversationService: conversationService,
               groupDeleted: widget.groupDeleted,imageURL: widget.imageURL,),

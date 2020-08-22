@@ -18,10 +18,8 @@ class TypingStatusDisplay extends StatelessWidget {
       stream: GetMessageTypingInfo(userNumber: userNumber, conversationId: conversationId).messageTypingStream(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(snapshot.data == null ) return CustomText(text: 'Offline',);
-//        print("snapshot.data.data : ${snapshot.data.data[""]}");
-        bool hasMembers;
 
-//        List<String> list = snapshot.data.data["members"];
+        bool hasMembers;
 
         if(snapshot.data.data == null) {
           hasMembers = false;
@@ -36,10 +34,15 @@ class TypingStatusDisplay extends StatelessWidget {
           hasMembers = true;
         }
 
-          return Visibility(
-            visible: hasMembers,
-            child: groupExits == true ? CustomText(text: "$userName typing..",).italic() : CustomText(text: "typing..",).italic(),
-          );
+        return hasMembers == true ?
+        groupExits == true ? CustomText(text: "$userName typing..",).italic() : CustomText(text: "typing..",).italic()
+            : CustomText(text: "",)
+        ;
+
+//          return Visibility(
+//            visible: hasMembers,
+//            child: groupExits == true ? CustomText(text: "$userName typing..",).italic() : CustomText(text: "typing..",).italic(),
+//          );
       },
     );
   }

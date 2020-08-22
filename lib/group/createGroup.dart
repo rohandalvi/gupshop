@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/updateInFirebase/updateConversationMetadata.dart';
 import 'package:gupshop/service/contact_search.dart';
 import 'package:gupshop/colors/colorPalette.dart';
@@ -122,8 +123,8 @@ class _CreateGroupState<T> extends State<CreateGroup<T>> {
       child: Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
-            width: 100,
+            height: WidgetConfig.groupIconHeight,/// to increase the size of floatingActionButton use container along with FittedBox
+            width: WidgetConfig.groupIconWidth,
             child: FittedBox(
               child: CustomFloatingActionButton(
                 tooltip: 'Create a new Group',

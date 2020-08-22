@@ -57,18 +57,6 @@ class MessageCardDisplay extends StatelessWidget {
     return messageContainer;
   }
 
-  showText(context){
-    return Center(
-      child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minWidth: 50,
-            maxWidth: 250,
-          ),
-          child: TextMessageUI(isMe: isMe, messageBody: messageBody)
-      ),
-    );
-  }
-
   showVideo(String videoURL,){
     try{
       return Column(

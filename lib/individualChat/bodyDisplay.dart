@@ -124,12 +124,10 @@ class _BodyDisplayState extends State<BodyDisplay> {
             ///extract the message in a variable called forwardMessage(ideally there should be
             /// a list of messages and not just one variable..this is a @todo )
 
-            print("widget.latitude: ${widget.latitude}");
             if(widget.newsBody != null){
               forwardNews = widget.newsBody;
             }else if(widget.messageBody != null && widget.latitude != null){
               forwardLocation = widget.messageBody;
-              print("forwardLocation : $forwardLocation");
             }
             else if(widget.messageBody != null){
               forwardMessage = widget.messageBody;

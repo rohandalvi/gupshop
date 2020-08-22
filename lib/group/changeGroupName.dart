@@ -4,7 +4,6 @@ import 'package:gupshop/service/recentChats.dart';
 
 class ChangeGroupName extends StatefulBuilder{
   changeName(List<String> listOfNumbersInAGroup, String id, String newGroupName){
-    print("in changeName");
     /// change group name in friends collection of all group members
     /// change group name in recentChats collection of all group members
 

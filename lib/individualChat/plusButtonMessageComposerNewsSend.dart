@@ -191,9 +191,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
             }
 
 
-            print("widget.value = ${widget.value}");
             if(widget.value!="") {
-              print("in blank value");
               /// create messageId:
               /// pass that message Id to messageId.
               /// (here):
@@ -230,7 +228,6 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               if(widget.listScrollController.hasClients == false){
 
               }
-              print("widget.listScrollController : ${widget.listScrollController}");
               widget.listScrollController.animateTo(//for scrolling to the bottom of the screen when a next text is send
                 0.0,
                 curve: Curves.easeOut,

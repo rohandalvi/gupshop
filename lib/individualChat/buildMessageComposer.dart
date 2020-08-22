@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gupshop/responsive/sizeConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 
@@ -43,7 +45,7 @@ class BuildMessageComposer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.0),
-      height: 70, /// ToDo - change this - height
+      height: WidgetConfig.buildMessageComposer, /// 70
       color: Colors.white,
       child: Row(
         children: <Widget>[

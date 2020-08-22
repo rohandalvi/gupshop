@@ -25,7 +25,7 @@ class SizeConfig{
 
     textMultiplier = _blockSizeVertical;/// 8.16
     imageSizeMultiplier = _blockSizeHorizontal;/// 4.32
-    heightMultiplier = _blockSizeVertical;
+    heightMultiplier = _blockSizeVertical;/// 8.16
     widthMultiplier = _blockSizeHorizontal;
 
     print("horizontal : $_blockSizeHorizontal");

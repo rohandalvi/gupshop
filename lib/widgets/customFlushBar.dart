@@ -2,6 +2,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 
 class CustomFlushBar extends StatelessWidget {
   final Widget text;
@@ -17,8 +18,8 @@ class CustomFlushBar extends StatelessWidget {
     return Flushbar( /// for the flushBar if the user enters wrong verification code
       icon: SvgPicture.asset(
         'images/stopHand.svg',
-        width: 30,
-        height: 30,
+        width: IconConfig.flushbarIcon,/// 30
+        height: IconConfig.flushbarIcon,/// 30
       ),
       backgroundColor: Colors.white,
       duration: Duration(seconds: 5),
@@ -33,8 +34,8 @@ class CustomFlushBar extends StatelessWidget {
     return Flushbar( /// for the flushBar if the user enters wrong verification code
       icon: SvgPicture.asset(
         'images/stopHand.svg',
-        width: 30,
-        height: 30,
+        width: IconConfig.flushbarIcon,/// 30
+        height: IconConfig.flushbarIcon,/// 30
       ),
       backgroundColor: Colors.white,
       duration: duration == null ? Duration(seconds: 5) : duration,
@@ -50,8 +51,8 @@ class CustomFlushBar extends StatelessWidget {
     return Flushbar( /// for the flushBar if the user enters wrong verification code
       icon: SvgPicture.asset(
         'images/$iconName.svg',
-        width: 30,
-        height: 30,
+        width: IconConfig.flushbarIcon,/// 30
+        height: IconConfig.flushbarIcon,/// 30
       ),
       backgroundColor: Colors.white,
       duration: duration == null ? Duration(seconds: 5) : duration,
@@ -68,8 +69,8 @@ class CustomFlushBar extends StatelessWidget {
     return Flushbar( /// for the flushBar if the user enters wrong verification code
       icon: SvgPicture.asset(
         'images/$iconName.svg',
-        width: 30,
-        height: 30,
+        width: IconConfig.flushbarIcon,/// 30
+        height: IconConfig.flushbarIcon,/// 30
       ),
       backgroundColor: Colors.white,
       duration: null,

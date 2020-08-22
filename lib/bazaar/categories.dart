@@ -24,7 +24,6 @@ class _CategoriesState extends State<Categories> {
           bool _isSelected = await _categorySelectorCheckListDialogBox(context);
         },
         child: CustomText(text: "Category",),
-        //Text("Select from category",style: GoogleFonts.openSans()),
       ),
     );
   }

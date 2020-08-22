@@ -11,4 +11,6 @@ class WidgetConfig{
   static double categoriesWidth = SizeConfig.widthMultiplier * 70; /// 300
   static double sliverHeight = SizeConfig.heightMultiplier * 32;/// 260/8.16
   static double productDetailImageHeight = SizeConfig.heightMultiplier * 30.5;/// 250/8.16
+  static double reviewWidth = SizeConfig.widthMultiplier * 64.8; /// 280/4.32
+  static double likeDislikeContainer = SizeConfig.widthMultiplier * 4.63; /// 20/4.32
 }

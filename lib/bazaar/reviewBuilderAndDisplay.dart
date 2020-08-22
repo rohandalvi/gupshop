@@ -7,6 +7,7 @@ import 'package:gupshop/bazaar/likesDislikesDisplay.dart';
 import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarProfilePage.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
 import 'package:gupshop/timestamp/timeDisplay.dart';
 import 'package:gupshop/updateInFirebase/updateBazaarRatingNumbersCollection.dart';
@@ -51,16 +52,11 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(left:8.0),
-          child: Text(widget.productWalaName,style: GoogleFonts.openSans(
-            fontSize: 20,
-          )),
+          child: CustomText( text : widget.productWalaName,).bigFont(),
         ),
         Padding(
           padding: EdgeInsets.only(left:8.0),
-          child: Text(widget.category,style: GoogleFonts.openSans(
-            color: Colors.grey,
-            fontSize: 13,
-          )),
+          child: CustomText(text : widget.category,).graySubtitle(),
         ),
         likeDislikeIconsAndAddReviewButton(3),
         if (widget.writeReview==true && widget.focus==false) _writeReview(),
@@ -86,7 +82,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
           ],
         ),
         ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 280),
+          constraints: BoxConstraints(maxWidth: WidgetConfig.reviewWidth),
           child: Padding(
             padding: EdgeInsets.only(left: 14),//---> for distance between left side of the screen and the review writing text bar
             child: _sendReview(),
@@ -153,8 +149,8 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
             });
           },
           child: Container(
-            height: 20,
-            width: 20,
+            height: WidgetConfig.likeDislikeContainer,
+            width: WidgetConfig.likeDislikeContainer,
             color: likeClicked == true ? Colors.grey : Colors.transparent,
             child: Text('👍'),
           )
@@ -176,8 +172,8 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
           });
         },
         child: Container(
-            height: 20,
-            width: 20,
+            height: WidgetConfig.likeDislikeContainer,
+            width: WidgetConfig.likeDislikeContainer,
             color: dislikeClicked == true ? Colors.grey : Colors.transparent,
             child: Text('👎')
         ),
@@ -186,7 +182,6 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
   }
 
   _sendReview(){
-    print("inside form");
     return Form(// a form gives
       key: _formKey,
       child: TextFormField(
@@ -221,7 +216,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Container(
-                          height: 250.0,
+                          height: WidgetConfig.productDetailImageHeight,
                           child: Center(
                             child: DefaultTabController(
                               length: 4,

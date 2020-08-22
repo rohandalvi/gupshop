@@ -102,15 +102,6 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               thirdIconText: 'Pick video from Gallery',
               thirdIconAndTextOnPressed: () async{
                 Navigator.pop(context);
-//                NavigateToIndividualChat(
-//                  chatListCache: widget.chatListCache,
-//                  friendName: widget.friendName,
-//                  conversationId: widget.conversationId,
-//                  userName: widget.userName,
-//                  userPhoneNo: widget.userPhoneNo,
-//                  listOfFriendNumbers: widget.listOfFriendNumbers,
-//                  notGroupMemberAnymore: null,
-//                ).navigateNoBrackets(context);
                 String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'videoURL',).saveAndGenerateId();
                 Map<String, dynamic> conversationCollectionData = await GalleryVideoPickCreateData(userName: widget.userName, userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId, messageId: messageId).main();
                 Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(), messageId: messageId).forVideoMessage();

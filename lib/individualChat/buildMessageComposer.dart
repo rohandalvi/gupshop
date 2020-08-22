@@ -47,8 +47,8 @@ class BuildMessageComposer extends StatelessWidget {
       color: Colors.white,
       child: Row(
         children: <Widget>[
-          IconButton(
-            icon: SvgPicture.asset('images/plus.svg',),
+          CustomIconButton(
+            iconNameInImageFolder: 'plus',
             onPressed: firstOnPressed,
           ),
           Expanded(
@@ -75,8 +75,8 @@ class BuildMessageComposer extends StatelessWidget {
             ).navigate(context),
             iconNameInImageFolder: 'news',
           ),
-          IconButton(
-            icon: SvgPicture.asset('images/paperPlane.svg',),///or forward2
+          CustomIconButton(
+            iconNameInImageFolder: 'paperPlane',///or forward2
             onPressed: onPressedForSendingMessageIcon,
           ),
         ],

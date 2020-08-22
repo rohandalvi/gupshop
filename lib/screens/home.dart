@@ -6,7 +6,7 @@ import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/bazaar/bazaarHome_screen.dart';
 import 'package:gupshop/savedMessages/displaySavedMessagedBoardNames.dart';
 import 'package:gupshop/savedMessages/displaySavedMessages.dart';
-import 'package:gupshop/widgets/homeAppBar.dart';
+import 'package:gupshop/home/homeAppBar.dart';
 import 'package:gupshop/widgets/sideMenu.dart';
 
 // name screen => home
@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
       initialIndex: widget.initialIndex == null ? 0 : widget.initialIndex,
       child: Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(100.0),//the distance between gupShop and tabBars
+            preferredSize: Size.fromHeight(120.0),//the distance between gupShop and tabBars
             child: HomeAppBar(userName: userName, userPhoneNo: userPhoneNo,),
         ),
         body: TabBarView(

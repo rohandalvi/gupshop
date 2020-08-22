@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/typing/typingStatusDisplay.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
@@ -33,16 +34,16 @@ class ChatAppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            /// back Arrow:
             Container(
                 child : Row(
                   children: <Widget>[
+                    /// back Arrow:
                     Padding(
                       padding: EdgeInsets.only(top: 3),
                       child: CustomIconButton(
                         iconNameInImageFolder: 'backArrowColor',
                         onPressed: backOnPressed,
-                        iconsize: 40,
+                        iconsize: IconConfig.bigIcon,
                       ).resize(),
                     ),
 
@@ -56,7 +57,7 @@ class ChatAppBar extends StatelessWidget {
                         ),
                       ),
                     ),
-                    /// lastSeen and typing status:
+                    /// name, lastSeen and typing status:
                     Padding(
                       padding: const EdgeInsets.all(3.0),
                       child: Container(
@@ -66,11 +67,14 @@ class ChatAppBar extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             /// name:
-                            Container(
-                                child : GestureDetector(
-                                  child: name,
-                                  onTap: nameOnPressed,
-                                )
+                            Padding(
+                              padding: const EdgeInsets.only(top: 18),
+                              child: Container(
+                                  child : GestureDetector(
+                                    child: name,
+                                    onTap: nameOnPressed,
+                                  )
+                              ),
                             ),
                             Container(
                               /// show presence only when its an individual conversation, not

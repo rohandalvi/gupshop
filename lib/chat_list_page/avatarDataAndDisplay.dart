@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/image/displayAvatar.dart';
+import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 
 class AvatarDataAndDisplay extends StatelessWidget {
@@ -12,10 +13,13 @@ class AvatarDataAndDisplay extends StatelessWidget {
   String friendNumber;
   List<dynamic> friendNumberList;
   List<dynamic> memberList;
+  double radius;
+  double innerRadius;
 
   AvatarDataAndDisplay({this.myNumber, this.conversationId, this.notAGroupMemberAnymore,
     this.groupExists, this.friendNumber, this.memberList, this.friendNumberList,
-  });
+  }): radius = SizeConfig.imageSizeMultiplier * 7,
+        innerRadius = SizeConfig.imageSizeMultiplier * 6.25;/// radius= 30,30/4 =7, innerRadius = 27
 
   /*
   Add photo to users  avatar- 1:
@@ -58,8 +62,10 @@ class AvatarDataAndDisplay extends StatelessWidget {
             friendNumber = conversationId;
           }
           return DisplayAvatar()
-              .displayAvatarFromFirebase(friendNumber, 30, 27,
+              .displayAvatarFromFirebase(friendNumber, radius, innerRadius,
               false);
+//              .displayAvatarFromFirebase(friendNumber, 30, 27,
+//              false);
         }
         return CircularProgressIndicator();
       },

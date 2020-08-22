@@ -8,13 +8,15 @@ import 'package:gupshop/individualChat/streamSingleton.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
 import 'package:gupshop/navigators/navigateToIndividualChatAppBar.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/typing/typingStatusDisplay.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
 import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/widgets/chatAppBar.dart';
+import 'package:gupshop/individualChat/chatAppBar.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
@@ -34,13 +36,16 @@ class IndividualChatAppBar extends StatefulWidget {
   Map<String, ChatListCache> chatListCache;
   bool groupDeleted;
   String imageURL;
+  double radius;
+  double innerRadius;
 
 
   IndividualChatAppBar({this.userName, this.userPhoneNo, this.groupExits,
     this.friendName, this.friendN, this.conversationId, this.notGroupMemberAnymore,
     this.listOfFriendNumbers,this.presence, this.conversationService, this.chatListCache,
     this.groupDeleted,this.imageURL
-  });
+  }): radius = ImageConfig.radius,/// 25
+        innerRadius = ImageConfig.innerRadius;///23.5
 
   @override
   _IndividualChatAppBarState createState() => _IndividualChatAppBarState();
@@ -89,7 +94,7 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
       },
 
       displayPictureAvatar: displayPictureAvatar(),
-      name: CustomText(text: widget.friendName,),
+      name: FittedBox(child: CustomText(text: widget.friendName,)),/// to avoid text getting hidden
       nameOnPressed: (){
         if(isGroup()){
           /// if its a group, then on clicking the name,
@@ -103,92 +108,12 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
       userName: widget.userName,
       userPhoneNo: widget.userPhoneNo,
       groupExits: widget.groupExits,
-      presence: CustomFutureBuilder(future: widget.presence.getStatus(widget.friendN),
-          dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle()),
+      presence: FittedBox(/// to avoid text getting hidden
+        child: CustomFutureBuilder(future: widget.presence.getStatus(widget.friendN),
+            dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle()),
+      ),
       presenceVisibility: isIndividual(),
     );
-
-//      AppBar(
-//      backgroundColor: secondryColor.withOpacity(.03),
-//      elevation: 0,
-//      leading: IconButton(
-//          icon: SvgPicture.asset('images/backArrowColor.svg',),
-//          onPressed:() async{
-//
-//            /// if a person is removed from the group, then the subscription
-//            /// cannot be cancelled.
-//            /// Hence, first check if he is a member or not.
-//            if(conversationExists() == true){
-//              await widget.conversationService.disableActiveSubscription();
-//            }
-//
-//            CustomNavigator().navigateToHome(context, widget.userName, widget.userPhoneNo);
-//          }
-//      ),
-//      title: Material(
-//        child: ListTile(
-//          contentPadding: EdgeInsets.all(2),
-//          //EdgeInsets.only(top: 4),
-//          leading: GestureDetector(
-//            onTap: (){
-//              if(isGroup()){
-//                /// if  its a group, then change profile picture can be done by anyone
-//                changeProfilePicture(context);
-//              }
-//              /// if an individual, then only the view option and not
-//              /// the change options are visible
-//              else CustomNavigator().navigateToChangeProfilePicture(context, widget.friendName,  true, widget.friendN, null);/// if its a group then profile pictures are searched using conversationId
-//            },
-//            child: displayPictureAvatar(),
-//          ) ,
-//
-//          /// Name of the conversation(name of group or an individual):
-//          title: GestureDetector(
-//              child: CustomText(text: widget.friendName,),
-//              onTap:(){
-//                if(isGroup()){
-//                  /// if its a group, then on clicking the name,
-//                  /// a dialog box appears which displays the name of the
-//                  /// members, where the members can be deleted
-//                  groupMemberDialogHelper(userNumber: widget.userPhoneNo, listOfGroupMemberNumbers: widget.listOfFriendNumbers,
-//                      conversationId: widget.conversationId, isGroup: widget.groupExits).customShowDialog(context);
-//                }
-//              }
-//          ),
-//          subtitle:Container(
-//            child: Column(
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//              mainAxisAlignment: MainAxisAlignment.start,
-//              mainAxisSize: MainAxisSize.min,
-//              children: <Widget>[
-//                Container(
-//                  /// show presence only when its an individual conversation, not
-//                  /// in group conversation
-//                  child: Visibility(
-//                      visible: isIndividual(),
-//                      child: CustomFutureBuilder(future: widget.presence.getStatus(widget.friendN),
-//                          dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle())
-//                  ),
-//                ),
-//                Container(child: TypingStatusDisplay(conversationId: widget.conversationId, userNumber: widget.userPhoneNo,userName: widget.userName,groupExits: widget.groupExits,)),
-//              ],
-//            ),
-//          ),
-//          trailing: Wrap(
-//            children: <Widget>[
-//              CustomIconButton(
-//                iconNameInImageFolder: 'videoCall',
-//                onPressed: (){},
-//              ),
-//              CustomIconButton(
-//                iconNameInImageFolder: 'audioCall',
-//                onPressed: (){},
-//              ),
-//            ],
-//          ),
-//        ),
-//      ),
-//    );
   }
 
   bool isIndividual() => widget.groupExits == false ||  widget.groupExits == null;/// a group will have groupExits== null because in database we are storing it as null
@@ -210,18 +135,16 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
       return widget.chatListCache.containsKey(widget.conversationId) == true ?
       widget.chatListCache[widget.conversationId].circleAvatar :
       widget.friendN == null
-          ? DisplayAvatar().avatarPlaceholder(25, 23.5)
-          : DisplayAvatar().displayAvatarFromFirebase(widget.friendN, 25, 25, false);
-          //: DisplayAvatar().displayAvatarFromFirebase(widget.friendN, 25, 23.5, false);
+          ? DisplayAvatar().avatarPlaceholder(widget.radius, widget.innerRadius)
+          : DisplayAvatar().displayAvatarFromFirebase(widget.friendN, widget.radius, widget.innerRadius, false);
     }else{
       return widget.friendN == null
-          ? DisplayAvatar().avatarPlaceholder(25, 23.5)
-          : DisplayAvatar().displayAvatarFromFirebase(widget.friendN, 25, 25, false);
+          ? DisplayAvatar().avatarPlaceholder(widget.radius, widget.innerRadius)
+          : DisplayAvatar().displayAvatarFromFirebase(widget.friendN, widget.radius, widget.innerRadius, false);
     }
   }
 
   changeProfilePicture(BuildContext context) async{
-    print("imageURL in changeProfile : ${widget.imageURL}");
     final result = await Navigator.push(
         context,
         MaterialPageRoute(

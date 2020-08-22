@@ -4,11 +4,11 @@ import 'package:gupshop/bazaar/chatWithBazaarwala.dart';
 import 'package:gupshop/bazaar/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarIndividualCategoryList.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customText.dart';
-import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -77,7 +77,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: CustomAppBar(
-            title: CustomText(text: 'Product Detail', fontSize: 20,),
+            title: CustomText(text: 'Product Detail',),
             actions: <Widget>[
               ChatWithBazaarwala(
                 bazaarwalaNumber: widget.productWalaNumber,
@@ -120,7 +120,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           //title: buildProductImagesWidget(),
           leading: Container(),
           pinned: true,
-          expandedHeight: 260,
+          expandedHeight: WidgetConfig.sliverHeight,
           flexibleSpace: FlexibleSpaceBar(
             background: buildProductImagesWidget(),
           ),
@@ -179,7 +179,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Container(
-                    height: 250.0,
+                    height: WidgetConfig.productDetailImageHeight,
                     child: Center(
                       child: DefaultTabController(
                         length: 4,

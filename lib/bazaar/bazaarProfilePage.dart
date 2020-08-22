@@ -300,7 +300,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
               userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
               isVideo.videoURL, isLocation.latitude, isLocation.longitude,);
 
-            print("categories in bazaarProfilePage : ${categoriesForBazaarWalasBasicProfile}");
             await PushToCategoriesMatedata(userNumber: userPhoneNo, categories: categoriesForBazaarWalasBasicProfile).push();
 
             /// saving user as a bazaarwala in his shared preferences
@@ -349,8 +348,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
 
   pushTobazaarWalasLocationCategory() async {
-    print("isVideo.videoURL: ${isVideo.videoURL}");
-    print("isLocation details :${isLocation.latitude}");
     QuerySnapshot querySnapshot = await Firestore.instance.collection(
         "bazaarCategoryTypesAndImages").getDocuments();
 

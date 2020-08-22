@@ -14,7 +14,7 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
-      title: CustomText(text: 'Become a Bazaarwala', fontSize: 20,),
+      title: CustomText(text: 'Become a Bazaarwala',),
       onPressed:(){
         //Navigator.pop(context);
       },
@@ -32,8 +32,6 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
                     firstIconName: 'photoGallery',
                     firstIconText: 'Pick image from  Gallery',
                     firstIconAndTextOnPressed: (){
-                      print("in firstIconAndTextOnPressed");
-                      print("tabNumber : $tabNumber");
                       if(tabNumber == 0) GalleryButtonOnPressed().thumbnailPicture(context);
                       if(tabNumber == 1) GalleryButtonOnPressed().otherPictureOne(context);
                       if(tabNumber == 2) GalleryButtonOnPressed().otherPictureTwo(context);

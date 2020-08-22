@@ -9,4 +9,6 @@ class WidgetConfig{
   static double groupIconWidth = SizeConfig.widthMultiplier * 23.15;/// 100
   static double categoriesHeight = SizeConfig.heightMultiplier * 36.5; /// 300
   static double categoriesWidth = SizeConfig.widthMultiplier * 70; /// 300
+  static double sliverHeight = SizeConfig.heightMultiplier * 32;/// 260/8.16
+  static double productDetailImageHeight = SizeConfig.heightMultiplier * 30.5;/// 250/8.16
 }

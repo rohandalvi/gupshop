@@ -80,13 +80,12 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
 
     Map mapOfDocumentSnapshots = querySnapshot.documents.asMap();
-    print("mapOfDocumentSnapshots : ${mapOfDocumentSnapshots[0].documentID}");
+
     mapOfDocumentSnapshots.forEach((key, value) {
       String categoryNames = mapOfDocumentSnapshots[key].documentID;
       map.putIfAbsent(categoryNames, () => false);
     });
     int size = querySnapshot.documents.length;
-    print("map in getCategorySizeFuture: $map");
     return size;
   }
 
@@ -146,8 +145,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     );
 
     cache["location"] = isLocation;
-//    print("isVideo.isLocation : ${isLocation.locationSelected}");
-//    locationSelected = isLocation.locationSelected;
 
     return isLocation;
   }
@@ -159,7 +156,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: CustomAppBar(
-            title: CustomText(text: 'Become a Bazaarwala', fontSize: 20,),
+            title: CustomText(text: 'Become a Bazaarwala',),
             onPressed:(){
               NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
           },),

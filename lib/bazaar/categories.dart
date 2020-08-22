@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -48,8 +49,8 @@ class _CategoriesState extends State<Categories> {
                     /// A RenderFlex overflowed by 299361 pixels on the bottom.
                     /// solution - use Container and constraints
                     Container(//toDo- make the size of the container flexible
-                      height: 300,
-                      width: 300,
+                      height: WidgetConfig.categoriesHeight,
+                      width: WidgetConfig.categoriesWidth,
                       child: ListView.builder(
                           itemCount: widget.map.length,
                           shrinkWrap: true,

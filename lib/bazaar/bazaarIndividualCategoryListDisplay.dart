@@ -19,32 +19,25 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("bazaarWalaPhoneNo in display : $bazaarWalaPhoneNo");
     return Stack(
       children: <Widget>[
         GestureDetector(//for navigation to Product detial page
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProductDetail(
-                    productWalaName: bazaarWalaName,
-                    category: category,
-                    productWalaNumber: bazaarWalaPhoneNo,
-                  ), //
-                )
-            );
-          },
+          onTap: NavigateToProductDetailsPage(
+            productWalaNumber: bazaarWalaPhoneNo,
+            category: category,
+            productWalaName: bazaarWalaName,
+          ).navigate(context),
           child: Container(//stack => container(Padding(Column(Row,text,star text, container))) and positioned[for profile pic]
-            margin: EdgeInsets.fromLTRB(40,5,20,5),
-            height: MediaQuery.of(context).size.height * 0.2,
+            margin: EdgeInsets.fromLTRB(40,1,2,1),///(40,5,20,5)
+            height: MediaQuery.of(context).size.height * 0.15,/// 0.2
             width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
-              padding: EdgeInsets.fromLTRB(100,20,20,20),//padding is added to move all i.e name,short description, rating and rupee to right to make room for the profile photo
+              /// bottom - making it less increases chat bubble
+              padding: EdgeInsets.fromLTRB(100,20,20,1),//padding is added to move all i.e name,short description, rating and rupee to right to make room for the profile photo
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,//name,short description, ratings and rs all moves down a bit if this is removed
                 crossAxisAlignment: CrossAxisAlignment.start,//alignment of ratings and  short description
@@ -56,14 +49,14 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                       children: <Widget>[
                         Container(
                           width:150,//to avoid overflow
-                          child: CustomText(text:bazaarWalaName, fontSize: 20,),
-                          //'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooong' )
+                          child: CustomText(text:bazaarWalaName,),
+                          //'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooongdddoooooooooooooooooooooooooooooooooooooooooooooooooo' )
 
                         ),
                         Expanded(
                           child: Container(
-                            width: IconConfig.bazaarIndividualCategoryChatBubble,
-                            height: IconConfig.bazaarIndividualCategoryChatBubble,
+                            //width: IconConfig.bazaarIndividualCategoryChatBubble,
+                            //height: IconConfig.bazaarIndividualCategoryChatBubble,
                             child: CustomIconButton(
                               iconNameInImageFolder: 'chatBubble',
                               onPressed: () async{
@@ -87,16 +80,16 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                     ),
                   ),
                   LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, category: category,),
-                  SizedBox(height: 5,),
+                  //SizedBox(height: 5,),
                 ],
               ),
             ),
           ),
         ),
         Positioned(
-          left:20,//left top and bottom for alignment of profile photo wrt to container
-          top: 15,
-          bottom: 15,
+          left:25,//left top and bottom for alignment of profile photo wrt to container
+          top: 25,
+          bottom: 25,
           child: GestureDetector(//for navigation to Product detial page
             onTap: NavigateToProductDetailsPage(
                   productWalaNumber: bazaarWalaPhoneNo,

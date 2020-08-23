@@ -34,7 +34,6 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
   }
 
   _setActiveTabIndex(){
-    print("imagesController.index : ${imagesController.index}");
     setState(() {
       _activeTabIndex =  imagesController.index;
     });

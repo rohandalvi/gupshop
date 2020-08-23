@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/screens/home.dart';
+import 'package:gupshop/home/home.dart';
 
 class NavigateToHome {
   int initialIndex;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gupshop/responsive/sizeConfig.dart';
-import 'package:gupshop/screens/welcomeScreen.dart';
+import 'package:gupshop/onboarding/welcomeScreen.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 
 void main() {

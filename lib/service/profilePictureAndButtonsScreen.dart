@@ -6,7 +6,7 @@ import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/image/cropImage.dart';
 import 'package:gupshop/image/pickImageFromCamera.dart';
 import 'package:gupshop/image/pickImageFromGallery.dart';
-import 'package:gupshop/screens/home.dart';
+import 'package:gupshop/home/home.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';

@@ -7,7 +7,7 @@ import 'package:gupshop/bazaar/bazaarProfilePage.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/group/createGroupName_screen.dart';
-import 'package:gupshop/screens/home.dart';
+import 'package:gupshop/home/home.dart';
 import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/bazaar/selectCategoryToShowInProductDetailsPage.dart';

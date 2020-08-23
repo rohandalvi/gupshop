@@ -33,7 +33,7 @@ class HomeAppBar extends StatelessWidget {
               children: <Widget>[
                 /// Avatar:
                 Padding(
-                  padding: const EdgeInsets.only(top: 20,left: 4, right: 5),
+                  padding: const EdgeInsets.only(top: 23,left: 7, right: 5),
                   child: Container(
                     child: GestureDetector(
                       child: DisplayAvatar().displayAvatarFromFirebase(userPhoneNo, radius, innerRadius, false),

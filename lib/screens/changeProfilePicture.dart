@@ -11,7 +11,7 @@ import 'package:gupshop/streamShortcuts/profilePictures.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home.dart';
+import '../home/home.dart';
 
 class ChangeProfilePicture extends StatefulWidget {
   final double size = 550;

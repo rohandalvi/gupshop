@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:gupshop/screens/login_screen.dart';
+import 'package:gupshop/onboarding/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home.dart';
+import '../home/home.dart';
 
 
 /*
@@ -35,7 +35,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     print("userName before startTime: $userName");
     print("userPhoneNo before startTime: $userPhoneNo");
     startTime(context);
-    print("initState");
     super.initState();
   }
 

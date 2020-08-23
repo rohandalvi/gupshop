@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/responsive/sizeConfig.dart';
 
 class CustomText extends StatelessWidget {
@@ -13,12 +14,14 @@ class CustomText extends StatelessWidget {
   final double bigFontSize;
   final double subtitleFontSize;
   final double welcomeTitleSize;
+  final double welcomeSize;
 
   CustomText({Key key, @required this.text, this.fontSize, this.textColor, this.fontWeight}) :
         standardFontSize =  SizeConfig.textMultiplier * 2,
         bigFontSize = SizeConfig.textMultiplier * 2.5,
         subtitleFontSize = SizeConfig.textMultiplier * 1.5,
-        welcomeTitleSize =  SizeConfig.textMultiplier * 11;
+        welcomeTitleSize =  SizeConfig.textMultiplier * 11,
+        welcomeSize = SizeConfig.textMultiplier * 4;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +47,19 @@ class CustomText extends StatelessWidget {
         textStyle: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: welcomeTitleSize,
+        ),
+      ),
+    );
+  }
+
+  welcome(){
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+        textStyle: TextStyle(
+          fontWeight: FontWeight.w600,
+          color: subtitleGray,
+          fontSize: welcomeSize,
         ),
       ),
     );

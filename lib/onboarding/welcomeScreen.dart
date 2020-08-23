@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:gupshop/onboarding/login_screen.dart';
+import 'package:gupshop/onboarding/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home/home.dart';
@@ -27,7 +28,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material();
+    return Welcome();
   }
 
   @override

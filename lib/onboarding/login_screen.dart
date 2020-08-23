@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/onboarding/name_screen.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/service/auth_service.dart';
 import 'package:gupshop/widgets/countryCodeAndFlag.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -46,8 +47,8 @@ class _LoginScreenState extends State<LoginScreen> {
               Stack(
                 children: <Widget>[
                     Container(
-                      width: 200,
-                      height: 200,
+                      width: ImageConfig.welcomeScreenChatBubble,/// 200
+                      height: ImageConfig.welcomeScreenChatBubble,/// 200
                       child:
                       Image(
                         image: AssetImage('images/chatBubble.png'),

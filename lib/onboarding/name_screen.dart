@@ -54,6 +54,7 @@ class _NameScreenState extends State<NameScreen> {
                 //ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 390, width: 390,),
                 Container(
                   child: CustomTextFormField(
+                        maxLength: 25, /// name length restricted to 25 letters
                         onChanged:
                             (val){
                           setState(() {

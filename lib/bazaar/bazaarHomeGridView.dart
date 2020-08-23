@@ -50,7 +50,7 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
     );
   }
 
-  pictureContainer(String image, String categoryNameForBazaarIndividualCategoryList, String catergoryName){
+  pictureContainer(String image, String categoryNameForBazaarIndividualCategoryList, String catergoryName,){
     return Column(
       children: <Widget>[
         InkWell(
@@ -58,7 +58,10 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BazaarIndividualCategoryListData(category: categoryNameForBazaarIndividualCategoryList,),//pass Name() here and pass Home()in name_screen
+                    builder: (context) => BazaarIndividualCategoryListData(
+                      category : catergoryName,
+                      //category: categoryNameForBazaarIndividualCategoryList,
+                    ),//pass Name() here and pass Home()in name_screen
                   )
               );
             },

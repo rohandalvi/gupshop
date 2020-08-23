@@ -46,7 +46,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: CustomAppBar(
-          title: CustomText(text: category.toUpperCase(), fontSize: 20,),
+          title: CustomText(text: category.toUpperCase(),),
           onPressed: (){
            NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
           }
@@ -65,7 +65,6 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
         return ListView.builder(
           itemCount: numberOfBazaarWalasInList,
           itemBuilder: (BuildContext context, int index) {
-            print("list members : ${list[index].documentID}");
             bazaarWalaPhoneNo = list[index].documentID;
             return BazaarIndividualCategoryNameDpBuilder(bazaarWalaPhoneNo: bazaarWalaPhoneNo, category: category,);
           },

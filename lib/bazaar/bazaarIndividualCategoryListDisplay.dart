@@ -37,7 +37,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
             ),
             child: Padding(
               /// bottom - making it less increases chat bubble
-              padding: EdgeInsets.fromLTRB(100,20,20,1),//padding is added to move all i.e name,short description, rating and rupee to right to make room for the profile photo
+              padding: EdgeInsets.fromLTRB(100,2,2,1),//padding is added to move all i.e name,short description, rating and rupee to right to make room for the profile photo
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,//name,short description, ratings and rs all moves down a bit if this is removed
                 crossAxisAlignment: CrossAxisAlignment.start,//alignment of ratings and  short description
@@ -79,6 +79,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                       ],
                     ),
                   ),
+                  CustomText(text: "Speciality",),
                   LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, category: category,),
                   //SizedBox(height: 5,),
                 ],

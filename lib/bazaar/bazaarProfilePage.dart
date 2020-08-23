@@ -82,7 +82,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
     Map mapOfDocumentSnapshots = querySnapshot.documents.asMap();
 
     mapOfDocumentSnapshots.forEach((key, value) {
-      String categoryNames = mapOfDocumentSnapshots[key].documentID;
+      String categoryNames = mapOfDocumentSnapshots[key]["name"];
       map.putIfAbsent(categoryNames, () => false);
     });
     int size = querySnapshot.documents.length;

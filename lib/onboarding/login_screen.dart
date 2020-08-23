@@ -1,15 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:gupshop/home/home.dart';
 import 'package:gupshop/onboarding/name_screen.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/service/auth_service.dart';
-import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/countryCodeAndFlag.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -118,7 +114,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> verifyphone() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userPhoneNo = prefs.getString('userPhoneNo');
-    print("userPhoneNo in verifyPhone: $userPhoneNo");
 
     setState(() {
       val = countryCode + numberWithoutCode;
@@ -135,16 +130,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
     final PhoneCodeSent smsSent = (String verId, [int forceResend]) async{
-      print("Received verification id ${verId}");
       this.verificationId = verId;
 
       setState(() {
         this.codeSent = true;
-        print("val : $val");
         prefs.setString('userPhoneNo', val);
       });
 
-        print("userPhoneNo in login_screen setState: $val");
 
         bool sms = await  smsCodeDialog(context);
         AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
@@ -158,14 +150,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 builder: (context) => NameScreen(userPhoneNo:val),//pass Name() here and pass Home()in name_screen
               )
           );
-          print("phone no: ${val.toString()}");
 
         }).catchError((e) {
           Flushbar( /// for the flushBar if the user enters wrong verification code
             icon: SvgPicture.asset(
               'images/stopHand.svg',
-              width: 30,
-              height: 30,
+              width: IconConfig.flushbarIcon,
+              height: IconConfig.flushbarIcon,
             ),
             flushbarStyle: FlushbarStyle.GROUNDED,
             backgroundColor: Colors.white,

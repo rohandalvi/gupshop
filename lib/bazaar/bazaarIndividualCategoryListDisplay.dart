@@ -55,8 +55,8 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                         ),
                         Expanded(
                           child: Container(
-                            //width: IconConfig.bazaarIndividualCategoryChatBubble,
-                            //height: IconConfig.bazaarIndividualCategoryChatBubble,
+                            width: IconConfig.bazaarIndividualCategoryChatBubble,
+                            height: IconConfig.bazaarIndividualCategoryChatBubble,
                             child: CustomIconButton(
                               iconNameInImageFolder: 'chatBubble',
                               onPressed: () async{
@@ -101,7 +101,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
               child: Image(
                 width: 110,///110,
                 image: NetworkImage(thumbnailPicture),
-                fit: BoxFit.fill,//to adjust the image with the container
+                fit: BoxFit.contain,//to adjust the image with the container
               ),
             ),
           ),

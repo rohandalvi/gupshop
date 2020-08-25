@@ -10,4 +10,7 @@ class ImageConfig{
   static double smallInnerRadius = SizeConfig.imageSizeMultiplier * 5.8;///23.5
 
   static double welcomeScreenChatBubble = SizeConfig.imageSizeMultiplier * 46.3; /// 200/4.32
+
+  static double bazaarGridWidth = SizeConfig.widthMultiplier * 1.25;
+  static double bazaarGridHeight = SizeConfig.heightMultiplier * 0.13;
 }

@@ -98,10 +98,8 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
       userName: widget.userName,
       userPhoneNo: widget.userPhoneNo,
       groupExits: widget.groupExits,
-      presence: FittedBox(/// to avoid text getting hidden
-        child: CustomFutureBuilder(future: widget.presence.getStatus(widget.friendN),
-            dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle()),
-      ),
+      presence: CustomFutureBuilder(future: widget.presence.getStatus(widget.friendN),
+          dataReadyWidgetType: CustomText, inProgressWidget: CustomText(text: 'Offline',).graySubtitle()),
       presenceVisibility: isIndividual(),
     );
   }

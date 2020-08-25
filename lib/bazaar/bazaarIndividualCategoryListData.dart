@@ -56,7 +56,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
         future: getListOfBazaarWalasInAGivenRadius(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-        if (snapshot.data == null) return Container(child: Center(child: CustomText(text: 'No ${category}s near you', fontSize: 35,).bold())); //for avoding  the erro
+        if (snapshot.data == null) return Container(child: Center(child: CustomText(text: 'No ${category}s near you',).bold())); //for avoding  the erro
 
         var list = snapshot.data;
 

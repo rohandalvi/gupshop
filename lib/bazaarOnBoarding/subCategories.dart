@@ -45,6 +45,7 @@ class _SubCategoriesState extends State<SubCategories> {
       suggestions: widget.subCategoriesList,
       navigate: NavigateToBazaarOnBoardingHome().navigate(context),
       onSearch: searchList,
+      hintText: 'What is your speciality ?',
       onItemFound: (DocumentSnapshot doc, int index){
         return Container(
           child: CheckboxListTile(

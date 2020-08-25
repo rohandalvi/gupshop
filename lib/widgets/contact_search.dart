@@ -20,10 +20,11 @@ class ContactSearch<T> extends StatefulWidget {
   final String name;
   final GestureTapCallback onSearchTap;
   final VoidCallback navigate;
+  final String hintText;
 
   ContactSearch({@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch,
     this.createGroupSearch, this.suggestions, this.searchSuggestions, this.name, this.onSearchTap,
-    this.navigate,
+    this.navigate, this.hintText,
   });
 
   @override
@@ -83,7 +84,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
             /// throwing an error  before the list was loaded and was showing a red screen to the user.
             /// So, we are creating a placeholder new List() here till the list loads and becuase suggestions
             /// doesnt accept CircularProgressIndicator() we are using new List().
-            hintText: 'Search contacts',
+            hintText: widget.hintText == null ? 'Search contacts' : widget.hintText,
             hintStyle: GoogleFonts.openSans(
               textStyle: TextStyle(
                 fontWeight: FontWeight.w600,

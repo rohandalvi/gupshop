@@ -16,7 +16,7 @@ class LocationDisplayAndLaunchInMap extends StatelessWidget {
     return CustomRaisedButton(
       child: CustomText(text: '$textOnButton \n$locationName 📍',),/// toDo- very very big name
       onPressed: (){
-        LocationServiceState().launchMapsUrl(latitude, longitude);
+        LocationService().launchMapsUrl(latitude, longitude);
       },
     );
   }

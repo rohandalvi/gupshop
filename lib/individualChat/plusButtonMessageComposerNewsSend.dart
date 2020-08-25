@@ -123,7 +123,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               fifthIconAndTextOnPressed: () async{
                 Navigator.pop(context);
                 String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'videoURL',).saveAndGenerateId();
-                Position location  = await LocationServiceState().getLocation();//setting user's location
+                Position location  = await LocationService().getLocation();//setting user's location
 
                 Map<String, dynamic> conversationCollectionData = await LocationData(userName: widget.userName,
                     userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId, messageId:messageId,

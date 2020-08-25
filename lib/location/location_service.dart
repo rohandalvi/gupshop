@@ -1,70 +1,27 @@
 
 import 'dart:async';
-import 'dart:io';
-import 'dart:ui';
 
-import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geocoder/geocoder.dart' as gc;
 import 'package:geolocator/geolocator.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
-//import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class LocationService extends StatefulWidget {
-  @override
-  LocationServiceState createState() => LocationServiceState();
-}
-
-class  C {
-  Stream<DocumentSnapshot> s1;
-  Stream<DocumentSnapshot> s2;
-
-  C({@required s1, @required s2});
-}
-
-class LocationServiceState extends State<LocationService> {
-
-  Position _location;
+class LocationService {
   double latitude;
   double longitude;
   double distance = 50;
 
   String category ="kamwali";
 
-  String _userGeohash;
-  String _bazaarWalaUpperGeoHash;
-  String _bazaarWalaLowerGeoHash;
+  static const double LATITUDE = 0.0144927536231884; /// degrees latitude per mile
+  static const LONGITUDE = 0.0181818181818182; /// degrees longitude per mile
 
-  Query _query;
-
-
-
-
-  static const double LATITUDE = 0.0144927536231884; // degrees latitude per mile
-  static const LONGITUDE = 0.0181818181818182; // degrees longitude per mile
-
+  LocationService({this.distance});
 
   Geoflutterfire geo = Geoflutterfire();
-
-
-  _getLatitudeLongitude(Position _location){
-    setState(() {
-      latitude = _location.latitude;
-      longitude = _location.longitude;
-    });
-
-//    latitude = _location.latitude;
-//    longitude = _location.longitude;
-    print("lati:${latitude}, longi:${longitude}");
-    //Firestore.instance.collection("bazaarWalasLocation").document("+919870725050").setData({"latitude": latitude},merge: true);//this would be used the bazaarwala gives his location during the making of his profile
-    //for the user, this data will be pushed when the user visits bazaar page for the first time
-  }
 
 
   getLocationInOurFormat(double latitude, double longitude){
@@ -121,9 +78,7 @@ class LocationServiceState extends State<LocationService> {
 
 
    getUserLocation(number){//get location already stored in firebase
-    print("getusergeohash madhe number : $number");
     Firestore.instance.collection("usersLocation").document(number).get().then((onVal){
-      print("getUserLocationVal: ${onVal.data}");
     });
     return Firestore.instance.collection("usersLocation").document(number).get();
   }
@@ -144,7 +99,6 @@ class LocationServiceState extends State<LocationService> {
     var addressList = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
     var address = addressList[2].addressLine;
 
-    print("address: ${address}");
     return address;
   }
 
@@ -157,10 +111,10 @@ class LocationServiceState extends State<LocationService> {
     GeoFirePoint objectToGetGeoHash = geo.point(latitude: upperLat, longitude: upperLong);
 
     String geoHash = objectToGetGeoHash.hash;
-    print("geoHash: ${geoHash}");
 
     return geoHash;
   }
+
   String _getBazaarWalasLowerRadius(double latitude, double longitude, double distance){
     double upperLat = latitude - LATITUDE * distance;
     double upperLong = longitude - LONGITUDE * distance;
@@ -168,7 +122,6 @@ class LocationServiceState extends State<LocationService> {
     GeoFirePoint objectToGetGeoHash = geo.point(latitude: upperLat, longitude: upperLong);
 
     String geoHash = objectToGetGeoHash.hash;
-    print("geoHash: ${geoHash}");
 
     return geoHash;
   }
@@ -190,24 +143,8 @@ class LocationServiceState extends State<LocationService> {
 //        side: BorderSide(color : Colors.black),
 //      ),
       onPressed: (){
-        LocationServiceState().launchMapsUrl(latitude, longitude);
+        LocationService().launchMapsUrl(latitude, longitude);
       },
-    );
-  }
-
-  
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-//    pushUsersLocationToFirebase(47.606209, -122.332069, "+19194134191");
-  getAddress();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-    //  child: Text("latitude: ${_location.latitude}, longitude :${_location.longitude} "),
     );
   }
 

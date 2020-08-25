@@ -4,10 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
+import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
+import 'package:gupshop/navigators/navigateToBazaarProfilePage.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/contact_search.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
-import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class SubCategories extends StatefulWidget {
@@ -109,6 +110,7 @@ class _SubCategoriesState extends State<SubCategories> {
                   /// create a listOfContactsSelected and send it to individualChat
                   onPressed: () {
                     subCategoriesList();
+                    NavigateToBazaarOnBoardingProfile().navigateNoBrackets(context);
                   }
               ),
             ),

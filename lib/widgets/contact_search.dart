@@ -67,10 +67,6 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
             cancellationWidget: CustomIconButton(
               iconNameInImageFolder: 'cancel',
             ),
-//            IconButton( /// cancel button
-//              icon: SvgPicture.asset('images/cancel.svg',),
-//              /// onPressed is taken care by the cancellationWidget
-//            ),
             icon: CustomIconButton(
               iconNameInImageFolder: 'backArrowColor',
               onPressed: widget.navigate == null ? (){

@@ -7,7 +7,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarHomeScreen.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
-import 'package:gupshop/service/filterBazaarWalas.dart';
+import 'package:gupshop/bazaarLocation/filterBazaarLocationData.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
 import 'package:gupshop/streamShortcuts/bazaarRatingNumbers.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
@@ -34,7 +34,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
   getListOfBazaarWalasInAGivenRadius() async{
     var userPhoneNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
     _userPhoneNo = userPhoneNo;
-    var listOfbazaarwalas = await FilterBazaarWalasState().getListOfBazaarWalasInAGivenRadius(userPhoneNo, category);
+    var listOfbazaarwalas = await FilterBazaarLocationData().getListOfBazaarWalasInAGivenRadius(userPhoneNo, category);
     return listOfbazaarwalas;
   }
 

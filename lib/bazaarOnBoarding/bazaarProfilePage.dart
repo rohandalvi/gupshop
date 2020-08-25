@@ -258,7 +258,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   setLocationOtherThanCurrentAsHome(){
     return CustomRaisedButton(
       onPressed: (){
-        Future<Position> location  = LocationServiceState().getLocation();//setting user's location
+        Future<Position> location  = LocationService().getLocation();//setting user's location
         location.then((val){
           setState(() {
             _bazaarWalaLocation = val;
@@ -370,7 +370,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
         };
 
         ///push to bazaarWalasLocation collection
-        LocationServiceState().pushBazaarWalasLocationToFirebase(
+        LocationService().pushBazaarWalasLocationToFirebase(
             isLocation.latitude, isLocation.longitude, categoryName, userPhoneNo);
 
         ///push to bazaarCategories

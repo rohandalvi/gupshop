@@ -25,11 +25,14 @@ class CustomTextFormField extends StatelessWidget {
   TextStyle textStyle;
   TextStyle style;
   TextInputAction textInputAction;
+  TextInputType keyboardType;
+  bool expands;
+  double width;
 
   CustomTextFormField({this.onFieldSubmitted, this.labelText, this.formKeyCustomText, this.onChanged,
     this.maxLength, this.initialValue, this.enabledBorder,this.onSaved, this.maxLines, this.valForValidator,
     this.onEditingComplete, this.errorText, this.onTap, this.border, this.textStyle, this.style,
-    this.textInputAction,
+    this.textInputAction, this.keyboardType, this.expands,this.width
   });
 
   @override
@@ -59,7 +62,7 @@ class CustomTextFormField extends StatelessWidget {
             borderSide: new BorderSide(color: ourBlack ),
           ): enabledBorder,
         ),
-        keyboardType: TextInputType.text,
+        keyboardType: keyboardType == null ? TextInputType.text : keyboardType,
         onChanged: onChanged,
         validator: valForValidator == null ? ((val) => val.isEmpty ? 'Name can\'t be empty': null) : valForValidator,
         onFieldSubmitted: onFieldSubmitted,
@@ -67,6 +70,7 @@ class CustomTextFormField extends StatelessWidget {
         maxLines: maxLines,
         onEditingComplete: onEditingComplete,
         onTap: onTap,
+        //expands: expands == null ? false : expands,
       ),
     );
   }

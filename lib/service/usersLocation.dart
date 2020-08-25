@@ -20,13 +20,13 @@ class UsersLocation{
 
 
     if(ifHomeExists == false) {
-      Position location = await LocationServiceState().getLocation();
+      Position location = await LocationService().getLocation();
       var latitude = location.latitude;
       var longitude = location.longitude;
 
-      var address = await LocationServiceState().getAddress();
+      var address = await LocationService().getAddress();
 
-      LocationServiceState().pushUsersLocationToFirebase(latitude, longitude, userPhoneNo, "home", address); //pass a name for the location also as a parameter
+      LocationService().pushUsersLocationToFirebase(latitude, longitude, userPhoneNo, "home", address); //pass a name for the location also as a parameter
 
       print("location set");
     }

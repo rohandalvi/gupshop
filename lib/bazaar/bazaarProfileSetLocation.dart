@@ -41,14 +41,14 @@ class _BazaarProfileSetLocationState extends State<BazaarProfileSetLocation> {
               ).showOneWithCancel();
             },
           ),
-        if(widget.locationSelected == true ) Padding(child: LocationServiceState().showLocation(widget.userName, widget.latitude, widget.longitude), padding: EdgeInsets.only(right: 5),)
+        if(widget.locationSelected == true ) Padding(child: LocationService().showLocation(widget.userName, widget.latitude, widget.longitude), padding: EdgeInsets.only(right: 5),)
       ],
     );
   }
 
   set() async{
     Navigator.pop(context);
-    Position location  = await LocationServiceState().getLocation();//setting user's location
+    Position location  = await LocationService().getLocation();//setting user's location
     setState(() {
       widget.locationSelected = true;
       widget.bazaarWalaLocation = location;

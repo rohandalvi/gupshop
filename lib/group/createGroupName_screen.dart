@@ -62,7 +62,6 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                     setState(() {
                       this.groupName= val;
                     });
-                    print("groupName in onChanged : $groupName");
                   },
                   formKeyCustomText: formKey,
                   onFieldSubmitted: (name){

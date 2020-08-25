@@ -67,7 +67,11 @@ class _SubCategoriesState extends State<SubCategories> {
 
 
   Future<List<DocumentSnapshot>> searchList(String text) async {
-    return widget.subCategoriesListFuture;
+    List<DocumentSnapshot> list = await widget.subCategoriesListFuture;
+    return list.where((l) =>
+    l.data["name"]
+        .toLowerCase()
+        .contains(text.toLowerCase()) || l.documentID.contains(text)).toList();
   }
 
   suggestions(){

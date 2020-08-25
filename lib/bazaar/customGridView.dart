@@ -1,11 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/image/gridViewContainer.dart';
-import 'package:gupshop/responsive/imageConfig.dart';
-import 'package:gupshop/responsive/sizeConfig.dart';
-import 'package:gupshop/widgets/customText.dart';
 
 class CustomGridView extends StatelessWidget {
   final int itemCount;

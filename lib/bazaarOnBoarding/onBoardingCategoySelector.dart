@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/customGridView.dart';
 import 'package:gupshop/image/gridViewContainer.dart';
+import 'package:gupshop/navigators/navigateToSubCategories.dart';
+import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 
 class OnBoardingCategorySelector extends StatelessWidget {
 
@@ -11,7 +13,7 @@ class OnBoardingCategorySelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection("bazaarCategoryTypesAndImages").snapshots(),
+        stream: BazaarCategoryTypesAndImages().getStream(),
         builder: (context, snapshot) {
           if(snapshot.data == null) return CircularProgressIndicator();//for avoding  the error
 
@@ -20,11 +22,19 @@ class OnBoardingCategorySelector extends StatelessWidget {
             itemCount: categoryLength,
             itemBuilder: (BuildContext context, int index){
               String catergoryName = snapshot.data.documents[index].data['name'];
-              String categoryNameForBazaarIndividualCategoryList = snapshot.data.documents[index].documentID;
               String imageURL = snapshot.data.documents[index].data['icon'];
+              String documentName = snapshot.data.documents[index].documentID;
 
               return GridViewContainer(
-                onPictureTap: (){
+                /// on tapping the image/category show subcategories with checkbox
+                onPictureTap: () async{
+                  Future<List<DocumentSnapshot>> subCategoriesListFuture = BazaarCategoryTypesAndImages().getSubCategories(documentName);
+                  List<DocumentSnapshot> subCategories = await subCategoriesListFuture;
+
+                  NavigateToBazaarSubCategories(
+                    subCategoriesList: subCategories,
+                    subCategoriesListFuture: subCategoriesListFuture,
+                  ).navigateNoBrackets(context);
                 },
                 imageName: catergoryName,
                 imageURL: imageURL,

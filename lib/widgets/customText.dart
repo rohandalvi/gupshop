@@ -17,7 +17,7 @@ class CustomText extends StatelessWidget {
   final double welcomeSize;
 
   CustomText({Key key, @required this.text, this.fontSize, this.textColor, this.fontWeight}) :
-        standardFontSize =  SizeConfig.textMultiplier * 2,
+        standardFontSize =  SizeConfig.textMultiplier * 2,/// 16
         bigFontSize = SizeConfig.textMultiplier * 2.5,
         subtitleFontSize = SizeConfig.textMultiplier * 1.5,
         welcomeTitleSize =  SizeConfig.textMultiplier * 11,

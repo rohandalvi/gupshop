@@ -3,6 +3,8 @@ import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/responsive/textConfig.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -14,8 +16,15 @@ class ContactSearch<T> extends StatefulWidget {
   final Widget Function(DocumentSnapshot item, int index) onItemFound;
   final Future<List<T>> Function(String text) onSearch;
   final List<T> suggestions;
+  final Function searchSuggestions;
+  final String name;
+  final GestureTapCallback onSearchTap;
+  final VoidCallback navigate;
 
-  ContactSearch({@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch, this.createGroupSearch, this.suggestions});
+  ContactSearch({@required this.userPhoneNo, @required this.userName, this.data, this.onItemFound, this.onSearch,
+    this.createGroupSearch, this.suggestions, this.searchSuggestions, this.name, this.onSearchTap,
+    this.navigate,
+  });
 
   @override
   _ContactSearchState createState() => _ContactSearchState(userPhoneNo: userPhoneNo, userName: userName, data: data,createGroupSearch: createGroupSearch);
@@ -54,19 +63,18 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
               child: CustomText(
                 text: ':( This name does not match your contacts ',),
             ),
-            cancellationWidget: IconButton( /// cancel button
-              icon: SvgPicture.asset('images/cancel.svg',),
-              /// onPressed is taken care by the cancellationWidget
+            cancellationWidget: CustomIconButton(
+              iconNameInImageFolder: 'cancel',
             ),
-            icon: GestureDetector(
-              onTap: () { /// back arrow
+//            IconButton( /// cancel button
+//              icon: SvgPicture.asset('images/cancel.svg',),
+//              /// onPressed is taken care by the cancellationWidget
+//            ),
+            icon: CustomIconButton(
+              iconNameInImageFolder: 'backArrowColor',
+              onPressed: widget.navigate == null ? (){
                 CustomNavigator().navigateToHome(context, userName, userPhoneNo);
-              },
-              child: SvgPicture.asset('images/backArrowColor.svg',
-                width: 35,
-                height: 35,
-                //placeholderBuilder: CircularProgressIndicator(),
-              ),
+              } : widget.navigate,
             ),
             minimumChars: 1,/// minimum characters to enter to start the search
             loader: Center(child: CircularProgressIndicator()),
@@ -79,7 +87,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
             hintStyle: GoogleFonts.openSans(
               textStyle: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: 16,
+                fontSize: TextConfig().standardFontSize,
               ),
             ),
             onSearch: widget.onSearch == null? searchList : widget.onSearch,
@@ -95,34 +103,8 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
               /// if it is the first time conversation the there will be no conversationId
               /// it will be created in individualChat, if a null conversationId is sent
               String conversationId = doc.data["conversationId"];
-              //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, contactPhoneNumber)
 
-              return ListTile(
-                title: CustomText(text: doc.data["nameList"][0]),
-                ///displaying on the display name
-                onTap: () {
-                  String friendName = doc.data["nameList"][0];
-                  if (data != null) {
-                    /// forward message needs to be given searched friends conversationId
-                    /// corresponding change can also be found in individualChat forwardMessage() method:
-                    ///
-                    /// forward messages needs to be given this conversation's conversationId:
-                    ///      forwardMessage["conversationId"] = conversationId;
-                    data["conversationId"] = conversationId;
-                  }
-                  //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, friendNo);
-                  CustomNavigator().navigateToIndividualChat(
-                      context,
-                      conversationId,
-                      userName,
-                      userPhoneNo,
-                      friendName,
-                      friendNo,
-                      data,
-                      false
-                  );
-                },
-              );
+              return buildNameList(doc, conversationId, context, friendNo);
             } : widget.onItemFound,
           ),
         ),
@@ -130,10 +112,38 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
     );
   }
 
+  ListTile buildNameList(DocumentSnapshot doc, String conversationId, BuildContext context, List friendNo) {
+    return ListTile(
+              title: CustomText(text: widget.name == null ? doc.data["nameList"][0] : widget.name),
+              ///displaying on the display name
+              onTap: widget.onSearchTap == null ? () {
+                String friendName = doc.data["nameList"][0];
+                if (data != null) {
+                  /// forward message needs to be given searched friends conversationId
+                  /// corresponding change can also be found in individualChat forwardMessage() method:
+                  ///
+                  /// forward messages needs to be given this conversation's conversationId:
+                  ///      forwardMessage["conversationId"] = conversationId;
+                  data["conversationId"] = conversationId;
+                }
+                //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, friendNo);
+                CustomNavigator().navigateToIndividualChat(
+                    context,
+                    conversationId,
+                    userName,
+                    userPhoneNo,
+                    friendName,
+                    friendNo,
+                    data,
+                    false
+                );
+              } : widget.onSearchTap,
+            );
+  }
+
 
   /// searchList is basically friends_number collection
   Future<List<DocumentSnapshot>> searchList(String text) async {
-    print("search list");
     var list = await Firestore.instance.collection(
         "friends_${widget.userPhoneNo}").getDocuments();
 
@@ -145,7 +155,6 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
     ///ToDo- here not just 0, but on every index of the list
 
     if(createGroupSearch){
-      print("in group of create group");
       return list.documents.where((l) =>
       l.data["isMe"] == null && /// to remove myName from search
       l.data["groupName"] == null && ///to take group out of search
@@ -165,37 +174,40 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
   ///we are displaying the friends collection as the suggestion.
   /// this method is called in initState
   createSearchSuggestions() async {
-    print("in contact_search suggestionlist");
-    var temp;
-    if(createGroupSearch){
-      temp = await Firestore.instance.collection("friends_$userPhoneNo")
-///          .where('phone', isEqualTo: userPhoneNo) /// for not showing myName in createGroup search
-          .where('groupName', isNull: true)
-///          .orderBy("nameList", descending: false) /// for showing names alphabetically
-          .where('isMe', isNull: true)/// to remove our name from searchSuggestions, we need to add this to other friends
-          .getDocuments();
+
+    if(widget.searchSuggestions == null){
+      var temp;
+      if(createGroupSearch){
+        temp = await Firestore.instance.collection("friends_$userPhoneNo")
+        ///          .where('phone', isEqualTo: userPhoneNo) /// for not showing myName in createGroup search
+            .where('groupName', isNull: true)
+        ///          .orderBy("nameList", descending: false) /// for showing names alphabetically
+            .where('isMe', isNull: true)/// to remove our name from searchSuggestions, we need to add this to other friends
+            .getDocuments();
 //      print("temp.data: ${temp.documents[0].data["nameList"][0]}");
 //
 //      List dcList = temp.documents;
 //      for(int i=0; i< dcList.length; i++){
 //
 //      }
-    print("temp: ${temp.documents}");
 
-    }
-    else{
+      }
+      else{
         temp = await Firestore.instance.collection("friends_$userPhoneNo")
             .orderBy("nameList", descending: false)
             .getDocuments();
+      }
+
+      var tempList = temp.documents;
+      setState(() {
+        list = tempList;
+      });
+    }
+    else return widget.searchSuggestions;
+
     }
 
-    var tempList = temp.documents;
-    print("tempList : $tempList");
-    print("list: $list");
-    setState(() {
-      list = tempList;
-    });
-  }
+
 
 }
 

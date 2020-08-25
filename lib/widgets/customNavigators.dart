@@ -12,7 +12,7 @@ import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/bazaar/selectCategoryToShowInProductDetailsPage.dart';
 import 'package:gupshop/group/showGroupMembers.dart';
-import 'package:gupshop/service/contact_search.dart';
+import 'package:gupshop/widgets/contact_search.dart';
 import 'package:gupshop/group/createGroup.dart';
 
 class CustomNavigator{

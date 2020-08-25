@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gupshop/service/contact_search.dart';
+import 'package:gupshop/widgets/contact_search.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -24,7 +24,6 @@ class _ContactSearchPageState extends State<ContactSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    print("in build");
     return Stack(
       children: <Widget>[
         ContactSearch(userPhoneNo: widget.userPhoneNo, userName: widget.userName, data: widget.data,),

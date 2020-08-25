@@ -3,7 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:gupshop/bazaar/bazaarHome_screen.dart';
 import 'package:gupshop/news/newsComposer.dart';
 import 'package:gupshop/bazaar/bazaarIndividualCategoryListData.dart';
-import 'package:gupshop/bazaar/bazaarProfilePage.dart';
+import 'package:gupshop/bazaarOnBoarding/bazaarProfilePage.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/screens/contactSearchPage.dart';
 import 'package:gupshop/group/createGroupName_screen.dart';

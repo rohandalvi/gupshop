@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/bazaar/bazaarProfilePage.dart';
+import 'package:gupshop/bazaarOnBoarding/bazaarProfilePage.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/home/home.dart';
 

@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gupshop/bazaar/bazaarProfilePage.dart';
+import 'package:gupshop/bazaarOnBoarding/bazaarProfilePage.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/image/displayCircularPicture.dart';

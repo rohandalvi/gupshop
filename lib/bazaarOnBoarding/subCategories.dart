@@ -4,7 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/contact_search.dart';
+import 'package:gupshop/widgets/customFloatingActionButton.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class SubCategories extends StatefulWidget {
@@ -19,11 +22,12 @@ class SubCategories extends StatefulWidget {
 
 class _SubCategoriesState extends State<SubCategories> {
   Map<String, bool > map = new HashMap();
+  List<String> listOfSubCategories = new List();
+  Set tempSet = new HashSet();
 
 
   getCategorySizeFuture() {
     Map mapOfDocumentSnapshots = widget.subCategoriesList.asMap();
-
     /// initializing 'map' with false values
     mapOfDocumentSnapshots.forEach((key, value) {
       String temp = mapOfDocumentSnapshots[key].data["name"];
@@ -38,9 +42,18 @@ class _SubCategoriesState extends State<SubCategories> {
     super.initState();
   }
 
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+    return Stack(
+      children: <Widget>[
+        appBarBody(context),
+        showButton(), /// would show only if one or more contact is selected
+      ],
+    );
+  }
+
+
+  Widget appBarBody(BuildContext context) {
     return ContactSearch(
       suggestions: widget.subCategoriesList,
       navigate: NavigateToBazaarOnBoardingHome().navigate(context),
@@ -52,7 +65,7 @@ class _SubCategoriesState extends State<SubCategories> {
             controlAffinity:ListTileControlAffinity.leading ,
             title:CustomText(text: doc.data["name"]),
             activeColor: primaryColor,
-            value: map[doc.data["name"]],/// if value of a key in map(a phonenumber) is false or true
+            value: map[doc.data["name"]],/// if value of a key in map(a subcategory name) is false or true
             //list[index],/// at first all the values would be false
             onChanged: (bool val){
               setState(() {
@@ -75,7 +88,46 @@ class _SubCategoriesState extends State<SubCategories> {
         .contains(text.toLowerCase()) || l.documentID.contains(text)).toList();
   }
 
-  suggestions(){
-    return widget.subCategoriesList;
+
+  bool isSubCategorySelected(){
+    if(map.containsValue(true)) return true;
+    return false;
+  }
+
+  showButton(){
+    return Visibility(
+      visible: isSubCategorySelected(),
+      child: Align(
+          alignment: Alignment.bottomRight,
+          child: Container(
+            height: WidgetConfig.groupIconHeight,/// to increase the size of floatingActionButton use container along with FittedBox
+            width: WidgetConfig.groupIconWidth,
+            child: FittedBox(
+              child: CustomFloatingActionButtonWithIcon(
+                  iconName: 'forward2',
+                  tooltip: 'Go ahead',
+                  /// create a listOfContactsSelected and send it to individualChat
+                  onPressed: () {
+                    subCategoriesList();
+                  }
+              ),
+            ),
+          )
+      ),
+    );
+  }
+
+  subCategoriesList() {
+    bool isAdded;
+
+    map.forEach((key, value) {
+      if(value == true){
+        isAdded = tempSet.add(key);/// adding the numbers in a set because, if the user comes back from the nameScreen then the numbers shouldnt duplicate in the list, using set ensures that.
+        if(isAdded == true){/// if the set already has the number added then dont add it again in the list
+          listOfSubCategories.add(key);
+        }
+      }
+    });
+
   }
 }

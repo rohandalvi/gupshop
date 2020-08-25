@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/widgets/customText.dart';
 

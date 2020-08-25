@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/bazaarIndividualCategoryListData.dart';
-import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/image/gridViewContainer.dart';
-import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/bazaar/customGridView.dart';
-import 'package:gupshop/widgets/customText.dart';
 
 class BazaarHomeGridView extends StatefulWidget {
   @override

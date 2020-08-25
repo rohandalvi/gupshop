@@ -11,6 +11,10 @@ import 'package:gupshop/bazaar/getCategoriesSubscribedTo.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/bazaar/bazaarProfilePage.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
+import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
+import 'package:gupshop/navigators/navigateToOnBoardingCategorySelector.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
@@ -52,7 +56,7 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
-          SizedBox(height: 12,),
+          SizedBox(height: WidgetConfig.sizedBoxBazaarHome,),
           new BazaarHomeGridView(),
         ],
       ),
@@ -66,22 +70,22 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
 
   floatingActionButtonForNewBazaarwala(){
     return CustomBigFloatingActionButton(
-      child: IconButton(
-          icon: SvgPicture.asset('images/add.svg',)
-        //SvgPicture.asset('images/downChevron.svg',)
+      child: CustomIconButton(
+          iconNameInImageFolder: 'add',
       ),
-      onPressed: NavigateToBazaarProfilePage(userName: userName, userPhoneNo: userPhoneNo).navigate(context)
+      onPressed: NavigateToBazaarOnBoardingHome().navigate(context),
+      //NavigateToBazaarProfilePage(userName: userName, userPhoneNo: userPhoneNo).navigate(context)
     );
   }
 
   /// futureBuilder for show
   floatingActionButtonForEditBazaarwala(){
     return CustomBigFloatingActionButton(
-        child: IconButton(
-            icon: SvgPicture.asset('images/editPencil.svg',)
-          //SvgPicture.asset('images/downChevron.svg',)
+        child: CustomIconButton(
+          iconNameInImageFolder: 'add',
         ),
-        onPressed: NavigateToBazaarProfilePage(userName: userName, userPhoneNo: userPhoneNo).navigate(context)
+        onPressed: NavigateToBazaarOnBoardingHome().navigate(context),
+        //NavigateToBazaarProfilePage(userName: userName, userPhoneNo: userPhoneNo).navigate(context)
     );
   }
 }

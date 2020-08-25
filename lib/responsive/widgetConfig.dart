@@ -13,5 +13,8 @@ class WidgetConfig{
   static double productDetailImageHeight = SizeConfig.heightMultiplier * 30.5;/// 250/8.16
   static double reviewWidth = SizeConfig.widthMultiplier * 64.8; /// 280/4.32
   static double likeDislikeContainer = SizeConfig.widthMultiplier * 4.63; /// 20/4.32
+  static double appBarBazaarOnBoarding = SizeConfig.heightMultiplier * 8.5;/// 70/8.16
+  static double sizedBoxBazaarOnBoarding = SizeConfig.heightMultiplier * 3.8;/// 30/8.16
+  static double sizedBoxBazaarHome = SizeConfig.heightMultiplier * 1.5;/// 12/8.16
 
 }

@@ -258,6 +258,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
   setLocationOtherThanCurrentAsHome(){
     return CustomRaisedButton(
       onPressed: (){
+        /// getting user's current location
         Future<Position> location  = LocationService().getLocation();//setting user's location
         location.then((val){
           setState(() {

@@ -16,16 +16,21 @@ import 'package:gupshop/bazaar/setDocumentIdsForCollections.dart';
 import 'package:gupshop/bazaar/bazaarProfileSetLocation.dart';
 import 'package:gupshop/bazaarOnBoarding/locationRadiusUI.dart';
 import 'package:gupshop/bazaarOnBoarding/serviceAtHomeUI.dart';
+import 'package:gupshop/maps/maps.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
+import 'package:gupshop/navigators/navigateToCustomMap.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
+import 'package:gupshop/navigators/navigateToMaps.dart';
 import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
+import 'package:location/location.dart';
 
 
 // bazaarHomeScreen=>
@@ -193,6 +198,23 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
                     /// location widgets:
                     cache["location"] == null ? selectLocation() :  cache["location"],
+
+                    CustomIconButton(
+                      iconNameInImageFolder: 'add',
+                      onPressed: () async{
+                        LocationData location;
+                        var currentLocation = new Location();
+                        location = await currentLocation.getLocation();
+
+                        //Position location  = await LocationService().getLocation();
+                        print("lat in add : ${location.latitude}");
+                        NavigateToCustomMap(
+                          latitude: location.latitude,
+                          longitude: location.longitude,
+                          showRadius: true,
+                        ).navigateNoBrackets(context);
+                      },
+                    ),
 
                     /// radius widgets:
                     pageSubtitle('How far do you offer services :  '),

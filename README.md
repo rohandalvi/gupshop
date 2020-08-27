@@ -22,3 +22,27 @@ zoomable_image: ^1.3.1 # no seperate ios setting
 dio # no seperate ios setting
 
 photo_view: ^0.10.1 # no seperate ios setting
+
+googleMaps :
+<key>NSLocationWhenInUseUsageDescription</key>
+    <string>Application needs to access your current location</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Application needs to access your current location</string>
+
+
+
+Specify your API key in the application delegate ios/Runner/AppDelegate.m:
+
+#include "AppDelegate.h"
+#include "GeneratedPluginRegistrant.h"
+#import "GoogleMaps/GoogleMaps.h"
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application
+    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  [GMSServices provideAPIKey:@"YOUR KEY HERE"];
+  [GeneratedPluginRegistrant registerWithRegistry:self];
+  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+}
+@end

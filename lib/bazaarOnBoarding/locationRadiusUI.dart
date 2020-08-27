@@ -19,7 +19,6 @@ class _LocationRadiusUIState extends State<LocationRadiusUI> {
         labelText: "eg 5 (in km)",
         keyboardType: TextInputType.number,
         maxLength: 2,
-
         //expands: true,
       ),
     );

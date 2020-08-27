@@ -30,6 +30,9 @@ class _GenerateMapUIState extends State<GenerateMapUI> {
 
   @override
   void initState() {
+    print("in GenerateMapUI initState");
+
+    /// for 1st time map :
     LatLng point = new LatLng(widget.latitude, widget.longitude);
 
     if(widget.showRadius == true){
@@ -59,6 +62,10 @@ class _GenerateMapUIState extends State<GenerateMapUI> {
 
   @override
   Widget build(BuildContext context) {
+    print("Lat : ${widget.latitude}");
+    print("Lang : ${widget.longitude}");
+    print("marker : ${widget.markerSet}");
+    print("circle : ${widget.circleSet.elementAt(0).circleId}");
     return MapUI(
       latitude: widget.latitude,
       longitude: widget.longitude,

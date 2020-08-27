@@ -23,6 +23,7 @@ import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/navigators/navigateToMaps.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -162,7 +163,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.0),
+        preferredSize: Size.fromHeight(WidgetConfig.appBarBazaarOnBoarding),
         child: CustomAppBar(
           title: CustomText(text: 'Become a Bazaarwala',),
           onPressed:(){

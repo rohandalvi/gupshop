@@ -14,6 +14,8 @@ class MapUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Lat in MapUI: ${latitude}");
+    print("Lang in MapUI: ${longitude}");
     return GoogleMap(
       initialCameraPosition: CameraPosition(
         target: LatLng(latitude,longitude),

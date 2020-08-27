@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 
 class CustomAppBar extends StatelessWidget{
   final VoidCallback onPressed;
-  Widget title;
+  final Widget title;
   final List<Widget> actions;
 
   CustomAppBar({Key key, this.onPressed, this.title, this.actions});
@@ -18,8 +19,8 @@ class CustomAppBar extends StatelessWidget{
       elevation: 0,
       title: title,
       actions: actions,
-      leading: IconButton(
-        icon: SvgPicture.asset('images/backArrowColor.svg',),
+      leading: CustomIconButton(
+        iconNameInImageFolder:'backArrowColor',
         onPressed: onPressed,
       ),
     );

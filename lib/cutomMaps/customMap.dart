@@ -8,6 +8,8 @@ import 'package:gupshop/cutomMaps/generateMapUI.dart';
 import 'package:gupshop/cutomMaps/minusButton.dart';
 import 'package:gupshop/cutomMaps/plusButton.dart';
 import 'package:gupshop/cutomMaps/setCircleData.dart';
+import 'package:gupshop/widgets/customFlushBar.dart';
+import 'package:gupshop/widgets/customText.dart';
 import 'package:search_map_place/search_map_place.dart';
 
 class CustomMap extends StatefulWidget {
@@ -30,6 +32,8 @@ class _CustomMapState extends State<CustomMap> {
   Set<Circle> circleSet = new HashSet();
 
   /// this would be flexible
+  double radiusUpperLimit = 900;
+  double radiusLowerLimit = 100;
   double radius = 300;
   double radiusChange= 100;
 
@@ -110,24 +114,49 @@ class _CustomMapState extends State<CustomMap> {
 
 
   increaseRadius(LatLng point){
-    setState(() {
-      radius = radius + radiusChange;
-      circleSet = SetCircleData(
-        point: point,
-        radius: radius,
-        circleIdCounter: circleIdCounter,
-      ).main();
-    });
+    if(radius < radiusUpperLimit ){
+      setState(() {
+        radius = radius + radiusChange;
+        circleSet = SetCircleData(
+          point: point,
+          radius: radius,
+          circleIdCounter: circleIdCounter,
+        ).main();
+      });
+    }else{
+      return CustomFlushBar(
+        customContext: context,
+        iconName: 'speaker',
+        text: CustomText(
+          text: 'This is the maximum service area',
+        ),
+        message: 'This is the maximum service area',
+      ).showFlushBar();
+    }
+
   }
 
   decreaseRadius(LatLng point){
-    setState(() {
-      radius = radius - radiusChange;
-      circleSet = SetCircleData(
-        point: point,
-        radius: radius,
-        circleIdCounter: circleIdCounter,
-      ).main();
-    });
+    if(radius >= radiusLowerLimit ){
+      setState(() {
+        radius = radius - radiusChange;
+        circleSet = SetCircleData(
+          point: point,
+          radius: radius,
+          circleIdCounter: circleIdCounter,
+        ).main();
+      });
+    }else{
+      return CustomFlushBar(
+        customContext: context,
+        iconName: 'speaker',
+        text: CustomText(
+          text: 'This is the minimum service area',
+        ),
+        message: 'This is the minimum service area',
+      ).showFlushBar();
+    }
+
+
   }
 }

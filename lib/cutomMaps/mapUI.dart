@@ -6,17 +6,19 @@ class MapUI extends StatelessWidget {
   final double longitude;
   final ArgumentCallback<LatLng> onTap;
   final double zoom;
+  final bool mapToolbarEnabled;
+  final MapCreatedCallback onMapCreated;
 
   Set<Marker> markerSet;
   Set<Circle> circleSet;
 
-  MapUI({this.latitude, this.longitude, this.circleSet, this.markerSet, this.onTap, this.zoom});
+  MapUI({this.latitude, this.longitude, this.circleSet, this.markerSet, this.onTap,
+    this.zoom, this.mapToolbarEnabled, this.onMapCreated});
 
   @override
   Widget build(BuildContext context) {
-    print("Lat in MapUI: ${latitude}");
-    print("Lang in MapUI: ${longitude}");
     return GoogleMap(
+      onMapCreated: onMapCreated,
       initialCameraPosition: CameraPosition(
         target: LatLng(latitude,longitude),
         zoom: zoom,
@@ -26,6 +28,9 @@ class MapUI extends StatelessWidget {
       myLocationEnabled: true,
       onTap: onTap,
       mapType: MapType.normal,
+      mapToolbarEnabled: mapToolbarEnabled,
     );
   }
+
+
 }

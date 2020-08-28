@@ -149,85 +149,6 @@ class BodyData extends StatelessWidget {
              isMe, latitude, longitude, isLocationMessage, fromName, true, fromNameForGroup, timeStamp,
              documentId, index
            );
-//          return FutureBuilder(
-//              future: FirebaseMethods().getNewsDetailsForDisplay(newsId),
-//              builder: (context, snapshot) {
-//                if(snapshot.connectionState == ConnectionState.done){
-//                  String newsBody;
-//                  String newsTitle;
-//                  String newsLink;
-//                  int reportedByCount;
-//                  int trueByCount;
-//                  int fakeByCount;
-//
-//                  if(snapshot.data != null){
-//                    newsBody = snapshot.data["customNewsDescription"];
-//                    newsTitle = snapshot.data["customTitle"];
-//                    newsLink = snapshot.data["link"];
-//                    reportedByCount = snapshot.data["reportedBy"];
-//                    trueByCount = snapshot.data["trueBy"];
-//                    fakeByCount = snapshot.data["fakeBy"];
-//                  }
-//
-//
-//                  bool isNews= false;
-//                  if(newsBody != null) {isNews = true;}
-//                  else if(documentList[index].data["videoURL"] != null){
-//                    videoURL = documentList[index].data["videoURL"];
-//                    controller = VideoPlayerController.network(videoURL);
-//                  }
-//                  else if(documentList[index].data["imageURL"] == null){
-//                    messageBody = documentList[index].data["body"];
-//
-//                  }else{
-//                    imageURL = documentList[index].data["imageURL"];
-//                  }
-//
-//                  return BodyDisplay(
-//                    individualChatCache: individualChatCache,
-//                    readCache: readCache,
-//                    listOfFriendNumbers: listOfFriendNumbers,
-//                    conversationId: conversationId,
-//                    controller: controller,
-//                    userName: userName,
-//                    isPressed: isPressed,
-//                    userPhoneNo: userPhoneNo,
-//                    groupExits: groupExits,
-//                    mapIsNewsGenerated: mapIsNewsGenerated,
-//                    messageBody: messageBody,
-//                    imageURL:imageURL,
-//                    videoURL:videoURL,
-//                    newsBody:newsBody,
-//                    newsTitle:newsTitle,
-//                    newsLink:newsLink,
-//                    reportedByCount:reportedByCount,
-//                    trueByCount:trueByCount,
-//                    fakeByCount:fakeByCount,
-//                    newsId:newsId,
-//                    isMe:isMe,
-//                    latitude:latitude,
-//                    longitude:longitude,
-//                    isLocationMessage:isLocationMessage,
-//                    fromName:fromName,
-//                    isNews:isNews,
-//                    fromNameForGroup:fromNameForGroup,
-//                    timeStamp:timeStamp,
-//                    documentId: documentId,
-//                    messageId : messageId ,
-//                  );
-//
-//                }return// NewsContainerUI(title: NewsLinkPlaceholder().linkTitle, newsBody: NewsLinkPlaceholder().linkDescription,);
-////                  LinkDisplayUI(
-////                  link: NewsLinkPlaceholder().link,
-////                  title: NewsLinkPlaceholder().linkTitle,
-////                  description:  NewsLinkPlaceholder().linkDescription,
-////                  image:  NewsLinkPlaceholder().imageLink,
-////                  cache: null,);
-//                  Center(
-//                  child: CircularProgressIndicator(),
-//                );
-//              }
-//          );
         }
       },
       separatorBuilder: (context, index) => Divider(
@@ -248,7 +169,6 @@ class BodyData extends StatelessWidget {
       String newsTitle = individualChatCache[messageId].newsTitle;
       String newsLink = individualChatCache[messageId].newsLink;
 
-      print("from cache");
       return BodyDisplay(
         individualChatCache: individualChatCache,
         readCache: readCache,
@@ -282,7 +202,6 @@ class BodyData extends StatelessWidget {
         messageId : messageId ,
       );
     } else{
-      print("from non cache");
       return FutureBuilder(
           future: FirebaseMethods().getNewsDetailsForDisplay(newsId),
           builder: (context, snapshot) {
@@ -350,13 +269,7 @@ class BodyData extends StatelessWidget {
                 messageId : messageId ,
               );
 
-            }return// NewsContainerUI(title: NewsLinkPlaceholder().linkTitle, newsBody: NewsLinkPlaceholder().linkDescription,);
-//                  LinkDisplayUI(
-//                  link: NewsLinkPlaceholder().link,
-//                  title: NewsLinkPlaceholder().linkTitle,
-//                  description:  NewsLinkPlaceholder().linkDescription,
-//                  image:  NewsLinkPlaceholder().imageLink,
-//                  cache: null,);
+            }return
               Center(
                 child: CircularProgressIndicator(),
               );

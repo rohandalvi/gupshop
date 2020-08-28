@@ -21,7 +21,6 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
   bool isInitialized = false;
 
   _initPlayer() async{
-    print("in _initPlayer()");
     videoPlayerController = VideoPlayerController.network(widget.videoURL)..initialize()
         .then((_) {
       setState(() {
@@ -97,7 +96,6 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
   }
 
   GestureDetector helper(){
-    print("non cache");
     GestureDetector result = new  GestureDetector(
       child: AspectRatio(
       //videoPlayerController.value.initialized ? AspectRatio(
@@ -125,9 +123,6 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
   }
 
   cachedVideo(){
-    print("in cache");
-    print("cachedVideo : ${widget.cache.video}");
-    print("videoPlayerController.value.initialized : ${videoPlayerController.value.initialized}");
     return widget.cache.video;
   }
 }

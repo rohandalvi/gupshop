@@ -16,6 +16,7 @@ import 'package:gupshop/bazaar/setDocumentIdsForCollections.dart';
 import 'package:gupshop/bazaar/bazaarProfileSetLocation.dart';
 import 'package:gupshop/bazaarOnBoarding/locationRadiusUI.dart';
 import 'package:gupshop/bazaarOnBoarding/serviceAtHomeUI.dart';
+import 'package:gupshop/cutomMaps/customMap.dart';
 import 'package:gupshop/maps/maps.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
@@ -40,7 +41,7 @@ class BazaarOnBoardingProfile extends StatefulWidget {
   final String userPhoneNo;
   final String userName;
 
-  BazaarOnBoardingProfile({@required this.userPhoneNo, @required this.userName});
+  BazaarOnBoardingProfile({@required this.userPhoneNo, @required this.userName,});
 
   @override
   _BazaarOnBoardingProfileState createState() => _BazaarOnBoardingProfileState(userName: userName, userPhoneNo: userPhoneNo);
@@ -198,7 +199,24 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                     pageSubtitle('Add home Location : '),
 
                     /// location widgets:
-                    cache["location"] == null ? selectLocation() :  cache["location"],
+                    //cache["location"] == null ? selectLocation() :  cache["location"],
+
+                    CustomIconButton(
+                      iconNameInImageFolder: 'locationPin',
+                      onPressed: () async{
+                        LocationData location;
+                        var currentLocation = new Location();
+                        location = await currentLocation.getLocation();
+
+                        //Position location  = await LocationService().getLocation();
+                        print("lat in add : ${location.latitude}");
+                        NavigateToCustomMap(
+                          latitude: location.latitude,
+                          longitude: location.longitude,
+                          showRadius: false,
+                        ).navigateNoBrackets(context);
+                      },
+                    ),
 
                     CustomIconButton(
                       iconNameInImageFolder: 'add',
@@ -209,7 +227,14 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
                         //Position location  = await LocationService().getLocation();
                         print("lat in add : ${location.latitude}");
+//                        return CustomMap(
+//                          latitude: location.latitude,
+//                          longitude: location.longitude,
+//                          showRadius: true,
+//                        );
                         NavigateToCustomMap(
+//                            latitude: 19.2403305,
+//                            longitude: 73.1305395,
                           latitude: location.latitude,
                           longitude: location.longitude,
                           showRadius: true,

@@ -15,7 +15,6 @@ class LinkDisplayUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("in non cache news");
 
     Container newsContainer =  Container(
       color: linkPreviewColor,

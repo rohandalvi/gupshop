@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/cutomMaps/MapAppBar.dart';
 import 'package:gupshop/cutomMaps/generateMapUI.dart';
+import 'package:gupshop/cutomMaps/minusButton.dart';
+import 'package:gupshop/cutomMaps/plusButton.dart';
 import 'package:gupshop/cutomMaps/setCircleData.dart';
-import 'package:gupshop/cutomMaps/setMarkerData.dart';
-import 'package:gupshop/responsive/widgetConfig.dart';
-import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:search_map_place/search_map_place.dart';
 
 class CustomMap extends StatefulWidget {
@@ -33,6 +32,15 @@ class _CustomMapState extends State<CustomMap> {
   double radius = 300;
  /// this would be flexible
   int circleIdCounter = 1;
+
+
+
+  @override
+  void didUpdateWidget(CustomMap oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,24 +65,28 @@ class _CustomMapState extends State<CustomMap> {
               double newLongitude = newCoordinates.longitude;
 
               resetLocation(newLatitude, newLongitude);
-              resetSetCircle(newCoordinates);
+
             },
           ),
-//          Align(
-//            alignment: Alignment.bottomCenter,
-//            child: Visibility(
-//              visible: showCircle == true || showCircle != null,
-//              child: Row(
-//                children: <Widget>[
-//                  PlusButton(
-                    /// onPressed :
-                    /// setState radius = radius + 10
-//                  ),
-//                  MinusButton(),
-//                ],
-//              ),
-//            ),
-//          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Visibility(
+              visible: widget.showRadius == true || widget.showRadius != null,
+              child: Row(
+                children: <Widget>[
+                  PlusButton(
+                    ///onPressed :
+                    ///setState radius = radius + 10
+                    onRadiusPlus: (){
+                      LatLng point = LatLng(widget.latitude, widget.longitude);
+                      increaseRadius(point);
+                    },
+                  ),
+                  MinusButton(),
+                ],
+              ),
+            ),
+          ),
 
         ],
       ),
@@ -88,26 +100,17 @@ class _CustomMapState extends State<CustomMap> {
     });
   }
 
-  resetSetCircle(LatLng point){
-    if(widget.showRadius == true){
+
+  increaseRadius(LatLng point){
+    setState(() {
+      radius = radius + 100;
       circleSet = SetCircleData(
         point: point,
-        circleSet: circleSet,
         radius: radius,
         circleIdCounter: circleIdCounter,
       ).main();
+      print("radius in customMap : $radius");
+    });
 
-      markerSet = SetMarkerData(
-          point: point,
-          markerIdCounter: markerIdCounter,
-          markerSet: markerSet
-      ).main();
-    }else{
-      markerSet = SetMarkerData(
-          point: point,
-          markerIdCounter: markerIdCounter,
-          markerSet: markerSet
-      ).main();
-    }
   }
 }

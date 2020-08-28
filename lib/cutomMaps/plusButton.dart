@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/widgets/clickableText.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
 class PlusButton extends StatelessWidget {
@@ -10,7 +11,7 @@ class PlusButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: CustomIconButton(
-        iconNameInImageFolder: 'add',
+        iconNameInImageFolder: 'plus',
         onPressed: onRadiusPlus,
       ),
     );

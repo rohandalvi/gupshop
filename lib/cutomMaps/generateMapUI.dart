@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/cutomMaps/mapUI.dart';
@@ -5,8 +7,8 @@ import 'package:gupshop/cutomMaps/setCircleData.dart';
 import 'package:gupshop/cutomMaps/setMarkerData.dart';
 
 class GenerateMapUI extends StatefulWidget {
-  final double latitude;
-  final double longitude;
+  double latitude;
+  double longitude;
 
   Set<Marker> markerSet;
   int markerIdCounter;
@@ -28,81 +30,91 @@ class GenerateMapUI extends StatefulWidget {
 
 class _GenerateMapUIState extends State<GenerateMapUI> {
 
+  GoogleMapController mapController;
+  Set<Marker> markerSet = new HashSet();
+
+  int markerIdCounter = 1;
+
+  Set<Circle> circleSet = new HashSet();
+
+  /// this would be flexible
+  double radius = 300;
+
+  int circleIdCounter = 1;
+
+
   @override
   void initState() {
-    print("in GenerateMapUI initState");
-
-    /// for 1st time map :
-    LatLng point = new LatLng(widget.latitude, widget.longitude);
-
-    if(widget.showRadius == true){
-      widget.circleSet = SetCircleData(
-        point: point,
-        circleSet: widget.circleSet,
-        radius: widget.radius,
-        circleIdCounter: widget.circleIdCounter,
-      ).main();
-
-      widget.markerSet = SetMarkerData(
-          point: point,
-          markerIdCounter: widget.markerIdCounter,
-          markerSet: widget.markerSet
-      ).main();
-    }else{
-      widget.markerSet = SetMarkerData(
-          point: point,
-          markerIdCounter: widget.markerIdCounter,
-          markerSet: widget.markerSet
-      ).main();
-    }
-
-
+    _init();
     super.initState();
+  }
+
+ @override
+  void didUpdateWidget(GenerateMapUI oldWidget) {
+    _init();
+
+    mapController.animateCamera(
+        CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(widget.latitude, widget.longitude,),
+      zoom: 15,
+    )));
+
+
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Lat : ${widget.latitude}");
-    print("Lang : ${widget.longitude}");
-    print("marker : ${widget.markerSet}");
-    print("circle : ${widget.circleSet.elementAt(0).circleId}");
     return MapUI(
       latitude: widget.latitude,
       longitude: widget.longitude,
       markerSet: widget.markerSet,
       circleSet: widget.circleSet,
+      onMapCreated: onMapCreated,
       zoom: 15,
-//      onTap: (point) async{
-//        if(widget.showRadius == true){
-//          Set<Circle> tempCircleSet = await SetCircleData(
-//            point: point,
-//            circleSet: widget.circleSet,
-//            radius: widget.radius,
-//            circleIdCounter: widget.circleIdCounter,
-//          ).main();
-//
-//          Set<Marker> tempMarkerSet = await SetMarkerData(
-//            point: point,
-//            markerIdCounter: widget.markerIdCounter,
-//            markerSet: widget.markerSet
-//          ).main();
-//
-//          setState(() {
-//            widget.circleSet = tempCircleSet;
-//            widget.markerSet = tempMarkerSet;
-//          });
-//
-//        }else {
-//          Set<Marker> tempMarkerSet = await SetMarkerData(
-//              point: point,
-//              markerIdCounter: widget.markerIdCounter,
-//              markerSet: widget.markerSet
-//          ).main();
-//          setState(() {
-//            widget.markerSet = tempMarkerSet;
-//          });
-//        }
-//      },
     );
   }
+
+
+  _init(){
+    LatLng point = new LatLng(widget.latitude, widget.longitude);
+    resetSetCircle(point);
+  }
+
+  resetSetCircle(LatLng point){
+    setState(() {
+      if(widget.showRadius == true){
+        widget.circleSet = SetCircleData(
+          point: point,
+          radius: widget.radius,
+          circleIdCounter: widget.circleIdCounter,
+        ).main();
+
+        widget.markerSet = SetMarkerData(
+            point: point,
+            markerIdCounter: widget.markerIdCounter
+        ).main();
+      }else{
+        widget.markerSet = SetMarkerData(
+            point: point,
+            markerIdCounter: widget.markerIdCounter
+        ).main();
+      }
+    });
+
+  }
+
+
+  onMapCreated(controller){
+    setState(() {
+      mapController = controller;
+    });
+  }
+
 }

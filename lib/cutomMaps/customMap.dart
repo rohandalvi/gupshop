@@ -29,9 +29,12 @@ class _CustomMapState extends State<CustomMap> {
 
   Set<Circle> circleSet = new HashSet();
 
+  /// this would be flexible
   double radius = 300;
- /// this would be flexible
+  double radiusChange= 100;
+
   int circleIdCounter = 1;
+
 
 
 
@@ -82,7 +85,12 @@ class _CustomMapState extends State<CustomMap> {
                       increaseRadius(point);
                     },
                   ),
-                  MinusButton(),
+                  MinusButton(
+                    onRadiusMinus: (){
+                      LatLng point = LatLng(widget.latitude, widget.longitude);
+                      decreaseRadius(point);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -103,14 +111,23 @@ class _CustomMapState extends State<CustomMap> {
 
   increaseRadius(LatLng point){
     setState(() {
-      radius = radius + 100;
+      radius = radius + radiusChange;
       circleSet = SetCircleData(
         point: point,
         radius: radius,
         circleIdCounter: circleIdCounter,
       ).main();
-      print("radius in customMap : $radius");
     });
+  }
 
+  decreaseRadius(LatLng point){
+    setState(() {
+      radius = radius - radiusChange;
+      circleSet = SetCircleData(
+        point: point,
+        radius: radius,
+        circleIdCounter: circleIdCounter,
+      ).main();
+    });
   }
 }

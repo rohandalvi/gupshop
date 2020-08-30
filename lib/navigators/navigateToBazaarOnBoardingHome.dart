@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/bazaarOnBoarding/onBoardingCategoySelector.dart';
+import 'package:gupshop/bazaarOnBoarding/categorySelector.dart';
 import 'package:gupshop/bazaarOnBoarding/onBoardingHome.dart';
 
 class NavigateToBazaarOnBoardingHome{

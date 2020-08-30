@@ -11,7 +11,7 @@ class PlusButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: CustomIconButton(
-        iconNameInImageFolder: 'plus',
+        iconNameInImageFolder: 'plusDark',
         onPressed: onRadiusPlus,
       ),
     );

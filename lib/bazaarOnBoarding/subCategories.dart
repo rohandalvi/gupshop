@@ -2,20 +2,22 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/bazaarOnBoarding/pushSubCategoriesToFirebase.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
-import 'package:gupshop/navigators/navigateToBazaarProfilePage.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/contact_search.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class SubCategories extends StatefulWidget {
+  final String category;
   final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   final List<DocumentSnapshot> subCategoriesList;
 
-  SubCategories({this.subCategoriesList, this.subCategoriesListFuture});
+  SubCategories({this.subCategoriesList, this.subCategoriesListFuture, this.category});
 
   @override
   _SubCategoriesState createState() => _SubCategoriesState();
@@ -109,7 +111,13 @@ class _SubCategoriesState extends State<SubCategories> {
                   tooltip: 'Go ahead',
                   /// create a listOfContactsSelected and send it to individualChat
                   onPressed: () {
+                    /// create subCategories list:
                     subCategoriesList();
+
+                    /// push the subCategories to database:
+                    pushSubCategoriesToFirebase();
+
+                    /// moving on to next page:
                     NavigateToBazaarOnBoardingProfile().navigateNoBrackets(context);
                   }
               ),
@@ -130,6 +138,26 @@ class _SubCategoriesState extends State<SubCategories> {
         }
       }
     });
+  }
 
+  pushSubCategoriesToFirebase() async{
+    String userName = await UserDetails().getUserNameFuture();
+    String userNumber = await UserDetails().getUserPhoneNoFuture();
+
+    PushSubCategoriesToFirebase(category: widget.category,userPhoneNo: userNumber,
+      userName: userName, list: listOfSubCategories
+    ).bazaarCategories();
+
+    PushSubCategoriesToFirebase(category: widget.category,userPhoneNo: userNumber,
+        userName: userName, list: listOfSubCategories).bazaarCategoriesMetaData();
+
+    PushSubCategoriesToFirebase(category: widget.category,userPhoneNo: userNumber,
+        userName: userName, list: listOfSubCategories).createBlankRatingNumber();
+
+    PushSubCategoriesToFirebase(category: widget.category,userPhoneNo: userNumber,
+        userName: userName, list: listOfSubCategories).createBlankReviews();
+
+    PushSubCategoriesToFirebase(category: widget.category,userPhoneNo: userNumber,
+        userName: userName, list: listOfSubCategories).bazaarWalasLocation();
   }
 }

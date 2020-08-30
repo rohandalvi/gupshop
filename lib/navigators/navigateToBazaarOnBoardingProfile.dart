@@ -38,4 +38,20 @@ class NavigateToBazaarOnBoardingProfile{
         )
     );
   }
+
+  navigateNoBracketsPushReplacement(BuildContext context , List list) async{
+    String userNumber = await UserDetails().getUserPhoneNoFuture();
+    String userName = await UserDetails().getUserNameFuture();
+
+    return Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BazaarOnBoardingProfile(
+            userPhoneNo: userNumber,
+            userName: userName,
+          ),
+        ),
+      result: list
+    );
+  }
 }

@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +7,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/cutomMaps/MapAppBar.dart';
 import 'package:gupshop/cutomMaps/generateMapUI.dart';
 import 'package:gupshop/cutomMaps/minusButton.dart';
+import 'package:gupshop/cutomMaps/okButton.dart';
 import 'package:gupshop/cutomMaps/plusButton.dart';
 import 'package:gupshop/cutomMaps/setCircleData.dart';
+import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
+import 'package:gupshop/responsive/keys.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:search_map_place/search_map_place.dart';
 
@@ -39,7 +44,9 @@ class _CustomMapState extends State<CustomMap> {
 
   int circleIdCounter = 1;
 
+  MapAppBar appBar;
 
+  bool exit = false;
 
 
   @override
@@ -63,47 +70,75 @@ class _CustomMapState extends State<CustomMap> {
             markerIdCounter: markerIdCounter,
             markerSet: markerSet,
           ),
-          MapAppBar(
-            onSelected: (place) async{
-              Geolocation geoLocation = await place.geolocation;
+          appBarWidget(),
 
-              LatLng newCoordinates = geoLocation.coordinates;
-              double newLatitude = newCoordinates.latitude;
-              double newLongitude = newCoordinates.longitude;
-
-              resetLocation(newLatitude, newLongitude);
-
-            },
-          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Visibility(
               visible: widget.showRadius == true || widget.showRadius != null,
-              child: Row(
-                children: <Widget>[
-                  PlusButton(
-                    ///onPressed :
-                    ///setState radius = radius + 10
-                    onRadiusPlus: (){
-                      LatLng point = LatLng(widget.latitude, widget.longitude);
-                      increaseRadius(point);
-                    },
-                  ),
-                  MinusButton(
-                    onRadiusMinus: (){
-                      LatLng point = LatLng(widget.latitude, widget.longitude);
-                      decreaseRadius(point);
-                    },
-                  ),
-                ],
+              child: Container(
+                child: Row(
+                  children: <Widget>[
+                    PlusButton(
+                      ///onPressed :
+                      ///setState radius = radius + 10
+                      onRadiusPlus: (){
+                        LatLng point = LatLng(widget.latitude, widget.longitude);
+                        increaseRadius(point);
+                      },
+                    ),
+                    MinusButton(
+                      onRadiusMinus: (){
+                        LatLng point = LatLng(widget.latitude, widget.longitude);
+                        decreaseRadius(point);
+                      },
+                    ),
+                    OkButton(
+                      onOkPressed:(){
+                        LatLng point = LatLng(widget.latitude, widget.longitude);
+                        List list = new List();
+                        list.add(point);
+                        list.add(radius);
+                        Navigator.pop(context, list);
+                        //NavigateToBazaarOnBoardingProfile().navigateNoBracketsPushReplacement(context, list);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-
+          CustomIconButton(
+            iconNameInImageFolder: 'backArrowColor',
+            onPressed: (){
+              LatLng point = LatLng(widget.latitude, widget.longitude);
+              List list = new List();
+              list.add(point);
+              list.add(radius);
+              Navigator.pop(context, list);
+            },
+          ),
         ],
       ),
     );
   }
+
+  appBarWidget(){
+
+    appBar = new MapAppBar(
+      onSelected: (place) async{
+        Geolocation geoLocation = await place.geolocation;
+
+        LatLng newCoordinates = geoLocation.coordinates;
+        double newLatitude = newCoordinates.latitude;
+        double newLongitude = newCoordinates.longitude;
+
+        resetLocation(newLatitude, newLongitude);
+      },
+    );
+    return appBar;
+  }
+
 
   resetLocation(double newLatitude, double newLongitude){
     setState(() {

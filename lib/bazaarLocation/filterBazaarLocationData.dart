@@ -4,15 +4,15 @@ import 'package:gupshop/location/location_service.dart';
 
 class FilterBazaarLocationData{
 
-  getListOfBazaarWalasInAGivenRadius(String number, String category) async{
-    var userGeohash = await getUserGeohash(number);
+  getListOfBazaarWalasInAGivenRadius(String number, String category,) async{
+    var userGeohash = await getUserGeohash(number,);
 
     var listOfUpperGeohashBazaarWalas = await getListOfUpperGeohashBazaarWalas(userGeohash, category );
 
     return filterListOfLowerGeohashBazaarWalas(listOfUpperGeohashBazaarWalas, userGeohash);
   }
 
-  getUserGeohash(String number) async{
+  getUserGeohash(String number,) async{
     DocumentSnapshot userGeohash = await LocationService().getUserLocation(number);
     return userGeohash.data["home"]["geohash"];
   }

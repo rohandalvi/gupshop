@@ -23,9 +23,9 @@ class NavigateToCustomMap{
     };
   }
 
-  navigateNoBrackets(BuildContext context){
+  navigateNoBrackets(BuildContext context) async{
     print("lat in navigateNoBrackets : $latitude");
-    Navigator.push(
+    return await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => CustomMap(showRadius: showRadius,longitude: longitude,

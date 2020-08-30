@@ -6,7 +6,7 @@ import 'package:gupshop/image/gridViewContainer.dart';
 import 'package:gupshop/navigators/navigateToSubCategories.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 
-class OnBoardingCategorySelector extends StatelessWidget {
+class CategorySelector extends StatelessWidget {
 
   //OnBoardingCategorySelector({});
 
@@ -34,6 +34,7 @@ class OnBoardingCategorySelector extends StatelessWidget {
                   NavigateToBazaarSubCategories(
                     subCategoriesList: subCategories,
                     subCategoriesListFuture: subCategoriesListFuture,
+                    category: catergoryName
                   ).navigateNoBrackets(context);
                 },
                 imageName: catergoryName,

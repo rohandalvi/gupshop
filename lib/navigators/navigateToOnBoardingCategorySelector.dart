@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/bazaarOnBoarding/onBoardingCategoySelector.dart';
+import 'package:gupshop/bazaarOnBoarding/categorySelector.dart';
 
 class NavigateToOnBoardingCategorySelector{
 
@@ -10,7 +10,7 @@ class NavigateToOnBoardingCategorySelector{
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => OnBoardingCategorySelector(),
+            builder: (context) => CategorySelector(),
           )
       );
     };
@@ -20,7 +20,7 @@ class NavigateToOnBoardingCategorySelector{
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => OnBoardingCategorySelector(),
+          builder: (context) => CategorySelector(),
         )
     );
   }

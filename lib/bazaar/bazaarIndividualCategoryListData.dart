@@ -34,7 +34,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
   getListOfBazaarWalasInAGivenRadius() async{
     var userPhoneNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
     _userPhoneNo = userPhoneNo;
-    var listOfbazaarwalas = await FilterBazaarLocationData().getListOfBazaarWalasInAGivenRadius(userPhoneNo, category);
+    var listOfbazaarwalas = await FilterBazaarLocationData().getListOfBazaarWalasInAGivenRadius(userPhoneNo, category,);
     return listOfbazaarwalas;
   }
 

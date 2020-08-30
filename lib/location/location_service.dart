@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geocoder/geocoder.dart' as gc;
 import 'package:geolocator/geolocator.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:gupshop/PushToFirebase/pushToBazaarWalasLocation.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -12,6 +13,8 @@ import 'package:url_launcher/url_launcher.dart';
 class LocationService {
   double latitude;
   double longitude;
+
+  /// take this as radius from  firebase
   double distance = 50;
 
 
@@ -23,11 +26,11 @@ class LocationService {
   Geoflutterfire geo = Geoflutterfire();
 
 
-  getLocationInOurFormat(double latitude, double longitude){
+  getLocationInOurFormat(double latitude, double longitude, double radius){
     GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
 
-    String bazaarWalasUpperRadius = _getBazaarWalasUpperRadius(latitude, longitude, distance);//distance 50//static for now//later can be asked from the bazaarwalas
-    String bazaarWalasLowerRadius = _getBazaarWalasLowerRadius(latitude, longitude, distance);
+    String bazaarWalasUpperRadius = _getBazaarWalasUpperRadius(latitude, longitude, radius);//distance 50//static for now//later can be asked from the bazaarwalas
+    String bazaarWalasLowerRadius = _getBazaarWalasLowerRadius(latitude, longitude, radius);
 
     var position =
     {
@@ -35,17 +38,23 @@ class LocationService {
       'geoPoint': myLocation.geoPoint,
       'upperGeoHash':bazaarWalasUpperRadius,
       'lowerGeoHash': bazaarWalasLowerRadius,
+      'radius' : radius,
     };
 
     return position;
   }
 
   //2
-  pushBazaarWalasLocationToFirebase(double latitude, double longitude, String categoryName,String userNumber){//used in createBazaarwala profile page
-    var position = getLocationInOurFormat(latitude, longitude);
+  pushBazaarWalasLocationToFirebase(double latitude, double longitude, String categoryName,String userNumber, String subCategory, double radius){//used in createBazaarwala profile page
+    var position = getLocationInOurFormat(latitude, longitude, radius);
 
-    Firestore.instance.collection("bazaarWalasLocation").document(categoryName).setData({}, merge: true);///creating document to avoid error document(italic) creation
-    Firestore.instance.collection("bazaarWalasLocation").document(categoryName).collection(categoryName).document(userNumber).setData(position);
+    /// use from pushToFirebase package instead:
+    PushToBazaarWalasLocation(
+      position: position, userNumber: userNumber, category: categoryName, subCategory:subCategory,
+      latitude: latitude, longitude: longitude
+    ).push();
+//    Firestore.instance.collection("bazaarWalasLocation").document(categoryName).setData({}, merge: true);///creating document to avoid error document(italic) creation
+//    Firestore.instance.collection("bazaarWalasLocation").document(categoryName).collection(categoryName).document(userNumber).setData(position);
   }
 
 

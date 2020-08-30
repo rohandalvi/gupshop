@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
 
@@ -7,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:gupshop/PushToFirebase/pushToBazaarWalasLocation.dart';
 import 'package:gupshop/PushToFirebase/pushToCategoriesMetadata.dart';
 import 'package:gupshop/bazaar/bazaarProfileSetVideo.dart';
 import 'package:gupshop/bazaar/bazaarWalasBasicProfile.dart';
 import 'package:gupshop/bazaar/categories.dart';
 import 'package:gupshop/bazaar/createMapFromListOfCategories.dart';
-import 'package:gupshop/bazaar/setDocumentIdsForCollections.dart';
+import 'package:gupshop/PushToFirebase/setDocumentIdsForCollections.dart';
 import 'package:gupshop/bazaar/bazaarProfileSetLocation.dart';
 import 'package:gupshop/bazaarOnBoarding/locationRadiusUI.dart';
 import 'package:gupshop/bazaarOnBoarding/serviceAtHomeUI.dart';
@@ -40,8 +41,10 @@ import 'package:location/location.dart';
 class BazaarOnBoardingProfile extends StatefulWidget {
   final String userPhoneNo;
   final String userName;
+  final List<String> listOfSubCategories;
+  final String category;
 
-  BazaarOnBoardingProfile({@required this.userPhoneNo, @required this.userName,});
+  BazaarOnBoardingProfile({@required this.userPhoneNo, @required this.userName, this.category, this.listOfSubCategories});
 
   @override
   _BazaarOnBoardingProfileState createState() => _BazaarOnBoardingProfileState(userName: userName, userPhoneNo: userPhoneNo);
@@ -53,7 +56,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
   _BazaarOnBoardingProfileState({@required this.userPhoneNo, @required this.userName});
 
-  Position _bazaarWalaLocation;
+
   double latitude;
   double longitude;
 
@@ -63,57 +66,30 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
 
   List<bool> inputs = new List<bool>();
-  List<String> categoriesForBazaarWalasBasicProfile = new List();
 
-  int categorySize;
+
   bool saveButtonVisible = false;
 
   File _cameraVideo;
 
   bool videoSelected = false;
   bool locationSelected = false;
-  bool isCategorySelected = false;
   bool isBazaarWala;
 
   BazaarProfileSetVideo isVideo;
-  BazaarProfileSetLocation isLocation;
+  LatLng locationFromMap;
+  double radius;
+
   Categories categorySelection;
   ServiceAtHome service;
   bool homeService;
 
   Map<dynamic, dynamic> cache = new Map();
 
-  Map<String, bool > map = new SplayTreeMap();/// make it set
-  getCategorySizeFuture() async{
-    QuerySnapshot querySnapshot = await Firestore.instance.collection("bazaarCategoryTypesAndImages").getDocuments();
-
-    if(querySnapshot == null) return CircularProgressIndicator();//to avoid red screen(error)
-
-    Map mapOfDocumentSnapshots = querySnapshot.documents.asMap();
-
-    mapOfDocumentSnapshots.forEach((key, value) {
-      String categoryNames = mapOfDocumentSnapshots[key]["name"];
-      map.putIfAbsent(categoryNames, () => false);
-    });
-    int size = querySnapshot.documents.length;
-    return size;
-  }
-
-  initializeList(List<bool>inputs ) async{
-    int size = await getCategorySizeFuture();
-    setState(() {
-      for(int i =0; i<size; i++){//initializing the array inputs to false for showing nothing selected when the checkbox pops up for the 1st time
-        inputs.add(false);
-      }
-    });
-  }
 
 
   @override
   void initState() {
-    //getUserPhone();
-    initializeList(inputs);
-
     getIsBazaarWala();
 
     super.initState();
@@ -145,21 +121,6 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
     });
   }
 
-  selectLocation(){
-    isLocation = new BazaarProfileSetLocation(
-      bazaarWalaLocation: _bazaarWalaLocation,
-      locationSelected: locationSelected,
-      longitude: longitude,
-      latitude: latitude,
-      userName : userName,
-    );
-
-    cache["location"] = isLocation;
-
-    return isLocation;
-  }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,10 +144,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
                 longitude = snapshot.data["longitude"];
                 latitude = snapshot.data["latitude"];
-                _bazaarWalaLocation = new Position(longitude: longitude, latitude: latitude);
                 locationSelected = true;
-
-                isCategorySelected = true;
               }
 
               return ListView(
@@ -199,52 +157,32 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                     pageSubtitle('Add home Location : '),
 
                     /// location widgets:
-                    //cache["location"] == null ? selectLocation() :  cache["location"],
+                    Container(
+                      width: WidgetConfig.sizedBoxBazaarOnBoarding,
+                      child: CustomRaisedButton(
+                        child: CustomText(text: 'Add location and service area',),
+                        onPressed: () async{
+                          LocationData location;
+                          var currentLocation = new Location();
+                          location = await currentLocation.getLocation();
 
-                    CustomIconButton(
-                      iconNameInImageFolder: 'locationPin',
-                      onPressed: () async{
-                        LocationData location;
-                        var currentLocation = new Location();
-                        location = await currentLocation.getLocation();
+                          //Position location  = await LocationService().getLocation();
 
-                        //Position location  = await LocationService().getLocation();
-                        print("lat in add : ${location.latitude}");
-                        NavigateToCustomMap(
-                          latitude: location.latitude,
-                          longitude: location.longitude,
-                          showRadius: false,
-                        ).navigateNoBrackets(context);
-                      },
+                          List list = await NavigateToCustomMap(
+                            latitude: location.latitude,
+                            longitude: location.longitude,
+                            showRadius: true,
+                          ).navigateNoBrackets(context);
+
+                          /// list[0] = location
+                          /// list[1] = radius
+                          locationFromMap = list[0];
+                          radius = list[1];
+
+                        },
+                      ),
                     ),
 
-                    CustomIconButton(
-                      iconNameInImageFolder: 'add',
-                      onPressed: () async{
-                        LocationData location;
-                        var currentLocation = new Location();
-                        location = await currentLocation.getLocation();
-
-                        //Position location  = await LocationService().getLocation();
-                        print("lat in add : ${location.latitude}");
-//                        return CustomMap(
-//                          latitude: location.latitude,
-//                          longitude: location.longitude,
-//                          showRadius: true,
-//                        );
-                        NavigateToCustomMap(
-//                            latitude: 19.2403305,
-//                            longitude: 73.1305395,
-                          latitude: location.latitude,
-                          longitude: location.longitude,
-                          showRadius: true,
-                        ).navigateNoBrackets(context);
-                      },
-                    ),
-
-                    /// radius widgets:
-                    pageSubtitle('How far do you offer services :  '),
-                    LocationRadiusUI(),
 
                     /// service offered location:
                     serviceWidget(),
@@ -280,22 +218,6 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
   }
 
 
-  setLocationOtherThanCurrentAsHome(){
-    return CustomRaisedButton(
-        onPressed: (){
-          Future<Position> location  = LocationService().getLocation();//setting user's location
-          location.then((val){
-            setState(() {
-              _bazaarWalaLocation = val;
-              latitude = _bazaarWalaLocation.latitude;
-              longitude =  _bazaarWalaLocation.longitude;
-              locationSelected = false;
-            });
-          });
-        },
-        child: CustomText(text: "Click to set other location as home location",)
-    );
-  }
 
 
 
@@ -310,32 +232,20 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
       onPressed: () async{
         setState(() {
           if(isVideo != null) videoSelected = isVideo.videoSelected;
-          if(isLocation != null) locationSelected = isLocation.locationSelected;
-          if(isCategorySelected != null) isCategorySelected = categorySelection.isCategorySelected;
+          if(locationFromMap != null) locationSelected = true;
         });
-        if(locationSelected == true && videoSelected == true && isCategorySelected == true){
-          await uploadToVideoCollection();
-
-
-          await pushTobazaarWalasLocationCategory();
-
-          ///push to bazaarWalasBasicProfile
-          /// update and not add if edit profile
-          await BazaarWalasBasicProfile(
-            userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
-            isVideo.videoURL, isLocation.latitude, isLocation.longitude,);
-
-          await PushToCategoriesMatedata(userNumber: userPhoneNo, categories: categoriesForBazaarWalasBasicProfile).push();
+        if(locationSelected == true && videoSelected == true ){
+          await pushToVideoBazaarWalaLocationAndBasiCProfile();
 
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
           NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
         }else{
-          if(locationSelected == false && videoSelected == false && isCategorySelected == false){
+          if(locationSelected == false && videoSelected == false){
             CustomFlushBar(
               customContext: context,
-              text: CustomText(text: 'Select Video,Location and Category',),
+              text: CustomText(text: 'Select Video and Location',),
               iconName: 'stopHand',
               message: 'Select Video,Location and Category',
             ).showFlushBar();
@@ -353,15 +263,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
               iconName: 'stopHand',
               message: 'Select Video',
             ).showFlushBar();
-          }else if(isCategorySelected == false){
-            CustomFlushBar(
-              customContext: context,
-              text: CustomText(text: 'Select Category',),
-              iconName: 'stopHand',
-              message: 'Select Category',
-            ).showFlushBar();
           }
-
         }
       },
     );
@@ -371,46 +273,66 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
     Firestore.instance.collection("videos").document(userPhoneNo).setData({'url':isVideo.videoURL});
   }
 
-
-  pushTobazaarWalasLocationCategory() async {
-    QuerySnapshot querySnapshot = await Firestore.instance.collection(
-        "bazaarCategoryTypesAndImages").getDocuments();
-
-    if (querySnapshot == null)
-      return CircularProgressIndicator(); //to avoid red screen(error)
-
-    /// creating new list to store in bazaarWalasBasicProfile
-
-    map.forEach((categoryNameInMap, value) async{
-      String categoryName = categoryNameInMap;
-      if(value == true){
-        if(categoriesForBazaarWalasBasicProfile.contains(categoryName) == false){
-          categoriesForBazaarWalasBasicProfile.add(categoryName);
-        }
-
-        var result = {
-          userPhoneNo: {
-            'name': userName
-          }
-        };
-
-        ///push to bazaarWalasLocation collection
-        LocationService().pushBazaarWalasLocationToFirebase(
-            isLocation.latitude, isLocation.longitude, categoryName, userPhoneNo);
-
-        ///push to bazaarCategories
-        ///if new user then dont merge, else merge
-        await Firestore.instance.collection("bazaarCategories").document(categoryName).setData(result, merge: true);
-
-        /// create some blank collections:
-        await SetDocumentIdsForCollections().setForBazaarRatingNumbers(userPhoneNo, categoryName);
-        await SetDocumentIdsForCollections().setForBazaarReviews(userPhoneNo);
-
-      }
-
-      if(value == false && categoriesForBazaarWalasBasicProfile.contains(categoryName) == true){
-        categoriesForBazaarWalasBasicProfile.remove(categoryName);
-      }
+  pushTobazaarWalasLocation(){
+    widget.listOfSubCategories.forEach((subCategory) {
+      LocationService().pushBazaarWalasLocationToFirebase(
+        locationFromMap.latitude, locationFromMap.longitude,
+          widget.category, userPhoneNo, subCategory, radius
+      ).push();
     });
   }
+
+
+  pushToVideoBazaarWalaLocationAndBasiCProfile() async{
+    await uploadToVideoCollection();
+
+    await pushTobazaarWalasLocation();
+
+    await BazaarWalasBasicProfile(
+      userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
+        isVideo.videoURL, locationFromMap.latitude, locationFromMap.longitude, radius);
+  }
+
+//  pushTobazaarWalasLocationCategory() async {
+//    QuerySnapshot querySnapshot = await Firestore.instance.collection(
+//        "bazaarCategoryTypesAndImages").getDocuments();
+//
+//    if (querySnapshot == null)
+//      return CircularProgressIndicator(); //to avoid red screen(error)
+//
+//    /// creating new list to store in bazaarWalasBasicProfile
+//
+//    map.forEach((categoryNameInMap, value) async{
+//      String categoryName = categoryNameInMap;
+//      if(value == true){
+//        if(categoriesForBazaarWalasBasicProfile.contains(categoryName) == false){
+//          categoriesForBazaarWalasBasicProfile.add(categoryName);
+//        }
+//
+//        var result = {
+//          userPhoneNo: {
+//            'name': userName
+//          }
+//        };
+//
+//        ///push to bazaarWalasLocation collection
+//        /// also  push radius with location
+//        LocationService().pushBazaarWalasLocationToFirebase(
+//            locationFromMap.latitude, locationFromMap.longitude, categoryName, userPhoneNo);
+//
+//        ///push to bazaarCategories
+//        ///if new user then dont merge, else merge
+//        await Firestore.instance.collection("bazaarCategories").document(categoryName).setData(result, merge: true);
+//
+//        /// create some blank collections:
+//        await SetDocumentIdsForCollections().setForBazaarRatingNumbers(userPhoneNo, categoryName);
+//        await SetDocumentIdsForCollections().setForBazaarReviews(userPhoneNo);
+//
+//      }
+//
+//      if(value == false && categoriesForBazaarWalasBasicProfile.contains(categoryName) == true){
+//        categoriesForBazaarWalasBasicProfile.remove(categoryName);
+//      }
+//    });
+//  }
 }

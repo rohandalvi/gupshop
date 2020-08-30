@@ -6,8 +6,9 @@ import 'package:gupshop/bazaarOnBoarding/subCategories.dart';
 class NavigateToBazaarSubCategories{
   final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   final List<DocumentSnapshot> subCategoriesList;
+  final String category;
 
-  NavigateToBazaarSubCategories({this.subCategoriesList, this.subCategoriesListFuture});
+  NavigateToBazaarSubCategories({this.subCategoriesList, this.subCategoriesListFuture, this.category});
 
 
   navigate(BuildContext context){
@@ -16,7 +17,7 @@ class NavigateToBazaarSubCategories{
           context,
           MaterialPageRoute(
             builder: (context) => SubCategories(subCategoriesList: subCategoriesList,
-              subCategoriesListFuture: subCategoriesListFuture,),
+              subCategoriesListFuture: subCategoriesListFuture, category: category,),
           )
       );
     };
@@ -27,7 +28,7 @@ class NavigateToBazaarSubCategories{
         context,
         MaterialPageRoute(
           builder: (context) => SubCategories(subCategoriesList: subCategoriesList,
-            subCategoriesListFuture: subCategoriesListFuture,),
+            subCategoriesListFuture: subCategoriesListFuture, category:  category,),
         )
     );
   }

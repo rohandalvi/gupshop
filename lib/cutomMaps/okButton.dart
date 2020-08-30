@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
-class MinusButton extends StatelessWidget {
-  final VoidCallback onRadiusMinus;
+class OkButton extends StatelessWidget {
+  final VoidCallback onOkPressed;
 
-  MinusButton({this.onRadiusMinus});
+  OkButton({this.onOkPressed});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: CustomIconButton(
-        iconNameInImageFolder: 'minusDark',
-        onPressed: onRadiusMinus,
+        iconNameInImageFolder: 'tickMarkDark',
+        onPressed: onOkPressed,
       ),
     );
   }

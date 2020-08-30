@@ -45,14 +45,15 @@ class _GenerateMapUIState extends State<GenerateMapUI> {
 
   @override
   void initState() {
-    _init();
+    setMarkers();
     super.initState();
   }
 
  @override
   void didUpdateWidget(GenerateMapUI oldWidget) {
-    _init();
+    setMarkers();
 
+    /// this is required:
     mapController.animateCamera(
         CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(widget.latitude, widget.longitude,),
@@ -82,7 +83,8 @@ class _GenerateMapUIState extends State<GenerateMapUI> {
   }
 
 
-  _init(){
+  /// markers - circle and marker point
+  setMarkers(){
     LatLng point = new LatLng(widget.latitude, widget.longitude);
     resetSetCircle(point);
   }

@@ -13,7 +13,7 @@ import 'package:gupshop/bazaar/bazaarProfileSetVideo.dart';
 import 'package:gupshop/bazaar/bazaarWalasBasicProfile.dart';
 import 'package:gupshop/bazaar/categories.dart';
 import 'package:gupshop/bazaar/createMapFromListOfCategories.dart';
-import 'package:gupshop/bazaar/setDocumentIdsForCollections.dart';
+import 'package:gupshop/PushToFirebase/setDocumentIdsForCollections.dart';
 import 'package:gupshop/bazaar/bazaarProfileSetLocation.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';

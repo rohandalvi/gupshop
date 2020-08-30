@@ -5,6 +5,10 @@ import 'package:gupshop/modules/userDetails.dart';
 
 
 class NavigateToBazaarOnBoardingProfile{
+  final List<String> listOfSubCategories;
+  final String category;
+
+  NavigateToBazaarOnBoardingProfile({this.listOfSubCategories, this.category});
 
 
   navigate(BuildContext context) async{
@@ -18,6 +22,8 @@ class NavigateToBazaarOnBoardingProfile{
             builder: (context) => BazaarOnBoardingProfile(
               userPhoneNo: userNumber,
               userName: userName,
+              category: category,
+              listOfSubCategories: listOfSubCategories,
             ),
           )
       );
@@ -34,6 +40,8 @@ class NavigateToBazaarOnBoardingProfile{
           builder: (context) => BazaarOnBoardingProfile(
             userPhoneNo: userNumber,
             userName: userName,
+            category: category,
+            listOfSubCategories: listOfSubCategories,
           ),
         )
     );

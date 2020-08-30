@@ -17,9 +17,6 @@ class BazaarCategoryTypesAndImages{
   }
 
   Future<List<DocumentSnapshot>> getSubCategories(String category) async{
-//    QuerySnapshot cr = await Firestore.instance.collection("bazaarCategoryTypesAndImages")
-//        .document(category).collection('subCategories').getDocuments();
-//    List<DocumentSnapshot> list = cr.documents;
     List<DocumentSnapshot> list = await getListOfDocumnets(category);
 
     if(list.isEmpty == true) return null;
@@ -36,8 +33,8 @@ class BazaarCategoryTypesAndImages{
       String categoryNameForData = element.documentID;
       String catergoryName = element.data["name"];
       subCategoryMap[catergoryName] = categoryNameForData;
-
     });
+
     return subCategoryMap;
   }
 

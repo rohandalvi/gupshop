@@ -44,8 +44,10 @@ class BazaarOnBoardingProfile extends StatefulWidget {
   final String userName;
   final List<String> listOfSubCategories;
   final String category;
+  List<String> listOfSubCategoriesForData;
 
-  BazaarOnBoardingProfile({@required this.userPhoneNo, @required this.userName, this.category, this.listOfSubCategories});
+  BazaarOnBoardingProfile({@required this.userPhoneNo, @required this.userName,
+    this.category, this.listOfSubCategories, this.listOfSubCategoriesForData});
 
   @override
   _BazaarOnBoardingProfileState createState() => _BazaarOnBoardingProfileState(userName: userName, userPhoneNo: userPhoneNo);
@@ -274,11 +276,11 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
   }
 
   pushTobazaarWalasLocation(){
-    widget.listOfSubCategories.forEach((subCategory) {
+    widget.listOfSubCategoriesForData.forEach((subCategory) {
       LocationService().pushBazaarWalasLocationToFirebase(
         locationFromMap.latitude, locationFromMap.longitude,
           widget.category, userPhoneNo, subCategory, radius
-      ).push();
+      );
     });
   }
 
@@ -293,46 +295,4 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
         isVideo.videoURL, locationFromMap.latitude, locationFromMap.longitude, radius, homeService);
   }
 
-//  pushTobazaarWalasLocationCategory() async {
-//    QuerySnapshot querySnapshot = await Firestore.instance.collection(
-//        "bazaarCategoryTypesAndImages").getDocuments();
-//
-//    if (querySnapshot == null)
-//      return CircularProgressIndicator(); //to avoid red screen(error)
-//
-//    /// creating new list to store in bazaarWalasBasicProfile
-//
-//    map.forEach((categoryNameInMap, value) async{
-//      String categoryName = categoryNameInMap;
-//      if(value == true){
-//        if(categoriesForBazaarWalasBasicProfile.contains(categoryName) == false){
-//          categoriesForBazaarWalasBasicProfile.add(categoryName);
-//        }
-//
-//        var result = {
-//          userPhoneNo: {
-//            'name': userName
-//          }
-//        };
-//
-//        ///push to bazaarWalasLocation collection
-//        /// also  push radius with location
-//        LocationService().pushBazaarWalasLocationToFirebase(
-//            locationFromMap.latitude, locationFromMap.longitude, categoryName, userPhoneNo);
-//
-//        ///push to bazaarCategories
-//        ///if new user then dont merge, else merge
-//        await Firestore.instance.collection("bazaarCategories").document(categoryName).setData(result, merge: true);
-//
-//        /// create some blank collections:
-//        await SetDocumentIdsForCollections().setForBazaarRatingNumbers(userPhoneNo, categoryName);
-//        await SetDocumentIdsForCollections().setForBazaarReviews(userPhoneNo);
-//
-//      }
-//
-//      if(value == false && categoriesForBazaarWalasBasicProfile.contains(categoryName) == true){
-//        categoriesForBazaarWalasBasicProfile.remove(categoryName);
-//      }
-//    });
-//  }
 }

@@ -121,7 +121,10 @@ class _SubCategoriesState extends State<SubCategories> {
                     pushSubCategoriesToFirebase();
 
                     /// moving on to next page:
-                    NavigateToBazaarOnBoardingProfile().navigateNoBrackets(context);
+                    NavigateToBazaarOnBoardingProfile(
+                      category:widget.category,
+                      listOfSubCategories: listOfSubCategoriesForData
+                    ).navigateNoBrackets(context);
                   }
               ),
             ),

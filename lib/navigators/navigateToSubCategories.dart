@@ -7,8 +7,9 @@ class NavigateToBazaarSubCategories{
   final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   final List<DocumentSnapshot> subCategoriesList;
   final String category;
+  Map<String, String> subCategoryMap;
 
-  NavigateToBazaarSubCategories({this.subCategoriesList, this.subCategoriesListFuture, this.category});
+  NavigateToBazaarSubCategories({this.subCategoriesList, this.subCategoriesListFuture, this.category, this.subCategoryMap});
 
 
   navigate(BuildContext context){
@@ -28,7 +29,9 @@ class NavigateToBazaarSubCategories{
         context,
         MaterialPageRoute(
           builder: (context) => SubCategories(subCategoriesList: subCategoriesList,
-            subCategoriesListFuture: subCategoriesListFuture, category:  category,),
+            subCategoriesListFuture: subCategoriesListFuture, category:  category,
+            subCategoryMap: subCategoryMap,
+          ),
         )
     );
   }

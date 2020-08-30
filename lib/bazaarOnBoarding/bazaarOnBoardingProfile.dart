@@ -28,6 +28,7 @@ import 'package:gupshop/navigators/navigateToMaps.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -182,11 +183,6 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                         },
                       ),
                     ),
-
-
-                    /// service offered location:
-                    serviceWidget(),
-
                   ]
               );
             } return CircularProgressIndicator();
@@ -196,11 +192,12 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
     );
   }
 
-  serviceWidget(){
-    service = new ServiceAtHome(text: 'Do you offer services at clients place ? ',);
-    homeService = service.value;
-    print("homeService : $homeService");
-    return service;
+  homeServiceDialog() async{
+    if(homeService == null ){
+      homeService = await CustomDialogForConfirmation(
+        title: 'Do you offer services at clients home',
+      ).dialog(context);
+    }
   }
 
 
@@ -230,6 +227,9 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
     return CustomFloatingActionButtonWithIcon(
       iconName: 'forward2',
       onPressed: () async{
+
+        homeServiceDialog();
+
         setState(() {
           if(isVideo != null) videoSelected = isVideo.videoSelected;
           if(locationFromMap != null) locationSelected = true;
@@ -290,7 +290,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
     await BazaarWalasBasicProfile(
       userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
-        isVideo.videoURL, locationFromMap.latitude, locationFromMap.longitude, radius);
+        isVideo.videoURL, locationFromMap.latitude, locationFromMap.longitude, radius, homeService);
   }
 
 //  pushTobazaarWalasLocationCategory() async {

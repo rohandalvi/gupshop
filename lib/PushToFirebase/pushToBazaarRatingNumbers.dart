@@ -8,6 +8,8 @@ class PushToBazaarRatingNumber{
   PushToBazaarRatingNumber({this.userNumber, this.category, this.subCategory });
 
   push(){
+    Firestore.instance.collection("bazaarRatingNumbers").document(userNumber).setData({}, merge: true);
+
     Firestore.instance.collection("bazaarRatingNumbers").document(userNumber).
     collection(category).document(subCategory).setData({'dislikes' : 0, 'likes' : 0});
   }

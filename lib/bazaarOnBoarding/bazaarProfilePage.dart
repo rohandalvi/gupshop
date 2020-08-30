@@ -299,9 +299,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
             /// update and not add if edit profile
             await BazaarWalasBasicProfile(
               userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
-              isVideo.videoURL, isLocation.latitude, isLocation.longitude,);
+              isVideo.videoURL, isLocation.latitude, isLocation.longitude, 50, false);
 
-            await PushToCategoriesMatedata(userNumber: userPhoneNo, categories: categoriesForBazaarWalasBasicProfile).push();
+            //await PushToCategoriesMatedata(userNumber: userPhoneNo, categories: categoriesForBazaarWalasBasicProfile).push();
 
             /// saving user as a bazaarwala in his shared preferences
             UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
@@ -372,7 +372,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
         ///push to bazaarWalasLocation collection
         LocationService().pushBazaarWalasLocationToFirebase(
-            isLocation.latitude, isLocation.longitude, categoryName, userPhoneNo);
+            isLocation.latitude, isLocation.longitude, categoryName, userPhoneNo, 'xyz', 50);
 
         ///push to bazaarCategories
         ///if new user then dont merge, else merge

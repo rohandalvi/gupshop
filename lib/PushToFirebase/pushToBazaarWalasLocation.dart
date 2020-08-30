@@ -19,6 +19,7 @@ class PushToBazaarWalasLocation{
   }
 
   setBlankLocation(){
+    Firestore.instance.collection("bazaarWalasLocation").document(category).setData({}, merge: true);///creating document to avoid error document(i
     Firestore.instance.collection("bazaarWalasLocation").document(category)
         .collection(subCategory).document(userNumber).setData({}, merge: true);
   }

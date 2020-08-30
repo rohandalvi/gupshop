@@ -20,7 +20,9 @@ class PushToBazaarReviewsCollection{
   }
 
   setBlankReviews(){
+    Firestore.instance.collection("bazaarReviews").document(productWalaNumber).setData({}, merge: true);
+
     Firestore.instance.collection("bazaarReviews").document(productWalaNumber)
-        .collection(category).document(subCategory);
+        .collection(category).document(subCategory).setData({}, merge: true);
   }
 }

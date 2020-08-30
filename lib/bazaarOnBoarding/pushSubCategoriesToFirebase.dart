@@ -2,6 +2,7 @@ import 'package:gupshop/PushToFirebase/pushToBazaarCategories.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarRatingNumbers.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarReviewsCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarWalasLocation.dart';
+import 'package:gupshop/PushToFirebase/pushToCategoriesMetadata.dart';
 
 class PushSubCategoriesToFirebase{
   String category;
@@ -18,8 +19,8 @@ class PushSubCategoriesToFirebase{
   }
 
   bazaarCategoriesMetaData(){
-    list.forEach((element) {
-      PushToBazaarCategories().addUser(category,element, userName, userPhoneNo);
+    list.forEach((subCategory) {
+      PushToCategoriesMatedata(userNumber: userPhoneNo,).push(category,subCategory,);
     });
   }
 

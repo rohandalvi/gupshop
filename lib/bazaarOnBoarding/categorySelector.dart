@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,7 @@ import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 
 class CategorySelector extends StatelessWidget {
 
-  //OnBoardingCategorySelector({});
+  Map<String, String> subCategoryMap = new HashMap();
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +25,21 @@ class CategorySelector extends StatelessWidget {
             itemBuilder: (BuildContext context, int index){
               String catergoryName = snapshot.data.documents[index].data['name'];
               String imageURL = snapshot.data.documents[index].data['icon'];
-              String documentName = snapshot.data.documents[index].documentID;
+              String categoryNameForData = snapshot.data.documents[index].documentID;
+
 
               return GridViewContainer(
                 /// on tapping the image/category show subcategories with checkbox
                 onPictureTap: () async{
-                  Future<List<DocumentSnapshot>> subCategoriesListFuture = BazaarCategoryTypesAndImages().getSubCategories(documentName);
+                  Future<List<DocumentSnapshot>> subCategoriesListFuture = BazaarCategoryTypesAndImages().getSubCategories(categoryNameForData);
                   List<DocumentSnapshot> subCategories = await subCategoriesListFuture;
+                  subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(categoryNameForData);
 
                   NavigateToBazaarSubCategories(
                     subCategoriesList: subCategories,
                     subCategoriesListFuture: subCategoriesListFuture,
-                    category: catergoryName
+                    category: categoryNameForData,
+                    subCategoryMap: subCategoryMap,
                   ).navigateNoBrackets(context);
                 },
                 imageName: catergoryName,

@@ -27,6 +27,7 @@ class NavigateToBazaarSubCategorySearch{
               bazaarWalaName: bazaarWalaName,
               subCategoryMap: subCategoryMap,
               subCategoriesList: subCategoriesList,
+              category: category,
             ),//pass Name() here and pass Home()in name_screen
           )
       );
@@ -44,6 +45,7 @@ class NavigateToBazaarSubCategorySearch{
             bazaarWalaName: bazaarWalaName,
             subCategoryMap: subCategoryMap,
             subCategoriesList: subCategoriesList,
+            category: category,
           ),//pass Name() here and pass Home()in name_screen
         )
     );

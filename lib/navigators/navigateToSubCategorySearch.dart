@@ -46,6 +46,7 @@ class NavigateToSubCategorySearch{
             subCategoriesListFuture: subCategoriesListFuture,
             subCategoryMap: subCategoryMap,
             subCategoriesList: subCategoriesList,
+            category: category,
           ),//pass Name() here and pass Home()in name_screen
         )
     );

@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListData.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
@@ -61,7 +62,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
       suggestions: widget.subCategoriesList,
       navigate: NavigateToBazaarOnBoardingHome().navigate(context),
       onSearch: searchList,
-      hintText: 'Search in ${widget.category} ?',
+      hintText: 'Search in ${widget.category}',
       onItemFound: (DocumentSnapshot doc, int index){
         return buildSubCategoryNameList(doc,);
       },
@@ -81,6 +82,16 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
           bazaarWalaPhoneNo: widget.bazaarWalaPhoneNo,
           bazaarWalaName: widget.bazaarWalaName,
         ).navigateNoBrackets(context);
+
+//        Navigator.push(
+//            context,
+//            MaterialPageRoute(
+//              builder: (context) => BazaarIndividualCategoryListData(
+//                category : catergoryName,
+//                //category: categoryNameForBazaarIndividualCategoryList,
+//              ),//pass Name() here and pass Home()in name_screen
+//            )
+//        );
       }
     );
   }

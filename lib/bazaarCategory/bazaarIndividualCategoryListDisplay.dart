@@ -14,8 +14,9 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   final String category;
   final String bazaarWalaPhoneNo;
   final String thumbnailPicture;
+  final String subCategory;
 
-  BazaarIndividualCategoryListDisplay({this.bazaarWalaPhoneNo, this.category, this.bazaarWalaName, this.thumbnailPicture});
+  BazaarIndividualCategoryListDisplay({this.bazaarWalaPhoneNo, this.category, this.bazaarWalaName, this.thumbnailPicture, this.subCategory});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +81,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                     ),
                   ),
                   CustomText(text: "Speciality",),
-                  LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, category: category,),
+                  LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, category: category,subCategory: subCategory,),
                   //SizedBox(height: 5,),
                 ],
               ),

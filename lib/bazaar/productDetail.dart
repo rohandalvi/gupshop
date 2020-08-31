@@ -130,7 +130,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           delegate: SliverChildListDelegate(
             <Widget>[ //---> to decrease space  between review stars and reviews use Stack and wrap everything in it
               FutureBuilder(
-                future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikesAndDislikes(widget.productWalaNumber, widget.category),
+                future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikesAndDislikes(widget.productWalaNumber, widget.category,widget.subCategory ),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     likes = snapshot.data['likes'];
@@ -139,6 +139,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                     return ReviewBuilderAndDisplay(productWalaName:productWalaName, productWalaNumber: widget.productWalaNumber,
                       category: category,writeReview: writeReview,focus: focus,userName: userName,
                       reviewBody: reviewBody,likeOrDislike: likeOrDislike,likes: likes,dislikes: dislikes,
+                      subCategory: widget.subCategory,
                     );
                   }
                   return Center(

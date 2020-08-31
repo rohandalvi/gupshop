@@ -337,7 +337,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
         children: <Widget>[
           Align(
               alignment: Alignment.centerLeft,
-              child: LikesDislikesFetchAndDisplay(productWalaNumber: widget.productWalaNumber, category: widget.category,)
+              child: LikesDislikesFetchAndDisplay(productWalaNumber: widget.productWalaNumber, category: widget.category, subCategory: widget.subCategory,)
             //_buildRatingStars(3),
           ),
           widget.userName != widget.productWalaName ?

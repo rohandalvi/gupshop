@@ -78,7 +78,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: CustomAppBar(
-            title: CustomText(text: 'Product Detail',),
+            title: CustomText(text: productWalaName,),
             actions: <Widget>[
               ChatWithBazaarwala(
                 bazaarwalaNumber: widget.productWalaNumber,

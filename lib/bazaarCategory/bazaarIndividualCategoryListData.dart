@@ -71,7 +71,12 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
           itemCount: numberOfBazaarWalasInList,
           itemBuilder: (BuildContext context, int index) {
             bazaarWalaPhoneNo = list[index].documentID;
-            return BazaarIndividualCategoryNameDpBuilder(bazaarWalaPhoneNo: bazaarWalaPhoneNo, category: category,subCategory: subCategory,);
+            return BazaarIndividualCategoryNameDpBuilder(
+              bazaarWalaPhoneNo: bazaarWalaPhoneNo,
+              category: category,
+              subCategory: subCategory,
+              subCategoryData : subCategoryData,
+            );
           },
 
           );
@@ -91,6 +96,8 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
             bazaarWalaName: category.toString(),
             bazaarWalaPhoneNo: bazaarWalaPhoneNo,
             category: category,
+            subCategory: subCategory,
+            subCategoryData: subCategoryData,
             thumbnailPicture: PlaceHolderImages().bazaarWalaThumbnailPicture,
           );
         }

@@ -112,16 +112,25 @@ class NavigateToProductDetailsPage{
   String productWalaName;
   String productWalaNumber;
   String category;
+  String subCategoryData;
+  String subCategory;
 
 
-  NavigateToProductDetailsPage({this.productWalaName, this.productWalaNumber, this.category});
+  NavigateToProductDetailsPage({this.productWalaName, this.productWalaNumber,
+    this.category, this.subCategoryData, this.subCategory});
 
   navigate(BuildContext context){
     return (){
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProductDetail(productWalaName: productWalaName, productWalaNumber: productWalaNumber,category: category,),//pass Name() here and pass Home()in name_screen
+            builder: (context) => ProductDetail(
+              productWalaName: productWalaName,
+              productWalaNumber: productWalaNumber,
+              category: category,
+              subCategoryData: subCategoryData,
+              subCategory: subCategory,
+            ),//pass Name() here and pass Home()in name_screen
           )
       );
     };

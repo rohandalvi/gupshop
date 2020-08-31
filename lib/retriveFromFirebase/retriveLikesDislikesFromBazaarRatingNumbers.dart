@@ -14,6 +14,7 @@ class RetriveLikesAndDislikesFromBazaarRatingNumbers{
   }
 
   numberOfLikesAndDislikes(String productWalaNumber, String category, String subCategory) async{
+    print("subCategory in numberOfLikesAndDislikes : $subCategory");
     DocumentSnapshot dc = await Firestore.instance.collection("bazaarRatingNumbers")
         .document(productWalaNumber).collection(category).document(subCategory).get();
 

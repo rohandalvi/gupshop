@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -15,19 +16,26 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   final String bazaarWalaPhoneNo;
   final String thumbnailPicture;
   final String subCategory;
+  final String subCategoryData;
 
-  BazaarIndividualCategoryListDisplay({this.bazaarWalaPhoneNo, this.category, this.bazaarWalaName, this.thumbnailPicture, this.subCategory});
+  BazaarIndividualCategoryListDisplay({this.bazaarWalaPhoneNo, this.category,
+    this.bazaarWalaName, this.thumbnailPicture, this.subCategory, this.subCategoryData});
 
   @override
   Widget build(BuildContext context) {
+    print("subCategoryData in BazaarIndividualCategoryListDisplay : $subCategoryData");
     return Stack(
       children: <Widget>[
         GestureDetector(//for navigation to Product detial page
-          onTap: NavigateToProductDetailsPage(
-            productWalaNumber: bazaarWalaPhoneNo,
-            category: category,
-            productWalaName: bazaarWalaName,
-          ).navigate(context),
+          onTap: (){
+            NavigateToProductDetailPage(
+              bazaarWalaPhoneNo: bazaarWalaPhoneNo,
+              category: category,
+              bazaarWalaName: bazaarWalaName,
+              subCategory: subCategory,
+              subCategoryData: subCategoryData,
+            ).navigateNoBrackets(context);
+          },
           child: Container(//stack => container(Padding(Column(Row,text,star text, container))) and positioned[for profile pic]
             margin: EdgeInsets.fromLTRB(40,1,2,1),///(40,5,20,5)
             height: MediaQuery.of(context).size.height * 0.15,/// 0.2
@@ -93,11 +101,15 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
           top: 25,
           bottom: 25,
           child: GestureDetector(//for navigation to Product detial page
-            onTap: NavigateToProductDetailsPage(
-                  productWalaNumber: bazaarWalaPhoneNo,
-                  category: category,
-                  productWalaName: bazaarWalaName,
-                  ).navigate(context),
+            onTap: (){
+                  NavigateToProductDetailPage(
+                    bazaarWalaPhoneNo: bazaarWalaPhoneNo,
+                    category: category,
+                    bazaarWalaName: bazaarWalaName,
+                    subCategory: subCategory,
+                    subCategoryData: subCategoryData,
+                  ).navigateNoBrackets(context);
+            },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image(

@@ -9,15 +9,17 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
   String bazaarWalaPhoneNo;
   String category;
   String subCategory;
+  String subCategoryData;
 
-  BazaarIndividualCategoryNameDpBuilder({this.bazaarWalaPhoneNo, this.category, this.subCategory});
+  BazaarIndividualCategoryNameDpBuilder({this.bazaarWalaPhoneNo, this.category,
+    this.subCategory, this.subCategoryData});
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder( ///use bazaarcategory to display people insted becuase bazaarwalabasicprofile is categorized by phoneNumber now
         stream: BazaarRatingNumbers(userNumber: bazaarWalaPhoneNo, categoryName: category, subCategory: subCategory).getRatingSnapshot(),
         builder: (context, streamSnapshot) {
-          print("bazaarWalaPhoneNo in streambuilder: $bazaarWalaPhoneNo");
+          print("subCategoryData in BazaarIndividualCategoryNameDpBuilder: $subCategoryData");
           if (streamSnapshot.data == null) return Center(child: CircularProgressIndicator()); //v v imp
           String name;
           String thumbnailPicture;
@@ -39,6 +41,7 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
                   category: category,
                   thumbnailPicture: thumbnailPicture,
                   subCategory: subCategory,
+                  subCategoryData: subCategoryData,
                 );
               }
               return Center(child: CircularProgressIndicator());

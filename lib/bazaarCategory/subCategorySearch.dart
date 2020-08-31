@@ -3,8 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListData.dart';
-import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
-import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -32,7 +30,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
 
   getCategorySizeFuture() {
     Map mapOfDocumentSnapshots = widget.subCategoriesList.asMap();
-    /// initializing 'map' with false values
+    /// initializing 'mapOfDocumentSnapshots' with false values
     mapOfDocumentSnapshots.forEach((key, value) {
       String temp = mapOfDocumentSnapshots[key].data["name"];
       map.putIfAbsent(temp, () => false);

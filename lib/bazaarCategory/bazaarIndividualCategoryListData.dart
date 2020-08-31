@@ -6,6 +6,7 @@ import 'package:gupshop/bazaar/placeHolderImages.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarHomeScreen.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
+import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/bazaarLocation/filterBazaarLocationData.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
@@ -52,6 +53,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
         child: CustomAppBar(
           title: CustomText(text: category.toUpperCase(),),
           onPressed: (){
+            //NavigateToSubCategorySearch().navigateNoBrackets(context);
            NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
           }
         ),

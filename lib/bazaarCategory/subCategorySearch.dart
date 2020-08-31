@@ -77,6 +77,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
       ///displaying on the display name
       onTap: () {
         String subCategory = doc.data["name"];
+        String subCategoryData = widget.subCategoryMap[subCategory];
 //        NavigateToProductDetailPage(
 //          category: widget.category,
 //          subCategory: subCategory,
@@ -90,6 +91,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
               builder: (context) => BazaarIndividualCategoryListData(
                 category : widget.category,
                 subCategory: subCategory,
+                subCategoryData: subCategoryData,
                 //category: categoryNameForBazaarIndividualCategoryList,
               ),//pass Name() here and pass Home()in name_screen
             )

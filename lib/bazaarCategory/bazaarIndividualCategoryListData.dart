@@ -17,8 +17,9 @@ import 'package:gupshop/widgets/customText.dart';
 class BazaarIndividualCategoryListData extends StatelessWidget {
   final String category;
   final String subCategory;
+  final String subCategoryData;
 
-  BazaarIndividualCategoryListData({this.category, this.subCategory});
+  BazaarIndividualCategoryListData({this.category, this.subCategory, this.subCategoryData});
 
 
 
@@ -37,7 +38,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
   getListOfBazaarWalasInAGivenRadius() async{
     var userPhoneNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
     _userPhoneNo = userPhoneNo;
-    var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: subCategory).getListOfBazaarWalasInAGivenRadius(userPhoneNo, category,);
+    var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: subCategoryData).getListOfBazaarWalasInAGivenRadius(userPhoneNo, category,);
     return listOfbazaarwalas;
   }
 

@@ -28,11 +28,12 @@ class ReviewBuilderAndDisplay extends StatefulWidget {
   int dislikes;
   String productWalaNumber;
   final String subCategoryData;
+  String categoryData;
 
 
   ReviewBuilderAndDisplay({this.productWalaName, this.productWalaNumber, this.category, this.writeReview,
     this.focus, this.userName, this.reviewBody, this.likeOrDislike, this.likes, this.dislikes,this.subCategory,
-    this.subCategoryData
+    this.subCategoryData, this.categoryData
   });
 
 
@@ -135,8 +136,8 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
               if(widget.likes == null) widget.likes =0;
               if(widget.dislikes == null) widget.dislikes =0;
 
-              PushToBazaarReviewsCollection().addReview(widget.productWalaNumber, widget.category, data);
-              UpdateBazaarRatingNumberCollection(productWalaNumber: widget.productWalaNumber, category: widget.category, likes: widget.likes, dislikes: widget.dislikes).updateRatings();
+              PushToBazaarReviewsCollection().addReview(widget.productWalaNumber, widget.categoryData, data);
+              UpdateBazaarRatingNumberCollection(productWalaNumber: widget.productWalaNumber, category: widget.categoryData, likes: widget.likes, dislikes: widget.dislikes).updateRatings();
             }
           },
         ),
@@ -286,7 +287,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
         direction: Axis.vertical,
         children: <Widget>[
           StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection(widget.category).orderBy("timestamp", descending: true).snapshots(),
+              stream: Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection(widget.categoryData).orderBy("timestamp", descending: true).snapshots(),
               builder: (context, snapshot) {
                 if(snapshot.data == null) return CircularProgressIndicator();
 
@@ -339,7 +340,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
         children: <Widget>[
           Align(
               alignment: Alignment.centerLeft,
-              child: LikesDislikesFetchAndDisplay(productWalaNumber: widget.productWalaNumber, category: widget.category, subCategory: widget.subCategory,)
+              child: LikesDislikesFetchAndDisplay(productWalaNumber: widget.productWalaNumber, category: widget.categoryData, subCategory: widget.subCategory,)
             //_buildRatingStars(3),
           ),
           widget.userName != widget.productWalaName ?

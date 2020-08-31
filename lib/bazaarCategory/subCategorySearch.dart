@@ -8,6 +8,7 @@ import 'package:gupshop/widgets/customText.dart';
 
 class SubCategorySearch extends StatefulWidget {
   final String category;
+  final String categoryData;
   final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   final List<DocumentSnapshot> subCategoriesList;
   Map<String, String> subCategoryMap;
@@ -15,7 +16,9 @@ class SubCategorySearch extends StatefulWidget {
   final String bazaarWalaPhoneNo;
 
   SubCategorySearch({this.subCategoriesList, this.subCategoriesListFuture,
-    this.category, this.subCategoryMap, this.bazaarWalaName, this.bazaarWalaPhoneNo});
+    this.category, this.subCategoryMap, this.bazaarWalaName, this.bazaarWalaPhoneNo,
+    this.categoryData
+  });
 
   @override
   _SubCategorySearchState createState() => _SubCategorySearchState();
@@ -88,6 +91,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
             MaterialPageRoute(
               builder: (context) => BazaarIndividualCategoryListData(
                 category : widget.category,
+                categoryData: widget.categoryData,
                 subCategory: subCategory,
                 subCategoryData: subCategoryData,
                 //category: categoryNameForBazaarIndividualCategoryList,

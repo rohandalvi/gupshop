@@ -13,17 +13,21 @@ import 'package:gupshop/widgets/customText.dart';
 class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   final String bazaarWalaName;
   final String category;
+  final String categoryData;
   final String bazaarWalaPhoneNo;
   final String thumbnailPicture;
   final String subCategory;
   final String subCategoryData;
 
   BazaarIndividualCategoryListDisplay({this.bazaarWalaPhoneNo, this.category,
-    this.bazaarWalaName, this.thumbnailPicture, this.subCategory, this.subCategoryData});
+    this.bazaarWalaName, this.thumbnailPicture, this.subCategory, this.subCategoryData,
+    this.categoryData
+  });
 
   @override
   Widget build(BuildContext context) {
-    print("subCategoryData in BazaarIndividualCategoryListDisplay : $subCategoryData");
+    print("categoryData in BazaarIndividualCategoryListDisplay : $categoryData");
+    print("category in BazaarIndividualCategoryListDisplay: $category");
     return Stack(
       children: <Widget>[
         GestureDetector(//for navigation to Product detial page
@@ -31,6 +35,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
             NavigateToProductDetailPage(
               bazaarWalaPhoneNo: bazaarWalaPhoneNo,
               category: category,
+              categoryData: categoryData,
               bazaarWalaName: bazaarWalaName,
               subCategory: subCategory,
               subCategoryData: subCategoryData,
@@ -104,6 +109,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
             onTap: (){
                   NavigateToProductDetailPage(
                     bazaarWalaPhoneNo: bazaarWalaPhoneNo,
+                    categoryData: categoryData,
                     category: category,
                     bazaarWalaName: bazaarWalaName,
                     subCategory: subCategory,

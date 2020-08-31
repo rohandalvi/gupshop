@@ -6,6 +6,7 @@ import 'package:gupshop/bazaarCategory/subCategorySearch.dart';
 
 class NavigateToSubCategorySearch{
   final String category;
+  final String categoryData;
   final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   final List<DocumentSnapshot> subCategoriesList;
   Map<String, String> subCategoryMap;
@@ -13,7 +14,9 @@ class NavigateToSubCategorySearch{
   final String bazaarWalaPhoneNo;
 
   NavigateToSubCategorySearch({this.subCategoriesList, this.subCategoriesListFuture,
-    this.category, this.subCategoryMap, this.bazaarWalaName, this.bazaarWalaPhoneNo});
+    this.category, this.subCategoryMap, this.bazaarWalaName, this.bazaarWalaPhoneNo,
+    this.categoryData,
+  });
 
 
   navigate(BuildContext context) async{
@@ -28,6 +31,8 @@ class NavigateToSubCategorySearch{
               subCategoriesListFuture: subCategoriesListFuture,
               subCategoryMap: subCategoryMap,
               subCategoriesList: subCategoriesList,
+              categoryData: categoryData,
+              category: category,
             ),//pass Name() here and pass Home()in name_screen
           )
       );
@@ -47,6 +52,7 @@ class NavigateToSubCategorySearch{
             subCategoryMap: subCategoryMap,
             subCategoriesList: subCategoriesList,
             category: category,
+            categoryData: categoryData,
           ),//pass Name() here and pass Home()in name_screen
         )
     );

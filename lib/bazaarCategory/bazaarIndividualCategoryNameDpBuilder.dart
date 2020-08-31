@@ -8,18 +8,20 @@ import 'package:gupshop/streamShortcuts/bazaarRatingNumbers.dart';
 class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
   String bazaarWalaPhoneNo;
   String category;
+  String categoryData;
   String subCategory;
   String subCategoryData;
 
   BazaarIndividualCategoryNameDpBuilder({this.bazaarWalaPhoneNo, this.category,
-    this.subCategory, this.subCategoryData});
+    this.subCategory, this.subCategoryData, this.categoryData});
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder( ///use bazaarcategory to display people insted becuase bazaarwalabasicprofile is categorized by phoneNumber now
         stream: BazaarRatingNumbers(userNumber: bazaarWalaPhoneNo, categoryName: category, subCategory: subCategory).getRatingSnapshot(),
         builder: (context, streamSnapshot) {
-          print("subCategoryData in BazaarIndividualCategoryNameDpBuilder: $subCategoryData");
+          print("categoryData in BazaarIndividualCategoryNameDpBuilder: $categoryData");
+          print("category in BazaarIndividualCategoryNameDpBuilder: $category");
           if (streamSnapshot.data == null) return Center(child: CircularProgressIndicator()); //v v imp
           String name;
           String thumbnailPicture;
@@ -39,6 +41,7 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
                   bazaarWalaName: name,
                   bazaarWalaPhoneNo: bazaarWalaPhoneNo,
                   category: category,
+                  categoryData: categoryData,
                   thumbnailPicture: thumbnailPicture,
                   subCategory: subCategory,
                   subCategoryData: subCategoryData,

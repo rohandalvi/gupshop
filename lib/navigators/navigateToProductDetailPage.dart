@@ -5,12 +5,14 @@ import 'package:gupshop/modules/userDetails.dart';
 
 class NavigateToProductDetailPage {
   String category;
+  String categoryData;
   String bazaarWalaName;
   String bazaarWalaPhoneNo;
   String subCategory;
   final String subCategoryData;
 
-  NavigateToProductDetailPage({this.category,this.bazaarWalaPhoneNo, this.bazaarWalaName, this.subCategory, this.subCategoryData});
+  NavigateToProductDetailPage({this.category,this.bazaarWalaPhoneNo, this.bazaarWalaName, this.subCategory,
+    this.subCategoryData, this.categoryData});
 
   navigate(BuildContext context) async {
 //    String userNumber = await UserDetails().getUserPhoneNoFuture();
@@ -25,6 +27,7 @@ class NavigateToProductDetailPage {
                   productWalaNumber: bazaarWalaPhoneNo,
                   productWalaName: bazaarWalaName,
                   category: category,
+                  categoryData: categoryData,
                   subCategory: subCategory,
                   subCategoryData: subCategoryData,
                 ),
@@ -37,6 +40,7 @@ class NavigateToProductDetailPage {
 //    String userNumber = await UserDetails().getUserPhoneNoFuture();
 //    String userName = await UserDetails().getUserNameFuture();
 
+  print("category in NavigateToProductDetailPage : $category");
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -45,6 +49,7 @@ class NavigateToProductDetailPage {
                 productWalaNumber: bazaarWalaPhoneNo,
                 productWalaName: bazaarWalaName,
                 category: category,
+                categoryData: categoryData,
                 subCategory: subCategory,
                 subCategoryData: subCategoryData,
               ),

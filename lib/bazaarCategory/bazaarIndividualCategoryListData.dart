@@ -7,6 +7,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarHomeScreen.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
+import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/bazaarLocation/filterBazaarLocationData.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
@@ -17,10 +18,13 @@ import 'package:gupshop/widgets/customText.dart';
 
 class BazaarIndividualCategoryListData extends StatelessWidget {
   final String category;
+  final String categoryData;
   final String subCategory;
   final String subCategoryData;
 
-  BazaarIndividualCategoryListData({this.category, this.subCategory, this.subCategoryData});
+  BazaarIndividualCategoryListData({this.category, this.subCategory, this.subCategoryData,
+    this.categoryData,
+  });
 
 
 
@@ -39,22 +43,35 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
   getListOfBazaarWalasInAGivenRadius() async{
     var userPhoneNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
     _userPhoneNo = userPhoneNo;
-    var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: subCategoryData).getListOfBazaarWalasInAGivenRadius(userPhoneNo, category,);
+    var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: subCategoryData).getListOfBazaarWalasInAGivenRadius(userPhoneNo, categoryData,);
     return listOfbazaarwalas;
   }
 
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: CustomAppBar(
           title: CustomText(text: category.toUpperCase(),),
-          onPressed: (){
-            //NavigateToSubCategorySearch().navigateNoBrackets(context);
-           NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
+          onPressed: () async{
+            print("categoryData in onPressed : $categoryData");
+            Future<List<DocumentSnapshot>> subCategoriesListFuture = BazaarCategoryTypesAndImages().getSubCategories(categoryData);
+            print("subCategoriesListFuture in onPressed : $subCategoriesListFuture");
+            List<DocumentSnapshot> subCategoriesList = await subCategoriesListFuture;
+            print("subCategoriesList in onPressed : $subCategoriesList");
+            Map<String, String> subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(categoryData);
+
+            NavigateToSubCategorySearch(
+              bazaarWalaPhoneNo: bazaarWalaPhoneNo,
+              subCategoryMap: subCategoryMap,
+              subCategoriesList: subCategoriesList,
+              subCategoriesListFuture: subCategoriesListFuture,
+              category: category,
+              categoryData: categoryData,
+            ).navigateNoBrackets(context);
+           //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
           }
         ),
       ),
@@ -73,9 +90,11 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
           itemCount: numberOfBazaarWalasInList,
           itemBuilder: (BuildContext context, int index) {
             bazaarWalaPhoneNo = list[index].documentID;
+            print("category in getListOfBazaarWalasInAGivenRadius : $categoryData");
             return BazaarIndividualCategoryNameDpBuilder(
               bazaarWalaPhoneNo: bazaarWalaPhoneNo,
               category: category,
+              categoryData: categoryData,
               subCategory: subCategory,
               subCategoryData : subCategoryData,
             );
@@ -98,6 +117,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
             bazaarWalaName: category.toString(),
             bazaarWalaPhoneNo: bazaarWalaPhoneNo,
             category: category,
+            categoryData: categoryData,
             subCategory: subCategory,
             subCategoryData: subCategoryData,
             thumbnailPicture: PlaceHolderImages().bazaarWalaThumbnailPicture,

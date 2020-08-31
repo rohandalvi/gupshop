@@ -6,9 +6,10 @@ class NavigateToBazaarIndiviudalCategoryList{
   String category;
   String subCategoryData;
   String subCategory;
+  String categoryData;
 
 
-  NavigateToBazaarIndiviudalCategoryList({this.category, this.subCategoryData, this.subCategory});
+  NavigateToBazaarIndiviudalCategoryList({this.category, this.subCategoryData, this.subCategory, this.categoryData});
 
   navigate(BuildContext context){
     return (){
@@ -19,6 +20,7 @@ class NavigateToBazaarIndiviudalCategoryList{
               category: category,
               subCategoryData: subCategoryData,
               subCategory: subCategory,
+              categoryData:categoryData ,
             ),//pass Name() here and pass Home()in name_screen
           )
       );
@@ -33,6 +35,7 @@ class NavigateToBazaarIndiviudalCategoryList{
             category: category,
             subCategoryData: subCategoryData,
             subCategory: subCategory,
+            categoryData: categoryData,
           ),//pass Name() here and pass Home()in name_screen
         )
     );

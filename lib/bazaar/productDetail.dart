@@ -14,12 +14,14 @@ import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 class ProductDetail extends StatefulWidget {
   final String productWalaName;
   final String category;
+  final String categoryData;
   final String productWalaNumber;
   final String subCategory;
   final String subCategoryData;
 
 
-  ProductDetail({@required this.productWalaName, this.category, @required this.productWalaNumber, this.subCategory, this.subCategoryData});
+  ProductDetail({@required this.productWalaName, this.category, @required this.productWalaNumber,
+    this.subCategory, this.subCategoryData, this.categoryData});
 
   @override
   _ProductDetailState createState() => _ProductDetailState(productWalaName: productWalaName, category: category);
@@ -93,7 +95,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
               NavigateToBazaarIndiviudalCategoryList(
                 category: category,
                 subCategoryData: widget.subCategoryData,
-                subCategory: widget.subCategory
+                subCategory: widget.subCategory,
+                categoryData: widget.categoryData,
               ).navigateNoBrackets(context);
             }
           ),
@@ -135,7 +138,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           delegate: SliverChildListDelegate(
             <Widget>[ //---> to decrease space  between review stars and reviews use Stack and wrap everything in it
               FutureBuilder(
-                future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikesAndDislikes(widget.productWalaNumber, widget.category,widget.subCategoryData ),
+                future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikesAndDislikes(widget.productWalaNumber, widget.categoryData,widget.subCategoryData ),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     likes = snapshot.data['likes'];

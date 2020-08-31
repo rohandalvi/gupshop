@@ -44,7 +44,8 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
                     subCategoriesListFuture: subCategoriesListFuture,
                     subCategoriesList: subCategories,
                     subCategoryMap: subCategoryMap,
-                    category: categoryNameForData
+                    category: catergoryName,
+                    categoryData: categoryNameForData
                   ).navigateNoBrackets(context);
 
 

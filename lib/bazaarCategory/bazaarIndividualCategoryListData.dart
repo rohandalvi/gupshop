@@ -16,8 +16,11 @@ import 'package:gupshop/widgets/customText.dart';
 
 class BazaarIndividualCategoryListData extends StatelessWidget {
   final String category;
+  final String subCategory;
 
-  BazaarIndividualCategoryListData({this.category});
+  BazaarIndividualCategoryListData({this.category, this.subCategory});
+
+
 
   Future<QuerySnapshot> getBazaarWalasInAGivenRadius;
   double latitude;
@@ -34,7 +37,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
   getListOfBazaarWalasInAGivenRadius() async{
     var userPhoneNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
     _userPhoneNo = userPhoneNo;
-    var listOfbazaarwalas = await FilterBazaarLocationData().getListOfBazaarWalasInAGivenRadius(userPhoneNo, category,);
+    var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: subCategory).getListOfBazaarWalasInAGivenRadius(userPhoneNo, category,);
     return listOfbazaarwalas;
   }
 
@@ -56,6 +59,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
         future: getListOfBazaarWalasInAGivenRadius(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          print("snapshot.data in getListOfBazaarWalasInAGivenRadius : ${snapshot.data}");
         if (snapshot.data == null) return Container(child: Center(child: CustomText(text: 'No ${category}s near you',).bold())); //for avoding  the erro
 
         var list = snapshot.data;
@@ -66,7 +70,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
           itemCount: numberOfBazaarWalasInList,
           itemBuilder: (BuildContext context, int index) {
             bazaarWalaPhoneNo = list[index].documentID;
-            return BazaarIndividualCategoryNameDpBuilder(bazaarWalaPhoneNo: bazaarWalaPhoneNo, category: category,);
+            return BazaarIndividualCategoryNameDpBuilder(bazaarWalaPhoneNo: bazaarWalaPhoneNo, category: category,subCategory: subCategory,);
           },
 
           );

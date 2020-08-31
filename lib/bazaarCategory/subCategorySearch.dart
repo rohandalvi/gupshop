@@ -60,7 +60,8 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
   Widget appBarBody(BuildContext context) {
     return ContactSearch(
       suggestions: widget.subCategoriesList,
-      navigate: NavigateToBazaarOnBoardingHome().navigate(context),
+      navigate: (){Navigator.pop(context);},
+      //navigate: NavigateToBazaarOnBoardingHome().navigate(context),
       onSearch: searchList,
       hintText: 'Search in ${widget.category}',
       onItemFound: (DocumentSnapshot doc, int index){
@@ -76,22 +77,23 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
       ///displaying on the display name
       onTap: () {
         String subCategory = doc.data["name"];
-        NavigateToProductDetailPage(
-          category: widget.category,
-          subCategory: subCategory,
-          bazaarWalaPhoneNo: widget.bazaarWalaPhoneNo,
-          bazaarWalaName: widget.bazaarWalaName,
-        ).navigateNoBrackets(context);
+//        NavigateToProductDetailPage(
+//          category: widget.category,
+//          subCategory: subCategory,
+//          bazaarWalaPhoneNo: widget.bazaarWalaPhoneNo,
+//          bazaarWalaName: widget.bazaarWalaName,
+//        ).navigateNoBrackets(context);
 
-//        Navigator.push(
-//            context,
-//            MaterialPageRoute(
-//              builder: (context) => BazaarIndividualCategoryListData(
-//                category : catergoryName,
-//                //category: categoryNameForBazaarIndividualCategoryList,
-//              ),//pass Name() here and pass Home()in name_screen
-//            )
-//        );
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BazaarIndividualCategoryListData(
+                category : widget.category,
+                subCategory: subCategory,
+                //category: categoryNameForBazaarIndividualCategoryList,
+              ),//pass Name() here and pass Home()in name_screen
+            )
+        );
       }
     );
   }

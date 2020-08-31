@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:gupshop/location/location_service.dart';
 
 class FilterBazaarLocationData{
+  final String subCategory;
+
+  FilterBazaarLocationData({this.subCategory});
 
   getListOfBazaarWalasInAGivenRadius(String number, String category,) async{
     var userGeohash = await getUserGeohash(number,);
@@ -19,7 +21,7 @@ class FilterBazaarLocationData{
 
   getListOfUpperGeohashBazaarWalas(String userGeohash, String category) async{
     QuerySnapshot futureBazaarWalaUpperGeoHashList= await Firestore.instance.collection("bazaarWalasLocation")
-        .document(category).collection(category)
+        .document(category).collection(subCategory)
         .where("upperGeoHash", isGreaterThanOrEqualTo: userGeohash).getDocuments();
 
     return futureBazaarWalaUpperGeoHashList.documents;

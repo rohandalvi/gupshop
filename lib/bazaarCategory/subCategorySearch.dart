@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListData.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
+import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
+import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class SubCategorySearch extends StatefulWidget {
@@ -49,11 +51,14 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
 
   @override
   Widget build(BuildContext context){
-    return Stack(
-      children: <Widget>[
-        appBarBody(context),
-        //showButton(), /// would show only if one or more contact is selected
-      ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Stack(
+        children: <Widget>[
+          appBarBody(context),
+          //showButton(), /// would show only if one or more contact is selected
+        ],
+      ),
     );
   }
 
@@ -61,7 +66,9 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
   Widget appBarBody(BuildContext context) {
     return ContactSearch(
       suggestions: widget.subCategoriesList,
-      navigate: (){Navigator.pop(context);},
+      navigate: (){
+        NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
+      },
       //navigate: NavigateToBazaarOnBoardingHome().navigate(context),
       onSearch: searchList,
       hintText: 'Search in ${widget.category}',

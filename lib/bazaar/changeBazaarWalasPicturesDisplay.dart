@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/changeBazaarWalasPicturesAppBar.dart';
-import 'package:gupshop/navigators/navigateToViewProfileAsBazaarWala.dart';
+import 'package:gupshop/navigators/navigateToBazaarSubCategorySearch.dart';
+import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 
 
@@ -10,7 +12,16 @@ class ChangeBazaarWalasPicturesDisplay extends StatefulWidget{
   final String otherPictureOne;
   final String otherPictureTwo;
 
-  ChangeBazaarWalasPicturesDisplay({this.thumbnailPicture, this.otherPictureOne, this.otherPictureTwo});
+  final List<String> subCategoriesList;
+  final Map<String, String> subCategoryMap;
+  final String userName;
+  final String userPhoneNo;
+  final String category;
+
+  ChangeBazaarWalasPicturesDisplay({this.thumbnailPicture, this.otherPictureOne,
+    this.otherPictureTwo, this.category, this.userName, this.userPhoneNo,
+    this.subCategoriesList, this.subCategoryMap,
+  });
 
   @override
   _ChangeBazaarWalasPicturesDisplayState createState() => _ChangeBazaarWalasPicturesDisplayState();
@@ -91,7 +102,15 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
           floatingActionButton: CustomFloatingActionButtonWithIcon(
             iconName: 'forward2',
             onPressed: (){
-              NavigateToViewProfileAsBazaarWala().navigateNoBrackets(context);
+              //NavigateToProductDetailPage(category: widget.category).navigateNoBrackets(context);
+              NavigateToBazaarSubCategorySearch(
+                category: widget.category,
+                subCategoriesList: widget.subCategoriesList,
+                subCategoryMap: widget.subCategoryMap,
+                bazaarWalaName: widget.userName,
+                bazaarWalaPhoneNo: widget.userPhoneNo,
+              ).navigateNoBrackets(context);
+              //NavigateToViewProfileAsBazaarWalaSubCategories().navigateNoBrackets(context);
             },
           ),
         );

@@ -18,6 +18,7 @@ import 'package:gupshop/widgets/customVideoPlayer.dart';
 class ReviewBuilderAndDisplay extends StatefulWidget {
   String productWalaName;
   String category;
+  String subCategory;
   bool writeReview;
   bool focus;
   String userName;
@@ -29,7 +30,7 @@ class ReviewBuilderAndDisplay extends StatefulWidget {
 
 
   ReviewBuilderAndDisplay({this.productWalaName, this.productWalaNumber, this.category, this.writeReview,
-    this.focus, this.userName, this.reviewBody, this.likeOrDislike, this.likes, this.dislikes,
+    this.focus, this.userName, this.reviewBody, this.likeOrDislike, this.likes, this.dislikes,this.subCategory
   });
 
 
@@ -50,13 +51,18 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
       controller: new ScrollController(),//---> for scrolling the screen
       shrinkWrap: true,//---> Vertical viewport was given unbounded height.- this error thrown if not used
       children: <Widget>[
+        /// category
         Padding(
           padding: EdgeInsets.only(left:8.0),
-          child: CustomText( text : widget.productWalaName,).bigFont(),
+          child: CustomText( text : widget.category,).bigFont(),
         ),
-        Padding(
-          padding: EdgeInsets.only(left:8.0),
-          child: CustomText(text : widget.category,).graySubtitle(),
+        /// subcategories
+        Visibility(
+          visible: widget.subCategory != null,
+          child: Padding(
+            padding: EdgeInsets.only(left:8.0),
+            child: CustomText(text : widget.subCategory,).graySubtitle(),
+          ),
         ),
         likeDislikeIconsAndAddReviewButton(3),
         if (widget.writeReview==true && widget.focus==false) _writeReview(),

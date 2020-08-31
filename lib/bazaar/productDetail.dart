@@ -15,9 +15,10 @@ class ProductDetail extends StatefulWidget {
   final String productWalaName;
   final String category;
   final String productWalaNumber;
+  final String subCategory;
 
 
-  ProductDetail({@required this.productWalaName, this.category, @required this.productWalaNumber});
+  ProductDetail({@required this.productWalaName, this.category, @required this.productWalaNumber, this.subCategory});
 
   @override
   _ProductDetailState createState() => _ProductDetailState(productWalaName: productWalaName, category: category);
@@ -43,8 +44,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
   Stream<QuerySnapshot> stream;
 
 
-  bool focus;//when user taps on add review but does not want to send the review anymore
-  //he would tap on the screen
+  bool focus;///when user taps on add review but does not want to send the review anymore
+  ///he would tap on the screen
 
   int likes;
   int dislikes;
@@ -71,7 +72,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(//---> used to block the user from going to bazaarProfilePage when he hits back button after creating a bazaar profile page
+    return WillPopScope(///---> used to block the user from going to bazaarProfilePage when he hits back button after creating a bazaar profile page
       onWillPop: () async => false,
       child: Scaffold(
         appBar: PreferredSize(
@@ -92,10 +93,10 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
             }
           ),
         ),
-        body: Flex(//---> Expanded has to be wrapped in Flex always
-            direction: Axis.vertical,//---> this is the required property of Flex
+        body: Flex(///---> Expanded has to be wrapped in Flex always
+            direction: Axis.vertical,///---> this is the required property of Flex
             children: <Widget>[
-          Expanded(//---> if not used, then child==_child is null error appears, hence we have to use Expanded
+          Expanded(///---> if not used, then child==_child is null error appears, hence we have to use Expanded
             child: _buildProductDetailsPage(context),
           ),
       ],

@@ -13,8 +13,10 @@ class CustomSearch<T> extends StatelessWidget {
   final Future<List<T>> Function(String text) onSearch;
   final Widget Function(T item, int index) onItemFound;
   final String hintText;
+  final GestureTapCallback backButton;
 
-  CustomSearch({this.userName, this.userPhoneNo, this.suggestions, this.onSearch, this.onItemFound, this.hintText});
+  CustomSearch({this.userName, this.userPhoneNo, this.suggestions, this.onSearch,
+    this.onItemFound, this.hintText, this.backButton});
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +34,9 @@ class CustomSearch<T> extends StatelessWidget {
             /// onPressed is taken care by the cancellationWidget
           ),
           icon: GestureDetector(
-            onTap: () { /// back arrow
+            onTap: backButton == null ? () { /// back arrow
               CustomNavigator().navigateToHome(context, userName, userPhoneNo);
-            },
+            } : backButton,
             child: SvgPicture.asset('images/backArrowColor.svg',
               width: 35,
               height: 35,

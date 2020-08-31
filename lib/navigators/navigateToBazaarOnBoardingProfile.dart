@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarOnBoarding/bazaarOnBoardingProfile.dart';
@@ -5,10 +6,19 @@ import 'package:gupshop/modules/userDetails.dart';
 
 
 class NavigateToBazaarOnBoardingProfile{
+  final String userPhoneNo;
+  final String userName;
   final List<String> listOfSubCategories;
   final String category;
+  List<String> listOfSubCategoriesForData;
 
-  NavigateToBazaarOnBoardingProfile({this.listOfSubCategories, this.category});
+//  final Future<List<DocumentSnapshot>> subCategoriesListFuture;
+  Map<String, String> subCategoryMap;
+
+  NavigateToBazaarOnBoardingProfile({this.listOfSubCategories, this.category,
+     this.subCategoryMap,
+    this.userPhoneNo, this.userName, this.listOfSubCategoriesForData
+  });
 
 
   navigate(BuildContext context) async{
@@ -24,6 +34,9 @@ class NavigateToBazaarOnBoardingProfile{
               userName: userName,
               category: category,
               listOfSubCategories: listOfSubCategories,
+              //subCategoriesListFuture: subCategoriesListFuture,
+              subCategoryMap: subCategoryMap,
+              listOfSubCategoriesForData: listOfSubCategoriesForData,
             ),
           )
       );
@@ -42,6 +55,9 @@ class NavigateToBazaarOnBoardingProfile{
             userName: userName,
             category: category,
             listOfSubCategories: listOfSubCategories,
+            //subCategoriesListFuture: subCategoriesListFuture,
+            subCategoryMap: subCategoryMap,
+            listOfSubCategoriesForData: listOfSubCategoriesForData,
           ),
         )
     );

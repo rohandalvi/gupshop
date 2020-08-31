@@ -8,24 +8,24 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
-import 'package:gupshop/widgets/contact_search.dart';
+import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class SubCategories extends StatefulWidget {
+class SubCategoriesCheckBox extends StatefulWidget {
   final String category;
   final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   final List<DocumentSnapshot> subCategoriesList;
   Map<String, String> subCategoryMap;
 
-  SubCategories({this.subCategoriesList, this.subCategoriesListFuture,
+  SubCategoriesCheckBox({this.subCategoriesList, this.subCategoriesListFuture,
     this.category, this.subCategoryMap});
 
   @override
-  _SubCategoriesState createState() => _SubCategoriesState();
+  _SubCategoriesCheckBoxState createState() => _SubCategoriesCheckBoxState();
 }
 
-class _SubCategoriesState extends State<SubCategories> {
+class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
   Map<String, bool > map = new HashMap();
   List<String> listOfSubCategories = new List();
   Set tempSet = new HashSet();
@@ -113,7 +113,10 @@ class _SubCategoriesState extends State<SubCategories> {
                   iconName: 'forward2',
                   tooltip: 'Go ahead',
                   /// create a listOfContactsSelected and send it to individualChat
-                  onPressed: () {
+                  onPressed: () async{
+                    String userName = await UserDetails().getUserNameFuture();
+                    String userNumber = await UserDetails().getUserPhoneNoFuture();
+
                     /// create subCategories list:
                     subCategoriesList();
 
@@ -123,7 +126,12 @@ class _SubCategoriesState extends State<SubCategories> {
                     /// moving on to next page:
                     NavigateToBazaarOnBoardingProfile(
                       category:widget.category,
-                      listOfSubCategories: listOfSubCategoriesForData
+                      listOfSubCategories: listOfSubCategoriesForData,
+                      userPhoneNo: userNumber,
+                      userName: userName,
+                      //subCategoriesListFuture: widget.subCategoriesListFuture,
+                      subCategoryMap: widget.subCategoryMap,
+                      listOfSubCategoriesForData: listOfSubCategoriesForData,
                     ).navigateNoBrackets(context);
                   }
               ),

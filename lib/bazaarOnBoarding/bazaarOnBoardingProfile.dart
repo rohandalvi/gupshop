@@ -46,8 +46,13 @@ class BazaarOnBoardingProfile extends StatefulWidget {
   final String category;
   List<String> listOfSubCategoriesForData;
 
+  //final Future<List<DocumentSnapshot>> subCategoriesListFuture;
+  Map<String, String> subCategoryMap;
+
   BazaarOnBoardingProfile({@required this.userPhoneNo, @required this.userName,
-    this.category, this.listOfSubCategories, this.listOfSubCategoriesForData});
+    this.category, this.listOfSubCategories, this.listOfSubCategoriesForData,
+     this.subCategoryMap,
+  });
 
   @override
   _BazaarOnBoardingProfileState createState() => _BazaarOnBoardingProfileState(userName: userName, userPhoneNo: userPhoneNo);
@@ -66,7 +71,6 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
   /// for _pickVideoFromGallery
   File video;
   String videoURL;
-
 
   List<bool> inputs = new List<bool>();
 
@@ -242,7 +246,13 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
-          NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
+          NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
+            category: widget.category,
+            subCategoryMap: widget.subCategoryMap,
+            subCategoriesList: widget.listOfSubCategories,
+            userName: userName,
+            userPhoneNo: userPhoneNo,
+          ).navigateNoBrackets(context);
         }else{
           if(locationSelected == false && videoSelected == false){
             CustomFlushBar(

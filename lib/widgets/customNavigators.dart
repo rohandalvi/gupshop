@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:gupshop/bazaar/bazaarHome_screen.dart';
 import 'package:gupshop/news/newsComposer.dart';
-import 'package:gupshop/bazaar/bazaarIndividualCategoryListData.dart';
+import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListData.dart';
 import 'package:gupshop/bazaarOnBoarding/bazaarProfilePage.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
-import 'package:gupshop/screens/contactSearchPage.dart';
+import 'package:gupshop/contactSearch/contactSearchPage.dart';
 import 'package:gupshop/group/createGroupName_screen.dart';
 import 'package:gupshop/home/home.dart';
 import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/bazaar/productDetail.dart';
 import 'package:gupshop/bazaar/selectCategoryToShowInProductDetailsPage.dart';
 import 'package:gupshop/group/showGroupMembers.dart';
-import 'package:gupshop/widgets/contact_search.dart';
+import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/group/createGroup.dart';
 
 class CustomNavigator{

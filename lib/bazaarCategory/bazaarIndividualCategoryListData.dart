@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gupshop/bazaar/bazaarIndividualCategoryNameDpBuilder.dart';
+import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryNameDpBuilder.dart';
 import 'package:gupshop/bazaar/placeHolderImages.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarHomeScreen.dart';
@@ -11,7 +11,7 @@ import 'package:gupshop/bazaarLocation/filterBazaarLocationData.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
 import 'package:gupshop/streamShortcuts/bazaarRatingNumbers.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
-import 'package:gupshop/bazaar/bazaarIndividualCategoryListDisplay.dart';
+import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListDisplay.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class BazaarIndividualCategoryListData extends StatelessWidget {

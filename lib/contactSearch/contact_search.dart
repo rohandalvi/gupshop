@@ -37,7 +37,8 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
   final String userName;
   final data;
 
-  List<DocumentSnapshot> list;
+//  List<DocumentSnapshot> list;
+  List<T> list;
 
   _ContactSearchState(
       {@required this.userPhoneNo, @required this.userName, this.data, this.createGroupSearch});

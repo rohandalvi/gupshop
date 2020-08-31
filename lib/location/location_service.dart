@@ -15,13 +15,13 @@ class LocationService {
   double longitude;
 
   /// take this as radius from  firebase
-  double distance = 50;
+//  double distance = 50;
 
 
   static const double LATITUDE = 0.0144927536231884; /// degrees latitude per mile
   static const LONGITUDE = 0.0181818181818182; /// degrees longitude per mile
 
-  LocationService({this.distance});
+//  LocationService({this.distance});
 
   Geoflutterfire geo = Geoflutterfire();
 

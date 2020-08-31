@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/bazaarOnBoarding/subCategories.dart';
+import 'package:gupshop/bazaarOnBoarding/subCategoriesCheckBox.dart';
 
 class NavigateToBazaarSubCategories{
   final Future<List<DocumentSnapshot>> subCategoriesListFuture;
@@ -17,7 +17,7 @@ class NavigateToBazaarSubCategories{
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SubCategories(subCategoriesList: subCategoriesList,
+            builder: (context) => SubCategoriesCheckBox(subCategoriesList: subCategoriesList,
               subCategoriesListFuture: subCategoriesListFuture, category: category,),
           )
       );
@@ -28,7 +28,7 @@ class NavigateToBazaarSubCategories{
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SubCategories(subCategoriesList: subCategoriesList,
+          builder: (context) => SubCategoriesCheckBox(subCategoriesList: subCategoriesList,
             subCategoriesListFuture: subCategoriesListFuture, category:  category,
             subCategoryMap: subCategoryMap,
           ),

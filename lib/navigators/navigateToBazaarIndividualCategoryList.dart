@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/bazaar/bazaarIndividualCategoryListData.dart';
+import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListData.dart';
 
 class NavigateToBazaarIndiviudalCategoryList{
   String category;

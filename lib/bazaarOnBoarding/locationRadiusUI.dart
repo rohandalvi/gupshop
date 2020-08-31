@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/widgets/contact_search.dart';
+import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
 
 class LocationRadiusUI extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/responsive/sizeConfig.dart';
-import 'package:gupshop/screens/contactSearchPage.dart';
+import 'package:gupshop/contactSearch/contactSearchPage.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';

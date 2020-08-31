@@ -7,8 +7,9 @@ class NavigateToProductDetailPage {
   String category;
   String bazaarWalaName;
   String bazaarWalaPhoneNo;
+  String subCategory;
 
-  NavigateToProductDetailPage({this.category,this.bazaarWalaPhoneNo, this.bazaarWalaName});
+  NavigateToProductDetailPage({this.category,this.bazaarWalaPhoneNo, this.bazaarWalaName, this.subCategory});
 
   navigate(BuildContext context) async {
 //    String userNumber = await UserDetails().getUserPhoneNoFuture();
@@ -23,6 +24,7 @@ class NavigateToProductDetailPage {
                   productWalaNumber: bazaarWalaPhoneNo,
                   productWalaName: bazaarWalaName,
                   category: category,
+                  subCategory: subCategory,
                 ),
           )
       );
@@ -30,17 +32,18 @@ class NavigateToProductDetailPage {
   }
 
   navigateNoBrackets(BuildContext context) async {
-    String userNumber = await UserDetails().getUserPhoneNoFuture();
-    String userName = await UserDetails().getUserNameFuture();
+//    String userNumber = await UserDetails().getUserPhoneNoFuture();
+//    String userName = await UserDetails().getUserNameFuture();
 
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
               ProductDetail(
-                productWalaNumber: userNumber,
-                productWalaName: userName,
+                productWalaNumber: bazaarWalaPhoneNo,
+                productWalaName: bazaarWalaName,
                 category: category,
+                subCategory: subCategory,
               ),
         )
     );

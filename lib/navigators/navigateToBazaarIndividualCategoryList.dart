@@ -4,16 +4,22 @@ import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListData.dart';
 
 class NavigateToBazaarIndiviudalCategoryList{
   String category;
+  String subCategoryData;
+  String subCategory;
 
 
-  NavigateToBazaarIndiviudalCategoryList({this.category});
+  NavigateToBazaarIndiviudalCategoryList({this.category, this.subCategoryData, this.subCategory});
 
   navigate(BuildContext context){
     return (){
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BazaarIndividualCategoryListData(category: category,),//pass Name() here and pass Home()in name_screen
+            builder: (context) => BazaarIndividualCategoryListData(
+              category: category,
+              subCategoryData: subCategoryData,
+              subCategory: subCategory,
+            ),//pass Name() here and pass Home()in name_screen
           )
       );
     };
@@ -23,7 +29,11 @@ class NavigateToBazaarIndiviudalCategoryList{
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => BazaarIndividualCategoryListData(category: category,),//pass Name() here and pass Home()in name_screen
+          builder: (context) => BazaarIndividualCategoryListData(
+            category: category,
+            subCategoryData: subCategoryData,
+            subCategory: subCategory,
+          ),//pass Name() here and pass Home()in name_screen
         )
     );
   }

@@ -90,7 +90,11 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
             ],
             onPressed: (){
               //Navigator.pop(context);
-              NavigateToBazaarIndiviudalCategoryList(category: category).navigateNoBrackets(context);
+              NavigateToBazaarIndiviudalCategoryList(
+                category: category,
+                subCategoryData: widget.subCategoryData,
+                subCategory: widget.subCategory
+              ).navigateNoBrackets(context);
             }
           ),
         ),

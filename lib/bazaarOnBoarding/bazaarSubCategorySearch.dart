@@ -64,7 +64,7 @@ class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
       suggestions: widget.subCategoriesList,
       //navigate: NavigateToBazaarOnBoardingHome().navigate(context),
       onSearch: searchList,
-      hintText: 'Search in ${widget.category} ?',
+      hintText: 'Search in ${widget.category}',
       onItemFound: (String name, int index){
         return buildSubCategoryNameList(name,);
       },

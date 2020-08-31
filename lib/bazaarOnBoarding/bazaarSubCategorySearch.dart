@@ -78,11 +78,14 @@ class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
       ///displaying on the display name
       onTap: () {
         String subCategory = name;
+        print("widget.subCategoryMap[subCategory] : ${widget.subCategoryMap[subCategory]}");
+        String subCategoryData = widget.subCategoryMap[subCategory];
         NavigateToProductDetailPage(
           category: widget.category,
           subCategory: subCategory,
           bazaarWalaPhoneNo: widget.bazaarWalaPhoneNo,
           bazaarWalaName: widget.bazaarWalaName,
+          subCategoryData: subCategoryData
         ).navigateNoBrackets(context);
       }
     );

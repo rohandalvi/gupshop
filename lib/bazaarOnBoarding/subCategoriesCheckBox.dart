@@ -126,7 +126,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
                     /// moving on to next page:
                     NavigateToBazaarOnBoardingProfile(
                       category:widget.category,
-                      listOfSubCategories: listOfSubCategoriesForData,
+                      listOfSubCategories: listOfSubCategories,
                       userPhoneNo: userNumber,
                       userName: userName,
                       //subCategoriesListFuture: widget.subCategoriesListFuture,

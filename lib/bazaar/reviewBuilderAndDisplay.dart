@@ -27,10 +27,12 @@ class ReviewBuilderAndDisplay extends StatefulWidget {
   int likes;
   int dislikes;
   String productWalaNumber;
+  final String subCategoryData;
 
 
   ReviewBuilderAndDisplay({this.productWalaName, this.productWalaNumber, this.category, this.writeReview,
-    this.focus, this.userName, this.reviewBody, this.likeOrDislike, this.likes, this.dislikes,this.subCategory
+    this.focus, this.userName, this.reviewBody, this.likeOrDislike, this.likes, this.dislikes,this.subCategory,
+    this.subCategoryData
   });
 
 

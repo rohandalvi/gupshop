@@ -16,9 +16,10 @@ class ProductDetail extends StatefulWidget {
   final String category;
   final String productWalaNumber;
   final String subCategory;
+  final String subCategoryData;
 
 
-  ProductDetail({@required this.productWalaName, this.category, @required this.productWalaNumber, this.subCategory});
+  ProductDetail({@required this.productWalaName, this.category, @required this.productWalaNumber, this.subCategory, this.subCategoryData});
 
   @override
   _ProductDetailState createState() => _ProductDetailState(productWalaName: productWalaName, category: category);
@@ -130,7 +131,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           delegate: SliverChildListDelegate(
             <Widget>[ //---> to decrease space  between review stars and reviews use Stack and wrap everything in it
               FutureBuilder(
-                future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikesAndDislikes(widget.productWalaNumber, widget.category,widget.subCategory ),
+                future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikesAndDislikes(widget.productWalaNumber, widget.category,widget.subCategoryData ),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     likes = snapshot.data['likes'];
@@ -139,7 +140,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                     return ReviewBuilderAndDisplay(productWalaName:productWalaName, productWalaNumber: widget.productWalaNumber,
                       category: category,writeReview: writeReview,focus: focus,userName: userName,
                       reviewBody: reviewBody,likeOrDislike: likeOrDislike,likes: likes,dislikes: dislikes,
-                      subCategory: widget.subCategory,
+                      subCategory: widget.subCategory,subCategoryData: widget.subCategoryData,
                     );
                   }
                   return Center(

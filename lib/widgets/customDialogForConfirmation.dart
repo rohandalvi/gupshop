@@ -6,11 +6,13 @@ import 'package:gupshop/widgets/customText.dart';
 class CustomDialogForConfirmation{
   String title;
   String content;
+  bool barrierDismissible;
 
-  CustomDialogForConfirmation({this.title, this.content});
+  CustomDialogForConfirmation({this.title, this.content, this.barrierDismissible});
 
   Future<bool> dialog(BuildContext context) {
     return showDialog(
+        barrierDismissible: barrierDismissible,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(

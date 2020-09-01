@@ -18,10 +18,11 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   final String thumbnailPicture;
   final String subCategory;
   final String subCategoryData;
+  final String homeServiceText;
 
   BazaarIndividualCategoryListDisplay({this.bazaarWalaPhoneNo, this.category,
     this.bazaarWalaName, this.thumbnailPicture, this.subCategory, this.subCategoryData,
-    this.categoryData
+    this.categoryData, this.homeServiceText
   });
 
   @override
@@ -94,6 +95,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                     ),
                   ),
                   CustomText(text: subCategory,).subTitle(),
+                  homeServiceContainer(),
                   LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, category: category,subCategory: subCategory,),
                   //SizedBox(height: 5,),
                 ],
@@ -127,6 +129,23 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  homeServiceContainer(){
+    return Container(
+      child: Row(
+        children: <Widget>[
+          CustomIconButton(
+            iconNameInImageFolder: 'home',
+            onPressed: (){},
+            iconsize: IconConfig.smallIcon,
+          ).resize(),
+          CustomText(
+            text: homeServiceText,
+          ).subTitle()
+        ],
+      ),
     );
   }
 }

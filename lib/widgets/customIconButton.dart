@@ -21,7 +21,7 @@ class CustomIconButton extends StatelessWidget {
     return IconButton(
       icon: SvgPicture.asset('images/$iconNameInImageFolder.svg',),
       onPressed: onPressed,
-      iconSize: iconsize,
+      iconSize: iconsize,/// default size is 24
     );
   }
 }

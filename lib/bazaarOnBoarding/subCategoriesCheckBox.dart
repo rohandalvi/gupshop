@@ -2,6 +2,8 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/PushToFirebase/pushToBazaarWalasBasicProfileCollection.dart';
+import 'package:gupshop/bazaarCategory/homeServiceText.dart';
 import 'package:gupshop/bazaarOnBoarding/pushSubCategoriesToFirebase.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
@@ -9,6 +11,7 @@ import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
+import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -77,16 +80,51 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
             activeColor: primaryColor,
             value: map[doc.data["name"]],/// if value of a key in map(a subcategory name) is false or true
             //list[index],/// at first all the values would be false
-            onChanged: (bool val){
-              setState(() {
+            onChanged: (bool val) async{
+              setState((){
                 map[doc.data["name"]] = val; /// setting the new value as selected by user
               });
+
+              String subCategoryData = widget.subCategoryMap[doc.data["name"]];
+
+              String isHomeServiceApplicable = HomeServiceText(categoryData:widget.categoryData,
+                  subCategoryData: subCategoryData).bazaarWalasdialogText();
+              if(isHomeServiceApplicable != null){
+                bool homeService = false;
+
+                if(val == true){
+                  homeService = await homeServiceDialog(isHomeServiceApplicable);
+                }
+                pushToBazaarWalasBasicProfile(subCategoryData, homeService);
+              }
+
             }
           ),
         );
       },
       //onItemFound: ,
     );
+  }
+
+
+  homeServiceDialog(String homeServiceText) async{
+      bool temp = await CustomDialogForConfirmation(
+        /// from homeServiceText
+          title: homeServiceText,
+          barrierDismissible: false,
+      ).dialog(context);
+      return temp;
+  }
+
+
+  pushToBazaarWalasBasicProfile(String subCategoryData, bool homeService) async{
+    String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+      await PushToBazaarWalasBasicProfile(
+        categoryData: widget.categoryData,
+        subCategoryData: subCategoryData,
+        userPhoneNo: userPhoneNo,
+        homeService: homeService,
+      ).pushHomeService();
   }
 
 

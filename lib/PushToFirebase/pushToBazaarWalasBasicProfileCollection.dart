@@ -27,13 +27,18 @@ class PushToBazaarWalasBasicProfile{
     print("categoryData in pushToFirebase : $categoryData");
     print("subCategoryData in pushToFirebase : $subCategoryData");
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({}, merge: true);
-    /// add videoURL
-    /// home location
-    /// categories
+
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
         .collection(categoryData).document(subCategoryData)
         .setData({'bazaarWalaName': userName,'videoURL': videoURL, 'latitude': latitude,
-      'longitude': longitude,'radius' : radius,'homeService' : homeService }, merge: true);
+//      'longitude': longitude,'radius' : radius,'homeService' : homeService }, merge: true);
+      'longitude': longitude,'radius' : radius,}, merge: true);
+  }
+
+  pushHomeService() async{
+    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
+        .collection(categoryData).document(subCategoryData)
+        .setData({'homeService' : homeService }, merge: true);
   }
 
   pushAllPictures(String categoryName, String subCategoryName) async{

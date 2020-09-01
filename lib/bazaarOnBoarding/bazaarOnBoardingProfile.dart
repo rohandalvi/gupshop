@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarWalasBasicProfileCollection.dart';
 import 'package:gupshop/bazaar/bazaarProfileSetVideo.dart';
 import 'package:gupshop/bazaar/categories.dart';
+import 'package:gupshop/bazaarCategory/homeServiceText.dart';
 import 'package:gupshop/bazaarOnBoarding/pushSubCategoriesToFirebase.dart';
 import 'package:gupshop/bazaarOnBoarding/serviceAtHomeUI.dart';
 import 'package:gupshop/modules/userDetails.dart';
@@ -196,14 +197,39 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
     );
   }
 
-  homeServiceDialog() async{
-    if(homeService == null ){
-      bool temp = await CustomDialogForConfirmation(
-        title: 'Do you offer services at clients home',
-      ).dialog(context);
-      return temp;
-    }
-  }
+//  homeServiceDialog() async{
+//    if(homeService == null ){
+//      String homeServiceText;
+//
+//      widget.listOfSubCategoriesForData.forEach((subCategory) {
+//        homeServiceText = HomeServiceText(categoryData:widget.categoryData,
+//            subCategoryData: subCategory).bazaarWalasdialogText();
+//      });
+//
+//
+//
+//      bool temp = await CustomDialogForConfirmation(
+//        /// from homeServiceText
+//        title: 'Do you offer services at clients home',
+//      ).dialog(context);
+//      return temp;
+//    }
+//
+//
+//    widget.listOfSubCategoriesForData.forEach((subCategory) async{
+//      await PushToBazaarWalasBasicProfile(
+//        categoryData: widget.categoryData,
+//        subCategoryData: subCategory,
+//        userPhoneNo: userPhoneNo,
+//        userName: userName,
+//        videoURL: isVideo.videoURL,
+//        longitude: locationFromMap.longitude,
+//        latitude: locationFromMap.latitude,
+//        radius: radius,
+//        homeService: homeService,
+//      ).pushToFirebase();
+//    });
+//  }
 
 
   createSpaceBetweenButtons(double height){
@@ -233,7 +259,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
       iconName: 'forward2',
       onPressed: () async{
 
-        homeService = await homeServiceDialog();
+        //homeService = await homeServiceDialog();
 
 
         setState(() {
@@ -312,7 +338,6 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
           longitude: locationFromMap.longitude,
           latitude: locationFromMap.latitude,
           radius: radius,
-          homeService: homeService,
       ).pushToFirebase();
     });
 

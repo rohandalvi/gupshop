@@ -53,11 +53,8 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
           child: CustomAppBar(
             title: CustomText(text: category.toUpperCase(),),
             onPressed: () async{
-              print("categoryData in onPressed : $categoryData");
               Future<List<DocumentSnapshot>> subCategoriesListFuture = BazaarCategoryTypesAndImages().getSubCategories(categoryData);
-              print("subCategoriesListFuture in onPressed : $subCategoriesListFuture");
               List<DocumentSnapshot> subCategoriesList = await subCategoriesListFuture;
-              print("subCategoriesList in onPressed : $subCategoriesList");
               Map<String, String> subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(categoryData);
 
               NavigateToSubCategorySearch(
@@ -76,7 +73,6 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
           future: getListOfBazaarWalasInAGivenRadius(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            print("snapshot.data in getListOfBazaarWalasInAGivenRadius : ${snapshot.data}");
           if (snapshot.data == null) return Container(child: Center(child: CustomText(text: 'No ${category}s near you',).bold())); //for avoding  the erro
 
           var list = snapshot.data;
@@ -87,7 +83,6 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
             itemCount: numberOfBazaarWalasInList,
             itemBuilder: (BuildContext context, int index) {
               bazaarWalaPhoneNo = list[index].documentID;
-              print("category in getListOfBazaarWalasInAGivenRadius : $categoryData");
               return BazaarIndividualCategoryNameDpBuilder(
                 bazaarWalaPhoneNo: bazaarWalaPhoneNo,
                 category: category,

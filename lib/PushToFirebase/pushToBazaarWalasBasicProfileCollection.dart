@@ -24,6 +24,8 @@ class PushToBazaarWalasBasicProfile{
   });
 
   pushToFirebase() async{
+    print("categoryData in pushToFirebase : $categoryData");
+    print("subCategoryData in pushToFirebase : $subCategoryData");
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({}, merge: true);
     /// add videoURL
     /// home location

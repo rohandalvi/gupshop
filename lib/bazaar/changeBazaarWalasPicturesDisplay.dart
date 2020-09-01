@@ -64,7 +64,7 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
           return Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(70.0),
-              child: ChangeBazaarWalasPicturesAppBar(tabNumber: _activeTabIndex,category: widget.categoryData,subCategoryDataList: widget.subCategoriesList,),
+              child: ChangeBazaarWalasPicturesAppBar(tabNumber: _activeTabIndex,categoryData: widget.categoryData,subCategoryDataList: widget.subCategoriesListData,),
             ),
             body: Center(
               child: Padding(

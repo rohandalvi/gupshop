@@ -28,7 +28,11 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
 
           print("bazaarWalaPhoneNo before futurebuilder: $bazaarWalaPhoneNo");
           return FutureBuilder(
-            future: GetBazaarWalasBasicProfileInfo(userNumber: bazaarWalaPhoneNo).getNameAndThumbnailPicture(),
+            future: GetBazaarWalasBasicProfileInfo(
+                userNumber: bazaarWalaPhoneNo,
+              categoryData: categoryData,
+              subCategoryData: subCategoryData
+            ).getNameAndThumbnailPicture(),
             builder: (BuildContext context, AsyncSnapshot nameSnapshot) {
 
               if (nameSnapshot.connectionState == ConnectionState.done) {

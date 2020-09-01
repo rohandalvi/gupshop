@@ -31,12 +31,24 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
           String userNumber = userNumberSnapshot.data;
 
           return FutureBuilder(
-            future: GetBazaarWalasBasicProfileInfo(userNumber: userNumber).getPictureListAndVideo(),
+            future: GetBazaarWalasBasicProfileInfo(userNumber: userNumber,
+                categoryData:categoryData,subCategoryData:subCategoryData).getPictureListAndVideo(),
             builder: (BuildContext context, AsyncSnapshot picturesSnapshot) {
               if (picturesSnapshot.connectionState == ConnectionState.done) {
-                String thumbnailPicture = picturesSnapshot.data["thumbnailPicture"];
-                String otherPictureOne = picturesSnapshot.data["otherPictureOne"];
-                String otherPictureTwo = picturesSnapshot.data["otherPictureTwo"];
+                String thumbnailPicture;
+                String otherPictureOne;
+                String otherPictureTwo;
+
+                if(picturesSnapshot.data == null){
+                  thumbnailPicture  = null;
+                  otherPictureTwo = null;
+                  otherPictureTwo = null;
+                }else{
+                  thumbnailPicture = picturesSnapshot.data["thumbnailPicture"];
+                  otherPictureOne = picturesSnapshot.data["otherPictureOne"];
+                  otherPictureTwo = picturesSnapshot.data["otherPictureTwo"];
+                }
+
 
                 if(thumbnailPicture == null) thumbnailPicture =
                 "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";

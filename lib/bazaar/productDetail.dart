@@ -169,7 +169,11 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
       return Card(
         child: FutureBuilder(
-          future: GetBazaarWalasBasicProfileInfo(userNumber: widget.productWalaNumber).getPictureListAndVideo(),/// get it from bazaarWalas basic profile and not videos collection
+          future: GetBazaarWalasBasicProfileInfo(
+              userNumber: widget.productWalaNumber,
+            categoryData: widget.categoryData,
+            subCategoryData: widget.subCategoryData
+          ).getPictureListAndVideo(),/// get it from bazaarWalas basic profile and not videos collection
           builder: (context, snapshot) {
             if(snapshot.connectionState == ConnectionState.done){
               String videoURL = snapshot.data["videoURL"];

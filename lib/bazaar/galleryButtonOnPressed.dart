@@ -5,10 +5,10 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 
 class GalleryButtonOnPressed{
-  String category;
+  String categoryData;
   List<String> subCategoryDataList;
 
-  GalleryButtonOnPressed({this.category, this.subCategoryDataList});
+  GalleryButtonOnPressed({this.categoryData, this.subCategoryDataList});
 
 
     thumbnailPicture(BuildContext context) async {
@@ -19,7 +19,7 @@ class GalleryButtonOnPressed{
         String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
         if(imageURL != null){
           subCategoryDataList.forEach((subCategory) {
-            PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, thumbnailPicture: imageURL).pushThumbnailPicture(category, subCategory);
+            PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, thumbnailPicture: imageURL).pushThumbnailPicture(categoryData, subCategory);
           });
 
         }
@@ -36,7 +36,7 @@ class GalleryButtonOnPressed{
 
       if(imageURL != null){
         subCategoryDataList.forEach((subCategory) {
-          PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureOne: imageURL).pushOtherPictureOne(category, subCategory);
+          PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureOne: imageURL).pushOtherPictureOne(categoryData, subCategory);
         });
 
       }
@@ -52,7 +52,7 @@ class GalleryButtonOnPressed{
 
       if(imageURL != null){
         subCategoryDataList.forEach((subCategory) {
-          PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureTwo: imageURL).pushOtherPictureTwo(category, subCategory);
+          PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureTwo: imageURL).pushOtherPictureTwo(categoryData, subCategory);
         });
 
       }

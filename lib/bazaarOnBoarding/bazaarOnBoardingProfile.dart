@@ -14,6 +14,7 @@ import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
+import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -36,12 +37,10 @@ class BazaarOnBoardingProfile extends StatefulWidget {
   //final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   Map<String, String> subCategoryMap;
 
-  final String subCategory;
-  final String subCategoryData;
 
   BazaarOnBoardingProfile({@required this.userPhoneNo, @required this.userName,
     this.category, this.listOfSubCategories, this.listOfSubCategoriesForData,
-     this.subCategoryMap,this.categoryData, this.subCategoryData, this.subCategory
+     this.subCategoryMap,this.categoryData,
   });
 
   @override
@@ -133,7 +132,11 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
         ),
         backgroundColor: Colors.white,
         body: FutureBuilder(
-            future: Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).get(),
+            future: GetBazaarWalasBasicProfileInfo(
+                userNumber: userPhoneNo,
+                categoryData: widget.categoryData,
+              subCategoryData: widget.listOfSubCategoriesForData[0],
+            ).main(),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
                 if(isBazaarWala == true){
@@ -248,8 +251,6 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
             subCategoriesListData: widget.listOfSubCategoriesForData,
             userName: userName,
             userPhoneNo: userPhoneNo,
-            subCategory: widget.subCategory,
-            subCategoryData: widget.subCategoryData
           ).navigateNoBrackets(context);
         }else{
           if(locationSelected == false && videoSelected == false){

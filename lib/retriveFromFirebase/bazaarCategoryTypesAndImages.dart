@@ -6,6 +6,7 @@ class BazaarCategoryTypesAndImages{
 
   getStream(){
     return Firestore.instance.collection("bazaarCategoryTypesAndImages").snapshots();
+    //return Firestore.instance.collection("bazaarCategoryTypesAndImages").document(category).collection('subCategories').snapshots();
   }
 
 

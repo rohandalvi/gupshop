@@ -13,6 +13,10 @@ import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 class CategorySelector extends StatelessWidget {
 
   Map<String, String> subCategoryMap = new HashMap();
+  String catergoryName;
+  String categoryNameForData;
+  String userNumber;
+  String userName;
 
   @override
   Widget build(BuildContext context) {
@@ -25,24 +29,29 @@ class CategorySelector extends StatelessWidget {
           return CustomGridView(
             itemCount: categoryLength,
             itemBuilder: (BuildContext context, int index){
-              String catergoryName = snapshot.data.documents[index].data['name'];
+              catergoryName = snapshot.data.documents[index].data['name'];
               String imageURL = snapshot.data.documents[index].data['icon'];
-              String categoryNameForData = snapshot.data.documents[index].documentID;
+              categoryNameForData = snapshot.data.documents[index].documentID;
 
+              print("categoryNameForData in BazaarCategoryTypesAndImages : $categoryNameForData");
 
               return GridViewContainer(
                 /// on tapping the image/category show subcategories with checkbox
                 onPictureTap: () async{
-                  String userNumber = await UserDetails().getUserPhoneNoFuture();
-                  String userName = await UserDetails().getUserNameFuture();
+                  print("categoryNameForData in onPictureTap : $categoryNameForData");
+                  print("catergoryName in onPictureTap : $catergoryName");
+                  userNumber = await UserDetails().getUserPhoneNoFuture();
+                  userName = await UserDetails().getUserNameFuture();
 
                   Future<List<DocumentSnapshot>> subCategoriesListFuture = BazaarCategoryTypesAndImages().getSubCategories(categoryNameForData);
                   List<DocumentSnapshot> subCategories = await subCategoriesListFuture;
                   subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(categoryNameForData);
 
+                  print("subCategoryMap : $subCategoryMap");
+
+                  /// for errands:
                   if(subCategories == null){
-                    navigateIfDeliveryErrands(context, catergoryName,
-                    categoryNameForData, userNumber, userName);
+                    navigateIfDeliveryErrands(context);
                   }else{
                     /// for all the categories except errands:
                     NavigateToBazaarSubCategories(
@@ -53,6 +62,7 @@ class CategorySelector extends StatelessWidget {
                       subCategoryMap: subCategoryMap,
                     ).navigateNoBrackets(context);
                   }
+
                 },
                 imageName: catergoryName,
                 imageURL: imageURL,
@@ -63,9 +73,7 @@ class CategorySelector extends StatelessWidget {
     );
   }
 
-  navigateIfDeliveryErrands(BuildContext context, String catergoryName,
-      String categoryNameForData, String userNumber, String userName
-      ){
+  navigateIfDeliveryErrands(BuildContext context){
     print("in navigateIfDeliveryErrands");
 
     List<String> listOfSubCategories = new List();
@@ -76,10 +84,8 @@ class CategorySelector extends StatelessWidget {
     listOfSubCategoriesForData.add("deliveryErrands");
     print("listOfSubCategoriesForData : $listOfSubCategoriesForData");
 
-    Map<String, String> subCategoryMap = new HashMap();
 
     subCategoryMap[listOfSubCategories[0]] = listOfSubCategoriesForData[0];
-    print("subCategoryMap : $subCategoryMap");
 
     NavigateToBazaarOnBoardingProfile(
       category:catergoryName,

@@ -43,8 +43,6 @@ class NavigateToBazaarOnBoardingProfile{
               //subCategoriesListFuture: subCategoriesListFuture,
               subCategoryMap: subCategoryMap,
               listOfSubCategoriesForData: listOfSubCategoriesForData,
-              subCategory: subCategory,
-              subCategoryData: subCategoryData,
             ),
           )
       );
@@ -67,8 +65,6 @@ class NavigateToBazaarOnBoardingProfile{
             //subCategoriesListFuture: subCategoriesListFuture,
             subCategoryMap: subCategoryMap,
             listOfSubCategoriesForData: listOfSubCategoriesForData,
-            subCategory: subCategory,
-            subCategoryData: subCategoryData,
           ),
         )
     );

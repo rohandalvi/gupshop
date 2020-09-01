@@ -8,11 +8,19 @@ class GetBazaarWalasBasicProfileInfo{
 
   GetBazaarWalasBasicProfileInfo({this.userNumber,this.subCategoryData, this.categoryData, this.image});
 
+  main(){
+  return Firestore.instance.collection("bazaarWalasBasicProfile")
+      .document(userNumber)
+      .collection(categoryData).document(subCategoryData)
+      .get();
+  }
+
   getName() async{
-    DocumentSnapshot nameFuture = await Firestore.instance.collection("bazaarWalasBasicProfile")
-        .document(userNumber)
-        .collection(categoryData).document(subCategoryData)
-        .get();
+    DocumentSnapshot nameFuture = await main();
+//    Firestore.instance.collection("bazaarWalasBasicProfile")
+//        .document(userNumber)
+//        .collection(categoryData).document(subCategoryData)
+//        .get();
 
     return nameFuture["bazaarWalaName"];
   }
@@ -23,10 +31,11 @@ class GetBazaarWalasBasicProfileInfo{
 
   getNameAndThumbnailPicture() async{
     print("userNumber in getNameAndThumbnailPicture : $userNumber");
-    DocumentSnapshot dc = await Firestore.instance.collection("bazaarWalasBasicProfile")
-        .document(userNumber)
-        .collection(categoryData).document(subCategoryData)
-        .get();
+    DocumentSnapshot dc = await main();
+//    Firestore.instance.collection("bazaarWalasBasicProfile")
+//        .document(userNumber)
+//        .collection(categoryData).document(subCategoryData)
+//        .get();
 
     Map<String, String> map = new Map();
 
@@ -36,17 +45,21 @@ class GetBazaarWalasBasicProfileInfo{
   }
 
   getPicture() async{
-    DocumentSnapshot dc = await Firestore.instance.collection("bazaarWalasBasicProfile")
-        .document(userNumber)
-        .collection(categoryData).document(subCategoryData)
-        .get();
+    DocumentSnapshot dc = await main();
+//    Firestore.instance.collection("bazaarWalasBasicProfile")
+//        .document(userNumber)
+//        .collection(categoryData).document(subCategoryData)
+//        .get();
 
     return dc[image];
   }
 
   getPictureListAndVideo() async{
-    DocumentSnapshot dc = await Firestore.instance.collection("bazaarWalasBasicProfile")
-        .document(userNumber).collection(categoryData).document(subCategoryData).get();
+    DocumentSnapshot dc = await main();
+//    Firestore.instance.collection("bazaarWalasBasicProfile")
+//        .document(userNumber)
+//        .collection(categoryData).document(subCategoryData)
+//        .get();
 
     print("dc in getPictureListAndVideo : ${dc.data}");
     Map<String, String> map = new Map();

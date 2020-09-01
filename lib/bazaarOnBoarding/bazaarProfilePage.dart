@@ -306,7 +306,8 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
             /// saving user as a bazaarwala in his shared preferences
             UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
-            NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
+            NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
+            ).navigateNoBrackets(context);
           }else{
             if(locationSelected == false && videoSelected == false && isCategorySelected == false){
               CustomFlushBar(

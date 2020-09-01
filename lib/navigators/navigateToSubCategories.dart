@@ -7,9 +7,11 @@ class NavigateToBazaarSubCategories{
   final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   final List<DocumentSnapshot> subCategoriesList;
   final String category;
+  final String categoryData;
   Map<String, String> subCategoryMap;
 
-  NavigateToBazaarSubCategories({this.subCategoriesList, this.subCategoriesListFuture, this.category, this.subCategoryMap});
+  NavigateToBazaarSubCategories({this.subCategoriesList, this.subCategoriesListFuture,
+    this.category, this.subCategoryMap, this.categoryData});
 
 
   navigate(BuildContext context){
@@ -18,7 +20,9 @@ class NavigateToBazaarSubCategories{
           context,
           MaterialPageRoute(
             builder: (context) => SubCategoriesCheckBox(subCategoriesList: subCategoriesList,
-              subCategoriesListFuture: subCategoriesListFuture, category: category,),
+              subCategoriesListFuture: subCategoriesListFuture, category: category,
+              categoryData: categoryData,
+            ),
           )
       );
     };
@@ -30,7 +34,7 @@ class NavigateToBazaarSubCategories{
         MaterialPageRoute(
           builder: (context) => SubCategoriesCheckBox(subCategoriesList: subCategoriesList,
             subCategoriesListFuture: subCategoriesListFuture, category:  category,
-            subCategoryMap: subCategoryMap,
+            subCategoryMap: subCategoryMap,categoryData: categoryData,
           ),
         )
     );

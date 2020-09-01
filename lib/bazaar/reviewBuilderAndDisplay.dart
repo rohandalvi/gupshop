@@ -18,6 +18,7 @@ import 'package:gupshop/widgets/customVideoPlayer.dart';
 class ReviewBuilderAndDisplay extends StatefulWidget {
   String productWalaName;
   String category;
+  String categoryData;
   String subCategory;
   bool writeReview;
   bool focus;
@@ -28,12 +29,11 @@ class ReviewBuilderAndDisplay extends StatefulWidget {
   int dislikes;
   String productWalaNumber;
   final String subCategoryData;
-  String categoryData;
 
 
   ReviewBuilderAndDisplay({this.productWalaName, this.productWalaNumber, this.category, this.writeReview,
     this.focus, this.userName, this.reviewBody, this.likeOrDislike, this.likes, this.dislikes,this.subCategory,
-    this.subCategoryData, this.categoryData
+    this.subCategoryData, this.categoryData,
   });
 
 

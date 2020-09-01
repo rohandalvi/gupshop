@@ -10,9 +10,12 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
   final String userName;
   final String userPhoneNo;
   final String category;
+  final String categoryData;
 
   ChangeBazaarWalasPicturesFetchDataAndDisplay({this.subCategoriesList,
-    this.category, this.subCategoryMap, this.userPhoneNo, this.userName});
+    this.category, this.subCategoryMap, this.userPhoneNo, this.userName,
+    this.categoryData,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +48,7 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
                   otherPictureOne: otherPictureOne,
                   otherPictureTwo: otherPictureTwo,
                   category: category,
+                  categoryData: categoryData,
                   subCategoriesList: subCategoriesList,
                   subCategoryMap: subCategoryMap,
                   userPhoneNo: userPhoneNo,

@@ -9,20 +9,23 @@ import 'package:gupshop/widgets/customText.dart';
 class OnBoardingHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(WidgetConfig.appBarBazaarOnBoarding),
-        child: CustomAppBar(
-          title: CustomText(text: 'What do you do ?',),
-          onPressed:(){
-            NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
-          },),
-      ),
-      body: Column(/// to avoid "ParentDataWidgets are providing parent data to the same RenderObject:" error
-        children: <Widget>[
-          SizedBox(height: WidgetConfig.sizedBoxBazaarOnBoarding,),
-          CategorySelector(),
-        ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(WidgetConfig.appBarBazaarOnBoarding),
+          child: CustomAppBar(
+            title: CustomText(text: 'What do you do ?',),
+            onPressed:(){
+              NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
+            },),
+        ),
+        body: Column(/// to avoid "ParentDataWidgets are providing parent data to the same RenderObject:" error
+          children: <Widget>[
+            SizedBox(height: WidgetConfig.sizedBoxBazaarOnBoarding,),
+            CategorySelector(),
+          ],
+        ),
       ),
     );
   }

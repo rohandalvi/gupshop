@@ -10,6 +10,7 @@ class NavigateToBazaarOnBoardingProfile{
   final String userName;
   final List<String> listOfSubCategories;
   final String category;
+  final String categoryData;
   List<String> listOfSubCategoriesForData;
 
 //  final Future<List<DocumentSnapshot>> subCategoriesListFuture;
@@ -17,7 +18,7 @@ class NavigateToBazaarOnBoardingProfile{
 
   NavigateToBazaarOnBoardingProfile({this.listOfSubCategories, this.category,
      this.subCategoryMap,
-    this.userPhoneNo, this.userName, this.listOfSubCategoriesForData
+    this.userPhoneNo, this.userName, this.listOfSubCategoriesForData, this.categoryData
   });
 
 
@@ -54,6 +55,7 @@ class NavigateToBazaarOnBoardingProfile{
             userPhoneNo: userNumber,
             userName: userName,
             category: category,
+            categoryData: categoryData,
             listOfSubCategories: listOfSubCategories,
             //subCategoriesListFuture: subCategoriesListFuture,
             subCategoryMap: subCategoryMap,

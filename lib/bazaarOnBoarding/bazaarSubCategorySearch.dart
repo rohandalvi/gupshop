@@ -10,13 +10,16 @@ import 'package:gupshop/widgets/customText.dart';
 
 class BazaarSubCategorySearch extends StatefulWidget {
   final String category;
+  final String categoryData;
   final List<String> subCategoriesList;
   Map<String, String> subCategoryMap;
   final String bazaarWalaName;
   final String bazaarWalaPhoneNo;
 
   BazaarSubCategorySearch({this.subCategoriesList,
-    this.category, this.subCategoryMap, this.bazaarWalaName, this.bazaarWalaPhoneNo});
+    this.category, this.subCategoryMap, this.bazaarWalaName, this.bazaarWalaPhoneNo,
+    this.categoryData,
+  });
 
   @override
   _BazaarSubCategorySearchState createState() => _BazaarSubCategorySearchState();
@@ -47,11 +50,14 @@ class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
 
   @override
   Widget build(BuildContext context){
-    return Stack(
-      children: <Widget>[
-        appBarBody(context),
-        //showButton(), /// would show only if one or more contact is selected
-      ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Stack(
+        children: <Widget>[
+          appBarBody(context),
+          //showButton(), /// would show only if one or more contact is selected
+        ],
+      ),
     );
   }
 
@@ -81,6 +87,7 @@ class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
         print("widget.subCategoryMap[subCategory] : ${widget.subCategoryMap[subCategory]}");
         String subCategoryData = widget.subCategoryMap[subCategory];
         NavigateToProductDetailPage(
+          categoryData: widget.categoryData,
           category: widget.category,
           subCategory: subCategory,
           bazaarWalaPhoneNo: widget.bazaarWalaPhoneNo,

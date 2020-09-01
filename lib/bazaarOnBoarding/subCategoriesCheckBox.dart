@@ -14,12 +14,13 @@ import 'package:gupshop/widgets/customText.dart';
 
 class SubCategoriesCheckBox extends StatefulWidget {
   final String category;
+  final String categoryData;
   final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   final List<DocumentSnapshot> subCategoriesList;
   Map<String, String> subCategoryMap;
 
   SubCategoriesCheckBox({this.subCategoriesList, this.subCategoriesListFuture,
-    this.category, this.subCategoryMap});
+    this.category, this.subCategoryMap, this.categoryData});
 
   @override
   _SubCategoriesCheckBoxState createState() => _SubCategoriesCheckBoxState();
@@ -50,11 +51,14 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
 
   @override
   Widget build(BuildContext context){
-    return Stack(
-      children: <Widget>[
-        appBarBody(context),
-        showButton(), /// would show only if one or more contact is selected
-      ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Stack(
+        children: <Widget>[
+          appBarBody(context),
+          showButton(), /// would show only if one or more contact is selected
+        ],
+      ),
     );
   }
 
@@ -126,6 +130,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
                     /// moving on to next page:
                     NavigateToBazaarOnBoardingProfile(
                       category:widget.category,
+                      categoryData: widget.categoryData,
                       listOfSubCategories: listOfSubCategories,
                       userPhoneNo: userNumber,
                       userName: userName,
@@ -159,20 +164,20 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
     String userName = await UserDetails().getUserNameFuture();
     String userNumber = await UserDetails().getUserPhoneNoFuture();
 
-    PushSubCategoriesToFirebase(category: widget.category,userPhoneNo: userNumber,
+    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
       userName: userName, list: listOfSubCategoriesForData
     ).bazaarCategories();
 
-    PushSubCategoriesToFirebase(category: widget.category,userPhoneNo: userNumber,
+    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
         userName: userName, list: listOfSubCategoriesForData).bazaarCategoriesMetaData();
 
-    PushSubCategoriesToFirebase(category: widget.category,userPhoneNo: userNumber,
+    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
         userName: userName, list: listOfSubCategoriesForData).createBlankRatingNumber();
 
-    PushSubCategoriesToFirebase(category: widget.category,userPhoneNo: userNumber,
+    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
         userName: userName, list: listOfSubCategoriesForData).createBlankReviews();
 
-    PushSubCategoriesToFirebase(category: widget.category,userPhoneNo: userNumber,
+    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
         userName: userName, list: listOfSubCategoriesForData).bazaarWalasLocation();
   }
 }

@@ -9,9 +9,12 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
   final String userName;
   final String userPhoneNo;
   final String category;
+  final String categoryData;
 
   NavigateToChangeBazaarProfilePicturesFetchAndDisplay({this.subCategoriesList,
-    this.category, this.subCategoryMap, this.userPhoneNo, this.userName});
+    this.category, this.subCategoryMap, this.userPhoneNo, this.userName,
+    this.categoryData
+  });
 
   navigate(BuildContext context){
     print("in navigate to NavigateToChangeBazaarProfilePicturesFetchAndDisplay");
@@ -20,6 +23,7 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
           context,
           MaterialPageRoute(
             builder: (context) => ChangeBazaarWalasPicturesFetchDataAndDisplay(
+              categoryData: categoryData,
               category: category,
               subCategoriesList: subCategoriesList,
               subCategoryMap: subCategoryMap,
@@ -36,6 +40,7 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
         context,
         MaterialPageRoute(
           builder: (context) => ChangeBazaarWalasPicturesFetchDataAndDisplay(
+            categoryData: categoryData,
             category: category,
             subCategoriesList: subCategoriesList,
             subCategoryMap: subCategoryMap,

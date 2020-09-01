@@ -44,6 +44,7 @@ class BazaarOnBoardingProfile extends StatefulWidget {
   final String userName;
   final List<String> listOfSubCategories;
   final String category;
+  final String categoryData;
   List<String> listOfSubCategoriesForData;
 
   //final Future<List<DocumentSnapshot>> subCategoriesListFuture;
@@ -51,7 +52,7 @@ class BazaarOnBoardingProfile extends StatefulWidget {
 
   BazaarOnBoardingProfile({@required this.userPhoneNo, @required this.userName,
     this.category, this.listOfSubCategories, this.listOfSubCategoriesForData,
-     this.subCategoryMap,
+     this.subCategoryMap,this.categoryData
   });
 
   @override
@@ -130,71 +131,74 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(WidgetConfig.appBarBazaarOnBoarding),
-        child: CustomAppBar(
-          title: CustomText(text: 'Become a Bazaarwala',),
-          onPressed:(){
-            //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
-          },),
-      ),
-      backgroundColor: Colors.white,
-      body: FutureBuilder(
-          future: Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).get(),
-          builder: (context, snapshot) {
-            if(snapshot.connectionState == ConnectionState.done){
-              if(isBazaarWala == true){
-                video = new File("videoURL");
-                videoURL = snapshot.data["videoURL"];
-                videoSelected = true;
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(WidgetConfig.appBarBazaarOnBoarding),
+          child: CustomAppBar(
+            title: CustomText(text: 'Advertisement and Location',),
+            onPressed:(){
+              //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
+            },),
+        ),
+        backgroundColor: Colors.white,
+        body: FutureBuilder(
+            future: Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).get(),
+            builder: (context, snapshot) {
+              if(snapshot.connectionState == ConnectionState.done){
+                if(isBazaarWala == true){
+                  video = new File("videoURL");
+                  videoURL = snapshot.data["videoURL"];
+                  videoSelected = true;
 
-                longitude = snapshot.data["longitude"];
-                latitude = snapshot.data["latitude"];
-                locationSelected = true;
-              }
+                  longitude = snapshot.data["longitude"];
+                  latitude = snapshot.data["latitude"];
+                  locationSelected = true;
+                }
 
-              return ListView(
-                  children: <Widget>[
-                    /// video widgets:
-                    pageSubtitle('Add Advertisement video : '),
-                    cache["video"] == null ? selectVideo() : cache["video"],
+                return ListView(
+                    children: <Widget>[
+                      /// video widgets:
+                      pageSubtitle('Add Advertisement video : '),
+                      cache["video"] == null ? selectVideo() : cache["video"],
 
-                    createSpaceBetweenButtons(15),
-                    pageSubtitle('Add home Location : '),
+                      createSpaceBetweenButtons(15),
+                      pageSubtitle('Add home Location : '),
 
-                    /// location widgets:
-                    Container(
-                      width: WidgetConfig.sizedBoxBazaarOnBoarding,
-                      child: CustomRaisedButton(
-                        child: CustomText(text: 'Add location and service area',),
-                        onPressed: () async{
-                          LocationData location;
-                          var currentLocation = new Location();
-                          location = await currentLocation.getLocation();
+                      /// location widgets:
+                      Container(
+                        width: WidgetConfig.sizedBoxBazaarOnBoarding,
+                        child: CustomRaisedButton(
+                          child: CustomText(text: 'Add location and service area',),
+                          onPressed: () async{
+                            LocationData location;
+                            var currentLocation = new Location();
+                            location = await currentLocation.getLocation();
 
-                          //Position location  = await LocationService().getLocation();
+                            //Position location  = await LocationService().getLocation();
 
-                          List list = await NavigateToCustomMap(
-                            latitude: location.latitude,
-                            longitude: location.longitude,
-                            showRadius: true,
-                          ).navigateNoBrackets(context);
+                            List list = await NavigateToCustomMap(
+                              latitude: location.latitude,
+                              longitude: location.longitude,
+                              showRadius: true,
+                            ).navigateNoBrackets(context);
 
-                          /// list[0] = location
-                          /// list[1] = radius
-                          locationFromMap = list[0];
-                          radius = list[1];
+                            /// list[0] = location
+                            /// list[1] = radius
+                            locationFromMap = list[0];
+                            radius = list[1];
 
-                        },
+                          },
+                        ),
                       ),
-                    ),
-                  ]
-              );
-            } return CircularProgressIndicator();
-          }
+                    ]
+                );
+              } return CircularProgressIndicator();
+            }
+        ),
+        floatingActionButton: showSaveButton(context),
       ),
-      floatingActionButton: showSaveButton(context),
     );
   }
 
@@ -248,6 +252,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
           NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
             category: widget.category,
+            categoryData: widget.categoryData,
             subCategoryMap: widget.subCategoryMap,
             subCategoriesList: widget.listOfSubCategories,
             userName: userName,
@@ -289,7 +294,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
     widget.listOfSubCategoriesForData.forEach((subCategory) {
       LocationService().pushBazaarWalasLocationToFirebase(
         locationFromMap.latitude, locationFromMap.longitude,
-          widget.category, userPhoneNo, subCategory, radius
+          widget.categoryData, userPhoneNo, subCategory, radius
       );
     });
   }

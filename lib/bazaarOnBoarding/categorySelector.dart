@@ -38,7 +38,8 @@ class CategorySelector extends StatelessWidget {
                   NavigateToBazaarSubCategories(
                     subCategoriesList: subCategories,
                     subCategoriesListFuture: subCategoriesListFuture,
-                    category: categoryNameForData,
+                    category: catergoryName,
+                    categoryData: categoryNameForData,
                     subCategoryMap: subCategoryMap,
                   ).navigateNoBrackets(context);
                 },

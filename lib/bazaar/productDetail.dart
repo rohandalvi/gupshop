@@ -145,9 +145,10 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                     dislikes = snapshot.data['dislikes'];
 
                     return ReviewBuilderAndDisplay(productWalaName:productWalaName, productWalaNumber: widget.productWalaNumber,
-                      category: category,writeReview: writeReview,focus: focus,userName: userName,
+                      category: widget.category,writeReview: writeReview,focus: focus,userName: userName,
                       reviewBody: reviewBody,likeOrDislike: likeOrDislike,likes: likes,dislikes: dislikes,
                       subCategory: widget.subCategory,subCategoryData: widget.subCategoryData,
+                      categoryData: widget.categoryData,
                     );
                   }
                   return Center(

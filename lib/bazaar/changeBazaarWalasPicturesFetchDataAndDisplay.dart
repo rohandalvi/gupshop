@@ -6,15 +6,19 @@ import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart'
 
 class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
   final List<String> subCategoriesList;
+  final List<String> subCategoriesListData;
   final Map<String, String> subCategoryMap;
   final String userName;
   final String userPhoneNo;
   final String category;
   final String categoryData;
 
+  final String subCategory;
+  final String subCategoryData;
+
   ChangeBazaarWalasPicturesFetchDataAndDisplay({this.subCategoriesList,
     this.category, this.subCategoryMap, this.userPhoneNo, this.userName,
-    this.categoryData,
+    this.categoryData,this.subCategoryData, this.subCategory, this.subCategoriesListData
   });
 
   @override
@@ -53,6 +57,9 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
                   subCategoryMap: subCategoryMap,
                   userPhoneNo: userPhoneNo,
                   userName: userName,
+                  subCategory: subCategory,
+                  subCategoryData: subCategoryData,
+                  subCategoriesListData: subCategoriesListData,
                 );
               }
               return Center(

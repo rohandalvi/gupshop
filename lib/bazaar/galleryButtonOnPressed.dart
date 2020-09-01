@@ -5,6 +5,11 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 
 class GalleryButtonOnPressed{
+  String category;
+  List<String> subCategoryDataList;
+
+  GalleryButtonOnPressed({this.category, this.subCategoryDataList});
+
 
     thumbnailPicture(BuildContext context) async {
         String imageURL = await GalleryImagePickCropCreateURL().pickCropReturnURL();
@@ -13,7 +18,10 @@ class GalleryButtonOnPressed{
 
         String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
         if(imageURL != null){
-          PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, thumbnailPicture: imageURL).pushThumbnailPicture();
+          subCategoryDataList.forEach((subCategory) {
+            PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, thumbnailPicture: imageURL).pushThumbnailPicture(category, subCategory);
+          });
+
         }
         NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
 
@@ -27,7 +35,10 @@ class GalleryButtonOnPressed{
       String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
 
       if(imageURL != null){
-        PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureOne: imageURL).pushOtherPictureOne();
+        subCategoryDataList.forEach((subCategory) {
+          PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureOne: imageURL).pushOtherPictureOne(category, subCategory);
+        });
+
       }
       NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
     }
@@ -40,7 +51,10 @@ class GalleryButtonOnPressed{
       String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
 
       if(imageURL != null){
-        PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureTwo: imageURL).pushOtherPictureTwo();
+        subCategoryDataList.forEach((subCategory) {
+          PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureTwo: imageURL).pushOtherPictureTwo(category, subCategory);
+        });
+
       }
       NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
     }

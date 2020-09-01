@@ -12,7 +12,7 @@ class NavigateToProductDetailPage {
   final String subCategoryData;
 
   NavigateToProductDetailPage({this.category,this.bazaarWalaPhoneNo, this.bazaarWalaName, this.subCategory,
-    this.subCategoryData, this.categoryData});
+    this.subCategoryData, this.categoryData,});
 
   navigate(BuildContext context) async {
 //    String userNumber = await UserDetails().getUserPhoneNoFuture();

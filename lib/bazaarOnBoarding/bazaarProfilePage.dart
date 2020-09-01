@@ -7,10 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:gupshop/PushToFirebase/pushToCategoriesMetadata.dart';
 import 'package:gupshop/bazaar/bazaarProfileSetVideo.dart';
-import 'package:gupshop/bazaar/bazaarWalasBasicProfile.dart';
 import 'package:gupshop/bazaar/categories.dart';
 import 'package:gupshop/bazaar/createMapFromListOfCategories.dart';
 import 'package:gupshop/PushToFirebase/setDocumentIdsForCollections.dart';
@@ -297,9 +294,9 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
             ///push to bazaarWalasBasicProfile
             /// update and not add if edit profile
-            await BazaarWalasBasicProfile(
-              userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
-              isVideo.videoURL, isLocation.latitude, isLocation.longitude, 50, false);
+//            await BazaarWalasBasicProfile(
+//              userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
+//              isVideo.videoURL, isLocation.latitude, isLocation.longitude, 50, false);
 
             //await PushToCategoriesMatedata(userNumber: userPhoneNo, categories: categoriesForBazaarWalasBasicProfile).push();
 

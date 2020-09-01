@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/changeBazaarWalasPicturesFetchDataAndDisplay.dart';
@@ -10,10 +9,13 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
   final String userPhoneNo;
   final String category;
   final String categoryData;
+  final String subCategory;
+  final String subCategoryData;
+  final List<String> subCategoriesListData;
 
   NavigateToChangeBazaarProfilePicturesFetchAndDisplay({this.subCategoriesList,
     this.category, this.subCategoryMap, this.userPhoneNo, this.userName,
-    this.categoryData
+    this.categoryData, this.subCategoryData, this.subCategory, this.subCategoriesListData
   });
 
   navigate(BuildContext context){
@@ -29,6 +31,9 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
               subCategoryMap: subCategoryMap,
               userName: userName,
               userPhoneNo: userPhoneNo,
+              subCategoryData: subCategoryData,
+              subCategory: subCategory,
+              subCategoriesListData: subCategoriesListData,
             ),
           )
       );
@@ -46,6 +51,9 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
             subCategoryMap: subCategoryMap,
             userName: userName,
             userPhoneNo: userPhoneNo,
+            subCategoryData: subCategoryData,
+            subCategory: subCategory,
+            subCategoriesListData: subCategoriesListData,
           ),
         )
     );

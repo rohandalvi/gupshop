@@ -1,37 +1,23 @@
-import 'dart:collection';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:gupshop/PushToFirebase/pushToBazaarWalasLocation.dart';
-import 'package:gupshop/PushToFirebase/pushToCategoriesMetadata.dart';
+import 'package:gupshop/PushToFirebase/pushToBazaarWalasBasicProfileCollection.dart';
 import 'package:gupshop/bazaar/bazaarProfileSetVideo.dart';
-import 'package:gupshop/bazaar/bazaarWalasBasicProfile.dart';
 import 'package:gupshop/bazaar/categories.dart';
-import 'package:gupshop/bazaar/createMapFromListOfCategories.dart';
-import 'package:gupshop/PushToFirebase/setDocumentIdsForCollections.dart';
-import 'package:gupshop/bazaar/bazaarProfileSetLocation.dart';
-import 'package:gupshop/bazaarOnBoarding/locationRadiusUI.dart';
 import 'package:gupshop/bazaarOnBoarding/serviceAtHomeUI.dart';
-import 'package:gupshop/cutomMaps/customMap.dart';
-import 'package:gupshop/maps/maps.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
-import 'package:gupshop/navigators/navigateToHome.dart';
-import 'package:gupshop/navigators/navigateToMaps.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
-import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
-import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:location/location.dart';
@@ -50,9 +36,12 @@ class BazaarOnBoardingProfile extends StatefulWidget {
   //final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   Map<String, String> subCategoryMap;
 
+  final String subCategory;
+  final String subCategoryData;
+
   BazaarOnBoardingProfile({@required this.userPhoneNo, @required this.userName,
     this.category, this.listOfSubCategories, this.listOfSubCategoriesForData,
-     this.subCategoryMap,this.categoryData
+     this.subCategoryMap,this.categoryData, this.subCategoryData, this.subCategory
   });
 
   @override
@@ -204,9 +193,10 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
   homeServiceDialog() async{
     if(homeService == null ){
-      homeService = await CustomDialogForConfirmation(
+      bool temp = await CustomDialogForConfirmation(
         title: 'Do you offer services at clients home',
       ).dialog(context);
+      return temp;
     }
   }
 
@@ -238,7 +228,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
       iconName: 'forward2',
       onPressed: () async{
 
-        homeServiceDialog();
+        homeService = await homeServiceDialog();
 
         setState(() {
           if(isVideo != null) videoSelected = isVideo.videoSelected;
@@ -255,8 +245,11 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
             categoryData: widget.categoryData,
             subCategoryMap: widget.subCategoryMap,
             subCategoriesList: widget.listOfSubCategories,
+            subCategoriesListData: widget.listOfSubCategoriesForData,
             userName: userName,
             userPhoneNo: userPhoneNo,
+            subCategory: widget.subCategory,
+            subCategoryData: widget.subCategoryData
           ).navigateNoBrackets(context);
         }else{
           if(locationSelected == false && videoSelected == false){
@@ -305,9 +298,20 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
     await pushTobazaarWalasLocation();
 
-    await BazaarWalasBasicProfile(
-      userPhoneNo: userPhoneNo, userName: userName,).pushToFirebase(
-        isVideo.videoURL, locationFromMap.latitude, locationFromMap.longitude, radius, homeService);
+    widget.listOfSubCategoriesForData.forEach((subCategory) async{
+      await PushToBazaarWalasBasicProfile(
+          categoryData: widget.categoryData,
+          subCategoryData: subCategory,
+          userPhoneNo: userPhoneNo,
+          userName: userName,
+          videoURL: isVideo.videoURL,
+          longitude: locationFromMap.longitude,
+          latitude: locationFromMap.latitude,
+          radius: radius,
+          homeService: homeService,
+      ).pushToFirebase();
+    });
+
   }
 
 }

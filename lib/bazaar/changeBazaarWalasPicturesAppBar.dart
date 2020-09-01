@@ -8,8 +8,10 @@ import 'package:gupshop/widgets/customText.dart';
 
 class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
   final int tabNumber;
+  final String category;
+  List<String> subCategoryDataList;
 
-  ChangeBazaarWalasPicturesAppBar({this.tabNumber});
+  ChangeBazaarWalasPicturesAppBar({this.tabNumber, this.category, this.subCategoryDataList});
 
   @override
   Widget build(BuildContext context) {
@@ -32,16 +34,16 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
                     firstIconName: 'photoGallery',
                     firstIconText: 'Pick image from  Gallery',
                     firstIconAndTextOnPressed: (){
-                      if(tabNumber == 0) GalleryButtonOnPressed().thumbnailPicture(context);
-                      if(tabNumber == 1) GalleryButtonOnPressed().otherPictureOne(context);
-                      if(tabNumber == 2) GalleryButtonOnPressed().otherPictureTwo(context);
+                      if(tabNumber == 0) GalleryButtonOnPressed(category: category, subCategoryDataList: subCategoryDataList).thumbnailPicture(context);
+                      if(tabNumber == 1) GalleryButtonOnPressed(category: category, subCategoryDataList: subCategoryDataList).otherPictureOne(context);
+                      if(tabNumber == 2) GalleryButtonOnPressed(category: category, subCategoryDataList: subCategoryDataList).otherPictureTwo(context);
                     },
                     secondIconName: 'image2vector',
                     secondIconText: 'Click image from Camera',
                     secondIconAndTextOnPressed: (){
-                      if(tabNumber == 0) CameraButtonOnPressed().thumbnailPicture(context);
-                      if(tabNumber == 1) CameraButtonOnPressed().otherPictureOne(context);
-                      if(tabNumber == 2) CameraButtonOnPressed().otherPictureTwo(context);
+                      if(tabNumber == 0) CameraButtonOnPressed(category: category, subCategoryDataList: subCategoryDataList).thumbnailPicture(context);
+                      if(tabNumber == 1) CameraButtonOnPressed(category: category, subCategoryDataList: subCategoryDataList).otherPictureOne(context);
+                      if(tabNumber == 2) CameraButtonOnPressed(category: category, subCategoryDataList: subCategoryDataList).otherPictureTwo(context);
                     },
                   ).showTwo();
                 },

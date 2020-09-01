@@ -4,10 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gupshop/chat_list_page/chat_List.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/bazaar/bazaarHome_screen.dart';
-import 'package:gupshop/savedMessages/displaySavedMessagedBoardNames.dart';
-import 'package:gupshop/savedMessages/displaySavedMessages.dart';
 import 'package:gupshop/home/homeAppBar.dart';
-import 'package:gupshop/widgets/sideMenu.dart';
 
 // name screen => home
 // home  => bazaarHomeScreen
@@ -54,7 +51,6 @@ class _HomeState extends State<Home> {
               //Text('Calls',),
             ],
           ),
-          drawer: SideMenu(userName: userName,),
         ),
       ),
     );

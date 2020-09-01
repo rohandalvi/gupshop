@@ -12,10 +12,11 @@ class NavigateToBazaarSubCategorySearch{
   Map<String, String> subCategoryMap;
   final String bazaarWalaName;
   final String bazaarWalaPhoneNo;
+  final List<String> subCategoriesListData;
 
   NavigateToBazaarSubCategorySearch({this.subCategoriesList,
     this.category, this.subCategoryMap, this.bazaarWalaName, this.bazaarWalaPhoneNo,
-    this.categoryData
+    this.categoryData, this.subCategoriesListData
   });
 
 
@@ -32,6 +33,7 @@ class NavigateToBazaarSubCategorySearch{
               subCategoriesList: subCategoriesList,
               category: category,
               categoryData: categoryData,
+              subCategoriesListData: subCategoriesListData,
             ),//pass Name() here and pass Home()in name_screen
           )
       );
@@ -51,6 +53,7 @@ class NavigateToBazaarSubCategorySearch{
             subCategoriesList: subCategoriesList,
             category: category,
             categoryData: categoryData,
+            subCategoriesListData: subCategoriesListData,
           ),//pass Name() here and pass Home()in name_screen
         )
     );

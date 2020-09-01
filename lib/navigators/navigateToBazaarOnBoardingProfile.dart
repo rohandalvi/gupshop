@@ -13,12 +13,17 @@ class NavigateToBazaarOnBoardingProfile{
   final String categoryData;
   List<String> listOfSubCategoriesForData;
 
+  /// for bazaarwalaBasicProfile
+  final String subCategory;
+  final String subCategoryData;
+
 //  final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   Map<String, String> subCategoryMap;
 
   NavigateToBazaarOnBoardingProfile({this.listOfSubCategories, this.category,
      this.subCategoryMap,
-    this.userPhoneNo, this.userName, this.listOfSubCategoriesForData, this.categoryData
+    this.userPhoneNo, this.userName, this.listOfSubCategoriesForData, this.categoryData,
+    this.subCategoryData, this.subCategory
   });
 
 
@@ -38,6 +43,8 @@ class NavigateToBazaarOnBoardingProfile{
               //subCategoriesListFuture: subCategoriesListFuture,
               subCategoryMap: subCategoryMap,
               listOfSubCategoriesForData: listOfSubCategoriesForData,
+              subCategory: subCategory,
+              subCategoryData: subCategoryData,
             ),
           )
       );
@@ -60,6 +67,8 @@ class NavigateToBazaarOnBoardingProfile{
             //subCategoriesListFuture: subCategoriesListFuture,
             subCategoryMap: subCategoryMap,
             listOfSubCategoriesForData: listOfSubCategoriesForData,
+            subCategory: subCategory,
+            subCategoryData: subCategoryData,
           ),
         )
     );

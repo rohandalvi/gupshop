@@ -8,37 +8,53 @@ class PushToBazaarWalasBasicProfile{
   String otherPictureOne;
   String otherPictureTwo;
 
+  String videoURL;
+  double latitude;
+  double longitude;
+  List<String> categoryList;
+  String categoryData;
+  String subCategoryData;
+  double radius;
+  bool homeService;
+
   PushToBazaarWalasBasicProfile({@required this.userPhoneNo, this.userName,
-    this.thumbnailPicture, this.otherPictureTwo, this.otherPictureOne
+    this.thumbnailPicture, this.otherPictureTwo, this.otherPictureOne, this.subCategoryData,
+    this.categoryData, this.homeService, this.radius, this.longitude, this.latitude,
+    this.categoryList, this.videoURL
   });
 
-  pushToFirebase(String videoURL, double latitude, double longitude, List<String> categories, String categoryName) async{
+  pushToFirebase() async{
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({}, merge: true);
     /// add videoURL
     /// home location
     /// categories
-    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({'bazaarWalaName': userName,'videoURL': videoURL, 'latitude': latitude, 'longitude': longitude, 'categories':categories, });
+    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
+        .collection(categoryData).document(subCategoryData)
+        .setData({'bazaarWalaName': userName,'videoURL': videoURL, 'latitude': latitude,
+      'longitude': longitude,'radius' : radius,'homeService' : homeService }, merge: true);
   }
 
-  pushAllPictures() async{
+  pushAllPictures(String categoryName, String subCategoryName) async{
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
+        .collection(categoryName).document(subCategoryName)
         .setData({"thumbnailPicture":thumbnailPicture, "otherPictureOne":otherPictureOne, "otherPictureTwo" :otherPictureTwo }, merge: true);
   }
 
-  pushThumbnailPicture() async{
-    print("userPhoneNo in pushThumbnailPicture : $userPhoneNo");
-    print("thumbnailPicture : $thumbnailPicture");
+  pushThumbnailPicture(String categoryName, String subCategoryName) async{
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
+        .collection(categoryName).document(subCategoryName)
         .setData({"thumbnailPicture":thumbnailPicture,}, merge: true);
   }
 
-  pushOtherPictureOne() async{
+  pushOtherPictureOne(String categoryName, String subCategoryName) async{
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
+        .collection(categoryName).document(subCategoryName)
         .setData({"otherPictureOne":otherPictureOne}, merge: true);
   }
 
-  pushOtherPictureTwo() async{
+  pushOtherPictureTwo(String categoryName, String subCategoryName) async{
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
+        .collection(categoryName).document(subCategoryName)
         .setData({"otherPictureTwo":otherPictureTwo}, merge: true);
   }
 }

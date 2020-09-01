@@ -160,26 +160,6 @@ class NavigateToSelectCategoryToShowInProductDetailsPage{
 }
 
 
-class NavigateToBazaarProfilePage{
-  String userName;
-  String userPhoneNo;
-  List<String> category;
-
-
-  NavigateToBazaarProfilePage({this.userName, this.userPhoneNo});
-
-  navigate(BuildContext context){
-    return (){
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BazaarProfilePage(userPhoneNo: userPhoneNo, userName: userName,),//pass Name() here and pass Home()in name_screen
-          )
-      );
-    };
-  }
-}
-
 class NavigateToHome{
   String userName;
   String userPhoneNo;

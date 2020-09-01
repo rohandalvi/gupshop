@@ -15,10 +15,11 @@ class BazaarSubCategorySearch extends StatefulWidget {
   Map<String, String> subCategoryMap;
   final String bazaarWalaName;
   final String bazaarWalaPhoneNo;
+  final List<String> subCategoriesListData;
 
   BazaarSubCategorySearch({this.subCategoriesList,
     this.category, this.subCategoryMap, this.bazaarWalaName, this.bazaarWalaPhoneNo,
-    this.categoryData,
+    this.categoryData,this.subCategoriesListData
   });
 
   @override

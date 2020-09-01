@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/changeBazaarWalasPicturesAppBar.dart';
 import 'package:gupshop/navigators/navigateToBazaarSubCategorySearch.dart';
-import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 
 
@@ -12,6 +10,7 @@ class ChangeBazaarWalasPicturesDisplay extends StatefulWidget{
   final String otherPictureOne;
   final String otherPictureTwo;
 
+  final List<String> subCategoriesListData;
   final List<String> subCategoriesList;
   final Map<String, String> subCategoryMap;
   final String userName;
@@ -19,9 +18,13 @@ class ChangeBazaarWalasPicturesDisplay extends StatefulWidget{
   final String category;
   final String categoryData;
 
+  final String subCategory;
+  final String subCategoryData;
+
   ChangeBazaarWalasPicturesDisplay({this.thumbnailPicture, this.otherPictureOne,
     this.otherPictureTwo, this.category, this.userName, this.userPhoneNo,
-    this.subCategoriesList, this.subCategoryMap,this.categoryData
+    this.subCategoriesList, this.subCategoryMap,this.categoryData, this.subCategory,
+    this.subCategoryData,this.subCategoriesListData
   });
 
   @override
@@ -61,7 +64,7 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
           return Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(70.0),
-              child: ChangeBazaarWalasPicturesAppBar(tabNumber: _activeTabIndex,),
+              child: ChangeBazaarWalasPicturesAppBar(tabNumber: _activeTabIndex,category: widget.categoryData,subCategoryDataList: widget.subCategoriesList,),
             ),
             body: Center(
               child: Padding(

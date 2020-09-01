@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarWalasBasicProfileCollection.dart';
 import 'package:gupshop/bazaar/bazaarProfileSetVideo.dart';
 import 'package:gupshop/bazaar/categories.dart';
+import 'package:gupshop/bazaarOnBoarding/pushSubCategoriesToFirebase.dart';
 import 'package:gupshop/bazaarOnBoarding/serviceAtHomeUI.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
@@ -139,6 +140,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
             ).main(),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
+                isBazaarWala = false;
                 if(isBazaarWala == true){
                   video = new File("videoURL");
                   videoURL = snapshot.data["videoURL"];
@@ -233,6 +235,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
         homeService = await homeServiceDialog();
 
+
         setState(() {
           if(isVideo != null) videoSelected = isVideo.videoSelected;
           if(locationFromMap != null) locationSelected = true;
@@ -313,6 +316,33 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
       ).pushToFirebase();
     });
 
+  }
+
+  pushTosubCategoryInFirebase()async{
+    if(widget.categoryData == "deliveryErrands") {
+
+      String userNumber = await UserDetails().getUserPhoneNoFuture();
+
+      PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
+          userName: userName, list: widget.listOfSubCategoriesForData
+      ).bazaarCategories();
+
+      PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
+          userName: userName, list: widget.listOfSubCategoriesForData
+      ).bazaarCategoriesMetaData();
+
+      PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
+          userName: userName, list: widget.listOfSubCategoriesForData
+      ).createBlankRatingNumber();
+
+      PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
+          userName: userName, list: widget.listOfSubCategoriesForData
+      ).createBlankReviews();
+
+      PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
+          userName: userName, list: widget.listOfSubCategoriesForData
+      ).bazaarWalasLocation();
+    }
   }
 
 }

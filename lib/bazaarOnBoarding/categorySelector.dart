@@ -40,19 +40,26 @@ class CategorySelector extends StatelessWidget {
                   List<DocumentSnapshot> subCategories = await subCategoriesListFuture;
                   subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(categoryNameForData);
 
-                  if(subCategories == null){
-                    navigateIfDeliveryErrands(context, catergoryName,
-                    categoryNameForData, userNumber, userName);
-                  }else{
-                    /// for all the categories except errands:
-                    NavigateToBazaarSubCategories(
-                      subCategoriesList: subCategories,
-                      subCategoriesListFuture: subCategoriesListFuture,
-                      category: catergoryName,
-                      categoryData: categoryNameForData,
-                      subCategoryMap: subCategoryMap,
-                    ).navigateNoBrackets(context);
-                  }
+                  NavigateToBazaarSubCategories(
+                    subCategoriesList: subCategories,
+                    subCategoriesListFuture: subCategoriesListFuture,
+                    category: catergoryName,
+                    categoryData: categoryNameForData,
+                    subCategoryMap: subCategoryMap,
+                  ).navigateNoBrackets(context);
+//                  if(subCategories == null){
+//                    navigateIfDeliveryErrands(context, catergoryName,
+//                    categoryNameForData, userNumber, userName);
+//                  }else{
+//                    /// for all the categories except errands:
+//                    NavigateToBazaarSubCategories(
+//                      subCategoriesList: subCategories,
+//                      subCategoriesListFuture: subCategoriesListFuture,
+//                      category: catergoryName,
+//                      categoryData: categoryNameForData,
+//                      subCategoryMap: subCategoryMap,
+//                    ).navigateNoBrackets(context);
+//                  }
                 },
                 imageName: catergoryName,
                 imageURL: imageURL,

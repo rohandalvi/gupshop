@@ -22,6 +22,7 @@ class HomeServiceText{
   String foodHomeDelivery = "Do you deliver at home ? ";
   String userFoodHomeDelivery = "Do you need home delivery ? ";
   String uiTextFood = "Home Delivery";
+  String uiTextFoodNo = "No Home Delivery";
 
 
   /// grocery
@@ -32,6 +33,7 @@ class HomeServiceText{
   String groceryHomeDelivery = "Do you deliver at home ? ";
   String userGroceryHomeDelivery =  "Do you need home delivery ? ";
   String uiTextGrocery = "Home Delivery";
+  String uiTextGroceryNo = "No Home Delivery";
 
   /// parlour
   String parlour =  "parlour";
@@ -42,6 +44,7 @@ class HomeServiceText{
   String parlourHomeService = "Do you provide services at home ? ";
   String userParlourHomeService = "Do you need services at home ? ";
   String uiTextParlour = "Home Service";
+  String uiTextParlourNo = "No Home Service";
 
 
   /// repairs Maintenance
@@ -58,6 +61,7 @@ class HomeServiceText{
   String repairsMainTenanceHomeService = "Do you provide services at home ? ";
   String userRepairsMainTenanceHomeService = "Do you need services at home ? ";
   String uiTextRepairsMainTenance = "Home Service";
+  String uiTextRepairsMainTenanceNo = "No Home Service";
 
   uiDisplayText(){
     if(categoryData == food) return uiTextFood;
@@ -65,6 +69,14 @@ class HomeServiceText{
     if(categoryData == parlour) return uiTextParlour;
     if(categoryData == repairsMainTenance) return uiTextRepairsMainTenance;
   }
+
+  uiDisplayTextNo(){
+    if(categoryData == food) return uiTextFoodNo;
+    if(categoryData == grocery) return uiTextGroceryNo;
+    if(categoryData == parlour) return uiTextParlourNo;
+    if(categoryData == repairsMainTenance) return uiTextRepairsMainTenanceNo;
+  }
+
 
   userDialogDisplayText(){
     String result = bazaarWalasdialogText();

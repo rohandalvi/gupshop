@@ -57,28 +57,20 @@ class GetBazaarWalasBasicProfileInfo{
   }
 
   getNameThumbnailPictureHomeService() async{
-    print("in getNameThumbnailPictureHomeService");
     DocumentSnapshot dc = await main();
-    print("dc in getNameThumbnailPictureHomeService : ${dc.data}");
     Map<String, dynamic> map = new Map();
 
     map["name"] = dc.data["bazaarWalaName"];
-    print("map after name : $map");
+
     map["thumbnailPicture"] = dc.data["thumbnailPicture"];
-    print("map after thumbnailPicture : $map");
-    print("dc.data[homeService] : ${dc.data["homeService"]}");
+
     if(dc.data["homeService"] == true || dc.data["homeService"] == false){
       map["homeService"] =  dc.data["homeService"];
-      print("map in if : $map");
     }else{
       map["homeService"] = null;
-      print("in else");
-      print("map in else : $map");
     }
 
-    print("map after homeService : $map");
 
-    print("map in getNameThumbnailPictureHomeService : $map");
     return map;
   }
 }

@@ -133,18 +133,21 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   }
 
   homeServiceContainer(){
-    return Container(
-      child: Row(
-        children: <Widget>[
-          CustomIconButton(
-            iconNameInImageFolder: 'home',
-            onPressed: (){},
-            iconsize: IconConfig.smallIcon,
-          ).resize(),
-          CustomText(
-            text: homeServiceText,
-          ).subTitle()
-        ],
+    return Visibility(
+      visible: homeServiceText != null,
+      child: Container(
+        child: Row(
+          children: <Widget>[
+            CustomIconButton(
+              iconNameInImageFolder: 'home',
+              onPressed: (){},
+              iconsize: IconConfig.smallIcon,
+            ).resize(),
+            CustomText(
+              text: homeServiceText,
+            ).subTitle()
+          ],
+        ),
       ),
     );
   }

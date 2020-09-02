@@ -25,7 +25,7 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
           String name;
           String thumbnailPicture;
           bool homeService;
-          String homeServiceText;
+
 
           return FutureBuilder(
             future: GetBazaarWalasBasicProfileInfo(userNumber: bazaarWalaPhoneNo, categoryData: categoryData, subCategoryData: subCategoryData).getNameThumbnailPictureHomeService(),
@@ -36,12 +36,22 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
                 thumbnailPicture = nameSnapshot.data["thumbnailPicture"];
                 homeService = nameSnapshot.data["homeService"];
 
+                String homeServiceText;
+                /// if homeService applicable and provides homeService:
                 if(homeService == true){
                   homeServiceText = HomeServiceText(categoryData: categoryData, subCategoryData: subCategoryData).uiDisplayText();
-                }else homeServiceText = null;
+                }
+                /// if homeService applicable and does not provides homeService:
+                else if(homeService == false){
+                  homeServiceText = HomeServiceText(categoryData: categoryData, subCategoryData: subCategoryData).uiDisplayTextNo();
+                  print("homeServiceText : $homeServiceText");
+                }
+                /// if homeService is not applicable:
+                else homeServiceText = null;
 
                 if(thumbnailPicture == null ) thumbnailPicture = PlaceHolderImages().noDpPlaceholder;
 
+                print("homeServiceText after : $homeServiceText");
                 return BazaarIndividualCategoryListDisplay(
                   bazaarWalaName: name,
                   bazaarWalaPhoneNo: bazaarWalaPhoneNo,

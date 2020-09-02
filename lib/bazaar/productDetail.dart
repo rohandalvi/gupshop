@@ -18,10 +18,14 @@ class ProductDetail extends StatefulWidget {
   final String productWalaNumber;
   final String subCategory;
   final String subCategoryData;
+  final String homeServiceText;
+  final bool homeServiceBool;
 
 
   ProductDetail({@required this.productWalaName, this.category, @required this.productWalaNumber,
-    this.subCategory, this.subCategoryData, this.categoryData});
+    this.subCategory, this.subCategoryData, this.categoryData,
+    this.homeServiceBool, this.homeServiceText,
+  });
 
   @override
   _ProductDetailState createState() => _ProductDetailState(productWalaName: productWalaName, category: category);
@@ -148,7 +152,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                       category: widget.category,writeReview: writeReview,focus: focus,userName: userName,
                       reviewBody: reviewBody,likeOrDislike: likeOrDislike,likes: likes,dislikes: dislikes,
                       subCategory: widget.subCategory,subCategoryData: widget.subCategoryData,
-                      categoryData: widget.categoryData,
+                      categoryData: widget.categoryData, homeServiceText: widget.homeServiceText,
+                      homeServiceBool: widget.homeServiceBool,
                     );
                   }
                   return Center(

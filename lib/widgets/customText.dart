@@ -150,6 +150,18 @@ class CustomText extends StatelessWidget {
         textStyle: TextStyle(
           color: Colors.blue,
           fontSize: subtitleFontSize,
+        ),
+      ),
+    );
+  }
+
+  blueSubtitleItalic(){
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+        textStyle: TextStyle(
+          color: Colors.blue,
+          fontSize: subtitleFontSize,
           fontStyle : FontStyle.italic,
         ),
       ),

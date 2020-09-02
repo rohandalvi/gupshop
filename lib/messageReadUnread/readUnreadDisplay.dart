@@ -21,7 +21,7 @@ class ReadUnreadDisplay extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         alignment:  Alignment.centerRight,
         padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
-        child: isRead == true ? CustomText(text: 'read',).blueSubtitle() : CustomText(text: 'unread',).graySubtitleItalic(),
+        child: isRead == true ? CustomText(text: 'read',).blueSubtitleItalic() : CustomText(text: 'unread',).graySubtitleItalic(),
       ),
     );
   }

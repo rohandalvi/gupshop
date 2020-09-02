@@ -74,6 +74,8 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
           bazaarWalaName: bazaarWalaName,
           subCategory: subCategory,
           subCategoryData: subCategoryData,
+          homeServiceBool: homeServiceBool,
+          homeServiceText: homeServiceText
         ).navigateNoBrackets(context);
       },
       child: Image(
@@ -95,6 +97,8 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
           bazaarWalaName: bazaarWalaName,
           subCategory: subCategory,
           subCategoryData: subCategoryData,
+          homeServiceBool: homeServiceBool,
+          homeServiceText: homeServiceText
         ).navigateNoBrackets(context);
       },
       child: Container(

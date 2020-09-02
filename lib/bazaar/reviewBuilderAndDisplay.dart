@@ -28,11 +28,13 @@ class ReviewBuilderAndDisplay extends StatefulWidget {
   int dislikes;
   String productWalaNumber;
   final String subCategoryData;
+  final String homeServiceText;
+  final bool homeServiceBool;
 
 
   ReviewBuilderAndDisplay({this.productWalaName, this.productWalaNumber, this.category, this.writeReview,
     this.focus, this.userName, this.reviewBody, this.likeOrDislike, this.likes, this.dislikes,this.subCategory,
-    this.subCategoryData, this.categoryData,
+    this.subCategoryData, this.categoryData,this.homeServiceBool, this.homeServiceText,
   });
 
 
@@ -63,7 +65,14 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
           visible: widget.subCategory != null,
           child: Padding(
             padding: EdgeInsets.only(left:8.0),
-            child: CustomText(text : widget.subCategory,).graySubtitle(),
+            child: CustomText(text : widget.subCategory,).subTitle(),
+          ),
+        ),
+        Visibility(
+          visible: widget.homeServiceBool != null,
+          child: Padding(
+            padding: EdgeInsets.only(left:8.0),
+            child: CustomText(text : widget.homeServiceText,).blueSubtitle(),
           ),
         ),
         likeDislikeIconsAndAddReviewButton(3),

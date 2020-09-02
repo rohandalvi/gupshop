@@ -10,9 +10,13 @@ class NavigateToProductDetailPage {
   String bazaarWalaPhoneNo;
   String subCategory;
   final String subCategoryData;
+  final String homeServiceText;
+  final bool homeServiceBool;
 
   NavigateToProductDetailPage({this.category,this.bazaarWalaPhoneNo, this.bazaarWalaName, this.subCategory,
-    this.subCategoryData, this.categoryData,});
+    this.subCategoryData, this.categoryData,
+    this.homeServiceBool, this.homeServiceText,
+  });
 
   navigate(BuildContext context) async {
 //    String userNumber = await UserDetails().getUserPhoneNoFuture();
@@ -30,6 +34,8 @@ class NavigateToProductDetailPage {
                   categoryData: categoryData,
                   subCategory: subCategory,
                   subCategoryData: subCategoryData,
+                  homeServiceBool: homeServiceBool,
+                  homeServiceText: homeServiceText,
                 ),
           )
       );
@@ -52,6 +58,8 @@ class NavigateToProductDetailPage {
                 categoryData: categoryData,
                 subCategory: subCategory,
                 subCategoryData: subCategoryData,
+                homeServiceBool: homeServiceBool,
+                homeServiceText: homeServiceText,
               ),
         )
     );

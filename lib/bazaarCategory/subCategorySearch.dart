@@ -3,9 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListData.dart';
+import 'package:gupshop/bazaarCategory/homeServiceText.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
+import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class SubCategorySearch extends StatefulWidget {
@@ -31,6 +33,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
   List<String> listOfSubCategories = new List();
   Set tempSet = new HashSet();
   List<String> listOfSubCategoriesForData = new List();
+  bool showHomeService;
 
 
   getCategorySizeFuture() {
@@ -83,15 +86,16 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
     return ListTile(
       title: CustomText(text: doc.data["name"]),
       ///displaying on the display name
-      onTap: () {
+      onTap: () async{
         String subCategory = doc.data["name"];
         String subCategoryData = widget.subCategoryMap[subCategory];
-//        NavigateToProductDetailPage(
-//          category: widget.category,
-//          subCategory: subCategory,
-//          bazaarWalaPhoneNo: widget.bazaarWalaPhoneNo,
-//          bazaarWalaName: widget.bazaarWalaName,
-//        ).navigateNoBrackets(context);
+        bool showHomeService;
+
+        String isHomeServiceApplicable = HomeServiceText(categoryData:widget.categoryData,
+            subCategoryData: subCategoryData).userDialogDisplayText();
+        if(isHomeServiceApplicable != null){
+          showHomeService = await homeServiceDialog(isHomeServiceApplicable);
+        }
 
         Navigator.push(
             context,
@@ -101,12 +105,23 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
                 categoryData: widget.categoryData,
                 subCategory: subCategory,
                 subCategoryData: subCategoryData,
+                showHomeService: showHomeService,
                 //category: categoryNameForBazaarIndividualCategoryList,
               ),//pass Name() here and pass Home()in name_screen
             )
         );
       }
     );
+  }
+
+  homeServiceDialog(String homeServiceText) async{
+    bool temp = await CustomDialogForConfirmation(
+      /// from homeServiceText
+      title: homeServiceText,
+      content: "",
+      barrierDismissible: false,
+    ).dialog(context);
+    return temp;
   }
 
 

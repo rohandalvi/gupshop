@@ -12,9 +12,11 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
   String categoryData;
   String subCategory;
   String subCategoryData;
+  bool showHomeService;
 
   BazaarIndividualCategoryNameDpBuilder({this.bazaarWalaPhoneNo, this.category,
-    this.subCategory, this.subCategoryData, this.categoryData});
+    this.subCategory, this.subCategoryData, this.categoryData, this.showHomeService
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,6 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
             future: GetBazaarWalasBasicProfileInfo(userNumber: bazaarWalaPhoneNo, categoryData: categoryData, subCategoryData: subCategoryData).getNameThumbnailPictureHomeService(),
             builder: (BuildContext context, AsyncSnapshot nameSnapshot) {
               if (nameSnapshot.connectionState == ConnectionState.done) {
-                print("nameSnapshot in basic : ${nameSnapshot.data}");
                 name = nameSnapshot.data["name"];
                 thumbnailPicture = nameSnapshot.data["thumbnailPicture"];
                 homeService = nameSnapshot.data["homeService"];
@@ -44,14 +45,12 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
                 /// if homeService applicable and does not provides homeService:
                 else if(homeService == false){
                   homeServiceText = HomeServiceText(categoryData: categoryData, subCategoryData: subCategoryData).uiDisplayTextNo();
-                  print("homeServiceText : $homeServiceText");
                 }
                 /// if homeService is not applicable:
                 else homeServiceText = null;
 
                 if(thumbnailPicture == null ) thumbnailPicture = PlaceHolderImages().noDpPlaceholder;
 
-                print("homeServiceText after : $homeServiceText");
                 return BazaarIndividualCategoryListDisplay(
                   bazaarWalaName: name,
                   bazaarWalaPhoneNo: bazaarWalaPhoneNo,
@@ -62,6 +61,7 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
                   subCategoryData: subCategoryData,
                   homeServiceText: homeServiceText,
                   homeServiceBool: homeService,
+                  showHomeServices: showHomeService,
                 );
               }
               return Center(child: CircularProgressIndicator());

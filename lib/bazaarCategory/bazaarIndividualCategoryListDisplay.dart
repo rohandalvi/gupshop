@@ -22,45 +22,56 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   final String subCategoryData;
   final String homeServiceText;
   final bool homeServiceBool;
+  final bool showHomeServices;
 
   BazaarIndividualCategoryListDisplay({this.bazaarWalaPhoneNo, this.category,
     this.bazaarWalaName, this.thumbnailPicture, this.subCategory, this.subCategoryData,
-    this.categoryData, this.homeServiceText, this.homeServiceBool
+    this.categoryData, this.homeServiceText, this.homeServiceBool, this.showHomeServices
   });
 
   @override
   Widget build(BuildContext context) {
 
-     return Padding(
-       padding: const EdgeInsets.all(8.0),
-       child: Row(
-         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-         children: <Widget>[
-           Container(
-             child: Row(
+     return Visibility(
+       visible: visibility(),
+       child: Padding(
+         padding: const EdgeInsets.all(8.0),
+         child: Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: <Widget>[
+             Container(
+               child: Row(
+                 children: <Widget>[
+                   avatar(context),
+                   SizedBox(width: WidgetConfig.sizedBoxBazaarIndividualCategory,),
+                   Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: <Widget>[
+                       bazaarWalaNameWidget(context),
+                       speciality(),
+                       LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, category: category,subCategory: subCategory,),
+                     ],
+                   ),
+                 ],
+               ),
+             ),
+             Column(
                children: <Widget>[
-                 avatar(context),
-                 SizedBox(width: WidgetConfig.sizedBoxBazaarIndividualCategory,),
-                 Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   children: <Widget>[
-                     bazaarWalaNameWidget(context),
-                     speciality(),
-                     LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, category: category,subCategory: subCategory,),
-                   ],
-                 ),
+                 chatBubbleWidget(context),
+                 homeServiceContainer(),
                ],
              ),
-           ),
-           Column(
-             children: <Widget>[
-               chatBubbleWidget(context),
-               homeServiceContainer(),
-             ],
-           ),
-         ],
+           ],
+         ),
        ),
      );
+  }
+
+  visibility(){
+    if(showHomeServices == true && homeServiceBool == true) return true;
+    if(showHomeServices == null) return true;
+    if(showHomeServices == false) return true;
+    if(showHomeServices == true && homeServiceBool == false) return false;
   }
 
 

@@ -16,9 +16,10 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
   final String categoryData;
   final String subCategory;
   final String subCategoryData;
+  final bool showHomeService;
 
   BazaarIndividualCategoryListData({this.category, this.subCategory, this.subCategoryData,
-    this.categoryData,
+    this.categoryData,this.showHomeService
   });
 
 
@@ -89,6 +90,7 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
                 categoryData: categoryData,
                 subCategory: subCategory,
                 subCategoryData : subCategoryData,
+                showHomeService: showHomeService,
               );
             },
 

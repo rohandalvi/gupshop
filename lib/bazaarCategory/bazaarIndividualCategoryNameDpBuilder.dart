@@ -28,14 +28,10 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
           String homeServiceText;
 
           return FutureBuilder(
-            future: GetBazaarWalasBasicProfileInfo(
-                userNumber: bazaarWalaPhoneNo,
-              categoryData: categoryData,
-              subCategoryData: subCategoryData
-            ).getNameThumbnailPictureHomeService(),
+            future: GetBazaarWalasBasicProfileInfo(userNumber: bazaarWalaPhoneNo, categoryData: categoryData, subCategoryData: subCategoryData).getNameThumbnailPictureHomeService(),
             builder: (BuildContext context, AsyncSnapshot nameSnapshot) {
-
               if (nameSnapshot.connectionState == ConnectionState.done) {
+                print("nameSnapshot in basic : ${nameSnapshot.data}");
                 name = nameSnapshot.data["name"];
                 thumbnailPicture = nameSnapshot.data["thumbnailPicture"];
                 homeService = nameSnapshot.data["homeService"];

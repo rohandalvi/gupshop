@@ -111,6 +111,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
       bool temp = await CustomDialogForConfirmation(
         /// from homeServiceText
           title: homeServiceText,
+          content: "",
           barrierDismissible: false,
       ).dialog(context);
       return temp;

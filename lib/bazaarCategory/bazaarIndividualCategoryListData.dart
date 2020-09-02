@@ -161,7 +161,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
             .getNewUserGeohash(context);
 
         print("tempHash : $tempHash");
-        setState(() async{
+        setState(() {
           userGeohash = tempHash;
         });
       },

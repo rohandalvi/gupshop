@@ -20,14 +20,14 @@ class ChangeLocationInSearch{
 
     /// creating address from lat lang:
     Position position = new Position(latitude: latitude, longitude: longitude);
-    String address = getAddress(position);
+    String address = await getAddress(position);
 
     /// creating a name for the address:
     int addressNumber = await UsersLocation().getNumberOfAddress(userNumber);
     String addressName = "address${addressNumber++ }";
 
     /// pushing to firebase usersLocation collection:
-    pushToUsersLocationFirebase(latitude, longitude, userNumber, address, addressName);
+    await pushToUsersLocationFirebase(latitude, longitude, userNumber, address, addressName);
 
     String userGeohash = await LocationService().getUserGeohash(userNumber, addressName);
     return userGeohash;

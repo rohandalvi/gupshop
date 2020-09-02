@@ -16,5 +16,6 @@ class WidgetConfig{
   static double appBarBazaarOnBoarding = SizeConfig.heightMultiplier * 8.5;/// 70/8.16
   static double sizedBoxBazaarOnBoarding = SizeConfig.heightMultiplier * 3.8;/// 30/8.16
   static double sizedBoxBazaarHome = SizeConfig.heightMultiplier * 1.5;/// 12/8.16
+  static double sizedBoxBazaarIndividualCategory = SizeConfig.heightMultiplier * 1.25;/// 10/8.16
 
 }

@@ -13,4 +13,7 @@ class ImageConfig{
 
   static double bazaarGridWidth = SizeConfig.widthMultiplier * 1.25;
   static double bazaarGridHeight = SizeConfig.heightMultiplier * 0.13;
+
+  static double bazaarIndividualCategoryWidth = SizeConfig.widthMultiplier * 17;/// 75/4.32
+  static double bazaarIndividualCategoryHeight = SizeConfig.heightMultiplier * 17;/// 75/4.32
 }

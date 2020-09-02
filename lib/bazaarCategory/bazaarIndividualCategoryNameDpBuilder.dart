@@ -61,6 +61,7 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
                   subCategory: subCategory,
                   subCategoryData: subCategoryData,
                   homeServiceText: homeServiceText,
+                  homeServiceBool: homeService,
                 );
               }
               return Center(child: CircularProgressIndicator());

@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListData.dart';
 import 'package:gupshop/bazaarCategory/homeServiceText.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
+import 'package:gupshop/usersLocation/usersLocation.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customText.dart';
 

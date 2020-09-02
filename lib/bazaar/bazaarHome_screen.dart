@@ -18,7 +18,7 @@ import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/service/getSharedPreferences.dart';
-import 'package:gupshop/service/usersLocation.dart';
+import 'package:gupshop/usersLocation/usersLocation.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
 import 'package:gupshop/bazaarCategory/bazaarHomeGridView.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';

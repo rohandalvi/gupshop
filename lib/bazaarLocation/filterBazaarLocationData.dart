@@ -6,9 +6,8 @@ class FilterBazaarLocationData{
 
   FilterBazaarLocationData({this.subCategory});
 
-  getListOfBazaarWalasInAGivenRadius(String number, String category,) async{
-    var userGeohash = await getUserGeohash(number,);
-    print("userGeohash : $userGeohash");
+  getListOfBazaarWalasInAGivenRadius(String number, String category, String userGeohash) async{
+    //var userGeohash = await getUserGeohash(number,);
 
     var listOfUpperGeohashBazaarWalas = await getListOfUpperGeohashBazaarWalas(userGeohash, category );
 
@@ -21,13 +20,12 @@ class FilterBazaarLocationData{
     return userGeohash.data["home"]["geohash"];
   }
 
+
   getListOfUpperGeohashBazaarWalas(String userGeohash, String category) async{
-    print("subCategory in getListOfUpperGeohashBazaarWalas : $subCategory");
     QuerySnapshot futureBazaarWalaUpperGeoHashList= await Firestore.instance.collection("bazaarWalasLocation")
         .document(category).collection(subCategory)
         .where("upperGeoHash", isGreaterThanOrEqualTo: userGeohash).getDocuments();
 
-    print("futureBazaarWalaUpperGeoHashList : ${futureBazaarWalaUpperGeoHashList.documents}");
 
     return futureBazaarWalaUpperGeoHashList.documents;
   }

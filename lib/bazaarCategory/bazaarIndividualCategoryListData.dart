@@ -1,48 +1,75 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryNameDpBuilder.dart';
 import 'package:gupshop/bazaar/placeHolderImages.dart';
+import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 import 'package:gupshop/bazaarLocation/filterBazaarLocationData.dart';
+import 'package:gupshop/usersLocation/usersLocation.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListDisplay.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class BazaarIndividualCategoryListData extends StatelessWidget {
+class BazaarIndividualCategoryListData extends StatefulWidget {
   final String category;
   final String categoryData;
   final String subCategory;
   final String subCategoryData;
   final bool showHomeService;
 
+
   BazaarIndividualCategoryListData({this.category, this.subCategory, this.subCategoryData,
-    this.categoryData,this.showHomeService
+    this.categoryData,this.showHomeService,
   });
 
+  @override
+  _BazaarIndividualCategoryListDataState createState() => _BazaarIndividualCategoryListDataState();
+}
 
-
+class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCategoryListData> {
   Future<QuerySnapshot> getBazaarWalasInAGivenRadius;
+
   double latitude;
+
   double longitude;
+
   Future<dynamic> result;
+
   String userGeohashString;
+
   Future userPhoneNoFuture;
+
   String _userPhoneNo;
+
   List<DocumentSnapshot> list;
 
   String bazaarWalaPhoneNo;
+
   int numberOfBazaarWalasInList;
 
+  String userGeohash;
+
   getListOfBazaarWalasInAGivenRadius() async{
+    print("userGeohash in getListOfBazaarWalasInAGivenRadius : $userGeohash");
     var userPhoneNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
     _userPhoneNo = userPhoneNo;
-    var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: subCategoryData).getListOfBazaarWalasInAGivenRadius(userPhoneNo, categoryData,);
+
+    /// if the user does not change location, then userGeohash
+    /// would be null
+    /// In that case, select the geoHash pushed to firebase
+    /// in bazaarHome page which is the current location of the user
+    if(userGeohash  == null){
+      userGeohash = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getUserGeohash(userPhoneNo);
+    }
+
+    var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getListOfBazaarWalasInAGivenRadius(userPhoneNo, widget.categoryData, userGeohash);
     return listOfbazaarwalas;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,29 +79,33 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: CustomAppBar(
-            title: CustomText(text: category.toUpperCase(),),
+            title: CustomText(text: widget.category.toUpperCase(),),
+            /// back button
             onPressed: () async{
-              Future<List<DocumentSnapshot>> subCategoriesListFuture = BazaarCategoryTypesAndImages().getSubCategories(categoryData);
+              Future<List<DocumentSnapshot>> subCategoriesListFuture = BazaarCategoryTypesAndImages().getSubCategories(widget.categoryData);
               List<DocumentSnapshot> subCategoriesList = await subCategoriesListFuture;
-              Map<String, String> subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(categoryData);
+              Map<String, String> subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(widget.categoryData);
 
               NavigateToSubCategorySearch(
                 bazaarWalaPhoneNo: bazaarWalaPhoneNo,
                 subCategoryMap: subCategoryMap,
                 subCategoriesList: subCategoriesList,
                 subCategoriesListFuture: subCategoriesListFuture,
-                category: category,
-                categoryData: categoryData,
+                category: widget.category,
+                categoryData: widget.categoryData,
               ).navigateNoBrackets(context);
              //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
-            }
+            },
+            actions: <Widget>[
+              changeLocation(context),
+            ],
           ),
         ),
         body: FutureBuilder(
           future: getListOfBazaarWalasInAGivenRadius(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.data == null) return Container(child: Center(child: CustomText(text: 'No ${category}s near you',).bold())); //for avoding  the erro
+          if (snapshot.data == null) return Container(child: Center(child: CustomText(text: 'No ${widget.category}s near you',).bold())); //for avoding  the erro
 
           var list = snapshot.data;
 
@@ -86,11 +117,11 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
               bazaarWalaPhoneNo = list[index].documentID;
               return BazaarIndividualCategoryNameDpBuilder(
                 bazaarWalaPhoneNo: bazaarWalaPhoneNo,
-                category: category,
-                categoryData: categoryData,
-                subCategory: subCategory,
-                subCategoryData : subCategoryData,
-                showHomeService: showHomeService,
+                category: widget.category,
+                categoryData: widget.categoryData,
+                subCategory: widget.subCategory,
+                subCategoryData : widget.subCategoryData,
+                showHomeService: widget.showHomeService,
               );
             },
 
@@ -109,16 +140,31 @@ class BazaarIndividualCategoryListData extends StatelessWidget {
         itemCount: 1,
         itemBuilder: (BuildContext context, int index){
           return BazaarIndividualCategoryListDisplay(
-            bazaarWalaName: category.toString(),
+            bazaarWalaName: widget.category.toString(),
             bazaarWalaPhoneNo: bazaarWalaPhoneNo,
-            category: category,
-            categoryData: categoryData,
-            subCategory: subCategory,
-            subCategoryData: subCategoryData,
+            category: widget.category,
+            categoryData: widget.categoryData,
+            subCategory: widget.subCategory,
+            subCategoryData: widget.subCategoryData,
             thumbnailPicture: PlaceHolderImages().bazaarWalaThumbnailPicture,
           );
         }
     );
   }
 
+  changeLocation(BuildContext context){
+    return CustomIconButton(
+      iconNameInImageFolder: 'location',
+      onPressed: () async{
+        String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+        String tempHash = await ChangeLocationInSearch(userNumber: userPhoneNo)
+            .getNewUserGeohash(context);
+
+        print("tempHash : $tempHash");
+        setState(() async{
+          userGeohash = tempHash;
+        });
+      },
+    );
+  }
 }

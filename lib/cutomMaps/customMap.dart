@@ -98,7 +98,9 @@ class _CustomMapState extends State<CustomMap> {
                         LatLng point = LatLng(widget.latitude, widget.longitude);
                         List list = new List();
                         list.add(point);
-                        list.add(radius);
+                        if(widget.showRadius == true){
+                          list.add(radius);
+                        }
                         Navigator.pop(context, list);
                         //NavigateToBazaarOnBoardingProfile().navigateNoBracketsPushReplacement(context, list);
                       },
@@ -114,7 +116,9 @@ class _CustomMapState extends State<CustomMap> {
               LatLng point = LatLng(widget.latitude, widget.longitude);
               List list = new List();
               list.add(point);
-              list.add(radius);
+              if(widget.showRadius == true){
+                list.add(radius);
+              }
               Navigator.pop(context, list);
             },
           ),

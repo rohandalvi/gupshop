@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geocoder/geocoder.dart' as gc;
 import 'package:geolocator/geolocator.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarWalasLocation.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -86,9 +87,16 @@ class LocationService {
 
 
    getUserLocation(number){//get location already stored in firebase
-    Firestore.instance.collection("usersLocation").document(number).get().then((onVal){
-    });
+//    Firestore.instance.collection("usersLocation").document(number).get().then((onVal){
+//    });
     return Firestore.instance.collection("usersLocation").document(number).get();
+  }
+
+  getHomeLocation(number) async{
+    DocumentSnapshot dc = await getUserLocation(number);
+    GeoPoint latLng =  dc.data["home"]["geoPoint"];
+    return latLng;
+
   }
 
 
@@ -98,8 +106,8 @@ class LocationService {
   }
 
   ///an example of async await function:
-  getAddress() async{// returns user's actual location using satellite
-    Position location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  getAddress(Position location) async{// returns user's actual location using satellite
+    //Position location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     var latitude = location.latitude;
     var longitude = location.longitude;
     var coordinates = new gc.Coordinates(latitude, longitude);
@@ -154,6 +162,11 @@ class LocationService {
         LocationService().launchMapsUrl(latitude, longitude);
       },
     );
+  }
+
+  getUserGeohash(String number, String addressName) async{
+    DocumentSnapshot dc = await LocationService().getUserLocation(number);
+    return dc.data[addressName]["geohash"];
   }
 
 

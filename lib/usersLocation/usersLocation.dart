@@ -1,5 +1,8 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/location/location_service.dart';
 
@@ -43,4 +46,31 @@ class UsersLocation{
 
     return dc.data.length;
   }
+
+  createSetOfAddresses(String userPhoneNo) async{
+    DocumentSnapshot dc = await Firestore.instance.collection("usersLocation")
+        .document(userPhoneNo).get();
+
+    Map dcMap = dc.data;
+    Map map =  new HashMap();
+
+    map.forEach((addressName, data) {
+      map[data["geoPoint"]] = addressName;
+    });
+
+    return map;
+  }
+  
+  checkIfAddressExists(String userPhoneNo, double latitude, double longitude ) async{
+    Geoflutterfire geo = Geoflutterfire();
+    GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
+    var geoPoint = myLocation.geoPoint;
+
+    Map map = await createSetOfAddresses(userPhoneNo);
+    
+    if(map.containsKey(geoPoint)) return map[geoPoint];
+    return false;
+  }
+
+
 }

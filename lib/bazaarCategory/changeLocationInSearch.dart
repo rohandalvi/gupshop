@@ -23,11 +23,20 @@ class ChangeLocationInSearch{
     String address = await getAddress(position);
 
     /// creating a name for the address:
-    int addressNumber = await UsersLocation().getNumberOfAddress(userNumber);
-    String addressName = "address${addressNumber++ }";
+    /// 1st check if the address already exists in firebase
+    /// checkIfAddressExists returns false if the address does not exist, else
+    /// it returns the name of the address
+    var addressExists = await UsersLocation().checkIfAddressExists(userNumber, latitude, longitude);
+    String addressName;
 
-    /// pushing to firebase usersLocation collection:
-    await pushToUsersLocationFirebase(latitude, longitude, userNumber, address, addressName);
+    if(addressExists == false){
+      int addressNumber = await UsersLocation().getNumberOfAddress(userNumber);
+      addressName = "address${addressNumber++ }";
+      /// pushing to firebase usersLocation collection:
+      await pushToUsersLocationFirebase(latitude, longitude, userNumber, address, addressName);
+    }else{
+      addressName = addressExists;
+    }
 
     String userGeohash = await LocationService().getUserGeohash(userNumber, addressName);
     return userGeohash;
@@ -48,6 +57,7 @@ class ChangeLocationInSearch{
 
   getAddress(Position location) async{
     String address = await LocationService().getAddress(location);
+    return address;
   }
 
   pushToUsersLocationFirebase(double latitude, double longitude, String userPhoneNo,  String address, String addressName){

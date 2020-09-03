@@ -53,6 +53,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
   int numberOfBazaarWalasInList;
 
   String userGeohash;
+  String addressName = "home";
 
   getListOfBazaarWalasInAGivenRadius() async{
     print("userGeohash in getListOfBazaarWalasInAGivenRadius : $userGeohash");
@@ -101,35 +102,41 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
             ],
           ),
         ),
-        body: FutureBuilder(
-          future: getListOfBazaarWalasInAGivenRadius(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.data == null) return Container(child: Center(child: CustomText(text: 'No ${widget.category}s near you',).bold())); //for avoding  the erro
+        body: Column(
+          children: <Widget>[
+            CustomText(text : "Showing results for $addressName"),
+            FutureBuilder(
+              future: getListOfBazaarWalasInAGivenRadius(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.data == null) return Container(child: Center(child: CustomText(text: 'No ${widget.category}s near you',).bold())); //for avoding  the erro
 
-          var list = snapshot.data;
+              var list = snapshot.data;
 
-          numberOfBazaarWalasInList = snapshot.data.length; ///for listView builder's itemcount
+              numberOfBazaarWalasInList = snapshot.data.length; ///for listView builder's itemcount
 
-          return ListView.builder(
-            itemCount: numberOfBazaarWalasInList,
-            itemBuilder: (BuildContext context, int index) {
-              bazaarWalaPhoneNo = list[index].documentID;
-              return BazaarIndividualCategoryNameDpBuilder(
-                bazaarWalaPhoneNo: bazaarWalaPhoneNo,
-                category: widget.category,
-                categoryData: widget.categoryData,
-                subCategory: widget.subCategory,
-                subCategoryData : widget.subCategoryData,
-                showHomeService: widget.showHomeService,
-              );
-            },
+              return ListView.builder(
+                shrinkWrap: true,/// required to show the address widget
+                itemCount: numberOfBazaarWalasInList,
+                itemBuilder: (BuildContext context, int index) {
+                  bazaarWalaPhoneNo = list[index].documentID;
+                  return BazaarIndividualCategoryNameDpBuilder(
+                    bazaarWalaPhoneNo: bazaarWalaPhoneNo,
+                    category: widget.category,
+                    categoryData: widget.categoryData,
+                    subCategory: widget.subCategory,
+                    subCategoryData : widget.subCategoryData,
+                    showHomeService: widget.showHomeService,
+                  );
+                },
 
-            );
-          }
-          return //listOfBazaarWalasPlaceholder(numberOfBazaarWalasInList, bazaarWalaPhoneNo);
-            Center(child: CircularProgressIndicator());
-          }
+                );
+              }
+              return //listOfBazaarWalasPlaceholder(numberOfBazaarWalasInList, bazaarWalaPhoneNo);
+                Center(child: CircularProgressIndicator());
+              }
+            ),
+          ],
         ),
       ),
     );
@@ -161,8 +168,11 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
             .getNewUserGeohash(context);
 
         print("tempHash : $tempHash");
+
+        String tempAddressName = await UsersLocation().getAddressName(userPhoneNo, tempHash);
         setState(() {
           userGeohash = tempHash;
+          addressName = tempAddressName;
         });
       },
     );

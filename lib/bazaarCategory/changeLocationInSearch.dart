@@ -5,7 +5,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
 import 'package:gupshop/usersLocation/usersLocation.dart';
-import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 
 class ChangeLocationInSearch{
   String userNumber;
@@ -41,6 +40,7 @@ class ChangeLocationInSearch{
     String userGeohash = await LocationService().getUserGeohash(userNumber, addressName);
     return userGeohash;
   }
+
 
   getLatLang(BuildContext context) async{
 

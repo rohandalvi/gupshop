@@ -1,7 +1,6 @@
 import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/location/location_service.dart';
@@ -54,8 +53,9 @@ class UsersLocation{
     Map dcMap = dc.data;
     Map map =  new HashMap();
 
-    map.forEach((addressName, data) {
-      map[data["geoPoint"]] = addressName;
+    dcMap.forEach((addressName, data) {
+      String geohash = data["geohash"];
+      map[geohash] = addressName;
     });
 
     return map;
@@ -64,12 +64,21 @@ class UsersLocation{
   checkIfAddressExists(String userPhoneNo, double latitude, double longitude ) async{
     Geoflutterfire geo = Geoflutterfire();
     GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
-    var geoPoint = myLocation.geoPoint;
+    //var geoPoint = myLocation.geoPoint;
+    String geohash = myLocation.hash;
 
     Map map = await createSetOfAddresses(userPhoneNo);
+    print("map in checkIfAddressExists : $map");
     
-    if(map.containsKey(geoPoint)) return map[geoPoint];
+    if(map.containsKey(geohash)) return map[geohash];
     return false;
+  }
+
+
+  getAddressName(String userPhoneNo, String userHash) async{
+    Map map = await createSetOfAddresses(userPhoneNo);
+
+    return map[userHash];
   }
 
 

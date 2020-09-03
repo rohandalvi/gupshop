@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/location/location_service.dart';
+import 'package:gupshop/retriveFromFirebase/getUsersLocation.dart';
 
 import '../service/getSharedPreferences.dart';
 
@@ -14,9 +15,9 @@ class UsersLocation{
     await Firestore.instance.collection("usersLocation").document(userPhoneNo).setData({}, merge: true);
 
     ///if home location is not set then go on with setting the location
-    var future = await Firestore.instance.collection("usersLocation").document(userPhoneNo).get();
+    var homeAddress = await GetUsersLocation(userPhoneNo: userPhoneNo).getHomeAddress();
 
-    if(future.data["home"] == null){
+    if(homeAddress == null){
       ifHomeExists= false;
     } else ifHomeExists = true;
 

@@ -110,11 +110,20 @@ class LocationService {
     //Position location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     var latitude = location.latitude;
     var longitude = location.longitude;
-    var coordinates = new gc.Coordinates(latitude, longitude);
+//    var coordinates = new gc.Coordinates(latitude, longitude);
+//
+//    var addressList = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var address = await getAddressFromLatLang(latitude, longitude);
 
+    return address;
+  }
+
+  getAddressFromLatLang(double latitude,  double longitude) async{
+    var coordinates = new gc.Coordinates(latitude, longitude);
+    print("coordinates :  $coordinates");
     var addressList = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
     var address = addressList[2].addressLine;
-
+    print("address in getAddressFromLatLang : $address");
     return address;
   }
 

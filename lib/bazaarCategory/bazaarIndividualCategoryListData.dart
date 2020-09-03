@@ -6,10 +6,13 @@ import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryNameDpBuilder.dar
 import 'package:gupshop/bazaar/placeHolderImages.dart';
 import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToAddressList.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 import 'package:gupshop/bazaarLocation/filterBazaarLocationData.dart';
 import 'package:gupshop/usersLocation/usersLocation.dart';
+import 'package:gupshop/widgets/clickableText.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListDisplay.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -44,7 +47,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
   Future userPhoneNoFuture;
 
-  String _userPhoneNo;
+  String userPhoneNo;
 
   List<DocumentSnapshot> list;
 
@@ -55,10 +58,11 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
   String userGeohash;
   String addressName = "home";
 
+
   getListOfBazaarWalasInAGivenRadius() async{
     print("userGeohash in getListOfBazaarWalasInAGivenRadius : $userGeohash");
-    var userPhoneNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
-    _userPhoneNo = userPhoneNo;
+    String userNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
+    userPhoneNo = userNo;
 
     /// if the user does not change location, then userGeohash
     /// would be null
@@ -72,13 +76,14 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
     return listOfbazaarwalas;
   }
 
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70.0),
+          preferredSize: Size.fromHeight(WidgetConfig.appBarBazaarOnBoarding),
           child: CustomAppBar(
             title: CustomText(text: widget.category.toUpperCase(),),
             /// back button
@@ -98,13 +103,24 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
              //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
             },
             actions: <Widget>[
+              CustomIconButton(
+                iconNameInImageFolder: 'locationPin',
+                onPressed: (){
+                  NavigateToAddressList(userPhoneNo: userPhoneNo).navigateNoBrackets(context);
+                },
+              ),
               changeLocation(context),
             ],
           ),
         ),
         body: Column(
           children: <Widget>[
-            CustomText(text : "Showing results for $addressName"),
+            ClickableText(
+                text : "Showing results for : ${addressName.toUpperCase()}",
+              onTap: (){
+
+              },
+            ),
             FutureBuilder(
               future: getListOfBazaarWalasInAGivenRadius(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {

@@ -57,6 +57,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
   String userGeohash;
   String addressName = "home";
+  bool isAddressChanged;
 
 
   getListOfBazaarWalasInAGivenRadius() async{
@@ -105,8 +106,23 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
             actions: <Widget>[
               CustomIconButton(
                 iconNameInImageFolder: 'locationPin',
-                onPressed: (){
-                  NavigateToAddressList(userPhoneNo: userPhoneNo).navigateNoBrackets(context);
+                onPressed: () async{
+                  bool tempIsAddressChanged = await NavigateToAddressList(userPhoneNo: userPhoneNo).navigateNoBrackets(context);
+                  if(tempIsAddressChanged == true){
+                    setState(() {
+                      isAddressChanged = tempIsAddressChanged;
+
+                      /// if the user does not change location, then userGeohash
+                      /// would be null
+                      /// In that case, select the geoHash pushed to firebase
+                      /// in bazaarHome page which is the current location of the user
+                      ///
+                      /// But, if the user changes the home location , then
+                      /// the userGeohash wont be null, it would be the previous
+                      /// home location, so set it to null
+                      userGeohash = null;
+                    });
+                  }
                 },
               ),
               changeLocation(context),

@@ -20,12 +20,14 @@ class NavigateToAddressList{
     };
   }
 
-  navigateNoBrackets(BuildContext context){
-    Navigator.push(
+  navigateNoBrackets(BuildContext context) async{
+    bool result =  await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => AddressListUI(userPhoneNo: userPhoneNo,),
         )
     );
+
+    return result;
   }
 }

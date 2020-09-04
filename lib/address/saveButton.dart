@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/navigators/navigateToAddressList.dart';
+import 'package:gupshop/navigators/navigateToBazaarIndividualCategoryListDisplay.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/updateInFirebase/updateUsersLocation.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -21,6 +23,7 @@ class SaveButton extends StatelessWidget {
             address, geoPoint, geohash);
 
         /// then send the user to bazaarIndividual
+        Navigator.pop(context, true);
       },
       width: WidgetConfig.floatingActionButtonSmallWidth,
       height: WidgetConfig.floatingActionButtonSmallHeight,

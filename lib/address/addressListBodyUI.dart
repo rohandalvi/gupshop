@@ -14,8 +14,11 @@ class AddressListBodyUI extends StatefulWidget {
   String addressName;
   String address;
   final String userPhoneNo;
+  double latitude;
+  double longitude;
 
-  AddressListBodyUI({this.numberOfAddresses,this.addressName, this.address, this.userPhoneNo});
+  AddressListBodyUI({this.numberOfAddresses,this.addressName, this.address,
+    this.userPhoneNo, this.longitude, this.latitude});
 
   @override
   _AddressListBodyUIState createState() => _AddressListBodyUIState();
@@ -54,25 +57,30 @@ class _AddressListBodyUIState extends State<AddressListBodyUI> {
           iconNameInImageFolder: 'editPencil',
           onPressed: () async{
             /// open maps
+            LatLng currentLatLng = new LatLng(widget.latitude, widget.longitude);
+
             LatLng latLng = await ChangeLocationInSearch(userNumber: widget.userPhoneNo).getLatLang(context);
 
-            Position location =  new Position(longitude: latLng.longitude, latitude: latLng.latitude);
+            if(latLng != currentLatLng){
+              Position location =  new Position(longitude: latLng.longitude, latitude: latLng.latitude);
 
-            String newAddress = await ChangeLocationInSearch().getAddress(location);
+              String newAddress = await ChangeLocationInSearch().getAddress(location);
 
-            var tempGeoPoint = await ChangeLocationInSearch().getGeoPoint(latLng.latitude, latLng.longitude);
+              var tempGeoPoint = await ChangeLocationInSearch().getGeoPoint(latLng.latitude, latLng.longitude);
 
-            String tempGeohash = await LocationService().createGeohash(latLng.latitude, latLng.longitude);
+              String tempGeohash = await LocationService().createGeohash(latLng.latitude, latLng.longitude);
 
-            setState(() {
-              widget.address = newAddress;
-              showSave = true;
-              geoPoint = tempGeoPoint;
-              geohash = tempGeohash;
-            });
+              setState(() {
+                widget.address = newAddress;
+                showSave = true;
+                geoPoint = tempGeoPoint;
+                geohash = tempGeohash;
+              });
+            }
           },
         ),
       ],
     );
   }
+
 }

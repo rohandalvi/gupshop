@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/address/addressListBodyUI.dart';
@@ -23,6 +24,9 @@ class _AddressListDataState extends State<AddressListData> {
           if (snapshot.connectionState == ConnectionState.done) {
             String addressName = "Home : ";
             String address = snapshot.data["address"];
+            GeoPoint geoPoint = snapshot.data["geoPoint"];
+            double latitude = geoPoint.latitude;
+            double longitude = geoPoint.longitude;
 
             int numberOfAddresses =  1;/// right now we are showing only 1 address,  i.e home address
 
@@ -32,6 +36,8 @@ class _AddressListDataState extends State<AddressListData> {
               address: address,
               addressName: addressName,
               numberOfAddresses: numberOfAddresses,
+              longitude: longitude,
+              latitude: latitude,
             );
           }
           return Center(

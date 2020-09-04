@@ -75,8 +75,13 @@ class LocationService {
     print("myLocation.data of user: ${myLocation.data}");
   }
 
+  getGeoPoint(double latitude, double longitude,){
+    GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
+    return myLocation.geoPoint;
+  }
+
   //4
-  getGeopointAndGeohashObject(var latitude, var longitude){
+  getGeopointAndGeohashObject(double latitude, double longitude){
     GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
     return myLocation;
   }
@@ -120,10 +125,8 @@ class LocationService {
 
   getAddressFromLatLang(double latitude,  double longitude) async{
     var coordinates = new gc.Coordinates(latitude, longitude);
-    print("coordinates :  $coordinates");
     var addressList = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
     var address = addressList[2].addressLine;
-    print("address in getAddressFromLatLang : $address");
     return address;
   }
 
@@ -178,6 +181,10 @@ class LocationService {
     return dc.data[addressName]["geohash"];
   }
 
+  createGeohash(double latitude, double longitude) async{
+    GeoFirePoint myLocation = await  getGeopointAndGeohashObject(latitude, longitude);
+    return myLocation.hash;
+  }
 
 }
 

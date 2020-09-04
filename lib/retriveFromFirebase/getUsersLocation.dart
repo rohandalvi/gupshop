@@ -12,8 +12,6 @@ class GetUsersLocation{
   getHomeAddress() async{
     DocumentSnapshot dc = await getAddress();
 
-    print("dc in getHomeAddress : ${dc.data}");
-    print("dc.data[home]: ${dc.data["home"]}");
     return dc.data["home"];
   }
 

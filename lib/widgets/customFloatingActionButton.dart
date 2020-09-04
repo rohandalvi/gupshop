@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   final String tooltip;
@@ -42,8 +43,8 @@ class CustomBigFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height == null ? 100 : height,/// to increase the size of floatingActionButton use container along with FittedBox
-      width: width == null ? 100 : width,
+      height: height == null ? WidgetConfig.floatingActionButtonBigHeight : height,/// to increase the size of floatingActionButton use container along with FittedBox
+      width: width == null ? WidgetConfig.floatingActionButtonBigWidth : width,
       child: FittedBox(
         child: CustomFloatingActionButton(
           heroTag: heroTag,
@@ -69,8 +70,8 @@ class CustomFloatingActionButtonWithIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height == null ? 100 : height,/// to increase the size of floatingActionButton use container along with FittedBox
-      width: width == null ? 100 : width,
+      height: height == null ? WidgetConfig.floatingActionButtonBigHeight : height,/// to increase the size of floatingActionButton use container along with FittedBox
+      width: width == null ? WidgetConfig.floatingActionButtonBigWidth : width,
       child: FittedBox(
         child: CustomFloatingActionButton(
           heroTag: heroTag,

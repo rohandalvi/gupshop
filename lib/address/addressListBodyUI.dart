@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:gupshop/address/saveButton.dart';
 import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -20,16 +22,26 @@ class AddressListBodyUI extends StatefulWidget {
 }
 
 class _AddressListBodyUIState extends State<AddressListBodyUI> {
+  bool showSave = false;
+  var geoPoint;
+  String geohash;
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: widget.numberOfAddresses,
-        itemBuilder: (BuildContext context, int index){
-          return ListTile(
-            title: titleRow(widget.addressName, context),
-            subtitle: CustomText(text: widget.address,),
-          );
-        }
+    return Scaffold(
+      body: ListView.builder(
+          itemCount: widget.numberOfAddresses,
+          itemBuilder: (BuildContext context, int index){
+            return ListTile(
+              title: titleRow(widget.addressName, context),
+              subtitle: CustomText(text: widget.address,),
+            );
+          }
+      ),
+      floatingActionButton: Visibility(
+        visible: showSave,
+        child: SaveButton(geoPoint: geoPoint,geohash: geohash, address: widget.address,userPhoneNo: widget.userPhoneNo,)
+      ),
     );
   }
 
@@ -43,16 +55,20 @@ class _AddressListBodyUIState extends State<AddressListBodyUI> {
           onPressed: () async{
             /// open maps
             LatLng latLng = await ChangeLocationInSearch(userNumber: widget.userPhoneNo).getLatLang(context);
-            print("latLng : $latLng");
 
             Position location =  new Position(longitude: latLng.longitude, latitude: latLng.latitude);
 
             String newAddress = await ChangeLocationInSearch().getAddress(location);
 
+            var tempGeoPoint = await ChangeLocationInSearch().getGeoPoint(latLng.latitude, latLng.longitude);
+
+            String tempGeohash = await LocationService().createGeohash(latLng.latitude, latLng.longitude);
+
             setState(() {
               widget.address = newAddress;
-              print("address in setState : ${widget.address}");
-              print("newAddress in setState : $newAddress");
+              showSave = true;
+              geoPoint = tempGeoPoint;
+              geohash = tempGeohash;
             });
           },
         ),

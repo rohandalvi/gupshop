@@ -17,5 +17,8 @@ class WidgetConfig{
   static double sizedBoxBazaarOnBoarding = SizeConfig.heightMultiplier * 3.8;/// 30/8.16
   static double sizedBoxBazaarHome = SizeConfig.heightMultiplier * 1.5;/// 12/8.16
   static double sizedBoxBazaarIndividualCategory = SizeConfig.heightMultiplier * 1.25;/// 10/8.16
-
+  static double floatingActionButtonBigHeight = SizeConfig.heightMultiplier * 12;/// 100/8.16
+  static double floatingActionButtonBigWidth = SizeConfig.widthMultiplier * 23;/// 100/4.32
+  static double floatingActionButtonSmallHeight = SizeConfig.heightMultiplier * 10;/// 80/8.16
+  static double floatingActionButtonSmallWidth = SizeConfig.widthMultiplier * 18;/// 80/4.32
 }

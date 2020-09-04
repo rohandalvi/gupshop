@@ -68,4 +68,8 @@ class ChangeLocationInSearch{
     String userGeohash = LocationService().getUserGeohash(userPhoneNo, addressName);
     return userGeohash;
   }
+
+  getGeoPoint(double latitude, double longitude){
+    return LocationService().getGeoPoint(latitude, longitude);
+  }
 }

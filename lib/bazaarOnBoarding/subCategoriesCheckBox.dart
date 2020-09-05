@@ -11,6 +11,7 @@ import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
+import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -67,45 +68,67 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
 
 
   Widget appBarBody(BuildContext context) {
-    return ContactSearch(
-      suggestions: widget.subCategoriesList,
-      navigate: NavigateToBazaarOnBoardingHome().navigate(context),
-      onSearch: searchList,
-      hintText: 'What is your speciality ?',
-      onItemFound: (DocumentSnapshot doc, int index){
-        return Container(
-          child: CheckboxListTile(
-            controlAffinity:ListTileControlAffinity.leading ,
-            title:CustomText(text: doc.data["name"]),
-            activeColor: primaryColor,
-            value: map[doc.data["name"]],/// if value of a key in map(a subcategory name) is false or true
-            //list[index],/// at first all the values would be false
-            onChanged: (bool val) async{
-              setState((){
-                map[doc.data["name"]] = val; /// setting the new value as selected by user
-              });
+    return FutureBuilder(
+      future: GetCategoriesFromCategoriesMetadata(category: widget.categoryData,).getSelectedCategoriesAsMap(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if(snapshot.data != null){
+            Map categorySelectedMap = snapshot.data;
+            mergeMaps(categorySelectedMap, map);
+          }
+          return ContactSearch(
+            suggestions: widget.subCategoriesList,
+            navigate: NavigateToBazaarOnBoardingHome().navigate(context),
+            onSearch: searchList,
+            hintText: 'What is your speciality ?',
+            onItemFound: (DocumentSnapshot doc, int index){
+              return Container(
+                child: CheckboxListTile(
+                    controlAffinity:ListTileControlAffinity.leading ,
+                    title:CustomText(text: doc.data["name"]),
+                    activeColor: primaryColor,
+                    value: map[doc.data["name"]],/// if value of a key in map(a subcategory name) is false or true
+                    //list[index],/// at first all the values would be false
+                    onChanged: (bool val) async{
+                      setState((){
+                        map[doc.data["name"]] = val; /// setting the new value as selected by user
+                      });
 
-              String subCategoryData = widget.subCategoryMap[doc.data["name"]];
+                      String subCategoryData = widget.subCategoryMap[doc.data["name"]];
 
-              String isHomeServiceApplicable = HomeServiceText(categoryData:widget.categoryData,
-                  subCategoryData: subCategoryData).bazaarWalasdialogText();
-              if(isHomeServiceApplicable != null){
-                bool homeService = false;
+                      String isHomeServiceApplicable = HomeServiceText(categoryData:widget.categoryData,
+                          subCategoryData: subCategoryData).bazaarWalasdialogText();
+                      if(isHomeServiceApplicable != null){
+                        bool homeService = false;
 
-                if(val == true){
-                  homeService = await homeServiceDialog(isHomeServiceApplicable);
-                }
-                pushToBazaarWalasBasicProfile(subCategoryData, homeService);
-              }
-
-            }
-          ),
+                        if(val == true){
+                          homeService = await homeServiceDialog(isHomeServiceApplicable);
+                        }
+                        pushToBazaarWalasBasicProfile(subCategoryData, homeService);
+                      }
+                    }
+                ),
+              );
+            },
+            //onItemFound: ,
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(),
         );
       },
-      //onItemFound: ,
     );
   }
 
+  mergeMaps(Map categorySelectedMap, Map blankMap){
+
+    blankMap.forEach((key, value) {
+      if(categorySelectedMap.containsKey(key)){
+        blankMap[key] = true;
+      }
+    });
+    print("blankMap : $blankMap");
+  }
 
   homeServiceDialog(String homeServiceText) async{
       bool temp = await CustomDialogForConfirmation(
@@ -204,19 +227,19 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
     String userNumber = await UserDetails().getUserPhoneNoFuture();
 
     PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-      userName: userName, list: listOfSubCategoriesForData
+      userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData
     ).bazaarCategories();
 
     PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-        userName: userName, list: listOfSubCategoriesForData).bazaarCategoriesMetaData();
+        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData,listOfSubCategories: listOfSubCategories ).bazaarCategoriesMetaData();
 
     PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-        userName: userName, list: listOfSubCategoriesForData).createBlankRatingNumber();
+        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData).createBlankRatingNumber();
 
     PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-        userName: userName, list: listOfSubCategoriesForData).createBlankReviews();
+        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData).createBlankReviews();
 
     PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-        userName: userName, list: listOfSubCategoriesForData).bazaarWalasLocation();
+        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData).bazaarWalasLocation();
   }
 }

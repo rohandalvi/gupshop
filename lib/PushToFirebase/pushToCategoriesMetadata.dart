@@ -9,8 +9,8 @@ class PushToCategoriesMatedata{
 //    await Firestore.instance.collection("bazaarCategoriesMetadata").document(userNumber).setData({'categories':categories}, merge: true);
 //  }
 
-  push(String category, String subCategory) async{
+  push(String category, String subCategoryData, String subCategory) async{
     Firestore.instance.collection("bazaarCategoriesMetadata").document(userNumber).setData({}, merge: true);///creating document to avoid error document(i
-    Firestore.instance.collection("bazaarCategoriesMetadata").document(userNumber).collection(category).document(subCategory).setData({}, merge: true);
+    Firestore.instance.collection("bazaarCategoriesMetadata").document(userNumber).collection(category).document(subCategoryData).setData({'name' : subCategory}, merge: true);
   }
 }

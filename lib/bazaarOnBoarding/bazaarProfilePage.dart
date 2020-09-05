@@ -209,7 +209,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                                   /// categories.isEmpty == false if written first will give an error
                                   /// because categories might be null
                                   if(categories != null && categories.isEmpty == false){
-                                  //if(categorySnapshot.data != null){
                                     categoriesForBazaarWalasBasicProfile = categories["categories"].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
                                   }
                                   ///create map here:
@@ -218,7 +217,6 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
                                   categorySelection = new Categories(map: map, isCategorySelected: isCategorySelected,);
                                   isCategorySelected = categorySelection.isCategorySelected;
                                   return categorySelection;
-                                  //return getCategories(context);
                                 }
                                 return Center(
                                   child: CircularProgressIndicator(),

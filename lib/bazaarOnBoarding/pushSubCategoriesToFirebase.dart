@@ -8,24 +8,32 @@ class PushSubCategoriesToFirebase{
   String category;
   String userName;
   String userPhoneNo;
-  List<String> list;
+  List<String> listOfSubCategoriesData;
+  List<String> listOfSubCategories;
 
-  PushSubCategoriesToFirebase({this.category, this.userName, this.userPhoneNo, this.list});
+
+  PushSubCategoriesToFirebase({this.category, this.userName, this.userPhoneNo, this.listOfSubCategoriesData, this.listOfSubCategories});
 
   bazaarCategories(){
-    list.forEach((element) {
+    listOfSubCategoriesData.forEach((element) {
       PushToBazaarCategories().addUser(category,element, userName, userPhoneNo);
     });
   }
 
   bazaarCategoriesMetaData(){
-    list.forEach((subCategory) {
-      PushToCategoriesMatedata(userNumber: userPhoneNo,).push(category,subCategory,);
-    });
+    for(int i = 0; i<listOfSubCategoriesData.length; i++){
+      String subCategory = listOfSubCategories[i];
+      String subCategoryData = listOfSubCategoriesData[i];
+      PushToCategoriesMatedata(userNumber: userPhoneNo,).push(category,subCategoryData,subCategory);
+    }
+
+//    listOfSubCategoriesData.forEach((subCategoryData) {
+//      PushToCategoriesMatedata(userNumber: userPhoneNo,).push(category,subCategoryData,subCategory);
+//    });
   }
 
   createBlankRatingNumber(){
-    list.forEach((element) {
+    listOfSubCategoriesData.forEach((element) {
       PushToBazaarRatingNumber(category: category, subCategory:element,
           userNumber: userPhoneNo ).push();
     });
@@ -33,7 +41,7 @@ class PushSubCategoriesToFirebase{
   }
 
   createBlankReviews(){
-    list.forEach((element) {
+    listOfSubCategoriesData.forEach((element) {
       PushToBazaarReviewsCollection(productWalaNumber: userPhoneNo,
         category: category, subCategory: element).setBlankReviews();
     });
@@ -44,7 +52,7 @@ class PushSubCategoriesToFirebase{
   }
 
   bazaarWalasLocation(){
-    list.forEach((element) {
+    listOfSubCategoriesData.forEach((element) {
       PushToBazaarWalasLocation(category: category,
           subCategory:element, userNumber: userPhoneNo).setBlankLocation();
     });

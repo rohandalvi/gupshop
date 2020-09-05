@@ -1,23 +1,50 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/modules/userDetails.dart';
 
 class GetCategoriesFromCategoriesMetadata{
+  final String category;
+
+  GetCategoriesFromCategoriesMetadata({this.category});
 
 //  Future<Map<String, List>> selectedCategories() async{
   selectedCategories() async{
     String userNumber = await UserDetails().getUserPhoneNoFuture();
-    DocumentSnapshot dc = await Firestore.instance.collection("bazaarCategoriesMetadata").document(userNumber).get();
+    QuerySnapshot dc = await Firestore.instance.collection("bazaarCategoriesMetadata")
+        .document(userNumber).collection(category).getDocuments();
 //    Map<String, List<dynamic>> result  = dc.data;
 //    return result;
-    return dc.data;
+    return dc.documents;
   }
 
   getCategoriesLength() async{
     String userNumber = await UserDetails().getUserPhoneNoFuture();
-    DocumentSnapshot dc = await Firestore.instance.collection("bazaarCategoriesMetadata").document(userNumber).get();
-    Map<String, dynamic> listOfCategories = dc.data;
-    print("listOfCategories : $listOfCategories");
-    return dc.data;
+    QuerySnapshot dc = await Firestore.instance.collection("bazaarCategoriesMetadata")
+        .document(userNumber).collection(category).getDocuments();
+//    Map<String, dynamic> listOfCategories = dc.data;
+//    print("listOfCategories : $listOfCategories");
+//    return dc.data;
+  }
+
+  getSelectedCategoriesAsMap() async{
+    print("category in getSelectedCategoriesAsMap: $category");
+    String userNumber = await UserDetails().getUserPhoneNoFuture();
+    QuerySnapshot dc = await Firestore.instance.collection("bazaarCategoriesMetadata")
+        .document(userNumber).collection(category).getDocuments();
+    print("dc.documents in getSelectedCategoriesAsMap: ${dc.documents.asMap()}");
+    if(dc.documents != null){
+      Map result = new HashMap();
+      Map map =  dc.documents.asMap();
+      map.forEach((key, value) {
+        DocumentSnapshot nameDc = value;
+        String categoryName = nameDc.data["name"];
+        result[categoryName] = true;
+      });
+      print("map in getSelectedCategoriesAsMap : $result");
+      return result;
+    } return null;
+
   }
 
 }

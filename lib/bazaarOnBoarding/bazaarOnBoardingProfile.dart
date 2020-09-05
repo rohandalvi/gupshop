@@ -343,31 +343,4 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
   }
 
-  pushTosubCategoryInFirebase()async{
-    if(widget.categoryData == "deliveryErrands") {
-
-      String userNumber = await UserDetails().getUserPhoneNoFuture();
-
-      PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-          userName: userName, list: widget.listOfSubCategoriesForData
-      ).bazaarCategories();
-
-      PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-          userName: userName, list: widget.listOfSubCategoriesForData
-      ).bazaarCategoriesMetaData();
-
-      PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-          userName: userName, list: widget.listOfSubCategoriesForData
-      ).createBlankRatingNumber();
-
-      PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-          userName: userName, list: widget.listOfSubCategoriesForData
-      ).createBlankReviews();
-
-      PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-          userName: userName, list: widget.listOfSubCategoriesForData
-      ).bazaarWalasLocation();
-    }
-  }
-
 }

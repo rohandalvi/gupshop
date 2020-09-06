@@ -16,7 +16,7 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
-      title: CustomText(text: 'Become a Bazaarwala',),
+      title: CustomText(text: 'Add pictures',),
       onPressed:(){
         //Navigator.pop(context);
       },
@@ -27,7 +27,7 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
         Builder(
             builder: (context) {
               return CustomIconButton(
-                iconNameInImageFolder: 'editPencil',
+                iconNameInImageFolder: 'plus',
                 onPressed: (){
                   CustomBottomSheet(
                     customContext: context,

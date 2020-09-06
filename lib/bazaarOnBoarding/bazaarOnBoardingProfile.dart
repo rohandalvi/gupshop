@@ -56,12 +56,12 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
   _BazaarOnBoardingProfileState({@required this.userPhoneNo, @required this.userName});
 
 
-  double latitude;
-  double longitude;
+  double databaseLatitude;
+  double databaseLongitude;
 
   /// for _pickVideoFromGallery
   File video;
-  String videoURL;
+  String databaseVideoURL;
 
   List<bool> inputs = new List<bool>();
 
@@ -103,7 +103,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
   selectVideo() {
     isVideo = BazaarProfileSetVideo(userPhoneNo: userPhoneNo,
-      videoURL: videoURL,
+      videoURL: databaseVideoURL,
       videoSelected: videoSelected,
       video: video,
       cameraVideo: _cameraVideo,);
@@ -138,17 +138,17 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                 userNumber: userPhoneNo,
                 categoryData: widget.categoryData,
               subCategoryData: widget.listOfSubCategoriesForData[0],
-            ).main(),
+            ).getVideoAndLocation(),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
-                isBazaarWala = false;
+                print("map in GetBazaarWalasBasicProfileInfo : ${snapshot.data}");
                 if(isBazaarWala == true){
                   video = new File("videoURL");
-                  videoURL = snapshot.data["videoURL"];
+                  databaseVideoURL = snapshot.data["videoURL"];
                   videoSelected = true;
 
-                  longitude = snapshot.data["longitude"];
-                  latitude = snapshot.data["latitude"];
+                  databaseLongitude = snapshot.data["longitude"];
+                  databaseLatitude = snapshot.data["latitude"];
                   locationSelected = true;
                 }
 
@@ -187,6 +187,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                           },
                         ),
                       ),
+                      showLocation(),
                     ]
                 );
               } return CircularProgressIndicator();
@@ -196,40 +197,6 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
       ),
     );
   }
-
-//  homeServiceDialog() async{
-//    if(homeService == null ){
-//      String homeServiceText;
-//
-//      widget.listOfSubCategoriesForData.forEach((subCategory) {
-//        homeServiceText = HomeServiceText(categoryData:widget.categoryData,
-//            subCategoryData: subCategory).bazaarWalasdialogText();
-//      });
-//
-//
-//
-//      bool temp = await CustomDialogForConfirmation(
-//        /// from homeServiceText
-//        title: 'Do you offer services at clients home',
-//      ).dialog(context);
-//      return temp;
-//    }
-//
-//
-//    widget.listOfSubCategoriesForData.forEach((subCategory) async{
-//      await PushToBazaarWalasBasicProfile(
-//        categoryData: widget.categoryData,
-//        subCategoryData: subCategory,
-//        userPhoneNo: userPhoneNo,
-//        userName: userName,
-//        videoURL: isVideo.videoURL,
-//        longitude: locationFromMap.longitude,
-//        latitude: locationFromMap.latitude,
-//        radius: radius,
-//        homeService: homeService,
-//      ).pushToFirebase();
-//    });
-//  }
 
 
   createSpaceBetweenButtons(double height){
@@ -246,6 +213,12 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
   }
 
 
+  showLocation(){
+    return Visibility(
+      visible: locationSelected == true,
+      child: LocationService().showLocation(userName, databaseLatitude, databaseLatitude),
+    );
+  }
 
 
 
@@ -268,6 +241,9 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
         });
         if(locationSelected == true && videoSelected == true ){
           await pushToVideoBazaarWalaLocationAndBasiCProfile();
+
+          /// adding location to cache, to show in edit profile
+          cache["location"] = locationFromMap;
 
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);

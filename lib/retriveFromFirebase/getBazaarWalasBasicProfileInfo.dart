@@ -73,4 +73,15 @@ class GetBazaarWalasBasicProfileInfo{
 
     return map;
   }
+
+  getVideoAndLocation() async{
+    DocumentSnapshot dc = await main();
+    Map map = new Map();
+    if(dc.data != null){
+      map["latitude"] = dc.data["latitude"];
+      map["longitude"] = dc.data["longitude"];
+      map["videoURL"] = dc.data["videoURL"];
+      return map;
+    }return null;
+  }
 }

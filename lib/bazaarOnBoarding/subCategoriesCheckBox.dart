@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarWalasBasicProfileCollection.dart';
 import 'package:gupshop/bazaarCategory/homeServiceText.dart';
 import 'package:gupshop/bazaarOnBoarding/pushSubCategoriesToFirebase.dart';
+import 'package:gupshop/bazaarOnBoarding/subCategoryCheckBoxUI.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
@@ -35,6 +36,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
   List<String> listOfSubCategories = new List();
   Set tempSet = new HashSet();
   List<String> listOfSubCategoriesForData = new List();
+  bool isCategorySelected = false;
 
 
   getCategorySizeFuture() {
@@ -47,9 +49,31 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
   }
 
 
+  /// if the user is already a bazaarwala then the categories should already
+  /// be selected and the forward button should also be visible.
+  /// To check if the user has selected any categories, then isCategorySelected
+  /// would show as true and would make the forward icon visible.
+  categorySelectedCheck() async{
+    List<DocumentSnapshot> dc = await GetCategoriesFromCategoriesMetadata
+      (category: widget.categoryData,).selectedCategories();
+
+    if(dc[0].data.isEmpty == true){
+      setState(() {
+        isCategorySelected = false;
+      });
+    }else{
+      setState(() {
+        isCategorySelected = true;
+      });
+    }
+
+
+  }
+
   @override
   void initState() {
     getCategorySizeFuture();
+    categorySelectedCheck();
     super.initState();
   }
 
@@ -73,16 +97,21 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if(snapshot.data != null){
+            /// if the user is a bazaarwala already, then, we create a map of
+            /// the selected categories and merge it with 'map'.
+            /// so value: map[doc.data["name"]] will show true and false
+            /// accordingly
             Map categorySelectedMap = snapshot.data;
             mergeMaps(categorySelectedMap, map);
+            isCategorySelected = true;
           }
           return ContactSearch(
             suggestions: widget.subCategoriesList,
             navigate: NavigateToBazaarOnBoardingHome().navigate(context),
             onSearch: searchList,
             hintText: 'What is your speciality ?',
-            onItemFound: (DocumentSnapshot doc, int index){
-              return Container(
+            onItemFound: (DocumentSnapshot doc, int index) {
+                return Container(
                 child: CheckboxListTile(
                     controlAffinity:ListTileControlAffinity.leading ,
                     title:CustomText(text: doc.data["name"]),
@@ -127,7 +156,6 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
         blankMap[key] = true;
       }
     });
-    print("blankMap : $blankMap");
   }
 
   homeServiceDialog(String homeServiceText) async{
@@ -161,14 +189,14 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
   }
 
 
-  bool isSubCategorySelected(){
-    if(map.containsValue(true)) return true;
-    return false;
+  bool isSubCategorySelectedWidget(){
+    if(map.containsValue(true)) isCategorySelected = true;
+    else isCategorySelected = false;
   }
 
-  showButton(){
+  showButton() {
     return Visibility(
-      visible: isSubCategorySelected(),
+      visible: isCategorySelected,
       child: Align(
           alignment: Alignment.bottomRight,
           child: Container(

@@ -22,6 +22,7 @@ class RetriveLikesAndDislikesFromBazaarRatingNumbers{
     Map<String, int> map = new Map();
     map['likes']= dc.data["likes"];
     map['dislikes'] = dc.data["dislikes"];
+    print("map in numberOfLikesAndDislikes : $map");
 
     return map;
   }

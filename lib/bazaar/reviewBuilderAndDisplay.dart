@@ -72,7 +72,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
           visible: widget.homeServiceBool != null,
           child: Padding(
             padding: EdgeInsets.only(left:8.0),
-            child: CustomText(text : widget.homeServiceText,).blueSubtitle(),
+            child: widget.homeServiceBool == null ? CustomText(text: "",) :CustomText(text : widget.homeServiceText,).blueSubtitle(),/// A non-null String must be provided to a Text widget. error was thrown
           ),
         ),
         likeDislikeIconsAndAddReviewButton(3),

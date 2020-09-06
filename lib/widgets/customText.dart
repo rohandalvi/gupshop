@@ -40,6 +40,20 @@ class CustomText extends StatelessWidget {
     );
   }
 
+  underLine(){
+    return Text(
+      text,
+      style: GoogleFonts.openSans(
+          textStyle: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: standardFontSize,
+              decoration: TextDecoration.underline
+            ///decoration: TextDecoration.underline/// this is giving an underline to Enter the link too
+          )
+      ),
+    );
+  }
+
   welcomeTitle(){
     return Text(
       text,
@@ -130,6 +144,7 @@ class CustomText extends StatelessWidget {
       ),
     );
   }
+
 
   graySubtitle(){
     return Text(

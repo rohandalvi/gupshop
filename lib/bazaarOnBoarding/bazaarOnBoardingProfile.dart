@@ -216,7 +216,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
   pageSubtitle(String text){
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: CustomText(text: text,),
+      child: CustomText(text: text,).underLine(),
     );
   }
 

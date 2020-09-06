@@ -17,6 +17,7 @@ import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
+import 'package:gupshop/updateInFirebase/updateBazaarWalasBasicProfile.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -73,6 +74,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
   bool videoSelected = false;
   bool locationSelected = false;
   bool isBazaarWala;
+  bool videoFromActualSelection;
 
   BazaarProfileSetVideo isVideo;
   LatLng locationFromMap;
@@ -108,6 +110,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
       video: video,
       cameraVideo: _cameraVideo,);
 
+    videoFromActualSelection = true;
     cache["video"] = isVideo;
 
     return isVideo;
@@ -142,7 +145,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
                 print("map in GetBazaarWalasBasicProfileInfo : ${snapshot.data}");
-                if(isBazaarWala == true){
+                if(snapshot.data != null){
                   video = new File("videoURL");
                   databaseVideoURL = snapshot.data["videoURL"];
                   videoSelected = true;
@@ -228,6 +231,15 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
     );
   }
 
+  isSubCategoryBazaarwalaWidget() async{
+    bool isSubCategoryBazaarwala = await GetBazaarWalasBasicProfileInfo(
+      userNumber: userPhoneNo,
+      categoryData: widget.categoryData,
+      subCategoryData: widget.listOfSubCategoriesForData[0],
+    ).getIsBazaarwala();
+    return isSubCategoryBazaarwala;
+  }
+
 
 
   showSaveButton(BuildContext context){
@@ -239,16 +251,39 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
     return CustomFloatingActionButtonWithIcon(
       iconName: 'forward2',
       onPressed: () async{
-
-        //homeService = await homeServiceDialog();
-
-
         setState(() {
           if(isVideo != null) videoSelected = isVideo.videoSelected;
           if(locationFromMap != null) locationSelected = true;
         });
+
         if(locationSelected == true && videoSelected == true ){
-          await pushToVideoBazaarWalaLocationAndBasiCProfile();
+
+          /// if he is already a bazaarwala and video or location is changed
+          bool tempIsSubCategoryBazaarwala = await isSubCategoryBazaarwalaWidget();
+          if(tempIsSubCategoryBazaarwala == true){
+            if(videoFromActualSelection == true){
+              /// then update
+              widget.listOfSubCategoriesForData.forEach((subCategory) async{
+                await UpdateBazaarWalasBasicProfile(
+                  userPhoneNo: userPhoneNo,
+                  categoryData: widget.categoryData,
+                  subCategoryData: subCategory,
+                ).updateVideo(isVideo.videoURL);
+              });
+
+            }
+            if(locationFromMap != null){
+              widget.listOfSubCategoriesForData.forEach((subCategory) async{
+                await UpdateBazaarWalasBasicProfile(
+                  userPhoneNo: userPhoneNo,
+                  categoryData: widget.categoryData,
+                  subCategoryData: subCategory,
+                ).updateLocation(locationFromMap);
+              });
+            }
+          }/// else if he adding for the first time and not editing the profile
+          else await pushToVideoBazaarWalaLocationAndBasiCProfile();
+
 
           /// adding location to cache, to show in edit profile
           cache["location"] = locationFromMap;
@@ -298,12 +333,14 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
   }
 
   pushTobazaarWalasLocation(){
-    widget.listOfSubCategoriesForData.forEach((subCategory) {
-      LocationService().pushBazaarWalasLocationToFirebase(
-        locationFromMap.latitude, locationFromMap.longitude,
-          widget.categoryData, userPhoneNo, subCategory, radius
-      );
-    });
+    if(locationFromMap != null){
+      widget.listOfSubCategoriesForData.forEach((subCategory) {
+        LocationService().pushBazaarWalasLocationToFirebase(
+            locationFromMap.latitude, locationFromMap.longitude,
+            widget.categoryData, userPhoneNo, subCategory, radius
+        );
+      });
+    }
   }
 
 

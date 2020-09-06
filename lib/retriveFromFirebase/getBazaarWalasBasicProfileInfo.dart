@@ -15,6 +15,12 @@ class GetBazaarWalasBasicProfileInfo{
       .get();
   }
 
+  getIsBazaarwala() async{
+    DocumentSnapshot dc = await main();
+    if(dc.data.isEmpty) return false;
+    return true;
+  }
+
   getName() async{
     DocumentSnapshot nameFuture = await main();
     return nameFuture.data["bazaarWalaName"];

@@ -121,6 +121,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
                     onChanged: (bool val) async{
                       setState((){
                         map[doc.data["name"]] = val; /// setting the new value as selected by user
+                        isCategorySelected = val;
                       });
 
                       String subCategoryData = widget.subCategoryMap[doc.data["name"]];

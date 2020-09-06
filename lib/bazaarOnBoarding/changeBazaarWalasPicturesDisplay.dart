@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/bazaar/changeBazaarWalasPicturesAppBar.dart';
+import 'package:gupshop/bazaarOnBoarding/changeBazaarWalasPicturesAppBar.dart';
 import 'package:gupshop/navigators/navigateToBazaarSubCategorySearch.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 
@@ -18,13 +18,10 @@ class ChangeBazaarWalasPicturesDisplay extends StatefulWidget{
   final String category;
   final String categoryData;
 
-  final String subCategory;
-  final String subCategoryData;
-
   ChangeBazaarWalasPicturesDisplay({this.thumbnailPicture, this.otherPictureOne,
     this.otherPictureTwo, this.category, this.userName, this.userPhoneNo,
-    this.subCategoriesList, this.subCategoryMap,this.categoryData, this.subCategory,
-    this.subCategoryData,this.subCategoriesListData
+    this.subCategoriesList, this.subCategoryMap,this.categoryData,
+    this.subCategoriesListData
   });
 
   @override

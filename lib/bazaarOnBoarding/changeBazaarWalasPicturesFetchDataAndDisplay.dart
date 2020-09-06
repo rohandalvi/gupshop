@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/bazaar/changeBazaarWalasPicturesDisplay.dart';
+import 'package:gupshop/bazaarOnBoarding/changeBazaarWalasPicturesDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 
@@ -13,12 +13,10 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
   final String category;
   final String categoryData;
 
-  final String subCategory;
-  final String subCategoryData;
 
   ChangeBazaarWalasPicturesFetchDataAndDisplay({this.subCategoriesList,
     this.category, this.subCategoryMap, this.userPhoneNo, this.userName,
-    this.categoryData,this.subCategoryData, this.subCategory, this.subCategoriesListData
+    this.categoryData, this.subCategoriesListData
   });
 
   @override
@@ -29,6 +27,7 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
         if (userNumberSnapshot.connectionState == ConnectionState.done) {
 
           String userNumber = userNumberSnapshot.data;
+          String subCategoryData = subCategoriesListData[0];
 
           return FutureBuilder(
             future: GetBazaarWalasBasicProfileInfo(userNumber: userNumber,
@@ -69,8 +68,6 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
                   subCategoryMap: subCategoryMap,
                   userPhoneNo: userPhoneNo,
                   userName: userName,
-                  subCategory: subCategory,
-                  subCategoryData: subCategoryData,
                   subCategoriesListData: subCategoriesListData,
                 );
               }

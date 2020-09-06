@@ -1,11 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/individualChat/messageCardDisplay.dart';
 import 'package:gupshop/service/videoPicker.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
+import 'package:gupshop/widgets/customRaisedButton.dart';
+import 'package:gupshop/widgets/customText.dart';
 
 class BazaarProfileSetVideo extends StatefulWidget {
   File video;
@@ -23,28 +26,35 @@ class BazaarProfileSetVideo extends StatefulWidget {
 class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        CustomIconButton(
-        iconNameInImageFolder: 'videoCamera',
-          onPressed: (){
-            CustomBottomSheet(
-              customContext: context,
-              firstIconName: 'photoGallery',
-              firstIconText: 'Pick video from  Gallery',
-              firstIconAndTextOnPressed: (){
-                _pickVideoFromGallery();
-              },
-              secondIconName: 'image2vector',
-              secondIconText: 'Record video from Camera',
-              secondIconAndTextOnPressed: (){
-                _pickVideoFromCamer();
-              },
-            ).showTwo();
-          },
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CustomRaisedButton(
+          child: CustomText(text: 'Tap to add video',),
+            onPressed: (){
+              CustomBottomSheet(
+                customContext: context,
+                firstIconName: 'photoGallery',
+                firstIconText: 'Pick video from  Gallery',
+                firstIconAndTextOnPressed: (){
+                  _pickVideoFromGallery();
+                },
+                secondIconName: 'image2vector',
+                secondIconText: 'Record video from Camera',
+                secondIconAndTextOnPressed: (){
+                  _pickVideoFromCamer();
+                },
+              ).showTwo();
+            },
+          ).elevated(),
         ),
-        if((widget.video != null || widget.cameraVideo != null)) MessageCardDisplay().showVideo(widget.videoURL,),
+        if((widget.video != null || widget.cameraVideo != null))
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child:MessageCardDisplay().showVideo(widget.videoURL,),
+          ),
       ],
     );
   }

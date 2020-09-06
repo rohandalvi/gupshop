@@ -41,7 +41,22 @@ class GetCategoriesFromCategoriesMetadata{
       });
       return result;
     } return null;
+  }
 
+  getSelectedCategoriesDataAsMap() async{
+    String userNumber = await UserDetails().getUserPhoneNoFuture();
+    QuerySnapshot dc = await Firestore.instance.collection("bazaarCategoriesMetadata")
+        .document(userNumber).collection(category).getDocuments();
+    if(dc.documents != null){
+      Map result = new HashMap();
+      Map map =  dc.documents.asMap();
+      map.forEach((key, value) {
+        DocumentSnapshot nameDc = value;
+        String categoryName = nameDc.documentID;
+        result[categoryName] = true;
+      });
+      return result;
+    } return null;
   }
 
 }

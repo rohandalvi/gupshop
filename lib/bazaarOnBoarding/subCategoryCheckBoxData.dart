@@ -53,7 +53,6 @@ class _SubCategoryCheckBoxDataState extends State<SubCategoryCheckBoxData> {
             /// accordingly
             Map categorySelectedMap = snapshot.data;
             mergeMaps(categorySelectedMap, map);
-            print("map in data : $map");
           }
           return SubCategoriesCheckBox(
             map: map,

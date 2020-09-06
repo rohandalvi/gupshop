@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarWalasBasicProfileCollection.dart';
 import 'package:gupshop/bazaarCategory/homeServiceText.dart';
 import 'package:gupshop/bazaarOnBoarding/pushSubCategoriesToFirebase.dart';
-import 'package:gupshop/bazaarOnBoarding/subCategoryCheckBoxUI.dart';
+import 'package:gupshop/bazaarOnBoarding/updateSubcategoriesFirebase.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
+import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -39,6 +40,8 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
   Set tempSet = new HashSet();
   List<String> listOfSubCategoriesForData = new List();
   bool isCategorySelected = false;
+
+  Map initialMap;
 
 
   getCategorySizeFuture() {
@@ -68,14 +71,21 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
         isCategorySelected = true;
       });
     }
+  }
 
 
+  selectedCategoryListFromDatabase(){
+    widget.map.forEach((key, value) { });
   }
 
   @override
   void initState() {
     getCategorySizeFuture();
     categorySelectedCheck();
+
+    initialMap = Map.of(widget.map);
+    print("initialMap in initState : $initialMap");
+
     super.initState();
   }
 
@@ -180,6 +190,17 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
     return widget.map.containsValue(true);
   }
 
+  isSubCategoryBazaarwalaWidget() async{
+    String userNumber = await UserDetails().getUserPhoneNoFuture();
+
+    bool isSubCategoryBazaarwala = await GetBazaarWalasBasicProfileInfo(
+      userNumber: userNumber,
+      categoryData: widget.categoryData,
+      subCategoryData: listOfSubCategoriesForData[0],
+    ).getIsBazaarwala();
+    return isSubCategoryBazaarwala;
+  }
+
   showButton() {
     return Visibility(
       visible: isCategorySelected,
@@ -200,7 +221,17 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
                     /// create subCategories list:
                     subCategoriesList();
 
-                    /// push the subCategories to database:
+                    /// if already a bazaarwala then, delete and update
+                    /// and not push
+                    bool tempIsSubCategoryBazaarwala = await isSubCategoryBazaarwalaWidget();
+                    print("tempIsSubCategoryBazaarwala : $tempIsSubCategoryBazaarwala");
+                    if(tempIsSubCategoryBazaarwala == true){
+                      Map deleteMap = newSubCategories(initialMap, widget.map);
+                      print("deleteMap : $deleteMap");
+                      List deleteList = listFromMapValues(deleteMap);
+                      print("deleteList : $deleteList");
+                      deleteUnselectedCategoriesFromDatabase(deleteList, userNumber);
+                    } else /// push the subCategories to database:
                     pushSubCategoriesToFirebase();
 
                     /// moving on to next page:
@@ -234,6 +265,35 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
         }
       }
     });
+    print("listOfSubCategoriesForData in subCategoriesList: $listOfSubCategoriesForData");
+    print("map in subCategoriesList : ${widget.map}");
+  }
+
+
+  /// initial map : initialMap,
+  /// newMap : map
+  newSubCategories(Map initialMap, Map newMap ){
+    Map deleteMap = new HashMap();
+    print("initialMap : $initialMap");
+    print("newMap : $newMap");
+    initialMap.forEach((key, value) {
+      if(initialMap[key] == true && newMap[key] == false){
+        String subCategoryData = widget.subCategoryMap[key];
+        deleteMap[key] = subCategoryData;
+      }
+    });
+
+    return deleteMap;
+  }
+
+  listFromMapValues(Map map){
+    List result = new List();
+
+    map.forEach((key, value) {
+      result.add(map[key]);
+    });
+
+    return result;
   }
 
   pushSubCategoriesToFirebase() async{
@@ -241,19 +301,33 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
     String userNumber = await UserDetails().getUserPhoneNoFuture();
 
     PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-      userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData
-    ).bazaarCategories();
+      userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
+        .bazaarCategories();
 
     PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData,listOfSubCategories: listOfSubCategories ).bazaarCategoriesMetaData();
+        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData,listOfSubCategories: listOfSubCategories )
+        .bazaarCategoriesMetaData();
 
     PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData).createBlankRatingNumber();
+        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
+        .createBlankRatingNumber();
 
     PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData).createBlankReviews();
+        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
+        .createBlankReviews();
 
     PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData).bazaarWalasLocation();
+        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
+        .bazaarWalasLocation();
+  }
+
+
+  deleteUnselectedCategoriesFromDatabase(List subCategoryDelete, String userNumber){
+
+    UpdateSubcategriesFirebase(category: widget.categoryData,userNumber: userNumber,
+        listOfSubCategoriesData: subCategoryDelete).bazaarCategories();
+
+    UpdateSubcategriesFirebase(category: widget.categoryData,userNumber: userNumber,
+        listOfSubCategoriesData: subCategoryDelete).bazaarCategoriesMetadata();
   }
 }

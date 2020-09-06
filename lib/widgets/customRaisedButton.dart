@@ -6,7 +6,9 @@ class CustomRaisedButton extends StatelessWidget {
   VoidCallback onPressed;
   final Widget child;
   ShapeBorder shape;
-  CustomRaisedButton({this.onPressed, this.child, this.shape});
+  double minWidth;
+  double height;
+  CustomRaisedButton({this.onPressed, this.child, this.shape,this.minWidth, this.height});
 
   //VerticalPadding({this.child, @required this.verticleHeight});
 
@@ -31,6 +33,13 @@ class CustomRaisedButton extends StatelessWidget {
       elevation: 0,
       hoverColor: Colors.blueGrey,
       child: child
+    );
+  }
+
+  Widget elevated() {
+    return RaisedButton(
+      onPressed: onPressed,
+      child: child,
     );
   }
 }

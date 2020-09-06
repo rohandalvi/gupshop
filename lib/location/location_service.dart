@@ -176,6 +176,15 @@ class LocationService {
     );
   }
 
+  showLocationElevated(String senderName,double latitude, double longitude){
+    return CustomRaisedButton(
+      child: CustomText(text: '$senderName \nCurrent Location 📍',),/// toDo- very very big name
+      onPressed: (){
+        LocationService().launchMapsUrl(latitude, longitude);
+      },
+    ).elevated();
+  }
+
   getUserGeohash(String number, String addressName) async{
     DocumentSnapshot dc = await LocationService().getUserLocation(number);
     return dc.data[addressName]["geohash"];

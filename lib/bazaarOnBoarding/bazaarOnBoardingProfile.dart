@@ -162,32 +162,37 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                       pageSubtitle('Add home Location : '),
 
                       /// location widgets:
-                      Container(
-                        width: WidgetConfig.sizedBoxBazaarOnBoarding,
-                        child: CustomRaisedButton(
-                          child: CustomText(text: 'Add location and service area',),
-                          onPressed: () async{
-                            LocationData location;
-                            var currentLocation = new Location();
-                            location = await currentLocation.getLocation();
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CustomRaisedButton(
+                              child: CustomText(text: 'Tap to add location and service area',),
+                              onPressed: () async{
+                                LocationData location;
+                                var currentLocation = new Location();
+                                location = await currentLocation.getLocation();
 
-                            //Position location  = await LocationService().getLocation();
+                                //Position location  = await LocationService().getLocation();
 
-                            List list = await NavigateToCustomMap(
-                              latitude: location.latitude,
-                              longitude: location.longitude,
-                              showRadius: true,
-                            ).navigateNoBrackets(context);
+                                List list = await NavigateToCustomMap(
+                                  latitude: location.latitude,
+                                  longitude: location.longitude,
+                                  showRadius: true,
+                                ).navigateNoBrackets(context);
 
-                            /// list[0] = location
-                            /// list[1] = radius
-                            locationFromMap = list[0];
-                            radius = list[1];
+                                /// list[0] = location
+                                /// list[1] = radius
+                                locationFromMap = list[0];
+                                radius = list[1];
 
-                          },
-                        ),
+                              },
+                            ).elevated(),
+                          ),
+                          showLocation(),
+                        ],
                       ),
-                      showLocation(),
                     ]
                 );
               } return CircularProgressIndicator();
@@ -214,9 +219,12 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
 
   showLocation(){
-    return Visibility(
-      visible: locationSelected == true,
-      child: LocationService().showLocation(userName, databaseLatitude, databaseLatitude),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Visibility(
+        visible: locationSelected == true,
+        child: LocationService().showLocation(userName, databaseLatitude, databaseLatitude),
+      ),
     );
   }
 

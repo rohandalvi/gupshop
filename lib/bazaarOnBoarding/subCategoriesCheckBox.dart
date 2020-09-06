@@ -24,15 +24,17 @@ class SubCategoriesCheckBox extends StatefulWidget {
   final List<DocumentSnapshot> subCategoriesList;
   Map<String, String> subCategoryMap;
 
+  Map<String, bool > map;
+
+
   SubCategoriesCheckBox({this.subCategoriesList, this.subCategoriesListFuture,
-    this.category, this.subCategoryMap, this.categoryData});
+    this.category, this.subCategoryMap, this.categoryData, this.map});
 
   @override
   _SubCategoriesCheckBoxState createState() => _SubCategoriesCheckBoxState();
 }
 
 class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
-  Map<String, bool > map = new HashMap();
   List<String> listOfSubCategories = new List();
   Set tempSet = new HashSet();
   List<String> listOfSubCategoriesForData = new List();
@@ -44,7 +46,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
     /// initializing 'map' with false values
     mapOfDocumentSnapshots.forEach((key, value) {
       String temp = mapOfDocumentSnapshots[key].data["name"];
-      map.putIfAbsent(temp, () => false);
+      widget.map.putIfAbsent(temp, () => false);
     });
   }
 
@@ -92,62 +94,46 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
 
 
   Widget appBarBody(BuildContext context) {
-    return FutureBuilder(
-      future: GetCategoriesFromCategoriesMetadata(category: widget.categoryData,).getSelectedCategoriesAsMap(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if(snapshot.data != null){
-            /// if the user is a bazaarwala already, then, we create a map of
-            /// the selected categories and merge it with 'map'.
-            /// so value: map[doc.data["name"]] will show true and false
-            /// accordingly
-            Map categorySelectedMap = snapshot.data;
-            mergeMaps(categorySelectedMap, map);
-            isCategorySelected = true;
-          }
-          return ContactSearch(
-            suggestions: widget.subCategoriesList,
-            navigate: NavigateToBazaarOnBoardingHome().navigate(context),
-            onSearch: searchList,
-            hintText: 'What is your speciality ?',
-            onItemFound: (DocumentSnapshot doc, int index) {
-                return Container(
-                child: CheckboxListTile(
-                    controlAffinity:ListTileControlAffinity.leading ,
-                    title:CustomText(text: doc.data["name"]),
-                    activeColor: primaryColor,
-                    value: map[doc.data["name"]],/// if value of a key in map(a subcategory name) is false or true
-                    //list[index],/// at first all the values would be false
-                    onChanged: (bool val) async{
-                      setState((){
-                        map[doc.data["name"]] = val; /// setting the new value as selected by user
-                        isCategorySelected = val;
-                      });
+      return ContactSearch(
+        suggestions: widget.subCategoriesList,
+        navigate: NavigateToBazaarOnBoardingHome().navigate(context),
+        onSearch: searchList,
+        hintText: 'What is your speciality ?',
+        onItemFound: (DocumentSnapshot doc, int index) {
+            return Container(
+            child: CheckboxListTile(
+                controlAffinity:ListTileControlAffinity.leading ,
+                title:CustomText(text: doc.data["name"]),
+                activeColor: primaryColor,
+                value: widget.map[doc.data["name"]],/// if value of a key in map(a subcategory name) is false or true
+                //list[index],/// at first all the values would be false
+                onChanged: (bool val) async{
+                  setState((){
+                    widget.map[doc.data["name"]] = val; /// setting the new value as selected by user
+                    isCategorySelected = isSubCategorySelectedWidget();
+                  });
 
-                      String subCategoryData = widget.subCategoryMap[doc.data["name"]];
 
-                      String isHomeServiceApplicable = HomeServiceText(categoryData:widget.categoryData,
-                          subCategoryData: subCategoryData).bazaarWalasdialogText();
-                      if(isHomeServiceApplicable != null){
-                        bool homeService = false;
+                  String subCategoryData = widget.subCategoryMap[doc.data["name"]];
 
-                        if(val == true){
-                          homeService = await homeServiceDialog(isHomeServiceApplicable);
-                        }
-                        pushToBazaarWalasBasicProfile(subCategoryData, homeService);
-                      }
+
+                  /// homeService dialog box:
+                  String isHomeServiceApplicable = HomeServiceText(categoryData:widget.categoryData,
+                      subCategoryData: subCategoryData).bazaarWalasdialogText();
+                  if(isHomeServiceApplicable != null){
+                    bool homeService = false;
+
+                    if(val == true){
+                      homeService = await homeServiceDialog(isHomeServiceApplicable);
                     }
-                ),
-              );
-            },
-            //onItemFound: ,
+                    pushToBazaarWalasBasicProfile(subCategoryData, homeService);
+                  }
+                }
+            ),
           );
-        }
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
+        },
+        //onItemFound: ,
+      );
   }
 
   mergeMaps(Map categorySelectedMap, Map blankMap){
@@ -191,8 +177,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
 
 
   bool isSubCategorySelectedWidget(){
-    if(map.containsValue(true)) isCategorySelected = true;
-    else isCategorySelected = false;
+    return widget.map.containsValue(true);
   }
 
   showButton() {
@@ -240,7 +225,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
   subCategoriesList() {
     bool isAdded;
 
-    map.forEach((key, value) {
+    widget.map.forEach((key, value) {
       if(value == true){
         isAdded = tempSet.add(key);/// adding the numbers in a set because, if the user comes back from the nameScreen then the numbers shouldnt duplicate in the list, using set ensures that.
         if(isAdded == true){/// if the set already has the number added then dont add it again in the list

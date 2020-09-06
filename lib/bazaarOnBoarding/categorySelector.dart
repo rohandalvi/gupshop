@@ -8,6 +8,7 @@ import 'package:gupshop/image/gridViewContainer.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
 import 'package:gupshop/navigators/navigateToSubCategories.dart';
+import 'package:gupshop/navigators/navigateToSubCategoriesCheckBoxData.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 
 class CategorySelector extends StatelessWidget {
@@ -40,26 +41,13 @@ class CategorySelector extends StatelessWidget {
                   List<DocumentSnapshot> subCategories = await subCategoriesListFuture;
                   subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(categoryNameForData);
 
-                  NavigateToBazaarSubCategories(
+                  NavigateToBazaarSubCategoriesCheckBoxData(
                     subCategoriesList: subCategories,
                     subCategoriesListFuture: subCategoriesListFuture,
                     category: catergoryName,
                     categoryData: categoryNameForData,
                     subCategoryMap: subCategoryMap,
                   ).navigateNoBrackets(context);
-//                  if(subCategories == null){
-//                    navigateIfDeliveryErrands(context, catergoryName,
-//                    categoryNameForData, userNumber, userName);
-//                  }else{
-//                    /// for all the categories except errands:
-//                    NavigateToBazaarSubCategories(
-//                      subCategoriesList: subCategories,
-//                      subCategoriesListFuture: subCategoriesListFuture,
-//                      category: catergoryName,
-//                      categoryData: categoryNameForData,
-//                      subCategoryMap: subCategoryMap,
-//                    ).navigateNoBrackets(context);
-//                  }
                 },
                 imageName: catergoryName,
                 imageURL: imageURL,

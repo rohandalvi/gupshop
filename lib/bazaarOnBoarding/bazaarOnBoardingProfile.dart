@@ -112,6 +112,8 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
     videoFromActualSelection = true;
     cache["video"] = isVideo;
+    print("isVideo in selectVideo : $isVideo");
+    print("isVideo.url in selectVideo : ${isVideo.videoURL}");
 
     return isVideo;
   }
@@ -148,10 +150,12 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                 if(snapshot.data != null){
                   video = new File("videoURL");
                   databaseVideoURL = snapshot.data["videoURL"];
+//                  isVideo.videoURL = databaseVideoURL;
                   videoSelected = true;
 
                   databaseLongitude = snapshot.data["longitude"];
                   databaseLatitude = snapshot.data["latitude"];
+//                  locationFromMap = new LatLng(databaseLatitude, databaseLongitude);
                   locationSelected = true;
                 }
 
@@ -283,6 +287,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
             }
           }/// else if he adding for the first time and not editing the profile
           else await pushToVideoBazaarWalaLocationAndBasiCProfile();
+          //await pushToVideoBazaarWalaLocationAndBasiCProfile();
 
 
           /// adding location to cache, to show in edit profile

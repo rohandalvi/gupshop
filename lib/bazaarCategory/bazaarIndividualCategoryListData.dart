@@ -12,6 +12,8 @@ import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 import 'package:gupshop/bazaarLocation/filterBazaarLocationData.dart';
 import 'package:gupshop/usersLocation/usersLocation.dart';
+import 'package:gupshop/widgets/blankScreen.dart';
+import 'package:gupshop/widgets/centerText.dart';
 import 'package:gupshop/widgets/clickableText.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListDisplay.dart';
@@ -141,7 +143,9 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
               future: getListOfBazaarWalasInAGivenRadius(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.data == null) return Container(child: Center(child: CustomText(text: 'No ${widget.category}s near you',).bold())); //for avoding  the erro
+                print("snapshot.data in getListOfBazaarWalasInAGivenRadius : ${snapshot.data}");
+              if (snapshot.data == null || snapshot.data.isEmpty )
+                return Container(child: Center(child: CustomText(text: 'No ${widget.category}s near you',).bold())); //for avoding  the erro
 
               var list = snapshot.data;
 

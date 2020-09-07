@@ -31,4 +31,8 @@ class UpdateSubcategriesFirebase{
       ).deleteASubcategory();
     });
   }
+
+  bazaarBasicProfile(){
+
+  }
 }

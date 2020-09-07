@@ -224,15 +224,20 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
                     /// if already a bazaarwala then, delete and update
                     /// and not push
                     bool tempIsSubCategoryBazaarwala = await isSubCategoryBazaarwalaWidget();
-                    print("tempIsSubCategoryBazaarwala : $tempIsSubCategoryBazaarwala");
+
                     if(tempIsSubCategoryBazaarwala == true){
-                      Map deleteMap = newSubCategories(initialMap, widget.map);
-                      print("deleteMap : $deleteMap");
+                      List<Map> list = newSubCategories(initialMap, widget.map);
+                      Map deleteMap = list[0];
+                      Map addMap = list[1];
                       List deleteList = listFromMapValues(deleteMap);
-                      print("deleteList : $deleteList");
                       deleteUnselectedCategoriesFromDatabase(deleteList, userNumber);
+
+                      if(addMap.isNotEmpty){
+                        List addList = listFromMapValues(addMap);
+                        pushSubCategoriesToFirebase(addList);
+                      }
                     } else /// push the subCategories to database:
-                    pushSubCategoriesToFirebase();
+                    pushSubCategoriesToFirebase(listOfSubCategoriesForData);
 
                     /// moving on to next page:
                     NavigateToBazaarOnBoardingProfile(
@@ -273,18 +278,28 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
   /// initial map : initialMap,
   /// newMap : map
   newSubCategories(Map initialMap, Map newMap ){
+    List<Map> list = new List();
+
     Map deleteMap = new HashMap();
-    print("initialMap : $initialMap");
-    print("newMap : $newMap");
+    Map addMap = new HashMap();
+
     initialMap.forEach((key, value) {
       if(initialMap[key] == true && newMap[key] == false){
         String subCategoryData = widget.subCategoryMap[key];
         deleteMap[key] = subCategoryData;
       }
+      if(initialMap[key] == false && newMap[key] == true){
+        String subCategoryData = widget.subCategoryMap[key];
+        addMap[key] = subCategoryData;
+      }
     });
 
-    return deleteMap;
+    list.add(deleteMap);
+    list.add(addMap);
+
+    return list;
   }
+
 
   listFromMapValues(Map map){
     List result = new List();
@@ -296,7 +311,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
     return result;
   }
 
-  pushSubCategoriesToFirebase() async{
+  pushSubCategoriesToFirebase(List listOfSubCategoriesData) async{
     String userName = await UserDetails().getUserNameFuture();
     String userNumber = await UserDetails().getUserPhoneNoFuture();
 

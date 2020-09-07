@@ -22,6 +22,8 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   var range;
   var number;
 
+  bool videoPlaying;
+
   _initPlayer() async{
     videoPlayerController = VideoPlayerController.file(File(widget.videoURL));
     videoPlayerController = VideoPlayerController.network(widget.videoURL);
@@ -31,10 +33,8 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     setState(() {
 
     });
-    //videoPlayerController.setLooping(true);
+    videoPlayerController.play();
 
-//    print("width :${videoPlayerController.value.size?.width}");
-//    print("height :${videoPlayerController.value.size?.height}");
   }
 
   @override
@@ -49,9 +49,10 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     /// first there would arise an error:
     /// There are multiple heroes that share the same tag within a subtree.
     /// To remove this:
+    ///
+    /// creating random number
     range = new Random();
     number = new List.generate(12, (_) => range.nextInt(100));// TODO: check if this is correct
-
 
     _initPlayer();
     super.initState();
@@ -87,8 +88,10 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                   onTap: (){
                     if(videoPlayerController.value.isPlaying){
                       videoPlayerController.pause();
+                      videoPlaying = true;
                     }else {
                       videoPlayerController.play();/// this means even if the user taps the video, the video plays if not playing already instead of pressing the play button
+                      videoPlaying = false;
                     }
                   },
                 ),
@@ -104,8 +107,46 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                 ),
               ),
             ),
+            //playPauseIcons(),
           ],
         ),
+      ),
+    );
+  }
+
+
+  /// code for playPause if required in future.
+  /// Right now, not using it
+  playPauseIcons(){
+    if(videoPlaying == true){
+      return GestureDetector(
+        onTap: (){
+          if(videoPlayerController.value.isPlaying){
+            videoPlayerController.pause();
+            videoPlaying = true;
+          }else {
+            videoPlayerController.play();/// this means even if the user taps the video, the video plays if not playing already instead of pressing the play button
+            videoPlaying = false;
+          }
+        },
+        child: Align(
+          alignment: Alignment.center,
+            child: CustomIconButton(iconNameInImageFolder: 'pauseButton',)
+        ),
+      );
+    }else return GestureDetector(
+      onTap: (){
+        if(videoPlayerController.value.isPlaying){
+          videoPlayerController.pause();
+          videoPlaying = true;
+        }else {
+          videoPlayerController.play();/// this means even if the user taps the video, the video plays if not playing already instead of pressing the play button
+          videoPlaying = false;
+        }
+      },
+      child: Align(
+        alignment: Alignment.bottomCenter,
+          child: CustomIconButton(iconNameInImageFolder: 'playButton',)
       ),
     );
   }

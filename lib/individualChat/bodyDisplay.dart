@@ -163,6 +163,7 @@ class _BodyDisplayState extends State<BodyDisplay> {
                       title: "Forward the NEWS",
                       content: "Forwarding the news means you agree to the content "
                           "to be true.",
+                      barrierDismissible: false,
                     ).dialog(context);
 
                     /// increasing the trueBy count by 1:

@@ -95,6 +95,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
 
         String isHomeServiceApplicable = HomeServiceText(categoryData:widget.categoryData,
             subCategoryData: subCategoryData).userDialogDisplayText();
+        print("isHomeServiceApplicable in build : $isHomeServiceApplicable");
         if(isHomeServiceApplicable != null){
           showHomeService = await homeServiceDialog(isHomeServiceApplicable);
         }

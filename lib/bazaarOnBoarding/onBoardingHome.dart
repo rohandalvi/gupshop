@@ -7,6 +7,10 @@ import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class OnBoardingHome extends StatelessWidget {
+  final String text;
+
+  OnBoardingHome({this.text});
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -15,7 +19,7 @@ class OnBoardingHome extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(WidgetConfig.appBarBazaarOnBoarding),
           child: CustomAppBar(
-            title: CustomText(text: 'What do you do ?',),
+            title: CustomText(text: text == null ? 'What do you do ?' : text,),
             onPressed:(){
               NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
             },),

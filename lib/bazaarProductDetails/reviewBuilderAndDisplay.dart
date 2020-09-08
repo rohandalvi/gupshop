@@ -3,8 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarReviewsCollection.dart';
-import 'package:gupshop/bazaar/likesDislikesDisplay.dart';
-import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
+import 'package:gupshop/bazaarOnBoarding/onBoardingHome.dart';
+import 'package:gupshop/bazaarProductDetails/likesDislikesDisplay.dart';
+import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
@@ -51,6 +52,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
 
   @override
   Widget build(BuildContext context) {
+    print("homeServiceBool in build : ${widget.homeServiceBool}");
     return ListView(
       controller: new ScrollController(),//---> for scrolling the screen
       shrinkWrap: true,//---> Vertical viewport was given unbounded height.- this error thrown if not used
@@ -340,6 +342,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
   }
 
 
+  /// add Review/ edit Profile
   likeDislikeIconsAndAddReviewButton(int rating){
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -368,10 +371,15 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
             padding: EdgeInsets.only(left:5, right: 5),//for spacing bewteen Add review text from left and right side of the blue container
             child: CustomRaisedButton(
               child: CustomText(
-                text: 'Change Advertisement', fontSize: 12,),
+                text: 'Edit Profile', fontSize: 12,),
               onPressed: (){
                 /// take the bazaarWala to bazaarProfile page"
-//                NavigateToBazaarProfilePage().navigateNoBrackets(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Material(child: OnBoardingHome(text : "Select a category to edit")),
+                    )
+                );
               },),
 //            Text('Add your advertisement',style: GoogleFonts.openSans(
 //                fontSize: 12

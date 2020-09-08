@@ -7,7 +7,6 @@ import 'package:gupshop/bazaar/customGridView.dart';
 import 'package:gupshop/image/gridViewContainer.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
-import 'package:gupshop/navigators/navigateToSubCategories.dart';
 import 'package:gupshop/navigators/navigateToSubCategoriesCheckBoxData.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 

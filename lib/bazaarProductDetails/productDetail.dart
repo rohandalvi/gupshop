@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/bazaar/chatWithBazaarwala.dart';
-import 'package:gupshop/bazaar/reviewBuilderAndDisplay.dart';
+import 'package:gupshop/bazaarProductDetails/chatWithBazaarwala.dart';
+import 'package:gupshop/bazaarProductDetails/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarIndividualCategoryList.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';

@@ -36,6 +36,7 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
                 name = nameSnapshot.data["name"];
                 thumbnailPicture = nameSnapshot.data["thumbnailPicture"];
                 homeService = nameSnapshot.data["homeService"];
+                print("homeService in BazaarIndividualCategoryNameDpBuilder : $homeService");
 
                 String homeServiceText;
                 /// if homeService applicable and provides homeService:

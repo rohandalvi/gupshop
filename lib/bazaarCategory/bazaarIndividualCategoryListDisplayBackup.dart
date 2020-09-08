@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/bazaar/likesDislikesFetchAndDisplay.dart';
-import 'package:gupshop/bazaar/productDetail.dart';
+import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
+import 'package:gupshop/bazaarProductDetails/productDetail.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
 import 'package:gupshop/responsive/iconConfig.dart';

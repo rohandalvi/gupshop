@@ -64,14 +64,16 @@ class DisplayAvatar{
     );
   }
 
-  displayAvatarFromProfilePictures(String userPhoneNo, double radius, double innerRadius, bool isFirstTime, Map<String, ChatListCache> chatListCache, String conversationId, ChatListCache cache){
+  displayAvatarFromProfilePictures(String userPhoneNo, double radius, double innerRadius,
+      bool isFirstTime, Map<String, ChatListCache> chatListCache, String conversationId,
+      ChatListCache cache){
     print("avatar cache in displayAvatar : $chatListCache");
     DocumentReference isProfilePictureAdded = Firestore.instance.collection("profilePictures").document(userPhoneNo);
     return StreamBuilder(
         stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
         builder: (context, snapshot) {
           if(snapshot.data == null) return avatarPlaceholder(radius, innerRadius);///to avoid error - "getter do
-          String imageUrl;
+          //String imageUrl;
           try{
             imageUrl = snapshot.data['url'];
           }

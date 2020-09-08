@@ -20,11 +20,12 @@ class NavigateChangeProfilePicture{
   String friendName;
   String friendN;
   bool notGroupMemberAnymore;
+  String imageURL;
 
   NavigateChangeProfilePicture({@required this.userName, @required this.viewingFriendsProfile,
     @required this.userPhoneNo, this.groupConversationId, this.chatListCache, this.conversationId,
     this.listOfFriendNumbers, this.conversationService, this.groupExits, this.presence, this.friendN,
-    this.friendName, this.notGroupMemberAnymore,
+    this.friendName, this.notGroupMemberAnymore,this.imageURL
   });
 
   navigate(BuildContext context){
@@ -38,7 +39,9 @@ class NavigateChangeProfilePicture{
               userPhoneNo: userPhoneNo,
               groupConversationId: groupConversationId,
               conversationId: conversationId,
-              chatListCache: chatListCache,),//pass Name() here and pass Home()in name_screen
+              chatListCache: chatListCache,
+              imageURL: imageURL,
+            ),//pass Name() here and pass Home()in name_screen
           )
       );
     };
@@ -54,7 +57,9 @@ class NavigateChangeProfilePicture{
             userPhoneNo: userPhoneNo,
             groupConversationId: groupConversationId,
             conversationId: conversationId,
-            chatListCache: chatListCache,),//pass Name() here and pass Home()in name_screen
+            chatListCache: chatListCache,
+            imageURL: imageURL,
+          ),//pass Name() here and pass Home()in name_screen
         )
     );
   }

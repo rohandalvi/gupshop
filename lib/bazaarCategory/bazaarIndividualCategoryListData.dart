@@ -1,24 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryNameDpBuilder.dart';
 import 'package:gupshop/bazaar/placeHolderImages.dart';
 import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
+import 'package:gupshop/bazaarCategory/noSubcategoryText.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToAddressList.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 import 'package:gupshop/bazaarLocation/filterBazaarLocationData.dart';
 import 'package:gupshop/usersLocation/usersLocation.dart';
-import 'package:gupshop/widgets/blankScreen.dart';
-import 'package:gupshop/widgets/centerText.dart';
 import 'package:gupshop/widgets/clickableText.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListDisplay.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
+import 'package:gupshop/widgets/customRichText.dart';
 import 'package:gupshop/widgets/customText.dart';
+import 'package:gupshop/widgets/paddedMarginedContainer.dart';
 
 class BazaarIndividualCategoryListData extends StatefulWidget {
   final String category;
@@ -143,9 +145,12 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
               future: getListOfBazaarWalasInAGivenRadius(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                print("snapshot.data in getListOfBazaarWalasInAGivenRadius : ${snapshot.data}");
-              if (snapshot.data == null || snapshot.data.isEmpty )
-                return Container(child: Center(child: CustomText(text: 'No ${widget.category}s near you',).bold())); //for avoding  the erro
+              if (snapshot.data == null || snapshot.data.isEmpty ){
+                //String parameter = NoSubCategoryText().getCategoryDataName(widget.categoryData);
+                String noBazaarwalaText = NoSubCategoryText().getText(widget.categoryData);
+                return noBazaarwalaWidget(noBazaarwalaText); //for avoding  the erro
+              }
+
 
               var list = snapshot.data;
 
@@ -177,6 +182,20 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
       ),
     );
   }
+
+  noBazaarwalaWidget(String noBazaarwalaText){
+    return PaddedMarginedContainer(
+      child :  CustomRichText(
+        children: <TextSpan>[
+          CustomText(text: 'No ',).richText(),
+          CustomText(text: noBazaarwalaText,textColor: primaryColor, fontSize: TextConfig().bigFontSize,).richText(),
+          CustomText(text: ' near you',).richText(),
+        ],
+      ),
+    );
+  }
+
+
 
   listOfBazaarWalasPlaceholder(int numberOfBazaarWalasInList, String bazaarWalaPhoneNo){
     return ListView.builder(

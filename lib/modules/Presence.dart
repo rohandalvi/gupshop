@@ -16,10 +16,13 @@ class Presence {
   }
 
   Future<String> getStatus(String number) async{
+    print("Getting presence status for number $number");
     DataSnapshot snapshot = await database.reference().child(PRESENCE).child(number).once();
     try {
+      print("Found last online ts to be ${snapshot.value}");
       DateTime.parse(snapshot.value);
       var s = 'Last Seen '+timeago.format(DateTime.parse(snapshot.value));
+
       return s;
     } catch(e) {
 

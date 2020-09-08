@@ -26,11 +26,13 @@ class CustomNavigator{
     );
   }
 
-  navigateToChangeProfilePicture(BuildContext context, String userName, bool viewingFriendsProfile, String userPhoneNo, String groupConversationId){
+  navigateToChangeProfilePicture(BuildContext context, String userName, bool viewingFriendsProfile, String userPhoneNo,
+      String groupConversationId, String imageURL){
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ChangeProfilePicture(userName: userName, viewingFriendsProfile:viewingFriendsProfile, userPhoneNo: userPhoneNo, groupConversationId: groupConversationId,),//pass Name() here and pass Home()in name_screen
+          builder: (context) => ChangeProfilePicture(userName: userName, viewingFriendsProfile:viewingFriendsProfile,
+            userPhoneNo: userPhoneNo, groupConversationId: groupConversationId, imageURL: imageURL,),//pass Name() here and pass Home()in name_screen
         )
     );
   }

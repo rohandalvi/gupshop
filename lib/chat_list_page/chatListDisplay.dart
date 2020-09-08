@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/chat_list_page/avatarDisplay.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/subtitleDataAndDisplay.dart';
 import 'package:gupshop/chat_list_page/trailingDisplay.dart';
@@ -37,9 +38,11 @@ class ChatListDisplay extends StatelessWidget {
     this.groupExists, this.friendNumber, this.memberList, this.friendNumberList,
     this.friendName, this.lastMessageIsVideo, this.index, this.lastMessage,
     this.lastMessageIsImage, this.timeStamp, this.myName, this.chatListCache,
-    this.conversationsLatestMessageId,
+    this.conversationsLatestMessageId,this.imageURL
   }): radius = ImageConfig.smallRadius,/// 30
         innerRadius = ImageConfig.smallInnerRadius;/// 27
+
+  AvatarDisplay avatar;
 
   @override
   Widget build(BuildContext context) {
@@ -197,13 +200,46 @@ class ChatListDisplay extends StatelessWidget {
             }
             cache.isGroup = groupExists;
 
-            return DisplayAvatar(imageUrl: imageURL)
-                .displayAvatarFromProfilePictures(friendNumber, radius, innerRadius,
-                false, chatListCache, conversationId, cache);
+            avatar = avatarWidget(cache);
+
+//            avatar = AvatarDisplay(
+//              userPhoneNo: friendNumber,
+//              radius: radius,
+//              innerRadius: innerRadius,
+//              isFirstTime: false,
+//              chatListCache: chatListCache,
+//              conversationId: conversationId,
+//              cache: cache,
+//            );
+//            imageURL = avatar.imageUrl;
+            print("imageURL before after: $imageURL");
+            return avatar;
+
+
+//            return DisplayAvatar(imageUrl: imageURL)
+//                .displayAvatarFromProfilePictures(friendNumber, radius, innerRadius,
+//                false, chatListCache, conversationId, cache);
           }
           return DisplayAvatar().avatarPlaceholder(radius, innerRadius);
         },
       );
     }
+  }
+
+
+  avatarWidget(ChatListCache cache) {
+    AvatarDisplay result = new AvatarDisplay(
+      userPhoneNo: friendNumber,
+      radius: radius,
+      innerRadius: innerRadius,
+      isFirstTime: false,
+      chatListCache: chatListCache,
+      conversationId: conversationId,
+      cache: cache,
+    );
+    imageURL = result.imageUrl;
+    print("imageURL in avatarWidget : $imageURL");
+
+    return result;
   }
 }

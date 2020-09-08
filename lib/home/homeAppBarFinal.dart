@@ -39,7 +39,7 @@ class HomeAppBarFinal extends StatelessWidget {
                     child: GestureDetector(
                       child: DisplayAvatar().displayAvatarFromFirebase(userPhoneNo, radius, innerRadius, false),
                       onTap: (){
-                        CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo, null);
+                        //CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo, null);
                       },
                     ),
                   ),

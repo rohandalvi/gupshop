@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/contactSearch/contactSearchPage.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
@@ -38,7 +39,13 @@ class HomeAppBar extends StatelessWidget {
                     child: GestureDetector(
                       child: DisplayAvatar().displayAvatarFromFirebase(userPhoneNo, radius, innerRadius, false),
                       onTap: (){
-                        CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo, null);
+                        NavigateChangeProfilePicture(
+                            userName: userName,
+                            viewingFriendsProfile: false,
+                            userPhoneNo: userPhoneNo,
+                            groupConversationId: null,
+                        ).navigateNoBrackets(context);
+                        //CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo, null);
                       },
                     ),
                   ),

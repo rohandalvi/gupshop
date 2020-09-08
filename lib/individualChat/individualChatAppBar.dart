@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/modules/Presence.dart';
+import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
+import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/screens/changeProfilePicture.dart';
 import 'package:gupshop/service/conversation_service.dart';
@@ -80,7 +82,14 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
         }
         /// if an individual, then only the view option and not
         /// the change options are visible
-        else CustomNavigator().navigateToChangeProfilePicture(context, widget.friendName,  true, widget.friendN, null);/// if its a group then profile pictures are searched using conversationId
+        NavigateChangeProfilePicture(
+          userName: widget.friendName,
+          viewingFriendsProfile: true,
+          userPhoneNo: widget.friendN,
+          groupConversationId: null,
+          imageURL: widget.imageURL
+        ).navigateNoBrackets(context);
+        //else CustomNavigator().navigateToChangeProfilePicture(context, widget.friendName,  true, widget.friendN, null, widget.imageURL);/// if its a group then profile pictures are searched using conversationId
       },
 
       displayPictureAvatar: displayPictureAvatar(),

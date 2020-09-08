@@ -117,6 +117,7 @@ class _ChatListDataState extends State<ChatListData> {
             myName: widget.myName,
             friendName: friendName,
             conversationsLatestMessageId: messageId,
+            //imageURL: ,
           ),
         );
       },

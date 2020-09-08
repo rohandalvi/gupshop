@@ -12,7 +12,7 @@ class CustomDialogForConfirmation{
 
   Future<bool> dialog(BuildContext context) {
     return showDialog(
-        barrierDismissible: barrierDismissible,
+        barrierDismissible: barrierDismissible == null ? false : barrierDismissible,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(

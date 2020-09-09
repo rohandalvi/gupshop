@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/contactSearch/contactSearchPage.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -26,7 +27,7 @@ class HomeAppBar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(top: 8),
+          padding: EdgeInsets.only(top: PaddingConfig.eight),
           child: Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,7 +35,7 @@ class HomeAppBar extends StatelessWidget {
               children: <Widget>[
                 /// Avatar:
                 Padding(
-                  padding: const EdgeInsets.only(top: 23,left: 7, right: 5),
+                  padding: EdgeInsets.only(top: PaddingConfig.twentyThree,left: PaddingConfig.seven, right: PaddingConfig.five),
                   child: Container(
                     child: GestureDetector(
                       child: DisplayAvatar().displayAvatarFromFirebase(userPhoneNo, radius, innerRadius, false),

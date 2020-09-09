@@ -8,8 +8,9 @@ import 'package:gupshop/usersLocation/usersLocation.dart';
 
 class ChangeLocationInSearch{
   String userNumber;
+  String placeholder;
 
-  ChangeLocationInSearch({this.userNumber});
+  ChangeLocationInSearch({this.userNumber, this.placeholder});
 
   getNewUserGeohash(BuildContext context) async{
     /// get lat lang:
@@ -50,6 +51,7 @@ class ChangeLocationInSearch{
       latitude: location.latitude,
       longitude: location.longitude,
       showRadius: false,
+      placeholder: placeholder
     ).navigateNoBrackets(context);
 
     return latLangList[0];

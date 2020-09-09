@@ -8,9 +8,10 @@ import 'package:search_map_place/search_map_place.dart';
 class MapAppBar extends StatefulWidget {
   final LatLng location;
   final void Function(Place place) onSelected;
+  final String placeholder;
 
 
-  MapAppBar({this.location, this.onSelected});
+  MapAppBar({this.location, this.onSelected, this.placeholder});
 
   @override
   _MapAppBarState createState() => _MapAppBarState();
@@ -34,6 +35,7 @@ class _MapAppBarState extends State<MapAppBar> {
         language: 'en',
         location: widget.location,
         onSelected: widget.onSelected,
+        placeholder: widget.placeholder == null ? 'Search' : widget.placeholder,
       ),
     );
 

@@ -17,6 +17,7 @@ class WidgetConfig{
   /// appBarHeight
   static double appBarSeventy = SizeConfig.heightMultiplier * 8.5;/// 70/8.16
   static double appBarSeventyTwo = SizeConfig.heightMultiplier * 8.82352941176;/// 72/8.16
+  static double appBarOneTwenty = SizeConfig.heightMultiplier * 14.7058823529;/// 120/8.16
 
   /// sizedBox
   static double sizedBoxHeightThirty = SizeConfig.heightMultiplier * 3.8;/// 30/8.16

@@ -7,8 +7,9 @@ class NavigateToCustomMap{
   final double latitude;
   final double longitude;
   final bool showRadius;
+  final String placeholder;
 
-  NavigateToCustomMap({this.showRadius, this.latitude, this.longitude,});
+  NavigateToCustomMap({this.showRadius, this.latitude, this.longitude,this.placeholder});
 
 
   navigate(BuildContext context){
@@ -17,7 +18,7 @@ class NavigateToCustomMap{
           context,
           MaterialPageRoute(
             builder: (context) => CustomMap(showRadius: showRadius,longitude: longitude,
-            latitude: latitude,),
+            latitude: latitude, placeholder: placeholder,),
           )
       );
     };
@@ -29,7 +30,7 @@ class NavigateToCustomMap{
         context,
         MaterialPageRoute(
           builder: (context) => CustomMap(showRadius: showRadius,longitude: longitude,
-            latitude: latitude,),
+            latitude: latitude,placeholder: placeholder,),
         )
     );
   }

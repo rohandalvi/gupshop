@@ -29,9 +29,12 @@ class BazaarIndividualCategoryListData extends StatefulWidget {
   final String subCategoryData;
   final bool showHomeService;
 
+  String userGeohash;
+  String addressName;
+
 
   BazaarIndividualCategoryListData({this.category, this.subCategory, this.subCategoryData,
-    this.categoryData,this.showHomeService,
+    this.categoryData,this.showHomeService,this.userGeohash, this.addressName,
   });
 
   @override
@@ -59,13 +62,11 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
   int numberOfBazaarWalasInList;
 
-  String userGeohash;
-  String addressName = "home";
   bool isAddressChanged;
 
 
   getListOfBazaarWalasInAGivenRadius() async{
-    print("userGeohash in getListOfBazaarWalasInAGivenRadius : $userGeohash");
+    print("userGeohash in getListOfBazaarWalasInAGivenRadius : ${widget.userGeohash}");
     String userNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
     userPhoneNo = userNo;
 
@@ -73,14 +74,22 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
     /// would be null
     /// In that case, select the geoHash pushed to firebase
     /// in bazaarHome page which is the current location of the user
-    if(userGeohash  == null){
-      userGeohash = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getUserGeohash(userPhoneNo);
+    if(widget.userGeohash  == null){
+      widget.userGeohash = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getUserGeohash(userPhoneNo);
     }
 
-    var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getListOfBazaarWalasInAGivenRadius(userPhoneNo, widget.categoryData, userGeohash);
+    var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getListOfBazaarWalasInAGivenRadius(userPhoneNo, widget.categoryData, widget.userGeohash);
     return listOfbazaarwalas;
   }
 
+
+  @override
+  void initState() {
+    if(widget.addressName == null){
+      widget.addressName = 'home';
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +133,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
                       /// But, if the user changes the home location , then
                       /// the userGeohash wont be null, it would be the previous
                       /// home location, so set it to null
-                      userGeohash = null;
+                      widget.userGeohash = null;
                     });
                   }
                 },
@@ -136,7 +145,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
         body: Column(
           children: <Widget>[
             ClickableText(
-                text : "Showing results for : ${addressName.toUpperCase()}",
+                text : "Showing results for : ${widget.addressName.toUpperCase()}",
               onTap: (){
 
               },
@@ -223,12 +232,11 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
         String tempHash = await ChangeLocationInSearch(userNumber: userPhoneNo)
             .getNewUserGeohash(context);
 
-        print("tempHash : $tempHash");
 
         String tempAddressName = await UsersLocation().getAddressName(userPhoneNo, tempHash);
         setState(() {
-          userGeohash = tempHash;
-          addressName = tempAddressName;
+          widget.userGeohash = tempHash;
+          widget.addressName = tempAddressName;
         });
       },
     );

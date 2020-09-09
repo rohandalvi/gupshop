@@ -24,4 +24,6 @@ class PaddingConfig{
   static double five = SizeConfig.heightMultiplier * 0.61;/// 5/8.16
   static double twelve = SizeConfig.heightMultiplier * 1.47;/// 12/8.16
   static double eighteen = SizeConfig.heightMultiplier * 2.205;/// 18/8.16
+  static double seven = SizeConfig.heightMultiplier * 0.85784313725;/// 7/8.16
+  static double twentyThree = SizeConfig.heightMultiplier * 2.81862745098;/// 23/8.16
 }

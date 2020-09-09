@@ -67,13 +67,19 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
           margin: EdgeInsets.all(PaddingConfig.pointThree),
           child: //widget.cache.video == null ? helper()
           GestureDetector(
-            child: AspectRatio(
-                aspectRatio:
-                //videoPlayerController.value.aspectRatio,
-                WidgetConfig.aspectRatioOnePointSix,
-                //16/10,
-                child: VideoPlayer(videoPlayerController),
-            ) ,
+            child: Container(
+              width: MediaQuery.of(context).size.height / 2.75,
+              height: MediaQuery.of(context).size.width / 2,
+              child: VideoPlayer(videoPlayerController)
+            ),
+//            AspectRatio(
+//                aspectRatio:
+//                //videoPlayerController.value.aspectRatio,
+//
+//                //WidgetConfig.aspectRatioOnePointSix,
+//                16/10,
+//                child: VideoPlayer(videoPlayerController),
+//            ) ,
             onTap: (){
                 Navigator.push(
                     context,

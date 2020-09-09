@@ -22,8 +22,9 @@ class CustomMap extends StatefulWidget {
   double longitude;
 
   final bool showRadius;
+  final String placeholder;
 
-  CustomMap({this.showRadius, this.latitude, this.longitude,});
+  CustomMap({this.showRadius, this.latitude, this.longitude,this.placeholder});
 
   @override
   _CustomMapState createState() => _CustomMapState();
@@ -139,6 +140,7 @@ class _CustomMapState extends State<CustomMap> {
 
         resetLocation(newLatitude, newLongitude);
       },
+      placeholder: widget.placeholder,
     );
     return appBar;
   }

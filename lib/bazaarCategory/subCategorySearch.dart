@@ -3,14 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListData.dart';
+import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
 import 'package:gupshop/bazaarCategory/homeServiceText.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
-import 'package:gupshop/usersLocation/usersLocation.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customText.dart';
+import 'package:gupshop/usersLocation/usersLocation.dart';
 
 class SubCategorySearch extends StatefulWidget {
   final String category;
@@ -36,6 +36,8 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
   Set tempSet = new HashSet();
   List<String> listOfSubCategoriesForData = new List();
   bool showHomeService;
+  String userGeohash;
+  String addressName;
 
 
   getCategorySizeFuture() {
@@ -100,6 +102,15 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
           showHomeService = await homeServiceDialog(isHomeServiceApplicable);
         }
 
+
+        /// for drivers and delivery/errands
+        if(widget.categoryData == "deliveryErrands" || widget.categoryData == 'drivers'){
+          userGeohash = await getLocation();
+          addressName = await getAddressName(userGeohash);
+        }
+
+
+        /// for all categories except drivers and delivery/errands
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -109,10 +120,13 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
                 subCategory: subCategory,
                 subCategoryData: subCategoryData,
                 showHomeService: showHomeService,
+                userGeohash: userGeohash,
+                addressName: addressName,
                 //category: categoryNameForBazaarIndividualCategoryList,
               ),//pass Name() here and pass Home()in name_screen
             )
         );
+
       }
     );
   }
@@ -143,4 +157,17 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
   }
 
 
+  getLocation() async{
+    String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+    String placeholder = "Pick ${widget.category} location";
+
+    return await ChangeLocationInSearch(userNumber: userPhoneNo,placeholder: placeholder)
+        .getNewUserGeohash(context);
+  }
+
+  getAddressName(String userGeohash) async{
+    String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+
+    return await UsersLocation().getAddressName(userPhoneNo, userGeohash);
+  }
 }

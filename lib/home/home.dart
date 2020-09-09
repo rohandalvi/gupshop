@@ -5,6 +5,7 @@ import 'package:gupshop/chat_list_page/chat_List.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/bazaar/bazaarHome_screen.dart';
 import 'package:gupshop/home/homeAppBar.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 
 // name screen => home
 // home  => bazaarHomeScreen
@@ -40,7 +41,7 @@ class _HomeState extends State<Home> {
         initialIndex: widget.initialIndex == null ? 0 : widget.initialIndex,
         child: Scaffold(
           appBar: PreferredSize(
-              preferredSize: Size.fromHeight(120.0),//the distance between gupShop and tabBars
+              preferredSize: Size.fromHeight(WidgetConfig.appBarOneTwenty),//the distance between gupShop and tabBars
               child: HomeAppBar(userName: userName, userPhoneNo: userPhoneNo,),
           ),
           body: TabBarView(

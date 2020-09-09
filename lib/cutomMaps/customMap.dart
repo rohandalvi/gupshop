@@ -78,12 +78,12 @@ class _CustomMapState extends State<CustomMap> {
 
           Align(
             alignment: Alignment.bottomCenter,
-            child: Visibility(
-              visible: widget.showRadius == true || widget.showRadius != null,
-              child: Container(
-                child: Row(
-                  children: <Widget>[
-                    PlusButton(
+            child: Container(
+              child: Row(
+                children: <Widget>[
+                  Visibility(
+                    visible : widget.showRadius == true,
+                    child: PlusButton(
                       ///onPressed :
                       ///setState radius = radius + 10
                       onRadiusPlus: (){
@@ -91,26 +91,29 @@ class _CustomMapState extends State<CustomMap> {
                         increaseRadius(point);
                       },
                     ),
-                    MinusButton(
+                  ),
+                  Visibility(
+                    visible : widget.showRadius == true,
+                    child: MinusButton(
                       onRadiusMinus: (){
                         LatLng point = LatLng(widget.latitude, widget.longitude);
                         decreaseRadius(point);
                       },
                     ),
-                    OkButton(
-                      onOkPressed:(){
-                        LatLng point = LatLng(widget.latitude, widget.longitude);
-                        List list = new List();
-                        list.add(point);
-                        if(widget.showRadius == true){
-                          list.add(radius);
-                        }
-                        Navigator.pop(context, list);
-                        //NavigateToBazaarOnBoardingProfile().navigateNoBracketsPushReplacement(context, list);
-                      },
-                    ),
-                  ],
-                ),
+                  ),
+                  OkButton(
+                    onOkPressed:(){
+                      LatLng point = LatLng(widget.latitude, widget.longitude);
+                      List list = new List();
+                      list.add(point);
+                      if(widget.showRadius == true){
+                        list.add(radius);
+                      }
+                      Navigator.pop(context, list);
+                      //NavigateToBazaarOnBoardingProfile().navigateNoBracketsPushReplacement(context, list);
+                    },
+                  ),
+                ],
               ),
             ),
           ),

@@ -29,6 +29,9 @@ class MapUI extends StatelessWidget {
       onTap: onTap,
       mapType: MapType.normal,
       mapToolbarEnabled: mapToolbarEnabled,
+
+      /// for removing the compass like looking button, which is placed at the
+      /// top right corner of the screen
       myLocationButtonEnabled: false,
     );
   }

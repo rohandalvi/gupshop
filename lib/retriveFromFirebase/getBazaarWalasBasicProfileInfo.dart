@@ -17,6 +17,7 @@ class GetBazaarWalasBasicProfileInfo{
 
   getIsBazaarwala() async{
     DocumentSnapshot dc = await main();
+    if(dc.data == null) return false;
     if(dc.data.isEmpty) return false;
     return true;
   }

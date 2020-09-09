@@ -62,7 +62,9 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
     List<DocumentSnapshot> dc = await GetCategoriesFromCategoriesMetadata
       (category: widget.categoryData,).selectedCategories();
 
-    if(dc[0].data.isEmpty == true){
+    /// if the user is never registered as a bazaarwala ever then dc would be
+    /// empty, hence the check
+    if(dc.isEmpty == true || dc[0].data.isEmpty == true){
       setState(() {
         isCategorySelected = false;
       });

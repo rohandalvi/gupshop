@@ -157,11 +157,14 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
   }
 
 
+  /// for adding Picking location in case of drivers and delivery/errands
   getLocation() async{
     String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
     String placeholder = "Pick ${widget.category} location";
+    //bool showBackButton = false;
 
-    return await ChangeLocationInSearch(userNumber: userPhoneNo,placeholder: placeholder)
+    return await ChangeLocationInSearch(userNumber: userPhoneNo,
+        placeholder: placeholder, )
         .getNewUserGeohash(context);
   }
 

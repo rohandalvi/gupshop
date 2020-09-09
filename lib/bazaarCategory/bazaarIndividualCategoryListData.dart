@@ -228,8 +228,10 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
     return CustomIconButton(
       iconNameInImageFolder: 'location',
       onPressed: () async{
+        //bool showBackButton = false;
         String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
-        String tempHash = await ChangeLocationInSearch(userNumber: userPhoneNo)
+        String tempHash = await ChangeLocationInSearch(
+            userNumber: userPhoneNo)
             .getNewUserGeohash(context);
 
 

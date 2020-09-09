@@ -24,7 +24,9 @@ class CustomMap extends StatefulWidget {
   final bool showRadius;
   final String placeholder;
 
-  CustomMap({this.showRadius, this.latitude, this.longitude,this.placeholder});
+  final bool showBackButton;
+
+  CustomMap({this.showRadius, this.latitude, this.longitude,this.placeholder, this.showBackButton});
 
   @override
   _CustomMapState createState() => _CustomMapState();
@@ -111,17 +113,20 @@ class _CustomMapState extends State<CustomMap> {
               ),
             ),
           ),
-          CustomIconButton(
-            iconNameInImageFolder: 'backArrowColor',
-            onPressed: (){
-              LatLng point = LatLng(widget.latitude, widget.longitude);
-              List list = new List();
-              list.add(point);
-              if(widget.showRadius == true){
-                list.add(radius);
-              }
-              Navigator.pop(context, list);
-            },
+          Visibility(
+            visible: widget.showBackButton != null || widget.showBackButton == true,
+            child: CustomIconButton(
+              iconNameInImageFolder: 'backArrowColor',
+              onPressed: (){
+                LatLng point = LatLng(widget.latitude, widget.longitude);
+                List list = new List();
+                list.add(point);
+                if(widget.showRadius == true){
+                  list.add(radius);
+                }
+                Navigator.pop(context, list);
+              },
+            ),
           ),
         ],
       ),

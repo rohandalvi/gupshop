@@ -4,7 +4,6 @@ class PaddingConfig{
 
   /// heightMultiplier : 8.16
   /// widthMultiplier : 4.32
-  static double twenty = SizeConfig.heightMultiplier * 2.4;/// 20/8.16
   static double thirtyFive = SizeConfig.heightMultiplier * 4.3;/// 35/8.16
   static double eight = SizeConfig.heightMultiplier * 1;/// 8/8.16
   static double sixteen = SizeConfig.heightMultiplier * 2;/// 16/8.16
@@ -20,10 +19,15 @@ class PaddingConfig{
   static double two = SizeConfig.heightMultiplier * 0.24;/// 2/8.16
   static double four = SizeConfig.heightMultiplier * 0.49;/// 4/8.16
   static double pointThree = SizeConfig.heightMultiplier * 0.04;/// 0.3/8.16
-  static double thirty = SizeConfig.heightMultiplier * 3.676;/// 30/8.16
+
   static double five = SizeConfig.heightMultiplier * 0.61;/// 5/8.16
   static double twelve = SizeConfig.heightMultiplier * 1.47;/// 12/8.16
   static double eighteen = SizeConfig.heightMultiplier * 2.205;/// 18/8.16
   static double seven = SizeConfig.heightMultiplier * 0.85784313725;/// 7/8.16
+
+  /// 20-30
+  static double twenty = SizeConfig.heightMultiplier * 2.4;/// 20/8.16
   static double twentyThree = SizeConfig.heightMultiplier * 2.81862745098;/// 23/8.16
+  static double twentyFive = SizeConfig.heightMultiplier * 3.0637254902;/// 25/8.16
+  static double thirty = SizeConfig.heightMultiplier * 3.676;/// 30/8.16
 }

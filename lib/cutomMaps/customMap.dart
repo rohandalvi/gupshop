@@ -12,6 +12,7 @@ import 'package:gupshop/cutomMaps/plusButton.dart';
 import 'package:gupshop/cutomMaps/setCircleData.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
 import 'package:gupshop/responsive/keys.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -147,7 +148,13 @@ class _CustomMapState extends State<CustomMap> {
       },
       placeholder: widget.placeholder,
     );
-    return appBar;
+    //return appBar;
+
+    return Container(
+      margin: EdgeInsets.only(left: PaddingConfig.five, top: PaddingConfig.twentyFive),
+      child: appBar,
+    );
+
   }
 
 

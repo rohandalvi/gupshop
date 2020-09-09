@@ -43,7 +43,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                child: Row(
                  children: <Widget>[
                    avatar(context),
-                   SizedBox(width: WidgetConfig.sizedBoxBazaarIndividualCategory,),
+                   SizedBox(width: WidgetConfig.sizedBoxHeightTen,),
                    Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
                      children: <Widget>[

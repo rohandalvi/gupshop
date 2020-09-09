@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:math';
@@ -98,11 +100,11 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
               ),
             ),
             Container(
-              height: 75,/// to increase the size of floatingActionButton use container along with FittedBox
-              width: 75,
+              height: WidgetConfig.seventyFiveHeight,/// to increase the size of floatingActionButton use container along with FittedBox
+              width: WidgetConfig.seventyFiveWidth,
               child: FittedBox(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 6),
+                  padding: EdgeInsets.only(top: PaddingConfig.six),
                   child: CustomIconButton(iconNameInImageFolder: 'backArrowColor', onPressed: (){Navigator.pop(context);},),
                 ),
               ),

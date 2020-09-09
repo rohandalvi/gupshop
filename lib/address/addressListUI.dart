@@ -16,7 +16,7 @@ class AddressListUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(WidgetConfig.appBarBazaarOnBoarding),
+        preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
         child: CustomAppBar(
           title: CustomText(text : "Address Book"),
         ),

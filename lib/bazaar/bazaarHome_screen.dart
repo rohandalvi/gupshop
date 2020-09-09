@@ -56,7 +56,7 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
-          SizedBox(height: WidgetConfig.sizedBoxBazaarHome,),
+          SizedBox(height: WidgetConfig.sizedBoxHeightTwelve,),
           new BazaarHomeGridView(),
         ],
       ),

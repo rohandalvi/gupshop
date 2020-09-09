@@ -12,6 +12,7 @@ import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsC
 import 'package:gupshop/models/text_message.dart';
 import 'package:gupshop/models/video_message.dart';
 import 'package:gupshop/modules/Presence.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getFromConversationCollection.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
@@ -231,7 +232,6 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   void initState() {
-    print("imageURL in indichat : ${widget.imageURL}");
     /*
     adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
     when user scrolls
@@ -265,7 +265,7 @@ class _IndividualChatState extends State<IndividualChat> {
       child: Material(
         child: Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(72.0),//the distance between gupShop and tabBars
+            preferredSize: Size.fromHeight(WidgetConfig.appBarSeventyTwo),/// 72 //the distance between gupShop and tabBars
             child: IndividualChatAppBar(chatListCache : widget.chatListCache,userPhoneNo: userPhoneNo, userName: userName,groupExits: groupExits,friendName: friendName,friendN: friendN, conversationId: conversationId,notGroupMemberAnymore: notGroupMemberAnymore,
               listOfFriendNumbers: listOfFriendNumbers,presence: presence, conversationService: conversationService,
               groupDeleted: widget.groupDeleted,imageURL: widget.imageURL,),

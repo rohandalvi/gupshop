@@ -28,7 +28,5 @@ class SizeConfig{
     heightMultiplier = _blockSizeVertical;/// 8.16
     widthMultiplier = _blockSizeHorizontal;
 
-    print("horizontal : $_blockSizeHorizontal");
-    print("vertical : $_blockSizeVertical");
   }
 }

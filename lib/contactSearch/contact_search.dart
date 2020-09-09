@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
@@ -59,9 +59,9 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
       child: Scaffold(
         body: SafeArea(
           child: SearchBar<DocumentSnapshot>(
-            searchBarPadding: EdgeInsets.all(10),
+            searchBarPadding: EdgeInsets.all(PaddingConfig.ten),
             emptyWidget: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(PaddingConfig.eight),
               child: CustomText(
                 text: ':( This name does not match your contacts ',),
             ),
@@ -85,7 +85,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
             hintStyle: GoogleFonts.openSans(
               textStyle: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: TextConfig().standardFontSize,
+                fontSize: TextConfig.standardFontSize,
               ),
             ),
             onSearch: widget.onSearch == null? searchList : widget.onSearch,

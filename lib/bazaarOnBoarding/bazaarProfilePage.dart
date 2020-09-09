@@ -16,6 +16,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -244,7 +245,7 @@ class _BazaarProfilePageState extends State<BazaarProfilePage> {
 
   pageSubtitle(String text){
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(PaddingConfig.eight),
       child: CustomText(text: text,),
     );
   }

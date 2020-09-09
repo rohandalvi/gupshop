@@ -7,6 +7,9 @@ import 'package:gupshop/individualChat/heartButton.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getMessageSavedStatusFromFirebase.dart';
 import 'package:gupshop/image/fullScreenPictureVideos.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
@@ -139,8 +142,8 @@ class _BodyDisplayState extends State<BodyDisplay> {
             ///show snackbar
             return Flushbar(
               flushbarStyle: FlushbarStyle.GROUNDED,
-              padding : EdgeInsets.all(6),
-              borderRadius: 8,
+              padding : EdgeInsets.all(PaddingConfig.six),
+              borderRadius: WidgetConfig.flushbarBorderRadiusEight,
               backgroundColor: Colors.white,
 
               dismissDirection: FlushbarDismissDirection.HORIZONTAL,
@@ -156,7 +159,13 @@ class _BodyDisplayState extends State<BodyDisplay> {
                   /// for news, we need to show a dialog, and if the dialog returns true then only the user gets
                   /// navigated to contactSearch
                   if(forwardNews != null) {
-                    data = {"news":widget.newsBody, "link": widget.newsLink, "title": widget.newsTitle, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId, "reportedBy": widget.reportedByCount, "trueBy": widget.trueByCount, "fakeBy":widget.fakeByCount, "newsId": widget.newsId};
+                    data = {"news":widget.newsBody, "link": widget.newsLink,
+                      "title": widget.newsTitle, "fromName":widget.userName,
+                      "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(),
+                      "conversationId":widget.conversationId,
+                      "reportedBy": widget.reportedByCount, "trueBy": widget.trueByCount,
+                      "fakeBy":widget.fakeByCount, "newsId": widget.newsId};
+
                     /// beforing forwarding, ask tell the user that forwarding means agreeing to whatever
                     /// is there in the news. And increase the trueBy count as he agrees to it.
                     bool forwardYesOrNo = await CustomDialogForConfirmation(
@@ -176,18 +185,31 @@ class _BodyDisplayState extends State<BodyDisplay> {
                       if(hasForwardedOrCreatedNewsAlready == false){
                         int increaseTrueByCount = data["trueBy"] + 1 ;
                         data["trueBy"]= increaseTrueByCount;
-                        await NewsStatisticsCollection().checkIfUserExistsAndAddToSet(widget.newsId, widget.userPhoneNo,widget.userName, 'trueBy', true);
-                        await FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,'trueBy', data["trueBy"]);
+                        await NewsStatisticsCollection().checkIfUserExistsAndAddToSet(widget.newsId,
+                            widget.userPhoneNo,widget.userName, 'trueBy', true);
+                        await FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,
+                            'trueBy', data["trueBy"]);
                       }
-                      CustomNavigator().navigateToContactSearch(context, widget.userName,  widget.userPhoneNo, data);
+                      CustomNavigator().navigateToContactSearch(context, widget.userName,
+                          widget.userPhoneNo, data);
                     }
                   }
                   else{
-                    if(forwardLocation != null) data = {"body":forwardLocation, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId, "latitude" : widget.latitude, "longitude" : widget.longitude};
-                    else if(forwardMessage != null) data = {"body":forwardMessage, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
-                    else if(forwardVideo != null) data = {"videoURL":forwardVideo, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
-                    else data = {"imageURL":forwardImage, "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
-                    CustomNavigator().navigateToContactSearch(context, widget.userName,  widget.userPhoneNo, data);
+                    if(forwardLocation != null) data = {"body":forwardLocation,
+                      "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo,
+                      "timeStamp":Timestamp.now(), "conversationId":widget.conversationId,
+                      "latitude" : widget.latitude, "longitude" : widget.longitude};
+                    else if(forwardMessage != null) data = {"body":forwardMessage,
+                      "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo,
+                      "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
+                    else if(forwardVideo != null) data = {"videoURL":forwardVideo,
+                      "fromName":widget.userName, "fromPhoneNumber":widget.userPhoneNo,
+                      "timeStamp":Timestamp.now(), "conversationId":widget.conversationId};
+                    else data = {"imageURL":forwardImage, "fromName":widget.userName,
+                        "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(),
+                        "conversationId":widget.conversationId};
+                    CustomNavigator().navigateToContactSearch(context, widget.userName,
+                        widget.userPhoneNo, data);
                   }
                 },
               ),
@@ -207,11 +229,16 @@ class _BodyDisplayState extends State<BodyDisplay> {
         },
         child: messageCached() == false?
         MessageCardDisplay(
-          isMe: widget.isMe, isNews: widget.isNews, imageURL: widget.imageURL, isLocationMessage: widget.isLocationMessage,
-          newsLink: widget.newsLink, newsBody: widget.newsBody, newsTitle: widget.newsTitle, fromName: widget.fromName,
-          latitude: widget.latitude,longitude: widget.longitude,videoURL: widget.videoURL,messageBody: widget.messageBody,
-          controller: widget.controller, newsId: widget.newsId, mapIsNewsGenerated: widget.mapIsNewsGenerated,
-          individualChatCache: widget.individualChatCache,messageId: widget.messageId,
+          isMe: widget.isMe, isNews: widget.isNews, imageURL: widget.imageURL,
+          isLocationMessage: widget.isLocationMessage,
+          newsLink: widget.newsLink, newsBody: widget.newsBody,
+          newsTitle: widget.newsTitle, fromName: widget.fromName,
+          latitude: widget.latitude,longitude: widget.longitude,
+          videoURL: widget.videoURL,messageBody: widget.messageBody,
+          controller: widget.controller, newsId: widget.newsId,
+          mapIsNewsGenerated: widget.mapIsNewsGenerated,
+          individualChatCache: widget.individualChatCache,
+          messageId: widget.messageId,
         ) : getCachedMessageContainer(),
       ),
       isThreeLine: true,
@@ -227,14 +254,18 @@ class _BodyDisplayState extends State<BodyDisplay> {
         trueByCount: widget.trueByCount,
         fakeByCount: widget.fakeByCount,
         isNews: widget.isNews,
-        visible: ((widget.groupExits==null? false : widget.groupExits) && widget.isMe==false),/// groupExits==null? false : groupExits was showing error because groupExists takes time to calculate as it is a future, so we are just adding a placeholder,
-        fromName:  CustomText(text: widget.fromNameForGroup,fontSize: 12,),
+        visible: ((widget.groupExits==null? false : widget.groupExits)
+            && widget.isMe==false),/// groupExits==null? false : groupExits was showing error because groupExists takes time to calculate as it is a future, so we are just adding a placeholder,
+        fromName:  CustomText(text: widget.fromNameForGroup,
+          fontSize: TextConfig.fontSizeTwelve,),
         isMe: widget.isMe,
         timeStamp:Text(//time
           DateFormat("dd MMM kk:mm")
-              .format(DateTime.fromMillisecondsSinceEpoch(int.parse(widget.timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
+              .format(DateTime.fromMillisecondsSinceEpoch(
+              int.parse(widget.timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
           style: TextStyle(
-              color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic
+              color: Colors.grey, fontSize: TextConfig.fontSizeTwelve,
+              fontStyle: FontStyle.italic
           ),
         ),
       ),

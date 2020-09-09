@@ -1,20 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
-import 'package:gupshop/modules/Presence.dart';
-import 'package:gupshop/navigators/navigateToIndividualChat.dart';
-import 'package:gupshop/navigators/navigateToIndividualChatAppBar.dart';
-import 'package:gupshop/service/conversation_service.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
-import 'package:gupshop/streamShortcuts/profilePictures.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home/home.dart';
 
 class ChangeProfilePicture extends StatefulWidget {
-  final double size = 550;
   String userName;
   String userPhoneNo;
   bool viewingFriendsProfile;
@@ -86,9 +82,9 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         ),
         backgroundColor: Colors.white,
         body: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: EdgeInsets.symmetric(horizontal: PaddingConfig.sixteen),
               child: ProfilePictureAndButtonsScreen(
-                userPhoneNo: userPhoneNo, imageUrl: widget.imageURL, height: 360, width: 360,userName: userName,
+                userPhoneNo: userPhoneNo, imageUrl: widget.imageURL, height: WidgetConfig.threeSixtyHeight, width: WidgetConfig.threeSixtyWidth,userName: userName,
                 viewingFriendsProfile: viewingFriendsProfile, groupConversationId: groupConversationId,
                 chatListCache: widget.chatListCache, conversationId: widget.conversationId,
               ),
@@ -163,8 +159,6 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
       setState(() {
         this.userPhoneNo = userPhoneNo;
       });
-      print("userPhoneNo: $userPhoneNo");
-      print("prefs: $prefs");
     }
 
 

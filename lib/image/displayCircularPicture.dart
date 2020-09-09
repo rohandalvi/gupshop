@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 
@@ -19,8 +21,8 @@ class DisplayCircularPicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20),
-      padding: EdgeInsets.all(2),//controls the border
+      margin: EdgeInsets.symmetric(vertical: PaddingConfig.twenty),
+      padding: EdgeInsets.all(PaddingConfig.two),//controls the border
       height: height,
       width: width,
       decoration: new BoxDecoration(
@@ -69,8 +71,8 @@ class DisplayCircularPicture extends StatelessWidget {
   /// used in fullScreenPicture
   pictureFrame(String imageURL){
     return Container(
-      width: 400,
-      height: 400,
+      width: ImageConfig.imageFourHundred,
+      height: ImageConfig.imageFourHundred,
       /// for zoom:
       child: Image(
         image: NetworkImage(imageURL),
@@ -94,7 +96,7 @@ class DisplayCircularPicture extends StatelessWidget {
 //    );
 //  }
 
-  videoFrame(String videoURL,double width, double height){
+  videoFrame(String videoURL){
     return
        Card(
           child: CustomVideoPlayerThumbnail(videoURL: videoURL,),

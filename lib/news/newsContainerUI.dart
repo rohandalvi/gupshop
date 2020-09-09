@@ -6,6 +6,7 @@ import 'package:gupshop/links/linkDIsplayUIData.dart';
 import 'package:gupshop/links/openLinks.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/placeholders/newsImagePlaceholder.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -47,7 +48,7 @@ class NewsContainerUI extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(PaddingConfig.eight),
                 child: CustomText(text :title).nonBoldText(),
               ),
               GestureDetector(
@@ -74,7 +75,10 @@ class NewsContainerUI extends StatelessWidget {
                 },
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(8, 5, 8, 3),
+                padding: EdgeInsets.fromLTRB(PaddingConfig.eight,
+                    PaddingConfig.five,
+                    PaddingConfig.eight,
+                    PaddingConfig.three),
                 child: CustomText(text :newsBody),
               ),
             ],

@@ -52,7 +52,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
 
   @override
   Widget build(BuildContext context) {
-    print("homeServiceBool in build : ${widget.homeServiceBool}");
+    print("homeServiceBool in ReviewBuilderAndDisplay : ${widget.homeServiceBool}");
     return ListView(
       controller: new ScrollController(),//---> for scrolling the screen
       shrinkWrap: true,//---> Vertical viewport was given unbounded height.- this error thrown if not used

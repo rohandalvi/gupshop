@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/clickableText.dart';
 
 class ForwardMessagesSnackBarTitleText extends StatelessWidget {
@@ -14,7 +15,7 @@ class ForwardMessagesSnackBarTitleText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.all(8.0),///Forward button was touching the edge of the screen
+          padding: EdgeInsets.all(PaddingConfig.eight),///Forward button was touching the edge of the screen
           child: ClickableText(text: 'Forward', onTap: onTap,),
         ),
         IconButton(

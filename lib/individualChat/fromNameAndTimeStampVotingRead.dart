@@ -7,6 +7,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/news/trueFakeVotingIconsUI.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -50,7 +51,7 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
             Visibility(
               visible: widget.isNews,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+                  padding: EdgeInsets.symmetric(horizontal: PaddingConfig.fifteen, vertical: PaddingConfig.one),
                   child: FutureBuilder(
                     future: FirebaseMethods().getNewsDetailsForDisplay(widget.newsId),
                     builder: (context, snapshot) {
@@ -67,11 +68,8 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
                       return TrueFakeVotingIconsUI(
                         isMe: widget.isMe,
                         count1: reportedByCount.toString(),
-                        //widget.reportedByCount.toString(),
                         count2: trueByCount.toString(),
-                          //widget.trueByCount.toString(),
                         count3: fakeByCount.toString(),
-                          //widget.fakeByCount.toString(),
                         onTap1: () async{
                           /// push to news Collection:
                           /// check voteStatus. If true then the user has already voted up
@@ -108,7 +106,8 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
                           /// if yes do nothing
                           String userNumber = await UserDetails().getUserPhoneNoFuture();
                           String userName = await UserDetails().getUserNameFuture();
-                          if(await NewsStatisticsCollection().checkIfUserExistsInSubCollection(widget.newsId, userNumber, category) == false){
+                          if(await NewsStatisticsCollection().checkIfUserExistsInSubCollection(widget.newsId, userNumber,
+                              category) == false){
                             await NewsStatisticsCollection().addToSet(widget.newsId, userNumber, userName, category, false);
                           }
 
@@ -168,7 +167,7 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
               child: Container(
                   width: MediaQuery.of(context).size.width,
                   alignment:  Alignment.centerLeft,
-                  padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+                  padding:  EdgeInsets.symmetric(horizontal: PaddingConfig.fifteen, vertical: PaddingConfig.one),
                   child: widget.fromName,
               ),
             ),
@@ -177,7 +176,7 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
               width: MediaQuery.of(context).size.width,
               // height: MediaQuery.of(context).size.height,
               alignment: widget.isMe? Alignment.centerRight: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),//pretty padding- for some margin from the side of the screen as well as the top of parent message
+              padding: EdgeInsets.symmetric(horizontal: PaddingConfig.fifteen, vertical: PaddingConfig.one),//pretty padding- for some margin from the side of the screen as well as the top of parent message
               child: widget.timeStamp,
             ),
             /// read stamp:
@@ -199,16 +198,19 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
       child: Container(
               width: MediaQuery.of(context).size.width,
               alignment:  Alignment.centerRight,
-              padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
-              child: isRead == true ? CustomText(text: 'read',).blueSubtitleItalic() : CustomText(text: 'unread',).graySubtitleItalic(),
+              padding:  EdgeInsets.symmetric(horizontal: PaddingConfig.fifteen, vertical: PaddingConfig.one),
+              child: isRead == true ? CustomText(text: 'read',).blueSubtitleItalic() :
+              CustomText(text: 'unread',).graySubtitleItalic(),
             ),
     );
   }
 
   read(){
     if(widget.readCache != null && widget.readCache.containsKey(widget.messageId) == false){
-      return FriendReadStatus(listOfFriends: widget.listOfFriendNumbers, conversationId: widget.conversationId,
-            conversationsLatestMessageTimestamp: widget.timestamp).readStream(context, widget.readCache, widget.messageId, widget.isMe);
+      return FriendReadStatus(listOfFriends: widget.listOfFriendNumbers,
+          conversationId: widget.conversationId,
+          conversationsLatestMessageTimestamp: widget.timestamp).readStream(context,
+          widget.readCache, widget.messageId, widget.isMe);
     } return readUnreadContainer(context, widget.readCache[widget.messageId]);
   }
 }

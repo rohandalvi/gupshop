@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class LinkDisplayUI extends StatelessWidget {
@@ -21,17 +24,18 @@ class LinkDisplayUI extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.network(image, height: 70, width: 70, fit: BoxFit.cover),
+            padding: EdgeInsets.all(PaddingConfig.eight),
+            child: Image.network(image, height: ImageConfig.imageSeventy,
+                width: ImageConfig.imageSeventy, fit: BoxFit.cover),
           ),
           Flexible(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(PaddingConfig.eight),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   CustomText(text: title,).bold(),
-                  SizedBox(height: 4,),
+                  SizedBox(height: WidgetConfig.sizedBoxHeightFour,),
 //                  CustomText(text: description,).nonBoldText(),
 //                  SizedBox(height: 4,),
                   CustomText(text: link,).graySubtitle(),

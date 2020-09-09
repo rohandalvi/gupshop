@@ -4,20 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
-import 'package:gupshop/screens/changeProfilePicture.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/getConversationId.dart';
-import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
-import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/service/pushToProfilePictures.dart';
 import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/widgets/customRaisedButton.dart';
-import 'package:gupshop/widgets/customTextField.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../home/home.dart';
 
 //=>LoginScreen => NameScreen => Home
 
@@ -76,7 +69,8 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                   maxLength: 20,
                 ),
 
-                padding: EdgeInsets.only(left: 20, top: 35, right: 20),
+                padding: EdgeInsets.only(left: PaddingConfig.twenty,
+                    top: PaddingConfig.thirtyFive, right: PaddingConfig.twenty),
               ),
               IconButton(
                 icon: SvgPicture.asset('images/nextArrow.svg',),

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
@@ -62,13 +64,14 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
       alignment: Alignment.center,
       children: <Widget>[
         Card(
-          margin: EdgeInsets.all(0.3),
+          margin: EdgeInsets.all(PaddingConfig.pointThree),
           child: //widget.cache.video == null ? helper()
           GestureDetector(
             child: AspectRatio(
                 aspectRatio:
                 //videoPlayerController.value.aspectRatio,
-                16/10,
+                WidgetConfig.aspectRatioOnePointSix,
+                //16/10,
                 child: VideoPlayer(videoPlayerController),
             ) ,
             onTap: (){
@@ -83,7 +86,8 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
           ),
 //        : cachedVideo(),
         ),
-        CustomIconButton(iconNameInImageFolder: 'playButton', onPressed: (){
+        CustomIconButton(iconNameInImageFolder: 'playButton',
+          onPressed: (){
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -101,7 +105,8 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
       //videoPlayerController.value.initialized ? AspectRatio(
         aspectRatio:
         //videoPlayerController.value.aspectRatio,
-        16/10,
+        WidgetConfig.aspectRatioOnePointSix,
+        //16/10,
         child: VideoPlayer(videoPlayerController),
       ) ,
             //: CircularProgressIndicator(),

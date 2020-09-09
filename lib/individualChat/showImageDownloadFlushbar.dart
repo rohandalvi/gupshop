@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/image/displayPicture.dart';
 import 'package:gupshop/image/downloadImage.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -32,7 +33,7 @@ class _ShowImageDownloadFlushbarState extends State<ShowImageDownloadFlushbar> {
             CustomFlushBar(
               customContext: context,
               iconName: 'speaker',
-              text: CustomText(text : 'Downloading image...............', fontSize: 13,),
+              text: CustomText(text : 'Downloading image...............', fontSize: TextConfig.fontSizeTwelve,),
               message: 'Downloading image..........',
             ).showFlushBar();
             var imageId = await DownloadImage(imageURL: widget.imageURL).download();
@@ -40,7 +41,7 @@ class _ShowImageDownloadFlushbarState extends State<ShowImageDownloadFlushbar> {
               return CustomFlushBar(
                 customContext: context,
                 iconName: 'speaker',
-                text: CustomText(text : 'Image downloaded in your device', fontSize: 13,),
+                text: CustomText(text : 'Image downloaded in your device', fontSize: TextConfig.fontSizeTwelve,),
                 message: 'Image downloaded in your device',
               ).showFlushBar();
             }
@@ -48,7 +49,7 @@ class _ShowImageDownloadFlushbarState extends State<ShowImageDownloadFlushbar> {
               return CustomFlushBar(
                 customContext: context,
                 iconName: 'exclamation',
-                text: CustomText(text : 'Could not download image', fontSize: 13,),
+                text: CustomText(text : 'Could not download image', fontSize: TextConfig.fontSizeTwelve,),
                 message: 'Could not download image',
               ).showFlushBar();
             }

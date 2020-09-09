@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/onboarding/name_screen.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/service/auth_service.dart';
 import 'package:gupshop/widgets/countryCodeAndFlag.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -56,14 +57,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Container(
                     child: CustomText(text: 'Gup',).welcomeTitle(),
-                    padding: EdgeInsets.fromLTRB(15, 120, 0, 0),
+                    padding: EdgeInsets.fromLTRB(PaddingConfig.fifteen,
+                        PaddingConfig.oneTwenty, PaddingConfig.zero,
+                        PaddingConfig.zero),
                     /// padding: EdgeInsets.fromLTRB(35, 110, 0, 0)==>if this is not included
                     /// then the words gup shup would be displayed in the upper left corner
                     /// of the screen
                   ),
                   Container(
                     child: CustomText(text: 'Shup',).welcomeTitle(),
-                    padding: EdgeInsets.fromLTRB(50, 190, 0, 0),
+                    padding: EdgeInsets.fromLTRB(PaddingConfig.fifty,
+                        PaddingConfig.oneNinety, PaddingConfig.zero,
+                        PaddingConfig.zero),
                   )
                 ],
               ),
@@ -94,7 +99,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               });
                             },
                           ),
-                      padding: EdgeInsets.only(left: 20, top: 35, right: 20),
+                      padding: EdgeInsets.only(left: PaddingConfig.twenty,
+                          top: PaddingConfig.thirtyFive,
+                          right: PaddingConfig.twenty),
                     ),
                   ),
                 ],

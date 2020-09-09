@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class UnreadDisplay extends StatelessWidget {
@@ -14,7 +15,8 @@ class UnreadDisplay extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       alignment:  Alignment.centerRight,
-      padding:  EdgeInsets.symmetric(horizontal: 15.0, vertical: 1.0),
+      padding:  EdgeInsets.symmetric(horizontal: PaddingConfig.fifteen,
+          vertical: PaddingConfig.one),
       child: CustomText(text: 'unread',).graySubtitleItalic(),
     );
   }

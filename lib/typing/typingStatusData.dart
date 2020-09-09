@@ -10,7 +10,6 @@ class TypingStatusData{
   TypingStatusData({this.isTyping, this.conversationId, this.userPhoneNo});
 
   pushStatus(){
-    print("in push");
     if(isTyping == '' || isTyping == null){
       print("not typing");
       /// not typing
@@ -21,7 +20,6 @@ class TypingStatusData{
         userNumber: userPhoneNo,
       ).delete();
     }else{
-      print("typing");
       /// typing
       /// add to messageTyping
     UpdateTypingStatusToMessageTyping(

@@ -88,7 +88,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
       onWillPop: () async => false,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(WidgetConfig.appBarBazaarOnBoarding),
+          preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
           child: CustomAppBar(
             title: CustomText(text: widget.category.toUpperCase(),),
             /// back button
@@ -188,7 +188,8 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
       child :  CustomRichText(
         children: <TextSpan>[
           CustomText(text: 'No ',).richText(),
-          CustomText(text: noBazaarwalaText,textColor: primaryColor, fontSize: TextConfig().bigFontSize,).richText(),
+          CustomText(text: noBazaarwalaText,textColor: primaryColor,
+            fontSize: TextConfig().bigFontSize,).richText(),
           CustomText(text: ' near you',).richText(),
         ],
       ),

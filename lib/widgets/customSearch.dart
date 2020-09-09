@@ -3,6 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -23,9 +26,9 @@ class CustomSearch<T> extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SearchBar<T>(
-          searchBarPadding: EdgeInsets.all(10),
+          searchBarPadding: EdgeInsets.all(PaddingConfig.ten),
           emptyWidget: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(PaddingConfig.eight),
             child: CustomText(
               text: ':( This name does not match your contacts ',),
           ),
@@ -33,15 +36,11 @@ class CustomSearch<T> extends StatelessWidget {
             icon: SvgPicture.asset('images/cancel.svg',),
             /// onPressed is taken care by the cancellationWidget
           ),
-          icon: GestureDetector(
-            onTap: backButton == null ? () { /// back arrow
+          icon: CustomIconButton(
+            iconNameInImageFolder: 'backArrowColor',
+            onPressed: backButton == null ? () { /// back arrow
               CustomNavigator().navigateToHome(context, userName, userPhoneNo);
             } : backButton,
-            child: SvgPicture.asset('images/backArrowColor.svg',
-              width: 35,
-              height: 35,
-              //placeholderBuilder: CircularProgressIndicator(),
-            ),
           ),
           minimumChars: 1,/// minimum characters to enter to start the search
           loader: CircularProgressIndicator(),
@@ -50,7 +49,7 @@ class CustomSearch<T> extends StatelessWidget {
           hintStyle: GoogleFonts.openSans(
             textStyle: TextStyle(
               fontWeight: FontWeight.w600,
-              fontSize: 16,
+              fontSize: TextConfig.standardFontSize,
             ),
           ),
           onSearch: onSearch,

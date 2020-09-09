@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/typing/typingStatusDisplay.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
@@ -26,7 +27,7 @@ class ChatAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10),
+      padding: EdgeInsets.only(top: PaddingConfig.ten),
       child: Container(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,7 +40,7 @@ class ChatAppBar extends StatelessWidget {
                 Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 12),
+                      padding: EdgeInsets.only(top: PaddingConfig.twelve),
                       child: CustomIconButton(
                         iconNameInImageFolder: 'backArrowColor',
                         onPressed: backOnPressed,
@@ -53,7 +54,7 @@ class ChatAppBar extends StatelessWidget {
                 Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(top: 18,left: 4, right: 5),
+                      padding: EdgeInsets.only(top: PaddingConfig.eighteen,left: PaddingConfig.four, right: PaddingConfig.five),
                       child: Container(
                         child: GestureDetector(
                           child: displayPictureAvatar,
@@ -68,7 +69,7 @@ class ChatAppBar extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       child: Padding(
-                        padding: const EdgeInsets.all(3.0),
+                        padding: EdgeInsets.all(PaddingConfig.three),
                         child: Container(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +78,7 @@ class ChatAppBar extends StatelessWidget {
                             children: <Widget>[
                               /// name:
                               Padding(
-                                padding: const EdgeInsets.only(top: 18),
+                                padding: EdgeInsets.only(top: PaddingConfig.eighteen),
                                 child: Container(
                                     child : GestureDetector(
                                       child: name,
@@ -115,7 +116,7 @@ class ChatAppBar extends StatelessWidget {
             Column(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(PaddingConfig.ten),
                   child: Container(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,

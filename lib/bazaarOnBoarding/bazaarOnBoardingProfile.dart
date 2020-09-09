@@ -130,7 +130,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(WidgetConfig.appBarBazaarOnBoarding),
+          preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
           child: CustomAppBar(
             title: CustomText(text: 'Advertisement and Location',),
             onPressed:(){

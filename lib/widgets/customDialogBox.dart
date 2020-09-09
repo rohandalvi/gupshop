@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/group/showGroupMembers.dart';
-import 'package:gupshop/widgets/customText.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 
 class CustomDialogBox extends StatelessWidget {
   final Widget child;
@@ -14,7 +13,7 @@ class CustomDialogBox extends StatelessWidget {
     return Dialog(
         child: child,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(WidgetConfig.borderRadiusFifteen),
         ),
         backgroundColor: Colors.transparent,
         elevation: 1,
@@ -31,11 +30,11 @@ class ContainerForDialogBox extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
       child: child,
-      height: 350,
+      height: WidgetConfig.threeSixtyHeight,
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(WidgetConfig.borderRadiusFifteen),
         ),
       ),
     );
@@ -48,12 +47,16 @@ class groupMemberDialogHelper{
   String conversationId;
   bool isGroup;
 
-  groupMemberDialogHelper({@required this.userNumber, @required this.listOfGroupMemberNumbers, @required this.conversationId, this.isGroup});
+  groupMemberDialogHelper({@required this.userNumber,
+    @required this.listOfGroupMemberNumbers,
+    @required this.conversationId, this.isGroup});
 
   customShowDialog(BuildContext context){
     return showDialog(
         context: context,
-        builder: (context) => ShowGroupMembers(userNumber: userNumber, listOfGroupMemberNumbers: listOfGroupMemberNumbers, conversationId: conversationId, isGroup: isGroup,)
+        builder: (context) => ShowGroupMembers(userNumber: userNumber,
+          listOfGroupMemberNumbers: listOfGroupMemberNumbers,
+          conversationId: conversationId, isGroup: isGroup,)
     );
   }
 

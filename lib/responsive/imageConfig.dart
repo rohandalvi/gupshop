@@ -16,4 +16,10 @@ class ImageConfig{
 
   static double bazaarIndividualCategoryWidth = SizeConfig.widthMultiplier * 17;/// 75/4.32
   static double bazaarIndividualCategoryHeight = SizeConfig.heightMultiplier * 17;/// 75/4.32
+
+  static double imageSeventy = SizeConfig.imageSizeMultiplier * 16.2;/// 75/4.32
+
+  static double imageFourHundred = SizeConfig.imageSizeMultiplier * 92.6;/// 400/4.32
+
+
 }

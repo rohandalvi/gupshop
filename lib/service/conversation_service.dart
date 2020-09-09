@@ -18,7 +18,6 @@ class ConversationService{
   StreamController<QuerySnapshot> streamController = new StreamController();
 
   ConversationService(String conversationId) {
-    print("creating new conversationService :${validStream}");
     if(validStream != false){
       validStream = true;
     }
@@ -53,9 +52,7 @@ class ConversationService{
   }
 
   disableActiveSubscription()  async {
-    print("Cancelling subscription and closing stream");
     validStream = false;
-    print("validStream :$validStream");
     await subscription.cancel();
     await streamController.close();
 
@@ -83,8 +80,6 @@ class ConversationService{
   void paginate() {
     Firestore.instance.collection("conversations").document(conversationId).collection("messages").startAfterDocument(startBefore).orderBy("timeStamp", descending: true).limit(PAGINATION_LIMIT).snapshots().listen((event) {
       if(event.documents.isNotEmpty) {
-        print("Start before ${startBefore.data["body"]}");
-        print("Ev ${event.documents.map((e) => e.data["body"])}");
         startBefore = event.documents[event.documents.length - 1];
         streamController.add(event);
       }

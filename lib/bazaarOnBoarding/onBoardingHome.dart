@@ -17,7 +17,7 @@ class OnBoardingHome extends StatelessWidget {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(WidgetConfig.appBarBazaarOnBoarding),
+          preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
           child: CustomAppBar(
             title: CustomText(text: text == null ? 'What do you do ?' : text,),
             onPressed:(){
@@ -26,7 +26,7 @@ class OnBoardingHome extends StatelessWidget {
         ),
         body: Column(/// to avoid "ParentDataWidgets are providing parent data to the same RenderObject:" error
           children: <Widget>[
-            SizedBox(height: WidgetConfig.sizedBoxBazaarOnBoarding,),
+            SizedBox(height: WidgetConfig.sizedBoxHeightThirty,),
             CategorySelector(),
           ],
         ),

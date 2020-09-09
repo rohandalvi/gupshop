@@ -7,6 +7,8 @@ import 'package:gupshop/individualChat/textMessageUI.dart';
 import 'package:gupshop/location/locationDisplayAndLaunchInMap.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/location/location_service.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
@@ -46,11 +48,17 @@ class MessageCardDisplay extends StatelessWidget {
 //        width: MediaQuery.of(context).size.width*0.75,
 //        height: MediaQuery.of(context).size.height*0.75,
       alignment: isMe? Alignment.centerRight: Alignment.centerLeft,///to align the messages at left and right
-      padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0), ///for the box covering the text, when horizontal is increased, the photo size decreases
-      child: isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink, newsBody: newsBody, individualChatCache: individualChatCache, messageId: messageId, cache: cache) :
-      isLocationMessage ==true ? LocationDisplayAndLaunchInMap(textOnButton: fromName, latitude: latitude,longitude: longitude, locationName: 'current location',):
-      videoURL != null  ? ShowVideoThumbnail(videoURL: videoURL,cache: cache,):imageURL == null?
-      TextMessageUI(isMe: isMe, messageBody: messageBody,): ShowImageDownloadFlushbar(imageURL: imageURL,)
+      padding: EdgeInsets.symmetric(horizontal: PaddingConfig.fifteen,
+          vertical: PaddingConfig.three), ///for the box covering the text, when horizontal is increased, the photo size decreases
+      child: isNews == true ? NewsContainerUI(title: newsTitle, link: newsLink,
+          newsBody: newsBody, individualChatCache: individualChatCache,
+          messageId: messageId, cache: cache) :
+      isLocationMessage ==true ? LocationDisplayAndLaunchInMap(textOnButton:
+      fromName, latitude: latitude,longitude: longitude, locationName: 'current location',):
+      videoURL != null  ? ShowVideoThumbnail(videoURL: videoURL,cache: cache,)
+          :imageURL == null?
+      TextMessageUI(isMe: isMe, messageBody: messageBody,)
+          : ShowImageDownloadFlushbar(imageURL: imageURL,)
     );
 
     addToCache(messageContainer);
@@ -62,9 +70,9 @@ class MessageCardDisplay extends StatelessWidget {
       return Column(
         children: <Widget>[
           SizedBox(
-            width: 240,
-            height: 150,
-            child: DisplayCircularPicture().videoFrame(videoURL, 240, 190),
+            width: WidgetConfig.sizedBoxHeightTwoForty,
+            height: WidgetConfig.sizedBoxHeightOneFifty,
+            child: DisplayCircularPicture().videoFrame(videoURL),
           ),
 
         ],

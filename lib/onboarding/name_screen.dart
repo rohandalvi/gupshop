@@ -2,14 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:gupshop/screens/changeProfilePicture.dart';
-import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
-import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
-import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/widgets/customRaisedButton.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customText.dart';
-import 'package:gupshop/widgets/customTextField.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,7 +70,7 @@ class _NameScreenState extends State<NameScreen> {
                         labelText: "Enter your Name",
                       ),
 
-                  padding: EdgeInsets.only(left: 20, top: 35, right: 20),
+                  padding: EdgeInsets.only(left: PaddingConfig.twenty, top: PaddingConfig.thirtyFive, right: PaddingConfig.twenty),
                 ),
                 IconButton(
                   icon: SvgPicture.asset('images/nextArrow.svg',),
@@ -83,8 +79,6 @@ class _NameScreenState extends State<NameScreen> {
                     String userNameForSP = prefs.getString('userName');
                     print("userNameForSP in name_screen: $userNameForSP");
 
-                    print("userName in onPressed: $userName");
-                    print("userPhoneNo in onPressed: $userPhoneNo");
 
 
                     ///Add first time user’s number to database:
@@ -92,7 +86,6 @@ class _NameScreenState extends State<NameScreen> {
                     ///We dont have userPhone and name both at the login_screen, we get both
                    /// of them in the name_screen, so we will add them in that file only.
                     Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
-                    print("Firestore.instance.collection(users).document(userPhoneNo).setData({'name':userName}):${userName}");
 
                     //add userPhoneNumber to our database. Add to the users collection:
                     Firestore.instance.collection("recentChats").document(userPhoneNo).setData({});
@@ -113,16 +106,14 @@ class _NameScreenState extends State<NameScreen> {
 
                     setState(() {
                       prefs.setString('userName', userName);
-                      print("userNameForSP in name_screen setState: $userName");
-                      print("userphoneno in name screen : $userPhoneNo");
                     });
 
                     if(userName == null){
                       Flushbar(
                         icon: SvgPicture.asset(
                             'images/stopHand.svg',
-                          width: 30,
-                          height: 30,
+                          width: IconConfig.flushbarIcon,
+                          height: IconConfig.flushbarIcon,
                         ),
                         flushbarStyle: FlushbarStyle.GROUNDED,
                         backgroundColor: Colors.white,
@@ -138,7 +129,9 @@ class _NameScreenState extends State<NameScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Home(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
+                            builder: (context) => Home(
+                                userPhoneNo: userPhoneNo,
+                                userName: userName),//pass Name() here and pass Home()in name_screen
                           )
                       );
 //                    Navigator.push(
@@ -161,8 +154,8 @@ class _NameScreenState extends State<NameScreen> {
 
   displayNameBadge(){
     return Container(
-      width: 100,
-      height: 100,
+      width: WidgetConfig.hundredWidth,
+      height: WidgetConfig.hundredHeight,
       child:
         Image(
           image: AssetImage('images/user.png'),

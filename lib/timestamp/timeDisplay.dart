@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:intl/intl.dart';
 
 class TimeDisplay extends StatelessWidget {
@@ -13,7 +14,7 @@ class TimeDisplay extends StatelessWidget {
         DateFormat("dd MMM kk:mm")
             .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
         style: TextStyle(
-            color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic
+            color: Colors.grey, fontSize: TextConfig.fontSizeTwelve, fontStyle: FontStyle.italic
         )
     );
   }

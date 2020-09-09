@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/retriveFromFirebase/getMessageTypingInfo.dart';
-import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class TypingStatusDisplay extends StatelessWidget {

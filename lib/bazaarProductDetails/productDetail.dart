@@ -4,6 +4,7 @@ import 'package:gupshop/bazaarProductDetails/chatWithBazaarwala.dart';
 import 'package:gupshop/bazaarProductDetails/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarIndividualCategoryList.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
@@ -83,7 +84,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
       onWillPop: () async => false,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70.0),
+          preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
           child: CustomAppBar(
             title: CustomText(text: productWalaName,),
             actions: <Widget>[
@@ -197,7 +198,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
               return Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(PaddingConfig.sixteen),
                   child: Container(
                     height: WidgetConfig.productDetailImageHeight,
                     child: Center(
@@ -222,7 +223,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                               ],
                             ),
                             Container(
-                              alignment: FractionalOffset(0.5,0.95),///placing the tabpagSelector at the bottom  center of the container
+                              alignment: FractionalOffset(WidgetConfig.pointFive,WidgetConfig.pointNinetyFive),///placing the tabpagSelector at the bottom  center of the container
                               child: TabPageSelector(
                                 controller: imagesController,///if this is not used then the images move but the tabpageSelector does not change the color of the tabs showing which image it is on
                                 selectedColor: Colors.grey,///default color is blue

@@ -1,4 +1,4 @@
-import 'package:gupshop/placeholders/newsImagePlaceholder.dart';
+
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 

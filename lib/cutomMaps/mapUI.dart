@@ -29,6 +29,7 @@ class MapUI extends StatelessWidget {
       onTap: onTap,
       mapType: MapType.normal,
       mapToolbarEnabled: mapToolbarEnabled,
+      myLocationButtonEnabled: false,
     );
   }
 

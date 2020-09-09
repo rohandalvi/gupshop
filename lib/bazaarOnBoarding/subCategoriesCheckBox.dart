@@ -86,7 +86,6 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
     categorySelectedCheck();
 
     initialMap = Map.of(widget.map);
-    print("initialMap in initState : $initialMap");
 
     super.initState();
   }

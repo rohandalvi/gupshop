@@ -33,15 +33,21 @@ class WidgetConfig{
   static double floatingActionButtonSmallHeight = SizeConfig.heightMultiplier * 10;/// 80/8.16
   static double floatingActionButtonSmallWidth = SizeConfig.widthMultiplier * 18;/// 80/4.32
 
-  ///container
-  static double threeSixtyHeight = SizeConfig.heightMultiplier * 44;/// 360/8.16
-  static double threeSixtyWidth = SizeConfig.widthMultiplier * 84;/// 360/4.32
+  /// fractional offset
   static double pointFive = SizeConfig.widthMultiplier/8.64;/// 4.32/8.64 = 0.5
   static double pointNinetyFive = SizeConfig.widthMultiplier/4.55;/// 4.32/4.55 = 0.95
+
+
+  ///container
   static double seventyFiveWidth = SizeConfig.widthMultiplier * 17;/// 75/4.32
   static double seventyFiveHeight = SizeConfig.heightMultiplier * 9.19;/// 75/8.16
   static double hundredHeight = SizeConfig.heightMultiplier * 12;/// 100/8.16
   static double hundredWidth = SizeConfig.widthMultiplier * 23;/// 100/4.32
+  static double twoFiftyWidth = SizeConfig.widthMultiplier * 57.8703703704;/// 250/4.32
+  static double twoFiftyHeight = SizeConfig.widthMultiplier * 30.637254902;/// 250/8.16
+  static double threeSixtyHeight = SizeConfig.heightMultiplier * 44;/// 360/8.16
+  static double threeSixtyWidth = SizeConfig.widthMultiplier * 84;/// 360/4.32
+
 
 
   /// flushbar

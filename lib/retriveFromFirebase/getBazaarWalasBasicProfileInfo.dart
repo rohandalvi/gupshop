@@ -17,7 +17,10 @@ class GetBazaarWalasBasicProfileInfo{
 
   getIsBazaarwala() async{
     DocumentSnapshot dc = await main();
+    /// if the user has not registered as a bazaarwala before at all then,
+    /// there would be no .collection(categoryData) and hence dc would be null
     if(dc.data == null) return false;
+
     if(dc.data.isEmpty) return false;
     return true;
   }

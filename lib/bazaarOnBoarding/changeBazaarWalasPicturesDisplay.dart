@@ -107,7 +107,9 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
             floatingActionButton: CustomFloatingActionButtonWithIcon(
               iconName: 'forward2',
               onPressed: (){
-                //NavigateToProductDetailPage(category: widget.category).navigateNoBrackets(context);
+                ///push all the data here
+
+
                 NavigateToBazaarSubCategorySearch(
                   categoryData: widget.categoryData,
                   category: widget.category,

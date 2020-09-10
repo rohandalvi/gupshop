@@ -230,9 +230,14 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
                       List<Map> list = newSubCategories(initialMap, widget.map);
                       Map deleteMap = list[0];
                       Map addMap = list[1];
-                      List deleteList = listFromMapValues(deleteMap);
-                      deleteUnselectedCategoriesFromDatabase(deleteList, userNumber);
 
+                      /// if already a bazaarwala and a category is deleted
+                      if(deleteMap.isNotEmpty){
+                        List deleteList = listFromMapValues(deleteMap);
+                        deleteUnselectedCategoriesFromDatabase(deleteList, userNumber);
+                      }
+
+                      /// if already a bazaarwala and a category is added
                       if(addMap.isNotEmpty){
                         List addList = listFromMapValues(addMap);
                         pushSubCategoriesToFirebase(addList);
@@ -271,8 +276,8 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
         }
       }
     });
-    print("listOfSubCategoriesForData in subCategoriesList: $listOfSubCategoriesForData");
-    print("map in subCategoriesList : ${widget.map}");
+//    print("listOfSubCategoriesForData in subCategoriesList: $listOfSubCategoriesForData");
+//    print("map in subCategoriesList : ${widget.map}");
   }
 
 

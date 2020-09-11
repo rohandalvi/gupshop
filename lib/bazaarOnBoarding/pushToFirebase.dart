@@ -18,12 +18,14 @@ class PushToFirebase{
   final double radius;
   final String userPhoneNo;
   final bool isBazaarwala;
+  final String aSubCategoryData;
 
   PushToFirebase({this.deleteListData, this.addListData,
     this.videoChanged, this.locationChanged,
     this.listOfSubCategoriesForData, this.categoryData,
     this.listOfSubCategories, this.location, this.radius,
-    this.videoURL, this.userPhoneNo, this.isBazaarwala
+    this.videoURL, this.userPhoneNo, this.isBazaarwala,
+    this.aSubCategoryData
   });
 
 
@@ -51,6 +53,7 @@ class PushToFirebase{
       /// if a bazaarwala and subCategories have been deleted
       /// bazaarwala == true and only deleteListData != null
       if(deleteListData != null){
+        print("deleteList in if : ${deleteListData}");
         await repeatDeleteList();
       }
 
@@ -87,12 +90,15 @@ class PushToFirebase{
 //  }
 
   repeatAddList() async{
+    print("location in repeatDeleteList : ${location}");
     ///if(isbazaarwala == true && addListData != null)
     await pushSubCategoriesToFirebase(addListData);
 
   }
 
   repeatDeleteList() async{
+    print("deleteList in repeatDeleteList : ${deleteListData}");
+
     ///if(isbazaarwala == true && deleteListData != null)
     await deleteUnselectedCategoriesFromDatabase(deleteListData,
         userPhoneNo);
@@ -117,6 +123,7 @@ class PushToFirebase{
     String userName = await UserDetails().getUserNameFuture();
     String userNumber = await UserDetails().getUserPhoneNoFuture();
 
+    print("location in pushSubCategoriesToFirebase : $location");
 
     /// blank placeholders:
 
@@ -177,19 +184,20 @@ class PushToFirebase{
   }
 
 
-  deleteUnselectedCategoriesFromDatabase(List deleteListData, String userNumber){
+  deleteUnselectedCategoriesFromDatabase(List deleteListData, String userNumber) async{
+    print("deleteList in deleteUnselectedCategoriesFromDatabase : ${deleteListData}");
 
     /// delete from 5 collections:
     ///
-    DeleteSubcategriesFirebase(category: categoryData,userNumber: userNumber,
+    await DeleteSubcategriesFirebase(category: categoryData,userNumber: userNumber,
         listOfSubCategoriesData: deleteListData)
         .bazaarCategories();
 
-    DeleteSubcategriesFirebase(category: categoryData,userNumber: userNumber,
+    await DeleteSubcategriesFirebase(category: categoryData,userNumber: userNumber,
         listOfSubCategoriesData: deleteListData)
         .bazaarCategoriesMetadata();
 
-    DeleteSubcategriesFirebase(category: categoryData,userNumber: userNumber,
+    await DeleteSubcategriesFirebase(category: categoryData,userNumber: userNumber,
         listOfSubCategoriesData: deleteListData)
         .bazaarBasicProfile();
 

@@ -34,6 +34,7 @@ class DeleteSubcategriesFirebase{
   }
 
   bazaarBasicProfile(){
+    print("deleteList in bazaarBasicProfile : ${listOfSubCategoriesData}");
     listOfSubCategoriesData.forEach((subCategory) {
       DeleteFromBazaarWalasBasicProfile(
           userPhoneNo: userNumber,

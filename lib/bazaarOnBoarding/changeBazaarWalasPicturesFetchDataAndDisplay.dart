@@ -21,13 +21,15 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
   final LatLng location;
   final double radius;
   final bool isBazaarwala;
+  final String aSubCategoryData;
 
 
   ChangeBazaarWalasPicturesFetchDataAndDisplay({this.subCategoriesList,
     this.category, this.subCategoryMap, this.userPhoneNo, this.userName,
     this.categoryData, this.subCategoriesListData,this.addListData,
     this.deleteListData, this.locationChanged, this.videoChanged,
-    this.location, this.videoURL, this.radius,this.isBazaarwala
+    this.location, this.videoURL, this.radius,this.isBazaarwala,
+    this.aSubCategoryData
   });
 
   @override
@@ -38,6 +40,8 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
         if (userNumberSnapshot.connectionState == ConnectionState.done) {
 
           String userNumber = userNumberSnapshot.data;
+
+          /// use aSubcategoryData here
           String subCategoryData = subCategoriesListData[0];
 
           return FutureBuilder(
@@ -88,6 +92,7 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
                   location: location,
                   radius: radius,
                   isBazaarwala: isBazaarwala,
+                  aSubCategoryData: aSubCategoryData,
                 );
               }
               return Center(

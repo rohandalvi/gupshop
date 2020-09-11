@@ -81,6 +81,7 @@ class PushSubCategoriesToFirebase{
   }
 
   bazaarWalasLocation(){
+    print("location in bazaarWalasLocation : $location");
     listOfSubCategoriesData.forEach((subCategory) {
       LocationService().pushBazaarWalasLocationToFirebase(
           location.latitude, location.longitude,

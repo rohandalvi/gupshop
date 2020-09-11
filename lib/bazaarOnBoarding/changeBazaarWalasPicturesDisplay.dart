@@ -29,14 +29,14 @@ class ChangeBazaarWalasPicturesDisplay extends StatefulWidget{
   final LatLng location;
   final double radius;
   final bool isBazaarwala;
-
+  final String aSubCategoryData;
 
   ChangeBazaarWalasPicturesDisplay({this.thumbnailPicture, this.otherPictureOne,
     this.otherPictureTwo, this.category, this.userName, this.userPhoneNo,
     this.listOfSubCategories, this.subCategoryMap,this.categoryData,
     this.listOfSubCategoriesForData,this.addListData, this.deleteListData,
     this.locationChanged, this.videoChanged,
-    this.location, this.videoURL, this.radius,this.isBazaarwala
+    this.location, this.videoURL, this.radius,this.isBazaarwala, this.aSubCategoryData
   });
 
   @override
@@ -122,6 +122,7 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
               onPressed: () async{
                 ///push all the data here
 
+                print("location in forward2 : ${widget.location}");
                 PushToFirebase(
                   videoURL: widget.videoURL,
                   location: widget.location,
@@ -134,7 +135,8 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
                   deleteListData: widget.deleteListData,
                   userPhoneNo: widget.userPhoneNo,
                   categoryData: widget.categoryData,
-                  isBazaarwala: widget.isBazaarwala
+                  isBazaarwala: widget.isBazaarwala,
+                  aSubCategoryData: widget.aSubCategoryData
                 ).main();
 //                /// this would happen if the user is already a bazaarwala
 //                /// and is editing his profile but has not made any changes.

@@ -192,7 +192,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                 categoryData: widget.categoryData,
                 subCategoryData: aSubCategoryData,
 //              subCategoryData: widget.listOfSubCategoriesForData[0],
-            ).getVideoAndLocation(),
+            ).getVideoAndLocationRadius(),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
                 if(snapshot.data != null){
@@ -207,6 +207,8 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                   databaseLatitude = snapshot.data["latitude"];
                   location = new LatLng(databaseLatitude, databaseLongitude);
                   locationNotNull = true;
+                  radius =snapshot.data["radius"];
+                  print("radius in future builder : $radius");
                 }
 
                 return ListView(
@@ -355,7 +357,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
-          print("videoURL in showSaveButton : $videoURL");
+          print("radius in showSaveButton : $radius");
           NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
             category: widget.category,
             categoryData: widget.categoryData,
@@ -371,7 +373,8 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
             locationChanged: locationChanged,
             location: location,
             radius: radius,
-            isBazaarwala: isBazaarWala
+            isBazaarwala: isBazaarWala,
+            aSubCategoryData: aSubCategoryData
           ).navigateNoBrackets(context);
         }else{
           if(locationNotNull == false && videoNotNull == false){

@@ -19,12 +19,13 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
   final LatLng location;
   final double radius;
   final bool isBazaarwala;
+  final String aSubCategoryData;
 
   NavigateToChangeBazaarProfilePicturesFetchAndDisplay({this.subCategoriesList,
     this.category, this.subCategoryMap, this.userPhoneNo, this.userName,
     this.categoryData, this.subCategoriesListData,this.addListData, this.deleteListData,
     this.locationChanged, this.videoChanged,
-    this.location, this.videoURL, this.radius, this.isBazaarwala
+    this.location, this.videoURL, this.radius, this.isBazaarwala, this.aSubCategoryData
   });
 
   navigate(BuildContext context){
@@ -48,7 +49,7 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
               location: location,
               locationChanged: locationChanged,
               radius: radius,
-
+              aSubCategoryData: aSubCategoryData,
             ),
           )
       );
@@ -76,6 +77,7 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
             location: location,
             locationChanged: locationChanged,
             radius: radius,
+            aSubCategoryData: aSubCategoryData,
           ),
         )
     );

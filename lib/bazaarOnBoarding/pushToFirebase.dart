@@ -32,11 +32,6 @@ class PushToFirebase{
 
   main() async{
 
-    print("deleteList in pushToFirebase : ${deleteListData}");
-    print("addList in pushToFirebase : ${addListData}");
-
-//    bool isBazaarwala = await isSubCategoryBazaarwalaWidget(
-
     /// if not a bazaarwala
     if(isBazaarwala == false){
       if(addListData == null && deleteListData==null &&
@@ -53,17 +48,25 @@ class PushToFirebase{
       /// if a bazaarwala and subCategories have been deleted
       /// bazaarwala == true and only deleteListData != null
       if(deleteListData != null){
-        print("deleteList in if : ${deleteListData}");
         await repeatDeleteList();
       }
 
       /// if videoChanged == true
-      if(videoChanged == true){
+      /// Now, videoChanged == true is set on bazaarOnBorading everytime the
+      /// video is displayed even if the video is not actually changed.
+      /// So this is actually a overhead.
+      /// addListData == null will happen when the user has not added any
+      /// new category.
+      /// If the user has added a new category then the video would get pushed
+      /// in repeatAddList(), hence updating here in repeatVideoChanged
+      /// would be doing double work. Hence, addListData == null check
+      if(videoChanged == true && addListData == null){
+        /// update methods
         await repeatVideoChanged();
       }
 
       /// if locationChanged == true
-      if(locationChanged == true){
+      if(locationChanged == true && addListData == null){
         await repeatVideoChanged();
       }
 
@@ -90,15 +93,12 @@ class PushToFirebase{
 //  }
 
   repeatAddList() async{
-    print("location in repeatDeleteList : ${location}");
     ///if(isbazaarwala == true && addListData != null)
     await pushSubCategoriesToFirebase(addListData);
 
   }
 
   repeatDeleteList() async{
-    print("deleteList in repeatDeleteList : ${deleteListData}");
-
     ///if(isbazaarwala == true && deleteListData != null)
     await deleteUnselectedCategoriesFromDatabase(deleteListData,
         userPhoneNo);
@@ -210,6 +210,7 @@ class PushToFirebase{
 
   /// video and location
   updateVideoInBazaarWalasBasicProfile(List list){
+    print("list in updateVideoInBazaarWalasBasicProfile : $list");
     list.forEach((subCategory) async{
       await UpdateBazaarWalasBasicProfile(
         userPhoneNo: userPhoneNo,

@@ -24,12 +24,13 @@ class SubCategoriesCheckBox extends StatefulWidget {
   final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   final List<DocumentSnapshot> subCategoriesList;
   Map<String, String> subCategoryMap;
+  final bool isBazaarwala;
 
   Map<String, bool > map;
 
 
   SubCategoriesCheckBox({this.subCategoriesList, this.subCategoriesListFuture,
-    this.category, this.subCategoryMap, this.categoryData, this.map});
+    this.category, this.subCategoryMap, this.categoryData, this.map, this.isBazaarwala});
 
   @override
   _SubCategoriesCheckBoxState createState() => _SubCategoriesCheckBoxState();
@@ -224,11 +225,11 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
 
                     /// if already a bazaarwala then, delete and update
                     /// and not push
-                    bool tempIsSubCategoryBazaarwala = await isSubCategoryBazaarwalaWidget();
+                    //bool tempIsSubCategoryBazaarwala = await isSubCategoryBazaarwalaWidget();
                     List deleteListData;
                     List addListData;
 
-                    if(tempIsSubCategoryBazaarwala == true){
+                    if(widget.isBazaarwala == true){
                       List<Map> list = newSubCategories(initialMap, widget.map);
                       Map deleteMap = list[0];
                       Map addMap = list[1];
@@ -292,7 +293,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
 
 
   /// initial map : initialMap,
-  /// newMap : map
+  /// newMap : widget.map
   newSubCategories(Map initialMap, Map newMap ){
     List<Map> list = new List();
 

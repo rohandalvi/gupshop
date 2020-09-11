@@ -101,24 +101,56 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
   LatLng location;
   bool locationChanged;
 
+  String aSubCategoryData;
+
 
   @override
   void initState() {
-    getIsBazaarWala();
+//    getIsBazaarWala();
 
-    super.initState();
-  }
-
-
-  getIsBazaarWala() async{
-    bool result= await UserDetails().getIsBazaarWalaInSharedPreferences();
     setState(() {
-      isBazaarWala = result;
+      aSubCategoryData = getASubcategoryName();
     });
+    super.initState();
+
+    print("deleteList in init : ${widget.deleteListData}");
+    print("addList in init : ${widget.addListData}");
+
   }
+
+
+
+  /// if user has added a subCategory, then that subcategory wont have
+  /// details in firebase as it is not previously pushed.
+  /// Hence, we first check if addList has any data,
+  ///   if yes, then we dont set aSubCategoryData as any subCategory which
+  ///   has been newly added
+  getASubcategoryName(){
+    print("widget.addListData : ${widget.addListData}");
+    String aSubCategoryData = widget.listOfSubCategoriesForData[0];
+
+    if(widget.addListData != null){
+      print("in if");
+      for(int i = 0; i<widget.listOfSubCategoriesForData.length; i++){
+        print("widget.listOfSubCategoriesForData[i] : ${widget.listOfSubCategoriesForData[i]}");
+        if(widget.addListData.contains(widget.listOfSubCategoriesForData[i]) == false){
+          return widget.listOfSubCategoriesForData[i];
+        }
+      }
+    }else {
+      print("in else");
+      return aSubCategoryData;
+    }
+  }
+
+//  getIsBazaarWala() async{
+//    bool result= await UserDetails().getIsBazaarWalaInSharedPreferences();
+//    setState(() {
+//      isBazaarWala = result;
+//    });
+//  }
 
   selectVideo() {
-    print("databaseVideoURL in selectVideo : $databaseVideoURL");
     isVideo = BazaarProfileSetVideo(userPhoneNo: userPhoneNo,
       videoURL: databaseVideoURL,
       videoSelected: videoNotNull,
@@ -158,14 +190,14 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
             future: GetBazaarWalasBasicProfileInfo(
                 userNumber: userPhoneNo,
                 categoryData: widget.categoryData,
-              subCategoryData: widget.listOfSubCategoriesForData[0],
+                subCategoryData: aSubCategoryData,
+//              subCategoryData: widget.listOfSubCategoriesForData[0],
             ).getVideoAndLocation(),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
                 if(snapshot.data != null){
                   video = new File("videoURL");
                   databaseVideoURL = snapshot.data["videoURL"];
-                  print("databaseVideoURL in GetBazaarWalasBasicProfileInfo : $databaseVideoURL");
 //                  isVideo.videoURL = databaseVideoURL;
                   videoNotNull = true;
 
@@ -339,6 +371,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
             locationChanged: locationChanged,
             location: location,
             radius: radius,
+            isBazaarwala: isBazaarWala
           ).navigateNoBrackets(context);
         }else{
           if(locationNotNull == false && videoNotNull == false){

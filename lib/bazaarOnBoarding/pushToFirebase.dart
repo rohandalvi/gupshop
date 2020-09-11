@@ -17,19 +17,23 @@ class PushToFirebase{
   final LatLng location;
   final double radius;
   final String userPhoneNo;
+  final bool isBazaarwala;
 
   PushToFirebase({this.deleteListData, this.addListData,
     this.videoChanged, this.locationChanged,
     this.listOfSubCategoriesForData, this.categoryData,
     this.listOfSubCategories, this.location, this.radius,
-    this.videoURL, this.userPhoneNo
+    this.videoURL, this.userPhoneNo, this.isBazaarwala
   });
 
 
 
   main() async{
 
-    bool isBazaarwala = await isSubCategoryBazaarwalaWidget();
+    print("deleteList in pushToFirebase : ${deleteListData}");
+    print("addList in pushToFirebase : ${addListData}");
+
+//    bool isBazaarwala = await isSubCategoryBazaarwalaWidget(
 
     /// if not a bazaarwala
     if(isBazaarwala == false){

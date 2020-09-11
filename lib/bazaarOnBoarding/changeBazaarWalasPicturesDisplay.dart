@@ -28,13 +28,15 @@ class ChangeBazaarWalasPicturesDisplay extends StatefulWidget{
   final String videoURL;
   final LatLng location;
   final double radius;
+  final bool isBazaarwala;
+
 
   ChangeBazaarWalasPicturesDisplay({this.thumbnailPicture, this.otherPictureOne,
     this.otherPictureTwo, this.category, this.userName, this.userPhoneNo,
     this.listOfSubCategories, this.subCategoryMap,this.categoryData,
     this.listOfSubCategoriesForData,this.addListData, this.deleteListData,
     this.locationChanged, this.videoChanged,
-    this.location, this.videoURL, this.radius,
+    this.location, this.videoURL, this.radius,this.isBazaarwala
   });
 
   @override
@@ -131,7 +133,8 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
                   addListData: widget.addListData,
                   deleteListData: widget.deleteListData,
                   userPhoneNo: widget.userPhoneNo,
-                  categoryData: widget.categoryData
+                  categoryData: widget.categoryData,
+                  isBazaarwala: widget.isBazaarwala
                 ).main();
 //                /// this would happen if the user is already a bazaarwala
 //                /// and is editing his profile but has not made any changes.

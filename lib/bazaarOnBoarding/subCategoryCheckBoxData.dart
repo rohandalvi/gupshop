@@ -24,6 +24,7 @@ class SubCategoryCheckBoxData extends StatefulWidget {
 class _SubCategoryCheckBoxDataState extends State<SubCategoryCheckBoxData> {
 
   Map<String, bool > map = new HashMap();
+  bool isBazaarwala;
 
   getCategorySizeFuture() {
     Map mapOfDocumentSnapshots = widget.subCategoriesList.asMap();
@@ -53,6 +54,7 @@ class _SubCategoryCheckBoxDataState extends State<SubCategoryCheckBoxData> {
             /// accordingly
             Map categorySelectedMap = snapshot.data;
             mergeMaps(categorySelectedMap, map);
+            isBazaarwala = true;
           }
           return SubCategoriesCheckBox(
             map: map,
@@ -61,6 +63,7 @@ class _SubCategoryCheckBoxDataState extends State<SubCategoryCheckBoxData> {
             category: widget.category,
             categoryData: widget.categoryData,
             subCategoryMap: widget.subCategoryMap,
+            isBazaarwala: isBazaarwala,
           );
         }
         return Center(

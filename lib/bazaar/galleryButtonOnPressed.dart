@@ -23,7 +23,8 @@ class GalleryButtonOnPressed{
           });
 
         }
-        NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
+        Navigator.pop(context);
+        //NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
 
     }
 
@@ -40,7 +41,8 @@ class GalleryButtonOnPressed{
         });
 
       }
-      NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
+      Navigator.pop(context);
+      //NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
     }
 
     otherPictureTwo(BuildContext context) async {
@@ -56,6 +58,7 @@ class GalleryButtonOnPressed{
         });
 
       }
-      NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
+      Navigator.pop(context);
+      //NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
     }
 }

@@ -34,6 +34,7 @@ class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
 
 
   getCategorySizeFuture() {
+    print("widget.subCategoriesList : ${widget.subCategoriesList}");
     Map mapOfDocumentSnapshots = widget.subCategoriesList.asMap();
     /// initializing 'map' with false values
     mapOfDocumentSnapshots.forEach((key, value) {
@@ -85,7 +86,6 @@ class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
       ///displaying on the display name
       onTap: () {
         String subCategory = name;
-        print("widget.subCategoryMap[subCategory] : ${widget.subCategoryMap[subCategory]}");
         String subCategoryData = widget.subCategoryMap[subCategory];
         NavigateToProductDetailPage(
           categoryData: widget.categoryData,

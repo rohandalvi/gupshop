@@ -29,7 +29,6 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
   });
 
   navigate(BuildContext context){
-    print("in navigate to NavigateToChangeBazaarProfilePicturesFetchAndDisplay");
     return (){
       Navigator.push(
           context,

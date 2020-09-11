@@ -22,7 +22,8 @@ class CameraButtonOnPressed{
       });
 
     }
-    NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
+    Navigator.pop(context);
+    //NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
 
   }
 
@@ -39,7 +40,8 @@ class CameraButtonOnPressed{
       });
 
     }
-    NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
+    Navigator.pop(context);
+    //NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
   }
 
 
@@ -55,6 +57,7 @@ class CameraButtonOnPressed{
       });
 
     }
-    NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
+    Navigator.pop(context);
+   // NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
   }
 }

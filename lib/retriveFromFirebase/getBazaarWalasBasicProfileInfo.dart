@@ -53,15 +53,9 @@ class GetBazaarWalasBasicProfileInfo{
     DocumentSnapshot dc = await main();
     Map<String, String> map = new Map();
     map["thumbnailPicture"] = dc.data["thumbnailPicture"];
-    print("map after thumbnailPicture : $map");
     map["otherPictureOne"] = dc.data["otherPictureOne"];
-    print("map after otherPictureOne : $map");
     map["otherPictureTwo"] = dc.data["otherPictureTwo"];
-    print("map after otherPictureTwo : $map");
     map["videoURL"] = dc.data["videoURL"];
-    print("map after videoURL : $map");
-
-    print("map in getPictureListAndVideo : $map");
     return map;
   }
 
@@ -99,5 +93,12 @@ class GetBazaarWalasBasicProfileInfo{
       map["radius"] = dc.data["radius"];
       return map;
     }return null;
+  }
+
+  getPicturesStream(){
+    return Firestore.instance.collection("bazaarWalasBasicProfile")
+        .document(userNumber)
+        .collection(categoryData).document(subCategoryData)
+        .snapshots();
   }
 }

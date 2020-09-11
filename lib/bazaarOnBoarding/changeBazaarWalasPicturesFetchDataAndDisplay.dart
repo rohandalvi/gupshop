@@ -42,13 +42,15 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
           String userNumber = userNumberSnapshot.data;
 
           /// use aSubcategoryData here
-          String subCategoryData = subCategoriesListData[0];
+          String subCategoryData = aSubCategoryData;
 
-          return FutureBuilder(
-            future: GetBazaarWalasBasicProfileInfo(userNumber: userNumber,
-                categoryData:categoryData,subCategoryData:subCategoryData).getPictureListAndVideo(),
+          return StreamBuilder(
+            stream: GetBazaarWalasBasicProfileInfo(userNumber: userNumber,
+                categoryData:categoryData,subCategoryData:subCategoryData).getPicturesStream(),
+//            GetBazaarWalasBasicProfileInfo(userNumber: userNumber,
+//                categoryData:categoryData,subCategoryData:subCategoryData).getPictureListAndVideo(),
             builder: (BuildContext context, AsyncSnapshot picturesSnapshot) {
-              if (picturesSnapshot.connectionState == ConnectionState.done) {
+//              if (picturesSnapshot.connectionState == ConnectionState.done) {
                 String thumbnailPicture;
                 String otherPictureOne;
                 String otherPictureTwo;
@@ -94,7 +96,7 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
                   isBazaarwala: isBazaarwala,
                   aSubCategoryData: aSubCategoryData,
                 );
-              }
+//              }
               return Center(
                 child: CircularProgressIndicator(),
               );

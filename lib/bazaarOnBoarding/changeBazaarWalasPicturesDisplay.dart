@@ -76,7 +76,8 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
           return Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
-              child: ChangeBazaarWalasPicturesAppBar(tabNumber: _activeTabIndex,categoryData: widget.categoryData,subCategoryDataList: widget.listOfSubCategoriesForData,),
+              child: ChangeBazaarWalasPicturesAppBar(tabNumber: _activeTabIndex,categoryData: widget.categoryData,
+                subCategoryDataList: widget.listOfSubCategoriesForData,),
             ),
             body: Center(
               child: Padding(
@@ -121,8 +122,6 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
               iconName: 'forward2',
               onPressed: () async{
                 ///push all the data here
-
-                print("location in forward2 : ${widget.location}");
                 PushToFirebase(
                   videoURL: widget.videoURL,
                   location: widget.location,
@@ -138,98 +137,6 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
                   isBazaarwala: widget.isBazaarwala,
                   aSubCategoryData: widget.aSubCategoryData
                 ).main();
-//                /// this would happen if the user is already a bazaarwala
-//                /// and is editing his profile but has not made any changes.
-//                /// In such a case, no data has to pushed or deleted or
-//                /// updated
-//                if(widget.addListData == null && widget.deleteListData==null &&
-//                  widget.isBazaarwala == true && widget.videoChanged == false &&
-//                  widget.locationChanged == false){
-//                  /// do nothing
-//                }
-//
-//                else{
-//                  /// if addList==null, deleteList==null & if isBazaarwala = false
-//                  /// this would happen when :
-//                  /// User is registering as a bazaarwala for the 1st time
-//                  if(widget.addListData == null && widget.deleteListData==null &&
-//                      widget.isBazaarwala == false && widget.videoChanged == true &&
-//                      widget.locationChanged == true) {
-//                    await pushSubCategoriesToFirebase(widget.listOfSubCategoriesForData);
-//                  } else {
-//                    /// if(addListData != null)
-//                    /// eg : addList + videoChange + locationChange
-//                    if(widget.addListData != null && widget.deleteListData != null){
-//                      await pushSubCategoriesToFirebase(widget.addListData);
-//                      await deleteUnselectedCategoriesFromDatabase(widget.deleteListData,
-//                          widget.userPhoneNo);
-//                    }
-//                    else if(widget.addListData != null){
-//                      await pushSubCategoriesToFirebase(widget.addListData);
-//                    }
-//
-//                    /// if(deleteList != null)
-//                    else if(widget.deleteListData != null){
-//                      await deleteUnselectedCategoriesFromDatabase(widget.deleteListData,
-//                          widget.userPhoneNo);
-//                    }
-//                    /// if(videoURLChanged == true)
-//                    /// update all the categories in listOfSubCategoriesForData.
-//                    /// This way even the addList would get covered and deleteList
-//                    /// would be ignored
-//                    if(widget.addListData == null && widget.deleteListData==null &&
-//                        widget.videoChanged == true){
-//                      await updateVideoInBazaarWalasBasicProfile(widget.listOfSubCategoriesForData);
-//                    }
-//
-//
-//                    /// if(locationChanged == true)
-//                    if(widget.addListData == null && widget.deleteListData==null &&
-//                        widget.locationChanged == true){
-//                      await updateLocationInBazaarWalasBasicProfile(widget.listOfSubCategoriesForData);
-//                    }
-//
-//                  }
-//
-//                  /// ========================== upto here ===================================///
-//
-//                  /// if firsttime
-//                  /// this does not make sense anymore:
-//                  pushToVideoBazaarWalaLocationAndBasiCProfile();
-//
-//                  /// same videoURL, categories deleted
-//                  /// videoURLChanged == false , deleteListData != null
-//                  /// delete the video from deleteListData
-//
-//                  /// same videoURL, categories added
-//                  /// videoURLChanged == false , addListData != null
-//                  /// push the the video to addListData
-//
-//
-//                  /// same videoURL, categories not changed
-//                  /// do nothing
-//
-//
-//                  /// changed videoURL, categories deleted
-//                  /// videoURLChanged == true , deleteListData != null
-//                  /// delete video from deletedListData from
-//                  /// video and basic profile collection.
-//                  /// BasicProfile is getting deleted already when deleteUnselectedCategoriesFromDatabase
-//                  /// is called.
-//                  /// the subCategory in deleteListData has been already deleted
-//                  /// by deleteUnselectedCategoriesFromDatabase method from
-//                  /// video collection as well as basicProfile collection
-//                  /// Hence, only update the new ones
-//                  /// update:
-//                  //updateVideoInBazaarWalasBasicProfile(widget.listOfSubCategoriesForData);
-//
-//                  /// changed videoURL, categories added
-//                  /// videoURLChanged == true , addListData != null
-//                  /// update video in listOfSubCategoriesForData in
-//                  /// video and basic profile collection
-//                  updateVideoInBazaarWalasBasicProfile(widget.listOfSubCategoriesForData);
-//                }
-
 
                 NavigateToBazaarSubCategorySearch(
                   categoryData: widget.categoryData,

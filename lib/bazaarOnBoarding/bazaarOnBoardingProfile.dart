@@ -357,7 +357,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
-          print("radius in showSaveButton : $radius");
+          print("listOfSubCategoriesForData in showSaveButton : ${widget.listOfSubCategoriesForData}");
           NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
             category: widget.category,
             categoryData: widget.categoryData,

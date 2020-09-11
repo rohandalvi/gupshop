@@ -15,6 +15,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/updateInFirebase/updateBazaarWalasBasicProfile.dart';
@@ -36,6 +37,10 @@ class BazaarOnBoardingProfile extends StatefulWidget {
   final String category;
   final String categoryData;
   List<String> listOfSubCategoriesForData;
+  final List<dynamic> deleteListData;
+  final List<dynamic> addListData;
+
+
 
   //final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   Map<String, String> subCategoryMap;
@@ -44,6 +49,7 @@ class BazaarOnBoardingProfile extends StatefulWidget {
   BazaarOnBoardingProfile({@required this.userPhoneNo, @required this.userName,
     this.category, this.listOfSubCategories, this.listOfSubCategoriesForData,
      this.subCategoryMap,this.categoryData,
+    this.addListData, this.deleteListData
   });
 
   @override
@@ -71,12 +77,16 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
   File _cameraVideo;
 
-  bool videoSelected = false;
-  bool locationSelected = false;
+  bool videoNotNull = false;
+  bool locationNotNull = false;
   bool isBazaarWala;
-  bool videoFromActualSelection;
 
+  /// to know if the video is changed
+  bool videoPicked;
+
+  /// for creating local cache
   BazaarProfileSetVideo isVideo;
+
   LatLng locationFromMap;
   double radius;
 
@@ -86,6 +96,10 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
   Map<dynamic, dynamic> cache = new Map();
 
+  String videoURL;
+  bool videoChanged;
+  LatLng location;
+  bool locationChanged;
 
 
   @override
@@ -104,16 +118,17 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
   }
 
   selectVideo() {
+    print("databaseVideoURL in selectVideo : $databaseVideoURL");
     isVideo = BazaarProfileSetVideo(userPhoneNo: userPhoneNo,
       videoURL: databaseVideoURL,
-      videoSelected: videoSelected,
+      videoSelected: videoNotNull,
       video: video,
       cameraVideo: _cameraVideo,);
 
-    videoFromActualSelection = true;
+    videoPicked = true;
     cache["video"] = isVideo;
-    print("isVideo in selectVideo : $isVideo");
-    print("isVideo.url in selectVideo : ${isVideo.videoURL}");
+
+    videoChanged = true;
 
     return isVideo;
   }
@@ -134,6 +149,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
           child: CustomAppBar(
             title: CustomText(text: 'Advertisement and Location',),
             onPressed:(){
+              Navigator.pop(context);
               //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
             },),
         ),
@@ -146,17 +162,19 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
             ).getVideoAndLocation(),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
-                print("map in GetBazaarWalasBasicProfileInfo : ${snapshot.data}");
                 if(snapshot.data != null){
                   video = new File("videoURL");
                   databaseVideoURL = snapshot.data["videoURL"];
+                  print("databaseVideoURL in GetBazaarWalasBasicProfileInfo : $databaseVideoURL");
 //                  isVideo.videoURL = databaseVideoURL;
-                  videoSelected = true;
+                  videoNotNull = true;
+
+                  videoURL = databaseVideoURL;
 
                   databaseLongitude = snapshot.data["longitude"];
                   databaseLatitude = snapshot.data["latitude"];
-//                  locationFromMap = new LatLng(databaseLatitude, databaseLongitude);
-                  locationSelected = true;
+                  location = new LatLng(databaseLatitude, databaseLongitude);
+                  locationNotNull = true;
                 }
 
                 return ListView(
@@ -177,15 +195,15 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                             child: CustomRaisedButton(
                               child: CustomText(text: 'Tap to add location and service area',),
                               onPressed: () async{
-                                LocationData location;
+                                LocationData locationTemp;
                                 var currentLocation = new Location();
-                                location = await currentLocation.getLocation();
+                                locationTemp = await currentLocation.getLocation();
 
                                 //Position location  = await LocationService().getLocation();
 
                                 List list = await NavigateToCustomMap(
-                                  latitude: location.latitude,
-                                  longitude: location.longitude,
+                                  latitude: locationTemp.latitude,
+                                  longitude: locationTemp.longitude,
                                   showRadius: true,
                                 ).navigateNoBrackets(context);
 
@@ -194,6 +212,8 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                                 locationFromMap = list[0];
                                 radius = list[1];
 
+                                location = locationFromMap;
+                                locationChanged = true;
                               },
                             ).elevated(),
                           ),
@@ -219,7 +239,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
   pageSubtitle(String text){
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(PaddingConfig.eight),
       child: CustomText(text: text,).underLine(),
     );
   }
@@ -227,22 +247,22 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
   showLocation(){
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(PaddingConfig.eight),
       child: Visibility(
-        visible: locationSelected == true,
+        visible: locationNotNull == true,
         child: LocationService().showLocation(userName, databaseLatitude, databaseLatitude),
       ),
     );
   }
 
-  isSubCategoryBazaarwalaWidget() async{
-    bool isSubCategoryBazaarwala = await GetBazaarWalasBasicProfileInfo(
-      userNumber: userPhoneNo,
-      categoryData: widget.categoryData,
-      subCategoryData: widget.listOfSubCategoriesForData[0],
-    ).getIsBazaarwala();
-    return isSubCategoryBazaarwala;
-  }
+//  isSubCategoryBazaarwalaWidget() async{
+//    bool isSubCategoryBazaarwala = await GetBazaarWalasBasicProfileInfo(
+//      userNumber: userPhoneNo,
+//      categoryData: widget.categoryData,
+//      subCategoryData: widget.listOfSubCategoriesForData[0],
+//    ).getIsBazaarwala();
+//    return isSubCategoryBazaarwala;
+//  }
 
 
 
@@ -256,37 +276,44 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
       iconName: 'forward2',
       onPressed: () async{
         setState(() {
-          if(isVideo != null) videoSelected = isVideo.videoSelected;
-          if(locationFromMap != null) locationSelected = true;
+//          if(isVideo != null) videoNotNull = isVideo.videoSelected;
+          if(isVideo != null) {
+            videoNotNull = isVideo.videoSelected;
+            videoURL = isVideo.videoURL;
+          }
+          if(locationFromMap != null) locationNotNull = true;
         });
 
-        if(locationSelected == true && videoSelected == true ){
+        if(locationNotNull == true && videoNotNull == true ){
 
-          /// if he is already a bazaarwala and video or location is changed
-          bool tempIsSubCategoryBazaarwala = await isSubCategoryBazaarwalaWidget();
-          if(tempIsSubCategoryBazaarwala == true){
-            if(videoFromActualSelection == true){
-              /// then update
-              widget.listOfSubCategoriesForData.forEach((subCategory) async{
-                await UpdateBazaarWalasBasicProfile(
-                  userPhoneNo: userPhoneNo,
-                  categoryData: widget.categoryData,
-                  subCategoryData: subCategory,
-                ).updateVideo(isVideo.videoURL);
-              });
-
-            }
-            if(locationFromMap != null){
-              widget.listOfSubCategoriesForData.forEach((subCategory) async{
-                await UpdateBazaarWalasBasicProfile(
-                  userPhoneNo: userPhoneNo,
-                  categoryData: widget.categoryData,
-                  subCategoryData: subCategory,
-                ).updateLocation(locationFromMap);
-              });
-            }
-          }/// else if he adding for the first time and not editing the profile
-          else await pushToVideoBazaarWalaLocationAndBasiCProfile();
+//          /// if he is already a bazaarwala and video or location is changed
+//          bool tempIsSubCategoryBazaarwala = await isSubCategoryBazaarwalaWidget();
+//          if(tempIsSubCategoryBazaarwala == true){
+//            if(videoPicked == true){
+//              /// then update
+//              /// ===> this in the end
+////              widget.listOfSubCategoriesForData.forEach((subCategory) async{
+////                await UpdateBazaarWalasBasicProfile(
+////                  userPhoneNo: userPhoneNo,
+////                  categoryData: widget.categoryData,
+////                  subCategoryData: subCategory,
+////                ).updateVideo(isVideo.videoURL);
+////              });
+//
+//            }
+//            if(locationFromMap != null){
+//              /// ===> this in the end
+////              widget.listOfSubCategoriesForData.forEach((subCategory) async{
+////                await UpdateBazaarWalasBasicProfile(
+////                  userPhoneNo: userPhoneNo,
+////                  categoryData: widget.categoryData,
+////                  subCategoryData: subCategory,
+////                ).updateLocation(locationFromMap);
+////              });
+//            }
+//          }/// else if he adding for the first time and not editing the profile
+          /// ===> this in the end
+          //else await pushToVideoBazaarWalaLocationAndBasiCProfile();
           //await pushToVideoBazaarWalaLocationAndBasiCProfile();
 
 
@@ -296,6 +323,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
+          print("videoURL in showSaveButton : $videoURL");
           NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
             category: widget.category,
             categoryData: widget.categoryData,
@@ -304,23 +332,30 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
             subCategoriesListData: widget.listOfSubCategoriesForData,
             userName: userName,
             userPhoneNo: userPhoneNo,
+            addListData: widget.addListData,
+            deleteListData: widget.deleteListData,
+            videoChanged: videoChanged,
+            videoURL: videoURL,
+            locationChanged: locationChanged,
+            location: location,
+            radius: radius,
           ).navigateNoBrackets(context);
         }else{
-          if(locationSelected == false && videoSelected == false){
+          if(locationNotNull == false && videoNotNull == false){
             CustomFlushBar(
               customContext: context,
               text: CustomText(text: 'Select Video and Location',),
               iconName: 'stopHand',
               message: 'Select Video,Location and Category',
             ).showFlushBar();
-          }else if(locationSelected == false){
+          }else if(locationNotNull == false){
             CustomFlushBar(
               customContext: context,
               text: CustomText(text: 'Select Location',),
               iconName: 'stopHand',
               message: 'Select Location',
             ).showFlushBar();
-          }else if(videoSelected == false){
+          }else if(videoNotNull == false){
             CustomFlushBar(
               customContext: context,
               text: CustomText(text: 'Select Video',),
@@ -333,40 +368,5 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
     );
   }
 
-  uploadToVideoCollection() async{
-    Firestore.instance.collection("videos").document(userPhoneNo).setData({'url':isVideo.videoURL});
-  }
-
-  pushTobazaarWalasLocation(){
-    if(locationFromMap != null){
-      widget.listOfSubCategoriesForData.forEach((subCategory) {
-        LocationService().pushBazaarWalasLocationToFirebase(
-            locationFromMap.latitude, locationFromMap.longitude,
-            widget.categoryData, userPhoneNo, subCategory, radius
-        );
-      });
-    }
-  }
-
-
-  pushToVideoBazaarWalaLocationAndBasiCProfile() async{
-    await uploadToVideoCollection();
-
-    await pushTobazaarWalasLocation();
-
-    widget.listOfSubCategoriesForData.forEach((subCategory) async{
-      await PushToBazaarWalasBasicProfile(
-          categoryData: widget.categoryData,
-          subCategoryData: subCategory,
-          userPhoneNo: userPhoneNo,
-          userName: userName,
-          videoURL: isVideo.videoURL,
-          longitude: locationFromMap.longitude,
-          latitude: locationFromMap.latitude,
-          radius: radius,
-      ).pushToFirebase();
-    });
-
-  }
 
 }

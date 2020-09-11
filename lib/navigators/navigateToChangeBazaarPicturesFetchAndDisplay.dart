@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/bazaarOnBoarding/changeBazaarWalasPicturesFetchDataAndDisplay.dart';
 
 class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
@@ -10,10 +11,19 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
   final String category;
   final String categoryData;
   final List<String> subCategoriesListData;
+  final List<dynamic> deleteListData;
+  final List<dynamic> addListData;
+  final bool videoChanged;
+  final bool locationChanged;
+  final String videoURL;
+  final LatLng location;
+  final double radius;
 
   NavigateToChangeBazaarProfilePicturesFetchAndDisplay({this.subCategoriesList,
     this.category, this.subCategoryMap, this.userPhoneNo, this.userName,
-    this.categoryData, this.subCategoriesListData
+    this.categoryData, this.subCategoriesListData,this.addListData, this.deleteListData,
+    this.locationChanged, this.videoChanged,
+    this.location, this.videoURL, this.radius,
   });
 
   navigate(BuildContext context){
@@ -30,6 +40,13 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
               userName: userName,
               userPhoneNo: userPhoneNo,
               subCategoriesListData: subCategoriesListData,
+              addListData: addListData,
+              deleteListData: deleteListData,
+              videoURL: videoURL,
+              videoChanged: videoChanged,
+              location: location,
+              locationChanged: locationChanged,
+              radius: radius,
             ),
           )
       );
@@ -37,6 +54,8 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
   }
 
   navigateNoBrackets(BuildContext context){
+    print("videoURL in navigateNoBrackets : $videoURL");
+
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -48,6 +67,13 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
             userName: userName,
             userPhoneNo: userPhoneNo,
             subCategoriesListData: subCategoriesListData,
+            addListData: addListData,
+            deleteListData: deleteListData,
+            videoURL: videoURL,
+            videoChanged: videoChanged,
+            location: location,
+            locationChanged: locationChanged,
+            radius: radius,
           ),
         )
     );

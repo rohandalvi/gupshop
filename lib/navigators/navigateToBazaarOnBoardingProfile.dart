@@ -12,6 +12,8 @@ class NavigateToBazaarOnBoardingProfile{
   final String category;
   final String categoryData;
   List<String> listOfSubCategoriesForData;
+  final List<dynamic> deleteListData;
+  final List<dynamic> addListData;
 
   /// for bazaarwalaBasicProfile
   final String subCategory;
@@ -23,7 +25,7 @@ class NavigateToBazaarOnBoardingProfile{
   NavigateToBazaarOnBoardingProfile({this.listOfSubCategories, this.category,
      this.subCategoryMap,
     this.userPhoneNo, this.userName, this.listOfSubCategoriesForData, this.categoryData,
-    this.subCategoryData, this.subCategory
+    this.subCategoryData, this.subCategory, this.addListData, this.deleteListData
   });
 
 
@@ -43,6 +45,8 @@ class NavigateToBazaarOnBoardingProfile{
               //subCategoriesListFuture: subCategoriesListFuture,
               subCategoryMap: subCategoryMap,
               listOfSubCategoriesForData: listOfSubCategoriesForData,
+              addListData: addListData,
+              deleteListData: deleteListData,
             ),
           )
       );
@@ -65,6 +69,8 @@ class NavigateToBazaarOnBoardingProfile{
             //subCategoriesListFuture: subCategoriesListFuture,
             subCategoryMap: subCategoryMap,
             listOfSubCategoriesForData: listOfSubCategoriesForData,
+            addListData: addListData,
+            deleteListData: deleteListData,
           ),
         )
     );

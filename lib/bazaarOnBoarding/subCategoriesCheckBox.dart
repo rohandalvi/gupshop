@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarWalasBasicProfileCollection.dart';
 import 'package:gupshop/bazaarCategory/homeServiceText.dart';
 import 'package:gupshop/bazaarOnBoarding/pushSubCategoriesToFirebase.dart';
-import 'package:gupshop/bazaarOnBoarding/updateSubcategoriesFirebase.dart';
+import 'package:gupshop/bazaarOnBoarding/deleteSubcategoriesFirebase.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
@@ -225,6 +225,8 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
                     /// if already a bazaarwala then, delete and update
                     /// and not push
                     bool tempIsSubCategoryBazaarwala = await isSubCategoryBazaarwalaWidget();
+                    List deleteListData;
+                    List addListData;
 
                     if(tempIsSubCategoryBazaarwala == true){
                       List<Map> list = newSubCategories(initialMap, widget.map);
@@ -233,17 +235,23 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
 
                       /// if already a bazaarwala and a category is deleted
                       if(deleteMap.isNotEmpty){
-                        List deleteList = listFromMapValues(deleteMap);
-                        deleteUnselectedCategoriesFromDatabase(deleteList, userNumber);
+                        deleteListData = listFromMapValues(deleteMap);
+
+                        /// ===> this in the end
+                        //deleteUnselectedCategoriesFromDatabase(deleteListData, userNumber);
                       }
 
                       /// if already a bazaarwala and a category is added
                       if(addMap.isNotEmpty){
-                        List addList = listFromMapValues(addMap);
-                        pushSubCategoriesToFirebase(addList);
+                        addListData = listFromMapValues(addMap);
+
+                        /// ===> this in the end
+                        //pushSubCategoriesToFirebase(addListData);
                       }
-                    } else /// push the subCategories to database:
-                    pushSubCategoriesToFirebase(listOfSubCategoriesForData);
+                    }
+                    //else /// push the subCategories to database:
+                      /// ===> this in the end
+                    //pushSubCategoriesToFirebase(listOfSubCategoriesForData);
 
                     /// moving on to next page:
                     NavigateToBazaarOnBoardingProfile(
@@ -255,6 +263,8 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
                       //subCategoriesListFuture: widget.subCategoriesListFuture,
                       subCategoryMap: widget.subCategoryMap,
                       listOfSubCategoriesForData: listOfSubCategoriesForData,
+                      addListData: addListData,
+                      deleteListData: deleteListData,
                     ).navigateNoBrackets(context);
                   }
               ),
@@ -317,38 +327,38 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
     return result;
   }
 
-  pushSubCategoriesToFirebase(List listOfSubCategoriesData) async{
-    String userName = await UserDetails().getUserNameFuture();
-    String userNumber = await UserDetails().getUserPhoneNoFuture();
-
-    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-      userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
-        .bazaarCategories();
-
-    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData,listOfSubCategories: listOfSubCategories )
-        .bazaarCategoriesMetaData();
-
-    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
-        .createBlankRatingNumber();
-
-    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
-        .createBlankReviews();
-
-    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
-        .bazaarWalasLocation();
-  }
-
-
-  deleteUnselectedCategoriesFromDatabase(List subCategoryDelete, String userNumber){
-
-    UpdateSubcategriesFirebase(category: widget.categoryData,userNumber: userNumber,
-        listOfSubCategoriesData: subCategoryDelete).bazaarCategories();
-
-    UpdateSubcategriesFirebase(category: widget.categoryData,userNumber: userNumber,
-        listOfSubCategoriesData: subCategoryDelete).bazaarCategoriesMetadata();
-  }
+//  pushSubCategoriesToFirebase(List listOfSubCategoriesData) async{
+//    String userName = await UserDetails().getUserNameFuture();
+//    String userNumber = await UserDetails().getUserPhoneNoFuture();
+//
+//    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
+//      userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
+//        .bazaarCategories();
+//
+//    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
+//        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData,listOfSubCategories: listOfSubCategories )
+//        .bazaarCategoriesMetaData();
+//
+//    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
+//        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
+//        .createBlankRatingNumber();
+//
+//    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
+//        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
+//        .createBlankReviews();
+//
+//    PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
+//        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
+//        .bazaarWalasLocation();
+//  }
+//
+//
+//  deleteUnselectedCategoriesFromDatabase(List subCategoryDelete, String userNumber){
+//
+//    UpdateSubcategriesFirebase(category: widget.categoryData,userNumber: userNumber,
+//        listOfSubCategoriesData: subCategoryDelete).bazaarCategories();
+//
+//    UpdateSubcategriesFirebase(category: widget.categoryData,userNumber: userNumber,
+//        listOfSubCategoriesData: subCategoryDelete).bazaarCategoriesMetadata();
+//  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/bazaarOnBoarding/changeBazaarWalasPicturesDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
@@ -12,11 +13,20 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
   final String userPhoneNo;
   final String category;
   final String categoryData;
+  final List<String> deleteListData;
+  final List<String> addListData;
+  final bool videoChanged;
+  final bool locationChanged;
+  final String videoURL;
+  final LatLng location;
+  final double radius;
 
 
   ChangeBazaarWalasPicturesFetchDataAndDisplay({this.subCategoriesList,
     this.category, this.subCategoryMap, this.userPhoneNo, this.userName,
-    this.categoryData, this.subCategoriesListData
+    this.categoryData, this.subCategoriesListData,this.addListData,
+    this.deleteListData, this.locationChanged, this.videoChanged,
+    this.location, this.videoURL, this.radius,
   });
 
   @override
@@ -64,11 +74,18 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
                   otherPictureTwo: otherPictureTwo,
                   category: category,
                   categoryData: categoryData,
-                  subCategoriesList: subCategoriesList,
+                  listOfSubCategories: subCategoriesList,
                   subCategoryMap: subCategoryMap,
                   userPhoneNo: userPhoneNo,
                   userName: userName,
-                  subCategoriesListData: subCategoriesListData,
+                  listOfSubCategoriesForData: subCategoriesListData,
+                  addListData: addListData,
+                  deleteListData: deleteListData,
+                  videoChanged: videoChanged,
+                  videoURL: videoURL,
+                  locationChanged: locationChanged,
+                  location: location,
+                  radius: radius,
                 );
               }
               return Center(

@@ -7,9 +7,5 @@ class UpdateBazaarCategoriesMetadata{
 
   UpdateBazaarCategoriesMetadata({this.subCategory, this.userNumber, this.category});
 
-  deleteASubcategory(){
-    Firestore.instance.collection("bazaarCategoriesMetadata").document(userNumber)
-        .collection(category).document(subCategory).delete();
-  }
 
 }

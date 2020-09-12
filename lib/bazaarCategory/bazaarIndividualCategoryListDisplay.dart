@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
-import 'package:gupshop/bazaarProductDetails/productDetail.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -35,7 +35,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
      return Visibility(
        visible: visibility(),
        child: Padding(
-         padding: const EdgeInsets.all(8.0),
+         padding: EdgeInsets.all(PaddingConfig.eight),
          child: Row(
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
            children: <Widget>[
@@ -49,7 +49,8 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                      children: <Widget>[
                        bazaarWalaNameWidget(context),
                        speciality(),
-                       LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, category: category,subCategory: subCategory,),
+                       LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo,
+                         category: category,subCategory: subCategory,),
                      ],
                    ),
                  ],

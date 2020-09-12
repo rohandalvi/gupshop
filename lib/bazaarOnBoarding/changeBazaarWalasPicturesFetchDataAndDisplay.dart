@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/bazaarOnBoarding/changeBazaarWalasPicturesDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/placeholders/imagePlaceholder.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 
 class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
@@ -47,10 +48,7 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
           return StreamBuilder(
             stream: GetBazaarWalasBasicProfileInfo(userNumber: userNumber,
                 categoryData:categoryData,subCategoryData:subCategoryData).getPicturesStream(),
-//            GetBazaarWalasBasicProfileInfo(userNumber: userNumber,
-//                categoryData:categoryData,subCategoryData:subCategoryData).getPictureListAndVideo(),
             builder: (BuildContext context, AsyncSnapshot picturesSnapshot) {
-//              if (picturesSnapshot.connectionState == ConnectionState.done) {
                 String thumbnailPicture;
                 String otherPictureOne;
                 String otherPictureTwo;
@@ -66,14 +64,11 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
                 }
 
 
-                if(thumbnailPicture == null) thumbnailPicture =
-                "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
+                if(thumbnailPicture == null) thumbnailPicture = ImagePlaceholder.photoFrame;
 
-                if(otherPictureOne == null) otherPictureOne =
-                "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
+                if(otherPictureOne == null) otherPictureOne = ImagePlaceholder.photoFrame;
 
-                if(otherPictureTwo == null) otherPictureTwo =
-                "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
+                if(otherPictureTwo == null) otherPictureTwo = ImagePlaceholder.photoFrame;
 
                 return ChangeBazaarWalasPicturesDisplay(
                   thumbnailPicture: thumbnailPicture,
@@ -96,10 +91,6 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
                   isBazaarwala: isBazaarwala,
                   aSubCategoryData: aSubCategoryData,
                 );
-//              }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
             },
           );
         }

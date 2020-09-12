@@ -4,6 +4,7 @@ import 'package:gupshop/bazaarProductDetails/chatWithBazaarwala.dart';
 import 'package:gupshop/bazaarProductDetails/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarIndividualCategoryList.dart';
+import 'package:gupshop/placeholders/imagePlaceholder.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
@@ -188,14 +189,14 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
               String otherPictureOne = snapshot.data["otherPictureOne"];
               String otherPictureTwo = snapshot.data["otherPictureTwo"];
 
-              if(thumbnailPicture == null) thumbnailPicture =
-              "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
+              if(thumbnailPicture == null) thumbnailPicture = ImagePlaceholder.photoFrame;
 
-              if(otherPictureOne == null) otherPictureOne =
-              "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
 
-              if(otherPictureTwo == null) otherPictureTwo =
-              "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/pictureFrame.png?alt=media&token=d1167b50-9af6-4670-84aa-93ea4d55a8d3";
+              if(otherPictureOne == null) otherPictureOne = ImagePlaceholder.photoFrame;
+
+
+              if(otherPictureTwo == null) otherPictureTwo = ImagePlaceholder.photoFrame;
+
 
               return Center(
                 child: Padding(

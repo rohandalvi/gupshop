@@ -9,6 +9,7 @@ import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToAddressList.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
+import 'package:gupshop/placeholders/imagePlaceholder.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
@@ -218,7 +219,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
             categoryData: widget.categoryData,
             subCategory: widget.subCategory,
             subCategoryData: widget.subCategoryData,
-            thumbnailPicture: PlaceHolderImages().bazaarWalaThumbnailPicture,
+            thumbnailPicture: ImagePlaceholder.bazaarWalaThumbnailPicture,
           );
         }
     );

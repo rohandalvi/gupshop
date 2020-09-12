@@ -58,4 +58,5 @@ class WidgetConfig{
 
   /// BorderRadius
   static double borderRadiusFifteen = SizeConfig.widthMultiplier * 3.47;/// 15/4.32
+  static double borderRadiusOne = SizeConfig.widthMultiplier * 0.23148148148;/// 1/4.32
 }

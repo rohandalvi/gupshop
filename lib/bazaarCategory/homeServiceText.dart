@@ -64,6 +64,7 @@ class HomeServiceText{
   String uiTextRepairsMainTenanceNo = "No Home Service";
 
   uiDisplayText(){
+    print("categoryData in uiDisplayText : $categoryData");
     if(categoryData == food) return uiTextFood;
     if(categoryData == grocery) return uiTextGrocery;
     if(categoryData == parlour) return uiTextParlour;

@@ -18,65 +18,59 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
     this.subCategory, this.subCategoryData, this.categoryData, this.showHomeService
   });
 
+  String name;
+  String thumbnailPicture;
+  bool homeService;
+  String homeServiceText;
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder( ///use bazaarcategory to display people insted becuase bazaarwalabasicprofile is categorized by phoneNumber now
-        stream: BazaarRatingNumbers(userNumber: bazaarWalaPhoneNo, categoryName: category, subCategory: subCategory).getRatingSnapshot(),
-        builder: (context, streamSnapshot) {
-          if (streamSnapshot.data == null) return Center(child: CircularProgressIndicator()); //v v imp
-          String name;
-          String thumbnailPicture;
-          bool homeService;
+    return FutureBuilder(
+      future: GetBazaarWalasBasicProfileInfo(userNumber: bazaarWalaPhoneNo,
+          categoryData: categoryData,
+          subCategoryData: subCategoryData)
+          .getNameThumbnailPictureHomeService(),
+      builder: (BuildContext context, AsyncSnapshot nameSnapshot) {
+        if (nameSnapshot.connectionState == ConnectionState.done) {
+          name = nameSnapshot.data["name"];
+          thumbnailPicture = nameSnapshot.data["thumbnailPicture"];
+          homeService = nameSnapshot.data["homeService"];
 
+          /// if homeService applicable and provides homeService:
+          if (nameSnapshot.data["homeService"] == true) {
+            homeServiceText = HomeServiceText(
+                categoryData: categoryData, subCategoryData: subCategoryData)
+                .uiDisplayText();
+          }
 
-          return FutureBuilder(
-            future: GetBazaarWalasBasicProfileInfo(userNumber: bazaarWalaPhoneNo, categoryData: categoryData, subCategoryData: subCategoryData).getNameThumbnailPictureHomeService(),
-            builder: (BuildContext context, AsyncSnapshot nameSnapshot) {
-              if (nameSnapshot.connectionState == ConnectionState.done) {
-                name = nameSnapshot.data["name"];
-                thumbnailPicture = nameSnapshot.data["thumbnailPicture"];
-                homeService = nameSnapshot.data["homeService"];
-                print("homeService in BazaarIndividualCategoryNameDpBuilder : $homeService");
+          /// if homeService applicable and does not provides homeService:
+          else if (nameSnapshot.data["homeService"] == false) {
+            homeServiceText = HomeServiceText(
+                categoryData: categoryData, subCategoryData: subCategoryData)
+                .uiDisplayTextNo();
+          }
 
-                String homeServiceText;
-                /// if homeService applicable and provides homeService:
-                if(homeService == true){
-                  homeServiceText = HomeServiceText(categoryData: categoryData, subCategoryData: subCategoryData).uiDisplayText();
-                }
-                /// if homeService applicable and does not provides homeService:
-                else if(homeService == false){
-                  homeServiceText = HomeServiceText(categoryData: categoryData, subCategoryData: subCategoryData).uiDisplayTextNo();
-                }
-                /// if homeService is not applicable:
-                else homeServiceText = null;
+          /// if homeService is not applicable:
+          //else homeServiceText = null;
 
-                if(thumbnailPicture == null ) thumbnailPicture = ImagePlaceholder.photoFrame;
+          if (thumbnailPicture == null)
+            thumbnailPicture = ImagePlaceholder.photoFrame;
 
-                return BazaarIndividualCategoryListDisplay(
-                  bazaarWalaName: name,
-                  bazaarWalaPhoneNo: bazaarWalaPhoneNo,
-                  category: category,
-                  categoryData: categoryData,
-                  thumbnailPicture: thumbnailPicture,
-                  subCategory: subCategory,
-                  subCategoryData: subCategoryData,
-                  homeServiceText: homeServiceText,
-                  homeServiceBool: homeService,
-                  showHomeServices: showHomeService,
-                );
-              }
-              return Center(child: CircularProgressIndicator());
-//                        BazaarIndividualCategoryListDisplay(
-//                        bazaarWalaName: category.toString(),
-//                        bazaarWalaPhoneNo: bazaarWalaPhoneNo,
-//                        category: category,
-//                        thumbnailPicture: PlaceHolderImages().bazaarWalaThumbnailPicture,
-//                      );
-            },
+          return BazaarIndividualCategoryListDisplay(
+            bazaarWalaName: name,
+            bazaarWalaPhoneNo: bazaarWalaPhoneNo,
+            category: category,
+            categoryData: categoryData,
+            thumbnailPicture: thumbnailPicture,
+            subCategory: subCategory,
+            subCategoryData: subCategoryData,
+            homeServiceText: homeServiceText,
+            homeServiceBool: homeService,
+            showHomeServices: showHomeService,
           );
         }
+        return Center(child: CircularProgressIndicator());
+      },
     );
   }
-
-
 }

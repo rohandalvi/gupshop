@@ -56,7 +56,10 @@ class UsersLocation{
 
     dcMap.forEach((addressName, data) {
       String geohash = data["geohash"];
-      map[geohash] = addressName;
+      String address = data["address"];
+      print("dcMap in createSetOfAddresses : ${data["address"]}");
+      map[geohash] = address;
+      //map[geohash] = addressName;
     });
 
     return map;

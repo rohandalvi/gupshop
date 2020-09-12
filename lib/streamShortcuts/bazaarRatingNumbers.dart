@@ -12,4 +12,9 @@ class BazaarRatingNumbers{
         .document(subCategory).snapshots();
   }
 
+  getRatings(){
+    return Firestore.instance.collection("bazaarRatingNumbers").document(userNumber).collection(categoryName)
+        .document(subCategory);
+  }
+
 }

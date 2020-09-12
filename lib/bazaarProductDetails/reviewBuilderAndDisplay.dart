@@ -7,6 +7,8 @@ import 'package:gupshop/bazaarOnBoarding/onBoardingHome.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesDisplay.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
 import 'package:gupshop/timestamp/timeDisplay.dart';
@@ -52,29 +54,28 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
 
   @override
   Widget build(BuildContext context) {
-    print("homeServiceBool in ReviewBuilderAndDisplay : ${widget.homeServiceBool}");
     return ListView(
       controller: new ScrollController(),//---> for scrolling the screen
       shrinkWrap: true,//---> Vertical viewport was given unbounded height.- this error thrown if not used
       children: <Widget>[
         /// category
         Padding(
-          padding: EdgeInsets.only(left:8.0),
+          padding: EdgeInsets.only(left:PaddingConfig.eight),
           child: CustomText( text : widget.category,).bigFont(),
         ),
         /// subcategories
         Visibility(
           visible: widget.subCategory != null,
           child: Padding(
-            padding: EdgeInsets.only(left:8.0),
+            padding: EdgeInsets.only(left:PaddingConfig.eight),
             child: CustomText(text : widget.subCategory,).subTitle(),
           ),
         ),
         Visibility(
           visible: widget.homeServiceBool != null,
           child: Padding(
-            padding: EdgeInsets.only(left:8.0),
-            child: widget.homeServiceBool == null ? CustomText(text: "",) :CustomText(text : widget.homeServiceText,).blueSubtitle(),/// A non-null String must be provided to a Text widget. error was thrown
+            padding: EdgeInsets.only(left:PaddingConfig.eight),
+            child: widget.homeServiceBool == null ? CustomText(text: ":)",) :CustomText(text : widget.homeServiceText,).blueSubtitle(),/// A non-null String must be provided to a Text widget. error was thrown
           ),
         ),
         likeDislikeIconsAndAddReviewButton(3),
@@ -103,7 +104,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
         ConstrainedBox(
           constraints: BoxConstraints(maxWidth: WidgetConfig.reviewWidth),
           child: Padding(
-            padding: EdgeInsets.only(left: 14),//---> for distance between left side of the screen and the review writing text bar
+            padding: EdgeInsets.only(left: PaddingConfig.fourteen),//---> for distance between left side of the screen and the review writing text bar
             child: _sendReview(),
           ),
         ),
@@ -157,7 +158,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
 
   _isLike(){
     return Padding(
-      padding: EdgeInsets.only(left:8.0),
+      padding: EdgeInsets.only(left:PaddingConfig.eight),
       child: GestureDetector(
           onTap: (){
             setState(() {
@@ -179,7 +180,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
 
   _isDislike(){
     return Padding(
-      padding: EdgeInsets.only(left:8.0),
+      padding: EdgeInsets.only(left:PaddingConfig.eight),
       child: GestureDetector(
         onTap: (){
           setState(() {
@@ -233,7 +234,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
                     String videoURL = snapshot.data["url"];
                     return Center(
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: EdgeInsets.all(PaddingConfig.sixteen),
                         child: Container(
                           height: WidgetConfig.productDetailImageHeight,
                           child: Center(
@@ -345,7 +346,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
   /// add Review/ edit Profile
   likeDislikeIconsAndAddReviewButton(int rating){
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: EdgeInsets.all(PaddingConfig.five),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,//for spacing between rating stars and add review
         children: <Widget>[
@@ -356,7 +357,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
           ),
           widget.userName != widget.productWalaName ?
           Container(
-            padding: EdgeInsets.only(left:5, right: 5),//for spacing bewteen Add review text from left and right side of the blue container
+            padding: EdgeInsets.only(left:PaddingConfig.five, right: PaddingConfig.five),//for spacing bewteen Add review text from left and right side of the blue container
             child: CustomRaisedButton(
               child: CustomText(
                 text: 'Add Review',).subTitle(),
@@ -368,10 +369,10 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
               },),
             alignment: Alignment.center,
           ) : Container(
-            padding: EdgeInsets.only(left:5, right: 5),//for spacing bewteen Add review text from left and right side of the blue container
+            padding: EdgeInsets.only(left:PaddingConfig.five, right: PaddingConfig.five),//for spacing bewteen Add review text from left and right side of the blue container
             child: CustomRaisedButton(
               child: CustomText(
-                text: 'Edit Profile', fontSize: 12,),
+                text: 'Edit Profile', fontSize: TextConfig.fontSizeTwelve,),
               onPressed: (){
                 /// take the bazaarWala to bazaarProfile page"
                 Navigator.push(
@@ -387,7 +388,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(1),
+              borderRadius: BorderRadius.circular(WidgetConfig.borderRadiusOne),
             ),
           ),
 

@@ -176,18 +176,14 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
        },
 
        otherPictureOne: (newImageURL){
-         print("in otherPictureOne");
          setState(() {
            widget.otherPictureOne = newImageURL;
-           print("widget.otherPictureOne : ${widget.otherPictureOne}");
          });
        },
 
        otherPictureTwo: (newImageURL){
-         print("in otherPictureTwo");
          setState(() {
            widget.otherPictureTwo = newImageURL;
-           print("widget.otherPictureTwo : ${widget.otherPictureTwo}");
          });
        },
      );

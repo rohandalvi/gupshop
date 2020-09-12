@@ -23,7 +23,7 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
     return CustomAppBar(
       title: CustomText(text: 'Add pictures',),
       onPressed:(){
-        //Navigator.pop(context);
+        Navigator.pop(context);
       },
       actions: <Widget>[
         /// CustomIconButton needs to be wrapped in a builder to pass
@@ -67,6 +67,6 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
             }
         ),
       ],
-    ).noLeading();
+    );
   }
 }

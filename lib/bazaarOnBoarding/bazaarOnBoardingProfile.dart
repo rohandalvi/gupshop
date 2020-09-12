@@ -221,45 +221,68 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                       pageSubtitle('Add home Location : '),
 
                       /// location widgets:
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: CustomRaisedButton(
-                              child: CustomText(text: 'Tap to add location and service area',),
-                              onPressed: () async{
-                                LocationData locationTemp;
-                                var currentLocation = new Location();
-                                locationTemp = await currentLocation.getLocation();
-
-                                //Position location  = await LocationService().getLocation();
-
-                                List list = await NavigateToCustomMap(
-                                  latitude: locationTemp.latitude,
-                                  longitude: locationTemp.longitude,
-                                  showRadius: true,
-                                ).navigateNoBrackets(context);
-
-                                /// list[0] = location
-                                /// list[1] = radius
-                                locationFromMap = list[0];
-                                radius = list[1];
-
-                                location = locationFromMap;
-                                locationChanged = true;
-                              },
-                            ).elevated(),
-                          ),
-                          showLocation(),
-                        ],
-                      ),
+                      locationAddDisplay(context),
                     ]
                 );
               } return CircularProgressIndicator();
             }
         ),
         floatingActionButton: showSaveButton(context),
+      ),
+    );
+  }
+
+
+
+
+  locationAddDisplay(BuildContext context){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(PaddingConfig.eight),
+          child: CustomRaisedButton(
+            child: CustomText(text: 'Tap to add location and service area',),
+            onPressed: () async{
+              LocationData locationTemp;
+              var currentLocation = new Location();
+              locationTemp = await currentLocation.getLocation();
+
+              //Position location  = await LocationService().getLocation();
+
+              List list = await NavigateToCustomMap(
+                latitude: locationTemp.latitude,
+                longitude: locationTemp.longitude,
+                showRadius: true,
+              ).navigateNoBrackets(context);
+
+              /// list[0] = location
+              /// list[1] = radius
+              locationFromMap = list[0];
+              radius = list[1];
+
+              location = locationFromMap;
+              locationChanged = true;
+
+              /// setState to make the locationNotNull = true so that
+              /// showLocation() becomes visible
+              setState(() {
+                locationNotNull = true;
+              });
+            },
+          ).elevated(),
+        ),
+        showLocation(),
+      ],
+    );
+  }
+
+  showLocation(){
+    return Padding(
+      padding: EdgeInsets.all(PaddingConfig.eight),
+      child: Visibility(
+        visible: locationNotNull == true,
+        child: LocationService().showLocation(userName, databaseLatitude, databaseLatitude),
       ),
     );
   }
@@ -279,26 +302,6 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
   }
 
 
-  showLocation(){
-    return Padding(
-      padding: EdgeInsets.all(PaddingConfig.eight),
-      child: Visibility(
-        visible: locationNotNull == true,
-        child: LocationService().showLocation(userName, databaseLatitude, databaseLatitude),
-      ),
-    );
-  }
-
-//  isSubCategoryBazaarwalaWidget() async{
-//    bool isSubCategoryBazaarwala = await GetBazaarWalasBasicProfileInfo(
-//      userNumber: userPhoneNo,
-//      categoryData: widget.categoryData,
-//      subCategoryData: widget.listOfSubCategoriesForData[0],
-//    ).getIsBazaarwala();
-//    return isSubCategoryBazaarwala;
-//  }
-
-
 
   showSaveButton(BuildContext context){
     /// when the video is uploaded first, then the map has video as empty value,
@@ -310,54 +313,23 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
       iconName: 'forward2',
       onPressed: () async{
         setState(() {
-//          if(isVideo != null) videoNotNull = isVideo.videoSelected;
           if(isVideo != null) {
             videoNotNull = isVideo.videoSelected;
             videoURL = isVideo.videoURL;
           }
-          if(locationFromMap != null) locationNotNull = true;
+          if(locationFromMap != null) {
+            locationNotNull = true;
+          }
         });
 
+
         if(locationNotNull == true && videoNotNull == true ){
-
-//          /// if he is already a bazaarwala and video or location is changed
-//          bool tempIsSubCategoryBazaarwala = await isSubCategoryBazaarwalaWidget();
-//          if(tempIsSubCategoryBazaarwala == true){
-//            if(videoPicked == true){
-//              /// then update
-//              /// ===> this in the end
-////              widget.listOfSubCategoriesForData.forEach((subCategory) async{
-////                await UpdateBazaarWalasBasicProfile(
-////                  userPhoneNo: userPhoneNo,
-////                  categoryData: widget.categoryData,
-////                  subCategoryData: subCategory,
-////                ).updateVideo(isVideo.videoURL);
-////              });
-//
-//            }
-//            if(locationFromMap != null){
-//              /// ===> this in the end
-////              widget.listOfSubCategoriesForData.forEach((subCategory) async{
-////                await UpdateBazaarWalasBasicProfile(
-////                  userPhoneNo: userPhoneNo,
-////                  categoryData: widget.categoryData,
-////                  subCategoryData: subCategory,
-////                ).updateLocation(locationFromMap);
-////              });
-//            }
-//          }/// else if he adding for the first time and not editing the profile
-          /// ===> this in the end
-          //else await pushToVideoBazaarWalaLocationAndBasiCProfile();
-          //await pushToVideoBazaarWalaLocationAndBasiCProfile();
-
-
           /// adding location to cache, to show in edit profile
           cache["location"] = locationFromMap;
 
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
-          print("listOfSubCategoriesForData in showSaveButton : ${widget.listOfSubCategoriesForData}");
           NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
             category: widget.category,
             categoryData: widget.categoryData,

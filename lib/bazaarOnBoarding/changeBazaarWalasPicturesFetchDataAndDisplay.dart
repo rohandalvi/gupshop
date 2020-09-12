@@ -35,69 +35,57 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: UserDetails().getUserPhoneNoFuture(),
-      builder: (BuildContext context, AsyncSnapshot userNumberSnapshot) {
-        if (userNumberSnapshot.connectionState == ConnectionState.done) {
+      return FutureBuilder(
+        future: GetBazaarWalasBasicProfileInfo(userNumber: userPhoneNo,
+            categoryData:categoryData,subCategoryData:aSubCategoryData).getPictureListAndVideo(),
+        builder: (BuildContext context, AsyncSnapshot picturesSnapshot) {
+          if (picturesSnapshot.connectionState == ConnectionState.done) {
+            String thumbnailPicture;
+            String otherPictureOne;
+            String otherPictureTwo;
 
-          String userNumber = userNumberSnapshot.data;
-
-          /// use aSubcategoryData here
-          String subCategoryData = aSubCategoryData;
-
-          return StreamBuilder(
-            stream: GetBazaarWalasBasicProfileInfo(userNumber: userNumber,
-                categoryData:categoryData,subCategoryData:subCategoryData).getPicturesStream(),
-            builder: (BuildContext context, AsyncSnapshot picturesSnapshot) {
-                String thumbnailPicture;
-                String otherPictureOne;
-                String otherPictureTwo;
-
-                if(picturesSnapshot.data == null){
-                  thumbnailPicture  = null;
-                  otherPictureTwo = null;
-                  otherPictureTwo = null;
-                }else{
-                  thumbnailPicture = picturesSnapshot.data["thumbnailPicture"];
-                  otherPictureOne = picturesSnapshot.data["otherPictureOne"];
-                  otherPictureTwo = picturesSnapshot.data["otherPictureTwo"];
-                }
+            if(picturesSnapshot.data == null){
+              thumbnailPicture  = null;
+              otherPictureTwo = null;
+              otherPictureTwo = null;
+            }else{
+              thumbnailPicture = picturesSnapshot.data["thumbnailPicture"];
+              otherPictureOne = picturesSnapshot.data["otherPictureOne"];
+              otherPictureTwo = picturesSnapshot.data["otherPictureTwo"];
+            }
 
 
-                if(thumbnailPicture == null) thumbnailPicture = ImagePlaceholder.photoFrame;
+            if(thumbnailPicture == null) thumbnailPicture = ImagePlaceholder.photoFrame;
 
-                if(otherPictureOne == null) otherPictureOne = ImagePlaceholder.photoFrame;
+            if(otherPictureOne == null) otherPictureOne = ImagePlaceholder.photoFrame;
 
-                if(otherPictureTwo == null) otherPictureTwo = ImagePlaceholder.photoFrame;
-
-                return ChangeBazaarWalasPicturesDisplay(
-                  thumbnailPicture: thumbnailPicture,
-                  otherPictureOne: otherPictureOne,
-                  otherPictureTwo: otherPictureTwo,
-                  category: category,
-                  categoryData: categoryData,
-                  listOfSubCategories: subCategoriesList,
-                  subCategoryMap: subCategoryMap,
-                  userPhoneNo: userPhoneNo,
-                  userName: userName,
-                  listOfSubCategoriesForData: subCategoriesListData,
-                  addListData: addListData,
-                  deleteListData: deleteListData,
-                  videoChanged: videoChanged,
-                  videoURL: videoURL,
-                  locationChanged: locationChanged,
-                  location: location,
-                  radius: radius,
-                  isBazaarwala: isBazaarwala,
-                  aSubCategoryData: aSubCategoryData,
-                );
-            },
+            if(otherPictureTwo == null) otherPictureTwo = ImagePlaceholder.photoFrame;
+            return ChangeBazaarWalasPicturesDisplay(
+              thumbnailPicture: thumbnailPicture,
+              otherPictureOne: otherPictureOne,
+              otherPictureTwo: otherPictureTwo,
+              category: category,
+              categoryData: categoryData,
+              listOfSubCategories: subCategoriesList,
+              subCategoryMap: subCategoryMap,
+              userPhoneNo: userPhoneNo,
+              userName: userName,
+              listOfSubCategoriesForData: subCategoriesListData,
+              addListData: addListData,
+              deleteListData: deleteListData,
+              videoChanged: videoChanged,
+              videoURL: videoURL,
+              locationChanged: locationChanged,
+              location: location,
+              radius: radius,
+              isBazaarwala: isBazaarwala,
+              aSubCategoryData: aSubCategoryData,
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
           );
-        }
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
+        },
+      );
   }
 }

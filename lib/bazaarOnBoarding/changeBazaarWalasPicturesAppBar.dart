@@ -11,7 +11,12 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
   final String categoryData;
   List<String> subCategoryDataList;
 
-  ChangeBazaarWalasPicturesAppBar({this.tabNumber, this.categoryData, this.subCategoryDataList});
+  final ValueChanged<String> thumbnailPicture;
+  final ValueChanged<String> otherPictureOne;
+  final ValueChanged<String> otherPictureTwo;
+
+  ChangeBazaarWalasPicturesAppBar({this.tabNumber, this.categoryData,
+    this.subCategoryDataList, this.thumbnailPicture, this.otherPictureTwo, this.otherPictureOne});
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +38,21 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
                     customContext: context,
                     firstIconName: 'photoGallery',
                     firstIconText: 'Pick image from  Gallery',
-                    firstIconAndTextOnPressed: (){
-                      if(tabNumber == 0) GalleryButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).thumbnailPicture(context);
-                      if(tabNumber == 1) GalleryButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).otherPictureOne(context);
-                      if(tabNumber == 2) GalleryButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).otherPictureTwo(context);
+                    firstIconAndTextOnPressed: () async{
+                      if(tabNumber == 0) {
+                        String imageURL = await GalleryButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).thumbnailPicture(context);
+                        print("imageURL in firstIconAndTextOnPressed : $imageURL");
+                        thumbnailPicture(imageURL);
+                      }
+                      if(tabNumber == 1){
+                        String imageURL =await GalleryButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).otherPictureOne(context);
+                        otherPictureOne(imageURL);
+                      }
+                      if(tabNumber == 2){
+                        String imageURL =await GalleryButtonOnPressed(categoryData: categoryData,
+                            subCategoryDataList: subCategoryDataList).otherPictureTwo(context);
+                        otherPictureTwo(imageURL);
+                      }
                     },
                     secondIconName: 'image2vector',
                     secondIconText: 'Click image from Camera',

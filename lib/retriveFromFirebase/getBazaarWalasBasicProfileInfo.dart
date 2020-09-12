@@ -96,6 +96,7 @@ class GetBazaarWalasBasicProfileInfo{
   }
 
   getPicturesStream(){
+    print("in getPicturesStream");
     return Firestore.instance.collection("bazaarWalasBasicProfile")
         .document(userNumber)
         .collection(categoryData).document(subCategoryData)

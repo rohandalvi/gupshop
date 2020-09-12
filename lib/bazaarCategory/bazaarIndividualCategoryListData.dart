@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryNameDpBuilder.dart';
-import 'package:gupshop/bazaar/placeHolderImages.dart';
 import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
 import 'package:gupshop/bazaarCategory/noSubcategoryText.dart';
 import 'package:gupshop/colors/colorPalette.dart';

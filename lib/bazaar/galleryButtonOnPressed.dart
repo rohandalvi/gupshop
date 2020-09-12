@@ -23,7 +23,9 @@ class GalleryButtonOnPressed{
           });
 
         }
-        Navigator.pop(context);
+        print("pushed data");
+        Navigator.pop(context,);
+        return imageURL;
         //NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
 
     }
@@ -42,6 +44,7 @@ class GalleryButtonOnPressed{
 
       }
       Navigator.pop(context);
+      return imageURL;
       //NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
     }
 
@@ -59,6 +62,7 @@ class GalleryButtonOnPressed{
 
       }
       Navigator.pop(context);
+      return imageURL;
       //NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
     }
 }

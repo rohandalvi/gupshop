@@ -10,9 +10,9 @@ import 'package:gupshop/widgets/customFloatingActionButton.dart';
 
 
 class ChangeBazaarWalasPicturesDisplay extends StatefulWidget{
-  final String thumbnailPicture;
-  final String otherPictureOne;
-  final String otherPictureTwo;
+  String thumbnailPicture;
+  String otherPictureOne;
+  String otherPictureTwo;
 
   final List<String> listOfSubCategoriesForData;
   final List<String> listOfSubCategories;
@@ -76,8 +76,15 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
           return Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
-              child: ChangeBazaarWalasPicturesAppBar(tabNumber: _activeTabIndex,categoryData: widget.categoryData,
-                subCategoryDataList: widget.listOfSubCategoriesForData,),
+              child: appBar(),
+//              ChangeBazaarWalasPicturesAppBar(tabNumber: _activeTabIndex,categoryData: widget.categoryData,
+//                subCategoryDataList: widget.listOfSubCategoriesForData,
+//                thumbnailPicture: (newImageURL){
+//                setState(() {
+//                  widget.thumbnailPicture = newImageURL;
+//                });
+//                },
+//              ),
             ),
             body: Center(
               child: Padding(
@@ -153,6 +160,37 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
         }
       ),
     );
+  }
+
+
+  appBar() {
+     return ChangeBazaarWalasPicturesAppBar(
+       tabNumber: _activeTabIndex,
+       categoryData: widget.categoryData,
+       subCategoryDataList: widget.listOfSubCategoriesForData,
+
+       thumbnailPicture: (newImageURL){
+         setState(() {
+           widget.thumbnailPicture = newImageURL;
+         });
+       },
+
+       otherPictureOne: (newImageURL){
+         print("in otherPictureOne");
+         setState(() {
+           widget.otherPictureOne = newImageURL;
+           print("widget.otherPictureOne : ${widget.otherPictureOne}");
+         });
+       },
+
+       otherPictureTwo: (newImageURL){
+         print("in otherPictureTwo");
+         setState(() {
+           widget.otherPictureTwo = newImageURL;
+           print("widget.otherPictureTwo : ${widget.otherPictureTwo}");
+         });
+       },
+     );
   }
 
 

@@ -6,10 +6,8 @@ import 'package:gupshop/links/linkDIsplayUIData.dart';
 import 'package:gupshop/links/openLinks.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/placeholders/imagePlaceholder.dart';
-import 'package:gupshop/placeholders/newsImagePlaceholder.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
-import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class NewsContainerUI extends StatelessWidget {

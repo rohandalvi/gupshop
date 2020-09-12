@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/image/imageZoom.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:photo_view/photo_view.dart';
 
 class DisplayPicture extends StatelessWidget {
@@ -51,7 +52,7 @@ class DisplayPicture extends StatelessWidget {
   chatPictureFrame(context){
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(3.0),
+        padding:EdgeInsets.all(PaddingConfig.three),
         child: Container(
           width: MediaQuery.of(context).size.height / 2.9,
           height: MediaQuery.of(context).size.width / 2.5,

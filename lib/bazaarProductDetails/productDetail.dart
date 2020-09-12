@@ -4,6 +4,7 @@ import 'package:gupshop/bazaarProductDetails/chatWithBazaarwala.dart';
 import 'package:gupshop/bazaarProductDetails/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarIndividualCategoryList.dart';
+import 'package:gupshop/navigators/navigateToFullScreenPictureAndVideos.dart';
 import 'package:gupshop/placeholders/imagePlaceholder.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -213,15 +214,9 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                               children: <Widget>[
                                 CustomVideoPlayerThumbnail(videoURL: videoURL,),
                                 //CustomVideoPlayer(videoURL: videoURL,),
-                                Image(
-                                  image: NetworkImage(thumbnailPicture),
-                                ),
-                                Image(
-                                  image: NetworkImage(otherPictureOne),
-                                ),
-                                Image(
-                                  image: NetworkImage(otherPictureTwo),
-                                ),
+                                buildImage(thumbnailPicture),
+                                buildImage(otherPictureOne),
+                                buildImage(otherPictureTwo),
                               ],
                             ),
                             Container(
@@ -245,6 +240,26 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           }
         ),
       );
+  }
+
+  buildImage(String imageURL) {
+  return GestureDetector(
+    child: Image(
+      image: NetworkImage(imageURL),
+      ),
+    onTap: (){
+      NavigateToFullScreenPictureAndVideos(isPicture: true, shouldZoom: true, payLoad: imageURL).navigateNoBrackets(context);
+    },
+  );
+  }
+
+  buildVideo(String videoURL){
+    return GestureDetector(
+      child: CustomVideoPlayerThumbnail(videoURL: videoURL,),
+      onTap: (){
+        NavigateToFullScreenPictureAndVideos(isPicture: false, shouldZoom: true, payLoad: videoURL).navigateNoBrackets(context);
+      },
+    );
   }
 
 }

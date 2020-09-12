@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/bazaarOnBoarding/changeBazaarWalasPicturesAppBar.dart';
 import 'package:gupshop/bazaarOnBoarding/pushToFirebase.dart';
+import 'package:gupshop/image/fullScreenPictureVideos.dart';
 import 'package:gupshop/navigators/navigateToBazaarSubCategorySearch.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -77,50 +78,45 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
               child: appBar(),
-//              ChangeBazaarWalasPicturesAppBar(tabNumber: _activeTabIndex,categoryData: widget.categoryData,
-//                subCategoryDataList: widget.listOfSubCategoriesForData,
-//                thumbnailPicture: (newImageURL){
-//                setState(() {
-//                  widget.thumbnailPicture = newImageURL;
-//                });
-//                },
-//              ),
             ),
             body: Center(
-              child: Padding(
-                padding: EdgeInsets.all(PaddingConfig.sixteen),
-                child: Container(
-                  height: WidgetConfig.twoFiftyHeight,
-                  child: Center(
-                    child: Stack(
-                      children: <Widget>[
-                        TabBarView(
-                          controller: imagesController,
-                          children: <Widget>[
-                            /// thumbnailPicture:
-                            Image(
-                              image: NetworkImage(widget.thumbnailPicture),
-                            ),
-                            /// otherPictureOne:
-                            Image(
-                              image: NetworkImage(widget.otherPictureOne),
-                            ),
-                            /// otherPictureTwo:
-                            Image(
-                              image: NetworkImage(widget.otherPictureTwo),
-                            ),
-                          ],
+              child: Container(
+                //height: WidgetConfig.twoFiftyHeight,
+                child: Center(
+                  child: Stack(
+                    children: <Widget>[
+                      TabBarView(
+                        controller: imagesController,
+                        children: <Widget>[
+                          /// thumbnailPicture:
+                          FullScreenPictureAndVideos(
+                            isPicture: true,
+                            payLoad: widget.thumbnailPicture,
+                            shouldZoom: true,
+                          ).noAppBar(context),
+                          /// otherPictureOne:
+                          FullScreenPictureAndVideos(
+                            isPicture: true,
+                            payLoad: widget.otherPictureOne,
+                            shouldZoom: true,
+                          ).noAppBar(context),
+                          /// otherPictureTwo:
+                          FullScreenPictureAndVideos(
+                            isPicture: true,
+                            payLoad: widget.otherPictureTwo,
+                            shouldZoom: true,
+                          ).noAppBar(context),
+                        ],
+                      ),
+                      Container(
+                        alignment: FractionalOffset(WidgetConfig.pointFive,WidgetConfig.pointNinetyFive),///placing the tabpagSelector at the bottom  center of the container
+                        child: TabPageSelector(
+                          controller: imagesController,///if this is not used then the images move but the tabpageSelector does not change the color of the tabs showing which image it is on
+                          selectedColor: Colors.grey,///default color is blue
+                          color: Colors.white,
                         ),
-                        Container(
-                          alignment: FractionalOffset(WidgetConfig.pointFive,WidgetConfig.pointNinetyFive),///placing the tabpagSelector at the bottom  center of the container
-                          child: TabPageSelector(
-                            controller: imagesController,///if this is not used then the images move but the tabpageSelector does not change the color of the tabs showing which image it is on
-                            selectedColor: Colors.grey,///default color is blue
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -188,162 +184,4 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
        },
      );
   }
-
-
-//  /// video and location
-//  updateVideoInBazaarWalasBasicProfile(List list){
-//    list.forEach((subCategory) async{
-//      await UpdateBazaarWalasBasicProfile(
-//        userPhoneNo: widget.userPhoneNo,
-//        categoryData: widget.categoryData,
-//        subCategoryData: subCategory,
-//      ).updateVideo(isVideo.videoURL);
-//    });
-//  }
-//
-//  updateLocationInBazaarWalasBasicProfile(List list){
-//    list.forEach((subCategory) async{
-//      await UpdateBazaarWalasBasicProfile(
-//        userPhoneNo: widget.userPhoneNo,
-//        categoryData: widget.categoryData,
-//        subCategoryData: subCategory,
-//      ).updateLocation(locationFromMap);
-//    });
-//  }
-
-
-//  uploadToVideoCollection() async{
-//    PushToVideoCollection(
-//        userPhoneNo: widget.userPhoneNo,
-//        categoryData: widget.categoryData,
-//        subCategoryData: widget.,
-//        videoURL: isVideo.videoURL
-//    ).push();
-//  }
-
-//  pushTobazaarWalasLocation(){
-//    if(locationFromMap != null){
-//      widget.listOfSubCategoriesForData.forEach((subCategory) {
-//        LocationService().pushBazaarWalasLocationToFirebase(
-//            locationFromMap.latitude, locationFromMap.longitude,
-//            widget.categoryData, userPhoneNo, subCategory, radius
-//        );
-//      });
-//    }
-//  }
-
- // pushToVideoBazaarWalaLocationAndBasiCProfile() async{
-    //await uploadToVideoCollection();
-
-    //await pushTobazaarWalasLocation();
-
-//    widget.listOfSubCategoriesForData.forEach((subCategory) async{
-//      await PushToBazaarWalasBasicProfile(
-//        categoryData: widget.categoryData,
-//        subCategoryData: subCategory,
-//        userPhoneNo: widget.userPhoneNo,
-//        userName: widget.userName,
-//        videoURL: isVideo.videoURL,
-//        longitude: locationFromMap.longitude,
-//        latitude: locationFromMap.latitude,
-//        radius: radius,
-//      ).pushToFirebase();
-//    });
-
-  //}
-
-//
-//  /// only change in categories
-//  pushSubCategoriesToFirebase(List listOfSubCategoriesData) async{
-//    String userName = await UserDetails().getUserNameFuture();
-//    String userNumber = await UserDetails().getUserPhoneNoFuture();
-//
-//
-//    /// blank placeholders:
-//
-//    /// setting blank rating in ratings
-//    await PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-//        userName: userName, listOfSubCategoriesData: widget.listOfSubCategoriesForData)
-//        .createBlankRatingNumber();
-//
-//
-//    /// setting blank review in reviews
-//    await PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-//        userName: userName, listOfSubCategoriesData: widget.listOfSubCategoriesForData)
-//        .createBlankReviews();
-//
-//
-//    /// setting blank location in bazaarWalasLocation
-//    await PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-//        userName: userName, listOfSubCategoriesData: widget.listOfSubCategoriesForData)
-//        .blankBazaarWalasLocation();
-//
-//    /// blank placeholders end here
-//
-//
-//
-//    /// push to 5 collection:
-//    ///
-//    /// bazaarCategories
-//    await PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-//        userName: userName, listOfSubCategoriesData: widget.listOfSubCategoriesForData)
-//        .bazaarCategories();
-//
-//    /// bazaarCategoriesMetaData
-//    await PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-//        userName: userName, listOfSubCategoriesData: widget.listOfSubCategoriesForData,
-//        listOfSubCategories: widget.listOfSubCategories )
-//        .bazaarCategoriesMetaData();
-//
-//
-//    /// push to video collection
-//    await PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-//        userName: userName, listOfSubCategoriesData: widget.listOfSubCategoriesForData,
-//        videoURL: isVideo.videoURL
-//      ).videoCollection();
-//
-//
-//    /// push to bazaarwalasBasicProfile
-//    await PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-//        userName: userName, listOfSubCategoriesData: widget.listOfSubCategoriesForData,
-//        videoURL: isVideo.videoURL, location: locationFromMap, radius: radius
-//    ).bazaarBasicProfile();
-//
-//
-//    /// push Location
-//    await PushSubCategoriesToFirebase(category: widget.categoryData,userPhoneNo: userNumber,
-//        userName: userName, listOfSubCategoriesData: widget.listOfSubCategoriesForData,
-//        location: locationFromMap, radius: radius
-//    ).bazaarWalasLocation();
-//  }
-//
-//
-//  deleteUnselectedCategoriesFromDatabase(List deleteListData, String userNumber){
-//
-//    /// delete from 5 collections:
-//    ///
-//    DeleteSubcategriesFirebase(category: widget.categoryData,userNumber: userNumber,
-//        listOfSubCategoriesData: deleteListData)
-//        .bazaarCategories();
-//
-//    DeleteSubcategriesFirebase(category: widget.categoryData,userNumber: userNumber,
-//        listOfSubCategoriesData: deleteListData)
-//        .bazaarCategoriesMetadata();
-//
-//    DeleteSubcategriesFirebase(category: widget.categoryData,userNumber: userNumber,
-//        listOfSubCategoriesData: deleteListData)
-//        .bazaarBasicProfile();
-//
-//    /// delete from video collection
-//
-//
-//    /// delete from bazaarWalasLocation collection
-//
-//
-//  }
-//
-//
-//  update(){
-//
-//  }
 }

@@ -41,7 +41,6 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
                     firstIconAndTextOnPressed: () async{
                       if(tabNumber == 0) {
                         String imageURL = await GalleryButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).thumbnailPicture(context);
-                        print("imageURL in firstIconAndTextOnPressed : $imageURL");
                         thumbnailPicture(imageURL);
                       }
                       if(tabNumber == 1){
@@ -49,17 +48,25 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
                         otherPictureOne(imageURL);
                       }
                       if(tabNumber == 2){
-                        String imageURL =await GalleryButtonOnPressed(categoryData: categoryData,
-                            subCategoryDataList: subCategoryDataList).otherPictureTwo(context);
+                        String imageURL =await GalleryButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).otherPictureTwo(context);
                         otherPictureTwo(imageURL);
                       }
                     },
                     secondIconName: 'image2vector',
                     secondIconText: 'Click image from Camera',
-                    secondIconAndTextOnPressed: (){
-                      if(tabNumber == 0) CameraButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).thumbnailPicture(context);
-                      if(tabNumber == 1) CameraButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).otherPictureOne(context);
-                      if(tabNumber == 2) CameraButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).otherPictureTwo(context);
+                    secondIconAndTextOnPressed: () async{
+                      if(tabNumber == 0) {
+                        String imageURL =await CameraButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).thumbnailPicture(context);
+                        thumbnailPicture(imageURL);
+                      }
+                      if(tabNumber == 1) {
+                        String imageURL =await CameraButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).otherPictureOne(context);
+                        otherPictureOne(imageURL);
+                      }
+                      if(tabNumber == 2) {
+                        String imageURL =await CameraButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).otherPictureTwo(context);
+                        otherPictureTwo(imageURL);
+                      }
                     },
                   ).showTwo();
                 },

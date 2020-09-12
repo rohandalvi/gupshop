@@ -23,6 +23,7 @@ class CameraButtonOnPressed{
 
     }
     Navigator.pop(context);
+    return imageURL;
     //NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
 
   }
@@ -41,6 +42,7 @@ class CameraButtonOnPressed{
 
     }
     Navigator.pop(context);
+    return imageURL;
     //NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
   }
 
@@ -58,6 +60,7 @@ class CameraButtonOnPressed{
 
     }
     Navigator.pop(context);
+    return imageURL;
    // NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
   }
 }

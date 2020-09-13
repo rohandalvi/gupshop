@@ -6,6 +6,7 @@ import 'package:gupshop/video/downloadVideo.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
+import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 
 class ShowVideoThumbnail extends StatelessWidget {
@@ -18,16 +19,17 @@ class ShowVideoThumbnail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        CustomVideoPlayerThumbnail(videoURL: videoURL, cache: cache,),
-//        SizedBox(
+        //CustomVideoPlayer(videoURL: videoURL,),
+        //CustomVideoPlayerThumbnail(videoURL: videoURL, cache: cache,),
+        SizedBox(
+          width: MediaQuery.of(context).size.height / 2.75,
+          height: MediaQuery.of(context).size.width / 2,
 //          width: MediaQuery.of(context).size.height / 2.75,
-//          height: MediaQuery.of(context).size.width / 2,
-////          width: MediaQuery.of(context).size.height / 2.75,
-//          //height: MediaQuery.of(context).size.width / 2.25,
-//          child: Card(
-//            child: CustomVideoPlayerThumbnail(videoURL: videoURL, cache: cache,),
-//          ),
-//        ),
+          //height: MediaQuery.of(context).size.width / 2.25,
+          child: Card(
+            child: CustomVideoPlayerThumbnail(videoURL: videoURL, cache: cache,),
+          ),
+        ),
         CustomIconButton(
           onPressed: () async{
             CustomFlushBar(

@@ -60,36 +60,68 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
     /// ToDo - _initPlayer() take it out from initstate
 
 
-    return Stack(
+    return
+      Stack(
       alignment: Alignment.center,
       children: <Widget>[
         Card(
           margin: EdgeInsets.all(PaddingConfig.pointThree),
           child: //widget.cache.video == null ? helper()
-          GestureDetector(
-            child: Container(
-              width: MediaQuery.of(context).size.height / 2.75,
-              height: MediaQuery.of(context).size.width / 2,
-              child: VideoPlayer(videoPlayerController)
-            ),
-//            AspectRatio(
-//                aspectRatio:
-//                //videoPlayerController.value.aspectRatio,
-//
-//                //WidgetConfig.aspectRatioOnePointSix,
-//                16/10,
-//                child: VideoPlayer(videoPlayerController),
-//            ) ,
-            onTap: (){
+          SizedBox.expand(
+            child: FittedBox(
+              fit: widthSmallerThanHeight() ? BoxFit.cover : BoxFit.contain,
+              child: GestureDetector(
+                child: SizedBox(
+                    width: videoPlayerController.value.size?.width ?? 0,
+                    height: videoPlayerController.value.size?.height ?? 0,
+                    child: VideoPlayer(videoPlayerController)
+                ),
+                onTap: (){
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => CustomVideoPlayer(videoURL:widget.videoURL),//pass Name() here and pass Home()in name_screen
                       //builder: (context) => FullScreenPictureAndVideos(payLoad:widget.videoURL, isPicture: false, shouldZoom: false,),//pass Name() here and pass Home()in name_screen
                     )
-                );
-            },
+                  );
+                },
+              ),
+            ),
           ),
+
+//          GestureDetector(
+//            child: SizedBox(
+//                width: videoPlayerController.value.size?.width ?? 0,
+//                height: videoPlayerController.value.size?.height ?? 0,
+////              width: MediaQuery.of(context).size.height / 2.75,
+////              height: MediaQuery.of(context).size.width / 2,
+//                child: VideoPlayer(videoPlayerController)
+//            ),
+////            Container(
+////                width: videoPlayerController.value.size?.width ?? 0,
+////                    height: videoPlayerController.value.size?.height ?? 0,
+//////              width: MediaQuery.of(context).size.height / 2.75,
+//////              height: MediaQuery.of(context).size.width / 2,
+////              child: VideoPlayer(videoPlayerController)
+////            ),
+////            AspectRatio(
+////                aspectRatio:
+////                //videoPlayerController.value.aspectRatio,
+////
+////                //WidgetConfig.aspectRatioOnePointSix,
+////                16/10,
+////                child: VideoPlayer(videoPlayerController),
+////            ) ,
+//            onTap: (){
+//                Navigator.push(
+//                    context,
+//                    MaterialPageRoute(
+//                      builder: (context) => CustomVideoPlayer(videoURL:widget.videoURL),//pass Name() here and pass Home()in name_screen
+//                      //builder: (context) => FullScreenPictureAndVideos(payLoad:widget.videoURL, isPicture: false, shouldZoom: false,),//pass Name() here and pass Home()in name_screen
+//                    )
+//                );
+//            },
+//          );
 //        : cachedVideo(),
         ),
         CustomIconButton(iconNameInImageFolder: 'playButton',
@@ -105,32 +137,19 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
     );
   }
 
-  GestureDetector helper(){
-    GestureDetector result = new  GestureDetector(
-      child: AspectRatio(
-      //videoPlayerController.value.initialized ? AspectRatio(
-        aspectRatio:
-        //videoPlayerController.value.aspectRatio,
-        WidgetConfig.aspectRatioOnePointSix,
-        //16/10,
-        child: VideoPlayer(videoPlayerController),
-      ) ,
-            //: CircularProgressIndicator(),
-      onTap: (){
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CustomVideoPlayer(videoURL:widget.videoURL),//pass Name() here and pass Home()in name_screen
-              //builder: (context) => FullScreenPictureAndVideos(payLoad:widget.videoURL, isPicture: false, shouldZoom: false,),//pass Name() here and pass Home()in name_screen
-            )
-        );
-      },
-    );
 
-    if(widget.cache != null) {
-      widget.cache.video = result;
-    }
-    return result;
+  widthSmallerThanHeight() {
+    /// to check if the video is portrait video or landscape video
+    /// because portriat needs Boxfit.cover and landcape needs Boxfit.contain,
+    /// we check if the width is smaller than height.
+    ///
+    /// to avoid error:
+    /// The getter 'width' was called on null.
+    /// we use:
+    /// videoPlayerController.value.size != null
+    if((videoPlayerController.value.size != null) && (videoPlayerController.value.size.width) < (videoPlayerController.value.size.height)){
+      return true;
+    }return false;
   }
 
   cachedVideo(){

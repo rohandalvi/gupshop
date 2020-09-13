@@ -15,7 +15,6 @@ import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 import 'package:gupshop/bazaarLocation/filterBazaarLocationData.dart';
 import 'package:gupshop/usersLocation/usersLocation.dart';
-import 'package:gupshop/widgets/clickableText.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListDisplay.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -67,7 +66,6 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
 
   getListOfBazaarWalasInAGivenRadius() async{
-    print("userGeohash in getListOfBazaarWalasInAGivenRadius : ${widget.userGeohash}");
     String userNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
     userPhoneNo = userNo;
 
@@ -157,7 +155,8 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
               }
 
 
-              var list = snapshot.data;
+              List<DocumentSnapshot> list = snapshot.data;
+              print("list in getListOfBazaarWalasInAGivenRadius : ${list}");
 
               numberOfBazaarWalasInList = snapshot.data.length; ///for listView builder's itemcount
 

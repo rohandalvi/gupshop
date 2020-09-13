@@ -50,7 +50,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                        bazaarWalaNameWidget(context),
                        speciality(),
                        LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo,
-                         categoryData: category,subCategoryData: subCategory,),
+                         categoryData: categoryData,subCategoryData: subCategoryData,),
                      ],
                    ),
                  ],

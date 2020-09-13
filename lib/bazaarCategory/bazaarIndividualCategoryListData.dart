@@ -156,7 +156,6 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
 
               List<DocumentSnapshot> list = snapshot.data;
-              print("list in getListOfBazaarWalasInAGivenRadius : ${list[0].data}");
 
               numberOfBazaarWalasInList = snapshot.data.length; ///for listView builder's itemcount
 
@@ -201,14 +200,16 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
   }
 
   noBazaarwalaWidget(String noBazaarwalaText){
-    return PaddedMarginedContainer(
-      child :  CustomRichText(
-        children: <TextSpan>[
-          CustomText(text: 'No ',).richText(),
-          CustomText(text: noBazaarwalaText,textColor: primaryColor,
-            fontSize: TextConfig().bigFontSize,).richText(),
-          CustomText(text: ' near you',).richText(),
-        ],
+    return Center(
+      child: PaddedMarginedContainer(
+        child :  CustomRichText(
+          children: <TextSpan>[
+            CustomText(text: 'No ',).richText(),
+            CustomText(text: noBazaarwalaText,textColor: primaryColor,
+              fontSize: TextConfig().bigFontSize,).richText(),
+            CustomText(text: ' near you',).richText(),
+          ],
+        ),
       ),
     );
   }

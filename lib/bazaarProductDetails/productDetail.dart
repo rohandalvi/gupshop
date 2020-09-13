@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarProductDetails/chatWithBazaarwala.dart';
 import 'package:gupshop/bazaarProductDetails/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToBazaarHomeScreen.dart';
 import 'package:gupshop/navigators/navigateToBazaarIndividualCategoryList.dart';
 import 'package:gupshop/navigators/navigateToFullScreenPictureAndVideos.dart';
+import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/placeholders/imagePlaceholder.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -24,11 +26,12 @@ class ProductDetail extends StatefulWidget {
   final String subCategoryData;
   final String homeServiceText;
   final bool homeServiceBool;
+  final bool sendHome;
 
 
   ProductDetail({@required this.productWalaName, this.category, @required this.productWalaNumber,
     this.subCategory, this.subCategoryData, this.categoryData,
-    this.homeServiceBool, this.homeServiceText,
+    this.homeServiceBool, this.homeServiceText, this.sendHome
   });
 
   @override
@@ -72,6 +75,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
   @override
   void initState() {
+    print("sendHome in productDetails : ${widget.sendHome}");
     collectionReference = Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection("reviews");
     stream = collectionReference.snapshots();
 
@@ -100,12 +104,20 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
             ],
             onPressed: (){
               //Navigator.pop(context);
-              NavigateToBazaarIndiviudalCategoryList(
-                category: category,
-                subCategoryData: widget.subCategoryData,
-                subCategory: widget.subCategory,
-                categoryData: widget.categoryData,
-              ).navigateNoBrackets(context);
+
+              if(widget.sendHome == true){
+                print("in if product details");
+                NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
+//                NavigateToBazaarIndiviudalCategoryList(
+//                  category: category,
+//                  subCategoryData: widget.subCategoryData,
+//                  subCategory: widget.subCategory,
+//                  categoryData: widget.categoryData,
+//                ).navigateNoBrackets(context);
+              }else {
+                print("in else product details");
+                Navigator.pop(context);
+              }
             }
           ),
         ),
@@ -186,7 +198,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           builder: (context, snapshot) {
             if(snapshot.connectionState == ConnectionState.done){
               String videoURL = snapshot.data["videoURL"];
-              print("videoURL in buildProductImagesWidget : $videoURL");
               String thumbnailPicture = snapshot.data["thumbnailPicture"];
               String otherPictureOne = snapshot.data["otherPictureOne"];
               String otherPictureTwo = snapshot.data["otherPictureTwo"];

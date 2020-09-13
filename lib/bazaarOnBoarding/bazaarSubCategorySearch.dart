@@ -1,10 +1,7 @@
 import 'dart:collection';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
-import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/widgets/customSearch.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -34,7 +31,6 @@ class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
 
 
   getCategorySizeFuture() {
-    print("widget.subCategoriesList : ${widget.subCategoriesList}");
     Map mapOfDocumentSnapshots = widget.subCategoriesList.asMap();
     /// initializing 'map' with false values
     mapOfDocumentSnapshots.forEach((key, value) {
@@ -88,6 +84,7 @@ class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
         String subCategory = name;
         String subCategoryData = widget.subCategoryMap[subCategory];
         NavigateToProductDetailPage(
+          sendHome: true,
           categoryData: widget.categoryData,
           category: widget.category,
           subCategory: subCategory,

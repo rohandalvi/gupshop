@@ -48,7 +48,6 @@ class NavigateToProductDetailPage {
 //    String userNumber = await UserDetails().getUserPhoneNoFuture();
 //    String userName = await UserDetails().getUserNameFuture();
 
-  print("sendHome in NavigateToProductDetailPage : $sendHome");
     Navigator.push(
         context,
         MaterialPageRoute(

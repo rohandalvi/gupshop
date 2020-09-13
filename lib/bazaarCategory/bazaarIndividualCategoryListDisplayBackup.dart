@@ -101,7 +101,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
                     ),
                   ),
                   CustomText(text: subCategory,).subTitle(),
-                  LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, category: category,subCategory: subCategory,),
+                  LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo, categoryData: category,subCategoryData: subCategory,),
                   //SizedBox(height: 5,),
                 ],
               ),

@@ -10,6 +10,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
+import 'package:gupshop/retriveFromFirebase/bazaarReviewsCollection.dart';
 import 'package:gupshop/service/firestoreShortcuts.dart';
 import 'package:gupshop/timestamp/timeDisplay.dart';
 import 'package:gupshop/updateInFirebase/updateBazaarRatingNumbersCollection.dart';
@@ -148,8 +149,8 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
               if(widget.likes == null) widget.likes =0;
               if(widget.dislikes == null) widget.dislikes =0;
 
-              PushToBazaarReviewsCollection().addReview(widget.productWalaNumber, widget.categoryData, data);
-              UpdateBazaarRatingNumberCollection(productWalaNumber: widget.productWalaNumber, category: widget.categoryData, likes: widget.likes, dislikes: widget.dislikes).updateRatings();
+              PushToBazaarReviewsCollection(subCategory: widget.subCategoryData).addReview(widget.productWalaNumber, widget.categoryData, data);
+              UpdateBazaarRatingNumberCollection(productWalaNumber: widget.productWalaNumber, categoryData: widget.categoryData, likes: widget.likes, dislikes: widget.dislikes, subCategoryData: widget.subCategoryData).updateRatings();
             }
           },
         ),
@@ -299,7 +300,9 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
         direction: Axis.vertical,
         children: <Widget>[
           StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection(widget.categoryData).orderBy("timestamp", descending: true).snapshots(),
+              stream: BazaarReviewsCollection(productWalaNumber: widget.productWalaNumber,
+                  categoryData: widget.categoryData, subCategoryData: widget.subCategoryData,
+              ).getOrderedStream(),
               builder: (context, snapshot) {
                 if(snapshot.data == null) return CircularProgressIndicator();
 
@@ -346,6 +349,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
 
   /// add Review/ edit Profile
   likeDislikeIconsAndAddReviewButton(int rating){
+    print("in likeDislikeIconsAndAddReviewButton");
     return Padding(
       padding: EdgeInsets.all(PaddingConfig.five),
       child: Row(
@@ -353,7 +357,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
         children: <Widget>[
           Align(
               alignment: Alignment.centerLeft,
-              child: LikesDislikesFetchAndDisplay(productWalaNumber: widget.productWalaNumber, category: widget.categoryData, subCategory: widget.subCategory,)
+              child: LikesDislikesFetchAndDisplay(productWalaNumber: widget.productWalaNumber, categoryData: widget.categoryData, subCategoryData: widget.subCategoryData,)
             //_buildRatingStars(3),
           ),
           widget.userName != widget.productWalaName ?

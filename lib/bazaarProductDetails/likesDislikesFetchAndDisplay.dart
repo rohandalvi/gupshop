@@ -5,10 +5,10 @@ import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRating
 
 class LikesDislikesFetchAndDisplay extends StatelessWidget {
   final String productWalaNumber;
-  final String category;
-  final String subCategory;
+  final String categoryData;
+  final String subCategoryData;
 
-  LikesDislikesFetchAndDisplay({@required this.productWalaNumber, @required this.category, @required this.subCategory});
+  LikesDislikesFetchAndDisplay({@required this.productWalaNumber, @required this.categoryData, @required this.subCategoryData});
 
 
   @override
@@ -16,9 +16,10 @@ class LikesDislikesFetchAndDisplay extends StatelessWidget {
     return Row(
       children: <Widget>[
         FutureBuilder(
-          future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikes(productWalaNumber, category, subCategory),
+          future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikes(productWalaNumber, categoryData, subCategoryData),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
+              print("snapshot.data in LikesDislikesFetchAndDisplay : ${snapshot.data}");
               int likes = snapshot.data;
               if(likes == null) {likes = 0;}
                return LikesDislikesDisplay(likes:likes);
@@ -29,7 +30,7 @@ class LikesDislikesFetchAndDisplay extends StatelessWidget {
           },
         ),
         FutureBuilder(
-          future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfDislikes(productWalaNumber, category, subCategory),
+          future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfDislikes(productWalaNumber, categoryData, subCategoryData),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               int disLikes = snapshot.data;

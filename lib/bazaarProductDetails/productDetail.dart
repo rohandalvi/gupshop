@@ -106,16 +106,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
               //Navigator.pop(context);
 
               if(widget.sendHome == true){
-                print("in if product details");
                 NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
-//                NavigateToBazaarIndiviudalCategoryList(
-//                  category: category,
-//                  subCategoryData: widget.subCategoryData,
-//                  subCategory: widget.subCategory,
-//                  categoryData: widget.categoryData,
-//                ).navigateNoBrackets(context);
               }else {
-                print("in else product details");
                 Navigator.pop(context);
               }
             }

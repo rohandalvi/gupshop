@@ -14,6 +14,8 @@ class PushToBazaarReviewsCollection{
 //  }
 
   addReview(String productWalaNumber, String category, var data,) async{
+    /// .collection("reviews") is needed because we are later using 'orderBy'
+    /// on bazaarReviews and 'orderBy' can be used only on a collection
     await Firestore.instance.collection("bazaarReviews").document(productWalaNumber)
         .collection(category).document(subCategory).collection("reviews")
         .add(data);

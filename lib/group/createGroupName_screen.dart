@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
+import 'package:gupshop/placeholders/imagePlaceholder.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
+import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/service/pushToProfilePictures.dart';
@@ -33,7 +35,7 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
   final String userPhoneNo;
   final List<String> listOfNumbersInAGroup;
 
-  String imageUrl = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/%2B15857547599ProfilePicture?alt=media&token=0a4a79f5-7989-4e14-8927-7b4ca39af7d7";
+  String imageUrl = ImagePlaceholder.groupImage;
   final formKey = new GlobalKey<FormState>();
 
   String groupName;
@@ -44,6 +46,14 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
+          child: CustomAppBar(
+            onPressed: (){
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: Center(
           child: ListView(//to remove renderflex overflow error
             shrinkWrap: true,

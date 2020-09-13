@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/getConversationId.dart';
@@ -99,13 +101,13 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                   /// setData to messageTyping collection:
                   PushToMessageTypingCollection(conversationId: id, userNumber: userPhoneNo).pushTypingStatus();
 
-                  print("groupName : $groupName");
+
                   if(groupName == null || groupName == ""){
                     Flushbar(
                       icon: SvgPicture.asset(
                         'images/stopHand.svg',
-                        width: 30,
-                        height: 30,
+                        width: IconConfig.flushbarIconThirty,
+                        height: IconConfig.flushbarIconThirty,
                       ),
                       flushbarStyle: FlushbarStyle.GROUNDED,
                       backgroundColor: Colors.white,
@@ -138,8 +140,8 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
 
   displayNameBadge(){
     return Container(
-      width: 100,
-      height: 100,
+      width: WidgetConfig.hundredWidth,
+      height: WidgetConfig.hundredHeight,
       child:
       Image(
         image: AssetImage('images/groupManWoman.png'),

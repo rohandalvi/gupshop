@@ -163,8 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
           Flushbar( /// for the flushBar if the user enters wrong verification code
             icon: SvgPicture.asset(
               'images/stopHand.svg',
-              width: IconConfig.flushbarIcon,
-              height: IconConfig.flushbarIcon,
+              width: IconConfig.flushbarIconThirty,
+              height: IconConfig.flushbarIconThirty,
             ),
             flushbarStyle: FlushbarStyle.GROUNDED,
             backgroundColor: Colors.white,

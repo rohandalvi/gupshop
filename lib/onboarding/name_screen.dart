@@ -112,8 +112,8 @@ class _NameScreenState extends State<NameScreen> {
                       Flushbar(
                         icon: SvgPicture.asset(
                             'images/stopHand.svg',
-                          width: IconConfig.flushbarIcon,
-                          height: IconConfig.flushbarIcon,
+                          width: IconConfig.flushbarIconThirty,
+                          height: IconConfig.flushbarIconThirty,
                         ),
                         flushbarStyle: FlushbarStyle.GROUNDED,
                         backgroundColor: Colors.white,

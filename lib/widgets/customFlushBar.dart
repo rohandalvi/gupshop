@@ -18,8 +18,8 @@ class CustomFlushBar extends StatelessWidget {
     return Flushbar( /// for the flushBar if the user enters wrong verification code
       icon: SvgPicture.asset(
         'images/stopHand.svg',
-        width: IconConfig.flushbarIcon,/// 30
-        height: IconConfig.flushbarIcon,/// 30
+        width: IconConfig.flushbarIconThirty,/// 30
+        height: IconConfig.flushbarIconThirty,/// 30
       ),
       backgroundColor: Colors.white,
       duration: Duration(seconds: 5),
@@ -34,8 +34,8 @@ class CustomFlushBar extends StatelessWidget {
     return Flushbar( /// for the flushBar if the user enters wrong verification code
       icon: SvgPicture.asset(
         'images/stopHand.svg',
-        width: IconConfig.flushbarIcon,/// 30
-        height: IconConfig.flushbarIcon,/// 30
+        width: IconConfig.flushbarIconThirty,/// 30
+        height: IconConfig.flushbarIconThirty,/// 30
       ),
       backgroundColor: Colors.white,
       duration: duration == null ? Duration(seconds: 5) : duration,
@@ -51,8 +51,8 @@ class CustomFlushBar extends StatelessWidget {
     return Flushbar( /// for the flushBar if the user enters wrong verification code
       icon: SvgPicture.asset(
         'images/$iconName.svg',
-        width: IconConfig.flushbarIcon,/// 30
-        height: IconConfig.flushbarIcon,/// 30
+        width: IconConfig.flushbarIconThirty,/// 30
+        height: IconConfig.flushbarIconThirty,/// 30
       ),
       backgroundColor: Colors.white,
       duration: duration == null ? Duration(seconds: 5) : duration,
@@ -69,8 +69,8 @@ class CustomFlushBar extends StatelessWidget {
     return Flushbar( /// for the flushBar if the user enters wrong verification code
       icon: SvgPicture.asset(
         'images/$iconName.svg',
-        width: IconConfig.flushbarIcon,/// 30
-        height: IconConfig.flushbarIcon,/// 30
+        width: IconConfig.flushbarIconThirty,/// 30
+        height: IconConfig.flushbarIconThirty,/// 30
       ),
       backgroundColor: Colors.white,
       duration: null,

@@ -123,9 +123,9 @@ class PushToFirebase{
     String userName = await UserDetails().getUserNameFuture();
     String userNumber = await UserDetails().getUserPhoneNoFuture();
 
-    print("location in pushSubCategoriesToFirebase : $location");
 
-    /// blank placeholders:
+
+    /// blank placeholders: ////////////////////////////////////////////////////
 
     /// setting blank rating in ratings
     await PushSubCategoriesToFirebase(category: categoryData,userPhoneNo: userNumber,
@@ -144,12 +144,11 @@ class PushToFirebase{
         userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
         .blankBazaarWalasLocation();
 
-    /// blank placeholders end here
+    /// blank placeholders end here /////////////////////////////////////////////
 
 
 
-    /// push to 5 collection:
-    ///
+    /// push to 5 collections:
     /// bazaarCategories
     await PushSubCategoriesToFirebase(category: categoryData,userPhoneNo: userNumber,
         userName: userName, listOfSubCategoriesData:listOfSubCategoriesForData)
@@ -188,7 +187,6 @@ class PushToFirebase{
     print("deleteList in deleteUnselectedCategoriesFromDatabase : ${deleteListData}");
 
     /// delete from 5 collections:
-    ///
     await DeleteSubcategriesFirebase(category: categoryData,userNumber: userNumber,
         listOfSubCategoriesData: deleteListData)
         .bazaarCategories();
@@ -202,15 +200,20 @@ class PushToFirebase{
         .bazaarBasicProfile();
 
     /// delete from video collection
-
+    await DeleteSubcategriesFirebase(category: categoryData,userNumber: userNumber,
+        listOfSubCategoriesData: deleteListData)
+        .videos();
 
     /// delete from bazaarWalasLocation collection
-
+    await DeleteSubcategriesFirebase(category: categoryData,userNumber: userNumber,
+        listOfSubCategoriesData: deleteListData)
+        .bazaarWalasLocation();
   }
+
+
 
   /// video and location
   updateVideoInBazaarWalasBasicProfile(List list){
-    print("list in updateVideoInBazaarWalasBasicProfile : $list");
     list.forEach((subCategory) async{
       await UpdateBazaarWalasBasicProfile(
         userPhoneNo: userPhoneNo,

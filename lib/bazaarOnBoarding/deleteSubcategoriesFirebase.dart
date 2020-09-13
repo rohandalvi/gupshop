@@ -1,5 +1,7 @@
 import 'package:gupshop/deleteFromFirebase/deleteBazaarCategories.dart';
+import 'package:gupshop/deleteFromFirebase/deleteBazaarWalasLocation.dart';
 import 'package:gupshop/deleteFromFirebase/deleteFromBazaarwalasBasicProfile.dart';
+import 'package:gupshop/deleteFromFirebase/deleteFromVideoCollection.dart';
 import 'package:gupshop/updateInFirebase/deleteBazaarCategoriesMetadata.dart';
 
 class DeleteSubcategriesFirebase{
@@ -37,6 +39,26 @@ class DeleteSubcategriesFirebase{
     print("deleteList in bazaarBasicProfile : ${listOfSubCategoriesData}");
     listOfSubCategoriesData.forEach((subCategory) {
       DeleteFromBazaarWalasBasicProfile(
+          userPhoneNo: userNumber,
+          categoryData: category,
+          subCategoryData: subCategory
+      ).deleteSubcategory();
+    });
+  }
+
+  bazaarWalasLocation(){
+    listOfSubCategoriesData.forEach((subCategory) {
+      DeleteBazaarWalasLocation(
+          userPhoneNo: userNumber,
+          categoryData: category,
+          subCategoryData: subCategory
+      ).deleteSubcategory();
+    });
+  }
+
+  videos(){
+    listOfSubCategoriesData.forEach((subCategory) {
+      DeleteFromVideoCollection(
           userPhoneNo: userNumber,
           categoryData: category,
           subCategoryData: subCategory

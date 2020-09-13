@@ -21,6 +21,7 @@ class ShowVideoThumbnail extends StatelessWidget {
       children: <Widget>[
         //CustomVideoPlayer(videoURL: videoURL,),
         //CustomVideoPlayerThumbnail(videoURL: videoURL, cache: cache,),
+        /// videoPlayer:
         SizedBox(
           width: MediaQuery.of(context).size.height / 2.75,
           height: MediaQuery.of(context).size.width / 2,
@@ -30,6 +31,7 @@ class ShowVideoThumbnail extends StatelessWidget {
             child: CustomVideoPlayerThumbnail(videoURL: videoURL, cache: cache,),
           ),
         ),
+        /// download button:
         CustomIconButton(
           onPressed: () async{
             CustomFlushBar(

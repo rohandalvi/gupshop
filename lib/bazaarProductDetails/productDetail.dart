@@ -12,6 +12,7 @@ import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart'
 import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customText.dart';
+import 'package:gupshop/widgets/customVideoPlayer.dart';
 import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -185,6 +186,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           builder: (context, snapshot) {
             if(snapshot.connectionState == ConnectionState.done){
               String videoURL = snapshot.data["videoURL"];
+              print("videoURL in buildProductImagesWidget : $videoURL");
               String thumbnailPicture = snapshot.data["thumbnailPicture"];
               String otherPictureOne = snapshot.data["otherPictureOne"];
               String otherPictureTwo = snapshot.data["otherPictureTwo"];
@@ -203,6 +205,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                   padding: EdgeInsets.all(PaddingConfig.sixteen),
                   child: Container(
                     height: WidgetConfig.productDetailImageHeight,
+                    width: MediaQuery.of(context).size.height / 2.75,
                     child: Center(
                       child: DefaultTabController(
                         length: 4,

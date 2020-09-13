@@ -9,6 +9,7 @@ class GetBazaarWalasBasicProfileInfo{
   GetBazaarWalasBasicProfileInfo({this.userNumber,this.subCategoryData, this.categoryData, this.image});
 
   main(){
+    print("userNumber in main : $userNumber");
   return Firestore.instance.collection("bazaarWalasBasicProfile")
       .document(userNumber)
       .collection(categoryData).document(subCategoryData)
@@ -70,15 +71,20 @@ class GetBazaarWalasBasicProfileInfo{
     Map<String, dynamic> map = new Map();
 
     map["name"] = dc.data["bazaarWalaName"];
+    print("map after name : $map");
 
     map["thumbnailPicture"] = dc.data["thumbnailPicture"];
+    print("map after thumbnailPicture : $map");
 
     if(dc.data["homeService"] == true || dc.data["homeService"] == false){
       map["homeService"] =  dc.data["homeService"];
+      print("map after homeService in if  : $map");
     }else{
       map["homeService"] = null;
+      print("map after homeService in else : $map");
     }
 
+    print("map in getNameThumbnailPictureHomeService : $map");
 
     return map;
   }

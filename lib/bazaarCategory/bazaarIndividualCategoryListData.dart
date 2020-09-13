@@ -156,7 +156,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
 
               List<DocumentSnapshot> list = snapshot.data;
-              print("list in getListOfBazaarWalasInAGivenRadius : ${list}");
+              print("list in getListOfBazaarWalasInAGivenRadius : ${list[0].data}");
 
               numberOfBazaarWalasInList = snapshot.data.length; ///for listView builder's itemcount
 

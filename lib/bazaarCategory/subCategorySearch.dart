@@ -171,6 +171,6 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
   getAddressName(String userGeohash) async{
     String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
 
-    return await UsersLocation().getAddressName(userPhoneNo, userGeohash);
+    return await UsersLocation().getAddress(userPhoneNo, userGeohash);
   }
 }

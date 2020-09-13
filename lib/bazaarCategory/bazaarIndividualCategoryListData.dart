@@ -144,12 +144,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
         ),
         body: Column(
           children: <Widget>[
-            ClickableText(
-                text : "Showing results for : ${widget.addressName.toUpperCase()}",
-              onTap: (){
-
-              },
-            ),
+            showResultsWidget(),
             FutureBuilder(
               future: getListOfBazaarWalasInAGivenRadius(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -179,7 +174,6 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
                     showHomeService: widget.showHomeService,
                   );
                 },
-
                 );
               }
               return //listOfBazaarWalasPlaceholder(numberOfBazaarWalasInList, bazaarWalaPhoneNo);
@@ -189,6 +183,15 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
           ],
         ),
       ),
+    );
+  }
+
+  showResultsWidget() {
+    return CustomRichText(
+      children: <TextSpan>[
+        CustomText(text: 'Showing results for : ',).richText(),
+        CustomText(text: widget.addressName.toUpperCase(),textColor: primaryColor,).richText(),
+      ],
     );
   }
 
@@ -230,12 +233,15 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
       onPressed: () async{
         //bool showBackButton = false;
         String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+        print("before temphash");
         String tempHash = await ChangeLocationInSearch(
             userNumber: userPhoneNo)
             .getNewUserGeohash(context);
 
+        print("tempHash : $tempHash");
 
-        String tempAddressName = await UsersLocation().getAddressName(userPhoneNo, tempHash);
+        String tempAddressName = await UsersLocation().getAddress(userPhoneNo, tempHash);
+        print("tempAddressName : $tempAddressName");
         setState(() {
           widget.userGeohash = tempHash;
           widget.addressName = tempAddressName;

@@ -33,13 +33,18 @@ class ChangeLocationInSearch{
     if(addressExists == false){
       int addressNumber = await UsersLocation().getNumberOfAddress(userNumber);
       addressName = "address${addressNumber++ }";
+      print("addressName in if : $addressName");
       /// pushing to firebase usersLocation collection:
       await pushToUsersLocationFirebase(latitude, longitude, userNumber, address, addressName);
     }else{
       addressName = addressExists;
+      print("addressName in else : $addressName");
     }
 
+    print("addressName in getNewUserGeohash : $addressName");
+
     String userGeohash = await LocationService().getUserGeohash(userNumber, addressName);
+    print("userGeohash in getNewUserGeohash : $userGeohash");
     return userGeohash;
   }
 

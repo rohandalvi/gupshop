@@ -19,6 +19,9 @@ class AddressListUI extends StatelessWidget {
         preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
         child: CustomAppBar(
           title: CustomText(text : "Address Book"),
+          onPressed: (){
+            Navigator.pop(context);
+          },
         ),
       ),
       body: Container(

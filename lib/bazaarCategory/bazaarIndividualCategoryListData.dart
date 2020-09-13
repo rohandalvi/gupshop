@@ -9,6 +9,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToAddressList.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
 import 'package:gupshop/placeholders/imagePlaceholder.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
@@ -187,11 +188,16 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
   }
 
   showResultsWidget() {
-    return CustomRichText(
-      children: <TextSpan>[
-        CustomText(text: 'Showing results for : ',).richText(),
-        CustomText(text: widget.addressName.toUpperCase(),textColor: primaryColor,).richText(),
-      ],
+    return Padding(
+      padding: EdgeInsets.all(PaddingConfig.eight),
+      child: Container(
+        child: CustomRichText(
+          children: <TextSpan>[
+            CustomText(text: 'Showing results for : ',).richText(),
+            CustomText(text: widget.addressName,textColor: primaryColor,).richText(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -233,15 +239,11 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
       onPressed: () async{
         //bool showBackButton = false;
         String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
-        print("before temphash");
         String tempHash = await ChangeLocationInSearch(
             userNumber: userPhoneNo)
             .getNewUserGeohash(context);
 
-        print("tempHash : $tempHash");
-
         String tempAddressName = await UsersLocation().getAddress(userPhoneNo, tempHash);
-        print("tempAddressName : $tempAddressName");
         setState(() {
           widget.userGeohash = tempHash;
           widget.addressName = tempAddressName;

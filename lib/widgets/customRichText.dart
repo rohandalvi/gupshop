@@ -14,4 +14,13 @@ class CustomRichText extends StatelessWidget {
         ),
     );
   }
+
+  ellipsis(BuildContext context) {
+     return  RichText(
+       overflow: TextOverflow.ellipsis,
+        text: TextSpan(
+          children: children,
+        ),
+      );
+  }
 }

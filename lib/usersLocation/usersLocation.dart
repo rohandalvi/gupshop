@@ -57,12 +57,13 @@ class UsersLocation{
     dcMap.forEach((addressName, data) {
       String geohash = data["geohash"];
       String address = data["address"];
+
+      /// adding both address and addressName to subMap
+      /// Because, some methods need name and some need address
       Map subMap = new HashMap();
       subMap['address'] = address;
       subMap['addressName'] = addressName;
-      print("dcMap in createSetOfAddresses : ${data["address"]}");
       map[geohash] = subMap;
-      print("map[geohash] : ${ map[geohash]}");
       //map[geohash] = addressName;
     });
 
@@ -77,7 +78,6 @@ class UsersLocation{
     String geohash = myLocation.hash;
 
     Map map = await createSetOfAddresses(userPhoneNo);
-    print("map in checkIfAddressExists : $map");
     
     if(map.containsKey(geohash)) return map[geohash]['addressName'];
     return false;
@@ -85,9 +85,7 @@ class UsersLocation{
 
 
   getAddress(String userPhoneNo, String userHash) async{
-    print("userHash in getAddressName : $userHash");
     Map map = await createSetOfAddresses(userPhoneNo);
-    print("map userHash : ${map[userHash]}");
     return map[userHash]['address'];
   }
 

@@ -12,23 +12,23 @@ class DisplayAvatar{
 
   DisplayAvatar({this.imageUrl});
 
-  getProfilePicture(String userPhoneNo, double radius){
-    String imageUrl;
-    DocumentReference isProfilePictureAdded = Firestore.instance.collection("profilePictures").document(userPhoneNo);
-    return StreamBuilder(
-        stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
-        builder: (context, snapshot) {
-          if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
-          print("imageUrl in sideMenu: ${snapshot.data['url']}");
-          imageUrl = snapshot.data['url'];
-          return DisplayCircularPicture(
-              height: 370,
-              width: 370,
-              image: NetworkImage(imageUrl),
-            ).smallSizePicture(35);
-        }
-    );
-  }
+//  getProfilePicture(String userPhoneNo, double radius){
+//    String imageUrl;
+//    DocumentReference isProfilePictureAdded = Firestore.instance.collection("profilePictures").document(userPhoneNo);
+//    return StreamBuilder(
+//        stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
+//        builder: (context, snapshot) {
+//          if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
+//          print("imageUrl in sideMenu: ${snapshot.data['url']}");
+//          imageUrl = snapshot.data['url'];
+//          return DisplayCircularPicture(
+//              height: 370,
+//              width: 370,
+//              image: NetworkImage(imageUrl),
+//            ).smallSizePicture(35);
+//        }
+//    );
+//  }
 
 
    displayAvatarFromFirebase(String userPhoneNo, double radius, double innerRadius, bool isFirstTime){
@@ -52,13 +52,10 @@ class DisplayAvatar{
             imageUrl = snapshot.data['url'];
           }
           catch (e){
-            print("in catch");
             imageUrl = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/user.png?alt=media&token=28bcfc15-31da-4847-8f7c-efdd60428714";
             //imageUrl = 'images/user.png';
             isFirstTime = true;
           }
-
-          print("imageURL in displayAvatar : $imageUrl");
           return customCircleAvatar(imageUrl, radius, innerRadius);
         }
     );

@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
@@ -63,7 +64,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
       print("imageURL in changeProfile : $imageURL");
       return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70.0),
+          preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
             child: CustomAppBar(
               onPressed:(){
              // Navigator.pop(context);
@@ -83,30 +84,35 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         backgroundColor: Colors.white,
         body: Container(
               padding: EdgeInsets.symmetric(horizontal: PaddingConfig.sixteen),
-              child: ProfilePictureAndButtonsScreen(
+              child: widget.imageURL == null ?
+              StreamBuilder(
+                  stream:
+                  //ProfilePictures(userPhoneNo: userPhoneNo).stream(),
+                  Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
+                  builder: (context, snapshot) {
+                    String imageUrl;
+
+                    if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
+
+                    imageUrl = snapshot.data['url'];
+                    if(imageUrl == null) imageUrl = 'images/user.png';///this is the placeholder for the 1st time user, test it using an actual phone
+
+                    return ProfilePictureAndButtonsScreen(
+                      userPhoneNo: userPhoneNo, imageUrl: imageUrl,
+                      height: WidgetConfig.threeSixtyHeight,
+                      width: WidgetConfig.threeSixtyWidth,userName: userName,
+                      viewingFriendsProfile: viewingFriendsProfile,
+                      groupConversationId: groupConversationId,
+                      chatListCache: widget.chatListCache,
+                      conversationId: widget.conversationId,
+                    );
+                  }
+              ) :
+                ProfilePictureAndButtonsScreen(
                 userPhoneNo: userPhoneNo, imageUrl: widget.imageURL, height: WidgetConfig.threeSixtyHeight, width: WidgetConfig.threeSixtyWidth,userName: userName,
                 viewingFriendsProfile: viewingFriendsProfile, groupConversationId: groupConversationId,
                 chatListCache: widget.chatListCache, conversationId: widget.conversationId,
-              ),
-//              StreamBuilder(
-//                  stream:
-//                  //ProfilePictures(userPhoneNo: userPhoneNo).stream(),
-//                  Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
-//                  builder: (context, snapshot) {
-//                    String imageUrl;
-//
-//                    if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
-//
-//                    imageUrl = snapshot.data['url'];
-//                    if(imageUrl == null) imageUrl = 'images/user.png';///this is the placeholder for the 1st time user, test it using an actual phone
-//
-//                    return ProfilePictureAndButtonsScreen(
-//                      userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 360, width: 360,userName: userName,
-//                      viewingFriendsProfile: viewingFriendsProfile, groupConversationId: groupConversationId,
-//                      chatListCache: widget.chatListCache, conversationId: widget.conversationId,
-//                    );
-//                  }
-//              )
+        )
         ),
       );
     }

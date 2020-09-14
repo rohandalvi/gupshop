@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/chat_list_page/avatarData.dart';
 import 'package:gupshop/chat_list_page/avatarDisplay.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/subtitleDataAndDisplay.dart';
@@ -12,7 +13,7 @@ import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class ChatListDisplay extends StatelessWidget {
+class ChatListDisplay extends StatefulWidget {
   final String myNumber;
   final String conversationId;
   bool notAGroupMemberAnymore;
@@ -29,7 +30,6 @@ class ChatListDisplay extends StatelessWidget {
   String myName;
   Map<String, ChatListCache> chatListCache;
   String conversationsLatestMessageId;
-  bool groupDeleted;
   String imageURL;
   double radius;
   double innerRadius;
@@ -40,10 +40,17 @@ class ChatListDisplay extends StatelessWidget {
     this.lastMessageIsImage, this.timeStamp, this.myName, this.chatListCache,
     this.conversationsLatestMessageId,this.imageURL
   }): radius = ImageConfig.smallRadius,/// 30
-        innerRadius = ImageConfig.smallInnerRadius;/// 27
+        innerRadius = ImageConfig.smallInnerRadius;
+  @override
+  _ChatListDisplayState createState() => _ChatListDisplayState();
+}
+
+class _ChatListDisplayState extends State<ChatListDisplay> {
+  bool groupDeleted;
+
+/// 27
 
   AvatarDisplay avatar;
-
   @override
   Widget build(BuildContext context) {
     return ListTile( ///main widget that creates the message box
@@ -54,20 +61,20 @@ class ChatListDisplay extends StatelessWidget {
       /// else return froom the cache
       cachedData(context),
 
-      title: CustomText(text: friendName),
+      title: CustomText(text: widget.friendName),
       subtitle: SubtitleDataAndDisplay(
-        lastMessage: lastMessage,
-        lastMessageIsImage: lastMessageIsImage,
-        lastMessageIsVideo: lastMessageIsVideo,
-        index: index,
-        myNumber: myNumber,
+        lastMessage: widget.lastMessage,
+        lastMessageIsImage: widget.lastMessageIsImage,
+        lastMessageIsVideo: widget.lastMessageIsVideo,
+        index: widget.index,
+        myNumber: widget.myNumber,
       ),
       /// read unread icon display:
       trailing: TrailingDisplay(
-        conversationId: conversationId,
-        myNumber: myNumber,
-        timeStamp: timeStamp,
-        conversationsLatestMessageId: conversationsLatestMessageId,
+        conversationId: widget.conversationId,
+        myNumber: widget.myNumber,
+        timeStamp: widget.timeStamp,
+        conversationsLatestMessageId: widget.conversationsLatestMessageId,
       ),
       onTap: () {
         Navigator.push(
@@ -75,15 +82,15 @@ class ChatListDisplay extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) =>
                   IndividualChat(
-                    chatListCache: chatListCache,
-                    friendName: friendName,
-                    conversationId: conversationId,
-                    userName: myName,
-                    userPhoneNo: myNumber,
-                    listOfFriendNumbers: friendNumberList,
-                    notGroupMemberAnymore: notAGroupMemberAnymore,
+                    chatListCache: widget.chatListCache,
+                    friendName: widget.friendName,
+                    conversationId: widget.conversationId,
+                    userName: widget.myName,
+                    userPhoneNo: widget.myNumber,
+                    listOfFriendNumbers: widget.friendNumberList,
+                    notGroupMemberAnymore: widget.notAGroupMemberAnymore,
                     groupDeleted: groupDeleted,
-                    imageURL: imageURL,
+                    imageURL: widget.imageURL,
                   ), //pass Name() here and pass Home()in name_screen
             )
         );
@@ -91,53 +98,52 @@ class ChatListDisplay extends StatelessWidget {
     );
   }
 
-
   cacheAvatar(){
     //print("cache in cacheAvatar : ${chatListCache["vI42xysaLTh2tygLyKaD"].isGroup}");
-    return chatListCache[conversationId].circleAvatar;
+    return widget.chatListCache[widget.conversationId].circleAvatar;
   }
 
   cachedData(BuildContext context){
 
     /// if its a group and its cached:
-    if( chatListCache.containsKey(conversationId) == true && chatListCache[conversationId].isGroup == true){
+    if( widget.chatListCache.containsKey(widget.conversationId) == true && widget.chatListCache[widget.conversationId].isGroup == true){
 
       return FutureBuilder(
-        future: ConversationMetaData().get(conversationId, myNumber),
+        future: ConversationMetaData().get(widget.conversationId, widget.myNumber),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            memberList = snapshot.data["members"];
+            widget.memberList = snapshot.data["members"];
 
             /// first check if the group is deleted
-            if(memberList.isEmpty == true) groupDeleted = true;
+            if(widget.memberList.isEmpty == true) groupDeleted = true;
 
             /// if a member is removed from the group, then he should not be seeing the conversations
             /// once he enters the individual chat page
-            else if (memberList.contains(myNumber) == false)
-              notAGroupMemberAnymore = true;
+            else if (widget.memberList.contains(widget.myNumber) == false)
+              widget.notAGroupMemberAnymore = true;
 
             if (snapshot.data["groupName"] == null) {
-              groupExists = false;
+              widget.groupExists = false;
 
               /// 1. extract memberList from conversationMetadata for navigating to individualChat
-              memberList = snapshot.data["members"];
+              widget.memberList = snapshot.data["members"];
 
               /// 2. extract friendNumber for DisplayAvatarFromFirebase
-              friendNumber =
-                  FindFriendNumber().friendNumber(memberList, myNumber);
+              widget.friendNumber =
+                  FindFriendNumber().friendNumber(widget.memberList, widget.myNumber);
 
               /// 3. create friendNumberList to send to individualChat
-              friendNumberList =
-                  FindFriendNumber().createListOfFriends(memberList, myNumber);
+              widget.friendNumberList =
+                  FindFriendNumber().createListOfFriends(widget.memberList, widget.myNumber);
             } else {
-              groupExists = true;
+              widget.groupExists = true;
 
               /// for groups, conversationId is used as documentId for
               /// getting profilePicture
               /// profile_pictures -> conversationId -> url
-              friendNumberList =
-                  FindFriendNumber().createListOfFriends(memberList, myNumber);
-              friendNumber = conversationId;
+              widget.friendNumberList =
+                  FindFriendNumber().createListOfFriends(widget.memberList, widget.myNumber);
+              widget.friendNumber = widget.conversationId;
             }
             return cacheAvatar();
           }
@@ -145,62 +151,63 @@ class ChatListDisplay extends StatelessWidget {
         },
       );
       /// if  individualChat and its cached:
-    }else if(chatListCache.containsKey(conversationId) == true){
+    }else if(widget.chatListCache.containsKey(widget.conversationId) == true){
       print("in two people chat");
-      memberList = chatListCache[conversationId].memberList;
-      groupExists = false;
+      widget.memberList = widget.chatListCache[widget.conversationId].memberList;
+      widget.groupExists = false;
 
 
       /// 1. extract friendNumber for DisplayAvatarFromFirebase
-      friendNumber =
-          FindFriendNumber().friendNumber(memberList, myNumber);
+      widget.friendNumber =
+          FindFriendNumber().friendNumber(widget.memberList, widget.myNumber);
 
       /// 2. create friendNumberList to send to individualChat
-      friendNumberList =
-          FindFriendNumber().createListOfFriends(memberList, myNumber);
+      widget.friendNumberList =
+          FindFriendNumber().createListOfFriends(widget.memberList, widget.myNumber);
       return cacheAvatar();
     }
     /// if any type of chat and its not cached:
-    else if (chatListCache.containsKey(conversationId) == false){
+    else if (widget.chatListCache.containsKey(widget.conversationId) == false){
       return FutureBuilder(
-        future: ConversationMetaData().get(conversationId, myNumber),
+        future: ConversationMetaData().get(widget.conversationId, widget.myNumber),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            memberList = snapshot.data["members"];
+            widget.memberList = snapshot.data["members"];
             ChatListCache cache = new ChatListCache();
-            cache.memberList = memberList;/// adding to cache
+            cache.memberList = widget.memberList;/// adding to cache
 
             /// if a member is removed from the group, then he should not be seeing the conversations
             /// once he enters the individual chat page
-            if (memberList.contains(myNumber) == false)
-              notAGroupMemberAnymore = true;
+            if (widget.memberList.contains(widget.myNumber) == false)
+              widget.notAGroupMemberAnymore = true;
 
             if (snapshot.data["groupName"] == null) {
-              groupExists = false;
+              widget.groupExists = false;
 
               /// 1. extract memberList from conversationMetadata for navigating to individualChat
-              memberList = snapshot.data["members"];
+              widget.memberList = snapshot.data["members"];
 
               /// 2. extract friendNumber for DisplayAvatarFromFirebase
-              friendNumber =
-                  FindFriendNumber().friendNumber(memberList, myNumber);
+              widget.friendNumber =
+                  FindFriendNumber().friendNumber(widget.memberList, widget.myNumber);
 
               /// 3. create friendNumberList to send to individualChat
-              friendNumberList =
-                  FindFriendNumber().createListOfFriends(memberList, myNumber);
+              widget.friendNumberList =
+                  FindFriendNumber().createListOfFriends(widget.memberList, widget.myNumber);
             } else {
-              groupExists = true;
+              widget.groupExists = true;
 
               /// for groups, conversationId is used as documentId for
               /// getting profilePicture
               /// profile_pictures -> conversationId -> url
-              friendNumberList =
-                  FindFriendNumber().createListOfFriends(memberList, myNumber);
-              friendNumber = conversationId;
+              widget.friendNumberList =
+                  FindFriendNumber().createListOfFriends(widget.memberList, widget.myNumber);
+              widget.friendNumber = widget.conversationId;
             }
-            cache.isGroup = groupExists;
+            cache.isGroup = widget.groupExists;
 
-            avatar = avatarWidget(cache);
+            return avatarWidget(cache);
+//            avatar = avatarWidget(cache);
 
 //            avatar = AvatarDisplay(
 //              userPhoneNo: friendNumber,
@@ -212,34 +219,53 @@ class ChatListDisplay extends StatelessWidget {
 //              cache: cache,
 //            );
 //            imageURL = avatar.imageUrl;
-            print("imageURL before after: $imageURL");
-            return avatar;
+//            print("imageURL before avatar: $imageURL");
+//            return avatar;
 
 
 //            return DisplayAvatar(imageUrl: imageURL)
 //                .displayAvatarFromProfilePictures(friendNumber, radius, innerRadius,
 //                false, chatListCache, conversationId, cache);
           }
-          return DisplayAvatar().avatarPlaceholder(radius, innerRadius);
+          return DisplayAvatar().avatarPlaceholder(widget.radius, widget.innerRadius);
         },
       );
     }
   }
 
-
-  avatarWidget(ChatListCache cache) {
-    AvatarDisplay result = new AvatarDisplay(
-      userPhoneNo: friendNumber,
-      radius: radius,
-      innerRadius: innerRadius,
+  AvatarDisplay avatarWidget(ChatListCache cache){
+    return AvatarDisplay(
+      userPhoneNo: widget.friendNumber,
+      radius: widget.radius,
+      innerRadius: widget.innerRadius,
       isFirstTime: false,
-      chatListCache: chatListCache,
-      conversationId: conversationId,
+      chatListCache: widget.chatListCache,
+      conversationId: widget.conversationId,
       cache: cache,
+      imageUrl: (setImageURL){
+//        setState(() {
+          widget.imageURL = setImageURL;
+//        });
+      },
     );
-    imageURL = result.imageUrl;
-    print("imageURL in avatarWidget : $imageURL");
+//    AvatarDisplay result = new AvatarDisplay(
+//      userPhoneNo: friendNumber,
+//      radius: radius,
+//      innerRadius: innerRadius,
+//      isFirstTime: false,
+//      chatListCache: chatListCache,
+//      conversationId: conversationId,
+//      cache: cache,
+//    );
+//
+//    imageURL = result.imageUrl;
+//    print("imageURL in avatarWidget : $imageURL");
+//
+//    return result;
 
-    return result;
+//    imageURL = await AvatarData(myNumber: myNumber).getStream();
+//    print("imageURL in avatarWidget : $imageURL");
+//
+//    return AvatarDisplay();
   }
 }

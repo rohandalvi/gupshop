@@ -7,10 +7,7 @@ import 'package:gupshop/deleteFromFirebase/deleteHelper.dart';
 import 'package:gupshop/deleteFromFirebase/deleteMembersFromGroup.dart';
 import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
 import 'package:gupshop/service/conversationDetails.dart';
-import 'package:gupshop/widgets/customDialogBox.dart';
 import 'package:gupshop/widgets/customDismissible.dart';
-import 'package:gupshop/widgets/customFlushBar.dart';
-import 'package:gupshop/widgets/customText.dart';
 
 class ChatListData extends StatefulWidget {
   List<DocumentSnapshot> list;

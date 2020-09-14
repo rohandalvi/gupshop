@@ -78,7 +78,8 @@ class ConversationService{
 
 
   void paginate() {
-    Firestore.instance.collection("conversations").document(conversationId).collection("messages").startAfterDocument(startBefore).orderBy("timeStamp", descending: true).limit(PAGINATION_LIMIT).snapshots().listen((event) {
+    Firestore.instance.collection("conversations").document(conversationId).collection("messages")
+        .startAfterDocument(startBefore).orderBy("timeStamp", descending: true).limit(PAGINATION_LIMIT).snapshots().listen((event) {
       if(event.documents.isNotEmpty) {
         startBefore = event.documents[event.documents.length - 1];
         streamController.add(event);

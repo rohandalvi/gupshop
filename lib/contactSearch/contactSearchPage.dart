@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -27,17 +28,17 @@ class _ContactSearchPageState extends State<ContactSearchPage> {
     return Stack(
       children: <Widget>[
         ContactSearch(userPhoneNo: widget.userPhoneNo, userName: widget.userName, data: widget.data,),
-        showButton() /// would show only if one or more contact is selected
+        showButton(context) /// would show only if one or more contact is selected
       ],
     );
   }
 
-  showButton(){
+  showButton(BuildContext context){
     return Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-          height: 100,/// to increase the size of floatingActionButton use container along with FittedBox
-          width: 100,
+          height: WidgetConfig.hundredHeight,/// to increase the size of floatingActionButton use container along with FittedBox
+          width: WidgetConfig.hundredWidth,
           child: FittedBox(
             child: CustomFloatingActionButton(
               child: IconButton(
@@ -56,7 +57,7 @@ class _ContactSearchPageState extends State<ContactSearchPage> {
                 /// called and we will get a refreshed list.
                 /// After navigating to contact_Search we again need to come back to this page, so we are
                 /// using another naviagator navigateToContactSearchPage for that
-                CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts();
+                CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts(context);
                 CustomNavigator().navigateToContactSearch(context, widget.userName, widget.userPhoneNo, null);
                 CustomNavigator().navigateToContactSearchPage(context, widget.userName, widget.userPhoneNo, null);
 //               setState(() {

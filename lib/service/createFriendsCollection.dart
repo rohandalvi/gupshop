@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gupshop/service/getContactsFromUserPhone.dart';
-import 'package:gupshop/service/getContactsPermission.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:gupshop/contacts/getContactsPermission.dart';
+
+
 
 
 class CreateFriendsCollection{
@@ -17,10 +17,15 @@ class CreateFriendsCollection{
   /// From Iterable contacts we get a list of user's  phone contacts.
   /// Now  we need to compare those contacts with the users we have for our app and get a union.
   /// Now we need to add that union of users to his friends_number collection
-  getUnionContacts()async{
-    Iterable<Contact> contacts = await _getContactsFromUserPhone();
-    //print("contacts list: $contacts");
-    return await _loopThroughEachContactToFindUnion(contacts);
+  getUnionContacts(BuildContext context)async{
+    /// 1st check if the user has granted the permission:
+    var permissionGranted = await _getContactsFromUserPhone(context);
+
+    /// if the persmission is granted, then only do the further work
+    if(permissionGranted != null){
+      Iterable<Contact> contacts = await _getContactsFromUserPhone(context);
+      return await _loopThroughEachContactToFindUnion(contacts);
+    }
   }
 
 
@@ -31,14 +36,8 @@ class CreateFriendsCollection{
   /// (from GetContactsPermission())
   /// Access contacts and get contacts using ContactService and put them
   /// in a array(from GetContactsFromUserPhone())
-  _getContactsFromUserPhone() async{
-    PermissionStatus permission = await GetContactsPermission().getPermission();
-    //Accessing contacts only if we have permission
-    if(permission == PermissionStatus.granted){
-      return await GetContactsFromUserPhone().getContacts();
-    } else {
-      //ToDo
-    }
+  _getContactsFromUserPhone(BuildContext context) async{
+    return await GetContactsPermission().handlePermissons(context);
   }
 
   List<List<String>> listOfNames = new List();
@@ -80,11 +79,6 @@ class CreateFriendsCollection{
   _getCommonContacts(String number) async{
     DocumentSnapshot documentSnapshot = await Firestore.instance.collection("users").document(number).get();
     Map isValid = documentSnapshot.data;
-
-//    print("number in _getCommonContacts : $number");
-//    String firebaseNumber = Firestore.instance.collection("users").document(number).documentID;
-//    print("what is this: ${Firestore.instance.collection("users").document(number).get()}");
-//    print("firebaseNumber: $firebaseNumber");
 
     if(isValid == null) {
       print("not a friend");

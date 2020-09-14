@@ -53,7 +53,7 @@ class ChatListState extends State<ChatList> {
     /// to create the friends collection everytime user starts the app
     /// *** this might be getting triggred everytime the user comes to the
     /// chat_list page. Check it @todo
-    CreateFriendsCollection(userName: myName, userPhoneNo: myNumber,).getUnionContacts();
+    CreateFriendsCollection(userName: myName, userPhoneNo: myNumber,).getUnionContacts(context);
     chatListCache = ChatListSingleton().getChatListCacheMap();
     super.initState();
   }

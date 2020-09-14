@@ -3,20 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/group/changeGroupName.dart';
+import 'package:gupshop/navigators/navigateToHome.dart' as homeNavigator;
 import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
 import 'package:gupshop/updateInFirebase/updateConversationMetadata.dart';
-import 'package:gupshop/group/createGroup.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/deleteFromFirebase/deleteMembersFromGroup.dart';
 import 'package:gupshop/service/getConversationDetails.dart';
 import 'package:gupshop/service/getGroupMemberNames.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
-import 'package:gupshop/widgets/customDismissible.dart';
-import 'package:gupshop/widgets/customFloatingActionButton.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
-import 'package:gupshop/widgets/customTextFormField.dart';
 
 class ShowGroupMembers extends StatefulWidget {
   String userNumber;
@@ -117,11 +113,14 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
                     }
 
                     if(widget.isGroup == true){
-                      DeleteMembersFromGroup().deleteAGroupMember(widget.userNumber, widget.conversationId);
-                      DeleteMembersFromGroup().deleteFromFriendsCollection(widget.userNumber, widget.conversationId);
-                      setState(() {
-                        bool removed = widget.listOfGroupMemberNumbers.remove(widget.userNumber);
+                      await DeleteMembersFromGroup().deleteAGroupMember(widget.userNumber, widget.conversationId);
+                      await DeleteMembersFromGroup().deleteFromFriendsCollection(widget.userNumber, widget.conversationId);
+                      setState((){
+                        widget.listOfGroupMemberNumbers.remove(widget.userNumber);
                       });
+
+                      /// naviagte the user to home page for exiting:
+                      homeNavigator.NavigateToHome(initialIndex: 0).navigateNoBrackets(context);
                     }
                   },
                 ),

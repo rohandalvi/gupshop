@@ -12,6 +12,7 @@ import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getMessageSavedStatusFromFirebase.dart';
 import 'package:gupshop/image/fullScreenPictureVideos.dart';
+import 'package:gupshop/timestamp/timeDisplay.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -259,15 +260,16 @@ class _BodyDisplayState extends State<BodyDisplay> {
         fromName:  CustomText(text: widget.fromNameForGroup,
           fontSize: TextConfig.fontSizeTwelve,),
         isMe: widget.isMe,
-        timeStamp:Text(//time
-          DateFormat("dd MMM kk:mm")
-              .format(DateTime.fromMillisecondsSinceEpoch(
-              int.parse(widget.timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
-          style: TextStyle(
-              color: Colors.grey, fontSize: TextConfig.fontSizeTwelve,
-              fontStyle: FontStyle.italic
-          ),
-        ),
+        timeStamp: TimeDisplay(timeStamp: widget.timeStamp,),
+//        Text(//time
+//          DateFormat("dd MMM kk:mm")
+//              .format(DateTime.fromMillisecondsSinceEpoch(
+//              int.parse(widget.timeStamp.millisecondsSinceEpoch.toString()))),//converting firebase timestamp to pretty print
+//          style: TextStyle(
+//              color: Colors.grey, fontSize: TextConfig.fontSizeTwelve,
+//              fontStyle: FontStyle.italic
+//          ),
+//        ),
       ),
     );
   }

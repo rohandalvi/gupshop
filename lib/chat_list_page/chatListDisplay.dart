@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/chat_list_page/avatarData.dart';
 import 'package:gupshop/chat_list_page/avatarDisplay.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/subtitleDataAndDisplay.dart';
@@ -47,10 +46,9 @@ class ChatListDisplay extends StatefulWidget {
 
 class _ChatListDisplayState extends State<ChatListDisplay> {
   bool groupDeleted;
-
-/// 27
-
   AvatarDisplay avatar;
+
+
   @override
   Widget build(BuildContext context) {
     return ListTile( ///main widget that creates the message box
@@ -99,7 +97,6 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
   }
 
   cacheAvatar(){
-    //print("cache in cacheAvatar : ${chatListCache["vI42xysaLTh2tygLyKaD"].isGroup}");
     return widget.chatListCache[widget.conversationId].circleAvatar;
   }
 
@@ -207,25 +204,6 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
             cache.isGroup = widget.groupExists;
 
             return avatarWidget(cache);
-//            avatar = avatarWidget(cache);
-
-//            avatar = AvatarDisplay(
-//              userPhoneNo: friendNumber,
-//              radius: radius,
-//              innerRadius: innerRadius,
-//              isFirstTime: false,
-//              chatListCache: chatListCache,
-//              conversationId: conversationId,
-//              cache: cache,
-//            );
-//            imageURL = avatar.imageUrl;
-//            print("imageURL before avatar: $imageURL");
-//            return avatar;
-
-
-//            return DisplayAvatar(imageUrl: imageURL)
-//                .displayAvatarFromProfilePictures(friendNumber, radius, innerRadius,
-//                false, chatListCache, conversationId, cache);
           }
           return DisplayAvatar().avatarPlaceholder(widget.radius, widget.innerRadius);
         },
@@ -243,29 +221,8 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
       conversationId: widget.conversationId,
       cache: cache,
       imageUrl: (setImageURL){
-//        setState(() {
           widget.imageURL = setImageURL;
-//        });
       },
     );
-//    AvatarDisplay result = new AvatarDisplay(
-//      userPhoneNo: friendNumber,
-//      radius: radius,
-//      innerRadius: innerRadius,
-//      isFirstTime: false,
-//      chatListCache: chatListCache,
-//      conversationId: conversationId,
-//      cache: cache,
-//    );
-//
-//    imageURL = result.imageUrl;
-//    print("imageURL in avatarWidget : $imageURL");
-//
-//    return result;
-
-//    imageURL = await AvatarData(myNumber: myNumber).getStream();
-//    print("imageURL in avatarWidget : $imageURL");
-//
-//    return AvatarDisplay();
   }
 }

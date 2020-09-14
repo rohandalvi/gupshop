@@ -26,9 +26,6 @@ class ProfilePictureAndButtonsScreen extends StatefulWidget {
   String groupConversationId;
   Map<String, ChatListCache> chatListCache;
   String conversationId;
-  //bool displayPicture;
-  //bool applyButtons;
-  //bool allowListView;
 
   ProfilePictureAndButtonsScreen({this.userPhoneNo, this.imageUrl, this.height, this.width, this.userName,
     this.viewingFriendsProfile, this.groupConversationId, this.chatListCache, this.conversationId});
@@ -179,7 +176,6 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
                   }
                   else{
                     await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, tempImage);
-                    print("in onPressed of showPictureAndChangeButton: $userName");
                     CustomNavigator().navigateToHome(context, userName, userPhoneNo);
                   }
                   widget.chatListCache.remove(widget.conversationId);

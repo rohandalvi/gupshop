@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gupshop/contacts/getContactsPermission.dart';
+import 'package:gupshop/contacts/contactsPermissionHandler.dart';
 
 
 
@@ -37,7 +37,7 @@ class CreateFriendsCollection{
   /// Access contacts and get contacts using ContactService and put them
   /// in a array(from GetContactsFromUserPhone())
   _getContactsFromUserPhone(BuildContext context) async{
-    return await GetContactsPermission().handlePermissons(context);
+    return await ContactsPermissionHandler().handlePermissons(context);
   }
 
   List<List<String>> listOfNames = new List();

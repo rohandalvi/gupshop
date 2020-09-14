@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/image/imageVideoPermissionHandler.dart';
 import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
-import 'package:gupshop/service/videoPicker.dart';
+import 'package:gupshop/video/pickVideoFromCamera.dart';
+import 'package:gupshop/video/pickVideoFromGallery.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
@@ -103,13 +105,17 @@ class _VideoPlayerAndSelectOptionsState extends State<VideoPlayerAndSelectOption
 
   /// used in setVideoFromGallery(),
   _pickVideoFromGallery() async{
-    File _video = await VideoPicker().pickVideoFromGallery();
-    widget.video = _video;
-    String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(widget.video, widget.userPhoneNo, null);
-    setState(() {
-      widget.videoURL = url;
-      widget.videoSelected = true;
-    });
+    var permission = ImageVideoPermissionHandler().handleGalleryPermissions(context);
+    if(permission == true){
+      File _video = await PickVideoFromGallery().pick();
+      widget.video = _video;
+      String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(widget.video, widget.userPhoneNo, null);
+      setState(() {
+        widget.videoURL = url;
+        widget.videoSelected = true;
+      });
+    }
+
   }
 
   setVideoFromCamera(){
@@ -122,12 +128,16 @@ class _VideoPlayerAndSelectOptionsState extends State<VideoPlayerAndSelectOption
   }
 
   _pickVideoFromCamer() async{
-    File _video = await VideoPicker().pickVideoFromCamer();
-    widget.cameraVideo = _video;
-    String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(widget.cameraVideo, widget.userPhoneNo, null);
-    setState(() {
-      widget.videoURL = url;
-      widget.videoSelected = true;
-    });
-  }
+    var permission = ImageVideoPermissionHandler().handleCameraPermissions(context);
+    if(permission == true){
+      File _video = await PickVideoFromCamera().pick();
+      widget.cameraVideo = _video;
+      String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(widget.cameraVideo, widget.userPhoneNo, null);
+      setState(() {
+        widget.videoURL = url;
+        widget.videoSelected = true;
+      });
+    }
+    }
+
 }

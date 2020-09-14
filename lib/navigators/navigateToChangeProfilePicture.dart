@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/modules/Presence.dart';
-import 'package:gupshop/screens/changeProfilePicture.dart';
+import 'package:gupshop/image/changeProfilePicture.dart';
 import 'package:gupshop/service/conversation_service.dart';
 
 class NavigateChangeProfilePicture{

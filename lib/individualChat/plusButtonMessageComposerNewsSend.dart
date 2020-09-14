@@ -11,9 +11,9 @@ import 'package:gupshop/individualChat/cameraImagePickCropCreateData.dart';
 import 'package:gupshop/individualChat/cameraVideoPickCreateData.dart';
 import 'package:gupshop/individualChat/galleryImagePickCropCreateData.dart';
 import 'package:gupshop/individualChat/galleryVideoPickCreateData.dart';
-import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/individualChat/locationData.dart';
 import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsCollection.dart';
+import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/models/message.dart';
 import 'package:gupshop/models/text_message.dart';
@@ -74,7 +74,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               firstIconAndTextOnPressed: () async{
                 Navigator.pop(context);
                 String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'imageURL',).saveAndGenerateId();
-                Map<String, dynamic> conversationCollectionData = await GalleryImagePickCropCreateData().main(widget.userName, widget.userPhoneNo, widget.conversationId, messageId);
+                Map<String, dynamic> conversationCollectionData = await GalleryImagePickCropCreateData().main(context,widget.userName, widget.userPhoneNo, widget.conversationId, messageId);
                 Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(), messageId: messageId).forImageMessage();
                 PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers:widget.listOfFriendNumbers,
                     conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo,
@@ -89,7 +89,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
                 /// create data to push to conversation and recentchats collection
                 Navigator.pop(context);
                 String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'imageURL',).saveAndGenerateId();
-                Map<String, dynamic> conversationCollectionData = await CameraImagePickCropCreateData().main(widget.userName, widget.userPhoneNo, widget.conversationId, messageId);
+                Map<String, dynamic> conversationCollectionData = await CameraImagePickCropCreateData().main(context,widget.userName, widget.userPhoneNo, widget.conversationId, messageId);
                 Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
                     fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
                     messageId: messageId).forImageMessage();
@@ -103,7 +103,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               thirdIconAndTextOnPressed: () async{
                 Navigator.pop(context);
                 String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'videoURL',).saveAndGenerateId();
-                Map<String, dynamic> conversationCollectionData = await GalleryVideoPickCreateData(userName: widget.userName, userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId, messageId: messageId).main();
+                Map<String, dynamic> conversationCollectionData = await GalleryVideoPickCreateData(userName: widget.userName, userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId, messageId: messageId).main(context);
                 Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(), messageId: messageId).forVideoMessage();
                 PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName, groupExits: widget.groupExits).push();
               },
@@ -112,7 +112,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               fourthIconAndTextOnPressed: () async{
                 Navigator.pop(context);
                 String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'videoURL',).saveAndGenerateId();
-                Map<String, dynamic> conversationCollectionData = await CameraVideoPickCreateData(userName: widget.userName, userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId, messageId:messageId).main();
+                Map<String, dynamic> conversationCollectionData = await CameraVideoPickCreateData(userName: widget.userName, userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId, messageId:messageId).main(context);
                 Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
                     fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
                     messageId: messageId).forVideoMessage();
@@ -121,21 +121,24 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               fifthIconName: 'location',
               fifthIconText: 'Send Current Location',
               fifthIconAndTextOnPressed: () async{
-                Navigator.pop(context);
-                String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'videoURL',).saveAndGenerateId();
-                Position location  = await LocationService().getLocation();//setting user's location
+                /// first check if user has given permission to access location
+                var permission = LocationPermissionHandler().handlePermissions(context);
+                if(permission == true){
+                  Navigator.pop(context);
+                  String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'videoURL',).saveAndGenerateId();
+                  Position location  = await LocationService().getLocation();//setting user's location
 
-                Map<String, dynamic> conversationCollectionData = await LocationData(userName: widget.userName,
-                    userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId, messageId:messageId,
-                    location: location).main();
-                Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
-                    fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
-                    messageId: messageId, location: location).forLocationMessage();
-                PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers,
-                    conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo,
-                    conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName,
-                    groupExits: widget.groupExits).push();
-
+                  Map<String, dynamic> conversationCollectionData = await LocationData(userName: widget.userName,
+                      userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId, messageId:messageId,
+                      location: location).main();
+                  Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
+                      fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
+                      messageId: messageId, location: location).forLocationMessage();
+                  PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers,
+                      conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo,
+                      conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName,
+                      groupExits: widget.groupExits).push();
+                }
                 //sendLocation(location, messageId);
               },
 //              sixthIconName: 'locationPin',

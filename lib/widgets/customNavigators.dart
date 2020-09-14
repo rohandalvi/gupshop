@@ -4,7 +4,7 @@ import 'package:gupshop/bazaar/bazaarHome_screen.dart';
 import 'package:gupshop/news/newsComposer.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListData.dart';
 import 'package:gupshop/bazaarOnBoarding/bazaarProfilePage.dart';
-import 'package:gupshop/screens/changeProfilePicture.dart';
+import 'package:gupshop/image/changeProfilePicture.dart';
 import 'package:gupshop/contactSearch/contactSearchPage.dart';
 import 'package:gupshop/group/createGroupName_screen.dart';
 import 'package:gupshop/home/home.dart';

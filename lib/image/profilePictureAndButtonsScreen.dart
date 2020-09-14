@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/image/cropImage.dart';
+import 'package:gupshop/image/imageVideoPermissionHandler.dart';
 import 'package:gupshop/image/pickImageFromCamera.dart';
 import 'package:gupshop/image/pickImageFromGallery.dart';
 import 'package:gupshop/home/home.dart';
@@ -13,7 +14,7 @@ import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'dart:io';
 import 'package:image_cropper/image_cropper.dart';
 
-import 'custoImageCropper.dart';
+import '../service/custoImageCropper.dart';
 
 
 class ProfilePictureAndButtonsScreen extends StatefulWidget {
@@ -218,34 +219,44 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// if the user goes to the camera/gallery and doesnt pick any image then the varibale
   /// File tempImage would be null.
   _pickImageFromGallery(StateSetter setState) async{
-    File tempImage = await PickImageFromGallery().pick();
+    var permission = ImageVideoPermissionHandler().handleGalleryPermissions(context);
+    if(permission == true){
+      File tempImage = await PickImageFromGallery().pick();
 
-    File croppedImage = await CropImage().crop(tempImage);
+      File croppedImage = await CropImage().crop(tempImage);
 
-    setState((){
-      if(tempImage != null){
-        _galleryImage= croppedImage;
-      }
-    });
+      setState((){
+        if(tempImage != null){
+          _galleryImage= croppedImage;
+        }
+      });
 
-    return _galleryImage;
+      return _galleryImage;
+    }
+
   }
 
 
   /// This funcion will helps you to pick and Image from Camera
   _pickImageFromCamer(StateSetter setState) async{
-    File tempImage = await PickImageFromCamera().pick();
+    var permission = ImageVideoPermissionHandler().handleCameraPermissions(context);
+    if(permission == true){
+      File tempImage = await PickImageFromCamera().pick();
 
-    File croppedImage = await CropImage().crop(tempImage);
+      File croppedImage = await CropImage().crop(tempImage);
 
-    setState(() {
-      if(tempImage != null){
-        _cameraImage= croppedImage;
-      }
-    });
+      setState(() {
+        if(tempImage != null){
+          _cameraImage= croppedImage;
+        }
+      });
 
-    return _cameraImage;
+      return _cameraImage;
+    }
+
   }
+
+
 }
 
 

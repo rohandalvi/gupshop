@@ -22,7 +22,6 @@ class LocationService {
   static const double LATITUDE = 0.0144927536231884; /// degrees latitude per mile
   static const LONGITUDE = 0.0181818181818182; /// degrees longitude per mile
 
-//  LocationService({this.distance});
 
   Geoflutterfire geo = Geoflutterfire();
 

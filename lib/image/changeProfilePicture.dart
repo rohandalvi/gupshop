@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
-import 'package:gupshop/service/profilePictureAndButtonsScreen.dart';
+import 'package:gupshop/image/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

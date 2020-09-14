@@ -49,6 +49,11 @@ class WidgetConfig{
   static double threeSixtyWidth = SizeConfig.widthMultiplier * 84;/// 360/4.32
 
 
+  /// int values
+  static int fiveHundredTwelveWidth = (SizeConfig.widthMultiplier * 118.518518519).toInt();/// 512/4.32
+  static int fiveHundredTwelveHeight = (SizeConfig.widthMultiplier * 62.7450980392).toInt();/// 512/8.16
+
+
 
   /// flushbar
   static double flushbarBorderRadiusEight = SizeConfig.widthMultiplier * 1.85;/// 8/4.32

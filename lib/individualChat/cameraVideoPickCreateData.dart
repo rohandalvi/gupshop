@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:gupshop/image/imageVideoPermissionHandler.dart';
 import 'package:gupshop/models/message.dart';
 import 'package:gupshop/models/video_message.dart';
 import 'package:gupshop/video/createVideoURL.dart';
@@ -13,7 +15,7 @@ class CameraVideoPickCreateData{
 
   CameraVideoPickCreateData({this.conversationId, this.userPhoneNo, this.userName, this.messageId});
 
-  main() async{
+  main(BuildContext context) async{
     /// to make the user go to individualChat screen with no bottom bar open
     /// we have to make sure that Navigator.pop(context); is used so that
     /// when the user clicks pick image from camera(or any other option),
@@ -21,10 +23,14 @@ class CameraVideoPickCreateData{
     int numberOfImageInConversation= 0;
     numberOfImageInConversation++;
 
-    File video = await PickVideoFromCamera().pick();
+    var permission = ImageVideoPermissionHandler().handleCameraPermissions(context);
+    if(permission == true){
+      File video = await PickVideoFromCamera().pick();
 
-    String videoURL = await CreateVideoURL().create(video, userPhoneNo, numberOfImageInConversation);
-    IMessage message = new VideoMessage(fromName:userName, fromNumber:userPhoneNo, conversationId:conversationId, timestamp:Timestamp.now(), videoURL:videoURL, messageId: messageId);
-    return message.fromJson();
+      String videoURL = await CreateVideoURL().create(video, userPhoneNo, numberOfImageInConversation);
+      IMessage message = new VideoMessage(fromName:userName, fromNumber:userPhoneNo, conversationId:conversationId, timestamp:Timestamp.now(), videoURL:videoURL, messageId: messageId);
+      return message.fromJson();
+    }
+
   }
 }

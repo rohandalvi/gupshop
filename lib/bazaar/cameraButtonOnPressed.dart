@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarWalasBasicProfileCollection.dart';
 import 'package:gupshop/bazaar/cameraImagePickCropCreateURL.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
+
 
 class CameraButtonOnPressed{
   String categoryData;
@@ -11,7 +11,7 @@ class CameraButtonOnPressed{
   CameraButtonOnPressed({this.subCategoryDataList, this.categoryData});
 
   thumbnailPicture(BuildContext context) async {
-    String imageURL = await CameraImagePickCropCreateURL().pickCropReturnURL();
+    String imageURL = await CameraImagePickCropCreateURL().pickCropReturnURL(context);
 
     /// push to bazaarWalasBasicProfile collection:
     String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
@@ -30,7 +30,7 @@ class CameraButtonOnPressed{
 
 
   otherPictureOne(BuildContext context) async {
-    String imageURL = await CameraImagePickCropCreateURL().pickCropReturnURL();
+    String imageURL = await CameraImagePickCropCreateURL().pickCropReturnURL(context);
 
     /// push to bazaarWalasBasicProfile collection:
     String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
@@ -48,7 +48,7 @@ class CameraButtonOnPressed{
 
 
   otherPictureTwo(BuildContext context) async {
-    String imageURL = await CameraImagePickCropCreateURL().pickCropReturnURL();
+    String imageURL = await CameraImagePickCropCreateURL().pickCropReturnURL(context);
 
     /// push to bazaarWalasBasicProfile collection:
     String userPhoneNo = await UserDetails().getUserPhoneNoFuture();

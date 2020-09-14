@@ -12,7 +12,7 @@ class GalleryButtonOnPressed{
 
 
     thumbnailPicture(BuildContext context) async {
-        String imageURL = await GalleryImagePickCropCreateURL().pickCropReturnURL();
+        String imageURL = await GalleryImagePickCropCreateURL().pickCropReturnURL(context);
 
         /// push to bazaarWalasBasicProfile collection:
 
@@ -31,7 +31,7 @@ class GalleryButtonOnPressed{
     }
 
     otherPictureOne(BuildContext context) async {
-      String imageURL = await GalleryImagePickCropCreateURL().pickCropReturnURL();
+      String imageURL = await GalleryImagePickCropCreateURL().pickCropReturnURL(context);
 
       /// push to bazaarWalasBasicProfile collection:
 
@@ -49,7 +49,7 @@ class GalleryButtonOnPressed{
     }
 
     otherPictureTwo(BuildContext context) async {
-      String imageURL = await GalleryImagePickCropCreateURL().pickCropReturnURL();
+      String imageURL = await GalleryImagePickCropCreateURL().pickCropReturnURL(context);
 
       /// push to bazaarWalasBasicProfile collection:
 

@@ -5,6 +5,7 @@ import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryNameDpBuilder.dar
 import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
 import 'package:gupshop/bazaarCategory/noSubcategoryText.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToAddressList.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
@@ -66,19 +67,24 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
 
   getListOfBazaarWalasInAGivenRadius() async{
-    String userNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
-    userPhoneNo = userNo;
 
-    /// if the user does not change location, then userGeohash
-    /// would be null
-    /// In that case, select the geoHash pushed to firebase
-    /// in bazaarHome page which is the current location of the user
-    if(widget.userGeohash  == null){
-      widget.userGeohash = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getUserGeohash(userPhoneNo);
+    /// first check if user has given permission to access location
+    var permission = LocationPermissionHandler().handlePermissions(context);
+    if(permission == true){
+      String userNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
+      userPhoneNo = userNo;
+
+      /// if the user does not change location, then userGeohash
+      /// would be null
+      /// In that case, select the geoHash pushed to firebase
+      /// in bazaarHome page which is the current location of the user
+      if(widget.userGeohash  == null){
+        widget.userGeohash = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getUserGeohash(userPhoneNo);
+      }
+
+      var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getListOfBazaarWalasInAGivenRadius(userPhoneNo, widget.categoryData, widget.userGeohash);
+      return listOfbazaarwalas;
     }
-
-    var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getListOfBazaarWalasInAGivenRadius(userPhoneNo, widget.categoryData, widget.userGeohash);
-    return listOfbazaarwalas;
   }
 
 
@@ -237,17 +243,21 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
     return CustomIconButton(
       iconNameInImageFolder: 'location',
       onPressed: () async{
-        //bool showBackButton = false;
-        String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
-        String tempHash = await ChangeLocationInSearch(
-            userNumber: userPhoneNo)
-            .getNewUserGeohash(context);
+        /// first check if user has given permission to access location
+        var permission = LocationPermissionHandler().handlePermissions(context);
+        if(permission == true){
+          //bool showBackButton = false;
+          String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+          String tempHash = await ChangeLocationInSearch(
+              userNumber: userPhoneNo)
+              .getNewUserGeohash(context);
 
-        String tempAddressName = await UsersLocation().getAddress(userPhoneNo, tempHash);
-        setState(() {
-          widget.userGeohash = tempHash;
-          widget.addressName = tempAddressName;
-        });
+          String tempAddressName = await UsersLocation().getAddress(userPhoneNo, tempHash);
+          setState(() {
+            widget.userGeohash = tempHash;
+            widget.addressName = tempAddressName;
+          });
+        }
       },
     );
   }

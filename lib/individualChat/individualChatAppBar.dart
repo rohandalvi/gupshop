@@ -4,7 +4,7 @@ import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
-import 'package:gupshop/screens/changeProfilePicture.dart';
+import 'package:gupshop/image/changeProfilePicture.dart';
 import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';

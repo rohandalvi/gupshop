@@ -11,6 +11,7 @@ import 'package:gupshop/bazaar/categories.dart';
 import 'package:gupshop/bazaarCategory/homeServiceText.dart';
 import 'package:gupshop/bazaarOnBoarding/pushSubCategoriesToFirebase.dart';
 import 'package:gupshop/bazaarOnBoarding/serviceAtHomeUI.dart';
+import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
@@ -126,19 +127,15 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
   ///   if yes, then we dont set aSubCategoryData as any subCategory which
   ///   has been newly added
   getASubcategoryName(){
-    print("widget.addListData : ${widget.addListData}");
     String aSubCategoryData = widget.listOfSubCategoriesForData[0];
 
     if(widget.addListData != null){
-      print("in if");
       for(int i = 0; i<widget.listOfSubCategoriesForData.length; i++){
-        print("widget.listOfSubCategoriesForData[i] : ${widget.listOfSubCategoriesForData[i]}");
         if(widget.addListData.contains(widget.listOfSubCategoriesForData[i]) == false){
           return widget.listOfSubCategoriesForData[i];
         }
       }
     }else {
-      print("in else");
       return aSubCategoryData;
     }
   }
@@ -244,31 +241,33 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
           child: CustomRaisedButton(
             child: CustomText(text: 'Tap to add location and service area',),
             onPressed: () async{
-              LocationData locationTemp;
-              var currentLocation = new Location();
-              locationTemp = await currentLocation.getLocation();
+              /// first check if user has given permission to access location
+              var permission = LocationPermissionHandler().handlePermissions(context);
+              if(permission == true){
+                LocationData locationTemp;
+                var currentLocation = new Location();
+                locationTemp = await currentLocation.getLocation();
 
-              //Position location  = await LocationService().getLocation();
+                List list = await NavigateToCustomMap(
+                  latitude: locationTemp.latitude,
+                  longitude: locationTemp.longitude,
+                  showRadius: true,
+                ).navigateNoBrackets(context);
 
-              List list = await NavigateToCustomMap(
-                latitude: locationTemp.latitude,
-                longitude: locationTemp.longitude,
-                showRadius: true,
-              ).navigateNoBrackets(context);
+                /// list[0] = location
+                /// list[1] = radius
+                locationFromMap = list[0];
+                radius = list[1];
 
-              /// list[0] = location
-              /// list[1] = radius
-              locationFromMap = list[0];
-              radius = list[1];
+                location = locationFromMap;
+                locationChanged = true;
 
-              location = locationFromMap;
-              locationChanged = true;
-
-              /// setState to make the locationNotNull = true so that
-              /// showLocation() becomes visible
-              setState(() {
-                locationNotNull = true;
-              });
+                /// setState to make the locationNotNull = true so that
+                /// showLocation() becomes visible
+                setState(() {
+                  locationNotNull = true;
+                });
+              }
             },
           ).elevated(),
         ),

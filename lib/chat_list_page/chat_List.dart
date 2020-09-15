@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/chatListData.dart';
 import 'package:gupshop/chat_list_page/chatListSingleton.dart';
+import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/showMessageForFirstConversation.dart';
+import 'package:gupshop/widgets/customText.dart';
 
 
 //chatList => individualChat
@@ -74,26 +76,31 @@ class ChatListState extends State<ChatList> {
   Widget build(BuildContext context) {
     return WillPopScope(/// to restrict user to go back to name_screen
       onWillPop: () async => false,/// a required for WillPopScope
-      child: Material(
-        child: StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance.collection("recentChats").document(
-                myNumber).collection("conversations").orderBy("timeStamp", descending: true).snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.data == null) return Center(child: CircularProgressIndicator());///to avoid error - "getter document was called on null"
+      child: RefreshIndicator(
+        onRefresh: (){
+          return NavigateToHome().navigateNoBrackets(context);
+        },
+        child: Material(
+          child: StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance.collection("recentChats").document(
+                  myNumber).collection("conversations").orderBy("timeStamp", descending: true).snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.data == null) return Center(child: CircularProgressIndicator());///to avoid error - "getter document was called on null"
 
-              if(snapshot.data.documents.length == 0){/// to show new conversation button
-                return ifNoConversationSoFar();
+                if(snapshot.data.documents.length == 0){/// to show new conversation button
+                  return ifNoConversationSoFar();
+                }
+
+                return ChatListData(
+                  chatListCache: chatListCache,
+                  list: snapshot.data.documents,
+                  myNumber: myNumber,
+                  notAGroupMemberAnymore: notAGroupMemberAnymore,
+                  groupExists: groupExists,
+                  myName: myName,
+                );
               }
-
-              return ChatListData(
-                chatListCache: chatListCache,
-                list: snapshot.data.documents,
-                myNumber: myNumber,
-                notAGroupMemberAnymore: notAGroupMemberAnymore,
-                groupExists: groupExists,
-                myName: myName,
-              );
-            }
+          ),
         ),
       ),
     );

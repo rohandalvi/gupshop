@@ -31,6 +31,7 @@ class CustomFlushBar extends StatelessWidget {
   }
 
   showFlushBarStopHand(){
+    print("in showFlushBarStopHand");
     return Flushbar( /// for the flushBar if the user enters wrong verification code
       icon: SvgPicture.asset(
         'images/stopHand.svg',

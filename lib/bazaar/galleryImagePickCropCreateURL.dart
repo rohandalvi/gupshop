@@ -12,7 +12,7 @@ class GalleryImagePickCropCreateURL{
   GalleryImagePickCropCreateURL({this.userPhoneNo});
 
   pickCropReturnURL(BuildContext context) async{
-    var permission = ImageVideoPermissionHandler().handleGalleryPermissions(context);
+    var permission = await ImageVideoPermissionHandler().handleGalleryPermissions(context);
     if(permission == true){
       File image = await PickImageFromGallery().pick();/// pick
       if(image == null) return null;

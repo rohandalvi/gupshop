@@ -5,9 +5,7 @@ import 'package:gupshop/individualChat/bodyDisplay.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
-import 'package:gupshop/news/newsLinkPlaceholder.dart';
 import 'package:video_player/video_player.dart';
-import 'package:gupshop/links/linkDIsplayUIData.dart';
 
 
 
@@ -82,16 +80,12 @@ class BodyData extends StatelessWidget {
         /// stored as true in the map and next time when this screen is called
         /// if the message is true then the future call for messageReadUnread
         /// collection will not be made.
-//        if(readCache[messageId] == null){
-//          readCache[messageId] = false;
-//        }else if(readCache.containsKey(messageId)== false){
-//          readCache[messageId] = false;
-//        }
 
         if(newsId == null){
           if(documentList[index].data["videoURL"] != null){
             videoURL = documentList[index].data["videoURL"];
             controller = VideoPlayerController.network(videoURL);
+            print("video fetched for display");
           }
           else if(documentList[index].data["imageURL"] == null){
             messageBody = documentList[index].data["body"];
@@ -109,12 +103,6 @@ class BodyData extends StatelessWidget {
           /// stored as true in the map and next time when this screen is called
           /// if the message is true then the future call for messageReadUnread
           /// collection will not be made.
-//          if(readCache[messageId] == null){
-//            readCache[messageId] = false;
-//          }else if(readCache.containsKey(messageId)== false){
-//            readCache[messageId] = false;
-//          }
-
           return BodyDisplay(
             individualChatCache: individualChatCache,
             readCache: readCache,

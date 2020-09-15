@@ -219,7 +219,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   /// if the user goes to the camera/gallery and doesnt pick any image then the varibale
   /// File tempImage would be null.
   _pickImageFromGallery(StateSetter setState) async{
-    var permission = ImageVideoPermissionHandler().handleGalleryPermissions(context);
+    var permission = await ImageVideoPermissionHandler().handleGalleryPermissions(context);
     if(permission == true){
       File tempImage = await PickImageFromGallery().pick();
 
@@ -239,7 +239,7 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
 
   /// This funcion will helps you to pick and Image from Camera
   _pickImageFromCamer(StateSetter setState) async{
-    var permission = ImageVideoPermissionHandler().handleCameraPermissions(context);
+    var permission = await ImageVideoPermissionHandler().handleCameraPermissions(context);
     if(permission == true){
       File tempImage = await PickImageFromCamera().pick();
 

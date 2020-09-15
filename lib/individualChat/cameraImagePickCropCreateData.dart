@@ -15,7 +15,7 @@ class CameraImagePickCropCreateData{
     /// when the user clicks pick image from camera(or any other option),
     /// he is returned to individualChat with no bottom bar open
 
-    var permission = ImageVideoPermissionHandler().handleCameraPermissions(context);
+    var permission = await ImageVideoPermissionHandler().handleCameraPermissions(context);
     if(permission == true){
         File image = await PickImageFromCamera().pick();
         File croppedImage = await CropImage().crop(image);

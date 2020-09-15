@@ -69,7 +69,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
   getListOfBazaarWalasInAGivenRadius() async{
 
     /// first check if user has given permission to access location
-    var permission = LocationPermissionHandler().handlePermissions(context);
+    var permission = await LocationPermissionHandler().handlePermissions(context);
     if(permission == true){
       String userNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
       userPhoneNo = userNo;
@@ -244,7 +244,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
       iconNameInImageFolder: 'location',
       onPressed: () async{
         /// first check if user has given permission to access location
-        var permission = LocationPermissionHandler().handlePermissions(context);
+        var permission = await LocationPermissionHandler().handlePermissions(context);
         if(permission == true){
           //bool showBackButton = false;
           String userPhoneNo = await UserDetails().getUserPhoneNoFuture();

@@ -23,11 +23,11 @@ class CameraVideoPickCreateData{
     int numberOfImageInConversation= 0;
     numberOfImageInConversation++;
 
-    var permission = ImageVideoPermissionHandler().handleCameraPermissions(context);
+    var permission = await ImageVideoPermissionHandler().handleCameraPermissions(context);
     if(permission == true){
       File video = await PickVideoFromCamera().pick();
 
-      String videoURL = await CreateVideoURL().create(video, userPhoneNo, numberOfImageInConversation);
+      String videoURL = await CreateVideoURL().create(context,video, userPhoneNo, numberOfImageInConversation);
       IMessage message = new VideoMessage(fromName:userName, fromNumber:userPhoneNo, conversationId:conversationId, timestamp:Timestamp.now(), videoURL:videoURL, messageId: messageId);
       return message.fromJson();
     }

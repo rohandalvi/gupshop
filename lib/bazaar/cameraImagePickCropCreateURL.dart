@@ -12,7 +12,7 @@ class CameraImagePickCropCreateURL{
   CameraImagePickCropCreateURL({this.userPhoneNo});
 
   pickCropReturnURL(BuildContext context) async{
-    var permission = ImageVideoPermissionHandler().handleCameraPermissions(context);
+    var permission = await ImageVideoPermissionHandler().handleCameraPermissions(context);
     if(permission == true){
       File image = await PickImageFromCamera().pick();/// pick
       if(image == null) return null;

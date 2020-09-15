@@ -11,7 +11,7 @@ import 'package:gupshop/models/message.dart';
 class GalleryImagePickCropCreateData{
 
   main(BuildContext context,String userName, String userPhoneNo, String conversationId, String messageId) async{
-    var permission = ImageVideoPermissionHandler().handleGalleryPermissions(context);
+    var permission = await ImageVideoPermissionHandler().handleGalleryPermissions(context);
     if(permission == true){
       File image = await PickImageFromGallery().pick();/// pick
       File croppedImage = await CropImage().crop(image);/// crop

@@ -62,7 +62,7 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
   }
 
   _pickVideoFromGallery() async{
-    var permission = ImageVideoPermissionHandler().handleGalleryPermissions(context);
+    var permission = await ImageVideoPermissionHandler().handleGalleryPermissions(context);
     if(permission == true){
       File _video = await PickVideoFromGallery().pick();
       widget.video = _video;
@@ -76,7 +76,7 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
   }
 
   _pickVideoFromCamer() async{
-    var permission = ImageVideoPermissionHandler().handleCameraPermissions(context);
+    var permission = await ImageVideoPermissionHandler().handleCameraPermissions(context);
     if(permission == true){
       File _video = await PickVideoFromCamera().pick();
       widget.cameraVideo = _video;

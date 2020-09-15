@@ -242,7 +242,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
             child: CustomText(text: 'Tap to add location and service area',),
             onPressed: () async{
               /// first check if user has given permission to access location
-              var permission = LocationPermissionHandler().handlePermissions(context);
+              var permission = await LocationPermissionHandler().handlePermissions(context);
               if(permission == true){
                 LocationData locationTemp;
                 var currentLocation = new Location();

@@ -246,11 +246,25 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
         /// first check if user has given permission to access location
         var permission = await LocationPermissionHandler().handlePermissions(context);
         if(permission == true){
+
+          /// placeholder till map is generated:
+          /// show a dialog box with CircularProgressIndicator
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => CupertinoAlertDialog(
+                title: Text('Loading map'),
+                content: Center(child: CircularProgressIndicator()),
+              ));
+
+
           //bool showBackButton = false;
           String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
           String tempHash = await ChangeLocationInSearch(
               userNumber: userPhoneNo)
               .getNewUserGeohash(context);
+
+          /// for exiting dialog:
+          Navigator.pop(context);
 
           String tempAddressName = await UsersLocation().getAddress(userPhoneNo, tempHash);
           setState(() {

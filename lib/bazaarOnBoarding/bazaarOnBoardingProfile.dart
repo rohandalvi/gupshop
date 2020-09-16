@@ -205,7 +205,6 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                   location = new LatLng(databaseLatitude, databaseLongitude);
                   locationNotNull = true;
                   radius =snapshot.data["radius"];
-                  print("radius in future builder : $radius");
                 }
 
                 return ListView(
@@ -236,41 +235,55 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(PaddingConfig.eight),
-          child: CustomRaisedButton(
-            child: CustomText(text: 'Tap to add location and service area',),
-            onPressed: () async{
-              /// first check if user has given permission to access location
-              var permission = await LocationPermissionHandler().handlePermissions(context);
-              if(permission == true){
-                LocationData locationTemp;
-                var currentLocation = new Location();
-                locationTemp = await currentLocation.getLocation();
+          Padding(
+            padding: EdgeInsets.all(PaddingConfig.eight),
+            child: CustomRaisedButton(
+              child: CustomText(text: 'Tap to add location and service area',),
+              onPressed: () async{
+                /// first check if user has given permission to access location
+                var permission = await LocationPermissionHandler().handlePermissions(context);
+                if(permission == true){
+                  LocationData locationTemp;
 
-                List list = await NavigateToCustomMap(
-                  latitude: locationTemp.latitude,
-                  longitude: locationTemp.longitude,
-                  showRadius: true,
-                ).navigateNoBrackets(context);
+                  /// placeholder till map is generated:
+                  /// show a dialog box with CircularProgressIndicator
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) => CupertinoAlertDialog(
+                        title: Text('Loading map'),
+                        content: Center(child: CircularProgressIndicator()),
+                      ));
 
-                /// list[0] = location
-                /// list[1] = radius
-                locationFromMap = list[0];
-                radius = list[1];
 
-                location = locationFromMap;
-                locationChanged = true;
+                  var currentLocation = new Location();
+                  locationTemp = await currentLocation.getLocation();
 
-                /// setState to make the locationNotNull = true so that
-                /// showLocation() becomes visible
-                setState(() {
-                  locationNotNull = true;
-                });
-              }
-            },
-          ).elevated(),
-        ),
+                  List list = await NavigateToCustomMap(
+                    latitude: locationTemp.latitude,
+                    longitude: locationTemp.longitude,
+                    showRadius: true,
+                  ).navigateNoBrackets(context);
+
+                  /// for exiting dialog:
+                  Navigator.pop(context);
+
+                  /// list[0] = location
+                  /// list[1] = radius
+                  locationFromMap = list[0];
+                  radius = list[1];
+
+                  location = locationFromMap;
+                  locationChanged = true;
+
+                  /// setState to make the locationNotNull = true so that
+                  /// showLocation() becomes visible
+                  setState(() {
+                    locationNotNull = true;
+                  });
+                }
+              },
+            ).elevated(),
+          ),
         showLocation(),
       ],
     );

@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +9,6 @@ import 'package:gupshop/cutomMaps/minusButton.dart';
 import 'package:gupshop/cutomMaps/okButton.dart';
 import 'package:gupshop/cutomMaps/plusButton.dart';
 import 'package:gupshop/cutomMaps/setCircleData.dart';
-import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
-import 'package:gupshop/responsive/keys.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';

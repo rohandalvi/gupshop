@@ -60,7 +60,19 @@ class _AddressListBodyUIState extends State<AddressListBodyUI> {
             /// open maps
             LatLng currentLatLng = new LatLng(widget.latitude, widget.longitude);
 
+            /// placeholder till map is generated:
+            /// show a dialog box with CircularProgressIndicator
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => CupertinoAlertDialog(
+                  title: Text('Loading map'),
+                  content: Center(child: CircularProgressIndicator()),
+                ));
+
             LatLng latLng = await ChangeLocationInSearch(userNumber: widget.userPhoneNo).getLatLang(context);
+
+            /// for exiting dialog:
+            Navigator.pop(context);
 
             if(latLng != currentLatLng){
               Position location =  new Position(longitude: latLng.longitude, latitude: latLng.latitude);

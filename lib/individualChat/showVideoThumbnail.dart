@@ -35,14 +35,16 @@ class ShowVideoThumbnail extends StatelessWidget {
         CustomIconButton(
           onPressed: () async{
             CustomFlushBar(
-              duration: Duration(seconds: 5),
+              //duration: Duration(seconds: 5),
               customContext: context,
               iconName: 'speaker',
               text: CustomText(text : 'Downloading video...............', fontSize: TextConfig.fontSizeTwelve,),
               message: 'Downloading video..........',
-            ).showFlushBar();
+            ).showFlushBarNoDuration();
             var videoId = await DownloadVideo(videoURL: videoURL).downloadVideo();
+            print("videoId : $videoId");
             if(videoId != null){
+              Navigator.pop(context);
               return CustomFlushBar(
                 customContext: context,
                 iconName: 'speaker',
@@ -51,6 +53,7 @@ class ShowVideoThumbnail extends StatelessWidget {
               ).showFlushBar();
             }
             if(videoId == null){
+              Navigator.pop(context);
               return CustomFlushBar(
                 customContext: context,
                 iconName: 'exclamation',

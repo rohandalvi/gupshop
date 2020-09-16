@@ -20,7 +20,6 @@ class MessageReadUnreadData{
 
   timestampDifference() async{
     String usersLatestMessageId = await GetFromMessageReadUnreadCollection(userNumber: number, conversationId: conversationId).getLatestMessageId();
-    print("usersLatestMessageId $conversationId :$usersLatestMessageId");
     if(usersLatestMessageId == null ) return false; /// 1st message to a new conversation
     if(usersLatestMessageId == conversationsLatestMessageId) return true;
     return false;

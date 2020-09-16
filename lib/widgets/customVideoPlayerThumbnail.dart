@@ -23,8 +23,10 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
   bool isInitialized = false;
 
   _initPlayer() async{
+    print("in _initPlayer");
     videoPlayerController = VideoPlayerController.network(widget.videoURL)..initialize()
         .then((_) {
+          print("video initialized");
       setState(() {
 
       });

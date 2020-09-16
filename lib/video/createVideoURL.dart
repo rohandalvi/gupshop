@@ -20,6 +20,7 @@ class CreateVideoURL{
     String fileName = basename(galleryImage.path);
     StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child("video").child(fileName);
     StorageUploadTask uploadTask = firebaseStorageReference.putFile(galleryImage, StorageMetadata(contentType: 'video/mp4'));
+
     bool delay = false;
     bool cancel = false;
     bool isComplete = false;
@@ -99,7 +100,6 @@ class CreateVideoURL{
 
 
     if(isComplete == true){
-      print("generating url");
       String videoURL = await videoURLFuture.ref.getDownloadURL();
       return videoURL;
     }

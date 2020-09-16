@@ -46,3 +46,10 @@ Specify your API key in the application delegate ios/Runner/AppDelegate.m:
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 @end
+
+6. photo_view: ^0.10.1 # 20/8/20
+7. great_circle_distance: ^1.0.1 # 25/8/20
+8. google_maps_flutter: ^0.5.30 # 25/8/20
+9. flutter_bloc: ^6.0.1 #25/8/20
+10. search_map_place: ^0.3.0 # 27/8/20
+11. gallery_saver: ^2.0.1

@@ -1,9 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/widgets/customDialogBox.dart';
-import 'package:gupshop/widgets/customFlushBar.dart';
-import 'package:gupshop/widgets/customText.dart';
 import 'dart:io';
 import 'package:path/path.dart';
 
@@ -24,43 +21,75 @@ class CreateVideoURL{
     StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child("video").child(fileName);
     StorageUploadTask uploadTask = firebaseStorageReference.putFile(galleryImage, StorageMetadata(contentType: 'video/mp4'));
     bool delay = false;
+    bool cancel = false;
+    bool isComplete = false;
+
     if(uploadTask.isInProgress){
-      /// show progress indicator
       showDialog(
           context: context,
-          builder: (BuildContext context) => CupertinoAlertDialog(
-            title: Text('Downloading'),
-            content: Text('Video download in progress...'),
-            actions: <Widget>[
-              CupertinoDialogAction(
-                child: Text('Alert me on completion'),
-                onPressed: (){
-                  delay = true;
-                  Navigator.of(context).pop();
+          builder: (BuildContext context) {
+            return StreamBuilder<StorageTaskEvent>(
+                stream: uploadTask.events,
+                builder: (context, AsyncSnapshot<StorageTaskEvent> asyncSnapshot) {
+                  var progress = 0;
+                  if (asyncSnapshot.hasData){
+                    final StorageTaskEvent event = asyncSnapshot.data;
+                    final StorageTaskSnapshot snapshot = event.snapshot;
+                    progress = ((snapshot.bytesTransferred /
+                        snapshot.totalByteCount) * 100).toInt();
+                  }
+
+                  return CupertinoAlertDialog(
+                    title: Text('Upload $progress %'),
+                    content: Text('Video upload in progress...'),
+                    actions: <Widget>[
+                      CupertinoDialogAction(
+                          child: Text('Alert me on completion'),
+                          onPressed: () {
+                            delay = true;
+                            Navigator.of(context).pop();
+                          }
+                      ),
+                      CupertinoDialogAction(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            cancel = true;
+                            Navigator.of(context).pop();
+                          }
+                      )
+                    ],
+                  );
                 }
-              )
-            ],
-          ));
+            );
+          }
+      );
     }
-    if(uploadTask.isCanceled){
-      print("cancled");
-    }
-    if(uploadTask.isPaused){}
+
+
 
     StorageTaskSnapshot videoURLFuture = await uploadTask.onComplete;
-    if(delay == false){
+    /// if the user doesnt select alreat me later option then delay == false.
+    /// This happens in two cases:
+    /// - if the user doesnt do anything and wait for the video to upload
+    /// - if the user cancels the upload
+    ///   In this case we dont want to pop the navigator or mark the uploadtask
+    ///   as isComplete.
+    ///   So check both the cases
+    if(delay == false && cancel == false){
       Navigator.of(context).pop();
-    }else{
+      isComplete = true;
+    }else if(delay == true){
       showDialog(
           context: context,
           builder: (BuildContext context) => CupertinoAlertDialog(
             title: Text('Alert'),
-            content: Text('Download complete'),
+            content: Text('Upload complete'),
             actions: <Widget>[
               CupertinoDialogAction(
                   child: Text('OK'),
                   onPressed: (){
                     delay = true;
+                    isComplete = true;
                     Navigator.of(context).pop();
                   }
               )
@@ -68,9 +97,11 @@ class CreateVideoURL{
           ));
     }
 
-    String videoURL = await videoURLFuture.ref.getDownloadURL();
-    return videoURL;
-//    if(uploadTask.isSuccessful){
-//    }
+
+    if(isComplete == true){
+      print("generating url");
+      String videoURL = await videoURLFuture.ref.getDownloadURL();
+      return videoURL;
+    }
   }
 }

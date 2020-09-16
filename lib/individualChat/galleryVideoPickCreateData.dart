@@ -28,8 +28,12 @@ class GalleryVideoPickCreateData{
       File video = await PickVideoFromGallery().pick();
 
       String videoURL = await CreateVideoURL().create(context,video, userPhoneNo, numberOfImageInConversation);
-      IMessage message = new VideoMessage(fromName:userName, fromNumber:userPhoneNo, conversationId:conversationId, timestamp:Timestamp.now(), videoURL:videoURL, messageId: messageId);
-      return message.fromJson();
+      /// if the user cancels uploading the video then videoURL would be null;
+      if(videoURL == null ) return null;
+      else{
+        IMessage message = new VideoMessage(fromName:userName, fromNumber:userPhoneNo, conversationId:conversationId, timestamp:Timestamp.now(), videoURL:videoURL, messageId: messageId);
+        return message.fromJson();
+      }
     }
 
   }

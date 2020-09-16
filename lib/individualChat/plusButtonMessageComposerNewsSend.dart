@@ -104,8 +104,11 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
                 Navigator.pop(context);
                 String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'videoURL',).saveAndGenerateId();
                 Map<String, dynamic> conversationCollectionData = await GalleryVideoPickCreateData(userName: widget.userName, userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId, messageId: messageId).main(context);
-                Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(), messageId: messageId).forVideoMessage();
-                PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName, groupExits: widget.groupExits).push();
+                if(conversationCollectionData != null){
+                  Map<String, dynamic> recentChatsData = await
+                  RecentChatsDataScaffolds(fromName: widget.userName, fromNumber: widget.userPhoneNo,conversationId: widget.conversationId, timestamp: Timestamp.now(), messageId: messageId).forVideoMessage();
+                  PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData: conversationCollectionData, recentChatsData: recentChatsData, userName: widget.userName, groupExits: widget.groupExits).push();
+                }
               },
               fourthIconName: 'videoCamera',
               fourthIconText: 'Record video from Camera',
@@ -113,11 +116,17 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
                 Navigator.pop(context);
                 String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'videoURL',).saveAndGenerateId();
                 Map<String, dynamic> conversationCollectionData = await CameraVideoPickCreateData(userName: widget.userName, userPhoneNo: widget.userPhoneNo, conversationId: widget.conversationId, messageId:messageId).main(context);
-                Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
-                    fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
-                    messageId: messageId).forVideoMessage();
-                await PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName, groupExits: widget.groupExits).push();
-                print("video pushed to firebase");
+
+                /// if the user cancels uploading the video then videoURL would
+                /// be null and hence the conversationCollectionData would be null.
+                /// if its null then no need to push anything to firebase at all
+                if(conversationCollectionData != null){
+                  Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
+                      fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
+                      messageId: messageId).forVideoMessage();
+                  await PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName, groupExits: widget.groupExits).push();
+                  print("video pushed to firebase");
+                }
               },
               fifthIconName: 'location',
               fifthIconText: 'Send Current Location',

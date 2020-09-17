@@ -12,4 +12,8 @@ class ChatListSingleton{
   Map<String, ChatListCache> getChatListCacheMap(){
     return chatListCache;
   }
+
+  void resetCache(){
+    chatListCache = new Map();
+  }
 }

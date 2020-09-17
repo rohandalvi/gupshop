@@ -24,7 +24,7 @@ class AvatarDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("userPhoneNo in AvatarDisplay : ${userPhoneNo}");
+    print("in AvatarDisplay");
     return
 //      StreamBuilder(
 //      stream: Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),

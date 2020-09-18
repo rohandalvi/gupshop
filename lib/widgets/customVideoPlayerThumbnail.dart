@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
-import 'package:gupshop/responsive/widgetConfig.dart';
 
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';

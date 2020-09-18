@@ -48,13 +48,17 @@ class BuildMessageComposer extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: PaddingConfig.eight),
       height: WidgetConfig.buildMessageComposer, /// 70
       color: Colors.white,
-      child: Row(
+      child: Row(/// Area 10
         children: <Widget>[
-          CustomIconButton(
-            iconNameInImageFolder: 'plus',
-            onPressed: firstOnPressed,
+          Expanded(
+            flex: 1,
+            child: CustomIconButton(
+              iconNameInImageFolder: 'plus',
+              onPressed: firstOnPressed,
+            ),
           ),
           Expanded(
+            flex: 5,
             child: TextField(
               onEditingComplete: onEditingComplete,
               maxLines: null,
@@ -63,24 +67,30 @@ class BuildMessageComposer extends StatelessWidget {
               controller: controller,//used to clear text when user hits send button
             ),
           ),
-          CustomIconButton(
-            onPressed:NavigateToNewsComposer(
-              conversationId: conversationId,
-              userName: userName,
-              userPhoneNo: userPhoneNo,
-              groupName: groupName,
-              groupExits: groupExits,
-              friendN: friendN,
-              listOfFriendNumbers: listOfFriendNumbers,
-              value: value,
-              controller: controller,
-              listScrollController: listScrollController,
-            ).navigate(context),
-            iconNameInImageFolder: 'news',
+          Expanded(
+            flex: 1,
+            child: CustomIconButton(
+              onPressed:NavigateToNewsComposer(
+                conversationId: conversationId,
+                userName: userName,
+                userPhoneNo: userPhoneNo,
+                groupName: groupName,
+                groupExits: groupExits,
+                friendN: friendN,
+                listOfFriendNumbers: listOfFriendNumbers,
+                value: value,
+                controller: controller,
+                listScrollController: listScrollController,
+              ).navigate(context),
+              iconNameInImageFolder: 'news',
+            ),
           ),
-          CustomIconButton(
-            iconNameInImageFolder: 'paperPlane',///or forward2
-            onPressed: onPressedForSendingMessageIcon,
+          Expanded(
+            flex: 1,
+            child: CustomIconButton(
+              iconNameInImageFolder: 'paperPlane',///or forward2
+              onPressed: onPressedForSendingMessageIcon,
+            ),
           ),
         ],
       ),

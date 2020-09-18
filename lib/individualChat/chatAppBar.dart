@@ -29,111 +29,140 @@ class ChatAppBar extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: PaddingConfig.ten),
       child: Container(
-        child: Row(
+        child: Row(/// Area 4
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                /// back Arrow:
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: PaddingConfig.twelve),
-                      child: CustomIconButton(
-                        iconNameInImageFolder: 'backArrowColor',
-                        onPressed: backOnPressed,
-                        iconsize: IconConfig.bigIcon,
-                      ).resize(),
-                    ),
-                  ],
-                ),
-
-                /// Avatar:
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: PaddingConfig.eighteen,left: PaddingConfig.four, right: PaddingConfig.five),
-                      child: Container(
-                        child: GestureDetector(
-                          child: displayPictureAvatar,
-                          onTap: avatarOnPressed,
+            Expanded(
+              flex: 5,
+              child: Row(
+                children: <Widget>[
+                  /// back Arrow:
+                  Expanded(
+                    flex : 2,
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: PaddingConfig.twelve),
+                          child: CustomIconButton(
+                            iconNameInImageFolder: 'backArrowColor',
+                            onPressed: backOnPressed,
+                            iconsize: IconConfig.bigIcon,
+                          ).resize(),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-                /// name, lastSeen and typing status:
-                Column(
-                  children: <Widget>[
+                  ),
+
+                  /// Avatar:
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: PaddingConfig.eighteen,left: PaddingConfig.four, right: PaddingConfig.five),
+                          child: Container(
+                            child: GestureDetector(
+                              child: displayPictureAvatar,
+                              onTap: avatarOnPressed,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  /// name, lastSeen and typing status:
+                  Expanded(
+                    flex: 5,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          //child: Padding(
+                            //padding: EdgeInsets.all(PaddingConfig.three),
+                          /// TODO: Priority 1 : Apply responsiveness to the Column below
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  /// name:
+                                  Container(
+                                      padding: EdgeInsets.only(top: PaddingConfig.eighteen),
+                                      child : GestureDetector(
+                                        child: name,
+                                        onTap: nameOnPressed,
+                                      )
+                                  ),
+                                  Container(
+                                    /// show presence only when its an individual conversation, not
+                                    /// in group conversation
+                                    child: Visibility(
+                                      visible: presenceVisibility,
+                                      child: presence,
+                                    ),
+                                  ),
+                                  /// typing :
+                                  Container(
+                                      child: TypingStatusDisplay(
+                                        conversationId: conversationId,
+                                        userNumber: userPhoneNo,
+                                        userName: userName,
+                                        groupExits: groupExits,),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          //),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            /// video audio call icons:
+            Expanded(
+              flex: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  //Padding(
+                    //padding: EdgeInsets.all(PaddingConfig.ten),
                     Container(
-                      child: Padding(
-                        padding: EdgeInsets.all(PaddingConfig.three),
-                        child: Container(
-                          child: Column(
+                      child: Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: EdgeInsets.all(PaddingConfig.ten),
+                          child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              /// name:
-                              Padding(
-                                padding: EdgeInsets.only(top: PaddingConfig.eighteen),
-                                child: Container(
-                                    child : GestureDetector(
-                                      child: name,
-                                      onTap: nameOnPressed,
-                                    )
+                              Expanded(
+                                flex: 1,
+                                child: CustomIconButton(
+                                  iconNameInImageFolder: 'videoCall',
+                                  onPressed: (){},
                                 ),
                               ),
-                              Container(
-                                /// show presence only when its an individual conversation, not
-                                /// in group conversation
-                                child: Visibility(
-                                  visible: presenceVisibility,
-                                  child: presence,
+                              Expanded(
+                                flex: 1,
+                                child: CustomIconButton(
+                                  iconNameInImageFolder: 'audioCall',
+                                  onPressed: (){},
                                 ),
-                              ),
-                              /// typing :
-                              Container(
-                                  child: TypingStatusDisplay(
-                                    conversationId: conversationId,
-                                    userNumber: userPhoneNo,
-                                    userName: userName,
-                                    groupExits: groupExits,),
-                              ),
+                              )
                             ],
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
-
-            /// video audio call icons:
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(PaddingConfig.ten),
-                  child: Container(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        CustomIconButton(
-                          iconNameInImageFolder: 'videoCall',
-                          onPressed: (){},
-                        ),
-                        CustomIconButton(
-                          iconNameInImageFolder: 'audioCall',
-                          onPressed: (){},
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+                  //),
+                ],
+              ),
             ),
           ],
         ),

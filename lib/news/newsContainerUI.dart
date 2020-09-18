@@ -39,11 +39,15 @@ class NewsContainerUI extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: <Widget>[
-              Row(
+              Row(/// Area : 9
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  CustomIconButton(iconNameInImageFolder: 'news',onPressed: (){},),
-                  CustomText(text: 'NEWS',textColor: primaryColor,),
+                  Expanded(
+                    flex: 2,
+                      child: CustomIconButton(iconNameInImageFolder: 'news',onPressed: (){},)),
+                  Expanded(
+                    flex: 7,
+                      child: CustomText(text: 'NEWS',textColor: primaryColor,)),
                 ],
               ),
               Padding(

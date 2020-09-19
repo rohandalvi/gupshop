@@ -12,6 +12,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/bazaarOnBoarding/bazaarProfilePage.dart';
 import 'package:gupshop/bazaarProductDetails/productDetail.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
+import 'package:gupshop/navigators/navigateToBazaarWelcome.dart';
 import 'package:gupshop/navigators/navigateToOnBoardingCategorySelector.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -73,8 +74,9 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
       child: CustomIconButton(
           iconNameInImageFolder: 'add',
       ),
-      onPressed: NavigateToBazaarOnBoardingHome().navigate(context),
-      //NavigateToBazaarProfilePage(userName: userName, userPhoneNo: userPhoneNo).navigate(context)
+      onPressed:
+        NavigateToBazaarWelcome().navigate(context),
+      //NavigateToBazaarOnBoardingHome().navigate(context),
     );
   }
 
@@ -84,8 +86,9 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
         child: CustomIconButton(
           iconNameInImageFolder: 'add',
         ),
-        onPressed: NavigateToBazaarOnBoardingHome().navigate(context),
-        //NavigateToBazaarProfilePage(userName: userName, userPhoneNo: userPhoneNo).navigate(context)
+        onPressed:
+        NavigateToBazaarWelcome().navigate(context),
+        //NavigateToBazaarOnBoardingHome().navigate(context),
     );
   }
 }

@@ -15,8 +15,9 @@ class CustomText extends StatelessWidget {
   final double subtitleFontSize;
   final double welcomeTitleSize;
   final double welcomeSize;
+  final TextAlign textAlign;
 
-  CustomText({Key key, @required this.text, this.fontSize, this.textColor, this.fontWeight}) :
+  CustomText({Key key, @required this.text, this.fontSize, this.textColor, this.fontWeight, this.textAlign}) :
         standardFontSize =  SizeConfig.textMultiplier * 2,/// 16
         bigFontSize = SizeConfig.textMultiplier * 2.5,
         subtitleFontSize = SizeConfig.textMultiplier * 1.5,
@@ -27,6 +28,7 @@ class CustomText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      textAlign: textAlign,
       style: GoogleFonts.openSans(
         textStyle: TextStyle(
           fontWeight: fontWeight == null ? FontWeight.w600 : fontWeight,
@@ -73,6 +75,7 @@ class CustomText extends StatelessWidget {
   welcomeTitle(){
     return Text(
       text,
+      textAlign: textAlign,
       style: GoogleFonts.openSans(
         textStyle: TextStyle(
           fontWeight: FontWeight.w600,
@@ -85,6 +88,7 @@ class CustomText extends StatelessWidget {
   welcome(){
     return Text(
       text,
+      textAlign: textAlign,
       style: GoogleFonts.openSans(
         textStyle: TextStyle(
           fontWeight: FontWeight.w600,

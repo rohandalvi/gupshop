@@ -45,6 +45,7 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
 
   @override
   Widget build(BuildContext context) {
+    /// TODO: Priority 1 : Apply responsiveness to the Row below
         return Column(
           children: <Widget>[
             /// icons for news for voting:

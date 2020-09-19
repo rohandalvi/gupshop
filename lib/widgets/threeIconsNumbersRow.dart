@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -40,6 +41,7 @@ class ThreeIconsNumbersRow extends StatelessWidget {
 //            ],
 //          ),
 //        ),
+      /// TODO: Priority 1 : Apply responsiveness to the Row below
         Container(
           child: Row(
             children: <Widget>[

@@ -97,62 +97,71 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
   _writeReview(){
     return Row(
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            _isLike(),
-            _isDislike(),
-          ],
-        ),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: WidgetConfig.reviewWidth),
-          child: Padding(
-            padding: EdgeInsets.only(left: PaddingConfig.fourteen),//---> for distance between left side of the screen and the review writing text bar
-            child: _sendReview(),
+        Expanded(
+          flex: 1,
+          child: Row(
+            children: <Widget>[
+              _isLike(),
+              _isDislike(),
+            ],
           ),
         ),
-        IconButton(
-          icon: Icon(Icons.arrow_forward_ios),
-          onPressed: () {
-            if((likeClicked == null || likeClicked == true) && (dislikeClicked == null || dislikeClicked == false)){
-              /// first time when the user has not given any reviews, then
-              /// likeClicked would be null, and likes would also be null,
-              /// hence checking that condition
-              if(likeClicked == null){
-                setState(() {
-                  widget.likes = 1;
-                  widget.writeReview= false;
-                  likeClicked = true;
+        Expanded(
+          flex: 5,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: WidgetConfig.reviewWidth),
+            child: Padding(
+              padding: EdgeInsets.only(left: PaddingConfig.fourteen),//---> for distance between left side of the screen and the review writing text bar
+              child: _sendReview(),
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: IconButton(
+            icon: Icon(Icons.arrow_forward_ios),
+            onPressed: () {
+              if((likeClicked == null || likeClicked == true) && (dislikeClicked == null || dislikeClicked == false)){
+                /// first time when the user has not given any reviews, then
+                /// likeClicked would be null, and likes would also be null,
+                /// hence checking that condition
+                if(likeClicked == null){
+                  setState(() {
+                    widget.likes = 1;
+                    widget.writeReview= false;
+                    likeClicked = true;
+                  });
+                }
+                else setState(() {
+                  widget.likes++;
+                  widget.writeReview= false;///to show the non textField view again, where we have only the reviews
                 });
+              } else {
+                setState(() {
+                  widget.dislikes++;
+                  widget.writeReview= false;///to show the non textField view again, where we have only the reviews
+                });
+
               }
-              else setState(() {
-                widget.likes++;
-                widget.writeReview= false;///to show the non textField view again, where we have only the reviews
-              });
-            } else {
-              setState(() {
-                widget.dislikes++;
-                widget.writeReview= false;///to show the non textField view again, where we have only the reviews
-              });
-
-            }
 
 
-            if(_formKey.currentState.validate()){
-              var data =  {
-                "reviewerName":widget.userName,
-                "body":widget.reviewBody,
-                "like":likeClicked,
-                "dislike":dislikeClicked,
-                "timestamp":Timestamp.now(),
-              };
+              if(_formKey.currentState.validate()){
+                var data =  {
+                  "reviewerName":widget.userName,
+                  "body":widget.reviewBody,
+                  "like":likeClicked,
+                  "dislike":dislikeClicked,
+                  "timestamp":Timestamp.now(),
+                };
 
-              if(widget.likes == null) widget.likes =0;
-              if(widget.dislikes == null) widget.dislikes =0;
+                if(widget.likes == null) widget.likes =0;
+                if(widget.dislikes == null) widget.dislikes =0;
 
-              PushToBazaarReviewsCollection(subCategory: widget.subCategoryData).addReview(widget.productWalaNumber, widget.categoryData, data);
-              UpdateBazaarRatingNumberCollection(productWalaNumber: widget.productWalaNumber, categoryData: widget.categoryData, likes: widget.likes, dislikes: widget.dislikes, subCategoryData: widget.subCategoryData).updateRatings();
-            }
-          },
+                PushToBazaarReviewsCollection(subCategory: widget.subCategoryData).addReview(widget.productWalaNumber, widget.categoryData, data);
+                UpdateBazaarRatingNumberCollection(productWalaNumber: widget.productWalaNumber, categoryData: widget.categoryData, likes: widget.likes, dislikes: widget.dislikes, subCategoryData: widget.subCategoryData).updateRatings();
+              }
+            },
+          ),
         ),
       ],
     );

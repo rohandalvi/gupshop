@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/widgets/customIconButton.dart';
-import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/threeIconsNumbersRow.dart';
 
 class TrueFakeVotingIconsUI extends StatelessWidget {

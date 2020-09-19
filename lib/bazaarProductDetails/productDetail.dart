@@ -186,7 +186,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           builder: (context, snapshot) {
             if(snapshot.connectionState == ConnectionState.done){
               String videoURL = snapshot.data["videoURL"];
-              print("videoURL in productDetails : $videoURL");
+
               String thumbnailPicture = snapshot.data["thumbnailPicture"];
               String otherPictureOne = snapshot.data["otherPictureOne"];
               String otherPictureTwo = snapshot.data["otherPictureTwo"];

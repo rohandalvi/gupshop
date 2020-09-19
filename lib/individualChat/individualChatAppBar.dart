@@ -70,8 +70,9 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
         if(conversationExists() == true){
           await widget.conversationService.disableActiveSubscription();
         }
+        Navigator.pop(context);
 
-        CustomNavigator().navigateToHome(context, widget.userName, widget.userPhoneNo);
+//        CustomNavigator().navigateToHome(context, widget.userName, widget.userPhoneNo);
       },
 
       avatarOnPressed: (){

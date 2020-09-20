@@ -26,6 +26,8 @@ class WidgetConfig{
   static double sizedBoxHeightTen = SizeConfig.heightMultiplier * 1.25;/// 10/8.16
   static double sizedBoxHeightTwoForty = SizeConfig.heightMultiplier * 29.4;/// 240/8.16
   static double sizedBoxHeightOneFifty = SizeConfig.widthMultiplier * 34.7;/// 150/4.32
+  static double sizedBoxWidthFiveHundred = SizeConfig.heightMultiplier * 115.740740741;/// 500/4.32
+  static double sizedBoxHeightThreeHundred = SizeConfig.widthMultiplier * 36.7647058824;/// 300/8.16
 
   /// floatingActionButton
   static double floatingActionButtonBigHeight = SizeConfig.heightMultiplier * 12;/// 100/8.16

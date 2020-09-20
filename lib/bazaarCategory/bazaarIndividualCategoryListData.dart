@@ -212,7 +212,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
           children: <TextSpan>[
             CustomText(text: 'No ',).richText(),
             CustomText(text: noBazaarwalaText,textColor: primaryColor,
-              fontSize: TextConfig().bigFontSize,).richText(),
+              fontSize: TextConfig.bigFontSize,).richText(),
             CustomText(text: ' near you',).richText(),
           ],
         ),

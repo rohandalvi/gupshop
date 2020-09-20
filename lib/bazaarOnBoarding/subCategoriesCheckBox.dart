@@ -8,6 +8,7 @@ import 'package:gupshop/bazaarOnBoarding/pushSubCategoriesToFirebase.dart';
 import 'package:gupshop/bazaarOnBoarding/deleteSubcategoriesFirebase.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToBazaarAdvertisement.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -255,18 +256,27 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
                     //pushSubCategoriesToFirebase(listOfSubCategoriesForData);
 
                     /// moving on to next page:
-                    NavigateToBazaarOnBoardingProfile(
+                    NavigateToBazaarAdvertisement(
                       category:widget.category,
                       categoryData: widget.categoryData,
                       listOfSubCategories: listOfSubCategories,
                       userPhoneNo: userNumber,
                       userName: userName,
-                      //subCategoriesListFuture: widget.subCategoriesListFuture,
                       subCategoryMap: widget.subCategoryMap,
                       listOfSubCategoriesForData: listOfSubCategoriesForData,
-                      addListData: addListData,
-                      deleteListData: deleteListData,
                     ).navigateNoBrackets(context);
+//                    NavigateToBazaarOnBoardingProfile(
+//                      category:widget.category,
+//                      categoryData: widget.categoryData,
+//                      listOfSubCategories: listOfSubCategories,
+//                      userPhoneNo: userNumber,
+//                      userName: userName,
+//                      //subCategoriesListFuture: widget.subCategoriesListFuture,
+//                      subCategoryMap: widget.subCategoryMap,
+//                      listOfSubCategoriesForData: listOfSubCategoriesForData,
+//                      addListData: addListData,
+//                      deleteListData: deleteListData,
+//                    ).navigateNoBrackets(context);
                   }
               ),
             ),

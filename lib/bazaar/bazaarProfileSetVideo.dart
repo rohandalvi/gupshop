@@ -6,11 +6,15 @@ import 'package:gupshop/image/imageVideoPermissionHandler.dart';
 import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/individualChat/messageCardDisplay.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
+import 'package:gupshop/video/displayVideo.dart';
 import 'package:gupshop/video/pickVideoFromCamera.dart';
 import 'package:gupshop/video/pickVideoFromGallery.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
+import 'package:gupshop/widgets/customVideoPlayer.dart';
+import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 
 class BazaarProfileSetVideo extends StatefulWidget {
   File video;
@@ -28,36 +32,47 @@ class BazaarProfileSetVideo extends StatefulWidget {
 class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding:EdgeInsets.all(PaddingConfig.eight),
-          child: CustomRaisedButton(
-          child: CustomText(text: 'Tap to add video',),
-            onPressed: (){
-              CustomBottomSheet(
-                customContext: context,
-                firstIconName: 'photoGallery',
-                firstIconText: 'Pick video from  Gallery',
-                firstIconAndTextOnPressed: (){
-                  _pickVideoFromGallery();
+    return Center(
+      child: Column(
+//      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding:EdgeInsets.all(PaddingConfig.eight),
+              child: CustomRaisedButton(
+              child: CustomText(text: 'Tap to add video',),
+                onPressed: (){
+                  CustomBottomSheet(
+                    customContext: context,
+                    firstIconName: 'photoGallery',
+                    firstIconText: 'Pick video from  Gallery',
+                    firstIconAndTextOnPressed: (){
+                      _pickVideoFromGallery();
+                    },
+                    secondIconName: 'image2vector',
+                    secondIconText: 'Record video from Camera',
+                    secondIconAndTextOnPressed: (){
+                      _pickVideoFromCamer();
+                    },
+                  ).showTwo();
                 },
-                secondIconName: 'image2vector',
-                secondIconText: 'Record video from Camera',
-                secondIconAndTextOnPressed: (){
-                  _pickVideoFromCamer();
-                },
-              ).showTwo();
-            },
-          ).elevated(),
-        ),
-        if((widget.video != null || widget.cameraVideo != null))
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:MessageCardDisplay().showVideo(widget.videoURL,),
+              ).elevated(),
+            ),
           ),
-      ],
+          if((widget.video != null || widget.cameraVideo != null))
+            Expanded(
+              flex: 10,
+              child: CustomVideoPlayerThumbnail(videoURL: widget.videoURL,),
+//            DisplayVideo(
+//              videoURL: widget.videoURL,
+//              width: WidgetConfig.sizedBoxWidthFiveHundred,
+//              height: WidgetConfig.sizedBoxWidthFiveHundred,
+//            ),
+            ),
+        ],
+      ),
     );
   }
 

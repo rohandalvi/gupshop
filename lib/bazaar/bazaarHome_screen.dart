@@ -52,7 +52,6 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -84,7 +83,7 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
   floatingActionButtonForEditBazaarwala(){
     return CustomBigFloatingActionButton(
         child: CustomIconButton(
-          iconNameInImageFolder: 'add',
+          iconNameInImageFolder: 'editPencil',
         ),
         onPressed:
         NavigateToBazaarWelcome().navigate(context),

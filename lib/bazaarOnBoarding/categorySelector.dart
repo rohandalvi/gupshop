@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/customGridView.dart';
 import 'package:gupshop/image/gridViewContainer.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToBazaarAdvertisement.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
 import 'package:gupshop/navigators/navigateToSubCategoriesCheckBoxData.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
@@ -60,20 +61,16 @@ class CategorySelector extends StatelessWidget {
   navigateIfDeliveryErrands(BuildContext context, String catergoryName,
       String categoryNameForData, String userNumber, String userName
       ){
-    print("in navigateIfDeliveryErrands");
 
     List<String> listOfSubCategories = new List();
     listOfSubCategories.add("Delivery/Errands");
-    print("listOfSubCategories : $listOfSubCategories");
 
     List<String> listOfSubCategoriesForData = new List();
     listOfSubCategoriesForData.add("deliveryErrands");
-    print("listOfSubCategoriesForData : $listOfSubCategoriesForData");
 
     Map<String, String> subCategoryMap = new HashMap();
 
     subCategoryMap[listOfSubCategories[0]] = listOfSubCategoriesForData[0];
-    print("subCategoryMap : $subCategoryMap");
 
     NavigateToBazaarOnBoardingProfile(
       category:catergoryName,

@@ -34,7 +34,7 @@ class CustomText extends StatelessWidget {
           fontWeight: fontWeight == null ? FontWeight.w600 : fontWeight,
             /// screen size verticle = 8.16(SizeConfig.textMultiplier = _blockSizeVertical),
             /// so 8*2 = 16, that is our font size
-          fontSize: standardFontSize
+          fontSize: fontSize == null ? standardFontSize : fontSize,
           //fontSize != null ? fontSize : 16,
         ),
         color: textColor == null ? Colors.black : textColor,

@@ -89,41 +89,6 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
               ),
             ),
           ),
-
-//          GestureDetector(
-//            child: SizedBox(
-//                width: videoPlayerController.value.size?.width ?? 0,
-//                height: videoPlayerController.value.size?.height ?? 0,
-////              width: MediaQuery.of(context).size.height / 2.75,
-////              height: MediaQuery.of(context).size.width / 2,
-//                child: VideoPlayer(videoPlayerController)
-//            ),
-////            Container(
-////                width: videoPlayerController.value.size?.width ?? 0,
-////                    height: videoPlayerController.value.size?.height ?? 0,
-//////              width: MediaQuery.of(context).size.height / 2.75,
-//////              height: MediaQuery.of(context).size.width / 2,
-////              child: VideoPlayer(videoPlayerController)
-////            ),
-////            AspectRatio(
-////                aspectRatio:
-////                //videoPlayerController.value.aspectRatio,
-////
-////                //WidgetConfig.aspectRatioOnePointSix,
-////                16/10,
-////                child: VideoPlayer(videoPlayerController),
-////            ) ,
-//            onTap: (){
-//                Navigator.push(
-//                    context,
-//                    MaterialPageRoute(
-//                      builder: (context) => CustomVideoPlayer(videoURL:widget.videoURL),//pass Name() here and pass Home()in name_screen
-//                      //builder: (context) => FullScreenPictureAndVideos(payLoad:widget.videoURL, isPicture: false, shouldZoom: false,),//pass Name() here and pass Home()in name_screen
-//                    )
-//                );
-//            },
-//          );
-//        : cachedVideo(),
         ),
         CustomIconButton(iconNameInImageFolder: 'playButton',
           onPressed: (){

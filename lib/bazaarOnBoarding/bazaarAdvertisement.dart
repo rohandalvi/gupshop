@@ -5,13 +5,10 @@ import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/bazaar/bazaarProfileSetVideo.dart';
 import 'package:gupshop/bazaar/categories.dart';
-import 'package:gupshop/bazaarOnBoarding/bazaarLocationData.dart';
 import 'package:gupshop/bazaarOnBoarding/serviceAtHomeUI.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarLocation.dart';
-import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
-import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
@@ -249,7 +246,6 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
             print("addressName in locationAddDisplay : $addressName");
           }
 
-          print("databaseLatitude : $databaseLatitude");
 
           NavigateToBazaarLocation(
             category: widget.category,
@@ -264,6 +260,8 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
             aSubCategoryData: aSubCategoryData,
             databaseLatitude: databaseLatitude,
             databaseLongitude: databaseLongitude,
+            listOfSubCategoriesForData: widget.listOfSubCategoriesForData,
+            listOfSubCategories: widget.listOfSubCategories,
             addressName: addressName,
             radius: radius,
             location: location,

@@ -2,9 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListDisplay.dart';
 import 'package:gupshop/bazaarCategory/homeServiceText.dart';
-import 'package:gupshop/placeholders/imagePlaceholder.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
-import 'package:gupshop/streamShortcuts/bazaarRatingNumbers.dart';
 
 class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
   String bazaarWalaPhoneNo;
@@ -56,7 +55,7 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
           //else homeServiceText = null;
 
           if (thumbnailPicture == null)
-            thumbnailPicture = ImagePlaceholder.photoFrame;
+            thumbnailPicture = ImageConfig.photoFrame;
 
           return BazaarIndividualCategoryListDisplay(
             bazaarWalaName: name,

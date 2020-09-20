@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/image/imageVideoPermissionHandler.dart';
 import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/individualChat/messageCardDisplay.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/video/displayVideo.dart';
 import 'package:gupshop/video/pickVideoFromCamera.dart';
@@ -58,7 +61,7 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
               },
             ).elevated(),
           ),
-          if((widget.video != null || widget.cameraVideo != null))
+          (widget.video != null || widget.cameraVideo != null) ?
             Container(
               child: Expanded(
                 flex: 10,
@@ -69,7 +72,33 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
 //              height: WidgetConfig.sizedBoxWidthFiveHundred,
 //            ),
               ),
+            ) :
+          Expanded(
+            flex: 4,
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  flex: 4,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: PaddingConfig.eight),
+                    child: Image.asset(
+                      ImageConfig.bazaarOnBoardingVideoLogo,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(),
+                  ),
+                ),
+              ],
             ),
+          ),
+
+
         ],
       ),
     );

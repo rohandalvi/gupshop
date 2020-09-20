@@ -5,7 +5,7 @@ import 'package:gupshop/bazaarProductDetails/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToFullScreenPictureAndVideos.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
-import 'package:gupshop/placeholders/imagePlaceholder.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
@@ -191,13 +191,13 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
               String otherPictureOne = snapshot.data["otherPictureOne"];
               String otherPictureTwo = snapshot.data["otherPictureTwo"];
 
-              if(thumbnailPicture == null) thumbnailPicture = ImagePlaceholder.photoFrame;
+              if(thumbnailPicture == null) thumbnailPicture = ImageConfig.photoFrame;
 
 
-              if(otherPictureOne == null) otherPictureOne = ImagePlaceholder.photoFrame;
+              if(otherPictureOne == null) otherPictureOne = ImageConfig.photoFrame;
 
 
-              if(otherPictureTwo == null) otherPictureTwo = ImagePlaceholder.photoFrame;
+              if(otherPictureTwo == null) otherPictureTwo = ImageConfig.photoFrame;
 
 
               return Center(

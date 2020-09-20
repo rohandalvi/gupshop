@@ -17,15 +17,17 @@ class GalleryButtonOnPressed{
         /// push to bazaarWalasBasicProfile collection:
 
         String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+        print("imageURL in GalleryButtonOnPressed : $imageURL");
         if(imageURL != null){
+          print("subCategoryDataList in GalleryButtonOnPressed : $subCategoryDataList");
           subCategoryDataList.forEach((subCategory) {
             PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, thumbnailPicture: imageURL).pushThumbnailPicture(categoryData, subCategory);
           });
+          Navigator.pop(context,);
+          return imageURL;
+        }Navigator.pop(context,);
 
-        }
-        print("pushed data");
-        Navigator.pop(context,);
-        return imageURL;
+
         //NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
 
     }
@@ -41,10 +43,10 @@ class GalleryButtonOnPressed{
         subCategoryDataList.forEach((subCategory) {
           PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureOne: imageURL).pushOtherPictureOne(categoryData, subCategory);
         });
-
+        Navigator.pop(context);
+        return imageURL;
       }
       Navigator.pop(context);
-      return imageURL;
       //NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
     }
 
@@ -59,10 +61,10 @@ class GalleryButtonOnPressed{
         subCategoryDataList.forEach((subCategory) {
           PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, otherPictureTwo: imageURL).pushOtherPictureTwo(categoryData, subCategory);
         });
-
+        Navigator.pop(context);
+        return imageURL;
       }
       Navigator.pop(context);
-      return imageURL;
       //NavigateToChangeBazaarProfilePicturesFetchAndDisplay().navigateNoBrackets(context);
     }
 }

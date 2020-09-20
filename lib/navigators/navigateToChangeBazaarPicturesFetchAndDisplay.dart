@@ -56,7 +56,7 @@ class NavigateToChangeBazaarProfilePicturesFetchAndDisplay{
   }
 
   navigateNoBrackets(BuildContext context){
-    print("videoURL in navigateNoBrackets : $videoURL");
+    print("subCategoryDataList in navigate : $subCategoriesListData}");
 
     Navigator.push(
         context,

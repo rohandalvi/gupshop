@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/image/imageZoom.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:photo_view/photo_view.dart';

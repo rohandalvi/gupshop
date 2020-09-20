@@ -5,7 +5,7 @@ import 'package:gupshop/links/fetchLinkPreview.dart';
 import 'package:gupshop/links/linkDIsplayUIData.dart';
 import 'package:gupshop/links/openLinks.dart';
 import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/placeholders/imagePlaceholder.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -63,7 +63,7 @@ class NewsContainerUI extends StatelessWidget {
                       linkDescription = snapshot.data[1];/// [1] as description
                       linkImage = snapshot.data[2];/// [2] as image
                       /// Placeholder if image in URI is null
-                      if(linkImage == null || linkImage == "") linkImage = ImagePlaceholder.newsImage;
+                      if(linkImage == null || linkImage == "") linkImage = ImageConfig.newsImage;
 
                       link = snapshot.data[3];/// [3] as link
                       return LinkDisplayUI(link: link, title: linkTitle, description: linkDescription, image: linkImage, cache: cache,);

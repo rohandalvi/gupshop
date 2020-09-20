@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
@@ -290,6 +288,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
 
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
+
 
           NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
               category: widget.category,

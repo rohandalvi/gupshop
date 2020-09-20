@@ -79,6 +79,7 @@ class NavigateToBazaarLocation{
   }
 
   navigateNoBrackets(BuildContext context) async{
+    print("subCategoryDataList in NavigateToBazaarLocation : ${listOfSubCategoriesForData}");
     String userNumber = await UserDetails().getUserPhoneNoFuture();
     String userName = await UserDetails().getUserNameFuture();
 

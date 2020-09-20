@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geocoder/geocoder.dart' as gc;
@@ -176,7 +177,7 @@ class LocationService {
   }
 
   showAddress(String addressName){
-    return CustomText(text: addressName,).hyperLink();
+    return CustomText(text: addressName,textAlign: TextAlign.center,).hyperLink();
   }
 
   showLocationElevated(String senderName,double latitude, double longitude){

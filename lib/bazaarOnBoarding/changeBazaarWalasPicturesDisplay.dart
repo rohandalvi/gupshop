@@ -5,9 +5,10 @@ import 'package:gupshop/bazaarOnBoarding/changeBazaarWalasPicturesAppBar.dart';
 import 'package:gupshop/bazaarOnBoarding/pushToFirebase.dart';
 import 'package:gupshop/image/fullScreenPictureVideos.dart';
 import 'package:gupshop/navigators/navigateToBazaarSubCategorySearch.dart';
-import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
+import 'package:gupshop/widgets/customText.dart';
 
 
 class ChangeBazaarWalasPicturesDisplay extends StatefulWidget{

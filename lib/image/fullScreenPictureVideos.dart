@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/image/displayPicture.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
@@ -42,7 +43,7 @@ class FullScreenPictureAndVideos extends StatelessWidget {
 
   noAppBar(BuildContext context){
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: Center(
         child: isPicture ?
         Container(

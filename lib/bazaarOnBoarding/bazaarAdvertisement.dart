@@ -8,6 +8,7 @@ import 'package:gupshop/bazaar/categories.dart';
 import 'package:gupshop/bazaarOnBoarding/serviceAtHomeUI.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToBazaarLocation.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
@@ -225,31 +226,25 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
-          NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
-              category: widget.category,
-              categoryData: widget.categoryData,
-              subCategoryMap: widget.subCategoryMap,
-              subCategoriesList: widget.listOfSubCategories,
-              subCategoriesListData: widget.listOfSubCategoriesForData,
-              userName: userName,
-              userPhoneNo: userPhoneNo,
-              addListData: widget.addListData,
-              deleteListData: widget.deleteListData,
-              videoChanged: videoChanged,
-              videoURL: videoURL,
-              locationChanged: locationChanged,
-              location: location,
-              radius: radius,
-              isBazaarwala: isBazaarWala,
-              aSubCategoryData: aSubCategoryData
+          NavigateToBazaarLocation(
+            category: widget.category,
+            categoryData: widget.categoryData,
+            subCategoryMap: widget.subCategoryMap,
+            userName: userName,
+            userPhoneNo: userPhoneNo,
+            addListData: widget.addListData,
+            deleteListData: widget.deleteListData,
+            videoChanged: videoChanged,
+            videoURL: videoURL,
+            aSubCategoryData: aSubCategoryData
           ).navigateNoBrackets(context);
         }if(videoNotNull == false){
-            CustomFlushBar(
-              customContext: context,
-              text: CustomText(text: 'Select Video',),
-              iconName: 'stopHand',
-              message: 'Select Video',
-            ).showFlushBar();
+          CustomFlushBar(
+            customContext: context,
+            text: CustomText(text: 'Select Video',),
+            iconName: 'stopHand',
+            message: 'Select Video',
+          ).showFlushBar();
           }
       },
     );

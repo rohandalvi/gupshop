@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/bazaar/bazaarProfileSetVideo.dart';
 import 'package:gupshop/bazaar/categories.dart';
+import 'package:gupshop/bazaarOnBoarding/bazaarLocationData.dart';
 import 'package:gupshop/bazaarOnBoarding/serviceAtHomeUI.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
@@ -94,6 +95,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
   bool locationChanged;
 
   String aSubCategoryData;
+  String addressName;
 
 
   @override
@@ -154,7 +156,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
           child: CustomAppBar(
-            title: CustomText(text: TextConfig.bazaarAdvertisement,),
+            title: CustomText(text: TextConfig.bazaarAdvertisementTitle,),
             onPressed:(){
               Navigator.pop(context);
               //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
@@ -186,10 +188,12 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
                         /// video widgets:
                         Expanded(
                           flex: 1,
-                          child:whyAdvertisementWidget(TextConfig.bazaarWhyAddAdvertisement),
+                          child:FittedBox(
+                            child: whyAdvertisementWidget(TextConfig.bazaarAdvertisementIntro),
+                          ),
                         ),
                         Expanded(
-                          flex: 7,
+                          flex: 9,
                           child: cache["video"] == null ? selectVideo() : cache["video"],
                         ),
                       ]
@@ -226,6 +230,27 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
+          Map data = await GetBazaarWalasBasicProfileInfo(
+            userNumber: userPhoneNo,
+            categoryData: widget.categoryData,
+            subCategoryData: aSubCategoryData,
+          ).getLocationRadiusAddressName();
+
+          print("data in map : $data");
+          if(data != null){
+            databaseLongitude = data["longitude"];
+            databaseLatitude = data["latitude"];
+            addressName = data["addressName"];
+            radius =data["radius"];
+
+            location = new LatLng(databaseLatitude, databaseLongitude);
+            locationNotNull = true;
+
+            print("addressName in locationAddDisplay : $addressName");
+          }
+
+          print("databaseLatitude : $databaseLatitude");
+
           NavigateToBazaarLocation(
             category: widget.category,
             categoryData: widget.categoryData,
@@ -236,7 +261,13 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
             deleteListData: widget.deleteListData,
             videoChanged: videoChanged,
             videoURL: videoURL,
-            aSubCategoryData: aSubCategoryData
+            aSubCategoryData: aSubCategoryData,
+            databaseLatitude: databaseLatitude,
+            databaseLongitude: databaseLongitude,
+            addressName: addressName,
+            radius: radius,
+            location: location,
+            locationNotNull: locationNotNull,
           ).navigateNoBrackets(context);
         }if(videoNotNull == false){
           CustomFlushBar(
@@ -264,7 +295,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
         text: text,
         textAlign: TextAlign.center,
         textColor: subtitleGray,
-      ),
+      ).subTitle(),
     );
   }
 

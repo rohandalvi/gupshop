@@ -27,7 +27,6 @@ class NavigateToCustomMap{
   }
 
   navigateNoBrackets(BuildContext context) async{
-    print("lat in navigateNoBrackets : $latitude");
     return await Navigator.push(
         context,
         MaterialPageRoute(

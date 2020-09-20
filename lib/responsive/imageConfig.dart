@@ -3,6 +3,7 @@ import 'package:gupshop/responsive/sizeConfig.dart';
 class ImageConfig{
 
   static String bazaarOnBoardingWelcomeLogo = 'images/ideaBulb.png';
+  static String bazaarOnBoardingLocationLogo = 'images/locationMobile.png';
 
   /// imageSizeMultiplier = 4.32
   static double radius = SizeConfig.imageSizeMultiplier * 7;/// 30

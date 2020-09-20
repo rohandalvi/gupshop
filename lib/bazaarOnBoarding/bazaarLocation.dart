@@ -7,12 +7,15 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/bazaar/bazaarProfileSetVideo.dart';
 import 'package:gupshop/bazaar/categories.dart';
 import 'package:gupshop/bazaarOnBoarding/serviceAtHomeUI.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
@@ -37,6 +40,12 @@ class BazaarLocation extends StatefulWidget {
   final bool videoChanged;
   final String videoURL;
   final String aSubCategoryData;
+  double databaseLatitude;
+  double databaseLongitude;
+  String addressName;
+  double radius;
+  LatLng location;
+  bool locationNotNull;
 
 
 
@@ -48,7 +57,10 @@ class BazaarLocation extends StatefulWidget {
     this.category, this.listOfSubCategories, this.listOfSubCategoriesForData,
     this.subCategoryMap,this.categoryData,
     this.addListData, this.deleteListData,
-    this.videoURL, this.videoChanged, this.aSubCategoryData
+    this.videoURL, this.videoChanged, this.aSubCategoryData,
+    this.addressName, this.location, this.databaseLongitude,
+    this.databaseLatitude,
+    this.locationNotNull, this.radius
   });
 
   @override
@@ -62,25 +74,17 @@ class _BazaarLocationState extends State<BazaarLocation> {
   _BazaarLocationState({@required this.userPhoneNo, @required this.userName});
 
 
-  double databaseLatitude;
-  double databaseLongitude;
-
-
   List<bool> inputs = new List<bool>();
 
 
   bool saveButtonVisible = false;
 
-
-  bool locationNotNull = false;
   bool isBazaarWala;
-
 
   /// for creating local cache
   BazaarProfileSetVideo isVideo;
 
   LatLng locationFromMap;
-  double radius;
 
   Categories categorySelection;
   ServiceAtHome service;
@@ -88,7 +92,6 @@ class _BazaarLocationState extends State<BazaarLocation> {
 
   Map<dynamic, dynamic> cache = new Map();
 
-  LatLng location;
   bool locationChanged;
 
 
@@ -127,42 +130,45 @@ class _BazaarLocationState extends State<BazaarLocation> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
           child: CustomAppBar(
-            title: CustomText(text: 'Advertisement and Location',),
+            title: CustomText(text: TextConfig.bazaarLocationTitle,),
             onPressed:(){
               Navigator.pop(context);
               //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
             },),
         ),
         backgroundColor: Colors.white,
-        body: FutureBuilder(
-            future: GetBazaarWalasBasicProfileInfo(
-              userNumber: userPhoneNo,
-              categoryData: widget.categoryData,
-              subCategoryData: widget.aSubCategoryData,
-//              subCategoryData: widget.listOfSubCategoriesForData[0],
-            ).getVideoAndLocationRadius(),
-            builder: (context, snapshot) {
-              if(snapshot.connectionState == ConnectionState.done){
-                if(snapshot.data != null){
-                  databaseLongitude = snapshot.data["longitude"];
-                  databaseLatitude = snapshot.data["latitude"];
-                  location = new LatLng(databaseLatitude, databaseLongitude);
-                  locationNotNull = true;
-                  radius =snapshot.data["radius"];
-                }
+        body: Column(
+                children: <Widget>[
+                  /// video widgets:
+                  Expanded(
+                    flex: 1,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: CustomText(
+                        text: TextConfig.bazaarLocationIntro,
+                        textAlign: TextAlign.center,
+                        textColor: subtitleGray,
+                      ),
+                    ),
+                  ),
 
-                return ListView(
-                    children: <Widget>[
-                      /// video widgets:
-                      pageSubtitle('Add home Location : '),
-
-                      /// location widgets:
-                      locationAddDisplay(context),
-                    ]
-                );
-              } return CircularProgressIndicator();
-            }
-        ),
+                  /// location widgets:
+                  Expanded(
+                    flex: 4,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: PaddingConfig.eight),
+                      child: Image.asset(
+                        ImageConfig.bazaarOnBoardingLocationLogo,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: locationAddDisplay(context),
+                  ),
+                ]
+            ),
         floatingActionButton: showSaveButton(context),
       ),
     );
@@ -210,15 +216,17 @@ class _BazaarLocationState extends State<BazaarLocation> {
                 /// list[0] = location
                 /// list[1] = radius
                 locationFromMap = list[0];
-                radius = list[1];
+                widget.radius = list[1];
 
-                location = locationFromMap;
+                widget.location = locationFromMap;
                 locationChanged = true;
-
+                String addressNameTemp = await LocationService().getAddressFromLatLang(widget.location.latitude, widget.location.longitude);
+                print("addressNameTemp in locationAddDisplay : $addressNameTemp");
                 /// setState to make the locationNotNull = true so that
                 /// showLocation() becomes visible
                 setState(() {
-                  locationNotNull = true;
+                  widget.locationNotNull = true;
+                  widget.addressName = addressNameTemp;
                 });
               }
             },
@@ -229,14 +237,20 @@ class _BazaarLocationState extends State<BazaarLocation> {
     );
   }
 
-  showLocation(){
-    return Padding(
-      padding: EdgeInsets.all(PaddingConfig.eight),
-      child: Visibility(
-        visible: locationNotNull == true,
-        child: LocationService().showLocation(userName, databaseLatitude, databaseLatitude),
-      ),
-    );
+  showLocation() {
+    if(widget.locationNotNull == true){
+      return Padding(
+        padding: EdgeInsets.all(PaddingConfig.eight),
+        child: FittedBox(
+          child: Visibility(
+            visible:widget.locationNotNull == true,
+            child: LocationService().showAddress(widget.addressName),
+            //child: LocationService().showLocation(userName, databaseLatitude, databaseLatitude),
+          ),
+        ),
+      );
+    }return Container();
+
   }
 
 
@@ -265,12 +279,12 @@ class _BazaarLocationState extends State<BazaarLocation> {
       onPressed: () async{
         setState(() {
           if(locationFromMap != null) {
-            locationNotNull = true;
+            widget.locationNotNull = true;
           }
         });
 
 
-        if(locationNotNull == true){
+        if(widget.locationNotNull == true){
           /// adding location to cache, to show in edit profile
           cache["location"] = locationFromMap;
 
@@ -290,8 +304,8 @@ class _BazaarLocationState extends State<BazaarLocation> {
               videoChanged: widget.videoChanged,
               videoURL: widget.videoURL,
               locationChanged: locationChanged,
-              location: location,
-              radius: radius,
+              location: widget.location,
+              radius: widget.radius,
               isBazaarwala: isBazaarWala,
               aSubCategoryData: widget.aSubCategoryData
           ).navigateNoBrackets(context);

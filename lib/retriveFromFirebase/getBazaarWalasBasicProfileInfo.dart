@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/location/location_service.dart';
 
 class GetBazaarWalasBasicProfileInfo{
   String userNumber;
@@ -96,6 +97,22 @@ class GetBazaarWalasBasicProfileInfo{
       map["latitude"] = dc.data["latitude"];
       map["longitude"] = dc.data["longitude"];
       map["videoURL"] = dc.data["videoURL"];
+      map["radius"] = dc.data["radius"];
+      return map;
+    }return null;
+  }
+
+  getLocationRadiusAddressName() async{
+    DocumentSnapshot dc = await main();
+    Map map = new Map();
+    if(dc.data != null){
+      double latitude = dc.data["latitude"];
+      double longitude = dc.data["longitude"];
+      String addressName = await LocationService().getAddressFromLatLang(latitude,longitude);
+
+      map["latitude"] = latitude;
+      map["longitude"] = longitude;
+      map["addressName"] = addressName;
       map["radius"] = dc.data["radius"];
       return map;
     }return null;

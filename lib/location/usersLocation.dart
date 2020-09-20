@@ -64,10 +64,8 @@ class UsersLocation{
       subMap['address'] = address;
       subMap['addressName'] = addressName;
       map[geohash] = subMap;
-      //map[geohash] = addressName;
     });
 
-    print("map in createSetOfAddresses : ${ map}");
     return map;
   }
   

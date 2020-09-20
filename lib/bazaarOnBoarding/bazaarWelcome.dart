@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarOnBoarding/bottomButton.dart';
 import 'package:gupshop/bazaarOnBoarding/welcomeContent.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/navigators/navigateToBazaarHomeScreen.dart';
+import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 
@@ -14,7 +16,7 @@ class BazaarWelcome extends StatelessWidget {
         preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
         child: CustomAppBar(
           onPressed: (){
-            Navigator.pop(context);
+            NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
           }
         ),
       ),

@@ -11,6 +11,11 @@ class TextConfig{
       " our community to earn millions of customers";
   static String bazaarBottomButton = "Get started";
   static String bazaarOnBoardingQuestion = "What is your business ?";
-  static String bazaarAdvertisement = "Add your advertisement video :";
-  static String bazaarWhyAddAdvertisement = "Advertisements are a great way to attract users to your profile";
+  static String bazaarAdvertisementTitle = "Add your advertisement video :";
+  static const String bazaarAdvertisementIntro = '''Advertisements are a great way 
+  to attract users 
+  and earn business''';
+  static String bazaarLocationTitle = "Add your service location area";
+  static const String bazaarLocationIntro = '''Service location enables  
+  users find you effectively''';
 }

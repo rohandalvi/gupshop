@@ -10,7 +10,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customText.dart';
-import 'package:gupshop/usersLocation/usersLocation.dart';
+import 'package:gupshop/location/usersLocation.dart';
 
 class SubCategorySearch extends StatefulWidget {
   final String category;

@@ -38,7 +38,7 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
       mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding:EdgeInsets.all(PaddingConfig.eight),
+            padding:EdgeInsets.all(PaddingConfig.sixteen),
             child: CustomRaisedButton(
             child: CustomText(text: 'Tap to add video',),
               onPressed: (){

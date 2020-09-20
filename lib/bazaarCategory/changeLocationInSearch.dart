@@ -5,7 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
-import 'package:gupshop/usersLocation/usersLocation.dart';
+import 'package:gupshop/location/usersLocation.dart';
 
 class ChangeLocationInSearch{
   String userNumber;

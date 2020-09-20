@@ -130,11 +130,13 @@ class CustomText extends StatelessWidget {
   subTitle(){
     return Text(
       text,
+      textAlign: textAlign,
       style: GoogleFonts.openSans(
         textStyle: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: subtitleFontSize,
         ),
+        color: textColor == null ? subtitleGray : textColor,
       ),
     );
   }

@@ -175,6 +175,10 @@ class LocationService {
     );
   }
 
+  showAddress(String addressName){
+    return CustomText(text: addressName,).hyperLink();
+  }
+
   showLocationElevated(String senderName,double latitude, double longitude){
     return CustomRaisedButton(
       child: CustomText(text: '$senderName \nCurrent Location 📍',),/// toDo- very very big name
@@ -193,6 +197,8 @@ class LocationService {
     GeoFirePoint myLocation = await  getGeopointAndGeohashObject(latitude, longitude);
     return myLocation.hash;
   }
+
+
 
 }
 

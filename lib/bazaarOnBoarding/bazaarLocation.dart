@@ -249,7 +249,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
           ),
         ),
       );
-    }return Container();
+    }return SizedBox.shrink();
 
   }
 

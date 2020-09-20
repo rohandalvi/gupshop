@@ -37,39 +37,38 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
 //      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding:EdgeInsets.all(PaddingConfig.eight),
-              child: CustomRaisedButton(
-              child: CustomText(text: 'Tap to add video',),
-                onPressed: (){
-                  CustomBottomSheet(
-                    customContext: context,
-                    firstIconName: 'photoGallery',
-                    firstIconText: 'Pick video from  Gallery',
-                    firstIconAndTextOnPressed: (){
-                      _pickVideoFromGallery();
-                    },
-                    secondIconName: 'image2vector',
-                    secondIconText: 'Record video from Camera',
-                    secondIconAndTextOnPressed: (){
-                      _pickVideoFromCamer();
-                    },
-                  ).showTwo();
-                },
-              ).elevated(),
-            ),
+          Padding(
+            padding:EdgeInsets.all(PaddingConfig.eight),
+            child: CustomRaisedButton(
+            child: CustomText(text: 'Tap to add video',),
+              onPressed: (){
+                CustomBottomSheet(
+                  customContext: context,
+                  firstIconName: 'photoGallery',
+                  firstIconText: 'Pick video from  Gallery',
+                  firstIconAndTextOnPressed: (){
+                    _pickVideoFromGallery();
+                  },
+                  secondIconName: 'image2vector',
+                  secondIconText: 'Record video from Camera',
+                  secondIconAndTextOnPressed: (){
+                    _pickVideoFromCamer();
+                  },
+                ).showTwo();
+              },
+            ).elevated(),
           ),
           if((widget.video != null || widget.cameraVideo != null))
-            Expanded(
-              flex: 10,
-              child: CustomVideoPlayerThumbnail(videoURL: widget.videoURL,),
+            Container(
+              child: Expanded(
+                flex: 10,
+                child: CustomVideoPlayerThumbnail(videoURL: widget.videoURL,),
 //            DisplayVideo(
 //              videoURL: widget.videoURL,
 //              width: WidgetConfig.sizedBoxWidthFiveHundred,
 //              height: WidgetConfig.sizedBoxWidthFiveHundred,
 //            ),
+              ),
             ),
         ],
       ),

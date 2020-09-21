@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:gupshop/responsive/sizeConfig.dart';
 
 class WidgetConfig{
-
   /// heightMultiplier = 8.16
   /// widthMultiplier = 4.32
   static double buildMessageComposer = SizeConfig.heightMultiplier * 9;
@@ -66,4 +66,20 @@ class WidgetConfig{
   /// BorderRadius
   static double borderRadiusFifteen = SizeConfig.widthMultiplier * 3.47;/// 15/4.32
   static double borderRadiusOne = SizeConfig.widthMultiplier * 0.23148148148;/// 1/4.32
+
+
+  /// videoThumbnail
+  getChatMessageWidth(BuildContext context){
+    return MediaQuery.of(context).size.height / 2.9;
+  }
+  getChatMessageHeight(BuildContext context){
+    return MediaQuery.of(context).size.width / 2.5;
+  }
+
+  getOnBoardingWidth(BuildContext context){
+    return MediaQuery.of(context).size.height;
+  }
+  getOnBoradingHeight(BuildContext context){
+    return MediaQuery.of(context).size.width;
+  }
 }

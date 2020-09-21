@@ -33,26 +33,8 @@ class ImagesPickersDisplayPictureURLorFile {
     return DisplayCircularPicture(height: height,width: width, image: ip);
   }
 
-
-//  getImageURL(File galleryImage, String userPhoneNo, int number) async{
-//    String fileName = basename(galleryImage.path);
-//    //String fileName = basename(_galleryImage.path);
-//    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child(fileName);
-//    StorageUploadTask uploadTask = firebaseStorageReference.putFile(galleryImage);
-//    StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
-//    imageURL = await imageURLFuture.ref.getDownloadURL();
-//    return imageURL;
-//  }
-
   getVideoURL(File galleryImage, String userPhoneNo, int number, BuildContext context) async{
     imageURL = await CreateVideoURL().create(context, galleryImage, userPhoneNo, number);
-//    String fileName = basename(galleryImage.path);
-//    //String fileName = basename(_galleryImage.path);
-//    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child("video").child(fileName);
-//    StorageUploadTask uploadTask = firebaseStorageReference.putFile(galleryImage, StorageMetadata(contentType: 'video/mp4'));
-//    StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
-//    imageURL = await imageURLFuture.ref.getDownloadURL();
-//    print("imageURL in getVideoURL: $imageURL");
     return imageURL;
   }
 

@@ -9,9 +9,10 @@ import 'package:video_player/video_player.dart';
 
 class CustomVideoPlayerThumbnail extends StatefulWidget {
   final String videoURL;
+  final Image thumbnailPicture;
   IndividualChatCache cache = new IndividualChatCache();
 
-  CustomVideoPlayerThumbnail({this.videoURL, this.cache});
+  CustomVideoPlayerThumbnail({this.videoURL, this.thumbnailPicture,this.cache});
 
   @override
   _CustomVideoPlayerThumbnailState createState() => _CustomVideoPlayerThumbnailState();
@@ -21,16 +22,15 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
   VideoPlayerController videoPlayerController;
   bool isInitialized = false;
 
-  _initPlayer() async{
-    print("in _initPlayer");
-    videoPlayerController = VideoPlayerController.network(widget.videoURL)..initialize()
-        .then((_) {
-          print("video initialized");
-      setState(() {
-
-      });
-    });
-  }
+//  _initPlayer() async{
+//    videoPlayerController = VideoPlayerController.network(widget.videoURL)..initialize()
+//        .then((_) {
+//          print("video initialized");
+//      setState(() {
+//
+//      });
+//    });
+//  }
 
   @override
   void dispose() {
@@ -44,13 +44,13 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
     /// the initstate would get called and the thumbnail would get generated,
     /// but next time, the old video's thumbnail would show up because the
     /// initstate does not get called again.
-    _initPlayer();
+//    _initPlayer();
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   void initState() {
-    _initPlayer();
+//    _initPlayer();
     super.initState();
   }
 
@@ -75,7 +75,11 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
                 child: SizedBox(
                     width: videoPlayerController.value.size?.width ?? 0,
                     height: videoPlayerController.value.size?.height ?? 0,
-                    child: VideoPlayer(videoPlayerController)
+                    child: Image(
+                      image: widget.thumbnailPicture.image,
+                      fit: BoxFit.cover,
+                    ),
+                    //VideoPlayer(videoPlayerController)
                 ),
                 onTap: (){
                 Navigator.push(

@@ -233,7 +233,6 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
             subCategoryData: aSubCategoryData,
           ).getLocationRadiusAddressName();
 
-          print("data in map : $data");
           if(data != null){
             databaseLongitude = data["longitude"];
             databaseLatitude = data["latitude"];
@@ -243,7 +242,6 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
             location = new LatLng(databaseLatitude, databaseLongitude);
             locationNotNull = true;
 
-            print("addressName in locationAddDisplay : $addressName");
           }
 
 

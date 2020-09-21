@@ -11,8 +11,10 @@ import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/video/displayVideo.dart';
+import 'package:gupshop/video/myVideoThumbnail.dart';
 import 'package:gupshop/video/pickVideoFromCamera.dart';
 import 'package:gupshop/video/pickVideoFromGallery.dart';
+import 'package:gupshop/video/videoThumbnailHelper.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -62,11 +64,11 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
             ).elevated(),
           ),
           (widget.video != null || widget.cameraVideo != null) ?
-            Container(
-              child: Expanded(
-                flex: 10,
-                child: CustomVideoPlayerThumbnail(videoURL: widget.videoURL,),
-              ),
+            Expanded(
+              flex: 4,
+              child: VideoThumbnailHelper(videoURL: widget.videoURL, width: WidgetConfig().getOnBoardingWidth(context), height: WidgetConfig().getOnBoradingHeight(context),)
+              //MyVideoThumbnail(videoURL: widget.videoURL),
+              //CustomVideoPlayerThumbnail(videoURL: widget.videoURL,),
             ) :
           Expanded(
             flex: 4,
@@ -82,14 +84,21 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
                     ),
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(),
-                  ),
-                ),
+//                Expanded(
+//                  flex: 1,
+//                  child: Align(
+//                    alignment: Alignment.topCenter,
+//                    child: Container(),
+//                  ),
+//                ),
               ],
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Container(),
             ),
           ),
 

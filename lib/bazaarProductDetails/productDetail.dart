@@ -10,6 +10,7 @@ import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
+import 'package:gupshop/video/videoThumbnailHelper.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
@@ -214,7 +215,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                             TabBarView(
                               controller: imagesController,
                               children: <Widget>[
-                                CustomVideoPlayerThumbnail(videoURL: videoURL,),
+                                VideoThumbnailHelper(videoURL: videoURL,),
+                                //CustomVideoPlayerThumbnail(videoURL: videoURL,),
                                 //CustomVideoPlayer(videoURL: videoURL,),
                                 buildImage(thumbnailPicture),
                                 buildImage(otherPictureOne),
@@ -255,13 +257,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
   );
   }
 
-  buildVideo(String videoURL){
-    return GestureDetector(
-      child: CustomVideoPlayerThumbnail(videoURL: videoURL,),
-      onTap: (){
-        NavigateToFullScreenPictureAndVideos(isPicture: false, shouldZoom: true, payLoad: videoURL).navigateNoBrackets(context);
-      },
-    );
-  }
+
 
 }

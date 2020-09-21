@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/image/displayPicture.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/responsive/textConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/video/downloadVideo.dart';
 import 'package:gupshop/video/videoThumbnailHelper.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
@@ -29,10 +30,7 @@ class ShowVideoThumbnail extends StatelessWidget {
           height: MediaQuery.of(context).size.width / 2,
 //          width: MediaQuery.of(context).size.height / 2.75,
           //height: MediaQuery.of(context).size.width / 2.25,
-          child: Card(
-            child: VideoThumbnailHelper(videoURL: videoURL,),
-            //CustomVideoPlayerThumbnail(videoURL: videoURL, cache: cache,),
-          ),
+          child: VideoThumbnailHelper(videoURL: videoURL, width: WidgetConfig().getChatMessageWidth(context), height: WidgetConfig().getChatMessageHeight(context),),
         ),
         /// download button:
         CustomIconButton(

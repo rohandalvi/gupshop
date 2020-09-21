@@ -20,7 +20,6 @@ class MyVideoThumbnail{
   MyVideoThumbnail({this.videoURL});
 
   getUniqueIdentifierFromVideoUrl() {
-    print("URL $videoURL");
     String videoId = videoURL.substring(videoURL.indexOf(".com")+5).split("/")[4];
     String  hashedId  = videoId.substring(0, videoId.indexOf("?"));
     String hash = "video%2F";

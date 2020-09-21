@@ -60,9 +60,9 @@ class DisplayPicture extends StatelessWidget {
             image: image.image,
             fit: BoxFit.cover,
           ),
-          decoration: BoxDecoration(
-            //shape: BoxShape.rectangle,
-          ),
+//          decoration: BoxDecoration(
+//            //shape: BoxShape.rectangle,
+//          ),
         ),
       ),
     );

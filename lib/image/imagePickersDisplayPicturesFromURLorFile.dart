@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/image/displayCircularPicture.dart';
+import 'package:gupshop/video/createVideoURL.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -43,14 +44,15 @@ class ImagesPickersDisplayPictureURLorFile {
 //    return imageURL;
 //  }
 
-  getVideoURL(File galleryImage, String userPhoneNo, int number) async{
-    String fileName = basename(galleryImage.path);
-    //String fileName = basename(_galleryImage.path);
-    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child("video").child(fileName);
-    StorageUploadTask uploadTask = firebaseStorageReference.putFile(galleryImage, StorageMetadata(contentType: 'video/mp4'));
-    StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
-    imageURL = await imageURLFuture.ref.getDownloadURL();
-    print("imageURL in getVideoURL: $imageURL");
+  getVideoURL(File galleryImage, String userPhoneNo, int number, BuildContext context) async{
+    imageURL = await CreateVideoURL().create(context, galleryImage, userPhoneNo, number);
+//    String fileName = basename(galleryImage.path);
+//    //String fileName = basename(_galleryImage.path);
+//    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child("video").child(fileName);
+//    StorageUploadTask uploadTask = firebaseStorageReference.putFile(galleryImage, StorageMetadata(contentType: 'video/mp4'));
+//    StorageTaskSnapshot imageURLFuture = await uploadTask.onComplete;
+//    imageURL = await imageURLFuture.ref.getDownloadURL();
+//    print("imageURL in getVideoURL: $imageURL");
     return imageURL;
   }
 

@@ -66,11 +66,6 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
               child: Expanded(
                 flex: 10,
                 child: CustomVideoPlayerThumbnail(videoURL: widget.videoURL,),
-//            DisplayVideo(
-//              videoURL: widget.videoURL,
-//              width: WidgetConfig.sizedBoxWidthFiveHundred,
-//              height: WidgetConfig.sizedBoxWidthFiveHundred,
-//            ),
               ),
             ) :
           Expanded(
@@ -109,7 +104,7 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
     if(permission == true){
       File _video = await PickVideoFromGallery().pick();
       widget.video = _video;
-      String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(widget.video, widget.userPhoneNo, null);
+      String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(widget.video, widget.userPhoneNo, null, context);
       Navigator.pop(context);
       setState(() {
         widget.videoURL = url;
@@ -123,7 +118,7 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
     if(permission == true){
       File _video = await PickVideoFromCamera().pick();
       widget.cameraVideo = _video;
-      String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(widget.cameraVideo, widget.userPhoneNo, null);
+      String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(widget.cameraVideo, widget.userPhoneNo, null,context);
       Navigator.pop(context);
       setState(() {
         widget.videoURL = url;

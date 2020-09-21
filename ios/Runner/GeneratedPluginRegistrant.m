@@ -142,6 +142,12 @@
 @import sqflite;
 #endif
 
+#if __has_include(<thumbnails/ThumbnailsPlugin.h>)
+#import <thumbnails/ThumbnailsPlugin.h>
+#else
+@import thumbnails;
+#endif
+
 #if __has_include(<url_launcher/FLTURLLauncherPlugin.h>)
 #import <url_launcher/FLTURLLauncherPlugin.h>
 #else
@@ -152,6 +158,12 @@
 #import <video_player/FLTVideoPlayerPlugin.h>
 #else
 @import video_player;
+#endif
+
+#if __has_include(<video_thumbnail/VideoThumbnailPlugin.h>)
+#import <video_thumbnail/VideoThumbnailPlugin.h>
+#else
+@import video_thumbnail;
 #endif
 
 @implementation GeneratedPluginRegistrant
@@ -180,8 +192,10 @@
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];
   [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
+  [ThumbnailsPlugin registerWithRegistrar:[registry registrarForPlugin:@"ThumbnailsPlugin"]];
   [FLTURLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTURLLauncherPlugin"]];
   [FLTVideoPlayerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTVideoPlayerPlugin"]];
+  [VideoThumbnailPlugin registerWithRegistrar:[registry registrarForPlugin:@"VideoThumbnailPlugin"]];
 }
 
 @end

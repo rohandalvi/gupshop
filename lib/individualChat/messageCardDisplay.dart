@@ -65,23 +65,23 @@ class MessageCardDisplay extends StatelessWidget {
     return messageContainer;
   }
 
-  showVideo(String videoURL,){
-    try{
-      return Column(
-        children: <Widget>[
-          SizedBox(
-            width: WidgetConfig.sizedBoxHeightTwoForty,
-            height: WidgetConfig.sizedBoxHeightOneFifty,
-            child: DisplayCircularPicture().videoFrame(videoURL),
-          ),
-
-        ],
-      );
-        //CustomVideoPlayer(videoURL: videoURL);
-    }
-    catch (e){
-      return Icon(Icons.image);}
-  }
+//  showVideo(String videoURL,){
+//    try{
+//      return Column(
+//        children: <Widget>[
+//          SizedBox(
+//            width: WidgetConfig.sizedBoxHeightTwoForty,
+//            height: WidgetConfig.sizedBoxHeightOneFifty,
+//            child: DisplayCircularPicture().videoFrame(videoURL),
+//          ),
+//
+//        ],
+//      );
+//        //CustomVideoPlayer(videoURL: videoURL);
+//    }
+//    catch (e){
+//      return Icon(Icons.image);}
+//  }
 
   addToCache(Container messageContainer){
     cache.messageContainer = messageContainer;

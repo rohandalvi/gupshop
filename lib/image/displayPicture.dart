@@ -49,6 +49,24 @@ class DisplayPicture extends StatelessWidget {
   }
 
 
+  hack(context, Image image) {
+    return Card(
+      child: Padding(
+        padding:EdgeInsets.all(PaddingConfig.three),
+        child: Container(
+          width: MediaQuery.of(context).size.height / 2.9,
+          height: MediaQuery.of(context).size.width / 2.5,
+          child: Image(
+            image: image.image,
+            fit: BoxFit.cover,
+          ),
+          decoration: BoxDecoration(
+            //shape: BoxShape.rectangle,
+          ),
+        ),
+      ),
+    );
+  }
 
   chatPictureFrame(context){
     return Card(

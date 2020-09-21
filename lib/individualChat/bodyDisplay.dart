@@ -229,7 +229,7 @@ class _BodyDisplayState extends State<BodyDisplay> {
           } return Container();
         },
         child: messageCached() == false?
-        MessageCardDisplay(
+         MessageCardDisplay(
           isMe: widget.isMe, isNews: widget.isNews, imageURL: widget.imageURL,
           isLocationMessage: widget.isLocationMessage,
           newsLink: widget.newsLink, newsBody: widget.newsBody,

@@ -83,6 +83,9 @@ dependencies:
   search_map_place: ^0.3.0 # 27/8/20
   gallery_saver: ^2.0.1
 
+  thumbnails: ^1.0.1 # for video thumbnail
+  video_thumbnail: ^0.2.2 # for video thumbnail
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -14,33 +14,6 @@ class ImagesPickersDisplayPictureURLorFile {
   String imageURL;
   String userPhoneNo;
 
-
-  /// This funcion will helps you to pick and Image from Gallery
-//  pickImageFromGallery() async{
-//    return await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 50);
-//  }
-
-
-  /// This funcion will helps you to pick and Image from Camera
-//  pickImageFromCamer() async{
-//    return await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 50);
-//  }
-
-//  cropImage(File tempImage) async{
-//    File croppedImage = await ImageCropper.cropImage(
-//      sourcePath: tempImage.path,
-//      aspectRatio: CropAspectRatio(
-//        ratioX: 1.0,
-//        ratioY: 1.0,
-//      ),
-//      maxWidth: 512,
-//      maxHeight: 512,
-//    );
-//
-//    return croppedImage;
-//  }
-
-
   displayPictureFromFile(File image, double height, double width){
     ImageProvider ip = new FileImage(image);
     return DisplayCircularPicture(height: height,width: width, image: ip);

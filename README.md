@@ -53,3 +53,4 @@ Specify your API key in the application delegate ios/Runner/AppDelegate.m:
 9. flutter_bloc: ^6.0.1 #25/8/20
 10. search_map_place: ^0.3.0 # 27/8/20
 11. gallery_saver: ^2.0.1
+12. thumbnails: ^1.0.1 =  no seperate iOS settings

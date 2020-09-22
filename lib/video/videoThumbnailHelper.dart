@@ -27,6 +27,7 @@ class VideoThumbnailHelper extends StatelessWidget {
 
 
           return Stack(
+            alignment: Alignment.center,
             children: <Widget>[
               Card(
                 child: Padding(

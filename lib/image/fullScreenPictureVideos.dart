@@ -43,7 +43,7 @@ class FullScreenPictureAndVideos extends StatelessWidget {
 
   noAppBar(BuildContext context){
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: white,
       body: Center(
         child: isPicture ?
         Container(

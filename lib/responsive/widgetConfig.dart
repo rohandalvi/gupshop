@@ -45,7 +45,8 @@ class WidgetConfig{
   static double seventyFiveHeight = SizeConfig.heightMultiplier * 9.19;/// 75/8.16
   static double hundredHeight = SizeConfig.heightMultiplier * 12;/// 100/8.16
   static double hundredWidth = SizeConfig.widthMultiplier * 23;/// 100/4.32
-  static double twoFiftyWidth = SizeConfig.widthMultiplier * 57.8703703704;/// 250/4.32
+  static double twoFiftyWidth = SizeConfig.widthMultiplier * 46.2962962963;/// 200/4.32
+  static double twoHundredWidth = SizeConfig.widthMultiplier * 57.8703703704;/// 250/4.32
   static double twoFiftyHeight = SizeConfig.widthMultiplier * 30.637254902;/// 250/8.16
   static double threeSixtyHeight = SizeConfig.heightMultiplier * 44;/// 360/8.16
   static double threeSixtyWidth = SizeConfig.widthMultiplier * 84;/// 360/4.32
@@ -75,11 +76,17 @@ class WidgetConfig{
   getChatMessageHeight(BuildContext context){
     return MediaQuery.of(context).size.width / 2.5;
   }
-
   getOnBoardingWidth(BuildContext context){
     return MediaQuery.of(context).size.height;
   }
   getOnBoradingHeight(BuildContext context){
     return MediaQuery.of(context).size.width;
   }
+  getChatMessageOuterFrameWidth(BuildContext context){
+    return MediaQuery.of(context).size.height / 2.75;
+  }
+  getChatMessageOuterFrameHeight(BuildContext context){
+    return MediaQuery.of(context).size.width / 2.25;
+  }
+
 }

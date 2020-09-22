@@ -21,15 +21,12 @@ class ShowVideoThumbnail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.topLeft,
       children: <Widget>[
-        //CustomVideoPlayer(videoURL: videoURL,),
-        //CustomVideoPlayerThumbnail(videoURL: videoURL, cache: cache,),
         /// videoPlayer:
         SizedBox(
-          width: MediaQuery.of(context).size.height / 2.75,
-          height: MediaQuery.of(context).size.width / 2,
-//          width: MediaQuery.of(context).size.height / 2.75,
-          //height: MediaQuery.of(context).size.width / 2.25,
+          width: WidgetConfig().getChatMessageOuterFrameWidth(context),
+          height: WidgetConfig().getChatMessageOuterFrameHeight(context),
           child: VideoThumbnailHelper(videoURL: videoURL, width: WidgetConfig().getChatMessageWidth(context), height: WidgetConfig().getChatMessageHeight(context),),
         ),
         /// download button:

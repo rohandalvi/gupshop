@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/typing/typingStatusDisplay.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
@@ -84,36 +85,41 @@ class ChatAppBar extends StatelessWidget {
                             //padding: EdgeInsets.all(PaddingConfig.three),
                           /// TODO: Priority 1 : Apply responsiveness to the Column below
                             child: Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  /// name:
-                                  Container(
-                                      padding: EdgeInsets.only(top: PaddingConfig.eighteen),
-                                      child : GestureDetector(
-                                        child: name,
-                                        onTap: nameOnPressed,
-                                      )
-                                  ),
-                                  Container(
-                                    /// show presence only when its an individual conversation, not
-                                    /// in group conversation
-                                    child: Visibility(
-                                      visible: presenceVisibility,
-                                      child: presence,
+                              child: Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    /// name:
+                                    Container(
+                                        padding: EdgeInsets.only(top: PaddingConfig.eighteen),
+                                        child : GestureDetector(
+                                          child: name,
+                                          onTap: nameOnPressed,
+                                        )
                                     ),
-                                  ),
-                                  /// typing :
-                                  Container(
-                                      child: TypingStatusDisplay(
-                                        conversationId: conversationId,
-                                        userNumber: userPhoneNo,
-                                        userName: userName,
-                                        groupExits: groupExits,),
-                                  ),
-                                ],
+                                    FittedBox(
+                                      child: Container(
+                                        width: WidgetConfig.twoHundredWidth,
+                                        /// show presence only when its an individual conversation, not
+                                        /// in group conversation
+                                        child: Visibility(
+                                          visible: presenceVisibility,
+                                          child: presence,
+                                        ),
+                                      ),
+                                    ),
+                                    /// typing :
+                                    Container(
+                                        child: TypingStatusDisplay(
+                                          conversationId: conversationId,
+                                          userNumber: userPhoneNo,
+                                          userName: userName,
+                                          groupExits: groupExits,),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           //),

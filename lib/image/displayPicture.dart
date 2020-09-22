@@ -39,6 +39,7 @@ class DisplayPicture extends StatelessWidget {
 
   zoom(context){
     return Container(
+      color: white,
       width: MediaQuery.of(context).size.height / 1.25,
       height: MediaQuery.of(context).size.width / 1.25,
       /// for zoom:

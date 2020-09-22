@@ -10,7 +10,6 @@ import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
 import 'package:gupshop/individualChat/chatAppBar.dart';
 import 'package:gupshop/widgets/customDialogBox.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class IndividualChatAppBar extends StatefulWidget {

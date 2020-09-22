@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/image/displayPicture.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/video/myVideoThumbnail.dart';
-import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
+import 'package:gupshop/widgets/customVideoPlayer.dart';
 
 class VideoThumbnailHelper extends StatelessWidget {
   final String videoURL;
@@ -26,18 +26,31 @@ class VideoThumbnailHelper extends StatelessWidget {
 //          final _dataSize = snapshot.data.dataSize;
 
 
-          return Card(
-            child: Padding(
-              padding:EdgeInsets.all(PaddingConfig.three),
-              child: Container(
-                width: width ?? 0,
-                height: height ?? 0,
-                child: Image(
-                  image: thumbnailImage.image,
-                  fit: BoxFit.cover,
+          return Stack(
+            children: <Widget>[
+              Card(
+                child: Padding(
+                  padding:EdgeInsets.all(PaddingConfig.three),
+                  child: Container(
+                    width: width,
+                    height: height,
+                    child: Image(
+                      image: thumbnailImage.image,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              CustomIconButton(iconNameInImageFolder: 'playButton',
+                onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CustomVideoPlayer(videoURL:videoURL),//pass Name() here and pass Home()in name_screen
+                      )
+                  );
+                },)
+            ],
           );
             //
         }

@@ -96,13 +96,6 @@ class DisplayCircularPicture extends StatelessWidget {
 //    );
 //  }
 
-  videoFrame(String videoURL){
-    return
-       Card(
-          child: CustomVideoPlayerThumbnail(videoURL: videoURL,),
-        );
-
-  }
 
   videoFullFrame(String videoURL,bool shouldZoom){
     return

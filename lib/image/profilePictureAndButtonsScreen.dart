@@ -3,14 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/image/cropImage.dart';
 import 'package:gupshop/image/imageVideoPermissionHandler.dart';
 import 'package:gupshop/image/pickImageFromCamera.dart';
 import 'package:gupshop/image/pickImageFromGallery.dart';
 import 'package:gupshop/home/home.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
+import 'package:gupshop/widgets/customText.dart';
 import 'dart:io';
 import 'package:image_cropper/image_cropper.dart';
 
@@ -143,46 +146,54 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
   Widget galleryApplyCameraButtons(BuildContext context, File _galleryImage, File _cameraImage ){
     print("in galleryApplyCameraButtons");
         return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconButton(
-              icon: SvgPicture.asset('images/photoGallery.svg',),
-              onPressed: () async{
-                File tempImage = await _pickImageFromGallery(setState);
-                if(userName != null && tempImage != null){
+            Expanded(
+              flex: 1,
+              child: IconButton(
+                icon: SvgPicture.asset('images/photoGallery.svg',),
+                onPressed: () async{
+                  File tempImage = await _pickImageFromGallery(setState);
+                  if(userName != null && tempImage != null){
 //                if(userName != null){
-                  if(groupConversationId != null){
-                    await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, tempImage);
-                  }
-                  else{
-                    await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, tempImage);
-                    CustomNavigator().navigateToHome(context, userName, userPhoneNo);
-                  }
+                    if(groupConversationId != null){
+                      await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, tempImage);
+                    }
+                    else{
+                      await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, tempImage);
+                      CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+                    }
 
-                  widget.chatListCache.remove(widget.conversationId);
-                  profilePictureChanged = true;
+                    widget.chatListCache.remove(widget.conversationId);
+                    profilePictureChanged = true;
 
-                }
-              },
+                  }
+                },
+              ),
             ),
 
-            IconButton(
-              icon: SvgPicture.asset('images/image2vector.svg',),
-              onPressed: () async{
-                File tempImage = await _pickImageFromCamer(setState);
-                if(userName != null && tempImage != null){
-                //if(userName != null){
-                  if(groupConversationId != null){
-                    await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, tempImage);
+            CustomText(text: TextConfig.editImage,textColor: subtitleGray,).bigFont(),
+
+            Expanded(
+              flex: 1,
+              child: IconButton(
+                icon: SvgPicture.asset('images/image2vector.svg',),
+                onPressed: () async{
+                  File tempImage = await _pickImageFromCamer(setState);
+                  if(userName != null && tempImage != null){
+                  //if(userName != null){
+                    if(groupConversationId != null){
+                      await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, groupConversationId, tempImage);
+                    }
+                    else{
+                      await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, tempImage);
+                      CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+                    }
+                    widget.chatListCache.remove(widget.conversationId);
+                    profilePictureChanged = true;
                   }
-                  else{
-                    await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, tempImage);
-                    CustomNavigator().navigateToHome(context, userName, userPhoneNo);
-                  }
-                  widget.chatListCache.remove(widget.conversationId);
-                  profilePictureChanged = true;
-                }
-              },
+                },
+              ),
             ),
           ],
         );

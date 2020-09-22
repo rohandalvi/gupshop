@@ -18,4 +18,8 @@ class TextConfig{
   static String bazaarLocationTitle = "Add your service location area";
   static const String bazaarLocationIntro = '''Service location enables  
   users find you effectively''';
+
+
+  /// images
+  static const String editImage = 'Edit picture';
 }

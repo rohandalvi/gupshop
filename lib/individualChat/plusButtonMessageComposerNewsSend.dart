@@ -17,6 +17,7 @@ import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/models/message.dart';
 import 'package:gupshop/models/text_message.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
@@ -70,7 +71,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               customContext: context,
 
               firstIconName: 'photoGallery',
-              firstIconText: 'Pick image from  Gallery',
+              firstIconText: TextConfig.pickGalleryImage,
               firstIconAndTextOnPressed: () async{
                 Navigator.pop(context);
                 String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'imageURL',).saveAndGenerateId();
@@ -82,7 +83,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
                     userName: widget.userName, groupExits: widget.groupExits).push();
               },
               secondIconName: 'image2vector',
-              secondIconText: 'Click image from Camera',
+              secondIconText: TextConfig.pickCameraImage,
               secondIconAndTextOnPressed: () async{
                 /// clicking image from camera flowchart:
                 /// pop the bottom bar
@@ -99,7 +100,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
                     groupExits: widget.groupExits).push();
               },
               thirdIconName: 'photoGallery',
-              thirdIconText: 'Pick video from Gallery',
+              thirdIconText: TextConfig.pickGalleryVideo,
               thirdIconAndTextOnPressed: () async{
                 Navigator.pop(context);
                 String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'videoURL',).saveAndGenerateId();
@@ -111,7 +112,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
                 }
               },
               fourthIconName: 'videoCamera',
-              fourthIconText: 'Record video from Camera',
+              fourthIconText: TextConfig.pickCameraVideo,
               fourthIconAndTextOnPressed: () async{
                 Navigator.pop(context);
                 String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'videoURL',).saveAndGenerateId();
@@ -129,7 +130,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
                 }
               },
               fifthIconName: 'location',
-              fifthIconText: 'Send Current Location',
+              fifthIconText: TextConfig.currentLocation,
               fifthIconAndTextOnPressed: () async{
                 /// first check if user has given permission to access location
                 var permission = await LocationPermissionHandler().handlePermissions(context);

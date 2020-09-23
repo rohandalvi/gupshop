@@ -27,4 +27,12 @@ class TextConfig{
   /// trace
   static const String homeTrace = 'home';
   static const String homeHit = 'home_hit';
+
+
+  /// for plus options in individual chat
+  static const String pickGalleryImage = 'Pick image from  Gallery';
+  static const String pickCameraImage = 'Click image from Camera';
+  static const String pickGalleryVideo = 'Pick video from Gallery';
+  static const String pickCameraVideo = 'Record video from Camera';
+  static const String currentLocation = 'Send Current Location';
 }

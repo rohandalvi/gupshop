@@ -60,7 +60,10 @@ class CustomBottomSheet extends StatelessWidget {
                       iconNameInImageFolder: firstIconName,
                       onPressed: firstIconAndTextOnPressed,
                     ),
-                    CustomText(text: firstIconText,)
+                    GestureDetector(
+                      onTap: firstIconAndTextOnPressed,
+                      child: CustomText(text: firstIconText,)
+                    )
                   ],
                 ),
                 Row(
@@ -69,7 +72,10 @@ class CustomBottomSheet extends StatelessWidget {
                       iconNameInImageFolder: secondIconName,
                       onPressed: secondIconAndTextOnPressed,
                     ),
-                    CustomText(text: secondIconText,)
+                    GestureDetector(
+                      onTap: secondIconAndTextOnPressed,
+                      child: CustomText(text: secondIconText,)
+                    )
                   ],
                 ),
                 Row(
@@ -78,7 +84,9 @@ class CustomBottomSheet extends StatelessWidget {
                       iconNameInImageFolder: thirdIconName,
                       onPressed: thirdIconAndTextOnPressed,
                     ),
-                    CustomText(text: thirdIconText,)
+                    GestureDetector(
+                      onTap: thirdIconAndTextOnPressed,
+                      child: CustomText(text: thirdIconText,))
                   ],
                 ),
                 Row(
@@ -87,7 +95,9 @@ class CustomBottomSheet extends StatelessWidget {
                       iconNameInImageFolder: fourthIconName,
                       onPressed: fourthIconAndTextOnPressed,
                     ),
-                    CustomText(text: fourthIconText,)
+                    GestureDetector(
+                      onTap: fourthIconAndTextOnPressed,
+                      child: CustomText(text: fourthIconText,))
                   ],
                 ),
                 Row(
@@ -96,7 +106,10 @@ class CustomBottomSheet extends StatelessWidget {
                       iconNameInImageFolder: fifthIconName,
                       onPressed: fifthIconAndTextOnPressed,
                     ),
-                    CustomText(text: fifthIconText,)
+                    GestureDetector(
+                      onTap: fifthIconAndTextOnPressed,
+                      child: CustomText(text: fifthIconText,)
+                    )
                   ],
                 ),
 //                Row(

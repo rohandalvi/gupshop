@@ -22,4 +22,9 @@ class TextConfig{
 
   /// images
   static const String editImage = 'Edit picture';
+
+
+  /// trace
+  static const String homeTrace = 'home';
+  static const String homeHit = 'home_hit';
 }

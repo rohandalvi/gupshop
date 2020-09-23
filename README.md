@@ -54,3 +54,4 @@ Specify your API key in the application delegate ios/Runner/AppDelegate.m:
 10. search_map_place: ^0.3.0 # 27/8/20
 11. gallery_saver: ^2.0.1
 12. thumbnails: ^1.0.1 =  no seperate iOS settings
+13. firebase_performance: ^0.4.0 # 22/9/20 No seperate iOS settings

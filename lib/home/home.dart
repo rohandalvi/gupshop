@@ -1,10 +1,13 @@
 
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/chat_list_page/chat_List.dart';
+import 'package:gupshop/dataGathering/myTrace.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/bazaar/bazaarHome_screen.dart';
 import 'package:gupshop/home/homeAppBar.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 
 // name screen => home
@@ -35,7 +38,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-
+    homeTrace();
     super.initState();
   }
 
@@ -62,6 +65,17 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  homeTrace() async{
+    int incrementBy = 1; /// correct ?
+    print("in homeTrace");
+
+    MyTrace trace = new MyTrace(nameSpace: TextConfig.homeTrace);
+    await trace.startTrace();
+    await trace.metricIncrement(metricName: TextConfig.homeHit, incrementBy: incrementBy);
+    await trace.stopTrace();
+    print("in homeTrace done");
   }
 }
 

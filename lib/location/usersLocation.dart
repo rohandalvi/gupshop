@@ -4,13 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/location/location_service.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/retriveFromFirebase/getUsersLocation.dart';
 
-import '../service/getSharedPreferences.dart';
 
 class UsersLocation{
   setUsersLocationToFirebase() async{
-    var userPhoneNo = await GetSharedPreferences().getUserPhoneNoFuture();//get user phone no
+    var userPhoneNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
     var ifHomeExists;
     await Firestore.instance.collection("usersLocation").document(userPhoneNo).setData({}, merge: true);
 

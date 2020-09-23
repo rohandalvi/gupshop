@@ -1,24 +1,9 @@
-//import 'dart:html';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:gupshop/bazaar/getCategoriesSubscribedTo.dart';
-import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/bazaarOnBoarding/bazaarProfilePage.dart';
-import 'package:gupshop/bazaarProductDetails/productDetail.dart';
-import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToBazaarWelcome.dart';
-import 'package:gupshop/navigators/navigateToOnBoardingCategorySelector.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
-import 'package:gupshop/location/location_service.dart';
-import 'package:gupshop/service/getSharedPreferences.dart';
 import 'package:gupshop/location/usersLocation.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
 import 'package:gupshop/bazaarCategory/bazaarHomeGridView.dart';

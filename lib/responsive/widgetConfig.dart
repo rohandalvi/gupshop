@@ -88,5 +88,7 @@ class WidgetConfig{
   getChatMessageOuterFrameHeight(BuildContext context){
     return MediaQuery.of(context).size.width / 2.25;
   }
-
+  getProductDetailImageContainerWidth(BuildContext context){
+    return getChatMessageOuterFrameWidth(context);
+  }
 }

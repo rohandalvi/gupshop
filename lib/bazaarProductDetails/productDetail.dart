@@ -99,8 +99,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
               ),
             ],
             onPressed: (){
-              //Navigator.pop(context);
-
               if(widget.sendHome == true){
                 NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
               }else {
@@ -205,7 +203,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                   padding: EdgeInsets.all(PaddingConfig.sixteen),
                   child: Container(
                     height: WidgetConfig.productDetailImageHeight,
-                    width: MediaQuery.of(context).size.height / 2.75,
+                    width: WidgetConfig().getProductDetailImageContainerWidth(context),
+                    //MediaQuery.of(context).size.height / 2.75,
                     child: Center(
                       child: DefaultTabController(
                         length: 4,

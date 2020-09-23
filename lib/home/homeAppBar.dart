@@ -23,96 +23,101 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(/// Area - 3
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Expanded(
-          flex: 2,
-          child: Padding(/// Area - 2
-            padding: EdgeInsets.only(top: PaddingConfig.eight),
-            child: Container(
-              child: Row(/// Area - 5
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  /// Avatar:
-                  Expanded(
-                    flex: 1,
+    return SafeArea(
+      child: Column(/// Area - 3
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child:
+//            Padding(/// Area - 2
+//              padding: EdgeInsets.only(top: PaddingConfig.eight),
+//              child: Container(
+            Container(
+                child: Row(/// Area - 5
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    /// Avatar:
+                    Expanded(
+                      flex: 1,
 //                    child: Padding(
 //                      padding: EdgeInsets.only(top: PaddingConfig.twentyThree,left: PaddingConfig.seven, right: PaddingConfig.five),
-                      child: Container(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: PaddingConfig.twentyThree,left: PaddingConfig.seven, right: PaddingConfig.five),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              GestureDetector(
-                                child: DisplayAvatar().displayAvatarFromFirebase(userPhoneNo, radius, innerRadius, false),
-                                onTap: (){
-                                  NavigateChangeProfilePicture(
-                                      userName: userName,
-                                      viewingFriendsProfile: false,
-                                      userPhoneNo: userPhoneNo,
-                                      groupConversationId: null,
-                                  ).navigateNoBrackets(context);
-                                  //CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo, null);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-//                    ),
-                  ),
-
-                  /// create group and search icons:
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          /// create group
-                          CustomIconButton(
-                            iconNameInImageFolder: 'groupManWoman',
-                            onPressed: (){
-                              CustomNavigator().navigateToCreateGroup(context, userName, userPhoneNo, false, null);
-                            },
-                          ),
-                          /// search icon
-                          Builder(
-                            builder: (context) => CustomIconButton(//Right side icons
-                              iconNameInImageFolder: 'advancedSearch',//search icon
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ContactSearchPage(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
-                                    )
-                                );
-                              },//imp for pressing effect. Also gives a sound effect by default
+                        child: Container(
+                          child: Padding(
+                            //padding: EdgeInsets.only(top: PaddingConfig.twentyThree,left: PaddingConfig.seven, right: PaddingConfig.five),
+                            padding: EdgeInsets.only(left: PaddingConfig.seven,),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                GestureDetector(
+                                  child: DisplayAvatar().displayAvatarFromFirebase(userPhoneNo, radius, innerRadius, false),
+                                  onTap: (){
+                                    NavigateChangeProfilePicture(
+                                        userName: userName,
+                                        viewingFriendsProfile: false,
+                                        userPhoneNo: userPhoneNo,
+                                        groupConversationId: null,
+                                    ).navigateNoBrackets(context);
+                                    //CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo, null);
+                                  },
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
+//                    ),
+                    ),
+
+                    /// create group and search icons:
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            /// create group
+                            CustomIconButton(
+                              iconNameInImageFolder: 'groupManWoman',
+                              onPressed: (){
+                                CustomNavigator().navigateToCreateGroup(context, userName, userPhoneNo, false, null);
+                              },
+                            ),
+                            /// search icon
+                            Builder(
+                              builder: (context) => CustomIconButton(//Right side icons
+                                iconNameInImageFolder: 'advancedSearch',//search icon
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ContactSearchPage(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
+                                      )
+                                  );
+                                },//imp for pressing effect. Also gives a sound effect by default
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+//            ),
+          ),
+          ///Tabs:
+          Expanded(
+            flex: 1,
+            child: TabBar(/// Area - 2
+              tabs: <Widget>[
+                Tab(child: CustomText(text: 'Chats',),),
+                Tab(child: CustomText(text: 'Bazaar',),),
+              ],
             ),
           ),
-        ),
-        ///Tabs:
-        Expanded(
-          flex: 1,
-          child: TabBar(/// Area - 2
-            tabs: <Widget>[
-              Tab(child: CustomText(text: 'Chats',),),
-              Tab(child: CustomText(text: 'Bazaar',),),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

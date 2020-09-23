@@ -36,4 +36,9 @@ class PaddingConfig{
   static double twentyThree = SizeConfig.heightMultiplier * 2.81862745098;/// 23/8.16
   static double twentyFive = SizeConfig.heightMultiplier * 3.0637254902;/// 25/8.16
   static double thirty = SizeConfig.heightMultiplier * 3.676;/// 30/8.16
+
+
+
+  /// individualChat app bar:
+  static double individualChatAppBarTop = four;/// 4/8.16
 }

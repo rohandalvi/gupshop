@@ -13,25 +13,29 @@ class CustomAppBar extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: secondryColor.withOpacity(.03),
-      elevation: 0,
-      title: title,
-      actions: actions,
-      leading: CustomIconButton(
-        iconNameInImageFolder:'backArrowColor',
-        onPressed: onPressed,
+    return SafeArea(
+      child: AppBar(
+        backgroundColor: secondryColor.withOpacity(.03),
+        elevation: 0,
+        title: title,
+        actions: actions,
+        leading: CustomIconButton(
+          iconNameInImageFolder:'backArrowColor',
+          onPressed: onPressed,
+        ),
       ),
     );
   }
 
   noLeading(){
-    return AppBar(
-      backgroundColor: secondryColor.withOpacity(.03),
-      elevation: 0,
-      title: title,
-      actions: actions,
-      automaticallyImplyLeading: false,
+    return SafeArea(
+      child: AppBar(
+        backgroundColor: secondryColor.withOpacity(.03),
+        elevation: 0,
+        title: title,
+        actions: actions,
+        automaticallyImplyLeading: false,
+      ),
     );
   }
 }

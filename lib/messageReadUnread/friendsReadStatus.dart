@@ -20,7 +20,7 @@ class FriendReadStatus{
             number: listOfFriends[i],
             conversationId: conversationId,
             conversationsLatestMessageTimestamp: conversationsLatestMessageTimestamp,
-          ).timestampDifference());
+          ).timestampDifferenceForReadUnread());
 
       if(comparison < 0) return false;
     } return true;

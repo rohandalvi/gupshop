@@ -18,26 +18,26 @@ class MessageReadUnreadData{
   MessageReadUnreadData({this.conversationsLatestMessageTimestamp, this.conversationId, this.number, this.conversationsLatestMessageId});
 
 
-  timestampDifference() async{
+  timestampDifferenceForReadUnread() async{
     String usersLatestMessageId = await GetFromMessageReadUnreadCollection(userNumber: number, conversationId: conversationId).getLatestMessageId();
     if(usersLatestMessageId == null ) return false; /// 1st message to a new conversation
     if(usersLatestMessageId == conversationsLatestMessageId) return true;
     return false;
-
-    /// use friendNumber as number here
-//    String usersLatestMessageId = await GetFromMessageReadUnreadCollection(userNumber: number, conversationId: conversationId).getLatestMessageId();
-//    Timestamp usersLatestMessageTimestamp = await GetFromConversationCollection(conversationId: conversationId).getTimestamp(usersLatestMessageId);
-//    print("usersLatestMessageTimestamp $conversationId : $usersLatestMessageTimestamp");
-//    print("conversationsLatestMessageTimestamp $conversationId : $conversationsLatestMessageTimestamp");
-//    /// usersLatestMessageTimestamp.seconds is essential for images and videos
-//    /// because there is a time lag between the timestamp of database and
-//    ///
-//    return usersLatestMessageTimestamp.seconds.compareTo(conversationsLatestMessageTimestamp.seconds);
-    //return usersLatestMessageTimestamp.compareTo(conversationsLatestMessageTimestamp);
   }
 
-  getLatestMessageTimeStamp(String userNumber) async{
 
+
+  snapshotTimestampDifference(String usersLatestMessageId) {
+    if(usersLatestMessageId == null ) return false; /// 1st message to a new conversation
+    if(usersLatestMessageId == conversationsLatestMessageId) return true;
+    return false;
+  }
+
+
+
+
+
+  getLatestMessageTimeStamp(String userNumber) async{
     String usersLatestMessageId = await GetFromMessageReadUnreadCollection(userNumber: userNumber).getLatestMessageId();
     return GetFromConversationCollection().getTimestamp(usersLatestMessageId);
   }

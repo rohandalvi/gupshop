@@ -1,4 +1,3 @@
-import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
 import 'package:gupshop/deleteFromFirebase/deleteMemberFromMessageTyping.dart';
 import 'package:gupshop/updateInFirebase/updateTypingStatusToMessageTyping.dart';
 

@@ -72,7 +72,6 @@ class _BodyDisplayState extends State<BodyDisplay> {
 
   @override
   void initState() {
-    print("individualchache in bodyDisplay : ${widget.individualChatCache}");
 //    if(widget.isNews){
 //      widget.mapIsNewsGenerated = NewsCache().newsValidator(
 //          widget.mapIsNewsGenerated,

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/messageReadUnread/messageReadUnreadData.dart';
+import 'package:gupshop/retriveFromFirebase/getFromMessageReadUnreadCollection.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
 class ReadUnreadIcon extends StatelessWidget {
@@ -14,15 +15,21 @@ class ReadUnreadIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: MessageReadUnreadData(conversationId: conversationId, number: myNumber, conversationsLatestMessageTimestamp: timeStamp, conversationsLatestMessageId: conversationsLatestMessageId).timestampDifference(),
+    return StreamBuilder<DocumentSnapshot>(
+      stream: GetFromMessageReadUnreadCollection(userNumber: myNumber, conversationId: conversationId).getLatestMessageIdStream(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          bool read = snapshot.data;
-          if(read == null) read =false;
+        if(snapshot.hasData) {
+          DocumentSnapshot dc = snapshot.data;
+          String usersLatestMessageId =dc[conversationId];
+          bool read = MessageReadUnreadData(conversationId: conversationId,
+              conversationsLatestMessageId: conversationsLatestMessageId)
+              .snapshotTimestampDifference(usersLatestMessageId);
+          if (read == null) read = false;
 
-          return Visibility(/// show the new icon only if the message is unread
-            visible: read==false,
+          return Visibility(
+
+            /// show the new icon only if the message is unread
+            visible: read == false,
             child: icon('new'),
           );
         }

@@ -208,15 +208,21 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
   }
 
   noBazaarwalaWidget(String noBazaarwalaText){
-    return Center(
-      child: PaddedMarginedContainer(
-        child :  CustomRichText(
-          children: <TextSpan>[
-            CustomText(text: 'No ',).richText(),
-            CustomText(text: noBazaarwalaText,textColor: primaryColor,
-              fontSize: TextConfig.bigFontSize,).richText(),
-            CustomText(text: ' near you',).richText(),
-          ],
+    /// this expanded makes the text to appear in the center, remove this and
+    /// the text appears on the top of the screen
+    return Expanded(
+      child: Center(
+        child: PaddedMarginedContainer(
+          child :  FittedBox(/// to avoid overflow in any device, to make it responsive
+            child: CustomRichText(
+              children: <TextSpan>[
+                CustomText(text: 'No ',).richText(),
+                CustomText(text: noBazaarwalaText,textColor: primaryColor,
+                  fontSize: TextConfig.bigFontSize,).richText(),
+                CustomText(text: ' near you',).richText(),
+              ],
+            ),
+          ),
         ),
       ),
     );

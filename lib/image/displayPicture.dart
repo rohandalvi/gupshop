@@ -21,21 +21,21 @@ class DisplayPicture extends StatelessWidget {
     );
   }
 
-  zoomableFullScreen(context){
-    return Container(
-      width: MediaQuery.of(context).size.height / 1.25,
-      height: MediaQuery.of(context).size.width / 1.25,
-      /// for zoom:
-      child: new ImageZoom(
-        new NetworkImage(imageURL),
-        placeholder: Center(child: CircularProgressIndicator(),),
-        //fit: BoxFit.contain,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-      ),
-    );
-  }
+//  zoomableFullScreen(context){
+//    return Container(
+//      width: MediaQuery.of(context).size.height / 1.25,
+//      height: MediaQuery.of(context).size.width / 1.25,
+//      /// for zoom:
+//      child: new ImageZoom(
+//        new NetworkImage(imageURL),
+//        placeholder: Center(child: CircularProgressIndicator(),),
+//        //fit: BoxFit.contain,
+//      ),
+//      decoration: BoxDecoration(
+//        color: Colors.white,
+//      ),
+//    );
+//  }
 
   zoom(context){
     return Container(
@@ -45,6 +45,9 @@ class DisplayPicture extends StatelessWidget {
       /// for zoom:
       child: PhotoView(
         imageProvider: NetworkImage(imageURL),
+        minScale: PhotoViewComputedScale.contained,
+        //PhotoViewComputedScale.contained * 0.8,
+        maxScale: PhotoViewComputedScale.covered * 1.8,
       ),
     );
   }

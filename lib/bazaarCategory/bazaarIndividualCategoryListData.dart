@@ -194,13 +194,19 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
   }
 
   showResultsWidget() {
-    return Padding(
-      padding: EdgeInsets.all(PaddingConfig.eight),
-      child: Container(
-        child: CustomRichText(
-          children: <TextSpan>[
-            CustomText(text: 'Showing results for : ',).richText(),
-            CustomText(text: widget.addressName,textColor: primaryColor,).richText(),
+    return Flexible(/// for responsiveness
+      child: Padding(
+        padding: EdgeInsets.all(PaddingConfig.eight),
+        child: Wrap(
+          children: <Widget>[
+            Container(
+              child: CustomRichText(
+                children: <TextSpan>[
+                  CustomText(text: 'Showing results for : ',).richText(),
+                  CustomText(text: widget.addressName,textColor: primaryColor,).richText(),
+                ],
+              ),
+            ),
           ],
         ),
       ),

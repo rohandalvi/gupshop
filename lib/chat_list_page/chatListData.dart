@@ -29,7 +29,6 @@ class ChatListData extends StatefulWidget {
 class _ChatListDataState extends State<ChatListData> {
   @override
   void initState() {
-    print("in chatList data initstate");
     super.initState();
   }
 
@@ -55,7 +54,7 @@ class _ChatListDataState extends State<ChatListData> {
         }
         Timestamp timeStamp = widget.list[index]
             .data["message"]["timeStamp"];
-        bool read = widget.list[index].data["read"];
+       // bool read = widget.list[index].data["read"];
 
         String messageId = widget.list[index].data["message"]["messageId"];
 

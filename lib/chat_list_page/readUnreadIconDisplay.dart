@@ -23,7 +23,7 @@ class ReadUnreadIcon extends StatelessWidget {
           String usersLatestMessageId =dc[conversationId];
           bool read = MessageReadUnreadData(conversationId: conversationId,
               conversationsLatestMessageId: conversationsLatestMessageId)
-              .snapshotTimestampDifference(usersLatestMessageId);
+              .timestampDifference(usersLatestMessageId);
           if (read == null) read = false;
 
           return Visibility(

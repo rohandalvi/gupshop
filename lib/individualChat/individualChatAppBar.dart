@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
+import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/image/changeProfilePicture.dart';
 import 'package:gupshop/service/conversation_service.dart';
@@ -69,9 +70,11 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
         if(conversationExists() == true){
           await widget.conversationService.disableActiveSubscription();
         }
-        Navigator.pop(context);
 
-//        CustomNavigator().navigateToHome(context, widget.userName, widget.userPhoneNo);
+        if(widget.groupExits){
+          NavigateToHome(initialIndex: 0).navigateNoBrackets(context);
+        }
+        else Navigator.pop(context);
       },
 
       avatarOnPressed: (){

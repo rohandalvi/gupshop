@@ -9,7 +9,6 @@ class GetFromMessageReadUnreadCollection{
   getLatestMessageId() async{
     DocumentSnapshot dc = await Firestore.instance.collection("messageReadUnread")
                           .document(userNumber).get();
-    //return dc.data["messageId"];
     return dc.data[conversationId];
   }
 

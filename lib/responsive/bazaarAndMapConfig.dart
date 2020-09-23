@@ -1,3 +1,5 @@
+import 'package:gupshop/bazaarHomeService/homeServiceText.dart';
+
 class BazaarConfig{
   String categoryData;
   String subCategoryData;
@@ -6,11 +8,17 @@ class BazaarConfig{
 
   BazaarConfig({this.category, this.subCategoryData, this.subCategory, this.categoryData});
 
+  static const String loadingMap = "Loading map";
+  static const String mapDriverSearchPlaceholder = "your destination";
+
   /// for maps:
   getPickLocation(){
-    return "Pick $category location";
+    String placeHolder;
+    if(categoryData == HomeServiceText.drivers) {
+      placeHolder = mapDriverSearchPlaceholder;
+    }
+    else placeHolder = category;/// for delivery errands
+    return "Pick $placeHolder location";
   }
-
-  static const String loadingMap = "Loading map";
 
 }

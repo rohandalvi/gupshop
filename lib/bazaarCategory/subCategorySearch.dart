@@ -167,7 +167,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
   /// for adding Picking location in case of drivers and delivery/errands
   getLocation() async{
     String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
-    String placeholder = BazaarConfig(category: widget.category).getPickLocation();
+    String placeholder = BazaarConfig(category: widget.category, categoryData: widget.categoryData).getPickLocation();
     //bool showBackButton = false;
 
     CustomShowDialog().main(context, BazaarConfig.loadingMap);
@@ -175,6 +175,11 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
         placeholder: placeholder, )
         .getNewUserGeohash(context);
   }
+
+  getPlaceholderName(){
+
+  }
+
 
   getAddressName(String userGeohash) async{
     String userPhoneNo = await UserDetails().getUserPhoneNoFuture();

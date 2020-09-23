@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarWalasBasicProfileCollection.dart';
-import 'package:gupshop/bazaarCategory/homeServiceText.dart';
+import 'package:gupshop/bazaarHomeService/homeServiceText.dart';
 import 'package:gupshop/bazaarOnBoarding/pushSubCategoriesToFirebase.dart';
 import 'package:gupshop/bazaarOnBoarding/deleteSubcategoriesFirebase.dart';
 import 'package:gupshop/colors/colorPalette.dart';

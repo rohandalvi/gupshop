@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListDisplay.dart';
-import 'package:gupshop/bazaarCategory/homeServiceText.dart';
+import 'package:gupshop/bazaarHomeService/homeServiceText.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 

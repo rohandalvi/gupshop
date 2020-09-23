@@ -9,6 +9,7 @@ import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToAddressList.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
+import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
@@ -20,6 +21,7 @@ import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListDisplay.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customRichText.dart';
+import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/paddedMarginedContainer.dart';
 
@@ -249,12 +251,13 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
           /// placeholder till map is generated:
           /// show a dialog box with CircularProgressIndicator
-          showDialog(
-              context: context,
-              builder: (BuildContext context) => CupertinoAlertDialog(
-                title: Text('Loading map'),
-                content: Center(child: CircularProgressIndicator()),
-              ));
+          CustomShowDialog().main(context, BazaarConfig.loadingMap);
+//          showDialog(
+//              context: context,
+//              builder: (BuildContext context) => CupertinoAlertDialog(
+//                title: Text('Loading map'),
+//                content: Center(child: CircularProgressIndicator()),
+//              ));
 
 
           //bool showBackButton = false;

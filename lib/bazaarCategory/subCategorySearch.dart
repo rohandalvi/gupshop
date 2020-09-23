@@ -4,11 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListData.dart';
 import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
-import 'package:gupshop/bazaarCategory/homeServiceText.dart';
+import 'package:gupshop/bazaarHomeService/homeServiceText.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
+import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
+import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/location/usersLocation.dart';
 
@@ -74,6 +76,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
     return ContactSearch(
       suggestions: widget.subCategoriesList,
       navigate: (){
+        //Navigator.pop(context);
         NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
       },
       //navigate: NavigateToBazaarOnBoardingHome().navigate(context),
@@ -104,8 +107,12 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
 
 
         /// for drivers and delivery/errands
-        if(widget.categoryData == "deliveryErrands" || widget.categoryData == 'drivers'){
+        if(widget.categoryData == HomeServiceText.deliveryErrands || widget.categoryData == HomeServiceText.drivers){
+//        if(widget.categoryData == "deliveryErrands" || widget.categoryData == 'drivers'){
           userGeohash = await getLocation();
+          /// for exiting dialog:
+          Navigator.pop(context);
+
           addressName = await getAddressName(userGeohash);
         }
 
@@ -160,9 +167,10 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
   /// for adding Picking location in case of drivers and delivery/errands
   getLocation() async{
     String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
-    String placeholder = "Pick ${widget.category} location";
+    String placeholder = BazaarConfig(category: widget.category).getPickLocation();
     //bool showBackButton = false;
 
+    CustomShowDialog().main(context, BazaarConfig.loadingMap);
     return await ChangeLocationInSearch(userNumber: userPhoneNo,
         placeholder: placeholder, )
         .getNewUserGeohash(context);

@@ -7,7 +7,9 @@ import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/location/location_service.dart';
+import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
+import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class AddressListBodyUI extends StatefulWidget {
@@ -62,12 +64,13 @@ class _AddressListBodyUIState extends State<AddressListBodyUI> {
 
             /// placeholder till map is generated:
             /// show a dialog box with CircularProgressIndicator
-            showDialog(
-                context: context,
-                builder: (BuildContext context) => CupertinoAlertDialog(
-                  title: Text('Loading map'),
-                  content: Center(child: CircularProgressIndicator()),
-                ));
+            CustomShowDialog().main(context, BazaarConfig.loadingMap);
+//            showDialog(
+//                context: context,
+//                builder: (BuildContext context) => CupertinoAlertDialog(
+//                  title: Text('Loading map'),
+//                  content: Center(child: CircularProgressIndicator()),
+//                ));
 
             LatLng latLng = await ChangeLocationInSearch(userNumber: widget.userPhoneNo).getLatLang(context);
 

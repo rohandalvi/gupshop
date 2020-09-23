@@ -35,4 +35,6 @@ class TextConfig{
   static const String pickGalleryVideo = 'Pick video from Gallery';
   static const String pickCameraVideo = 'Record video from Camera';
   static const String currentLocation = 'Send Current Location';
+
+
 }

@@ -79,8 +79,11 @@ class CreateVideoURL{
     if(delay == false && cancel == false){
       Navigator.of(context).pop();
       isComplete = true;
-    }else if(delay == true){
-      showDialog(
+    }else if(delay == true) {
+      /// awaiting for the showDialog is important because the value of isComplete
+      /// does not get updated by the showDialog and the method  never returns
+      /// the videoURL
+      await showDialog(
           context: context,
           builder: (BuildContext context) => CupertinoAlertDialog(
             title: Text('Alert'),
@@ -88,7 +91,7 @@ class CreateVideoURL{
             actions: <Widget>[
               CupertinoDialogAction(
                   child: Text('OK'),
-                  onPressed: (){
+                  onPressed: () {
                     delay = true;
                     isComplete = true;
                     Navigator.of(context).pop();

@@ -75,42 +75,44 @@ class _CustomMapState extends State<CustomMap> {
 
           Align(
             alignment: Alignment.bottomCenter,
-            child: Container(
-              child: Row(
-                children: <Widget>[
-                  Visibility(
-                    visible : widget.showRadius == true,
-                    child: PlusButton(
-                      ///onPressed :
-                      ///setState radius = radius + 10
-                      onRadiusPlus: (){
+            child: SafeArea(
+              child: Container(
+                child: Row(
+                  children: <Widget>[
+                    Visibility(
+                      visible : widget.showRadius == true,
+                      child: PlusButton(
+                        ///onPressed :
+                        ///setState radius = radius + 10
+                        onRadiusPlus: (){
+                          LatLng point = LatLng(widget.latitude, widget.longitude);
+                          increaseRadius(point);
+                        },
+                      ),
+                    ),
+                    Visibility(
+                      visible : widget.showRadius == true,
+                      child: MinusButton(
+                        onRadiusMinus: (){
+                          LatLng point = LatLng(widget.latitude, widget.longitude);
+                          decreaseRadius(point);
+                        },
+                      ),
+                    ),
+                    OkButton(
+                      onOkPressed:(){
                         LatLng point = LatLng(widget.latitude, widget.longitude);
-                        increaseRadius(point);
+                        List list = new List();
+                        list.add(point);
+                        if(widget.showRadius == true){
+                          list.add(radius);
+                        }
+                        Navigator.pop(context, list);
+                        //NavigateToBazaarOnBoardingProfile().navigateNoBracketsPushReplacement(context, list);
                       },
                     ),
-                  ),
-                  Visibility(
-                    visible : widget.showRadius == true,
-                    child: MinusButton(
-                      onRadiusMinus: (){
-                        LatLng point = LatLng(widget.latitude, widget.longitude);
-                        decreaseRadius(point);
-                      },
-                    ),
-                  ),
-                  OkButton(
-                    onOkPressed:(){
-                      LatLng point = LatLng(widget.latitude, widget.longitude);
-                      List list = new List();
-                      list.add(point);
-                      if(widget.showRadius == true){
-                        list.add(radius);
-                      }
-                      Navigator.pop(context, list);
-                      //NavigateToBazaarOnBoardingProfile().navigateNoBracketsPushReplacement(context, list);
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -150,9 +152,11 @@ class _CustomMapState extends State<CustomMap> {
     );
     //return appBar;
 
-    return Container(
-      margin: EdgeInsets.only(left: PaddingConfig.five, top: PaddingConfig.twentyFive),
-      child: appBar,
+    return SafeArea(
+      child: Container(
+        margin: EdgeInsets.only(left: PaddingConfig.five, ),///top: PaddingConfig.twentyFive
+        child: appBar,
+      ),
     );
 
   }

@@ -17,7 +17,7 @@ class CustomAppBar extends StatelessWidget{
       child: AppBar(
         backgroundColor: secondryColor.withOpacity(.03),
         elevation: 0,
-        title: title,
+        title: FittedBox(child: title),
         actions: actions,
         leading: CustomIconButton(
           iconNameInImageFolder:'backArrowColor',

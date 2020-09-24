@@ -19,4 +19,12 @@ class BazaarTrace{
     await trace.stopTrace();
   }
 
+
+  categoryTapped() async{
+    int incrementBy = 1;
+    await trace.startTrace();
+    await trace.metricIncrement(metricName: category,
+        incrementBy: incrementBy);
+    await trace.stopTrace();
+  }
 }

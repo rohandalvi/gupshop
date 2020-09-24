@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/bazaarOnBoarding/bazaarTrace.dart';
 import 'package:gupshop/image/gridViewContainer.dart';
 import 'package:gupshop/bazaar/customGridView.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
@@ -33,6 +34,9 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
 
               return GridViewContainer(
                 onPictureTap: () async{
+                  ///Trace:
+                  BazaarTrace(category: catergoryName).categoryTapped();
+
                   Future<List<DocumentSnapshot>> subCategoriesListFuture = BazaarCategoryTypesAndImages().getSubCategories(categoryNameForData);
                   List<DocumentSnapshot> subCategories = await subCategoriesListFuture;
                   subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(categoryNameForData);

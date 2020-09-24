@@ -78,7 +78,7 @@ class HomeAppBar extends StatelessWidget {
                           children: <Widget>[
                             /// create group
                             CustomIconButton(
-                              iconNameInImageFolder: 'groupManWoman',
+                              iconNameInImageFolder: ImageConfig.groupIcon,
                               onPressed: (){
                                 CustomNavigator().navigateToCreateGroup(context, userName, userPhoneNo, false, null);
                               },

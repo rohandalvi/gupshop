@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/image/profilePictureAndButtonsScreen.dart';
@@ -95,7 +96,8 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                     if(snapshot.data == null) return CircularProgressIndicator();//to avoid error - "getter do
 
                     imageUrl = snapshot.data['url'];
-                    if(imageUrl == null) imageUrl = 'images/user.png';///this is the placeholder for the 1st time user, test it using an actual phone
+                    if(imageUrl == null) imageUrl = ImageConfig.userDpPlaceholder;
+                    //'images/user.png';///this is the placeholder for the 1st time user, test it using an actual phone
 
                     return ProfilePictureAndButtonsScreen(
                       userPhoneNo: userPhoneNo, imageUrl: imageUrl,

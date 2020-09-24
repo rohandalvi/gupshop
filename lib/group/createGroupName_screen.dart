@@ -35,7 +35,7 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
   final String userPhoneNo;
   final List<String> listOfNumbersInAGroup;
 
-  String imageUrl = ImageConfig.groupImage;
+  String imageUrl = ImageConfig.groupDpPlaceholderStorageImage;
   final formKey = new GlobalKey<FormState>();
 
   String groupName;
@@ -155,7 +155,7 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
       height: WidgetConfig.hundredHeight,
       child:
       Image(
-        image: AssetImage('images/groupManWoman.png'),
+        image: AssetImage(ImageConfig.groupDpPlaceholderImage),
       ),
     );
   }

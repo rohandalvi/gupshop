@@ -19,6 +19,9 @@ class TextConfig{
   static const String bazaarLocationIntro = '''Service location enables  
   users find you effectively''';
 
+  /// nameScreen :
+  static const String enterName = "Enter your Name";
+
 
   /// images
   static const String editImage = 'Edit picture';
@@ -27,7 +30,13 @@ class TextConfig{
   /// trace
   static const String homeTrace = 'home';
   static const String homeHit = 'home_hit';
-
+  static const String userHomeAddress = 'userHomeAddress';
+  static const String userHomeAddressUpdated = 'userHomeAdressUpdated';
+  static const String groupMemberDeleted = 'groupMemberDeleted';
+  static const String newUserRegistered = 'newUserRegistered';
+  static const String cachedAvatar = 'cachedAvatar';
+  static const String cachedAvatarHit = 'cachedAvatar_Hit';
+  static const String nonCachedAvatarHit = 'nonCachedAvatar_Hit';
 
   /// for plus options in individual chat
   static const String pickGalleryImage = 'Pick image from  Gallery';

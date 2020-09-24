@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/image/displayCircularPicture.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/video/createVideoURL.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -26,7 +27,8 @@ class ImagesPickersDisplayPictureURLorFile {
     /// for 1st time user, we are giving an image from our assets as his dp
     /// So we are just checking if he is the 1st time user, then display the image from
     /// assets, else display from Netwrok i.e firebase
-    if(image == 'images/user.png'){
+    if(image == ImageConfig.userDpPlaceholder){
+//    if(image == 'images/user.png'){
       ip = AssetImage(image);
     }else ip = NetworkImage(image);
 

@@ -2,8 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gupshop/navigators/navigateToHome.dart';
+import 'package:gupshop/onboarding/onBoardingTrace.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
@@ -67,7 +71,7 @@ class _NameScreenState extends State<NameScreen> {
                             });
                           }
                         },
-                        labelText: "Enter your Name",
+                        labelText: TextConfig.enterName,
                       ),
 
                   padding: EdgeInsets.only(left: PaddingConfig.twenty, top: PaddingConfig.thirtyFive, right: PaddingConfig.twenty),
@@ -81,6 +85,7 @@ class _NameScreenState extends State<NameScreen> {
 
 
 
+                    /// ToDo : put all the firebase calls in if(userName != null){}
                     ///Add first time user’s number to database:
                     ///For adding data, we need to use set() method
                     ///We dont have userPhone and name both at the login_screen, we get both
@@ -126,20 +131,17 @@ class _NameScreenState extends State<NameScreen> {
                     }
 
                     if(userName != null){
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Home(
-                                userPhoneNo: userPhoneNo,
-                                userName: userName),//pass Name() here and pass Home()in name_screen
-                          )
-                      );
-//                    Navigator.push(
-//                        context,
-//                        MaterialPageRoute(
-//                          builder: (context) => ChangeProfilePicture(userName: userName),//pass Name() here and pass Home()in name_screen
-//                        )
-//                    );
+                      NavigateToHome().navigateNoBrackets(context);
+//                      Navigator.push(
+//                          context,
+//                          MaterialPageRoute(
+//                            builder: (context) => Home(
+//                                userPhoneNo: userPhoneNo,
+//                                userName: userName),//pass Name() here and pass Home()in name_screen
+//                          )
+//                      );
+
+                      OnBoardingTrace().createNewUser();
                     }
                   },
                 ),
@@ -158,15 +160,8 @@ class _NameScreenState extends State<NameScreen> {
       height: WidgetConfig.hundredHeight,
       child:
         Image(
-          image: AssetImage('images/user.png'),
+          image: AssetImage(ImageConfig.userDpPlaceholder),
         ),
-//      IconButton(
-//        icon: SvgPicture.asset(
-//        'images/userFace.svg',
-//        width: 500,
-//        height: 500,
-//      ),
-//      ),
     );
   }
 }

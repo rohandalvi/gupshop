@@ -20,7 +20,8 @@ class CustomFloatingActionButton extends StatelessWidget {
 //              hoverColor: Colors.transparent,
 
       highlightElevation: 0,
-      child: child == null ? IconButton(
+      child: child == null ?
+      IconButton(
           icon: SvgPicture.asset('images/groupManWoman.svg',)
         //SvgPicture.asset('images/downChevron.svg',)
       ): child,

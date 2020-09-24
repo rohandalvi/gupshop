@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/group/groupChatTrace.dart';
 
 class DeleteMembersFromGroup{
   deleteDocumentFromSnapshot(DocumentReference dc) async{
@@ -32,6 +33,7 @@ class DeleteMembersFromGroup{
     Firestore.instance.collection("conversationMetadata").document(documentID).updateData({
       "members":FieldValue.arrayRemove(val) });
 
+    GroupChatTrace().groupMemberDeleted();
     /// give the member number as friendNumber and conversationId as documentID
 //    val.forEach((element) {
 //      deleteFromRecentChats(element, documentID);

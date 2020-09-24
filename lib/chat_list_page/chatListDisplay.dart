@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/avatarDisplay.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
+import 'package:gupshop/chat_list_page/chatListTrace.dart';
 import 'package:gupshop/chat_list_page/subtitleDataAndDisplay.dart';
 import 'package:gupshop/chat_list_page/trailingDisplay.dart';
 import 'package:gupshop/individualChat/individual_chat.dart';
@@ -101,9 +102,12 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
   }
 
   cachedData(BuildContext context){
+    ChatListTrace chatListTrace = new ChatListTrace();
 
     /// if its a group and its cached:
     if( widget.chatListCache.containsKey(widget.conversationId) == true && widget.chatListCache[widget.conversationId].isGroup == true){
+      /// TRACE
+      chatListTrace.cachedAvatarHit();
 
       return FutureBuilder(
         future: ConversationMetaData().get(widget.conversationId, widget.myNumber),
@@ -149,6 +153,9 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
       );
       /// if  individualChat and its cached:
     }else if(widget.chatListCache.containsKey(widget.conversationId) == true){
+      /// TRACE
+      chatListTrace.cachedAvatarHit();
+
       print("in two people chat");
       widget.memberList = widget.chatListCache[widget.conversationId].memberList;
       widget.groupExists = false;
@@ -165,6 +172,9 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
     }
     /// if any type of chat and its not cached:
     else if (widget.chatListCache.containsKey(widget.conversationId) == false){
+      /// TRACE
+      chatListTrace.nonCachedAvatarHit();
+
       return FutureBuilder(
         future: ConversationMetaData().get(widget.conversationId, widget.myNumber),
         builder: (BuildContext context, AsyncSnapshot snapshot) {

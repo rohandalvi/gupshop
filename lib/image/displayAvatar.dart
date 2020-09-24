@@ -5,6 +5,7 @@ import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/image/displayCircularPicture.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class DisplayAvatar{
@@ -119,7 +120,7 @@ class DisplayAvatar{
       backgroundColor: ourBlack,
       child: CircleAvatar(
         radius: innerRadius,
-        backgroundImage: AssetImage('images/user.png'),
+        backgroundImage: AssetImage(ImageConfig.userDpPlaceholder),
         backgroundColor: Colors.white,
       ),
     );

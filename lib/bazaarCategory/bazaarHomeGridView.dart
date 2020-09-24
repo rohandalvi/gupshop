@@ -2,7 +2,6 @@ import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListData.dart';
 import 'package:gupshop/image/gridViewContainer.dart';
 import 'package:gupshop/bazaar/customGridView.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';

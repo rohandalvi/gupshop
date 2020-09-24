@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
 class LikesDislikesDisplay extends StatelessWidget {
@@ -12,11 +14,22 @@ class LikesDislikesDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(///wrapped in a container becuase if later the number of likes or  dislikes  become hummungus then it would not overflow
-        padding: EdgeInsets.only(left: 12),
+        padding: EdgeInsets.only(left: PaddingConfig.twelve),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            dislikes == null ? CustomIconButton(iconNameInImageFolder: 'thumbsUpNoBackground', onPressed: (){},) : CustomIconButton(iconNameInImageFolder: 'thumbsDownNoBackground', onPressed: (){},),
-            dislikes == null ? Text(likes.toString()) : Text(dislikes.toString()),
+            Flexible(
+              flex: 1,
+              fit: FlexFit.loose,
+              child: dislikes == null ? CustomIconButton(iconNameInImageFolder: 'thumbsUpNoBackground', onPressed: (){},) : CustomIconButton(iconNameInImageFolder: 'thumbsDownNoBackground', onPressed: (){},),
+            ),
+            Flexible(
+              flex: 2,
+              fit: FlexFit.loose,
+              child: dislikes == null ? Text(likes.toString()) : Text(dislikes.toString()),
+            ),
+
           ],
         )
     );

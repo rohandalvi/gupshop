@@ -36,31 +36,57 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
        visible: visibility(),
        child: Padding(
          padding: EdgeInsets.all(PaddingConfig.eight),
-         child: Row(
+         child: Row(/// area - 6
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
            children: <Widget>[
-             Container(
-               child: Row(
-                 children: <Widget>[
-                   avatar(context),
-                   SizedBox(width: WidgetConfig.sizedBoxHeightTen,),
-                   Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: <Widget>[
-                       bazaarWalaNameWidget(context),
-                       speciality(),
-                       LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo,
-                         categoryData: categoryData,subCategoryData: subCategoryData,),
-                     ],
-                   ),
-                 ],
+             Expanded(/// 5
+               flex: 5,
+               child: Container(/// area - 5
+                 child: Row(
+                   children: <Widget>[
+                     Expanded(
+                       flex: 1,
+                       child: avatar(context),
+                     ),
+
+                     SizedBox(width: WidgetConfig.sizedBoxHeightTen,),
+                     Expanded(
+                       flex: 3,
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         mainAxisSize: MainAxisSize.min,
+                         children: <Widget>[
+                           Flexible(
+                             flex: 1,
+                             fit: FlexFit.loose,
+                             child: bazaarWalaNameWidget(context),
+                           ),
+                           Flexible(
+                             flex: 1,
+                             fit: FlexFit.loose,
+                             child: speciality(),
+                           ),
+                           Flexible(
+                             flex: 1,
+                             fit: FlexFit.loose,
+                             child: LikesDislikesFetchAndDisplay(productWalaNumber: bazaarWalaPhoneNo,
+                               categoryData: categoryData,subCategoryData: subCategoryData,),
+                           ),
+                         ],
+                       ),
+                     ),
+                   ],
+                 ),
                ),
              ),
-             Column(
-               children: <Widget>[
-                 chatBubbleWidget(context),
-                 homeServiceContainer(),
-               ],
+             Expanded(/// 1 (5+1 = 6)
+               flex: 1,
+               child: Column(
+                 children: <Widget>[
+                   chatBubbleWidget(context),
+                   homeServiceContainer(),
+                 ],
+               ),
              ),
            ],
          ),

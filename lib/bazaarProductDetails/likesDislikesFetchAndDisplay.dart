@@ -14,33 +14,42 @@ class LikesDislikesFetchAndDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        FutureBuilder(
-          future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikes(productWalaNumber, categoryData, subCategoryData),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              print("snapshot.data in LikesDislikesFetchAndDisplay : ${snapshot.data}");
-              int likes = snapshot.data;
-              if(likes == null) {likes = 0;}
-               return LikesDislikesDisplay(likes:likes);
-            }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          },
+        Flexible(
+          flex: 1,
+          fit: FlexFit.loose,
+          child: FutureBuilder(
+            future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikes(productWalaNumber, categoryData, subCategoryData),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                print("snapshot.data in LikesDislikesFetchAndDisplay : ${snapshot.data}");
+                int likes = snapshot.data;
+                if(likes == null) {likes = 0;}
+                 return LikesDislikesDisplay(likes:likes);
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
         ),
-        FutureBuilder(
-          future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfDislikes(productWalaNumber, categoryData, subCategoryData),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              int disLikes = snapshot.data;
-              if(disLikes == null) {disLikes = 0;}
-              return LikesDislikesDisplay(dislikes: disLikes,);
-            }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          },
+        Flexible(
+          flex: 1,
+          fit: FlexFit.loose,
+          child: FutureBuilder(
+            future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfDislikes(productWalaNumber, categoryData, subCategoryData),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                int disLikes = snapshot.data;
+                if(disLikes == null) {disLikes = 0;}
+                return LikesDislikesDisplay(dislikes: disLikes,);
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
         ),
       ],
     );

@@ -6,13 +6,7 @@ import 'package:gupshop/individualChat/showVideoThumbnail.dart';
 import 'package:gupshop/individualChat/textMessageUI.dart';
 import 'package:gupshop/location/locationDisplayAndLaunchInMap.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
-import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
-import 'package:gupshop/responsive/widgetConfig.dart';
-import 'package:gupshop/widgets/customRaisedButton.dart';
-import 'package:gupshop/widgets/customText.dart';
-import 'package:gupshop/widgets/customVideoPlayer.dart';
-import 'package:gupshop/image/displayCircularPicture.dart';
 import 'package:video_player/video_player.dart';
 
 class MessageCardDisplay extends StatelessWidget {

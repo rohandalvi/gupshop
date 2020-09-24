@@ -66,6 +66,7 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
                       if(trueByCount == null) trueByCount = 0;
                       if(fakeByCount == null) fakeByCount = 0;
 
+                      /// ToDo : use LikesDislikesDisplay here instead of TrueFakeVotingIconsUI
                       return TrueFakeVotingIconsUI(
                         isMe: widget.isMe,
                         count1: reportedByCount.toString(),

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/sizeConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class GridViewContainer extends StatelessWidget {
@@ -16,9 +18,9 @@ class GridViewContainer extends StatelessWidget {
       return Container(
         width: SizeConfig.widthMultiplier,/// todo - required?
         height: SizeConfig.heightMultiplier,/// todo - required?
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(PaddingConfig.sixteen),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(WidgetConfig.borderRadiusTen),
           color: Colors.white,
         ),
         child: Column(
@@ -26,8 +28,8 @@ class GridViewContainer extends StatelessWidget {
             InkWell(
               onTap: onPictureTap,
               child: Container(
-              width: MediaQuery.of(context).size.width * 1.25,
-              height: MediaQuery.of(context).size.height * 0.13,
+              width: WidgetConfig().getGridViewImageWidth(context),
+              height: WidgetConfig().getGridViewImageHeight(context),
 //                width: ImageConfig.bazaarGridWidth,
 //                height: ImageConfig.bazaarGridHeight,
                 child: Image(

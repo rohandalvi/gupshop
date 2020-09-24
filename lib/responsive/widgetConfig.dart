@@ -67,6 +67,7 @@ class WidgetConfig{
   /// BorderRadius
   static double borderRadiusFifteen = SizeConfig.widthMultiplier * 3.47;/// 15/4.32
   static double borderRadiusOne = SizeConfig.widthMultiplier * 0.23148148148;/// 1/4.32
+  static double borderRadiusTen = SizeConfig.widthMultiplier * 2.31481481481;/// 10/4.32
 
 
   /// videoThumbnail
@@ -90,5 +91,14 @@ class WidgetConfig{
   }
   getProductDetailImageContainerWidth(BuildContext context){
     return getChatMessageOuterFrameWidth(context);
+  }
+
+
+  /// gridView
+  getGridViewImageWidth(BuildContext context){
+    return MediaQuery.of(context).size.width * 1.25;
+  }
+  getGridViewImageHeight(BuildContext context){
+    return MediaQuery.of(context).size.height * 0.13;
   }
 }

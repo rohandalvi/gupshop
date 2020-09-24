@@ -37,6 +37,10 @@ class TextConfig{
   static const String cachedAvatar = 'cachedAvatar';
   static const String cachedAvatarHit = 'cachedAvatar_Hit';
   static const String nonCachedAvatarHit = 'nonCachedAvatar_Hit';
+  static const String profilePictureView = 'profilePictureView';
+  static const String myProfilePictureView = 'myProfilePictureView';
+  static const String bazaarCategory = 'BazaarCategory';
+  static const String bazaarSubCategory = 'BazaarSubCategory';
 
   /// for plus options in individual chat
   static const String pickGalleryImage = 'Pick image from  Gallery';

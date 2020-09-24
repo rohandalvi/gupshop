@@ -24,6 +24,9 @@ class IndividualChatAppBar extends StatefulWidget {
   List<dynamic> listOfFriendNumbers;
   final Presence presence;
   ConversationService conversationService;
+  ///update : chatListCache has no use here,
+  ///ToDo : remove from here and all
+  ///classes taking chatlistCache from here
   Map<String, ChatListCache> chatListCache;
   bool groupDeleted;
   String imageURL;

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/bazaarOnBoarding/bazaarTrace.dart';
 
 class PushToBazaarCategories{
 
@@ -12,6 +13,9 @@ class PushToBazaarCategories{
     };
     Firestore.instance.collection("bazaarCategories").document(category)
     .collection("subCategories").document(subCategory).setData(result,merge: true);
+
+    ///Trace:
+    BazaarTrace(category: category,subCategory: subCategory).subCategoryAdded();
   }
 
 }

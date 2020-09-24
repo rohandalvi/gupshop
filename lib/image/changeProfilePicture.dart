@@ -7,6 +7,7 @@ import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/image/profilePictureAndButtonsScreen.dart';
+import 'package:gupshop/retriveFromFirebase/profilePictures.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,7 +63,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
     /// Update: As we no longer user the snackbar we dont need the  Builder
     @override
     Widget build(BuildContext context) {
-      print("imageURL in changeProfile : $imageURL");
+      print("imageURL in changeProfile : ${widget.imageURL}");
       return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
@@ -85,11 +86,14 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
         backgroundColor: Colors.white,
         body: Container(
               padding: EdgeInsets.symmetric(horizontal: PaddingConfig.sixteen),
-              child: widget.imageURL == null ?
+              child:
+              /// widget.imageURL would be null when:
+              /// - when the profile is viewed from bazaar
+              widget.imageURL == null ?
               StreamBuilder(
                   stream:
-                  //ProfilePictures(userPhoneNo: userPhoneNo).stream(),
-                  Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
+                  ProfilePictures(userPhoneNo: userPhoneNo).getStream(),
+                  //Firestore.instance.collection("profilePictures").document(userPhoneNo).snapshots(),
                   builder: (context, snapshot) {
                     String imageUrl;
 
@@ -119,18 +123,18 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
       );
     }
 
-    cache(){
-      return (widget.chatListCache != null && widget.chatListCache.containsKey(widget.conversationId) == true
-      && widget.chatListCache[widget.conversationId].fullScreenPicture != null);
-    }
-
-    cachedDp(){
-      return widget.chatListCache[widget.conversationId].fullScreenPicture;
-    }
-
-    addToCache(ProfilePictureAndButtonsScreen dp){
-      widget.chatListCache[widget.conversationId].fullScreenPicture = dp;
-    }
+//    cache(){
+//      return (widget.chatListCache != null && widget.chatListCache.containsKey(widget.conversationId) == true
+//      && widget.chatListCache[widget.conversationId].fullScreenPicture != null);
+//    }
+//
+//    cachedDp(){
+//      return widget.chatListCache[widget.conversationId].fullScreenPicture;
+//    }
+//
+//    addToCache(ProfilePictureAndButtonsScreen dp){
+//      widget.chatListCache[widget.conversationId].fullScreenPicture = dp;
+//    }
 
 
 

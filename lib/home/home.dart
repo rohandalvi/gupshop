@@ -1,5 +1,3 @@
-
-import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/chat_list_page/chat_List.dart';
@@ -69,13 +67,11 @@ class _HomeState extends State<Home> {
 
   homeTrace() async{
     int incrementBy = 1; /// correct ?
-    print("in homeTrace");
 
     MyTrace trace = new MyTrace(nameSpace: TextConfig.homeTrace);
     await trace.startTrace();
     await trace.metricIncrement(metricName: TextConfig.homeHit, incrementBy: incrementBy);
     await trace.stopTrace();
-    print("in homeTrace done");
   }
 }
 

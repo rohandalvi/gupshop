@@ -6,6 +6,7 @@ import 'package:gupshop/PushToFirebase/pushToBazaarReviewsCollection.dart';
 import 'package:gupshop/bazaarOnBoarding/onBoardingHome.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesDisplay.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
+import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
@@ -332,8 +333,10 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
                       bool dislike = snapshot.data.documents[index].data["dislike"];
                       timeStamp = snapshot.data.documents[index].data["timestamp"];
                       return ListTile(
-                        title: Text(reviewerName,style: GoogleFonts.openSans()),
-                        subtitle: Text(reviewText,style: GoogleFonts.openSans()),
+                        title: Container(child: CustomText(text: reviewerName,)),
+                        //Text(reviewerName,style: GoogleFonts.openSans()),
+                        subtitle: Container(child: CustomText(text: reviewText).subTitle(),),
+                          //Text(reviewText,style: GoogleFonts.openSans()),
                         trailing: Wrap(
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: <Widget>[

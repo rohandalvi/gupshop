@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarProductDetails/chatWithBazaarwala.dart';
+import 'package:gupshop/bazaarProductDetails/productDetailsAppBar.dart';
 import 'package:gupshop/bazaarProductDetails/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToChangeName.dart';
@@ -91,29 +92,38 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
-          child: CustomAppBar(
-            title: CustomText(text: productWalaName,),
-            actions: <Widget>[
-              /// change bazaarwala name:
-              editName(),
-
-              /// chat bubble:
-              ChatWithBazaarwala(
-                bazaarwalaNumber: widget.productWalaNumber,
-                bazaarwalaName: widget.productWalaName,
-                userName: userName,
-                customContext:context,
-              ),
-            ],
-            onPressed: (){
-              if(widget.sendHome == true){
-                NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
-              }else {
-                Navigator.pop(context);
-              }
-            }
+          child: ProductDetailsAppBar(
+            productWalaName: widget.productWalaName,
+            productWalaNumber: widget.productWalaNumber,
+            userName: userName,
+            sendHome: widget.sendHome,
           ),
         ),
+//        PreferredSize(
+//          preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
+//          child: CustomAppBar(
+//            title: CustomText(text: productWalaName,),
+//            actions: <Widget>[
+//              /// change bazaarwala name:
+//              editName(),
+//
+//              /// chat bubble:
+//              ChatWithBazaarwala(
+//                bazaarwalaNumber: widget.productWalaNumber,
+//                bazaarwalaName: widget.productWalaName,
+//                userName: userName,
+//                customContext:context,
+//              ),
+//            ],
+//            onPressed: (){
+//              if(widget.sendHome == true){
+//                NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
+//              }else {
+//                Navigator.pop(context);
+//              }
+//            }
+//          ),
+//        ),
         body: Flex(///---> Expanded has to be wrapped in Flex always
             direction: Axis.vertical,///---> this is the required property of Flex
             children: <Widget>[
@@ -127,12 +137,6 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
   }
 
-  editName(){
-    return CustomIconButton(
-      iconNameInImageFolder: IconConfig.editIcon,
-      onPressed: NavigateToChangeName().navigate(context),
-    );
-  }
 
 
   /*

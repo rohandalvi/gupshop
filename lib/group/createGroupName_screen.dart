@@ -63,8 +63,7 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
               //ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 390, width: 390,),
               Container(
                 child: CustomTextFormField(
-                  onChanged:
-                      (val){
+                  onChanged: (val){
                     setState(() {
                       this.groupName= val;
                     });

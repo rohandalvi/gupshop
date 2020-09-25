@@ -8,6 +8,7 @@ import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
+import 'package:gupshop/widgets/customTextFieldAndImage.dart';
 
 import 'customTextFormField.dart';
 
@@ -58,7 +59,13 @@ class WelcomeScreenWithTextField extends StatelessWidget {
             ),
             Expanded(
               flex: 2,
-              child: bottomContent(),
+              child: CustomTextFieldAndImage(
+                onNextPressed: onNextPressed,
+                onNameSubmitted: onNameSubmitted,
+                nameOnChanged: nameOnChanged,
+                nextIcon: nextIcon,
+                labelText: labelText,
+              ),
             ),
           ],
         ),
@@ -112,37 +119,37 @@ class WelcomeScreenWithTextField extends StatelessWidget {
     );
   }
 
-  Widget bottomContent() {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Flexible(
-            flex: 2,
-            fit: FlexFit.loose,
-            child: Container(
-              child: CustomTextFormField(
-                maxLength: TextConfig.textFormFieldLimitFifteen, /// 25 name length restricted to 25 letters
-                onChanged: nameOnChanged,
-                formKeyCustomText: formKey,
-                onFieldSubmitted: onNameSubmitted,
-                labelText: labelText,
-              ),
-              padding: EdgeInsets.only(left: PaddingConfig.fifteen,right: PaddingConfig.fifteen),
-            ),
-          ),
-          Flexible(
-            flex: 1,
-            fit: FlexFit.loose,
-            child: Container(
-              child: CustomIconButton(
-                iconNameInImageFolder: nextIcon == null ?IconConfig.forwardIcon : nextIcon,
-                onPressed: onNextPressed,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+//  Widget bottomContent() {
+//    return Container(
+//      child: Column(
+//        children: <Widget>[
+//          Flexible(
+//            flex: 2,
+//            fit: FlexFit.loose,
+//            child: Container(
+//              child: CustomTextFormField(
+//                maxLength: TextConfig.textFormFieldLimitFifteen, /// 25 name length restricted to 25 letters
+//                onChanged: nameOnChanged,
+//                formKeyCustomText: formKey,
+//                onFieldSubmitted: onNameSubmitted,
+//                labelText: labelText,
+//              ),
+//              padding: EdgeInsets.only(left: PaddingConfig.fifteen,right: PaddingConfig.fifteen),
+//            ),
+//          ),
+//          Flexible(
+//            flex: 1,
+//            fit: FlexFit.loose,
+//            child: Container(
+//              child: CustomIconButton(
+//                iconNameInImageFolder: nextIcon == null ?IconConfig.forwardIcon : nextIcon,
+//                onPressed: onNextPressed,
+//              ),
+//            ),
+//          ),
+//        ],
+//      ),
+//    );
+//  }
 }
 

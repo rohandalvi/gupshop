@@ -24,6 +24,7 @@ class TextConfig{
   static String bazaarChangeNameTextTitle = "Add name to your business";
   static String bazaarChangeNameTextSubtitle = "Try keeping the same name for your business throughout, to help the customer identify you";
   static String bazaarChangeNameTextfieldLabel = 'Enter your business name';
+  static String bazaarChangeNameFlushbarMessage = "Please enter a name";
 
   /// nameScreen :
   static const String enterName = "Enter your Name";
@@ -32,6 +33,8 @@ class TextConfig{
   /// images
   static const String editImage = 'Edit picture';
 
+  /// flushbar:
+  static const String showFlushbarStopHandMessage = "Please enter your name to move forward";
 
   /// trace
   static const String homeTrace = 'home';

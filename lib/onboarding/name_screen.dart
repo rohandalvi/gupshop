@@ -55,8 +55,7 @@ class _NameScreenState extends State<NameScreen> {
                 Container(
                   child: CustomTextFormField(
                         maxLength: 25, /// name length restricted to 25 letters
-                        onChanged:
-                            (val){
+                        onChanged: (val){
                           setState(() {
                             this.isName= val;
                             this.userName= val;
@@ -113,7 +112,7 @@ class _NameScreenState extends State<NameScreen> {
                       prefs.setString('userName', userName);
                     });
 
-                    if(userName == null){
+                    if(userName == null || userName == ""){
                       Flushbar(
                         icon: SvgPicture.asset(
                             'images/stopHand.svg',
@@ -130,7 +129,7 @@ class _NameScreenState extends State<NameScreen> {
                       )..show(context);
                     }
 
-                    if(userName != null){
+                    if(userName != null && userName != ""){
                       NavigateToHome().navigateNoBrackets(context);
 //                      Navigator.push(
 //                          context,

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 
 class CustomFlushBar extends StatelessWidget {
   final Widget text;
@@ -26,12 +27,11 @@ class CustomFlushBar extends StatelessWidget {
       forwardAnimationCurve: Curves.decelerate,
       reverseAnimationCurve: Curves.easeOut,
       titleText: text,
-      message: "Please enter your name to move forward",
+      message: TextConfig.showFlushbarStopHandMessage,
     )..show(customContext);
   }
 
   showFlushBarStopHand(){
-    print("in showFlushBarStopHand");
     return Flushbar( /// for the flushBar if the user enters wrong verification code
       icon: SvgPicture.asset(
         'images/stopHand.svg',
@@ -44,7 +44,7 @@ class CustomFlushBar extends StatelessWidget {
       reverseAnimationCurve: Curves.easeOut,
       titleText: text,
       flushbarStyle: FlushbarStyle.GROUNDED,
-      message: "Please enter your name to move forward",
+      message: message == null ?TextConfig.showFlushbarStopHandMessage : message,
     )..show(customContext);
   }
 

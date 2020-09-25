@@ -26,25 +26,20 @@ class CustomWelcomeScreen extends StatelessWidget {
         ),
       ),
       backgroundColor: white,
-      body: SafeArea(
-        bottom: false,
-        left: false,
-        right: false,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: bodyFlex == null ? 4 : bodyFlex,
-              child: Align(
-                alignment: Alignment.center,
-                child: body
-              ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            flex: bodyFlex == null ? 4 : bodyFlex,
+            child: Align(
+              alignment: Alignment.center,
+              child: body
             ),
-            Expanded(
-              flex: bottomFlex == null ? 1 : bottomFlex,
-              child: bottom
-            ),
-          ],
-        ),
+          ),
+          Expanded(
+            flex: bottomFlex == null ? 1 : bottomFlex,
+            child: bottom
+          ),
+        ],
       ),
     );
   }

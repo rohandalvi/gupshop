@@ -1,8 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/responsive/widgetConfig.dart';
-import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customWelcomeBody.dart';
 import 'package:gupshop/widgets/customTextFieldAndNextIcon.dart';
 import 'package:gupshop/widgets/customWelcomeScreen.dart';
@@ -33,6 +30,7 @@ class WelcomeScreenWithTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomWelcomeScreen(
+      onBackPressed: onBackPressed,
       bodyFlex: 3,
       bottomFlex: 2,
       body: CustomWelcomeBody(
@@ -41,15 +39,12 @@ class WelcomeScreenWithTextField extends StatelessWidget {
         bodySubtitleText: bodySubtitleText,
         bodyTitleText: bodyTitleText,
       ),
-      bottom: Expanded(
-        flex: 2,
-        child: CustomTextFieldAndNextIcon(
-          onNextPressed: onNextPressed,
-          onNameSubmitted: onNameSubmitted,
-          nameOnChanged: nameOnChanged,
-          nextIcon: nextIcon,
-          labelText: labelText,
-        ),
+      bottom: CustomTextFieldAndNextIcon(
+        onNextPressed: onNextPressed,
+        onNameSubmitted: onNameSubmitted,
+        nameOnChanged: nameOnChanged,
+        nextIcon: nextIcon,
+        labelText: labelText,
       ),
     );
   }

@@ -10,7 +10,9 @@ class BazaarWelcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WelcomeScreen(
-      onBackPressed: NavigateToHome(initialIndex: 1).navigate(context),
+      onBackPressed: () async{
+        NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
+      },
       bodyImage: ImageConfig.bazaarOnBoardingWelcomeLogo,
       bodyTextTitle: TextConfig.bazaarOnboardingTitle,
       bodyTextSubtitle: TextConfig.bazaarOnboardingSubTitle,

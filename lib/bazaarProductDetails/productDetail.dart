@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarProductDetails/chatWithBazaarwala.dart';
 import 'package:gupshop/bazaarProductDetails/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToChangeName.dart';
 import 'package:gupshop/navigators/navigateToFullScreenPictureAndVideos.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -12,6 +14,7 @@ import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart'
 import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
 import 'package:gupshop/video/videoThumbnailHelper.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -92,6 +95,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
             title: CustomText(text: productWalaName,),
             actions: <Widget>[
               /// change bazaarwala name:
+              editName(),
 
               /// chat bubble:
               ChatWithBazaarwala(
@@ -121,6 +125,13 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
       ),
     );
 
+  }
+
+  editName(){
+    return CustomIconButton(
+      iconNameInImageFolder: IconConfig.editIcon,
+      onPressed: NavigateToChangeName().navigate(context),
+    );
   }
 
 

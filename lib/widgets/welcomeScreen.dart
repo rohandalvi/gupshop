@@ -8,14 +8,14 @@ import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class DescriptionImage extends StatelessWidget {
+class WelcomeScreen extends StatelessWidget {
   final String bodyImage;
   final String bodyTextTitle;
   final String bodyTextSubtitle;
   final String bottomText;
   final VoidCallback nextIconOnPressed;
 
-  DescriptionImage({this.bodyImage, this.bodyTextTitle,
+  WelcomeScreen({this.bodyImage, this.bodyTextTitle,
     this.bodyTextSubtitle,
     this.nextIconOnPressed, this.bottomText});
 

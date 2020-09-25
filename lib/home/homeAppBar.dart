@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/contactSearch/contactSearchPage.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
@@ -78,7 +79,7 @@ class HomeAppBar extends StatelessWidget {
                           children: <Widget>[
                             /// create group
                             CustomIconButton(
-                              iconNameInImageFolder: ImageConfig.groupIcon,
+                              iconNameInImageFolder: IconConfig.groupIcon,
                               onPressed: (){
                                 CustomNavigator().navigateToCreateGroup(context, userName, userPhoneNo, false, null);
                               },

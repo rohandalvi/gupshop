@@ -14,17 +14,14 @@ class ImageConfig{
   static String bazaarOnBoardingWelcomeLogo = 'images/connect.png';
   static String bazaarOnBoardingLocationLogo = 'images/locationMobile.png';
   static String bazaarOnBoardingVideoLogo = 'images/onlineAd.png';
+  static String bazaarChangeName = 'images/profileData.png';
+
   /// onBoarding:
   static String userDpPlaceholder = 'images/dpPlaceholderImage.png';
       //'images/user.png';
   /// group:
   static String groupDpPlaceholderImage = 'images/groupManWoman.png';
 
-
-  /// asset icons:
-  static String groupIcon =
-      //'groupIcon';
-      'groupManWoman';
 
   /// imageSizeMultiplier = 4.32
   static double radius = SizeConfig.imageSizeMultiplier * 7;/// 30

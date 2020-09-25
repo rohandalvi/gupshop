@@ -1,11 +1,14 @@
 import 'package:gupshop/responsive/sizeConfig.dart';
 
 class TextConfig{
+  static int textFormFieldLimitTwentyFive = 25;
+  static int textFormFieldLimitFifteen = 15;
+
   static double standardFontSize = SizeConfig.textMultiplier * 2;/// 16
   static double bigFontSize = SizeConfig.textMultiplier * 2.5;
   static double fontSizeTwelve = SizeConfig.textMultiplier * 1.47;/// 12/8.16
 
-
+  /// bazaar:
   static String bazaarOnboardingTitle = 'Welcome to Bazaar Onboarding';
   static String bazaarOnboardingSubTitle = "Anyone can join"
       " our community to earn millions of customers";
@@ -18,6 +21,9 @@ class TextConfig{
   static String bazaarLocationTitle = "Add your service location area";
   static const String bazaarLocationIntro = '''Service location enables  
   users find you effectively''';
+  static String bazaarChangeNameTextTitle = "Add name to your business";
+  static String bazaarChangeNameTextSubtitle = "Try keeping the same name for your business throughout, to help the customer identify you";
+  static String bazaarChangeNameTextfieldLabel = 'Enter your business name';
 
   /// nameScreen :
   static const String enterName = "Enter your Name";

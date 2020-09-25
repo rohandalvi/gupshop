@@ -30,7 +30,7 @@ class CustomTextFormField extends StatelessWidget {
   CustomTextFormField({this.onFieldSubmitted, this.labelText, this.formKeyCustomText, this.onChanged,
     this.maxLength, this.initialValue, this.enabledBorder,this.onSaved, this.maxLines, this.valForValidator,
     this.onEditingComplete, this.errorText, this.onTap, this.border, this.textStyle, this.style,
-    this.textInputAction, this.keyboardType, this.expands,this.width
+    this.textInputAction, this.keyboardType, this.expands,this.width,
   });
 
   @override

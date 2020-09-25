@@ -21,6 +21,8 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
   String thumbnailPicture;
   bool homeService;
   String homeServiceText;
+  String businessName;
+  String displayName;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +33,11 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
           .getNameThumbnailPictureHomeService(),
       builder: (BuildContext context, AsyncSnapshot nameSnapshot) {
         if (nameSnapshot.connectionState == ConnectionState.done) {
-          print("nameSnapshot.connectionState : ${nameSnapshot.connectionState}");
-          print("nameSnapshot in BazaarIndividualCategoryNameDpBuilder : ${nameSnapshot.data}");
+          businessName = nameSnapshot.data["businessName"];
           name = nameSnapshot.data["name"];
+          if(businessName != null){
+            displayName = businessName;
+          }else displayName = name;
           thumbnailPicture = nameSnapshot.data["thumbnailPicture"];
           homeService = nameSnapshot.data["homeService"];
 
@@ -58,7 +62,8 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
             thumbnailPicture = ImageConfig.photoFrame;
 
           return BazaarIndividualCategoryListDisplay(
-            bazaarWalaName: name,
+            bazaarWalaName: displayName,
+            //bazaarWalaName: name,
             bazaarWalaPhoneNo: bazaarWalaPhoneNo,
             category: category,
             categoryData: categoryData,

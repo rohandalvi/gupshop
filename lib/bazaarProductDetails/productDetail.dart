@@ -91,6 +91,9 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           child: CustomAppBar(
             title: CustomText(text: productWalaName,),
             actions: <Widget>[
+              /// change bazaarwala name:
+
+              /// chat bubble:
               ChatWithBazaarwala(
                 bazaarwalaNumber: widget.productWalaNumber,
                 bazaarwalaName: widget.productWalaName,

@@ -1,46 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/bazaarOnBoarding/bottomButton.dart';
-import 'package:gupshop/bazaarOnBoarding/welcomeContent.dart';
-import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/navigators/navigateToBazaarHomeScreen.dart';
-import 'package:gupshop/navigators/navigateToHome.dart';
-import 'package:gupshop/responsive/widgetConfig.dart';
-import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
+import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
+import 'package:gupshop/widgets/descriptionImage.dart';
 
 class BazaarWelcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
-        child: CustomAppBar(
-          onPressed: (){
-            NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
-          }
-        ),
-      ),
-      backgroundColor: white,
-      body: SafeArea(
-        bottom: false,
-        left: false,
-        right: false,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 4,
-              child: Align(
-                alignment: Alignment.center,
-                child: WelcomeContent(),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: BottomButton(),
-            ),
-          ],
-        ),
-      ),
+    return DescriptionImage(
+      bodyImage: ImageConfig.bazaarOnBoardingWelcomeLogo,
+      bodyTextTitle: TextConfig.bazaarOnboardingTitle,
+      bodyTextSubtitle: TextConfig.bazaarOnboardingSubTitle,
+      bottomText: TextConfig.bazaarBottomButton,
+      nextIconOnPressed: NavigateToBazaarOnBoardingHome().navigate(context),
     );
   }
+
 }

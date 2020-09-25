@@ -40,7 +40,6 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
                     firstIconText: 'Pick image from  Gallery',
                     firstIconAndTextOnPressed: () async{
                       if(tabNumber == 0) {
-                        print("subCategoryDataList in tabNumber : $subCategoryDataList");
                         String imageURL = await GalleryButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).thumbnailPicture(context);
                         thumbnailPicture(imageURL);
                       }

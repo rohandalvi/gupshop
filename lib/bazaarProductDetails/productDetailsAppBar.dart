@@ -3,7 +3,6 @@ import 'package:gupshop/bazaarProductDetails/chatWithBazaarwala.dart';
 import 'package:gupshop/navigators/navigateToChangeName.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
-import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';

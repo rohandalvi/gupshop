@@ -5,14 +5,14 @@ import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
 
-class CustomTextFieldAndImage extends StatelessWidget {
+class CustomTextFieldAndNextIcon extends StatelessWidget {
   final ValueChanged<String> nameOnChanged;
   final ValueChanged<String> onNameSubmitted;
   final VoidCallback onNextPressed;
   final String labelText;
   final String nextIcon;
 
-  CustomTextFieldAndImage({this.onNextPressed, this.onNameSubmitted,
+  CustomTextFieldAndNextIcon({this.onNextPressed, this.onNameSubmitted,
     this.nameOnChanged, this.labelText, this.nextIcon});
 
   GlobalKey<FormState> formKey = new GlobalKey<FormState>();

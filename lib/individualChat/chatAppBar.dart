@@ -89,7 +89,7 @@ class ChatAppBar extends StatelessWidget {
                           Container(
                             //child: Padding(
                               //padding: EdgeInsets.all(PaddingConfig.three),
-                            /// TODO: Priority 1 : Apply responsiveness to the Column below
+                            /// TODO: Priority 1 : Apply responsiveness to the name below
                               child: Container(
                                 child: Expanded(
                                   child: Column(
@@ -98,15 +98,14 @@ class ChatAppBar extends StatelessWidget {
                                       mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       /// name:
-                                      Flexible(
-                                        fit: FlexFit.loose,
+                                      Expanded(
                                         flex : 1,
 //                                        child: FittedBox(
 //                                          fit: BoxFit.fitWidth,
-                                          //alignment: Alignment.topLeft,
+//                                          alignment: Alignment.topLeft,
                                           child: Container(
-                                              alignment: Alignment.topLeft,
                                               width: WidgetConfig.threeSixtyWidth,
+                                              alignment: Alignment.topLeft,
                                               padding: EdgeInsets.only(top: PaddingConfig.individualChatAppBarTop),
                                               child : GestureDetector(
                                                 child: name,
@@ -116,7 +115,8 @@ class ChatAppBar extends StatelessWidget {
 //                                        ),
                                       ),
                                       /// Last seen:
-                                      Expanded(
+                                      Flexible(
+                                        flex: 1,
                                         child: FittedBox(
                                         fit: BoxFit.fitWidth,
                                           child: Container(

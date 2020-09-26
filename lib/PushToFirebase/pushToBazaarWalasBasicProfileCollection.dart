@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/bazaarOnBoarding/bazaarTrace.dart';
 
 class PushToBazaarWalasBasicProfile{
   String userPhoneNo;
@@ -24,8 +25,6 @@ class PushToBazaarWalasBasicProfile{
   });
 
   pushToFirebase() async{
-    print("categoryData in pushToFirebase : $categoryData");
-    print("subCategoryData in pushToFirebase : $subCategoryData");
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({}, merge: true);
 
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
@@ -39,6 +38,9 @@ class PushToBazaarWalasBasicProfile{
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
         .collection(categoryData).document(subCategoryData)
         .setData({'homeService' : homeService }, merge: true);
+
+    ///Trace
+    BazaarTrace(category: categoryData, subCategory: subCategoryData).homeServiceAdded();
   }
 
   pushAllPictures(String categoryName, String subCategoryName) async{

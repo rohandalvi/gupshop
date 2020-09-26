@@ -9,7 +9,7 @@ class BazaarTrace{
   MyTrace trace;
 
   BazaarTrace({this.category, this.subCategory}){
-    trace = new MyTrace(nameSpace: category+TextConfig.bazaarCategory);
+    trace = new MyTrace(nameSpace: "$category+${TextConfig.bazaarCategory}");
   }
 
   subCategoryAdded() async{
@@ -66,6 +66,14 @@ class BazaarTrace{
     int incrementBy = 1;
     await trace.startTrace();
     await trace.metricIncrement(metricName: "$category+_+$subCategory+_$bazaarwalaNumber+_nameChanged",
+        incrementBy: incrementBy);
+    await trace.stopTrace();
+  }
+
+  homeServiceAdded() async{
+    int incrementBy = 1;
+    await trace.startTrace();
+    await trace.metricIncrement(metricName: "$category+_+$subCategory+_homeService",
         incrementBy: incrementBy);
     await trace.stopTrace();
   }

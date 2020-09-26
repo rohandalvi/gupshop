@@ -6,6 +6,7 @@ class FilterBazaarLocationData{
 
   FilterBazaarLocationData({this.subCategory});
 
+  /// geohash change here
   getListOfBazaarWalasInAGivenRadius(String number, String category, String userGeohash) async{
     //var userGeohash = await getUserGeohash(number,);
 

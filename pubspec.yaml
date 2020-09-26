@@ -88,6 +88,7 @@ dependencies:
   video_thumbnail: ^0.2.2 # for video thumbnail
 
   firebase_performance: ^0.3.2 # for data gathering.. latest is 0.4.0.. but conflicting with firebase core.. so used the prior version
+  proximity_hash: ^1.0.1 #for location_service.dart to create geoHash #26/9/20
 
 dev_dependencies:
   flutter_test:

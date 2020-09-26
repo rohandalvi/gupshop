@@ -128,6 +128,7 @@ class LocationService {
   }
 
 
+  /// geohash change here
   //helpers
   String _getBazaarWalasUpperRadius(double latitude, double longitude, double distance){
     double upperLat = latitude + LATITUDE * distance;
@@ -140,6 +141,8 @@ class LocationService {
     return geoHash;
   }
 
+
+  /// geohash change here
   String _getBazaarWalasLowerRadius(double latitude, double longitude, double distance){
     double upperLat = latitude - LATITUDE * distance;
     double upperLong = longitude - LONGITUDE * distance;

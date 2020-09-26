@@ -1,39 +1,54 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/bazaarProductDetails/chatWithBazaarwala.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToChangeName.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/updateInFirebase/updateBazaarWalasBasicProfile.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class ProductDetailsAppBar extends StatelessWidget {
-  final String productWalaName;
+class ProductDetailsAppBar extends StatefulWidget {
+  String productWalaName;
   final String productWalaNumber;
   final String userName;
   final bool sendHome;
+  final String businessName;
+
+  /// for updating name to firebase
+  final String categoryData;
+  final String subCategoryData;
+  final String userPhoneNo;
 
   ProductDetailsAppBar({this.productWalaName, this.userName,
-    this.productWalaNumber, this.sendHome});
+    this.productWalaNumber, this.sendHome, this.businessName,
+    this.userPhoneNo, this.categoryData, this.subCategoryData
+  });
 
+  @override
+  _ProductDetailsAppBarState createState() => _ProductDetailsAppBarState();
+}
+
+class _ProductDetailsAppBarState extends State<ProductDetailsAppBar> {
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
-        title: CustomText(text: productWalaName,),
+        title: CustomText(text: widget.productWalaName,),
         actions: <Widget>[
           /// change bazaarwala name:
           editName(context),
 
           /// chat bubble:
           ChatWithBazaarwala(
-            bazaarwalaNumber: productWalaNumber,
-            bazaarwalaName: productWalaName,
-            userName: userName,
+            bazaarwalaNumber: widget.productWalaNumber,
+            bazaarwalaName: widget.productWalaName,
+            userName: widget.userName,
             customContext:context,
           ),
         ],
         onPressed: (){
-          if(sendHome == true){
+          if(widget.sendHome == true){
             NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
           }else {
             Navigator.pop(context);
@@ -43,9 +58,29 @@ class ProductDetailsAppBar extends StatelessWidget {
   }
 
   editName(BuildContext context){
-    return CustomIconButton(
-      iconNameInImageFolder: IconConfig.editIcon,
-      onPressed: NavigateToChangeName().navigate(context),
+
+    return Visibility(
+      visible: UserDetails().isBazaarwala(widget.userPhoneNo, widget.productWalaNumber),
+      child: CustomIconButton(
+        iconNameInImageFolder: IconConfig.editIcon,
+        onPressed: () async {
+          String changedName = await NavigateToChangeName().navigateNoBrackets(context);
+
+          if(changedName != widget.businessName){
+            /// push to firebase
+            await UpdateBazaarWalasBasicProfile(
+              categoryData:widget.categoryData,
+              subCategoryData:widget.subCategoryData,
+              userPhoneNo: widget.userPhoneNo,
+            ).updateBusinessName(changedName);
+
+            /// setState:
+            setState(() {
+              widget.productWalaName =  changedName;
+            });
+          }
+        }
+      ),
     );
   }
 }

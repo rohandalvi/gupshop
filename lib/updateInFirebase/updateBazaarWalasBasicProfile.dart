@@ -18,4 +18,10 @@ class UpdateBazaarWalasBasicProfile{
     await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
         .collection(categoryData).document(subCategoryData).updateData({'latitude' : location.latitude, 'longitude':location.longitude});
   }
+
+  updateBusinessName(String businessName ) async{
+    print("userNumber in update : $userPhoneNo");
+    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
+        .collection(categoryData).document(subCategoryData).updateData({'businessName' : businessName,});
+  }
 }

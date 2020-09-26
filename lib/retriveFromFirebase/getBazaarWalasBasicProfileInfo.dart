@@ -72,9 +72,13 @@ class GetBazaarWalasBasicProfileInfo{
 
     map["name"] = dc.data["bazaarWalaName"];
 
-//    String businessName;
-//    businessName = dc.data["businessName"];
-//    map["businessName"] = businessName;
+    print("number : $userNumber");
+    print("category : $categoryData");
+    print("subCategoryData : $subCategoryData");
+    String businessName;
+    businessName = dc.data["businessName"];
+    print("businessName in basic profile : ${dc.data["businessName"]}");
+    map["businessName"] = businessName;
 
     print("map after businessName : $map");
 

@@ -41,6 +41,7 @@ class _ChangeNameState extends State<ChangeName> {
         }
 
         if(widget.businessName != null && widget.businessName != ""){
+          print("widget.businessName in not null : ${widget.businessName}");
           Navigator.pop(context, widget.businessName);
 
           /// Add Trace :

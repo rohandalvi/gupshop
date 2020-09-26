@@ -66,10 +66,12 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
   int dislikes;
 
 
-  getUserName()async {
+  getUserDetails()async {
     String name = await UserDetails().getUserNameFuture();
+    String userNumberTemp = await UserDetails().getUserPhoneNoFuture();
     setState(() {
       userName = name;
+      userNumber = userNumberTemp;
     });
   }
 
@@ -79,7 +81,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
     collectionReference = Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection("reviews");
     stream = collectionReference.snapshots();
 
-    getUserName();
+    getUserDetails();
 
     super.initState();
   }
@@ -97,6 +99,10 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
             productWalaNumber: widget.productWalaNumber,
             userName: userName,
             sendHome: widget.sendHome,
+            businessName: productWalaName,
+            categoryData: widget.categoryData,
+            subCategoryData: widget.subCategoryData,
+            userPhoneNo: userNumber,
           ),
         ),
 //        PreferredSize(

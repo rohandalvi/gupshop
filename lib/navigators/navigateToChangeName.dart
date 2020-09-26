@@ -16,7 +16,7 @@ class NavigateToChangeName{
   }
 
   navigateNoBrackets(BuildContext context) async{
-    bool result =  await Navigator.push(
+    String result =  await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => ChangeName(),

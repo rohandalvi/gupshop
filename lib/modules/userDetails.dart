@@ -31,4 +31,14 @@ class UserDetails{
 
     return isBazaarWala;
   }
+
+  isBazaarwalaPromise(String bazaarwalaNumber) async{
+
+  }
+
+
+  bool isBazaarwala(String userNumber, String bazaarwalaNumber){
+    if(userNumber == bazaarwalaNumber) return true;
+    return false;
+  }
 }

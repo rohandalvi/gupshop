@@ -15,21 +15,26 @@ class ThumbnailResult {
 }
 
 class MyVideoThumbnail{
+  static String token = "token=";
   String videoURL;
 
   MyVideoThumbnail({this.videoURL});
 
-  getUniqueIdentifierFromVideoUrl() {
-    String videoId = videoURL.substring(videoURL.indexOf(".com")+5).split("/")[4];
-    String  hashedId  = videoId.substring(0, videoId.indexOf("?"));
-    String hash = "video%2F";
-    return hashedId.substring(hashedId.indexOf(hash)+hash.length, hashedId.indexOf("."))+".png";
+  /**
+   * Do not forget to add .png extension at the end of the identifier.
+   * Library will not throw an explicit error but the video thumbnail would
+   * not get generated and the user will keep seeing a loader.
+   */
+  getUniqueVideoIdentifier() {
+
+
+    return videoURL.substring(videoURL.indexOf(token)+token.length)+".png";
   }
 
   main() async{
     final Completer<ThumbnailResult> completer = Completer();
     var dir = await getTemporaryDirectory();
-    var thumbnailPath = "${dir.path}/${getUniqueIdentifierFromVideoUrl()}";
+    var thumbnailPath = "${dir.path}/${getUniqueVideoIdentifier()}";
     Uint8List bytes;
     try {
       final file = File(thumbnailPath);
@@ -51,13 +56,15 @@ class MyVideoThumbnail{
         .resolve(ImageConfiguration())
         .addListener(ImageStreamListener((ImageInfo info, bool _) {
       completer.complete(ThumbnailResult(
-        image: _image,
-        dataSize: _imageDataSize,
-        height: info.image.height,
-        width: info.image.width,
+          image: _image,
+          dataSize: _imageDataSize,
+          height: info.image.height,
+          width: info.image.width
       ));
     }));
     return completer.future;
+
+
   }
 
 }

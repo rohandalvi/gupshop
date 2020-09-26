@@ -264,15 +264,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
           /// placeholder till map is generated:
           /// show a dialog box with CircularProgressIndicator
           CustomShowDialog().main(context, BazaarConfig.loadingMap);
-//          showDialog(
-//              context: context,
-//              builder: (BuildContext context) => CupertinoAlertDialog(
-//                title: Text('Loading map'),
-//                content: Center(child: CircularProgressIndicator()),
-//              ));
 
-
-          //bool showBackButton = false;
           String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
           String tempHash = await ChangeLocationInSearch(
               userNumber: userPhoneNo)

@@ -161,7 +161,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
                 if(widget.dislikes == null) widget.dislikes =0;
 
                 PushToBazaarReviewsCollection(subCategory: widget.subCategoryData).addReview(widget.productWalaNumber, widget.categoryData, data);
-                UpdateBazaarRatingNumberCollection(productWalaNumber: widget.productWalaNumber, categoryData: widget.categoryData, likes: widget.likes, dislikes: widget.dislikes, subCategoryData: widget.subCategoryData).updateRatings();
+                UpdateBazaarRatingNumberCollection(productWalaNumber: widget.productWalaNumber, categoryData: widget.categoryData, likes: widget.likes, dislikes: widget.dislikes, subCategoryData: widget.subCategoryData, data: data).updateRatings();
               }
             },
           ),
@@ -231,74 +231,6 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
       ),
     );
   }
-
-
-
-//  buildProductImagesWidget(){
-//    TabController imagesController = new TabController(length: 4, vsync: this);
-//
-//    return FutureBuilder(
-//        future: UserDetails().getUserPhoneNoFuture(),
-//        builder: (context, numberSnapshot) {
-//          userNumber = numberSnapshot.data;
-//          return Card(
-//            child: FutureBuilder(
-//                future: FirestoreShortcuts().getVideoURL(widget.productWalaNumber),
-//                builder: (context, snapshot) {
-//                  if(snapshot.connectionState == ConnectionState.done){
-//                    String videoURL = snapshot.data["url"];
-//                    return Center(
-//                      child: Padding(
-//                        padding: EdgeInsets.all(PaddingConfig.sixteen),
-//                        child: Container(
-//                          //height: WidgetConfig.productDetailImageHeight,
-//                          child: Center(
-//                            child: DefaultTabController(
-//                              length: 4,
-//                              child: Stack(
-//                                children: <Widget>[
-//                                  TabBarView(
-//                                    controller: imagesController,
-//                                    children: <Widget>[
-//                                      CustomVideoPlayerThumbnail(videoURL: videoURL,),
-//                                      Image(
-//                                        image: AssetImage('images/sampleProfilePicture.jpeg'),
-//                                      ),
-//                                      Image(
-//                                        image: AssetImage('images/sampleImageForBazaar.jpeg'),
-//                                      ),
-//                                      Image(
-//                                        image: AssetImage('images/kamwali.png'),
-//                                      ),
-//                                    ],
-//                                  ),
-//                                  Container(
-//                                    alignment: FractionalOffset(0.5,0.95),//placing the tabpagSelector at the bottom  center of the container
-//                                    child: TabPageSelector(
-//                                      controller: imagesController,//if this is not used then the images move but the tabpageSelector does not change the color of the tabs showing which image it is on
-//                                      selectedColor: Colors.grey,//default color is blue
-//                                      color: Colors.white,
-//                                    ),
-//                                  ),
-//                                ],
-//                              ),
-//                            ),
-//                          ),
-//                        ),
-//                      ),
-//                    );
-//                  }else{
-//                    // If the VideoPlayerController is still initializing, show a
-//                    // loading spinner.
-//                    return Center(child: CircularProgressIndicator());
-//                  }
-//
-//                }
-//            ),
-//          );
-//        }
-//    );
-//  }
 
 
   _buildReviewList(context){

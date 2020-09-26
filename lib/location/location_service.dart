@@ -54,8 +54,6 @@ class LocationService {
       position: position, userNumber: userNumber, category: categoryName, subCategory:subCategory,
       latitude: latitude, longitude: longitude
     ).push();
-//    Firestore.instance.collection("bazaarWalasLocation").document(categoryName).setData({}, merge: true);///creating document to avoid error document(italic) creation
-//    Firestore.instance.collection("bazaarWalasLocation").document(categoryName).collection(categoryName).document(userNumber).setData(position);
   }
 
 
@@ -72,7 +70,6 @@ class LocationService {
 
     //Firestore.instance.collection("usersLocation").document(phoneNo).setData({'position': myLocation.data});
     Firestore.instance.collection("usersLocation").document(phoneNo).setData({locationName: map}, merge:true);//merge true imp for setting multiple locations
-    print("myLocation.data of user: ${myLocation.data}");
   }
 
   getGeoPoint(double latitude, double longitude,){

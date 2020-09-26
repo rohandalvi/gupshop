@@ -6,6 +6,8 @@ import 'package:gupshop/PushToFirebase/pushToBazaarWalasBasicProfileCollection.d
 import 'package:gupshop/PushToFirebase/pushToBazaarWalasLocation.dart';
 import 'package:gupshop/PushToFirebase/pushToCategoriesMetadata.dart';
 import 'package:gupshop/PushToFirebase/pushToVideoCollection.dart';
+import 'package:gupshop/bazaarOnBoarding/bazaarTrace.dart';
+import 'package:gupshop/bazaarOnBoarding/bazaarTrace.dart';
 import 'package:gupshop/location/location_service.dart';
 
 class PushSubCategoriesToFirebase{
@@ -18,11 +20,11 @@ class PushSubCategoriesToFirebase{
   LatLng location;
   double radius;
 
-
   PushSubCategoriesToFirebase({this.category, this.userName, this.userPhoneNo,
     this.listOfSubCategoriesData, this.listOfSubCategories, this.videoURL,
     this.location, this.radius
   });
+
 
   bazaarCategories(){
     listOfSubCategoriesData.forEach((element) {
@@ -34,7 +36,8 @@ class PushSubCategoriesToFirebase{
     for(int i = 0; i<listOfSubCategoriesData.length; i++){
       String subCategory = listOfSubCategories[i];
       String subCategoryData = listOfSubCategoriesData[i];
-      PushToCategoriesMatedata(userNumber: userPhoneNo,).push(category,subCategoryData,subCategory);
+      PushToCategoriesMatedata(userNumber: userPhoneNo,)
+          .push(category,subCategoryData,subCategory);
     }
 
 //    listOfSubCategoriesData.forEach((subCategoryData) {
@@ -81,7 +84,9 @@ class PushSubCategoriesToFirebase{
   }
 
   bazaarWalasLocation(){
-    print("location in bazaarWalasLocation : $location");
+    ///Trace:
+    BazaarTrace(category: category).locationAdded(location);
+
     listOfSubCategoriesData.forEach((subCategory) {
       LocationService().pushBazaarWalasLocationToFirebase(
           location.latitude, location.longitude,

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:gupshop/bazaarOnBoarding/bazaarTrace.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
 import 'package:gupshop/location/usersLocation.dart';
@@ -45,6 +46,10 @@ class ChangeLocationInSearch{
     return userGeohash;
   }
 
+  getUserGeoHashWithNewLatLng(){
+
+  }
+
 
   getLatLang(BuildContext context) async{
 
@@ -68,6 +73,10 @@ class ChangeLocationInSearch{
 
   pushToUsersLocationFirebase(double latitude, double longitude, String userPhoneNo,  String address, String addressName){
     LocationService().pushUsersLocationToFirebase(latitude, longitude, userPhoneNo, addressName, address);
+
+    /// Trace
+    LatLng location = new LatLng(latitude, longitude);
+    BazaarTrace().locationAdded(location);
   }
 
   getUserGeohash(String userPhoneNo, String addressName){

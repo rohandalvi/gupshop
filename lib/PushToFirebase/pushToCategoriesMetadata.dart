@@ -12,5 +12,6 @@ class PushToCategoriesMatedata{
   push(String category, String subCategoryData, String subCategory) async{
     Firestore.instance.collection("bazaarCategoriesMetadata").document(userNumber).setData({}, merge: true);///creating document to avoid error document(i
     Firestore.instance.collection("bazaarCategoriesMetadata").document(userNumber).collection(category).document(subCategoryData).setData({'name' : subCategory}, merge: true);
+
   }
 }

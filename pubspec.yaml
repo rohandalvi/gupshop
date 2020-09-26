@@ -89,6 +89,7 @@ dependencies:
 
   firebase_performance: ^0.3.2 # for data gathering.. latest is 0.4.0.. but conflicting with firebase core.. so used the prior version
   proximity_hash: ^1.0.1 #for location_service.dart to create geoHash #26/9/20
+  firebase_messaging: ^6.0.16 # for push notifications
 
 dev_dependencies:
   flutter_test:

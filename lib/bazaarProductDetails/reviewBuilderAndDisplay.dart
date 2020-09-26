@@ -1,24 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarReviewsCollection.dart';
 import 'package:gupshop/bazaarOnBoarding/onBoardingHome.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesDisplay.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
-import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarReviewsCollection.dart';
-import 'package:gupshop/service/firestoreShortcuts.dart';
 import 'package:gupshop/timestamp/timeDisplay.dart';
 import 'package:gupshop/updateInFirebase/updateBazaarRatingNumbersCollection.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
-import 'package:gupshop/widgets/customVideoPlayer.dart';
-import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 
 class ReviewBuilderAndDisplay extends StatefulWidget {
   String productWalaName;
@@ -109,11 +103,19 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
         ),
         Expanded(
           flex: 5,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: WidgetConfig.reviewWidth),
-            child: Padding(
-              padding: EdgeInsets.only(left: PaddingConfig.fourteen),//---> for distance between left side of the screen and the review writing text bar
-              child: _sendReview(),
+          child: GestureDetector(
+            /// when user clicks on screen to let go off the keyboard
+            onTap: () {
+              FocusScope.of(context).unfocus();/// not working
+//              FocusScope.of(context).requestFocus(new FocusNode());/// not working
+              widget.focus=true;
+            },
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: WidgetConfig.reviewWidth),
+              child: Padding(
+                padding: EdgeInsets.only(left: PaddingConfig.fourteen),//---> for distance between left side of the screen and the review writing text bar
+                child: _sendReview(),
+              ),
             ),
           ),
         ),
@@ -218,13 +220,14 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
       key: _formKey,
       child: TextFormField(
         validator: (value){
-          if(value.isEmpty) return 'Please write your review';
+          if(value.isEmpty) return TextConfig.bazaarWriteReview;
           else{
             widget.reviewBody=value;//---> else this TextFormField was returning null and reviewBody was  getting  assigned null value; hence, we manually assigned the value of 'value' to reviewbody
             return null;
           }
         },
         maxLines: null,
+        maxLength: TextConfig.textFormFieldLimitOneFifty,
       ),
     );
   }

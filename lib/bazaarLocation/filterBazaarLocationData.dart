@@ -30,6 +30,7 @@ class FilterBazaarLocationData{
     return futureBazaarWalaUpperGeoHashList.documents;
   }
 
+
   filterListOfLowerGeohashBazaarWalas(List<DocumentSnapshot> list, String userGeohash){
     List<DocumentSnapshot> result = new List();
 

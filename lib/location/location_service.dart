@@ -45,7 +45,7 @@ class LocationService {
     return position;
   }
 
-  //2
+  /// see if the radius for bazaarwalas is showing correct results in individual dispaly
   pushBazaarWalasLocationToFirebase(double latitude, double longitude, String categoryName,String userNumber, String subCategory, double radius){//used in createBazaarwala profile page
     var position = getLocationInOurFormat(latitude, longitude, radius);
 

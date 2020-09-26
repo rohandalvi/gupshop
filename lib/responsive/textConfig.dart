@@ -3,6 +3,8 @@ import 'package:gupshop/responsive/sizeConfig.dart';
 class TextConfig{
   static int textFormFieldLimitTwentyFive = 25;
   static int textFormFieldLimitFifteen = 15;
+  static int textFormFieldLimitHundred = 100;
+  static int textFormFieldLimitOneFifty = 150;
 
   static double standardFontSize = SizeConfig.textMultiplier * 2;/// 16
   static double bigFontSize = SizeConfig.textMultiplier * 2.5;
@@ -25,6 +27,7 @@ class TextConfig{
   static String bazaarChangeNameTextSubtitle = "Try keeping the same name for your business throughout, to help the customer identify you";
   static String bazaarChangeNameTextfieldLabel = 'Enter your business name';
   static String bazaarChangeNameFlushbarMessage = "Please enter a name";
+  static String bazaarWriteReview = 'Please write your review';
 
   /// nameScreen :
   static const String enterName = "Enter your Name";

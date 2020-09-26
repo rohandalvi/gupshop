@@ -80,7 +80,8 @@ dependencies:
   great_circle_distance: ^1.0.1 # 25/8/20
   google_maps_flutter: ^0.5.30 # 25/8/20
   flutter_bloc: ^6.0.1 #25/8/20
-  search_map_place: ^0.3.0 # 27/8/20
+  search_map_place:
+    git: https://github.com/lzzy12/search_map_place.git
   gallery_saver: ^2.0.1
 
   thumbnails: ^1.0.1 # for video thumbnail

@@ -41,6 +41,7 @@ class WidgetConfig{
 
 
   ///container
+  static double twentyHeight = SizeConfig.heightMultiplier * 2.45098039216;/// 20/8.16
   static double seventyFiveWidth = SizeConfig.widthMultiplier * 17;/// 75/4.32
   static double seventyFiveHeight = SizeConfig.heightMultiplier * 9.19;/// 75/8.16
   static double hundredHeight = SizeConfig.heightMultiplier * 12;/// 100/8.16

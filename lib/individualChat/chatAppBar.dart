@@ -95,10 +95,11 @@ class ChatAppBar extends StatelessWidget {
                                   child: Column(
 //                                    crossAxisAlignment: CrossAxisAlignment.start,
 //                                    mainAxisAlignment: MainAxisAlignment.start,
-//                                    mainAxisSize: MainAxisSize.min,
+                                      mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       /// name:
-                                      Expanded(
+                                      Flexible(
+                                        fit: FlexFit.loose,
                                         flex : 1,
 //                                        child: FittedBox(
 //                                          fit: BoxFit.fitWidth,
@@ -114,11 +115,13 @@ class ChatAppBar extends StatelessWidget {
                                           ),
 //                                        ),
                                       ),
+                                      /// Last seen:
                                       Expanded(
-                                        flex: 1,
                                         child: FittedBox(
+                                        fit: BoxFit.fitWidth,
                                           child: Container(
                                             width: WidgetConfig.twoFiftyWidth,
+                                            height: WidgetConfig.twentyHeight,
                                             /// show presence only when its an individual conversation, not
                                             /// in group conversation
                                             child: Visibility(
@@ -129,14 +132,16 @@ class ChatAppBar extends StatelessWidget {
                                         ),
                                       ),
                                       /// typing :
-                                      Expanded(
+                                      Flexible(
                                         flex: 1,
+                                        fit: FlexFit.loose,
                                         child: Container(
-                                            child: TypingStatusDisplay(
-                                              conversationId: conversationId,
-                                              userNumber: userPhoneNo,
-                                              userName: userName,
-                                              groupExits: groupExits,),
+                                          alignment: Alignment.topLeft,
+                                          child: TypingStatusDisplay(
+                                            conversationId: conversationId,
+                                            userNumber: userPhoneNo,
+                                            userName: userName,
+                                            groupExits: groupExits,),
                                         ),
                                       ),
                                     ],

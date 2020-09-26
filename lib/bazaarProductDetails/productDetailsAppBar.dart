@@ -66,7 +66,7 @@ class _ProductDetailsAppBarState extends State<ProductDetailsAppBar> {
         onPressed: () async {
           String changedName = await NavigateToChangeName().navigateNoBrackets(context);
 
-          if(changedName != widget.businessName){
+          if(changedName != null && changedName != widget.businessName){
             /// push to firebase
             await UpdateBazaarWalasBasicProfile(
               categoryData:widget.categoryData,

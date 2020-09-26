@@ -84,7 +84,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                         children: <Widget>[
                           VideoPlayer(videoPlayerController),
                           SafeArea(
-                            child: VideoProgressIndicator(videoPlayerController, allowScrubbing: true,)
+                            child: VideoProgressIndicator(videoPlayerController, allowScrubbing: true, padding: EdgeInsets.all(10.0),)
                           ),
                         ],
                       )

@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:gupshop/notifications/NotificationEventType.dart';
+import 'package:gupshop/notifications/NotificationsManager.dart';
 import 'package:gupshop/onboarding/login_screen.dart';
 import 'package:gupshop/onboarding/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +30,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    // TODO - remove this example and move it to a more solid class in the next commit
+    //initNotifications();
+
     return Welcome();
+  }
+
+  void initNotifications() async{
+        NotificationsManager notificationsManager = new
+    NotificationsManager((message) => print("On message"),
+            (message) => print("On launch"),
+            (message) => print("On resume"));
+    notificationsManager.sendNotification(_getHeaders(), _getNotificationData(), _getRequestData(), await notificationsManager.getToken() );
   }
 
   @override
@@ -98,6 +112,25 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               Home(userPhoneNo: userPhoneNo,userName: userName,), //pass Name() here and pass Home()in name_screen
         )
     );
+  }
+
+  Map<String, dynamic> _getNotificationData() {
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    map['body'] = 'Test';
+    map['title'] = 'Test title';
+    return map;
+  }
+
+  Map<String, dynamic> _getRequestData() {
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    map['type'] = NotificationEventType.VIDEO_CALL.toString();
+    return map;
+  }
+
+  Map<String, String> _getHeaders() {
+    Map<String, String> map = new Map<String, String>();
+    map['Content-Type'] = 'application/json';
+    return map;
   }
 
 }

@@ -100,8 +100,8 @@
 @import google_maps_flutter;
 #endif
 
-#if __has_include(<image_cropper/FLTImageCropperPlugin.h>)
-#import <image_cropper/FLTImageCropperPlugin.h>
+#if __has_include(<image_cropper/ImageCropperPlugin.h>)
+#import <image_cropper/ImageCropperPlugin.h>
 #else
 @import image_cropper;
 #endif

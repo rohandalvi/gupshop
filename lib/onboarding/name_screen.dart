@@ -99,28 +99,6 @@ class _NameScreenState extends State<NameScreen> {
                     ///For adding data, we need to use set() method
                     ///We dont have userPhone and name both at the login_screen, we get both
                    /// of them in the name_screen, so we will add them in that file only.
-//                    Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
-//
-//                    //add userPhoneNumber to our database. Add to the users collection:
-//                    Firestore.instance.collection("recentChats").document(userPhoneNo).setData({});
-//
-//                    ///creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
-//                    /// also setting a placeholder
-//                    /// The placeholder imageurl  as the user picture url we have stored in firebase
-//                    String url = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/user.png?alt=media&token=28bcfc15-31da-4847-8f7c-efdd60428714";
-//                    Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url' : url});
-//
-//                    List<String> nameList = new List();
-//                    nameList.add(userName);
-//
-//                    phoneNumberList = new List();
-//                    phoneNumberList.add(userPhoneNo);
-//                    ///groupName is set  to null, to identify group from individual which is required in createGroup page to show only individuals and not group in search
-//                    Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': phoneNumberList, 'nameList' : nameList, 'groupName' : null, 'isMe': true});///necessary to create data, orsearch in contact search page shows error
-//
-//                    setState(() {
-//                      prefs.setString('userName', userName);
-//                    });
 
                     if(userName == null || userName == ""){
                       CustomFlushBar(customContext: context,
@@ -174,15 +152,8 @@ class _NameScreenState extends State<NameScreen> {
 
 
                       NavigateToHome().navigateNoBrackets(context);
-//                      Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                            builder: (context) => Home(
-//                                userPhoneNo: userPhoneNo,
-//                                userName: userName),//pass Name() here and pass Home()in name_screen
-//                          )
-//                      );
 
+                      /// Trace
                       OnBoardingTrace().createNewUser();
                     }
                   },

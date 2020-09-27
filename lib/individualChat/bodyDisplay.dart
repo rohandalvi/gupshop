@@ -257,7 +257,7 @@ class _BodyDisplayState extends State<BodyDisplay> {
         visible: ((widget.groupExits==null? false : widget.groupExits)
             && widget.isMe==false),/// groupExits==null? false : groupExits was showing error because groupExists takes time to calculate as it is a future, so we are just adding a placeholder,
         fromName:  CustomText(text: widget.fromNameForGroup,
-          fontSize: TextConfig.fontSizeTwelve,),
+          fontSize: WidgetConfig.fontSizeTwelve,),
         isMe: widget.isMe,
         timeStamp: TimeDisplay(timeStamp: widget.timeStamp,),
 //        Text(//time

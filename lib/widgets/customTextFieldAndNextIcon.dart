@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/intConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -27,7 +28,7 @@ class CustomTextFieldAndNextIcon extends StatelessWidget {
             fit: FlexFit.loose,
             child: Container(
               child: CustomTextFormField(
-                maxLength: TextConfig.textFormFieldLimitFifteen, /// 25 name length restricted to 25 letters
+                maxLength: IntConfig.textFormFieldLimitFifteen, /// 25 name length restricted to 25 letters
                 onChanged: nameOnChanged,
                 formKeyCustomText: formKey,
                 onFieldSubmitted: onNameSubmitted,

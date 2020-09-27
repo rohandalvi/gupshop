@@ -10,6 +10,7 @@ import 'package:gupshop/bazaarOnBoarding/bazaarTrace.dart';
 import 'package:gupshop/bazaarOnBoarding/bazaarTrace.dart';
 import 'package:gupshop/location/location_service.dart';
 
+/// this class is a helper for PushToFirebase class
 class PushSubCategoriesToFirebase{
   String category;
   String userName;

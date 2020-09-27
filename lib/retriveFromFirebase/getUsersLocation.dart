@@ -1,16 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/responsive/collectionPaths.dart';
 
 class GetUsersLocation{
   String userPhoneNo;
 
   GetUsersLocation({this.userPhoneNo});
 
-  getAddress() async{
-    return await Firestore.instance.collection("usersLocation").document(userPhoneNo).get();
+  usersLocationPath() async{
+    return await CollectionPaths.usersLocationCollectionPath.document(userPhoneNo).get();
   }
 
   getHomeAddress() async{
-    DocumentSnapshot dc = await getAddress();
+    DocumentSnapshot dc = await usersLocationPath();
 
     return dc.data["home"];
   }

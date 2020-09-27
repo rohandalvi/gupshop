@@ -201,6 +201,10 @@ class _BazaarLocationState extends State<BazaarLocation> {
                 var currentLocation = new Location();
                 locationTemp = await currentLocation.getLocation();
 
+                /// getting a list of latLang and radius in the list returned
+                /// by NavigateToCustomMap
+                /// list[0] = location
+                /// list[1] = radius
                 List list = await NavigateToCustomMap(
                   latitude: locationTemp.latitude,
                   longitude: locationTemp.longitude,
@@ -218,7 +222,6 @@ class _BazaarLocationState extends State<BazaarLocation> {
                 widget.location = locationFromMap;
                 locationChanged = true;
                 String addressNameTemp = await LocationService().getAddressFromLatLang(widget.location.latitude, widget.location.longitude);
-                print("addressNameTemp in locationAddDisplay : $addressNameTemp");
                 /// setState to make the locationNotNull = true so that
                 /// showLocation() becomes visible
                 setState(() {

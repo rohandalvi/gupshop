@@ -10,13 +10,13 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToAddressList.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
 import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 import 'package:gupshop/bazaarLocation/filterBazaarLocationData.dart';
-import 'package:gupshop/location/usersLocation.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListDisplay.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -32,7 +32,7 @@ class BazaarIndividualCategoryListData extends StatefulWidget {
   final String subCategoryData;
   final bool showHomeService;
 
-  String userGeohash;
+  List<String> userGeohash;
   String addressName;
 
 
@@ -80,8 +80,11 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
       /// would be null
       /// In that case, select the geoHash pushed to firebase
       /// in bazaarHome page which is the current location of the user
+      ///
+      /// userGeohash will have value inherited from prior class only in
+      /// case of drivers and errandRunners
       if(widget.userGeohash  == null){
-        widget.userGeohash = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getUserGeohash(userPhoneNo);
+        widget.userGeohash = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getUserGeohashList(userPhoneNo);
       }
 
       var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getListOfBazaarWalasInAGivenRadius(userPhoneNo, widget.categoryData, widget.userGeohash);
@@ -93,7 +96,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
   @override
   void initState() {
     if(widget.addressName == null){
-      widget.addressName = 'home';
+      widget.addressName = TextConfig.usersLocationCollectionHome;/// home
     }
     super.initState();
   }
@@ -125,7 +128,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
             },
             actions: <Widget>[
               CustomIconButton(
-                iconNameInImageFolder: 'locationPin',
+                iconNameInImageFolder: IconConfig.locationPin,
                 onPressed: () async{
                   bool tempIsAddressChanged = await NavigateToAddressList(userPhoneNo: userPhoneNo).navigateNoBrackets(context);
                   if(tempIsAddressChanged == true){
@@ -202,7 +205,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
             Container(
               child: CustomRichText(
                 children: <TextSpan>[
-                  CustomText(text: 'Showing results for : ',).richText(),
+                  CustomText(text: TextConfig.showingResultsFor,).richText(),
                   CustomText(text: widget.addressName,textColor: primaryColor,).richText(),
                 ],
               ),
@@ -222,10 +225,10 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
           child :  FittedBox(/// to avoid overflow in any device, to make it responsive
             child: CustomRichText(
               children: <TextSpan>[
-                CustomText(text: 'No ',).richText(),
+                CustomText(text: TextConfig.no,).richText(),
                 CustomText(text: noBazaarwalaText,textColor: primaryColor,
-                  fontSize: TextConfig.bigFontSize,).richText(),
-                CustomText(text: ' near you',).richText(),
+                  fontSize: WidgetConfig.bigFontSize,).richText(),
+                CustomText(text: TextConfig.nearYou,).richText(),
               ],
             ),
           ),
@@ -255,7 +258,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
   changeLocation(BuildContext context){
     return CustomIconButton(
-      iconNameInImageFolder: 'location',
+      iconNameInImageFolder: IconConfig.location,
       onPressed: () async{
         /// first check if user has given permission to access location
         var permission = await LocationPermissionHandler().handlePermissions(context);
@@ -266,14 +269,16 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
           CustomShowDialog().main(context, BazaarConfig.loadingMap);
 
           String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
-          String tempHash = await ChangeLocationInSearch(
+          Map<String, dynamic> userGeohashAndAddressMap = await ChangeLocationInSearch(
               userNumber: userPhoneNo)
               .getNewUserGeohash(context);
+
+          List<String> tempHash = userGeohashAndAddressMap[TextConfig.usersLocationCollectionGeoHashList];
 
           /// for exiting dialog:
           Navigator.pop(context);
 
-          String tempAddressName = await UsersLocation().getAddress(userPhoneNo, tempHash);
+          String tempAddressName = userGeohashAndAddressMap[TextConfig.changeLocationInSearchAddressName];
           setState(() {
             widget.userGeohash = tempHash;
             widget.addressName = tempAddressName;

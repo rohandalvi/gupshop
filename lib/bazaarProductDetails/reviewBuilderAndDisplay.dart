@@ -5,6 +5,7 @@ import 'package:gupshop/PushToFirebase/pushToBazaarReviewsCollection.dart';
 import 'package:gupshop/bazaarOnBoarding/onBoardingHome.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesDisplay.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
+import 'package:gupshop/responsive/intConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -227,7 +228,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
           }
         },
         maxLines: null,
-        maxLength: TextConfig.textFormFieldLimitOneFifty,
+        maxLength: IntConfig.textFormFieldLimitOneFifty,
       ),
     );
   }
@@ -324,7 +325,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
             padding: EdgeInsets.only(left:PaddingConfig.five, right: PaddingConfig.five),//for spacing bewteen Add review text from left and right side of the blue container
             child: CustomRaisedButton(
               child: CustomText(
-                text: 'Edit Profile', fontSize: TextConfig.fontSizeTwelve,),
+                text: 'Edit Profile', fontSize: WidgetConfig.fontSizeTwelve,),
               onPressed: (){
                 /// take the bazaarWala to bazaarProfile page"
                 Navigator.push(

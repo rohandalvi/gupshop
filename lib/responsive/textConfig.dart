@@ -1,15 +1,4 @@
-import 'package:gupshop/responsive/sizeConfig.dart';
-
 class TextConfig{
-  static int textFormFieldLimitTwentyFive = 25;
-  static int textFormFieldLimitFifteen = 15;
-  static int textFormFieldLimitHundred = 100;
-  static int textFormFieldLimitOneFifty = 150;
-
-  static double standardFontSize = SizeConfig.textMultiplier * 2;/// 16
-  static double bigFontSize = SizeConfig.textMultiplier * 2.5;
-  static double fontSizeTwelve = SizeConfig.textMultiplier * 1.47;/// 12/8.16
-
   /// bazaar:
   static String bazaarOnboardingTitle = 'Welcome to Bazaar Onboarding';
   static String bazaarOnboardingSubTitle = "Anyone can join"
@@ -62,4 +51,24 @@ class TextConfig{
   static const String currentLocation = 'Send Current Location';
 
 
+  /// classes"
+  /// ChangeLocationInSearch
+  static const String changeLocationInSearchAddressName = "addressName";
+
+  /// bazaarIndividualCategoryListData
+  static const String showingResultsFor = 'Showing results for : ';
+  static const String no = 'No ';
+  static const String nearYou = ' near you';
+
+
+  /// collection:
+  static const String usersLocationCollectionName = 'usersLocation';
+  static const String bazaarWalasLocationCollectionName= "bazaarWalasLocation";
+
+  /// database fieldNames:
+  static const String usersLocationCollectionGeoHashList = 'geoHashList';
+  static const String usersLocationCollectionHome = 'home';
+  static const String usersLocationCollectionAddress = 'address';
+
+  static const String bazaarWalasLocationCollectionGeoHashList = usersLocationCollectionGeoHashList;
 }

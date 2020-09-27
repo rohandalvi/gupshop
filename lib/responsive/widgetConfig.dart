@@ -71,6 +71,11 @@ class WidgetConfig{
   static double borderRadiusTen = SizeConfig.widthMultiplier * 2.31481481481;/// 10/4.32
 
 
+  /// font
+  static double standardFontSize = SizeConfig.textMultiplier * 2;/// 16
+  static double bigFontSize = SizeConfig.textMultiplier * 2.5;
+  static double fontSizeTwelve = SizeConfig.textMultiplier * 1.47;/// 12/8.16
+
   /// videoThumbnail
   getChatMessageWidth(BuildContext context){
     return MediaQuery.of(context).size.height / 2.9;

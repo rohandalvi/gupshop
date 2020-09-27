@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -49,7 +50,7 @@ class CustomSearch<T> extends StatelessWidget {
           hintStyle: GoogleFonts.openSans(
             textStyle: TextStyle(
               fontWeight: FontWeight.w600,
-              fontSize: TextConfig.standardFontSize,
+              fontSize: WidgetConfig.standardFontSize,
             ),
           ),
           onSearch: onSearch,

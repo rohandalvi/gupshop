@@ -9,6 +9,7 @@ import 'package:gupshop/cutomMaps/minusButton.dart';
 import 'package:gupshop/cutomMaps/okButton.dart';
 import 'package:gupshop/cutomMaps/plusButton.dart';
 import 'package:gupshop/cutomMaps/setCircleData.dart';
+import 'package:gupshop/responsive/intConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -38,10 +39,10 @@ class _CustomMapState extends State<CustomMap> {
   Set<Circle> circleSet = new HashSet();
 
   /// this would be flexible
-  double radiusUpperLimit = 900;
-  double radiusLowerLimit = 100;
-  double radius = 300;
-  double radiusChange= 100;
+  double radiusUpperLimit = IntConfig.radiusUpperLimit;
+  double radiusLowerLimit = IntConfig.radiusLowerLimit;
+  double radius = IntConfig.radius;
+  double radiusChange= IntConfig.radiusChange;
 
   int circleIdCounter = 1;
 

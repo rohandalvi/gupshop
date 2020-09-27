@@ -14,4 +14,6 @@ class IconConfig{
   static String groupIcon = 'groupManWoman';
   static String tickMarkIcon = 'done';
   static String editIcon = 'editPencil';
+  static String locationPin = 'locationPin';
+  static String location = 'location';
 }

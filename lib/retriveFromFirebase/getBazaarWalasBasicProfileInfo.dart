@@ -9,7 +9,7 @@ class GetBazaarWalasBasicProfileInfo{
 
   GetBazaarWalasBasicProfileInfo({this.userNumber,this.subCategoryData, this.categoryData, this.image});
 
-  main(){
+  path(){
   return Firestore.instance.collection("bazaarWalasBasicProfile")
       .document(userNumber)
       .collection(categoryData).document(subCategoryData)
@@ -17,7 +17,7 @@ class GetBazaarWalasBasicProfileInfo{
   }
 
   getIsBazaarwala() async{
-    DocumentSnapshot dc = await main();
+    DocumentSnapshot dc = await path();
     /// if the user has not registered as a bazaarwala before at all then,
     /// there would be no .collection(categoryData) and hence dc would be null
     if(dc.data == null) return false;
@@ -27,7 +27,7 @@ class GetBazaarWalasBasicProfileInfo{
   }
 
   getName() async{
-    DocumentSnapshot nameFuture = await main();
+    DocumentSnapshot nameFuture = await path();
     return nameFuture.data["bazaarWalaName"];
   }
 
@@ -36,7 +36,7 @@ class GetBazaarWalasBasicProfileInfo{
   }
 
   getNameAndThumbnailPicture() async{
-    DocumentSnapshot dc = await main();
+    DocumentSnapshot dc = await path();
     Map<String, String> map = new Map();
 
     map["name"] = dc.data["bazaarWalaName"];
@@ -45,13 +45,13 @@ class GetBazaarWalasBasicProfileInfo{
   }
 
   getPicture() async{
-    DocumentSnapshot dc = await main();
+    DocumentSnapshot dc = await path();
 
     return dc.data[image];
   }
 
   getPictureListAndVideo() async{
-    DocumentSnapshot dc = await main();
+    DocumentSnapshot dc = await path();
     Map<String, String> map = new Map();
     map["thumbnailPicture"] = dc.data["thumbnailPicture"];
     map["otherPictureOne"] = dc.data["otherPictureOne"];
@@ -61,13 +61,13 @@ class GetBazaarWalasBasicProfileInfo{
   }
 
   Future<bool> isHomeService() async{
-    DocumentSnapshot dc = await main();
+    DocumentSnapshot dc = await path();
     bool result =  dc.data["homeService"];
     return result;
   }
 
   getNameThumbnailPictureHomeService() async{
-    DocumentSnapshot dc = await main();
+    DocumentSnapshot dc = await path();
     Map<String, dynamic> map = new Map();
 
     map["name"] = dc.data["bazaarWalaName"];
@@ -99,8 +99,9 @@ class GetBazaarWalasBasicProfileInfo{
   }
 
   getVideoAndLocationRadius() async{
-    DocumentSnapshot dc = await main();
+    DocumentSnapshot dc = await path();
     Map map = new Map();
+    print("dc.data in getVideoAndLocationRadius : ${dc.data}");
     if(dc.data != null){
       map["latitude"] = dc.data["latitude"];
       map["longitude"] = dc.data["longitude"];
@@ -111,7 +112,7 @@ class GetBazaarWalasBasicProfileInfo{
   }
 
   getLocationRadiusAddressName() async{
-    DocumentSnapshot dc = await main();
+    DocumentSnapshot dc = await path();
     Map map = new Map();
     if(dc.data != null){
       double latitude = dc.data["latitude"];

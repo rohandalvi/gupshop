@@ -7,6 +7,7 @@ import 'package:gupshop/bazaarOnBoarding/bazaarTrace.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
 import 'package:gupshop/location/usersLocation.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 
 class ChangeLocationInSearch{
   String userNumber;
@@ -15,7 +16,7 @@ class ChangeLocationInSearch{
 
   ChangeLocationInSearch({this.userNumber, this.placeholder,this.showBackButton});
 
-  getNewUserGeohash(BuildContext context) async{
+  Future<Map<String, dynamic>> getNewUserGeohash(BuildContext context) async{
     /// get lat lang:
     LatLng location = await getLatLang(context);
     double latitude = location.latitude;
@@ -41,10 +42,16 @@ class ChangeLocationInSearch{
       addressName = addressExists;
     }
 
+    Map<String, dynamic> map = new Map();
+    map[TextConfig.changeLocationInSearchAddressName] = addressName;
 
-    String userGeohash = await LocationService().getUserGeohash(userNumber, addressName);
-    return userGeohash;
+    List<String> userGeohash = await LocationService().getUserGeohash(userNumber, addressName);
+    map[TextConfig.usersLocationCollectionGeoHashList] = userGeohash;
+
+    return map;
   }
+
+
 
   getUserGeoHashWithNewLatLng(){
 
@@ -79,8 +86,8 @@ class ChangeLocationInSearch{
     BazaarTrace().locationAdded(location);
   }
 
-  getUserGeohash(String userPhoneNo, String addressName){
-    String userGeohash = LocationService().getUserGeohash(userPhoneNo, addressName);
+  getUserGeohash(String userPhoneNo, String addressName) async{
+    List<String> userGeohash = await LocationService().getUserGeohash(userPhoneNo, addressName);
     return userGeohash;
   }
 

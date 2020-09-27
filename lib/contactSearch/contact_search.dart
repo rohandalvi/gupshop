@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -85,7 +86,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
             hintStyle: GoogleFonts.openSans(
               textStyle: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: TextConfig.standardFontSize,
+                fontSize: WidgetConfig.standardFontSize,
               ),
             ),
             onSearch: widget.onSearch == null? searchList : widget.onSearch,

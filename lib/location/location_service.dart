@@ -8,6 +8,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarWalasLocation.dart';
+import 'package:gupshop/PushToFirebase/pushToUsersLocationCollection.dart';
+import 'package:gupshop/location/geoHash.dart';
+import 'package:gupshop/responsive/collectionPaths.dart';
+import 'package:gupshop/responsive/intConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -25,6 +30,8 @@ class LocationService {
 
 
   Geoflutterfire geo = Geoflutterfire();
+
+  GeoHash myGeoHash = new GeoHash();
 
 
   getLocationInOurFormat(double latitude, double longitude, double radius){
@@ -46,31 +53,31 @@ class LocationService {
   }
 
   /// see if the radius for bazaarwalas is showing correct results in individual dispaly
-  pushBazaarWalasLocationToFirebase(double latitude, double longitude, String categoryName,String userNumber, String subCategory, double radius){//used in createBazaarwala profile page
-    var position = getLocationInOurFormat(latitude, longitude, radius);
+//  pushBazaarWalasLocationToFirebase(double latitude, double longitude, String categoryName,String userNumber, String subCategory, double radius){//used in createBazaarwala profile page
+//    var position = getLocationInOurFormat(latitude, longitude, radius);
+//
+//    /// ToDo : use from pushToFirebase package instead:
+//    PushToBazaarWalasLocation(
+//      position: position, userNumber: userNumber, category: categoryName, subCategory:subCategory,
+//      latitude: latitude, longitude: longitude
+//    ).push();
+//  }
 
-    /// use from pushToFirebase package instead:
-    PushToBazaarWalasLocation(
-      position: position, userNumber: userNumber, category: categoryName, subCategory:subCategory,
-      latitude: latitude, longitude: longitude
-    ).push();
-  }
 
-
-  ///use in bazaarHome_screen to set the user's location to firebase
-  pushUsersLocationToFirebase(var latitude, var longitude, String phoneNo, String locationName, var address){//set users location to firebase
-    GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
-
-    var map =
-    {
-      'geohash' : myLocation.hash,
-      'geoPoint': myLocation.geoPoint,
-      'address' : address,
-    };
-
-    //Firestore.instance.collection("usersLocation").document(phoneNo).setData({'position': myLocation.data});
-    Firestore.instance.collection("usersLocation").document(phoneNo).setData({locationName: map}, merge:true);//merge true imp for setting multiple locations
-  }
+//  ///use in bazaarHome_screen to set the user's location to firebase
+//  pushUsersLocationToFirebase(var latitude, var longitude, String phoneNo, String locationName, var address){//set users location to firebase
+//    GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
+//
+//    var map =
+//    {
+//      'geohash' : myLocation.hash,
+//      'geoPoint': myLocation.geoPoint,
+//      'address' : address,
+//    };
+//
+//    //Firestore.instance.collection("usersLocation").document(phoneNo).setData({'position': myLocation.data});
+//    CollectionPaths.usersLocationCollectionPath.document(phoneNo).setData({locationName: map}, merge:true);//merge true imp for setting multiple locations
+//  }
 
   getGeoPoint(double latitude, double longitude,){
     GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
@@ -88,14 +95,14 @@ class LocationService {
   }
 
 
-   getUserLocation(number){//get location already stored in firebase
+   getUserLocationDocumentSnapshot(number){//get location already stored in firebase
 //    Firestore.instance.collection("usersLocation").document(number).get().then((onVal){
 //    });
-    return Firestore.instance.collection("usersLocation").document(number).get();
+    return CollectionPaths.usersLocationCollectionPath.document(number).get();
   }
 
   getHomeLocation(number) async{
-    DocumentSnapshot dc = await getUserLocation(number);
+    DocumentSnapshot dc = await getUserLocationDocumentSnapshot(number);
     GeoPoint latLng =  dc.data["home"]["geoPoint"];
     return latLng;
 
@@ -189,9 +196,10 @@ class LocationService {
     ).elevated();
   }
 
-  getUserGeohash(String number, String addressName) async{
-    DocumentSnapshot dc = await LocationService().getUserLocation(number);
-    return dc.data[addressName]["geohash"];
+  Future<List<String>> getUserGeohash(String number, String addressName) async{
+    DocumentSnapshot dc = await LocationService().getUserLocationDocumentSnapshot(number);
+    List<String> result =  dc.data[addressName]["geohash"];
+    return result;
   }
 
   createGeohash(double latitude, double longitude) async{
@@ -199,6 +207,58 @@ class LocationService {
     return myLocation.hash;
   }
 
+
+  pushBazaarWalasLocationToFirebase(double latitude, double longitude, String categoryName,String userNumber, String subCategory, double radius){//used in createBazaarwala profile page
+    /// generate a list of geoHashes(using proximity_hash library)
+    /// get lat and lang
+    /// get radius
+    /// push all 3 in bazaarwalaLocation collection
+
+    /// list of geohash:
+    List<String> geoHashList = myGeoHash.getListOfGeoHash(radius: radius, longitude: longitude, latitude: latitude);
+
+    GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
+
+
+    /// get lat and lang
+    /// get radius
+    var position =
+    {
+      'geoHashList': geoHashList,
+      'geoPoint': myLocation.geoPoint,
+      'radius' : radius,
+    };
+
+
+    /// push all 3 in bazaarwalaLocation collection
+    /// ToDo : use from pushToFirebase package instead:
+    /// use same method below, just change the var position
+    PushToBazaarWalasLocation(
+        position: position, userNumber: userNumber, category: categoryName, subCategory:subCategory,
+        latitude: latitude, longitude: longitude
+    ).push();
+  }
+
+
+  ///use in bazaarHome_screen to set the user's location to firebase
+  pushUsersLocationToFirebase(var latitude, var longitude, String userNumber, String locationName, var address){//set users location to firebase
+    GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
+
+    /// create a list of geoHash to be set in userLocation collection
+    List<String> userGeoHashList = myGeoHash.getListOfGeoHash(latitude: latitude, longitude: longitude, radius: IntConfig.radiusForUsers);/// radiusForUsers = 1
+
+
+    var map =
+    {
+      'geoHashList' : userGeoHashList,
+      'geoPoint': myLocation.geoPoint,
+      'address' : address,
+    };
+
+    //Firestore.instance.collection("usersLocation").document(phoneNo).setData({'position': myLocation.data});
+    //CollectionPaths.usersLocationCollectionPath.document(phoneNo).setData({locationName: map}, merge:true);//merge true imp for setting multiple locations
+    PushToUsersLocationCollection().pushUsersLocationToFirebase(userNumber:userNumber, locationName: locationName, dataMap: map );
+  }
 
 
 }

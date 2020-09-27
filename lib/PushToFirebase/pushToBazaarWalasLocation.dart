@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/responsive/collectionPaths.dart';
 
 class PushToBazaarWalasLocation{
   double latitude;
@@ -14,13 +14,13 @@ class PushToBazaarWalasLocation{
 
   push(){//used in createBazaarwala profile page
 
-    Firestore.instance.collection("bazaarWalasLocation").document(category).setData({}, merge: true);///creating document to avoid error document(italic) creation
-    Firestore.instance.collection("bazaarWalasLocation").document(category).collection(subCategory).document(userNumber).setData(position);
+    CollectionPaths.bazaarWalasLocationCollectionPath.document(category).setData({}, merge: true);///creating document to avoid error document(italic) creation
+    CollectionPaths.bazaarWalasLocationCollectionPath.document(category).collection(subCategory).document(userNumber).setData(position);
   }
 
   setBlankLocation(){
-    Firestore.instance.collection("bazaarWalasLocation").document(category).setData({}, merge: true);///creating document to avoid error document(i
-    Firestore.instance.collection("bazaarWalasLocation").document(category)
+    CollectionPaths.bazaarWalasLocationCollectionPath.document(category).setData({}, merge: true);///creating document to avoid error document(i
+    CollectionPaths.bazaarWalasLocationCollectionPath.document(category)
         .collection(subCategory).document(userNumber).setData({}, merge: true);
   }
 

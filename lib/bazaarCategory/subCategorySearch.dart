@@ -9,6 +9,7 @@ import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -38,7 +39,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
   Set tempSet = new HashSet();
   List<String> listOfSubCategoriesForData = new List();
   bool showHomeService;
-  String userGeohash;
+  List<String> userGeohash;
   String addressName;
 
 
@@ -109,11 +110,14 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
         /// for drivers and delivery/errands
         if(widget.categoryData == HomeServiceText.deliveryErrands || widget.categoryData == HomeServiceText.drivers){
 //        if(widget.categoryData == "deliveryErrands" || widget.categoryData == 'drivers'){
-          userGeohash = await getLocation();
+
+          Map<String, dynamic> userGeohashAndAddressMap = await getLocation();
+          userGeohash = userGeohashAndAddressMap[TextConfig.usersLocationCollectionGeoHashList];
           /// for exiting dialog:
           Navigator.pop(context);
 
-          addressName = await getAddressName(userGeohash);
+//          addressName = await getAddressName(userGeohash);
+          addressName = userGeohashAndAddressMap[TextConfig.changeLocationInSearchAddressName];
         }
 
 
@@ -171,9 +175,11 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
     //bool showBackButton = false;
 
     CustomShowDialog().main(context, BazaarConfig.loadingMap);
-    return await ChangeLocationInSearch(userNumber: userPhoneNo,
+    Map<String, dynamic> result = await ChangeLocationInSearch(userNumber: userPhoneNo,
         placeholder: placeholder, )
         .getNewUserGeohash(context);
+
+    return result;
   }
 
   getPlaceholderName(){
@@ -181,9 +187,9 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
   }
 
 
-  getAddressName(String userGeohash) async{
-    String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
-
-    return await UsersLocation().getAddress(userPhoneNo, userGeohash);
-  }
+//  getAddressName(List<String> userGeohash) async{
+//    String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+//
+//    return await UsersLocation().getAddress(userPhoneNo, userGeohash);
+//  }
 }

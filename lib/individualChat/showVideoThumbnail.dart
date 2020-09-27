@@ -36,7 +36,7 @@ class ShowVideoThumbnail extends StatelessWidget {
               //duration: Duration(seconds: 5),
               customContext: context,
               iconName: 'speaker',
-              text: CustomText(text : 'Downloading video...............', fontSize: TextConfig.fontSizeTwelve,),
+              text: CustomText(text : 'Downloading video...............', fontSize: WidgetConfig.fontSizeTwelve,),
               message: 'Downloading video..........',
             ).showFlushBarNoDuration();
             var videoId = await DownloadVideo(videoURL: videoURL).downloadVideo();
@@ -46,7 +46,7 @@ class ShowVideoThumbnail extends StatelessWidget {
               return CustomFlushBar(
                 customContext: context,
                 iconName: 'speaker',
-                text: CustomText(text : 'Video downloaded in your device', fontSize: TextConfig.fontSizeTwelve,),
+                text: CustomText(text : 'Video downloaded in your device', fontSize: WidgetConfig.fontSizeTwelve,),
                 message: 'Video downloaded in your device',
               ).showFlushBar();
             }
@@ -55,7 +55,7 @@ class ShowVideoThumbnail extends StatelessWidget {
               return CustomFlushBar(
                 customContext: context,
                 iconName: 'exclamation',
-                text: CustomText(text : 'Could not download Video', fontSize: TextConfig.fontSizeTwelve,),
+                text: CustomText(text : 'Could not download Video', fontSize: WidgetConfig.fontSizeTwelve,),
                 message: 'Could not download Video',
               ).showFlushBar();
             }

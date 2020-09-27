@@ -32,7 +32,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
 
     // TODO - remove this example and move it to a more solid class in the next commit
-    //initNotifications();
+    // initNotifications();
 
     return Welcome();
   }

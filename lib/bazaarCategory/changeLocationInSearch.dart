@@ -46,8 +46,10 @@ class ChangeLocationInSearch{
     map[TextConfig.changeLocationInSearchAddressName] = addressName;
 
     List<String> userGeohash = await LocationService().getUserGeohash(userNumber, addressName);
+    print("userGeohashList in getNewUserGeohash : $userGeohash");
     map[TextConfig.usersLocationCollectionGeoHashList] = userGeohash;
 
+    print("map in getNewUserGeohash : $map");
     return map;
   }
 

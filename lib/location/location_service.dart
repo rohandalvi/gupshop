@@ -95,10 +95,11 @@ class LocationService {
   }
 
 
-   getUserLocationDocumentSnapshot(number){//get location already stored in firebase
+   getUserLocationDocumentSnapshot(number) async{//get location already stored in firebase
 //    Firestore.instance.collection("usersLocation").document(number).get().then((onVal){
 //    });
-    return CollectionPaths.usersLocationCollectionPath.document(number).get();
+   print("getUserLocationDocumentSnapshot : ${await CollectionPaths.usersLocationCollectionPath.document(number).get()}");
+    return await CollectionPaths.usersLocationCollectionPath.document(number).get();
   }
 
   getHomeLocation(number) async{
@@ -198,7 +199,7 @@ class LocationService {
 
   Future<List<String>> getUserGeohash(String number, String addressName) async{
     DocumentSnapshot dc = await LocationService().getUserLocationDocumentSnapshot(number);
-    List<String> result =  dc.data[addressName]["geohash"];
+    List<String> result =  dc.data[addressName][TextConfig.usersLocationCollectionGeoHashList].cast<String>();
     return result;
   }
 

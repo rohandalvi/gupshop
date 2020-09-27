@@ -18,9 +18,11 @@ class FilterBazaarLocationData{
 //    return filterListOfLowerGeohashBazaarWalas(listOfUpperGeohashBazaarWalas, userGeohash);
 //  }
 
-  getUserGeohashList(String number,) async{
+  Future<List<String>> getUserGeohashList(String number,) async{
     DocumentSnapshot userGeohash = await LocationService().getUserLocationDocumentSnapshot(number);
-    return userGeohash.data[TextConfig.usersLocationCollectionHome][TextConfig.usersLocationCollectionGeoHashList];
+    List<String> result = userGeohash.data[TextConfig.usersLocationCollectionHome][TextConfig.usersLocationCollectionGeoHashList].cast<String>();
+    print("result in getUserGeohashList : $result");
+    return result;
   }
 
 

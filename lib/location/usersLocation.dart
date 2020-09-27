@@ -58,7 +58,8 @@ class UsersLocation{
     Map map =  new HashMap();
 
     dcMap.forEach((addressName, data) {
-      List<String> geoHashList = data[TextConfig.usersLocationCollectionGeoHashList];
+      List<String> geoHashList = data[TextConfig.usersLocationCollectionGeoHashList].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
+      print("geoHashList in dc : ${geoHashList}");
       String address = data[TextConfig.usersLocationCollectionAddress];
 
       /// adding both address and addressName to subMap
@@ -69,6 +70,7 @@ class UsersLocation{
       map[geoHashList] = subMap;
     });
 
+    print("map in createSetOfAddresses : $map");
     return map;
   }
   
@@ -78,7 +80,7 @@ class UsersLocation{
     //var geoPoint = myLocation.geoPoint;
 //    String geohash = myLocation.hash;
 
-  List<String> geoHashList = GeoHash().getListOfGeoHash(longitude: longitude, latitude: longitude, radius: 1);
+  List<String> geoHashList = GeoHash().getListOfGeoHash(longitude: longitude, latitude: latitude, radius: 1);
 
     Map map = await createSetOfAddresses(userPhoneNo);
     

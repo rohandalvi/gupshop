@@ -10,6 +10,8 @@ class GeoHash{
   }
 
   getListOfGeoHash({double latitude, double longitude, double radius,}){
+    print("latitude in getListOfGeoHash : $latitude");
+    print("longitude in getListOfGeoHash : $longitude");
     List<String> list = createGeohashes(latitude, longitude, radius, precision);
     return list;
   }

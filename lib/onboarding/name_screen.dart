@@ -2,13 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gupshop/PushToFirebase/friendsCollection.dart';
+import 'package:gupshop/PushToFirebase/profilePicturesCollection.dart';
+import 'package:gupshop/PushToFirebase/recentChatsCollection.dart';
+import 'package:gupshop/PushToFirebase/usersCollection.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/onboarding/onBoardingTrace.dart';
+import 'package:gupshop/responsive/collectionPaths.dart';
+import 'package:gupshop/responsive/collectionPaths.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/intConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
+import 'package:gupshop/retriveFromFirebase/profilePictures.dart';
+import 'package:gupshop/widgets/customFlushBar.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -54,7 +64,7 @@ class _NameScreenState extends State<NameScreen> {
                 //ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 390, width: 390,),
                 Container(
                   child: CustomTextFormField(
-                        maxLength: 25, /// name length restricted to 25 letters
+                        maxLength: IntConfig.textFormFieldLimitTwentyFive, /// name length restricted to 25 letters
                         onChanged: (val){
                           setState(() {
                             this.isName= val;
@@ -75,8 +85,8 @@ class _NameScreenState extends State<NameScreen> {
 
                   padding: EdgeInsets.only(left: PaddingConfig.twenty, top: PaddingConfig.thirtyFive, right: PaddingConfig.twenty),
                 ),
-                IconButton(
-                  icon: SvgPicture.asset('images/nextArrow.svg',),
+                CustomIconButton(
+                  iconNameInImageFolder: IconConfig.forwardIcon,
                   onPressed: ()async{
                     SharedPreferences prefs = await SharedPreferences.getInstance();
                     String userNameForSP = prefs.getString('userName');
@@ -89,47 +99,80 @@ class _NameScreenState extends State<NameScreen> {
                     ///For adding data, we need to use set() method
                     ///We dont have userPhone and name both at the login_screen, we get both
                    /// of them in the name_screen, so we will add them in that file only.
-                    Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
-
-                    //add userPhoneNumber to our database. Add to the users collection:
-                    Firestore.instance.collection("recentChats").document(userPhoneNo).setData({});
-
-                    ///creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
-                    /// also setting a placeholder
-                    /// The placeholder imageurl  as the user picture url we have stored in firebase
-                    String url = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/user.png?alt=media&token=28bcfc15-31da-4847-8f7c-efdd60428714";
-                    Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url' : url});
-
-                    List<String> nameList = new List();
-                    nameList.add(userName);
-
-                    phoneNumberList = new List();
-                    phoneNumberList.add(userPhoneNo);
-                    ///groupName is set  to null, to identify group from individual which is required in createGroup page to show only individuals and not group in search
-                    Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': phoneNumberList, 'nameList' : nameList, 'groupName' : null, 'isMe': true});///necessary to create data, orsearch in contact search page shows error
-
-                    setState(() {
-                      prefs.setString('userName', userName);
-                    });
+//                    Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
+//
+//                    //add userPhoneNumber to our database. Add to the users collection:
+//                    Firestore.instance.collection("recentChats").document(userPhoneNo).setData({});
+//
+//                    ///creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
+//                    /// also setting a placeholder
+//                    /// The placeholder imageurl  as the user picture url we have stored in firebase
+//                    String url = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/user.png?alt=media&token=28bcfc15-31da-4847-8f7c-efdd60428714";
+//                    Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url' : url});
+//
+//                    List<String> nameList = new List();
+//                    nameList.add(userName);
+//
+//                    phoneNumberList = new List();
+//                    phoneNumberList.add(userPhoneNo);
+//                    ///groupName is set  to null, to identify group from individual which is required in createGroup page to show only individuals and not group in search
+//                    Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': phoneNumberList, 'nameList' : nameList, 'groupName' : null, 'isMe': true});///necessary to create data, orsearch in contact search page shows error
+//
+//                    setState(() {
+//                      prefs.setString('userName', userName);
+//                    });
 
                     if(userName == null || userName == ""){
-                      Flushbar(
-                        icon: SvgPicture.asset(
-                            'images/stopHand.svg',
-                          width: IconConfig.flushbarIconThirty,
-                          height: IconConfig.flushbarIconThirty,
-                        ),
-                        flushbarStyle: FlushbarStyle.GROUNDED,
-                        backgroundColor: Colors.white,
-                        duration: Duration(seconds: 5),
-                        forwardAnimationCurve: Curves.decelerate,
-                        reverseAnimationCurve: Curves.easeOut,
-                        titleText: CustomText(text : 'Name required'),
-                        message: "Please enter your name to move forward",
-                      )..show(context);
+                      CustomFlushBar(customContext: context,
+                        text: CustomText(text:TextConfig.nameRequiredText,))
+                          .showFlushBarStopHand();
+//                      Flushbar(
+//                        icon: SvgPicture.asset(
+//                            'images/stopHand.svg',
+//                          width: IconConfig.flushbarIconThirty,
+//                          height: IconConfig.flushbarIconThirty,
+//                        ),
+//                        flushbarStyle: FlushbarStyle.GROUNDED,
+//                        backgroundColor: Colors.white,
+//                        duration: Duration(seconds: 5),
+//                        forwardAnimationCurve: Curves.decelerate,
+//                        reverseAnimationCurve: Curves.easeOut,
+//                        titleText: CustomText(text : 'Name required'),
+//                        message: "Please enter your name to move forward",
+//                      )..show(context);
                     }
 
                     if(userName != null && userName != ""){
+                      UsersCollection(userPhoneNo: userPhoneNo).setName(userName: userName);
+                      //Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
+
+                      //add userPhoneNumber to our database. Add to the users collection:
+                      RecentChatsCollection(userPhoneNo: userPhoneNo).setBlankData();
+                      //Firestore.instance.collection("recentChats").document(userPhoneNo).setData({});
+
+                      ///creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
+                      /// also setting a placeholder
+                      /// The placeholder imageurl  as the user picture url we have stored in firebase
+                      String url = ImageConfig.userImage;
+                      ProfilePicturesCollection().setPicture(url);
+                      //Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url' : url});
+
+                      List<String> nameList = new List();
+                      nameList.add(userName);
+
+                      phoneNumberList = new List();
+                      phoneNumberList.add(userPhoneNo);
+                      ///groupName is set  to null, to identify group from individual which is required in createGroup page to show only individuals and not group in search
+
+                      FriendsCollection(userPhoneNo: userPhoneNo).setMeAsFriend(phoneNumberList, nameList);
+                      //Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': phoneNumberList, 'nameList' : nameList, 'groupName' : null, 'isMe': true});///necessary to create data, orsearch in contact search page shows error
+
+                      setState(() {
+                        prefs.setString('userName', userName);
+                      });
+
+
+
                       NavigateToHome().navigateNoBrackets(context);
 //                      Navigator.push(
 //                          context,

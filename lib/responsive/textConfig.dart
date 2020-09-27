@@ -27,6 +27,7 @@ class TextConfig{
 
   /// flushbar:
   static const String showFlushbarStopHandMessage = "Please enter your name to move forward";
+  static const String nameRequiredText= 'Name required';
 
   /// trace
   static const String homeTrace = 'home';
@@ -71,6 +72,13 @@ class TextConfig{
   /// collection:
   static const String usersLocationCollectionName = 'usersLocation';
   static const String bazaarWalasLocationCollectionName= "bazaarWalasLocation";
+  static const String usersCollectionName= "users";
+  static const String recentChatsCollectionName= "recentChats";
+  static const String profilePicturesCollectionName= "profilePictures";
+  //static const String friendsCollectionName= "friends_$userPhoneNo";
+  static String getFriendsCollectionName({String userPhoneNo}){
+    return "friends_$userPhoneNo";
+  }
 
   /// database fieldNames:
   static const String usersLocationCollectionGeoHashList = 'geoHashList';

@@ -29,6 +29,7 @@ class BazaarAdvertisement extends StatefulWidget {
   List<String> listOfSubCategoriesForData;
   final List<dynamic> deleteListData;
   final List<dynamic> addListData;
+  final Map<String, dynamic> homeServiceMap;
 
 
 
@@ -39,7 +40,7 @@ class BazaarAdvertisement extends StatefulWidget {
   BazaarAdvertisement({@required this.userPhoneNo, @required this.userName,
     this.category, this.listOfSubCategories, this.listOfSubCategoriesForData,
     this.subCategoryMap,this.categoryData,
-    this.addListData, this.deleteListData
+    this.addListData, this.deleteListData, this.homeServiceMap,
   });
 
   @override
@@ -169,13 +170,16 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done){
                 if(snapshot.data != null){
+                  isBazaarWala = true;
                   video = new File("videoURL");
                   databaseVideoURL = snapshot.data["videoURL"];
                   videoNotNull = true;
 
                   videoURL = databaseVideoURL;
-                }
+                }else isBazaarWala = false;
 
+
+                print("isBazaarWala in advt : $isBazaarWala");
                 return SafeArea(
                   bottom: false,
                   left: false,
@@ -244,7 +248,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
 
           }
 
-
+          print("isBazaarwala before navigate : $isBazaarWala");
           NavigateToBazaarLocation(
             category: widget.category,
             categoryData: widget.categoryData,
@@ -264,6 +268,8 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
             radius: radius,
             location: location,
             locationNotNull: locationNotNull,
+            homeServiceMap: widget.homeServiceMap,
+            isBazaarWala: isBazaarWala
           ).navigateNoBrackets(context);
         }if(videoNotNull == false){
           CustomFlushBar(

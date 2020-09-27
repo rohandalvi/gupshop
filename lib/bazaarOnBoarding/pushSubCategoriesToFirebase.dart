@@ -20,10 +20,11 @@ class PushSubCategoriesToFirebase{
   String videoURL;
   LatLng location;
   double radius;
+  final Map<String, bool> homeServiceMap;
 
   PushSubCategoriesToFirebase({this.category, this.userName, this.userPhoneNo,
     this.listOfSubCategoriesData, this.listOfSubCategories, this.videoURL,
-    this.location, this.radius
+    this.location, this.radius, this.homeServiceMap
   });
 
 
@@ -105,5 +106,17 @@ class PushSubCategoriesToFirebase{
           videoURL: videoURL
       ).push();
     });
+  }
+
+  homeService(){
+    homeServiceMap.forEach((subCategoryData, homeService) {
+      PushToBazaarWalasBasicProfile(
+        categoryData: category,
+        subCategoryData: subCategoryData,
+        userPhoneNo: userPhoneNo,
+        homeService: homeService,
+      ).pushHomeService();
+    });
+
   }
 }

@@ -20,10 +20,12 @@ class NavigateToBazaarLocation{
   final bool videoChanged;
   final String videoURL;
   final String aSubCategoryData;
+  final bool isBazaarWala;
 
   /// for bazaarwalaBasicProfile
   final String subCategory;
   final String subCategoryData;
+  final Map<String, bool> homeServiceMap;
 
 //  final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   Map<String, String> subCategoryMap;
@@ -41,7 +43,7 @@ class NavigateToBazaarLocation{
     this.videoURL, this.videoChanged, this.aSubCategoryData,
     this.addressName, this.location, this.databaseLongitude,
     this.databaseLatitude,
-    this.locationNotNull, this.radius
+    this.locationNotNull, this.radius, this.homeServiceMap, this.isBazaarWala
   });
 
 
@@ -72,6 +74,8 @@ class NavigateToBazaarLocation{
               radius: radius,
               location: location,
               locationNotNull: locationNotNull,
+              homeServiceMap: homeServiceMap,
+              isBazaarWala: isBazaarWala,
             ),
           )
       );
@@ -79,7 +83,7 @@ class NavigateToBazaarLocation{
   }
 
   navigateNoBrackets(BuildContext context) async{
-    print("subCategoryDataList in NavigateToBazaarLocation : ${listOfSubCategoriesForData}");
+    print("isBazaarWala in NavigateToBazaarLocation : ${isBazaarWala}");
     String userNumber = await UserDetails().getUserPhoneNoFuture();
     String userName = await UserDetails().getUserNameFuture();
 
@@ -106,6 +110,8 @@ class NavigateToBazaarLocation{
             radius: radius,
             location: location,
             locationNotNull: locationNotNull,
+            homeServiceMap: homeServiceMap,
+            isBazaarWala: isBazaarWala,
           ),
         )
     );

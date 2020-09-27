@@ -219,6 +219,8 @@ class LocationService {
 
     GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
 
+    print("geoHashList in pushBazaarWalasLocationToFirebase : $geoHashList");
+
 
     /// get lat and lang
     /// get radius

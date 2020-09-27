@@ -50,8 +50,10 @@ class TextConfig{
   static const String pickCameraVideo = 'Record video from Camera';
   static const String currentLocation = 'Send Current Location';
 
+  /// //////////////////////////////////////////////////////////////////////////
 
-  /// classes"
+  /// classes
+
   /// ChangeLocationInSearch
   static const String changeLocationInSearchAddressName = "addressName";
 
@@ -59,6 +61,11 @@ class TextConfig{
   static const String showingResultsFor = 'Showing results for : ';
   static const String no = 'No ';
   static const String nearYou = ' near you';
+
+  /// subCategoriesCheckBox
+  static const String speciality = 'What is your speciality ?';
+
+  /// //////////////////////////////////////////////////////////////////////////
 
 
   /// collection:

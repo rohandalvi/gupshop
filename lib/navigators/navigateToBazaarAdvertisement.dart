@@ -22,11 +22,13 @@ class NavigateToBazaarAdvertisement{
 
 //  final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   Map<String, String> subCategoryMap;
+  final Map<String, dynamic> homeServiceMap;
 
   NavigateToBazaarAdvertisement({this.listOfSubCategories, this.category,
     this.subCategoryMap,
     this.userPhoneNo, this.userName, this.listOfSubCategoriesForData, this.categoryData,
-    this.subCategoryData, this.subCategory, this.addListData, this.deleteListData
+    this.subCategoryData, this.subCategory, this.addListData, this.deleteListData,
+    this.homeServiceMap
   });
 
 
@@ -48,6 +50,7 @@ class NavigateToBazaarAdvertisement{
               listOfSubCategoriesForData: listOfSubCategoriesForData,
               addListData: addListData,
               deleteListData: deleteListData,
+              homeServiceMap: homeServiceMap,
             ),
           )
       );
@@ -72,6 +75,7 @@ class NavigateToBazaarAdvertisement{
             listOfSubCategoriesForData: listOfSubCategoriesForData,
             addListData: addListData,
             deleteListData: deleteListData,
+            homeServiceMap: homeServiceMap,
           ),
         )
     );

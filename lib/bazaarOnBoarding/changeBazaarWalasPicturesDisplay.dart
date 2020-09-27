@@ -30,13 +30,15 @@ class ChangeBazaarWalasPicturesDisplay extends StatefulWidget{
   final double radius;
   final bool isBazaarwala;
   final String aSubCategoryData;
+  final Map<String, bool> homeServiceMap;
 
   ChangeBazaarWalasPicturesDisplay({this.thumbnailPicture, this.otherPictureOne,
     this.otherPictureTwo, this.category, this.userName, this.userPhoneNo,
     this.listOfSubCategories, this.subCategoryMap,this.categoryData,
     this.listOfSubCategoriesForData,this.addListData, this.deleteListData,
     this.locationChanged, this.videoChanged,
-    this.location, this.videoURL, this.radius,this.isBazaarwala, this.aSubCategoryData
+    this.location, this.videoURL, this.radius,this.isBazaarwala, this.aSubCategoryData,
+    this.homeServiceMap
   });
 
   @override
@@ -49,6 +51,7 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
 
   @override
   void initState() {
+    print("isBazaarwala in ChangeBazaarWalasPicturesDisplayState : ${widget.isBazaarwala}");
     imagesController = TabController(length: 3, vsync: this);
     imagesController.addListener(() {_setActiveTabIndex();});
     super.initState();
@@ -137,7 +140,8 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
                   userPhoneNo: widget.userPhoneNo,
                   categoryData: widget.categoryData,
                   isBazaarwala: widget.isBazaarwala,
-                  aSubCategoryData: widget.aSubCategoryData
+                  aSubCategoryData: widget.aSubCategoryData,
+                  homeServiceMap: widget.homeServiceMap,
                 ).main();
 
                 NavigateToBazaarSubCategorySearch(

@@ -43,11 +43,13 @@ class BazaarLocation extends StatefulWidget {
   double radius;
   LatLng location;
   bool locationNotNull;
+  final bool isBazaarWala;
 
 
 
   //final Future<List<DocumentSnapshot>> subCategoriesListFuture;
   Map<String, String> subCategoryMap;
+  final Map<String, bool> homeServiceMap;
 
 
   BazaarLocation({@required this.userPhoneNo, @required this.userName,
@@ -57,7 +59,7 @@ class BazaarLocation extends StatefulWidget {
     this.videoURL, this.videoChanged, this.aSubCategoryData,
     this.addressName, this.location, this.databaseLongitude,
     this.databaseLatitude,
-    this.locationNotNull, this.radius
+    this.locationNotNull, this.radius, this.homeServiceMap, this.isBazaarWala
   });
 
   @override
@@ -75,8 +77,6 @@ class _BazaarLocationState extends State<BazaarLocation> {
 
 
   bool saveButtonVisible = false;
-
-  bool isBazaarWala;
 
   /// for creating local cache
   BazaarProfileSetVideo isVideo;
@@ -222,6 +222,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
                 widget.location = locationFromMap;
                 locationChanged = true;
                 String addressNameTemp = await LocationService().getAddressFromLatLang(widget.location.latitude, widget.location.longitude);
+                print("addressNameTemp : $addressNameTemp");
                 /// setState to make the locationNotNull = true so that
                 /// showLocation() becomes visible
                 setState(() {
@@ -292,6 +293,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
 
+          print("isBazaarwala in location : ${widget.isBazaarWala}");
           NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
               category: widget.category,
               categoryData: widget.categoryData,
@@ -307,7 +309,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
               locationChanged: locationChanged,
               location: widget.location,
               radius: widget.radius,
-              isBazaarwala: isBazaarWala,
+              isBazaarwala: widget.isBazaarWala,
               aSubCategoryData: widget.aSubCategoryData
           ).navigateNoBrackets(context);
         }else{

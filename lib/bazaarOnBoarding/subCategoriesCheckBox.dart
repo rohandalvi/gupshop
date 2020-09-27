@@ -11,6 +11,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarAdvertisement.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
@@ -44,6 +45,8 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
   bool isCategorySelected = false;
 
   Map initialMap;
+
+  Map<String, bool> homeServiceMap = new HashMap();
 
 
   getCategorySizeFuture() {
@@ -111,7 +114,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
         suggestions: widget.subCategoriesList,
         navigate: NavigateToBazaarOnBoardingHome().navigate(context),
         onSearch: searchList,
-        hintText: 'What is your speciality ?',
+        hintText: TextConfig.speciality,
         onItemFound: (DocumentSnapshot doc, int index) {
             return Container(
             child: CheckboxListTile(
@@ -139,7 +142,12 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
                     if(val == true){
                       homeService = await homeServiceDialog(isHomeServiceApplicable);
                     }
-                    pushToBazaarWalasBasicProfile(subCategoryData, homeService);
+
+                    ///make a map of subCategories to homeService:
+                    homeServiceMap[subCategoryData] = homeService;
+                    print("homeServiceMap : $homeServiceMap");
+
+                    //pushToBazaarWalasBasicProfile(subCategoryData, homeService);
                   }
                 }
             ),
@@ -169,6 +177,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
   }
 
 
+  /// push this at the end
   pushToBazaarWalasBasicProfile(String subCategoryData, bool homeService) async{
     String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
       await PushToBazaarWalasBasicProfile(
@@ -264,6 +273,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
                       userName: userName,
                       subCategoryMap: widget.subCategoryMap,
                       listOfSubCategoriesForData: listOfSubCategoriesForData,
+                      homeServiceMap: homeServiceMap,
                     ).navigateNoBrackets(context);
 //                    NavigateToBazaarOnBoardingProfile(
 //                      category:widget.category,

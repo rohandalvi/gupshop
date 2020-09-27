@@ -19,19 +19,21 @@ class PushToFirebase{
   final String userPhoneNo;
   final bool isBazaarwala;
   final String aSubCategoryData;
+  final Map<String, bool> homeServiceMap;
 
   PushToFirebase({this.deleteListData, this.addListData,
     this.videoChanged, this.locationChanged,
     this.listOfSubCategoriesForData, this.categoryData,
     this.listOfSubCategories, this.location, this.radius,
     this.videoURL, this.userPhoneNo, this.isBazaarwala,
-    this.aSubCategoryData
+    this.aSubCategoryData, this.homeServiceMap
   });
 
 
 
   main() async{
 
+    print("isBazaarwala in push : $isBazaarwala");
     /// if not a bazaarwala
     if(isBazaarwala == false){
       if(addListData == null && deleteListData==null &&
@@ -180,6 +182,13 @@ class PushToFirebase{
         userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData,
         location: location, radius: radius
     ).bazaarWalasLocation();
+
+
+    /// home service
+    await PushSubCategoriesToFirebase(category: categoryData,userPhoneNo: userNumber,
+        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData,
+        location: location, radius: radius, homeServiceMap: homeServiceMap
+    ).homeService();
   }
 
 

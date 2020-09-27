@@ -22,6 +22,7 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
   final double radius;
   final bool isBazaarwala;
   final String aSubCategoryData;
+  final Map<String, bool> homeServiceMap;
 
 
   ChangeBazaarWalasPicturesFetchDataAndDisplay({this.subCategoriesList,
@@ -29,7 +30,7 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
     this.categoryData, this.subCategoriesListData,this.addListData,
     this.deleteListData, this.locationChanged, this.videoChanged,
     this.location, this.videoURL, this.radius,this.isBazaarwala,
-    this.aSubCategoryData
+    this.aSubCategoryData, this.homeServiceMap
   });
 
   @override
@@ -54,6 +55,7 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
             }
 
 
+            print("isBazaarwala in ChangeBazaarWalasPicturesFetchDataAndDisplay : ${isBazaarwala}");
             if(thumbnailPicture == null) thumbnailPicture = ImageConfig.photoFrame;
 
             if(otherPictureOne == null) otherPictureOne = ImageConfig.photoFrame;
@@ -79,6 +81,7 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
               radius: radius,
               isBazaarwala: isBazaarwala,
               aSubCategoryData: aSubCategoryData,
+              homeServiceMap: homeServiceMap
             );
           }
           return Center(

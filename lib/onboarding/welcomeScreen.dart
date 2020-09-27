@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gupshop/notifications/NotificationEventType.dart';
 import 'package:gupshop/notifications/NotificationsManager.dart';
+import 'package:gupshop/notifications/models/NotificationRequest.dart';
 import 'package:gupshop/onboarding/login_screen.dart';
 import 'package:gupshop/onboarding/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home/home.dart';
-
 
 /*
 Steps:
@@ -23,26 +23,42 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  String userPhoneNo;//declaring userPhoneNo and useName so they can be used later to be sent to Home()
+  String
+      userPhoneNo; //declaring userPhoneNo and useName so they can be used later to be sent to Home()
   String userName;
 
   @override
   Widget build(BuildContext context) {
-
     // TODO - remove this example and move it to a more solid class in the next commit
     // initNotifications();
 
     return Welcome();
   }
 
-  void initNotifications() async{
-        NotificationsManager notificationsManager = new
-    NotificationsManager((message) => print("On message"),
-            (message) => print("On launch"),
-            (message) => print("On resume"));
-    notificationsManager.sendNotification(_getHeaders(), _getNotificationData(), _getRequestData(), await notificationsManager.getToken() );
+  void initNotifications() async {
+    NotificationsManager notificationsManager = new NotificationsManager(
+        onMessage: (Map<String, dynamic> message) async {
+      print("onMessage: $message");
+    }, onLaunch: (Map<String, dynamic> message) async {
+      print("onLaunch: $message");
+    }, onResume: (Map<String, dynamic> message) async {
+      print("onResume: $message");
+    });
+
+    NotificationRequest notificationRequest = NotificationRequestBuilder()
+        .setRequestHeader(new RequestHeaderBuilder()
+            .setContentType('application/json')
+            .build())
+        .setNotificationHeader(new NotificationHeaderBuilder()
+            .setBody('TestBody')
+            .setTitle('testTitle')
+            .build())
+        .setNotificationData(new NotificationDataBuilder().setData('type', NotificationEventType.VIDEO_CALL.toString()).build())
+        .build();
+
+    notificationsManager
+        .sendNotification(notificationRequest, await notificationsManager.getToken());
   }
 
   @override
@@ -52,7 +68,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     startTime(context);
     super.initState();
   }
-
 
   /*
   Home() screen requires required parameters userName and userPhoneNo
@@ -72,26 +87,28 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     var duration = new Duration(seconds: 3);
 
-    if ((isFirstTime != null && userName != null && userPhoneNo!=null) && isFirstTime==true) {// orginral inspiration value !isFirstTime
+    if ((isFirstTime != null && userName != null && userPhoneNo != null) &&
+        isFirstTime == true) {
+      // orginral inspiration value !isFirstTime
       return Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                Home(userPhoneNo: userPhoneNo,userName: userName,), //pass Name() here and pass Home()in name_screen
-          )
-      );
+            builder: (context) => Home(
+              userPhoneNo: userPhoneNo,
+              userName: userName,
+            ), //pass Name() here and pass Home()in name_screen
+          ));
       //return new Timer(duration,navigateToHomePage);
     }
-      prefs.setBool('isFirstTime', true);// the inspiration page actually has this value as false
-       return Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  LoginScreen(), //pass Name() here and pass Home()in name_screen
-            )
-        );
-      //return new Timer(duration, navigateToLoginPage);
-
+    prefs.setBool('isFirstTime',
+        true); // the inspiration page actually has this value as false
+    return Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              LoginScreen(), //pass Name() here and pass Home()in name_screen
+        ));
+    //return new Timer(duration, navigateToLoginPage);
   }
 
   void navigateToLoginPage() {
@@ -100,18 +117,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         MaterialPageRoute(
           builder: (context) =>
               LoginScreen(), //pass Name() here and pass Home()in name_screen
-        )
-    );
+        ));
   }
 
   void navigateToHomePage() {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              Home(userPhoneNo: userPhoneNo,userName: userName,), //pass Name() here and pass Home()in name_screen
-        )
-    );
+          builder: (context) => Home(
+            userPhoneNo: userPhoneNo,
+            userName: userName,
+          ), //pass Name() here and pass Home()in name_screen
+        ));
   }
 
   Map<String, dynamic> _getNotificationData() {
@@ -132,6 +149,4 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     map['Content-Type'] = 'application/json';
     return map;
   }
-
 }
-

@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:gupshop/notifications/models/NotificationRequest.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -15,51 +16,48 @@ class NotificationsManager {
   final Set<String> _headerDataFields = Set.from(['Content-Type','Authorization']);
   final Set<String> _requiredDataFields = Set.from(['type']);
 
-  NotificationsManager(Function onMessage, Function onLaunch, Function onResume)  {
+  NotificationsManager({onMessage, onResume, onLaunch})  {
     _firebaseMessaging.requestNotificationPermissions(
       const IosNotificationSettings(sound: true, badge: true, alert: true),
     );
 
-    _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) async {
-      print("onMessage: $message");
-
-    },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-      });
+    _firebaseMessaging.configure(onMessage: onMessage, onResume: onResume, onLaunch: onLaunch);
   }
 
    Future<String> getToken() async {
     return _firebaseMessaging.getToken();
   }
 
-  void sendNotification(Map<String, String> headers, Map<String, dynamic> notificationData, Map<String, dynamic> data, String to) async {
+  void sendNotification(NotificationRequest notificationRequest, String to) async {
     if(Platform.isAndroid) {
-      data['click_action'] = 'FLUTTER_NOTIFICATION_CLICK'; // required by firebase for android based notifications.
+      notificationRequest.notificationData.set('click_action', 'FLUTTER_NOTIFICATION_CLICK');
     }
-    headers['Authorization'] = 'key=$SERVER_KEY';
+    notificationRequest.requestHeader.setAuthorization('key=$SERVER_KEY');
+
+    Map<String, String> headers = notificationRequest.requestHeader.serialize();
+    Map<String, dynamic> notificationHeaders = notificationRequest.notificationHeader.serialize();
+    Map<String, dynamic> notificationData = notificationRequest.notificationData.serialize();
+
     if(!_isValidHeader(headers)) {
       throw Exception("Invalid header , must contain both Content-type and authorization");
     }
 
-    if(!_isValidNotificationData(notificationData)) {
+    if(!_isValidNotificationData(notificationHeaders)) {
       throw Exception("Invalid notification data, must contain both body and title");
     }
 
-    if(!_isValidData(data)) {
+    if(!_isValidData(notificationData)) {
       throw Exception("Invalid data, must contain type"); // type here refers to 'NotificationEventType'
     }
 
+    print("All valid $headers and then $notificationHeaders and then $notificationData");
     await http.post(FCM_ENDPOINT,
       headers: headers,
       body: jsonEncode(
         <String, dynamic>{
-          'notification': notificationData,
+          'notification': notificationHeaders,
           'priority':   'high', // by default, all notifications are sent with high priority.
-          'data': data,
+          'data': notificationData,
           'to': to,
         }
       )

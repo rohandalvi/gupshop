@@ -89,10 +89,12 @@ class UsersLocation{
   }
 
 
-//  getAddress(String userPhoneNo, List<String> userHash) async{
-//    Map map = await createSetOfAddresses(userPhoneNo);
-//    return map[userHash]['address'];
-//  }
+  getAddress(String userPhoneNo, List<String> userHash) async{
+    Map map = await createSetOfAddresses(userPhoneNo);
+    return map[userHash][TextConfig.usersLocationCollectionAddress];
+  }
+
+
 
 
 }

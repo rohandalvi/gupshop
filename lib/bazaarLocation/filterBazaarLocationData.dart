@@ -21,7 +21,6 @@ class FilterBazaarLocationData{
   Future<List<String>> getUserGeohashList(String number,) async{
     DocumentSnapshot userGeohash = await LocationService().getUserLocationDocumentSnapshot(number);
     List<String> result = userGeohash.data[TextConfig.usersLocationCollectionHome][TextConfig.usersLocationCollectionGeoHashList].cast<String>();
-    print("result in getUserGeohashList : $result");
     return result;
   }
 

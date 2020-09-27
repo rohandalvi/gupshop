@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/responsive/collectionPaths.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 
 class GetUsersLocation{
   String userPhoneNo;
@@ -16,4 +17,11 @@ class GetUsersLocation{
     return dc.data["home"];
   }
 
+
+  getAddressFromAddressName(String addressName) async{
+    DocumentSnapshot dc = await usersLocationPath();
+    print("dc.data addressName : ${dc.data}");
+    Map map = dc.data[addressName];
+    return map[TextConfig.usersLocationCollectionAddress];
+  }
 }

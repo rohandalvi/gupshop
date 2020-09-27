@@ -6,6 +6,7 @@ import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
 import 'package:gupshop/bazaarCategory/noSubcategoryText.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/location/locationPermissionHandler.dart';
+import 'package:gupshop/location/usersLocation.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToAddressList.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
@@ -17,6 +18,7 @@ import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 import 'package:gupshop/bazaarLocation/filterBazaarLocationData.dart';
+import 'package:gupshop/retriveFromFirebase/getUsersLocation.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListDisplay.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -282,7 +284,8 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
           /// for exiting dialog:
           Navigator.pop(context);
 
-          String tempAddressName = userGeohashAndAddressMap[TextConfig.changeLocationInSearchAddressName];
+          String addressNameForAddress = userGeohashAndAddressMap[TextConfig.changeLocationInSearchAddressName];
+          String tempAddressName = await GetUsersLocation(userPhoneNo: userPhoneNo).getAddressFromAddressName(addressNameForAddress);
           setState(() {
             widget.userGeohash = tempHash;
             widget.addressName = tempAddressName;

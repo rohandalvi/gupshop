@@ -10,6 +10,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
+import 'package:gupshop/retriveFromFirebase/getUsersLocation.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -117,7 +118,10 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
           Navigator.pop(context);
 
 //          addressName = await getAddressName(userGeohash);
-          addressName = userGeohashAndAddressMap[TextConfig.changeLocationInSearchAddressName];
+          String addressNameForAddress = userGeohashAndAddressMap[TextConfig.changeLocationInSearchAddressName];
+
+          String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+          addressName = await GetUsersLocation(userPhoneNo: userPhoneNo).getAddressFromAddressName(addressNameForAddress);
         }
 
 

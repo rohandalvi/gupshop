@@ -32,18 +32,23 @@ dependencies:
   firebase_analytics: ^5.0.14
 
   contacts_service: ^0.3.10
+  cloud_functions:  0.4.1+6
   flutter_contact: any #verson ^0.5.3 is incompatible with geolocator:^5.3.1. Hence we change flutter_contact version to any
   permission_handler: ^5.0.0+hotfix.3
-
+  twilio_programmable_video: 0.6.1
+  provider: ^4.1.3
   cloud_firestore: ^0.13.7 #^0.12.9+5 version before . changed  because geoflutterfire was not compatible with this version
-
+  device_info: '>=0.4.1+4 <2.0.0'
   video_player: ^0.10.9 #video player for bazaar profile
-
+  enum_to_string: ^1.0.9
+  wakelock: ^0.1.4
+  recase: ^3.0.0
+  native_device_orientation: ^0.3.0
   image_picker: ^0.6.5+2 #for adding advertisement on bazaar profile
   shared_preferences: ^0.5.7 #for checking if the user is logged in for the 1st time
   firebase_database: ^3.1.6
   firebase_storage: ^3.1.5 #for image  and video storage to cloud storage
-
+  after_layout: ^1.0.7
   geolocator: ^5.3.0
   geocoder: ^0.2.1
   location: ^3.0.2

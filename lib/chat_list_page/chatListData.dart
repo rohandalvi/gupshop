@@ -72,7 +72,7 @@ class _ChatListDataState extends State<ChatListData> {
           documentID: documentID,
           /// onDismissed has all the delete logic:
           onDismissed: (direction) async{
-            var temp = await ConversationMetaData().get(conversationId, widget.myNumber);
+            var temp = await ConversationMetaData(conversationId: conversationId).get(widget.myNumber);
 
             memberList = temp["members"];
             bool isGroup = await CheckIfGroup().ifThisIsAGroup(documentID);

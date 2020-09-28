@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
+import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
@@ -136,7 +137,16 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                       message: "Please enter name to move forward",
                     )..show(context);
                   } else{
-                    CustomNavigator().navigateToIndividualChat(context, id, userName, userPhoneNo, groupName, listOfNumbersInAGroup, null, false);
+                    NavigateToIndividualChat(
+                        conversationId: id,
+                        userName: userName,
+                      userPhoneNo: userPhoneNo,
+                      friendName: groupName,
+                      data: null,
+                      notGroupMemberAnymore: false,
+                      listOfFriendNumbers: listOfNumbersInAGroup,
+                    ).navigateNoBrackets(context);
+                    //CustomNavigator().navigateToIndividualChat(context, id, userName, userPhoneNo, groupName, listOfNumbersInAGroup, null, false);
                   }
                 },
               ),

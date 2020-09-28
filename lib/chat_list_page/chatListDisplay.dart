@@ -110,7 +110,7 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
       chatListTrace.cachedAvatarHit();
 
       return FutureBuilder(
-        future: ConversationMetaData().get(widget.conversationId, widget.myNumber),
+        future: ConversationMetaData(conversationId:widget.conversationId, ).get( widget.myNumber),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             widget.memberList = snapshot.data["members"];
@@ -176,7 +176,7 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
       chatListTrace.nonCachedAvatarHit();
 
       return FutureBuilder(
-        future: ConversationMetaData().get(widget.conversationId, widget.myNumber),
+        future: ConversationMetaData(conversationId: widget.conversationId).get(widget.myNumber),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             widget.memberList = snapshot.data["members"];

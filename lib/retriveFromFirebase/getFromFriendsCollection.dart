@@ -12,4 +12,5 @@ class GetFromFriendsCollection{
     String conversationId = dc.data["conversationId"];
     return conversationId;
   }
+
 }

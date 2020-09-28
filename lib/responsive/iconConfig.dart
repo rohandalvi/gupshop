@@ -10,6 +10,7 @@ class IconConfig{
 
 
   /// icon names:
+  static String appIcon = 'appIcon';
   static String forwardIcon = 'nextArrow';
   static String groupIcon = 'groupManWoman';
   static String tickMarkIcon = 'done';

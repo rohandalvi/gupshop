@@ -55,23 +55,23 @@ class CustomNavigator{
     );
   }
 
-  navigateToIndividualChat(BuildContext context, String conversationId, String userName, String userPhoneNo, String friendName,List<dynamic> listOfFriendsNumbers,  var data, bool notGroupMemberAnymore ){
-    print("listOfFriendsNumbers in navigateToIndividualChat: $listOfFriendsNumbers");
-    Navigator.push(
-      context,
-      MaterialPageRoute(//to send conversationId along with the navigator to the next page
-        builder: (context) => IndividualChat(
-          conversationId: conversationId,
-          userPhoneNo: userPhoneNo,
-          userName: userName,
-          friendName:friendName,
-          forwardMessage: data,
-          listOfFriendNumbers: listOfFriendsNumbers,
-          notGroupMemberAnymore: notGroupMemberAnymore,
-        ),
-      ),
-    );
-  }
+//  navigateToIndividualChat(BuildContext context, String conversationId, String userName, String userPhoneNo, String friendName,List<dynamic> listOfFriendsNumbers,  var data, bool notGroupMemberAnymore ){
+//    print("listOfFriendsNumbers in navigateToIndividualChat: $listOfFriendsNumbers");
+//    Navigator.push(
+//      context,
+//      MaterialPageRoute(//to send conversationId along with the navigator to the next page
+//        builder: (context) => IndividualChat(
+//          conversationId: conversationId,
+//          userPhoneNo: userPhoneNo,
+//          userName: userName,
+//          friendName:friendName,
+//          forwardMessage: data,
+//          listOfFriendNumbers: listOfFriendsNumbers,
+//          notGroupMemberAnymore: notGroupMemberAnymore,
+//        ),
+//      ),
+//    );
+//  }
 
   navigateToCreateGroupName_Screen(BuildContext context, String userName, String userPhoneNo, List<String> listOfNumbersInAGroup){
     Navigator.push(
@@ -230,55 +230,55 @@ class NavigateToNewsComposer{
   }
 }
 
-class NavigateToIndividualChat{
-  String conversationId;
-  String userName;
-  String userPhoneNo;
-  String friendName;
-  List<dynamic> listOfFriendsNumbers;
-  var data;
-  bool notGroupMemberAnymore;
-
-  NavigateToIndividualChat({this.conversationId, this.userName, this.userPhoneNo, this.friendName, this.data, this.notGroupMemberAnymore, this.listOfFriendsNumbers});
-
-  navigate(BuildContext context){
-    print("in navigate NavigateToIndividualChat");
-    return (){
-      Navigator.push(
-        context,
-        MaterialPageRoute(//to send conversationId along with the navigator to the next page
-          builder: (context) => IndividualChat(
-            conversationId: conversationId,
-            userPhoneNo: userPhoneNo,
-            userName: userName,
-            friendName:friendName,
-            forwardMessage: data,
-            listOfFriendNumbers: listOfFriendsNumbers,
-            notGroupMemberAnymore: notGroupMemberAnymore,
-          ),
-        ),
-      );
-    };
-  }
-
-  navigateNoBrackets(BuildContext context){
-    Navigator.push(
-      context,
-      MaterialPageRoute(//to send conversationId along with the navigator to the next page
-        builder: (context) => IndividualChat(
-          conversationId: conversationId,
-          userPhoneNo: userPhoneNo,
-          userName: userName,
-          friendName:friendName,
-          forwardMessage: data,
-          listOfFriendNumbers: listOfFriendsNumbers,
-          notGroupMemberAnymore: notGroupMemberAnymore,
-        ),
-      ),
-    );
-  }
-
-}
+//class NavigateToIndividualChat{
+//  String conversationId;
+//  String userName;
+//  String userPhoneNo;
+//  String friendName;
+//  List<dynamic> listOfFriendsNumbers;
+//  var data;
+//  bool notGroupMemberAnymore;
+//
+//  NavigateToIndividualChat({this.conversationId, this.userName, this.userPhoneNo, this.friendName, this.data, this.notGroupMemberAnymore, this.listOfFriendsNumbers});
+//
+//  navigate(BuildContext context){
+//    print("in navigate NavigateToIndividualChat");
+//    return (){
+//      Navigator.push(
+//        context,
+//        MaterialPageRoute(//to send conversationId along with the navigator to the next page
+//          builder: (context) => IndividualChat(
+//            conversationId: conversationId,
+//            userPhoneNo: userPhoneNo,
+//            userName: userName,
+//            friendName:friendName,
+//            forwardMessage: data,
+//            listOfFriendNumbers: listOfFriendsNumbers,
+//            notGroupMemberAnymore: notGroupMemberAnymore,
+//          ),
+//        ),
+//      );
+//    };
+//  }
+//
+//  navigateNoBrackets(BuildContext context){
+//    Navigator.push(
+//      context,
+//      MaterialPageRoute(//to send conversationId along with the navigator to the next page
+//        builder: (context) => IndividualChat(
+//          conversationId: conversationId,
+//          userPhoneNo: userPhoneNo,
+//          userName: userName,
+//          friendName:friendName,
+//          forwardMessage: data,
+//          listOfFriendNumbers: listOfFriendsNumbers,
+//          notGroupMemberAnymore: notGroupMemberAnymore,
+//        ),
+//      ),
+//    );
+//  }
+//
+//}
 
 
 //an If else in a navigation example:

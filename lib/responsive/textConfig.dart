@@ -66,6 +66,19 @@ class TextConfig{
   /// subCategoriesCheckBox
   static const String speciality = 'What is your speciality ?';
 
+  /// Notifications:
+  static const String notificationFromNumberIndividual = "notificationFromNumberIndividual";
+  static const String notificationFromName = "notificationFromName";
+  static const String notificationFromNumber = "notificationFromNumber";
+  static const String notifierConversationId = "notifierConversationId";
+  static const String messageBody = "messageBody";
+  static const String type = "type";
+  static const String IndividualChatType = "IndividualChat";
+  static const String videoChatType = "VideoChat";
+  static const String audioChatType = "AudioChat";
+  static const String bazaarRatingAddedType = "bazaarRatingAdded";
+
+
   /// //////////////////////////////////////////////////////////////////////////
 
 
@@ -79,6 +92,7 @@ class TextConfig{
   static String getFriendsCollectionName({String userPhoneNo}){
     return "friends_$userPhoneNo";
   }
+  static const String conversationMetadataCollectionName = 'conversationMetadata';
 
   /// database fieldNames:
   static const String usersLocationCollectionGeoHashList = 'geoHashList';
@@ -86,4 +100,8 @@ class TextConfig{
   static const String usersLocationCollectionAddress = 'address';
 
   static const String bazaarWalasLocationCollectionGeoHashList = usersLocationCollectionGeoHashList;
+  static const String conversationMetadataCollectionAdmin = 'admin';
+  static const String conversationMetadataCollectionMembers = 'members';
+  static const String conversationMetadataCollectionGroupName = 'groupName';
+
 }

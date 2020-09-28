@@ -21,4 +21,5 @@ class CollectionPaths{
     CollectionReference c =  Firestore.instance.collection(TextConfig.getFriendsCollectionName(userPhoneNo: userPhoneNo));
     return c;
   }
+  static CollectionReference conversationMetadataCollectionPath = getBase(TextConfig.conversationMetadataCollectionName);
 }

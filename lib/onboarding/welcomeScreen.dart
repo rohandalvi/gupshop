@@ -38,10 +38,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   void initNotifications() async {
     NotificationsManager notificationsManager = new NotificationsManager(
+        /// when app is in foreground
         onMessage: (Map<String, dynamic> message) async {
       print("onMessage: $message");
+        /// when app is terminated
     }, onLaunch: (Map<String, dynamic> message) async {
       print("onLaunch: $message");
+        /// when app is resumed
     }, onResume: (Map<String, dynamic> message) async {
       print("onResume: $message");
     });

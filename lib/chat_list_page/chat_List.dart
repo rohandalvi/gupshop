@@ -1,18 +1,11 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/chatListData.dart';
 import 'package:gupshop/chat_list_page/chatListSingleton.dart';
-import 'package:gupshop/chat_list_page/decache.dart';
-import 'package:gupshop/main.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
-import 'package:gupshop/navigators/navigateToWelcome.dart';
-import 'package:gupshop/navigators/navigateToWelcomeScreen.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/showMessageForFirstConversation.dart';
-import 'package:gupshop/widgets/customText.dart';
 
 
 //chatList => individualChat

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
@@ -9,7 +10,6 @@ import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class BazaarIndividualCategoryListDisplay extends StatelessWidget {
@@ -176,7 +176,8 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
             //await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber, friendNumber: bazaarWalaPhoneNo).getIndividualChatId();
 
             NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
-                listOfFriendsNumbers: listOfFriendsNumbers, friendName: bazaarWalaName,
+                //listOfFriendsNumbers: listOfFriendsNumbers,
+                friendName: bazaarWalaName,
                 userName: userName).navigateNoBrackets(context);
           },
         ).resize(),

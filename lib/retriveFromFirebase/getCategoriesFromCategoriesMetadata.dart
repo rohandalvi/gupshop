@@ -3,10 +3,10 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/modules/userDetails.dart';
 
-class GetCategoriesFromCategoriesMetadata{
+class getCategoriesFromCategoriesMetadata{
   final String category;
 
-  GetCategoriesFromCategoriesMetadata({this.category});
+  getCategoriesFromCategoriesMetadata({this.category});
 
 //  Future<Map<String, List>> selectedCategories() async{
   selectedCategories() async{

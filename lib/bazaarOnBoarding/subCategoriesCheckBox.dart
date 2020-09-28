@@ -64,7 +64,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
   /// To check if the user has selected any categories, then isCategorySelected
   /// would show as true and would make the forward icon visible.
   categorySelectedCheck() async{
-    List<DocumentSnapshot> dc = await GetCategoriesFromCategoriesMetadata
+    List<DocumentSnapshot> dc = await getCategoriesFromCategoriesMetadata
       (category: widget.categoryData,).selectedCategories();
 
     /// if the user is never registered as a bazaarwala ever then dc would be

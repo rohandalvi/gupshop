@@ -209,10 +209,14 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
 
   read(){
     if(widget.readCache != null && widget.readCache.containsKey(widget.messageId) == false){
-      return FriendReadStatus(listOfFriends: widget.listOfFriendNumbers,
-          conversationId: widget.conversationId,
-          conversationsLatestMessageTimestamp: widget.timestamp).readStream(context,
-          widget.readCache, widget.messageId, widget.isMe);
+      /// we are creating listOfFriends in individualChat page, so at first, it is null
+      /// later it gets some value, hence the check
+      if(widget.listOfFriendNumbers != null){
+        return FriendReadStatus(listOfFriends: widget.listOfFriendNumbers,
+            conversationId: widget.conversationId,
+            conversationsLatestMessageTimestamp: widget.timestamp).readStream(context,
+            widget.readCache, widget.messageId, widget.isMe);
+      }
     } return readUnreadContainer(context, widget.readCache[widget.messageId]);
   }
 }

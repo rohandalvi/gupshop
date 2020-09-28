@@ -39,20 +39,26 @@ class _JoinRoomFormState extends State<JoinRoomForm> {
   final TextEditingController _nameController = TextEditingController();
 
   @override
+  void initState() {
+    _submit();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    return StreamBuilder<RoomModel>(
-        stream: widget.roomBloc.modelStream,
-        initialData: RoomModel(),
-        builder: (BuildContext context, AsyncSnapshot<RoomModel> snapshot) {
-          final roomModel = snapshot.data;
-          return Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: _buildChildren(roomModel),
-            ),
-          );
-        });
+    return Container();
+//    return StreamBuilder<RoomModel>(
+//        stream: widget.roomBloc.modelStream,
+//        initialData: RoomModel(),
+//        builder: (BuildContext context, AsyncSnapshot<RoomModel> snapshot) {
+//          final roomModel = snapshot.data;
+//          return Padding(
+//            padding: const EdgeInsets.only(left: 16, right: 16),
+//            child: Column(
+//              crossAxisAlignment: CrossAxisAlignment.stretch,
+//              children: _buildChildren(roomModel),
+//            ),
+//          );
+//        });
   }
 
   List<Widget> _buildChildren(RoomModel roomModel) {

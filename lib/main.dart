@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
               title: 'Chat home',
               debugShowCheckedModeBanner: false,
 //      home: Home(userPhoneNo: '+19194134191', userName: 'Purva Dalvi',),
-              home: VideoCallEntryPoint(),
+              home: WelcomeScreen(),
             );
           }
         );

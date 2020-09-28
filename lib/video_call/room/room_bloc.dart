@@ -14,7 +14,7 @@ import 'package:rxdart/rxdart.dart';
 class RoomBloc {
   final VideoCallBackendService backendService;
 
-  final BehaviorSubject<RoomModel> _modelSubject = BehaviorSubject<RoomModel>.seeded(RoomModel());
+  final BehaviorSubject<RoomModel> _modelSubject = BehaviorSubject<RoomModel>.seeded(RoomModel(name: UniqueKey().toString()));
   final StreamController<bool> _loadingController = StreamController<bool>.broadcast();
 
   RoomBloc({@required this.backendService}) : assert(backendService != null);
@@ -26,6 +26,7 @@ class RoomBloc {
   RoomModel get model => _modelSubject.value;
 
   void dispose() {
+    print("Disposing RoomBloc");
     _modelSubject.close();
     _loadingController.close();
   }

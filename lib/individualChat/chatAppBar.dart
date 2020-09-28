@@ -4,6 +4,7 @@ import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/typing/typingStatusDisplay.dart';
+import 'package:gupshop/video_call/VideoCallEntryPoint.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
 class ChatAppBar extends StatelessWidget {
@@ -177,7 +178,10 @@ class ChatAppBar extends StatelessWidget {
                                   flex: 1,
                                   child: CustomIconButton(
                                     iconNameInImageFolder: 'videoCall',
-                                    onPressed: (){},
+                                    onPressed: (){
+                                      VideoCallEntryPoint().main(context);
+
+                                    },
                                   ),
                                 ),
                                 Expanded(

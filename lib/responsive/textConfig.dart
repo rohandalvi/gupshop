@@ -51,9 +51,13 @@ class TextConfig{
   static const String pickCameraVideo = 'Record video from Camera';
   static const String currentLocation = 'Send Current Location';
 
-  /// //////////////////////////////////////////////////////////////////////////
+  /// ======================================================================== ///
 
-  /// classes
+  /// classes ***************************************************************
+
+  /// addressListData:
+  static const String addressNameHome = "Home : ";
+  static const String addressBook = "Address Book";
 
   /// ChangeLocationInSearch
   static const String changeLocationInSearchAddressName = "addressName";
@@ -63,10 +67,13 @@ class TextConfig{
   static const String no = 'No ';
   static const String nearYou = ' near you';
 
+  /// BazaarProfileSetVideo
+  static const String tapToAddVideo = 'Tap to add video';
+
   /// subCategoriesCheckBox
   static const String speciality = 'What is your speciality ?';
 
-  /// Notifications:
+  /// Notifications
   static const String notificationFromNumberIndividual = "notificationFromNumberIndividual";
   static const String notificationFromName = "notificationFromName";
   static const String notificationFromNumber = "notificationFromNumber";
@@ -77,12 +84,16 @@ class TextConfig{
   static const String videoChatType = "VideoChat";
   static const String audioChatType = "AudioChat";
   static const String bazaarRatingAddedType = "bazaarRatingAdded";
+  static const String payLoadNotification = "notification";
+  static const String payLoadTitle = "title";
+  static const String payLoadBody = "body";
+  static const String payLoadData = "data";
 
 
-  /// //////////////////////////////////////////////////////////////////////////
+  /// ======================================================================== ///
 
 
-  /// collection:
+  /// collection ***************************************************************
   static const String usersLocationCollectionName = 'usersLocation';
   static const String bazaarWalasLocationCollectionName= "bazaarWalasLocation";
   static const String usersCollectionName= "users";
@@ -94,14 +105,23 @@ class TextConfig{
   }
   static const String conversationMetadataCollectionName = 'conversationMetadata';
 
-  /// database fieldNames:
+  /// ======================================================================== ///
+
+  /// database fieldNames ******************************************************
+
+  /// usersLocationCollection
   static const String usersLocationCollectionGeoHashList = 'geoHashList';
   static const String usersLocationCollectionHome = 'home';
   static const String usersLocationCollectionAddress = 'address';
+  static const String usersLocationCollectionGeoPoint = 'geoPoint';
 
   static const String bazaarWalasLocationCollectionGeoHashList = usersLocationCollectionGeoHashList;
   static const String conversationMetadataCollectionAdmin = 'admin';
   static const String conversationMetadataCollectionMembers = 'members';
   static const String conversationMetadataCollectionGroupName = 'groupName';
 
+
+
+
+  /// ======================================================================== ///
 }

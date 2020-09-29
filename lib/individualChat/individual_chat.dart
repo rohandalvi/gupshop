@@ -13,11 +13,13 @@ import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/notifications/NotificationsManager.dart';
 import 'package:gupshop/notifications/application/individualChatNotifier.dart';
 import 'package:gupshop/notifications/application/notifier.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/conversation_service.dart';
+import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/service/getConversationId.dart';
@@ -29,6 +31,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/widgets/customText.dart';
 import 'package:video_player/video_player.dart';
 
 class IndividualChat extends StatefulWidget {
@@ -56,14 +59,6 @@ class IndividualChat extends StatefulWidget {
 
   @override
   _IndividualChatState createState() => _IndividualChatState(
-//      conversationId: conversationId,
-//      userPhoneNo: userPhoneNo,
-//      userName: userName,
-//      friendName: friendName,
-//      forwardMessage: forwardMessage,
-//      //listOfFriendNumbers: listOfFriendNumbers,
-//      notGroupMemberAnymore: notGroupMemberAnymore,
-//      presence: new Presence(userPhoneNo)
     );
 
 
@@ -72,23 +67,6 @@ class IndividualChat extends StatefulWidget {
 
 
 class _IndividualChatState extends State<IndividualChat> {
-//
-//  String conversationId;
-//  final String userPhoneNo;
-//  final String userName;
-//  final String friendName;/// this should be list
-//  List<dynamic> listOfFriendNumbers;
-//  final Map forwardMessage;
-//  final bool notGroupMemberAnymore;
-//  final Presence presence;
-//
-//  _IndividualChatState(
-//      {@required this.conversationId, @required this.userPhoneNo,
-//        @required this.userName, @required this.friendName,
-//        this.forwardMessage,
-//        this.listOfFriendNumbers,
-//      this.notGroupMemberAnymore, this.presence});
-
   Presence presence;
   String value = ""; //TODo
 
@@ -283,11 +261,13 @@ class _IndividualChatState extends State<IndividualChat> {
   @override
   Widget build(BuildContext context){
     presence = new Presence(widget.userPhoneNo);
-    Notifier().foreGround(
-      currentChatWithNumber: widget.listOfFriendNumbers,
-      currentConversationId: widget.conversationId,
-      customContext: context,
-    );
+
+
+//    Notifier().foreGround(
+//      currentChatWithNumber: widget.listOfFriendNumbers,
+//      currentConversationId: widget.conversationId,
+//      customContext: context,
+//    );
 
     return WillPopScope(
       onWillPop: () async => CustomNavigator().navigateToHome(context,
@@ -308,29 +288,40 @@ class _IndividualChatState extends State<IndividualChat> {
           /// if a member is removed from the group, then he should not be seeing the conversations
           /// once he enters the individual chat page
           /// So, displaying the conversations only when he is a group member
-          body: widget.groupDeleted == true ?
-          BlankScreen(message: 'This group is Deleted !',) :
-          (widget.notGroupMemberAnymore == false || widget.notGroupMemberAnymore == null) ?
-          BodyPlusScrollComposerData(
-            conversationService: conversationService,
-            friendName: widget.friendName,
-            conversationId: widget.conversationId,
-            controller: controller,
-            controllerTwo: _controller,
-            listOfFriendNumbers: widget.listOfFriendNumbers,
-            listScrollController: listScrollController,
-            friendN: friendN,
-            userName: widget.userName,
-            userPhoneNo: widget.userPhoneNo,
-            isPressed: isPressed,
-            groupExits: groupExits,
-            groupName: groupName,
-            value: value,
-            scroll: scroll,
-          ): BlankScreen(),
+          body: buildWidget(),
         ),
       ),
     );
+  }
+
+
+  buildWidget(){
+    Notifier().foreGround(
+      currentChatWithNumber: widget.listOfFriendNumbers,
+      currentConversationId: widget.conversationId,
+      customContext: context,
+    );
+
+    return widget.groupDeleted == true ?
+    BlankScreen(message: 'This group is Deleted !',) :
+    (widget.notGroupMemberAnymore == false || widget.notGroupMemberAnymore == null) ?
+    BodyPlusScrollComposerData(
+      conversationService: conversationService,
+      friendName: widget.friendName,
+      conversationId: widget.conversationId,
+      controller: controller,
+      controllerTwo: _controller,
+      listOfFriendNumbers: widget.listOfFriendNumbers,
+      listScrollController: listScrollController,
+      friendN: friendN,
+      userName: widget.userName,
+      userPhoneNo: widget.userPhoneNo,
+      isPressed: isPressed,
+      groupExits: groupExits,
+      groupName: groupName,
+      value: value,
+      scroll: scroll,
+    ): BlankScreen();
   }
 
 }

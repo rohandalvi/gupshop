@@ -10,11 +10,15 @@ class IconConfig{
 
 
   /// icon names:
+  static String add = 'add';
   static String appIcon = 'appIcon';
+  static String camera = 'image2vector';
   static String forwardIcon = 'nextArrow';
   static String groupIcon = 'groupManWoman';
+  static String photoGallery = 'photoGallery';
   static String tickMarkIcon = 'done';
   static String editIcon = 'editPencil';
   static String locationPin = 'locationPin';
   static String location = 'location';
+  static String save = 'save';
 }

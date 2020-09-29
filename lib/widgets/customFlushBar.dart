@@ -13,8 +13,10 @@ class CustomFlushBar extends StatelessWidget {
   final Duration duration;
   final String iconName;
   final String message;
+  OnTap onTap;
 
-  CustomFlushBar({this.text, this.customContext, this.duration, this.iconName, this.message});
+  CustomFlushBar({this.text, this.customContext, this.duration, this.iconName,
+    this.message, this.onTap});
 
   @override
   Widget build(context) {
@@ -104,6 +106,7 @@ class CustomFlushBar extends StatelessWidget {
   }
 
   showTopFlushBar(){
+    print("in showTopFlushBar");
     return Flushbar( /// for the flushBar if the user enters wrong verification code
       icon: CustomIcon(iconName: iconName,),
       backgroundColor: white,
@@ -112,6 +115,7 @@ class CustomFlushBar extends StatelessWidget {
       reverseAnimationCurve: Curves.easeOut,
       titleText: text,
       message: message,
+      onTap: onTap,
       flushbarStyle: FlushbarStyle.GROUNDED,
       flushbarPosition: FlushbarPosition.TOP,
     )..show(customContext);

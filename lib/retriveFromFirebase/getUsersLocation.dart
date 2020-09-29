@@ -14,13 +14,12 @@ class GetUsersLocation{
   getHomeAddress() async{
     DocumentSnapshot dc = await usersLocationPath();
 
-    return dc.data["home"];
+    return dc.data[TextConfig.usersLocationCollectionHome];
   }
 
 
   getAddressFromAddressName(String addressName) async{
     DocumentSnapshot dc = await usersLocationPath();
-    print("dc.data addressName : ${dc.data}");
     Map map = dc.data[addressName];
     return map[TextConfig.usersLocationCollectionAddress];
   }

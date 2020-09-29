@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/navigators/navigateToAddressList.dart';
 import 'package:gupshop/navigators/navigateToBazaarIndividualCategoryListDisplay.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/updateInFirebase/updateUsersLocation.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -16,7 +17,7 @@ class SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFloatingActionButtonWithIcon(
-      iconName: 'save',
+      iconName: IconConfig.save,
       onPressed: (){
         /// update home address in usersLocation collection
         UpdateUsersLocation(userPhoneNo: userPhoneNo).updateHomeAddress(

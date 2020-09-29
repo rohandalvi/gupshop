@@ -56,6 +56,20 @@ Specify your API key in the application delegate ios/Runner/AppDelegate.m:
 11. gallery_saver: ^2.0.1
 12. thumbnails: ^1.0.1 =  no seperate iOS settings
 13. firebase_performance: ^0.4.0 # 22/9/20 No seperate iOS settings
+14. flutter_local_notifications 1.4.4+4 # 29/9/20 iOS settings required:
+    https://pub.dev/packages/flutter_local_notifications
+
+    Add the following lines to the didFinishLaunchingWithOptions method in the AppDelegate.m/AppDelegate.swift file of your iOS project
+    - Objective-C:
+    if (@available(iOS 10.0, *)) {
+      [UNUserNotificationCenter currentNotificationCenter].delegate = (id<UNUserNotificationCenterDelegate>) self;
+    }
+
+    - Swift:
+    if #available(iOS 10.0, *) {
+      UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+    }
+
 ```
 
 ## Using NotificationsManager

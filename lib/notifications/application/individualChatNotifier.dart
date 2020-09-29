@@ -43,10 +43,12 @@ class IndividualChatNotifier{
     String currentConversationId,
     List<dynamic> currentChatWithNumber,
     var data,
-  }) async{
-    String userNumber = await UserDetails().getUserPhoneNoFuture();
-    String userName = await UserDetails().getUserNameFuture();
 
+    String userNumber,
+    String userName,
+  }) {
+
+    print("in forGroundHandlerHelper");
     /// if the message is from anyone except with whom current conversation
     /// is being made, then navigateToIndividualChat
     if(notifierConversationId != currentConversationId){

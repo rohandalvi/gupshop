@@ -1,5 +1,6 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/services.dart';
+import 'package:gupshop/video_call/models/twilio/room_update_request.dart';
 import 'package:gupshop/video_call/models/twilio/twilio_room_by_sid_request.dart';
 import 'package:gupshop/video_call/models/twilio/twilio_room_by_unique_name_request.dart';
 import 'package:gupshop/video_call/models/twilio/twilio_room_list_response.dart';
@@ -17,6 +18,7 @@ abstract class VideoCallBackendService {
   Future<TwilioRoomResponse> getRoomBySid(TwilioRoomBySidRequest twilioRoomBySidRequest);
   Future<TwilioRoomResponse> getRoomByUniqueName(TwilioRoomByUniqueNameRequest twilioRoomByUniqueNameRequest);
   Future<TwilioListRoomResponse> listRooms(TwilioListRoomRequest twilioListRoomRequest);
+  void pushRoomUpdates(RoomUpdateRequest roomUpdateRequest);
 }
 
 class FirebaseFunctions implements VideoCallBackendService {
@@ -107,6 +109,12 @@ class FirebaseFunctions implements VideoCallBackendService {
         details: e.details,
       );
     }
+  }
+
+  @override
+  void pushRoomUpdates(RoomUpdateRequest roomUpdateRequest) {
+    // TODO: implement pushRoomUpdates
+    cf.getHttpsCallable(functionName: 'pushRoomUpdates').call(roomUpdateRequest.toMap());
   }
 
 

@@ -179,7 +179,7 @@ class ChatAppBar extends StatelessWidget {
                                   child: CustomIconButton(
                                     iconNameInImageFolder: 'videoCall',
                                     onPressed: (){
-                                      VideoCallEntryPoint().main(context);
+                                      VideoCallEntryPoint().main(context, this.userPhoneNo);
 
                                     },
                                   ),

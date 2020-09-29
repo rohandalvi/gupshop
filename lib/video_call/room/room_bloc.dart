@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:gupshop/service/VideoCallBackendService.dart';
 import 'package:gupshop/video_call/debug.dart';
+import 'package:gupshop/video_call/models/twilio/room_update_request.dart';
 import 'package:gupshop/video_call/models/twilio/twilio_enums.dart';
 import 'package:gupshop/video_call/models/twilio/twilio_room_request.dart';
 import 'package:gupshop/video_call/models/twilio/twilio_room_token_request.dart';
@@ -14,8 +15,11 @@ import 'package:rxdart/rxdart.dart';
 class RoomBloc {
   final VideoCallBackendService backendService;
 
-  final BehaviorSubject<RoomModel> _modelSubject = BehaviorSubject<RoomModel>.seeded(RoomModel(name: UniqueKey().toString()));
-  final StreamController<bool> _loadingController = StreamController<bool>.broadcast();
+  final BehaviorSubject<RoomModel> _modelSubject =
+      BehaviorSubject<RoomModel>.seeded(
+          RoomModel(name: UniqueKey().toString()));
+  final StreamController<bool> _loadingController =
+      StreamController<bool>.broadcast();
 
   RoomBloc({@required this.backendService}) : assert(backendService != null);
 
@@ -29,6 +33,12 @@ class RoomBloc {
     print("Disposing RoomBloc");
     _modelSubject.close();
     _loadingController.close();
+    backendService.pushRoomUpdates(RoomUpdateRequest(
+        name: model.name,
+        token: model.token,
+        identity: model.identity,
+        inviteePhoneNumber: null,
+        active: false));
   }
 
   Future<RoomModel> submit() async {
@@ -77,7 +87,8 @@ class RoomBloc {
         ),
       );
     } on PlatformException catch (err) {
-      if (err.code != 'functionsError' || err.details['message'] != 'Error: Room exists') {
+      if (err.code != 'functionsError' ||
+          err.details['message'] != 'Error: Room exists') {
         rethrow;
       }
     } catch (err) {

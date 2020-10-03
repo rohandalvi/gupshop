@@ -11,4 +11,7 @@ class IntConfig{
   static double radius = 300;
   static double radiusChange= 100;
   static const double radiusForUsers = 1;
+
+  /// friends collection
+  static int nameOne = 0;
 }

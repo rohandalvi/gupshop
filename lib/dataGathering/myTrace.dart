@@ -8,6 +8,7 @@ class MyTrace{
   FirebasePerformance performance;
 
 
+  /// initializing variables in constructor
   MyTrace({this.nameSpace}){
     performance = FirebasePerformance.instance;
     trace = performance.newTrace(nameSpace);

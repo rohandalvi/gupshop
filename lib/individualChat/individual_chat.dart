@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
@@ -10,16 +11,15 @@ import 'package:gupshop/individualChat/bodyPlusScrollComposerData.dart';
 import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsCollection.dart';
 import 'package:gupshop/models/text_message.dart';
 import 'package:gupshop/modules/Presence.dart';
-import 'package:gupshop/notifications/NotificationsManager.dart';
-import 'package:gupshop/notifications/application/individualChatNotifier.dart';
+import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/notifications/application/notifier.dart';
-import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
+import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
+import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/conversation_service.dart';
-import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/service/getConversationId.dart';
@@ -238,6 +238,14 @@ class _IndividualChatState extends State<IndividualChat> {
     streambuilder without initializing in initState also paginates alright.
      */
 
+
+//    NotificationHelper().registerNotification(widget.conversationId, widget.listOfFriendNumbers, widget.userName, widget.userPhoneNo);
+//    NotificationHelper().configLocalNotification(
+//      onSelectNotification:
+//    );
+
+    notificationInit();
+
     /// if new conversation, then conversationId == null
     if(widget.conversationId == null) {
       getConversationId();
@@ -256,7 +264,59 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
 
+  notificationInit(){
+    Notifier notifier = new Notifier();
+    print("notificationInit");
+    notifier.registerNotification(widget.conversationId, widget.listOfFriendNumbers, widget.userName, widget.userPhoneNo);
+    notifier.configLocalNotification(
+        onSelectNotification: onSelectNotification
+    );
+  }
 
+  Future<void> onSelectNotification(String payload) async{
+    print("onSelectNotification : $payload");
+    /// deserializing our data
+    Map<String, dynamic> map = jsonDecode(payload);
+
+
+    /// payload for android and iOS is different
+    String notificationFromNumberIndividual = map[TextConfig.notificationFromNumberIndividual];
+    //String notificationFromName = map[TextConfig.notificationFromName];
+//   List<dynamic> notificationFromNumber = map[TextConfig.notificationFromNumber];
+//    print("payload in onSelectNotification : ${notificationFromNumber}");
+    String notifierConversationId = map[TextConfig.notifierConversationId];
+    print("notifierConversationId in onSelectNotification: $notifierConversationId");
+    //print("notificationFromNumber : $notificationFromNumber");
+    //print("notificationFromName : $notificationFromName");
+
+
+    /// get listOfFriendNumbers from firebase
+    ConversationMetaData conversationMetaData = new ConversationMetaData(myNumber: widget.userPhoneNo, conversationId: notifierConversationId);
+    List<dynamic> listOfFriendNumbers = await conversationMetaData.listOfNumbersOfConversationExceptMe();
+    print("listOfFriendNumbers from firebase : $listOfFriendNumbers");
+
+    /// get Name:
+    String name = await conversationMetaData.getGroupName();
+    print("groupName : $name");
+    if(name == null ){
+      print("widget.userPhoneNo in onSelectNotification : ${widget.userPhoneNo}");
+      print("widget.userPhoneNo in notificationFromNumberIndividual : ${notificationFromNumberIndividual}");
+      name = await GetFromFriendsCollection(userNumber: widget.userPhoneNo,friendNumber: notificationFromNumberIndividual).getFriendName();
+      print("individual name : $name");
+    }
+
+//    await NavigateToIndividualChat(
+//      conversationId:notifierConversationId,
+//      listOfFriendNumbers: listOfFriendNumbers,
+//      friendName: name,
+//
+//      userPhoneNo: widget.userPhoneNo,
+//      userName: widget.userName,
+//    ).navigateNoBrackets(context);
+
+
+
+  }
 
   @override
   Widget build(BuildContext context){
@@ -296,12 +356,6 @@ class _IndividualChatState extends State<IndividualChat> {
 
 
   buildWidget(){
-    Notifier().foreGround(
-      currentChatWithNumber: widget.listOfFriendNumbers,
-      currentConversationId: widget.conversationId,
-      customContext: context,
-    );
-
     return widget.groupDeleted == true ?
     BlankScreen(message: 'This group is Deleted !',) :
     (widget.notGroupMemberAnymore == false || widget.notGroupMemberAnymore == null) ?

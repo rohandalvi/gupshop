@@ -22,4 +22,5 @@ class CollectionPaths{
     return c;
   }
   static CollectionReference conversationMetadataCollectionPath = getBase(TextConfig.conversationMetadataCollectionName);
+  static CollectionReference bazaarCategoriesCollectionPath =  getBase(TextConfig.bazaarCategoriesCollectionName);
 }

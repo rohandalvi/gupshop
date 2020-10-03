@@ -84,10 +84,12 @@ class TextConfig{
   static const String videoChatType = "VideoChat";
   static const String audioChatType = "AudioChat";
   static const String bazaarRatingAddedType = "bazaarRatingAdded";
-  static const String payLoadNotification = "notification";
-  static const String payLoadTitle = "title";
-  static const String payLoadBody = "body";
-  static const String payLoadData = "data";
+  static const String notificationAndroid = "notification";
+  static const String iosAps = "aps";
+  static const String alert = "alert";
+  static const String title = "title";
+  static const String body = "body";
+  static const String data = "data";
 
 
   /// ======================================================================== ///
@@ -104,6 +106,7 @@ class TextConfig{
     return "friends_$userPhoneNo";
   }
   static const String conversationMetadataCollectionName = 'conversationMetadata';
+  static const String bazaarCategoriesCollectionName = 'bazaarCategories';
 
   /// ======================================================================== ///
 
@@ -121,7 +124,13 @@ class TextConfig{
   static const String conversationMetadataCollectionGroupName = 'groupName';
 
 
+  /// friendsCollection
+  static const String conversationId = 'conversationId';
+  static const String nameList = 'nameList';
 
+  /// bazaarCategories
+  static const String nameBazaarCategories = 'name';
+  static const String subCategoriesBazaarCategories = 'subCategories';
 
-  /// ======================================================================== ///
+/// ======================================================================== ///
 }

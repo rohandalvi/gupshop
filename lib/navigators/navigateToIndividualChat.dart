@@ -25,6 +25,7 @@ class NavigateToIndividualChat{
   navigate(BuildContext context,
       //List<dynamic> listOfFriendNumbers
       ){
+    print("in NavigateToIndividualChat");
     return(){
       Navigator.push(
         context,
@@ -47,6 +48,7 @@ class NavigateToIndividualChat{
   navigateNoBrackets(BuildContext context,
       //List<dynamic> listOfFriendNumbers
       ){
+    print("in NavigateToIndividualChat");
     Navigator.push(
       context,
       MaterialPageRoute(//to send conversationId along with the navigator to the next page

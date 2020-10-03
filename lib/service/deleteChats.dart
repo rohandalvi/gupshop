@@ -1,11 +1,11 @@
-import 'package:gupshop/deleteFromFirebase/deleteHelper.dart';
+import 'package:gupshop/deleteFromFirebase/friendsCollection.dart';
 import 'package:gupshop/deleteFromFirebase/deleteMembersFromGroup.dart';
 
 class DeleteChats{
 
   deleteGroupChat(String documentID, String myNumber, List<dynamic> memberList  ){
     DeleteMembersFromGroup().deleteConversationMetadata(documentID);///conversationMetadata
-    DeleteHelper().deleteFromFriendsCollection(myNumber, documentID);///friends collection
+    FriendsCollection().deleteFromFriendsCollection(myNumber, documentID);///friends collection
     /// delete from the recentChats of all members(memberList, which includes me too)
     /// delete from the friends collection of all members(memberList, which includes me too)
     for(int i=0; i<memberList.length; i++){

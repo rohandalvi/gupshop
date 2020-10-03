@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/chatListDisplay.dart';
-import 'package:gupshop/deleteFromFirebase/deleteHelper.dart';
+import 'package:gupshop/deleteFromFirebase/friendsCollection.dart';
 import 'package:gupshop/deleteFromFirebase/deleteMembersFromGroup.dart';
 import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
 import 'package:gupshop/service/conversationDetails.dart';
@@ -84,7 +84,7 @@ class _ChatListDataState extends State<ChatListData> {
               /// also delete from profilePictures
 
               //DeleteMembersFromGroup().deleteConversationMetadata(documentID);///conversationMetadata
-              DeleteHelper().deleteFromFriendsCollection(widget.myNumber, documentID);///friends collection
+              FriendsCollection().deleteFromFriendsCollection(widget.myNumber, documentID);///friends collection
               DeleteMembersFromGroup().deleteAGroupMember(widget.myNumber, documentID);
               /// delete from the recentChats of all members(memberList, which includes me too)
               /// delete from the friends collection of all members(memberList, which includes me too)

@@ -108,6 +108,8 @@ class TextConfig{
   static const String conversationMetadataCollectionName = 'conversationMetadata';
   static const String bazaarCategoriesCollectionName = 'bazaarCategories';
   static const String bazaarRatingNumbersCollectionName = 'bazaarRatingNumbers';
+  static const String bazaarReviewsCollectionName = 'bazaarReviews';
+  static const String reviewsCollectionName = 'reviews';
 
   /// ======================================================================== ///
 

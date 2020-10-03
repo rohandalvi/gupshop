@@ -8,15 +8,11 @@ class CollectionPaths{
   }
 
   static CollectionReference usersLocationCollectionPath = getBase(TextConfig.usersLocationCollectionName);
-  //Firestore.instance.collection(TextConfig.usersLocationCollectionName);
   static CollectionReference bazaarWalasLocationCollectionPath =  getBase(TextConfig.bazaarWalasLocationCollectionName);
-  //Firestore.instance.collection(TextConfig.bazaarWalasLocationCollectionName);
+  static CollectionReference bazaarReviewsCollectionPath =  getBase(TextConfig.bazaarReviewsCollectionName);
   static CollectionReference usersCollectionPath =  getBase(TextConfig.usersCollectionName);
-  //Firestore.instance.collection(TextConfig.usersCollectionName);
   static CollectionReference recentChatsCollectionPath =  getBase(TextConfig.recentChatsCollectionName);
-  //Firestore.instance.collection(TextConfig.recentChatsCollectionName);
   static CollectionReference profilePicturesChatsCollectionPath =  getBase(TextConfig.profilePicturesCollectionName);
-  //Firestore.instance.collection(TextConfig.profilePicturesCollectionName);
   static CollectionReference getFriendsCollectionPath({String userPhoneNo}){
     CollectionReference c =  Firestore.instance.collection(TextConfig.getFriendsCollectionName(userPhoneNo: userPhoneNo));
     return c;

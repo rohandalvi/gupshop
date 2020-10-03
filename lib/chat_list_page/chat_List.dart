@@ -4,6 +4,7 @@ import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/chatListData.dart';
 import 'package:gupshop/chat_list_page/chatListSingleton.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
+import 'package:gupshop/retriveFromFirebase/recentChats.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/service/showMessageForFirstConversation.dart';
 
@@ -83,8 +84,9 @@ class ChatListState extends State<ChatList> {
         },
         child: Material(
           child: StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance.collection("recentChats").document(
-                  myNumber).collection("conversations").orderBy("timeStamp", descending: true).snapshots(),
+              stream: RecentChats().orderedStream(userNumber: myNumber),
+//              Firestore.instance.collection("recentChats").document(
+//                  myNumber).collection("conversations").orderBy("timeStamp", descending: true).snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.data == null) return Center(child: CircularProgressIndicator());///to avoid error - "getter document was called on null"
 

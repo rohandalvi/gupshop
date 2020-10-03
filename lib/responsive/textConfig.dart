@@ -137,6 +137,9 @@ class TextConfig{
   static const String dislikesBazaarRatingNumbers = 'dislikes';
   static const String likesBazaarRatingNumbers = 'likes';
 
+  /// recentChats:
+  static const String conversationsRecentChats = 'conversations';
+  static const String timeStampRecentChats = 'timeStamp';
 
 /// ======================================================================== ///
 }

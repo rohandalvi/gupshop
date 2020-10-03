@@ -4,6 +4,7 @@ import 'deleteMembersFromGroup.dart';
 
 class FriendsCollection{
 
+  /// as example in import
   CollectionReference path(String friendNumber){
     CollectionReference c =  pushToFriendsCollection.FriendsCollection(userPhoneNo: friendNumber).path();
     return c;

@@ -128,6 +128,10 @@ class TextConfig{
   /// friendsCollection
   static const String conversationId = 'conversationId';
   static const String nameList = 'nameList';
+  static const String phone = 'phone';
+  static const String groupName = 'groupName';
+  static const String isMe = 'isMe';
+
 
   /// bazaarCategories
   static const String nameBazaarCategories = 'name';

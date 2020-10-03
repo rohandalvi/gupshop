@@ -147,5 +147,8 @@ class TextConfig{
   static const String conversationsRecentChats = 'conversations';
   static const String timeStampRecentChats = 'timeStamp';
 
+  /// reviews:
+  static const String timeStampReviews = 'timeStamp';
+
 /// ======================================================================== ///
 }

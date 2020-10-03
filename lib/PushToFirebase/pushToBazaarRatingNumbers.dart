@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/responsive/collectionPaths.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 
 class PushToBazaarRatingNumber{
   String userNumber;
@@ -7,11 +9,15 @@ class PushToBazaarRatingNumber{
 
   PushToBazaarRatingNumber({this.userNumber, this.category, this.subCategory });
 
-  push(){
-    Firestore.instance.collection("bazaarRatingNumbers").document(userNumber).setData({}, merge: true);
+  DocumentReference path(String userNumber){
+    DocumentReference dc = CollectionPaths.bazaarRatingNumbersCollectionPath.document(userNumber);
+    return dc;
+  }
 
-    Firestore.instance.collection("bazaarRatingNumbers").document(userNumber).
-    collection(category).document(subCategory).setData({'dislikes' : 0, 'likes' : 0});
+  push(){
+    path(userNumber).setData({}, merge: true);
+
+    path(userNumber).collection(category).document(subCategory).setData({TextConfig.dislikesBazaarRatingNumbers : 0, TextConfig.likesBazaarRatingNumbers : 0});
   }
 
 }

@@ -107,6 +107,7 @@ class TextConfig{
   }
   static const String conversationMetadataCollectionName = 'conversationMetadata';
   static const String bazaarCategoriesCollectionName = 'bazaarCategories';
+  static const String bazaarRatingNumbersCollectionName = 'bazaarRatingNumbers';
 
   /// ======================================================================== ///
 
@@ -131,6 +132,11 @@ class TextConfig{
   /// bazaarCategories
   static const String nameBazaarCategories = 'name';
   static const String subCategoriesBazaarCategories = 'subCategories';
+
+  /// bazaarRatingNumbers
+  static const String dislikesBazaarRatingNumbers = 'dislikes';
+  static const String likesBazaarRatingNumbers = 'likes';
+
 
 /// ======================================================================== ///
 }

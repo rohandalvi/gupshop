@@ -92,6 +92,8 @@ dependencies:
   firebase_messaging: ^6.0.16 # for push notifications
   flutter_local_notifications: ^1.4.4+4 # for local notifications
 
+  passcode_screen: ^1.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/onboarding/welcomeScreen.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/widgets/passcode.dart';
+import 'package:passcode_screen/passcode_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,7 +28,8 @@ class MyApp extends StatelessWidget {
               ),
               title: 'Chat home',
               debugShowCheckedModeBanner: false,
-              home: WelcomeScreen(),
+              home: Passcode(),
+              //WelcomeScreen(),
             );
           }
         );

@@ -178,7 +178,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
     String placeholder = BazaarConfig(category: widget.category, categoryData: widget.categoryData).getPickLocation();
     //bool showBackButton = false;
 
-    CustomShowDialog().main(context, BazaarConfig.loadingMap);
+    CustomShowDialog().main(context, BazaarConfig.loadingMap, barrierDismissible: false);
     Map<String, dynamic> result = await ChangeLocationInSearch(userNumber: userPhoneNo,
         placeholder: placeholder, )
         .getNewUserGeohash(context);

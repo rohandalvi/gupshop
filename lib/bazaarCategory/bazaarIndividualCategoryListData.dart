@@ -272,6 +272,8 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
           /// placeholder till map is generated:
           /// show a dialog box with CircularProgressIndicator
+//          List<Widget> actions = new List();
+//          actions.add(CustomText(text: '...',));
           CustomShowDialog().main(context, BazaarConfig.loadingMap);
 
           String userPhoneNo = await UserDetails().getUserPhoneNoFuture();

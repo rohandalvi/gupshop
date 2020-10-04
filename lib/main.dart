@@ -10,6 +10,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print("in MyApp");
     /// LayoutBuilder is a widget which provides the dimensions of its parent so
     /// we can know how much space we have for the widget and can build it our
     /// child accordingly
@@ -25,7 +26,6 @@ class MyApp extends StatelessWidget {
               ),
               title: 'Chat home',
               debugShowCheckedModeBanner: false,
-//      home: Home(userPhoneNo: '+19194134191', userName: 'Purva Dalvi',),
               home: WelcomeScreen(),
             );
           }

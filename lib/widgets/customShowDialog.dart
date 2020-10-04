@@ -7,9 +7,10 @@ class CustomShowDialog{
   //CustomShowDialog({});
 //  CustomShowDialog({this.actions});
 
-  main(BuildContext context,String text,){
+  main(BuildContext context,String text,{bool barrierDismissible}){
     print("in CustomShowDialog");
     return showDialog(
+      barrierDismissible: barrierDismissible,
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
           title: Text(text),

@@ -30,9 +30,9 @@ class CustomPasscode extends StatelessWidget {
   Widget build(BuildContext context) {
     return PasscodeScreen(
       //backgroundColor:fainterGray.withOpacity(0.8),
-      title: CustomText(text: titleText,fontSize: WidgetConfig.welcomeSize, textColor: ourBlack,) ,/// size 28
-      circleUIConfig: circleUIConfig == null ? CircleUIConfig(borderColor: ourBlack, fillColor: ourBlack, circleSize: WidgetConfig.circleSizeThirty) :circleUIConfig,
-      keyboardUIConfig: keyboardUIConfig == null ? KeyboardUIConfig(digitBorderWidth: 2, primaryColor: ourBlack) : keyboardUIConfig,
+      title: CustomText(text: titleText,fontSize: WidgetConfig.welcomeSize, textColor: white,) ,/// size 28
+      circleUIConfig: circleUIConfig == null ? CircleUIConfig(borderColor: white, fillColor: white, circleSize: WidgetConfig.circleSizeThirty) :circleUIConfig,
+      keyboardUIConfig: keyboardUIConfig == null ? KeyboardUIConfig(digitBorderWidth: 2, primaryColor: white) : keyboardUIConfig,
       passwordEnteredCallback: passwordEnteredCallback,
       cancelButton: CustomText(text: TextConfig.passcodeCancel,textColor: white,fontSize: WidgetConfig.bigFontSize,),
       deleteButton: CustomText(text: TextConfig.passcodeDelete,textColor: white,fontSize: WidgetConfig.bigFontSize,),

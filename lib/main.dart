@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
               title: 'Chat home',
               debugShowCheckedModeBanner: false,
               home:
-              UnlockPasscode(),
-              //WelcomeScreen(),
+              //UnlockPasscode(),
+              WelcomeScreen(),
             );
           }
         );

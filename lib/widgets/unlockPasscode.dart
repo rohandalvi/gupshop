@@ -25,7 +25,8 @@ class _UnlockPasscodeState extends State<UnlockPasscode> {
       cancelCallback: _onPasscodeCancelled,
       isValidCallback: (){
         if (isAuthenticated){
-          NavigateToWelcomeScreen().navigateNoBrackets(context);
+//          NavigateToWelcomeScreen().navigateNoBrackets(context);
+        Navigator.pop(context);
         }
       },
     );

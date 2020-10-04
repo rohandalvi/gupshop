@@ -90,6 +90,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     var duration = new Duration(seconds: 3);
 
+    await Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => UnlockPasscode(),
+      ),
+    );
+
 
     if ((isFirstTime != null && userName != null && userPhoneNo != null) &&
         isFirstTime == true) {

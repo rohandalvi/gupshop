@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/responsive/sizeConfig.dart';
+import 'package:gupshop/responsive/widgetConfig.dart';
 
 class CustomText extends StatelessWidget {
   String text;
@@ -18,8 +19,8 @@ class CustomText extends StatelessWidget {
   final TextAlign textAlign;
 
   CustomText({Key key, @required this.text, this.fontSize, this.textColor, this.fontWeight, this.textAlign}) :
-        standardFontSize =  SizeConfig.textMultiplier * 2,/// 16
-        bigFontSize = SizeConfig.textMultiplier * 2.5,
+        standardFontSize =  WidgetConfig.standardFontSize,/// 16
+        bigFontSize = WidgetConfig.bigFontSize,
         subtitleFontSize = SizeConfig.textMultiplier * 1.5,
         welcomeTitleSize =  SizeConfig.textMultiplier * 11,
         welcomeSize = SizeConfig.textMultiplier * 4;

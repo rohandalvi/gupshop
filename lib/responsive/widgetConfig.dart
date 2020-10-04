@@ -75,6 +75,13 @@ class WidgetConfig{
   static double standardFontSize = SizeConfig.textMultiplier * 2;/// 16
   static double bigFontSize = SizeConfig.textMultiplier * 2.5;
   static double fontSizeTwelve = SizeConfig.textMultiplier * 1.47;/// 12/8.16
+  static double subtitleFontSize = SizeConfig.textMultiplier * 1.5;
+  static double welcomeTitleSize =  SizeConfig.textMultiplier * 11;
+  static double welcomeSize = SizeConfig.textMultiplier * 4;
+
+
+  /// passcode
+  static double circleSizeThirty = SizeConfig.widthMultiplier * 6.94444444444;/// 30/4.32
 
   /// videoThumbnail
   getChatMessageWidth(BuildContext context){

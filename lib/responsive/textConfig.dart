@@ -18,6 +18,12 @@ class TextConfig{
   static String bazaarChangeNameFlushbarMessage = "Please enter a name";
   static String bazaarWriteReview = 'Please write your review';
 
+
+  /// passcode:
+  static String passcodeCancel = 'Cancel';
+  static String passcodeDelete = 'Delete';
+
+
   /// nameScreen :
   static const String enterName = "Enter your Name";
 

@@ -64,7 +64,7 @@ class _AddressListBodyUIState extends State<AddressListBodyUI> {
 
             /// placeholder till map is generated:
             /// show a dialog box with CircularProgressIndicator
-            CustomShowDialog().main(context, BazaarConfig.loadingMap);
+            CustomShowDialog().main(context, BazaarConfig.loadingMap, barrierDismissible: false);
 
             LatLng latLng = await ChangeLocationInSearch(userNumber: widget.userPhoneNo).getLatLang(context);
 

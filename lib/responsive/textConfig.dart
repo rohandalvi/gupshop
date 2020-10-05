@@ -26,6 +26,7 @@ class TextConfig{
   static String diableApplock = 'Disable App lock';
   /// unlockPasscode:
   static String enterAppPasscode = 'Enter App Passcode';
+  static String changeAppPasscode = 'Change App Passcode';
 
 
   /// nameScreen :

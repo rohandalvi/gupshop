@@ -79,50 +79,59 @@ class HomeAppBar extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            FutureBuilder(
-                              future: UserDetails().getPasscodeStatus(),
-                              builder: (context, snapshot) {
-                                if(snapshot.connectionState == ConnectionState.done){
-                                  bool enabled = snapshot.data;
-                                  String icon;
-                                  if(enabled == true) icon = IconConfig.unlock;
-                                  else icon = IconConfig.lock;
+                            Flexible(
+                              flex : 1,
+                              child: FutureBuilder(
+                                future: UserDetails().getPasscodeStatus(),
+                                builder: (context, snapshot) {
+                                  if(snapshot.connectionState == ConnectionState.done){
+                                    bool enabled = snapshot.data;
+                                    String icon;
+                                    if(enabled == true) icon = IconConfig.unlock;
+                                    else icon = IconConfig.lock;
 
-                                  return CustomIconButton(
-                                    iconNameInImageFolder: icon,
-                                    onPressed: (){
-                                      Navigator.push(
-                                        context,
-                                        PageRouteBuilder(
-                                          pageBuilder: (context, animation, secondaryAnimation) => SetPasscode(),
-                                        ),
-                                      );
-                                    },
+                                    return CustomIconButton(
+                                      iconNameInImageFolder: icon,
+                                      onPressed: (){
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation, secondaryAnimation) => SetPasscode(),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  } return CustomIconButton(
+                                    iconNameInImageFolder: IconConfig.lock,
                                   );
-                                } return CustomIconButton(
-                                  iconNameInImageFolder: IconConfig.lock,
-                                );
-                              }
+                                }
+                              ),
                             ),
                             /// create group
-                            CustomIconButton(
-                              iconNameInImageFolder: IconConfig.groupIcon,
-                              onPressed: (){
-                                CustomNavigator().navigateToCreateGroup(context, userName, userPhoneNo, false, null);
-                              },
+                            Flexible(
+                              flex: 1,
+                              child: CustomIconButton(
+                                iconNameInImageFolder: IconConfig.groupIcon,
+                                onPressed: (){
+                                  CustomNavigator().navigateToCreateGroup(context, userName, userPhoneNo, false, null);
+                                },
+                              ),
                             ),
                             /// search icon
-                            Builder(
-                              builder: (context) => CustomIconButton(//Right side icons
-                                iconNameInImageFolder: 'advancedSearch',//search icon
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ContactSearchPage(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
-                                      )
-                                  );
-                                },//imp for pressing effect. Also gives a sound effect by default
+                            Flexible(
+                              flex: 1,
+                              child: Builder(
+                                builder: (context) => CustomIconButton(//Right side icons
+                                  iconNameInImageFolder: 'advancedSearch',//search icon
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ContactSearchPage(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
+                                        )
+                                    );
+                                  },//imp for pressing effect. Also gives a sound effect by default
+                                ),
                               ),
                             ),
                           ],

@@ -7,7 +7,6 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/passcode/appLockMethods.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/CustomPasscode.dart';
-import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -37,7 +36,7 @@ class _SetPasscodeState extends State<SetPasscode> {
       child: Stack(
         children: <Widget>[
           CustomPasscode(
-            titleText: TextConfig.enterAppPasscode,/// size 28
+            titleText: isPasscodeEnabled == true ? TextConfig.changeAppPasscode : TextConfig.enterAppPasscode,/// size 28
             passwordEnteredCallback: _onPasscodeEntered,
             shouldTriggerVerification: _verificationNotifier.stream,
             cancelCallback: _onPasscodeCancelled,

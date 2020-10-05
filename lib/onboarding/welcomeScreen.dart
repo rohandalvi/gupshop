@@ -90,6 +90,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     var duration = new Duration(seconds: 3);
 
+    /// UnlockPasscode screen:
     await Navigator.push(
       context,
       PageRouteBuilder(
@@ -98,6 +99,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
 
 
+    /// Home screen:
     if ((isFirstTime != null && userName != null && userPhoneNo != null) &&
         isFirstTime == true) {
       // orginral inspiration value !isFirstTime
@@ -110,7 +112,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ), //pass Name() here and pass Home()in name_screen
           ));
       //return new Timer(duration,navigateToHomePage);
-    }
+    } /// loginScreen:
     prefs.setBool('isFirstTime',
         true); // the inspiration page actually has this value as false
     return Navigator.push(

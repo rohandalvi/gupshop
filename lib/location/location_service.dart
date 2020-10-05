@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geocoder/geocoder.dart' as gc;
+import 'package:geocoder/model.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -131,16 +132,21 @@ class LocationService {
 
   getAddressFromLatLang(double latitude,  double longitude) async{
     var coordinates = new gc.Coordinates(latitude, longitude);
-    var addressList = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
+    List<gc.Address> addressList = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
     print("addressList in getAddressFromLatLang : $addressList");
     print("addressList-0 in getAddressFromLatLang : ${addressList[0].addressLine}");
     print("addressList-1 in getAddressFromLatLang : ${addressList[1]}");
-    print("addressList-2 in getAddressFromLatLang : ${addressList[2]}");
-    var address = addressList[2].addressLine;
+    print("addressList-2 in getAddressFromLatLang : ${addressList[2].addressLine}");
+    String address = getAddressFromAddressList(addressList);
     print("address in getAddressFromLatLang : $address");
     return address;
   }
 
+  String getAddressFromAddressList(List<Address> addressList){
+    for(int i =0; i<addressList.length; i++){
+      if(addressList[i] != null) return addressList[i].addressLine;
+    }return "Unkown Address";
+  }
 
   /// geohash change here
   //helpers

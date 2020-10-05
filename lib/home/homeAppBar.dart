@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
+import 'package:gupshop/passcode/setPasscode.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/contactSearch/contactSearchPage.dart';
@@ -77,6 +78,17 @@ class HomeAppBar extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
+                            CustomIconButton(
+                              iconNameInImageFolder: IconConfig.lock,
+                              onPressed: (){
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, animation, secondaryAnimation) => SetPasscode(),
+                                  ),
+                                );
+                              },
+                            ),
                             /// create group
                             CustomIconButton(
                               iconNameInImageFolder: IconConfig.groupIcon,

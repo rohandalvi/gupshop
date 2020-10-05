@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/navigators/navigateToWelcomeScreen.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/CustomPasscode.dart';
 
 class UnlockPasscode extends StatefulWidget {
@@ -19,7 +20,7 @@ class _UnlockPasscodeState extends State<UnlockPasscode> {
   @override
   Widget build(BuildContext context) {
     return CustomPasscode(
-      titleText: 'Enter App Passcode',/// size 28
+      titleText: TextConfig.enterAppPasscode,/// size 28
       passwordEnteredCallback: _onPasscodeEntered,
       shouldTriggerVerification: _verificationNotifier.stream,
       cancelCallback: _onPasscodeCancelled,

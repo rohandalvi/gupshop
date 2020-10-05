@@ -21,4 +21,5 @@ class IconConfig{
   static String locationPin = 'locationPin';
   static String location = 'location';
   static String save = 'save';
+  static String lock = 'lock';
 }

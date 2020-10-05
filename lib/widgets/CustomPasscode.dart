@@ -20,10 +20,12 @@ class CustomPasscode extends StatelessWidget {
   final String titleText;
   final Stream<bool> shouldTriggerVerification;
   final CancelCallback cancelCallback;
+  final Widget cancelButton;
+  final Widget deleteButton;
 
   CustomPasscode({this.isValidCallback,this.circleUIConfig, this.keyboardUIConfig,
     this.opaque, this.digits, this.passwordEnteredCallback, this.titleText,
-    this.shouldTriggerVerification, this.cancelCallback});
+    this.shouldTriggerVerification, this.cancelCallback, this.cancelButton, this.deleteButton});
 
 
   @override
@@ -34,8 +36,8 @@ class CustomPasscode extends StatelessWidget {
       circleUIConfig: circleUIConfig == null ? CircleUIConfig(borderColor: white, fillColor: white, circleSize: WidgetConfig.circleSizeThirty) :circleUIConfig,
       keyboardUIConfig: keyboardUIConfig == null ? KeyboardUIConfig(digitBorderWidth: 2, primaryColor: white) : keyboardUIConfig,
       passwordEnteredCallback: passwordEnteredCallback,
-      cancelButton: CustomText(text: TextConfig.passcodeCancel,textColor: white,fontSize: WidgetConfig.bigFontSize,),
-      deleteButton: CustomText(text: TextConfig.passcodeDelete,textColor: white,fontSize: WidgetConfig.bigFontSize,),
+      cancelButton: cancelButton == null ?CustomText(text: TextConfig.passcodeCancel,textColor: white,fontSize: WidgetConfig.bigFontSize,) : cancelButton,
+      deleteButton: deleteButton == null ?CustomText(text: TextConfig.passcodeDelete,textColor: white,fontSize: WidgetConfig.bigFontSize,) : deleteButton,
       shouldTriggerVerification: shouldTriggerVerification,
       cancelCallback: cancelCallback,
       digits: digits,

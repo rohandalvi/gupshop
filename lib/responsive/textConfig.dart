@@ -22,6 +22,10 @@ class TextConfig{
   /// passcode:
   static String passcodeCancel = 'Cancel';
   static String passcodeDelete = 'Delete';
+  static String passcodeSave = 'Save';
+  static String diableApplock = 'Disable App lock';
+  /// unlockPasscode:
+  static String enterAppPasscode = 'Enter App Passcode';
 
 
   /// nameScreen :
@@ -49,6 +53,9 @@ class TextConfig{
   static const String myProfilePictureView = 'myProfilePictureView';
   static const String bazaarCategory = 'BazaarCategory';
   static const String bazaarSubCategory = 'BazaarSubCategory';
+
+  /// userDetails:
+  static const String passcode = 'passcode';
 
   /// for plus options in individual chat
   static const String pickGalleryImage = 'Pick image from  Gallery';

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/passcode/appLockMethods.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/CustomPasscode.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
@@ -58,6 +59,7 @@ class _SetPasscodeState extends State<SetPasscode> {
               child: CustomText(text: TextConfig.diableApplock,textColor: white,),
               borderSideColor: BorderSide(color : deleteColor),
               onPressed: () async{
+                AppLockMethods().disableAppLock(context: context);
                 await UserDetails().diablePasscode();
                 Navigator.pop(context);
               },
@@ -85,7 +87,10 @@ class _SetPasscodeState extends State<SetPasscode> {
 
     _verificationNotifier.add(isValid);
     if (isValid) {
-      print("in isValid");
+      /// setting the applock to enable mode
+      AppLockMethods().enableAppLock(context: context);
+
+      /// saving the passcode in sharedPreferences for later use
       await UserDetails().setPasscode(enteredPasscode);
     }
   }

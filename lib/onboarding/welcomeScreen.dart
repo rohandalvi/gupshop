@@ -91,12 +91,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     var duration = new Duration(seconds: 3);
 
     /// UnlockPasscode screen:
-    await Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => UnlockPasscode(),
-      ),
-    );
+    /// if applock is enabled
+//    await Navigator.push(
+//      context,
+//      PageRouteBuilder(
+//        pageBuilder: (context, animation, secondaryAnimation) => UnlockPasscode(),
+//      ),
+//    );
 
 
     /// Home screen:

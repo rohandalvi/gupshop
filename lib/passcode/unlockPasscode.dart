@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToWelcomeScreen.dart';
+import 'package:gupshop/passcode/appLockMethods.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/CustomPasscode.dart';
 
@@ -19,6 +21,7 @@ class _UnlockPasscodeState extends State<UnlockPasscode> {
 
   @override
   Widget build(BuildContext context) {
+    print("in unlockPasscode");
     return CustomPasscode(
       titleText: TextConfig.enterAppPasscode,/// size 28
       passwordEnteredCallback: _onPasscodeEntered,
@@ -26,8 +29,9 @@ class _UnlockPasscodeState extends State<UnlockPasscode> {
       cancelCallback: _onPasscodeCancelled,
       isValidCallback: (){
         if (isAuthenticated){
+          AppLockMethods().didUnlock(context: context, unlock: true);
 //          NavigateToWelcomeScreen().navigateNoBrackets(context);
-        Navigator.pop(context);
+        //Navigator.pop(context);
         }
       },
     );
@@ -36,15 +40,21 @@ class _UnlockPasscodeState extends State<UnlockPasscode> {
 
   /// passwordEnteredCallback
   Future<void>_onPasscodeEntered(String enteredPasscode) async{
-    print("_onPasscodeEntered : $enteredPasscode");
-    bool isValid = '123456' == enteredPasscode;
-    _verificationNotifier.add(isValid);
-    if (isValid) {
-      setState(() {
-        this.isAuthenticated = isValid;
-        //widget.isValidCallback = _isValidCallBack(isValid);
-      });
+    String code = await UserDetails().getPasscode();
+    /// the user would come to this screen only if he is already enabled
+    /// applock. So there is no need to check if 'code' has value or is empty
+
+    if(code.isNotEmpty){
+      bool isValid = code == enteredPasscode;
+      _verificationNotifier.add(isValid);
+      if (isValid) {
+        setState(() {
+          this.isAuthenticated = isValid;
+          //widget.isValidCallback = _isValidCallBack(isValid);
+        });
+      }
     }
+
   }
 
   /// cancelCallback

@@ -14,4 +14,7 @@ class IntConfig{
 
   /// friends collection
   static int nameOne = 0;
+
+  /// passcode
+  static int latencyThirty = 30;
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
 import 'package:gupshop/passcode/setPasscode.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
@@ -78,16 +79,30 @@ class HomeAppBar extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            CustomIconButton(
-                              iconNameInImageFolder: IconConfig.lock,
-                              onPressed: (){
-                                Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder: (context, animation, secondaryAnimation) => SetPasscode(),
-                                  ),
+                            FutureBuilder(
+                              future: UserDetails().getPasscodeStatus(),
+                              builder: (context, snapshot) {
+                                if(snapshot.connectionState == ConnectionState.done){
+                                  bool enabled = snapshot.data;
+                                  String icon;
+                                  if(enabled == true) icon = IconConfig.unlock;
+                                  else icon = IconConfig.lock;
+
+                                  return CustomIconButton(
+                                    iconNameInImageFolder: icon,
+                                    onPressed: (){
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation, secondaryAnimation) => SetPasscode(),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                } return CustomIconButton(
+                                  iconNameInImageFolder: IconConfig.lock,
                                 );
-                              },
+                              }
                             ),
                             /// create group
                             CustomIconButton(

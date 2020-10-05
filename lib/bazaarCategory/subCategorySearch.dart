@@ -113,6 +113,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
 //        if(widget.categoryData == "deliveryErrands" || widget.categoryData == 'drivers'){
 
           Map<String, dynamic> userGeohashAndAddressMap = await getLocation();
+          print("userGeohashAndAddressMap : $userGeohashAndAddressMap");
           userGeohash = userGeohashAndAddressMap[TextConfig.usersLocationCollectionGeoHashList];
           /// for exiting dialog:
           Navigator.pop(context);
@@ -183,6 +184,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
         placeholder: placeholder, )
         .getNewUserGeohash(context);
 
+    print("result in getLocation : $result");
     return result;
   }
 

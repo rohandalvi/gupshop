@@ -125,13 +125,19 @@ class LocationService {
 //    var addressList = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
     var address = await getAddressFromLatLang(latitude, longitude);
 
+    print("address in locationService : $address");
     return address;
   }
 
   getAddressFromLatLang(double latitude,  double longitude) async{
     var coordinates = new gc.Coordinates(latitude, longitude);
     var addressList = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
+    print("addressList in getAddressFromLatLang : $addressList");
+    print("addressList-0 in getAddressFromLatLang : ${addressList[0].addressLine}");
+    print("addressList-1 in getAddressFromLatLang : ${addressList[1]}");
+    print("addressList-2 in getAddressFromLatLang : ${addressList[2]}");
     var address = addressList[2].addressLine;
+    print("address in getAddressFromLatLang : $address");
     return address;
   }
 

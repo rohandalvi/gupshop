@@ -17,6 +17,7 @@ class ChangeLocationInSearch{
   ChangeLocationInSearch({this.userNumber, this.placeholder,this.showBackButton});
 
   Future<Map<String, dynamic>> getNewUserGeohash(BuildContext context) async{
+    print("in getNewUserGeohash");
     /// get lat lang:
     LatLng location = await getLatLang(context);
     double latitude = location.latitude;
@@ -24,7 +25,9 @@ class ChangeLocationInSearch{
 
     /// creating address from lat lang:
     Position position = new Position(latitude: latitude, longitude: longitude);
+    print("position in getNewUserGeohash : $position");
     String address = await getAddress(position);
+    print("address in getNewUserGeohash : $address");
 
     /// creating a name for the address:
     /// 1st check if the address already exists in firebase
@@ -42,6 +45,7 @@ class ChangeLocationInSearch{
       addressName = addressExists;
     }
 
+    print("addressName in getNewUserGeohash : $addressName");
     Map<String, dynamic> map = new Map();
     map[TextConfig.changeLocationInSearchAddressName] = addressName;
 
@@ -76,7 +80,9 @@ class ChangeLocationInSearch{
   }
 
   getAddress(Position location) async{
+    print("in getAddress : $location");
     String address = await LocationService().getAddress(location);
+    print("address in getAddress : $address");
     return address;
   }
 

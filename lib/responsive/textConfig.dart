@@ -82,6 +82,10 @@ class TextConfig{
   static const String no = 'No ';
   static const String nearYou = ' near you';
 
+  /// BazaarIndividualCategoryNameDpBuilder
+
+
+
   /// BazaarProfileSetVideo
   static const String tapToAddVideo = 'Tap to add video';
 
@@ -157,6 +161,12 @@ class TextConfig{
   /// bazaarRatingNumbers
   static const String dislikesBazaarRatingNumbers = 'dislikes';
   static const String likesBazaarRatingNumbers = 'likes';
+
+  /// bazaawalasBasicProfile
+  static const String namebazaawalasBasicProfile = 'name';
+  static const String thumbnailPicture = 'thumbnailPicture';
+  static const String businessName = 'businessName';
+  static const String homeService = 'homeService';
 
   /// recentChats:
   static const String conversationsRecentChats = 'conversations';

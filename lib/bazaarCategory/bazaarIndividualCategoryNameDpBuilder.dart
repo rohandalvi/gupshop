@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListDisplay.dart';
 import 'package:gupshop/bazaarHomeService/homeServiceText.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 
 class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
@@ -33,23 +34,23 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
           .getNameThumbnailPictureHomeService(),
       builder: (BuildContext context, AsyncSnapshot nameSnapshot) {
         if (nameSnapshot.connectionState == ConnectionState.done) {
-          businessName = nameSnapshot.data["businessName"];
-          name = nameSnapshot.data["name"];
+          businessName = nameSnapshot.data[TextConfig.businessName];
+          name = nameSnapshot.data[TextConfig.namebazaawalasBasicProfile];
           if(businessName != null){
             displayName = businessName;
           }else displayName = name;
-          thumbnailPicture = nameSnapshot.data["thumbnailPicture"];
-          homeService = nameSnapshot.data["homeService"];
+          thumbnailPicture = nameSnapshot.data[TextConfig.thumbnailPicture];
+          homeService = nameSnapshot.data[TextConfig.homeService];
 
           /// if homeService applicable and provides homeService:
-          if (nameSnapshot.data["homeService"] == true) {
+          if (nameSnapshot.data[TextConfig.homeService] == true) {
             homeServiceText = HomeServiceText(
                 categoryData: categoryData, subCategoryData: subCategoryData)
                 .uiDisplayText();
           }
 
           /// if homeService applicable and does not provides homeService:
-          else if (nameSnapshot.data["homeService"] == false) {
+          else if (nameSnapshot.data[TextConfig.homeService] == false) {
             homeServiceText = HomeServiceText(
                 categoryData: categoryData, subCategoryData: subCategoryData)
                 .uiDisplayTextNo();

@@ -95,8 +95,6 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   }
 
   visibility(){
-    print("showHomeServices : $showHomeServices");
-    print("homeServiceBool : $homeServiceBool");
     if(homeServiceBool == null) return false;/// to avoid error on UI
     if(showHomeServices == true && homeServiceBool == true) return true;
     if(showHomeServices == null) return true;

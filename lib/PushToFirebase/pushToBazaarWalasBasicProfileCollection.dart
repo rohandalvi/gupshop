@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/bazaarOnBoarding/bazaarTrace.dart';
+import 'package:gupshop/responsive/collectionPaths.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 
 class PushToBazaarWalasBasicProfile{
   String userPhoneNo;
@@ -24,46 +26,57 @@ class PushToBazaarWalasBasicProfile{
     this.categoryList, this.videoURL
   });
 
-  pushToFirebase() async{
-    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo).setData({}, merge: true);
 
-    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
-        .collection(categoryData).document(subCategoryData)
-        .setData({'bazaarWalaName': userName,'videoURL': videoURL, 'latitude': latitude,
-//      'longitude': longitude,'radius' : radius,'homeService' : homeService }, merge: true);
-      'longitude': longitude,'radius' : radius,}, merge: true);
+  DocumentReference path(String userPhoneNo){
+    DocumentReference dc = CollectionPaths.bazaarWalasBasicProfileCollectionPath.document(userPhoneNo);
+    return dc;
+  }
+
+  DocumentReference categoryDataPath(){
+    DocumentReference dc =  path(userPhoneNo).collection(categoryData).document(subCategoryData);
+    return dc;
+  }
+
+  DocumentReference categoryNamePath(String categoryName, String subCategoryName){
+    DocumentReference dc =  path(userPhoneNo).collection(categoryName).document(subCategoryName);
+    return dc;
+  }
+
+  pushToFirebase() async{
+    await path(userPhoneNo).setData({}, merge: true);
+
+    await categoryDataPath().setData({TextConfig.bazaarWalaName: userName,
+      TextConfig.videoURL: videoURL,
+      TextConfig.latitude: latitude,
+      TextConfig.longitude: longitude,TextConfig.radius : radius,}, merge: true);
   }
 
   pushHomeService() async{
-    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
-        .collection(categoryData).document(subCategoryData)
-        .setData({'homeService' : homeService }, merge: true);
+    await categoryDataPath().setData({TextConfig.homeService : homeService }, merge: true);
 
     ///Trace
     BazaarTrace(category: categoryData, subCategory: subCategoryData).homeServiceAdded();
   }
 
   pushAllPictures(String categoryName, String subCategoryName) async{
-    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
-        .collection(categoryName).document(subCategoryName)
-        .setData({"thumbnailPicture":thumbnailPicture, "otherPictureOne":otherPictureOne, "otherPictureTwo" :otherPictureTwo }, merge: true);
+    await categoryNamePath(categoryName, subCategoryName)
+        .setData({TextConfig.thumbnailPicture:thumbnailPicture,
+      TextConfig.otherPictureOne:otherPictureOne,
+      TextConfig.otherPictureTwo :otherPictureTwo }, merge: true);
   }
 
   pushThumbnailPicture(String categoryName, String subCategoryName) async{
-    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
-        .collection(categoryName).document(subCategoryName)
-        .setData({"thumbnailPicture":thumbnailPicture,}, merge: true);
+    await categoryNamePath(categoryName, subCategoryName)
+        .setData({TextConfig.thumbnailPicture:thumbnailPicture,}, merge: true);
   }
 
   pushOtherPictureOne(String categoryName, String subCategoryName) async{
-    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
-        .collection(categoryName).document(subCategoryName)
-        .setData({"otherPictureOne":otherPictureOne}, merge: true);
+    await categoryNamePath(categoryName, subCategoryName)
+        .setData({ TextConfig.otherPictureOne:otherPictureOne}, merge: true);
   }
 
   pushOtherPictureTwo(String categoryName, String subCategoryName) async{
-    await Firestore.instance.collection("bazaarWalasBasicProfile").document(userPhoneNo)
-        .collection(categoryName).document(subCategoryName)
-        .setData({"otherPictureTwo":otherPictureTwo}, merge: true);
+    await categoryNamePath(categoryName, subCategoryName)
+        .setData({TextConfig.otherPictureTwo:otherPictureTwo}, merge: true);
   }
 }

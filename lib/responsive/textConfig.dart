@@ -183,6 +183,8 @@ class TextConfig{
   static const String bazaarRatingNumbersCollectionName = 'bazaarRatingNumbers';
   static const String bazaarReviewsCollectionName = 'bazaarReviews';
   static const String reviewsCollectionName = 'reviews';
+  static const String bazaarWalasBasicProfileCollectionName = 'bazaarWalasBasicProfile';
+
 
   /// ======================================================================== ///
 
@@ -216,8 +218,15 @@ class TextConfig{
   /// bazaawalasBasicProfile
   static const String namebazaawalasBasicProfile = 'name';
   static const String thumbnailPicture = 'thumbnailPicture';
+  static const String otherPictureOne = 'otherPictureOne';
+  static const String otherPictureTwo = 'otherPictureTwo';
   static const String businessName = 'businessName';
   static const String homeService = 'homeService';
+  static const String bazaarWalaName = 'bazaarWalaName';
+  static const String videoURL = 'videoURL';
+  static const String latitude = 'latitude';
+  static const String longitude = 'longitude';
+  static const String radius = 'radius';
 
   /// conversationMetaData:
   static const String conversationMetadataAdmin = 'admin';

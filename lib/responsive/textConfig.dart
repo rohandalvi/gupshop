@@ -126,12 +126,44 @@ class TextConfig{
   static const String parlourServiceProviders = "Parlour Service providers";
   static const String repairsOrMaintenanceServiceProviders = "Repairs or Maintenance Service providers";
   static const String cleaningData = "cleaning";
+
   static const String deliveryErrandsData = "deliveryErrands";
   static const String driversData = "drivers";
   static const String foodData = "food";
   static const String groceryData = "grocery";
   static const String parlourData = "parlour";
+  static const String dairyData = "dairy";
+  static const String vegetableVendorData =  "vegetableVendor";
+  static const String fruitVendorData = "fruitVendor";
+  static const String hairCutData = "hairCut";
+  static const String massageData =  "massage";
+  static const String salonData = "salon";
+  static const String makeUpData = "makeUp";
   static const String repairsMaintenanceData = "repairsMaintenance";
+  static const String garbageCleaningData = "garbageCleaning";
+  static const String householdCleaningData = "householdCleaning";
+  static const String vehicleCleaningData = "vehicleCleaning";
+  static const String caterersData = "caterers";
+  static const String appliancesRepairsData =  "appliancesRepairs";
+  static const String carpentersData = "carpenters";
+  static const String electriciansData = "electricians";
+  static const String furnitureRepairsData =  "furnitureRepairs";
+  static const String paintersData =  "painters";
+  static const String plumbersData = "plumbers";
+  static const String propertyRepairsData = "propertyRepairs";
+  static const String techRepairsData = "techRepairs";
+  static const String vehicleRepairsData = "vehicleRepairs";
+
+  static const String householdCookingService = "householdCookingService";
+  static const String tiffinService = "tiffinService";
+  static const String foodGroceryHomeDelivery = "Do you deliver at home ? ";
+  static const String userFoodGroceryHomeDelivery = "Do you need home delivery ? ";
+  static const String uiTextHomeDelivery = "Home Delivery";
+  static const String uiTextNoHomeDelivery = "No Home Delivery";
+  static const String parlourRepairsMaintHomeService = "Do you provide services at home ? ";
+  static const String userParlourHomeService = "Do you need services at home ? ";
+  static const String uiTextHomeService = "Home Service";
+  static const String uiTextNoHomeService = "No Home Service";
 
   /// ======================================================================== ///
 

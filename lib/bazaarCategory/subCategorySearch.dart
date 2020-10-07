@@ -48,7 +48,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
     Map mapOfDocumentSnapshots = widget.subCategoriesList.asMap();
     /// initializing 'mapOfDocumentSnapshots' with false values
     mapOfDocumentSnapshots.forEach((key, value) {
-      String temp = mapOfDocumentSnapshots[key].data["name"];
+      String temp = mapOfDocumentSnapshots[key].data[TextConfig.subCategorySearchName];
       map.putIfAbsent(temp, () => false);
     });
   }
@@ -62,7 +62,6 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
 
   @override
   Widget build(BuildContext context){
-    print("primaryColor in subCategorySearch: ${Theme.of(context).primaryColor}");
     return WillPopScope(
       onWillPop: () async => false,
       child: Stack(
@@ -94,16 +93,15 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
 
   ListTile buildSubCategoryNameList(DocumentSnapshot doc,) {
     return ListTile(
-      title: CustomText(text: doc.data["name"]),
+      title: CustomText(text: doc.data[TextConfig.subCategorySearchName]),
       ///displaying on the display name
       onTap: () async{
-        String subCategory = doc.data["name"];
+        String subCategory = doc.data[TextConfig.subCategorySearchName];
         String subCategoryData = widget.subCategoryMap[subCategory];
         bool showHomeService;
 
         String isHomeServiceApplicable = HomeServiceText(categoryData:widget.categoryData,
             subCategoryData: subCategoryData).userDialogDisplayText();
-        print("isHomeServiceApplicable in build : $isHomeServiceApplicable");
         if(isHomeServiceApplicable != null){
           showHomeService = await homeServiceDialog(isHomeServiceApplicable);
         }
@@ -114,7 +112,6 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
 //        if(widget.categoryData == "deliveryErrands" || widget.categoryData == 'drivers'){
 
           Map<String, dynamic> userGeohashAndAddressMap = await getLocation();
-          print("userGeohashAndAddressMap : $userGeohashAndAddressMap");
           userGeohash = userGeohashAndAddressMap[TextConfig.usersLocationCollectionGeoHashList];
           /// for exiting dialog:
           Navigator.pop(context);
@@ -162,7 +159,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
   Future<List<DocumentSnapshot>> searchList(String text) async {
     List<DocumentSnapshot> list = await widget.subCategoriesListFuture;
     return list.where((l) =>
-    l.data["name"]
+    l.data[TextConfig.subCategorySearchName]
         .toLowerCase()
         .contains(text.toLowerCase()) || l.documentID.contains(text)).toList();
   }
@@ -180,14 +177,11 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
     String placeholder = BazaarConfig(category: widget.category, categoryData: widget.categoryData).getPickLocation();
     //bool showBackButton = false;
 
-    print("in getLocation");
     CustomShowDialog().main(context, BazaarConfig.loadingMap, barrierDismissible: false);
-    print("dialog shown");
     Map<String, dynamic> result = await ChangeLocationInSearch(userNumber: userPhoneNo,
         placeholder: placeholder, )
         .getNewUserGeohash(context);
 
-    print("result in getLocation : $result");
     return result;
   }
 

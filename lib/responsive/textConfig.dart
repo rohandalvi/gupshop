@@ -92,6 +92,9 @@ class TextConfig{
   /// subCategoriesCheckBox
   static const String speciality = 'What is your speciality ?';
 
+  /// subCategorySearch
+  static const String subCategorySearchName = 'name';
+
   /// Notifications
   static const String notificationFromNumberIndividual = "notificationFromNumberIndividual";
   static const String notificationFromName = "notificationFromName";

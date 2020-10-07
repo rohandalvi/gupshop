@@ -94,6 +94,9 @@ class TextConfig{
 
   /// subCategorySearch
   static const String subCategorySearchName = 'name';
+  static String getSearchInText(String categoryName){
+    return 'Search in $categoryName';
+  }
 
   /// Notifications
   static const String notificationFromNumberIndividual = "notificationFromNumberIndividual";

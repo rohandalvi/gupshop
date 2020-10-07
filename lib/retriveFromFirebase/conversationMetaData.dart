@@ -25,7 +25,7 @@ class ConversationMetaData{
   Future<String> getAdminNumber() async{
     DocumentSnapshot temp = await path().get();
 
-    String adminNumber = temp.data[TextConfig.conversationMetadataCollectionAdmin];
+    String adminNumber = temp.data[TextConfig.conversationMetadataAdmin];
     return adminNumber;
   }
 
@@ -33,7 +33,7 @@ class ConversationMetaData{
     String userNumber = await UserDetails().getUserPhoneNoFuture();
     DocumentSnapshot temp = await path().get();
 
-    List<dynamic> listOfMembersInConversation = temp.data[TextConfig.conversationMetadataCollectionMembers];
+    List<dynamic> listOfMembersInConversation = temp.data[TextConfig.conversationMetadataMembers];
     listOfMembersInConversation.remove(userNumber);
     return listOfMembersInConversation;
   }
@@ -41,7 +41,7 @@ class ConversationMetaData{
   Future<String> getGroupName() async{
     DocumentSnapshot temp = await path().get();
 
-    String groupName = temp.data[TextConfig.conversationMetadataCollectionGroupName];
+    String groupName = temp.data[TextConfig.conversationMetadataGroupName];
     print("groupName : $groupName");
     return groupName;
   }

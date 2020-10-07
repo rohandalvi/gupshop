@@ -116,7 +116,7 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
         future: ConversationMetaData(conversationId:widget.conversationId, ).get( widget.myNumber),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            widget.memberList = snapshot.data["members"];
+            widget.memberList = snapshot.data[TextConfig.conversationMetadataMembers];
 
             /// first check if the group is deleted
             if(widget.memberList.isEmpty == true) groupDeleted = true;
@@ -126,11 +126,11 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
             else if (widget.memberList.contains(widget.myNumber) == false)
               widget.notAGroupMemberAnymore = true;
 
-            if (snapshot.data["groupName"] == null) {
+            if (snapshot.data[TextConfig.conversationMetadataGroupName] == null) {
               widget.groupExists = false;
 
               /// 1. extract memberList from conversationMetadata for navigating to individualChat
-              widget.memberList = snapshot.data["members"];
+              widget.memberList = snapshot.data[TextConfig.conversationMetadataMembers];
 
               /// 2. extract friendNumber for DisplayAvatarFromFirebase
               widget.friendNumber =
@@ -182,7 +182,7 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
         future: ConversationMetaData(conversationId: widget.conversationId).get(widget.myNumber),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            widget.memberList = snapshot.data["members"];
+            widget.memberList = snapshot.data[TextConfig.conversationMetadataMembers];
             ChatListCache cache = new ChatListCache();
             cache.memberList = widget.memberList;/// adding to cache
 
@@ -191,7 +191,7 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
             if (widget.memberList.contains(widget.myNumber) == false)
               widget.notAGroupMemberAnymore = true;
 
-            if (snapshot.data["groupName"] == null) {
+            if (snapshot.data[TextConfig.conversationMetadataGroupName] == null) {
               widget.groupExists = false;
 
               /// 1. extract memberList from conversationMetadata for navigating to individualChat

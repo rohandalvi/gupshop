@@ -141,9 +141,6 @@ class TextConfig{
   static const String usersLocationCollectionGeoPoint = 'geoPoint';
 
   static const String bazaarWalasLocationCollectionGeoHashList = usersLocationCollectionGeoHashList;
-  static const String conversationMetadataCollectionAdmin = 'admin';
-  static const String conversationMetadataCollectionMembers = 'members';
-  static const String conversationMetadataCollectionGroupName = 'groupName';
 
 
   /// friendsCollection
@@ -167,6 +164,11 @@ class TextConfig{
   static const String thumbnailPicture = 'thumbnailPicture';
   static const String businessName = 'businessName';
   static const String homeService = 'homeService';
+
+  /// conversationMetaData:
+  static const String conversationMetadataAdmin = 'admin';
+  static const String conversationMetadataMembers = 'members';
+  static const String conversationMetadataGroupName = groupName;
 
   /// recentChats:
   static const String conversationsRecentChats = 'conversations';

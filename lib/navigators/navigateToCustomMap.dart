@@ -27,6 +27,7 @@ class NavigateToCustomMap{
   }
 
   navigateNoBrackets(BuildContext context) async{
+    print("in navigateNoBrackets NavigateToCustomMap");
     return await Navigator.push(
         context,
         MaterialPageRoute(

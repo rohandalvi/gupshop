@@ -67,6 +67,7 @@ class ChangeLocationInSearch{
   getLatLang(BuildContext context) async{
 
     GeoPoint location = await LocationService().getHomeLocation(userNumber);
+    print("location in getLatLang : $location");
 
     List latLangList = await NavigateToCustomMap(
       latitude: location.latitude,
@@ -76,6 +77,7 @@ class ChangeLocationInSearch{
       showBackButton: showBackButton,
     ).navigateNoBrackets(context);
 
+    print("latLangList in getLatLang : ${latLangList}");
     return latLangList[0];
   }
 

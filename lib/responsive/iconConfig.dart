@@ -13,8 +13,11 @@ class IconConfig{
   static String add = 'add';
   static String appIcon = 'appIcon';
   static String camera = 'image2vector';
+  static String chatBubble = 'chatBubble';
   static String forwardIcon = 'nextArrow';
   static String groupIcon = 'groupManWoman';
+  static String home = 'home';
+  static String noHome = 'noHome';
   static String photoGallery = 'photoGallery';
   static String tickMarkIcon = 'done';
   static String editIcon = 'editPencil';

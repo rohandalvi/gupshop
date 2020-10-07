@@ -231,12 +231,6 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   void initState() {
-    /*
-    adding collectionReference and stream in initState() is essential for making the autoscroll when messages hit the limit
-    when user scrolls
-    update - the above comment might be wrong, because passing the stream directly to
-    streambuilder without initializing in initState also paginates alright.
-     */
 
 
 //    NotificationHelper().registerNotification(widget.conversationId, widget.listOfFriendNumbers, widget.userName, widget.userPhoneNo);

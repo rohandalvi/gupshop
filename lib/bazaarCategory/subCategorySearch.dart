@@ -62,6 +62,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
 
   @override
   Widget build(BuildContext context){
+    print("primaryColor in subCategorySearch: ${Theme.of(context).primaryColor}");
     return WillPopScope(
       onWillPop: () async => false,
       child: Stack(
@@ -179,7 +180,9 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
     String placeholder = BazaarConfig(category: widget.category, categoryData: widget.categoryData).getPickLocation();
     //bool showBackButton = false;
 
+    print("in getLocation");
     CustomShowDialog().main(context, BazaarConfig.loadingMap, barrierDismissible: false);
+    print("dialog shown");
     Map<String, dynamic> result = await ChangeLocationInSearch(userNumber: userPhoneNo,
         placeholder: placeholder, )
         .getNewUserGeohash(context);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:gupshop/notifications/NotificationEventType.dart';
 import 'package:gupshop/notifications/NotificationsManager.dart';
 import 'package:gupshop/notifications/models/NotificationRequest.dart';
@@ -29,6 +30,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("primaryColor in WelcomeScreen: ${Theme.of(context).primaryColor}");
     // TODO - remove this example and move it to a more solid class in the next commit
      initNotifications();
 
@@ -95,6 +97,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 //    await Navigator.push(
 //      context,
 //      PageRouteBuilder(
+//        pageBuilder: (context, animation, secondaryAnimation) => AppLock(
+//          builder: (args) {
+//            return UnlockPasscode();
+//          },
+//          lockScreen: ,
+//        ),
+//      ),
+//    );
+//    await Navigator.push(
+//      context,
+//      PageRouteBuilder(
 //        pageBuilder: (context, animation, secondaryAnimation) => UnlockPasscode(),
 //      ),
 //    );
@@ -112,10 +125,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               userName: userName,
             ), //pass Name() here and pass Home()in name_screen
           ));
-      //return new Timer(duration,navigateToHomePage);
     } /// loginScreen:
-    prefs.setBool('isFirstTime',
-        true); // the inspiration page actually has this value as false
+    prefs.setBool('isFirstTime', true); // the inspiration page actually has this value as false
     return Navigator.push(
         context,
         MaterialPageRoute(

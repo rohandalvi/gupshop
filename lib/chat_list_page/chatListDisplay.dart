@@ -6,9 +6,11 @@ import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/chatListTrace.dart';
 import 'package:gupshop/chat_list_page/subtitleDataAndDisplay.dart';
 import 'package:gupshop/chat_list_page/trailingDisplay.dart';
+import 'package:gupshop/dataGathering/myTrace.dart';
 import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -96,6 +98,7 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
       },
     );
   }
+
 
   cacheAvatar(){
     return widget.chatListCache[widget.conversationId].circleAvatar;

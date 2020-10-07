@@ -9,6 +9,7 @@ class CustomShowDialog{
 //  CustomShowDialog({this.actions});
 
   main(BuildContext context,String text,{bool barrierDismissible}){
+    print("primaryColor in main: ${Theme.of(context).primaryColor}");
     return showDialog(
       barrierDismissible: barrierDismissible,
         context: context,

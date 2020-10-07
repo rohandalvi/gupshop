@@ -158,13 +158,13 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
 
   chatBubbleWidget(BuildContext context){
     return Padding(
-      padding: const EdgeInsets.only(right: 15),
+      padding: EdgeInsets.only(right: PaddingConfig.fifteen),
       child: Container(
 //      width: IconConfig.bazaarIndividualCategoryChatBubble,
 //      height: IconConfig.bazaarIndividualCategoryChatBubble,
         child: CustomIconButton(
           iconsize: IconConfig.smallIcon,
-          iconNameInImageFolder: 'chatBubble',
+          iconNameInImageFolder: IconConfig.chatBubble,
           onPressed: () async{
             List<dynamic> listOfFriendsNumbers = new List();
             listOfFriendsNumbers.add(bazaarWalaPhoneNo);
@@ -176,7 +176,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
             //await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber, friendNumber: bazaarWalaPhoneNo).getIndividualChatId();
 
             NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
-                //listOfFriendsNumbers: listOfFriendsNumbers,
+                listOfFriendNumbers: listOfFriendsNumbers,
                 friendName: bazaarWalaName,
                 userName: userName).navigateNoBrackets(context);
           },
@@ -188,7 +188,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
 
   homeServiceContainer(){
     return Padding(
-      padding: const EdgeInsets.only(right: 15),
+      padding: EdgeInsets.only(right: PaddingConfig.fifteen),
       child: Visibility(
         visible: homeServiceText != null,
         child: Container(
@@ -205,8 +205,8 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   }
 
   homeIcon(){
-    if(homeServiceBool == true) return 'home';
-    if(homeServiceBool == false) return 'noHome';
+    if(homeServiceBool == true) return IconConfig.home;
+    if(homeServiceBool == false) return IconConfig.noHome;
     if(homeServiceBool == null) return null;
   }
 }

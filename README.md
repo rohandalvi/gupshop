@@ -102,3 +102,5 @@ Use `sendNotification` API to send a notification, the request is as follows:
 4. `to` - The FCM token belonging to recipient of this notification. This should be queried from firebase for the phone number of th user we are trying to send this notification to.     
 
 This API is async and has `void` return type.
+
+color for undraw #08C976

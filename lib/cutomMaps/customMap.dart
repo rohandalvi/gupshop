@@ -59,6 +59,7 @@ class _CustomMapState extends State<CustomMap> {
 
   @override
   Widget build(BuildContext context) {
+    print("in customMaps");
     return Scaffold(
       body: Stack(
         children: <Widget>[

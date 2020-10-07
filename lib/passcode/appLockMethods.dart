@@ -5,6 +5,8 @@ import 'package:gupshop/responsive/intConfig.dart';
 class AppLockMethods{
 
   enableAppLock({BuildContext context}){
+    print("in enableAppLock");
+    print("AppLock.of(context).enable() : ${AppLock.of(context)}");
     AppLock.of(context).enable();
   }
 

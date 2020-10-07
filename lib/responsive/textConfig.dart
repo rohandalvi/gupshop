@@ -41,6 +41,7 @@ class TextConfig{
   static const String nameRequiredText= 'Name required';
 
   /// trace
+  static const String chatListToIndividualChatTrace = 'chatListToIndividualChat';
   static const String homeTrace = 'home';
   static const String homeHit = 'home_hit';
   static const String userHomeAddress = 'userHomeAddress';

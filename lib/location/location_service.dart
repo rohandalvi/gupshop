@@ -105,7 +105,9 @@ class LocationService {
 
   getHomeLocation(number) async{
     DocumentSnapshot dc = await getUserLocationDocumentSnapshot(number);
+    print("dc in getHomeLocation : $dc");
     GeoPoint latLng =  dc.data["home"]["geoPoint"];
+    print("latLng in getHomeLocation : $latLng");
     return latLng;
 
   }

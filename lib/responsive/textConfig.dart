@@ -94,7 +94,7 @@ class TextConfig{
 
   /// subCategorySearch
   static const String subCategorySearchName = 'name';
-  static String getSearchInText(String categoryName){
+  static String getsubcategorySearchHintText(String categoryName){
     return 'Search in $categoryName';
   }
 

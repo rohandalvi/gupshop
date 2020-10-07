@@ -83,7 +83,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
       },
       //navigate: NavigateToBazaarOnBoardingHome().navigate(context),
       onSearch: searchList,
-      hintText: TextConfig.getSearchInText(widget.category),
+      hintText: TextConfig.getsubcategorySearchHintText(widget.category),
       onItemFound: (DocumentSnapshot doc, int index){
         return buildSubCategoryNameList(doc,);
       },

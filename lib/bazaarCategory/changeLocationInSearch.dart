@@ -17,7 +17,6 @@ class ChangeLocationInSearch{
   ChangeLocationInSearch({this.userNumber, this.placeholder,this.showBackButton});
 
   Future<Map<String, dynamic>> getNewUserGeohash(BuildContext context) async{
-    print("in getNewUserGeohash");
     /// get lat lang:
     LatLng location = await getLatLang(context);
     double latitude = location.latitude;
@@ -25,9 +24,7 @@ class ChangeLocationInSearch{
 
     /// creating address from lat lang:
     Position position = new Position(latitude: latitude, longitude: longitude);
-    print("position in getNewUserGeohash : $position");
     String address = await getAddress(position);
-    print("address in getNewUserGeohash : $address");
 
     /// creating a name for the address:
     /// 1st check if the address already exists in firebase
@@ -45,15 +42,12 @@ class ChangeLocationInSearch{
       addressName = addressExists;
     }
 
-    print("addressName in getNewUserGeohash : $addressName");
     Map<String, dynamic> map = new Map();
     map[TextConfig.changeLocationInSearchAddressName] = addressName;
 
     List<String> userGeohash = await LocationService().getUserGeohash(userNumber, addressName);
-    print("userGeohashList in getNewUserGeohash : $userGeohash");
     map[TextConfig.usersLocationCollectionGeoHashList] = userGeohash;
 
-    print("map in getNewUserGeohash : $map");
     return map;
   }
 
@@ -67,7 +61,6 @@ class ChangeLocationInSearch{
   getLatLang(BuildContext context) async{
 
     GeoPoint location = await LocationService().getHomeLocation(userNumber);
-    print("location in getLatLang : $location");
 
     List latLangList = await NavigateToCustomMap(
       latitude: location.latitude,
@@ -77,14 +70,11 @@ class ChangeLocationInSearch{
       showBackButton: showBackButton,
     ).navigateNoBrackets(context);
 
-    print("latLangList in getLatLang : ${latLangList}");
     return latLangList[0];
   }
 
   getAddress(Position location) async{
-    print("in getAddress : $location");
     String address = await LocationService().getAddress(location);
-    print("address in getAddress : $address");
     return address;
   }
 

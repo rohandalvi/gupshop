@@ -111,6 +111,22 @@ class TextConfig{
   static const String data = "data";
 
 
+  /// NoSubCategoryText:
+  static const String cleaners = "Cleaners";
+  static const String errandsRunners = "Errand runners";
+  static const String drivers = "Drivers";
+  static const String foodServiceProviders = "Food Service providers";
+  static const String groceryProviders = "Grocery providers";
+  static const String parlourServiceProviders = "Parlour Service providers";
+  static const String repairsOrMaintenanceServiceProviders = "Repairs or Maintenance Service providers";
+  static const String cleaningData = "cleaning";
+  static const String deliveryErrandsData = "deliveryErrands";
+  static const String driversData = "drivers";
+  static const String foodData = "food";
+  static const String groceryData = "grocery";
+  static const String parlourData = "parlour";
+  static const String repairsMaintenanceData = "repairsMaintenance";
+
   /// ======================================================================== ///
 
 

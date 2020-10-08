@@ -19,6 +19,9 @@ class TextConfig{
   static String bazaarWriteReview = 'Please write your review';
 
 
+  /// bazaarAdvertisement:
+  static String selectVideoFlushbar = 'Select Video';
+
   /// passcode:
   static String passcodeCancel = 'Cancel';
   static String passcodeDelete = 'Delete';
@@ -230,6 +233,7 @@ class TextConfig{
 
   /// bazaarLocation
   static const String addLocation = 'Tap to add location and service area';
+  static const String selectLocationFlushbar = 'Select Location';
 
   /// conversationMetaData:
   static const String conversationMetadataAdmin = 'admin';

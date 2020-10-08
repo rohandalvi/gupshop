@@ -180,7 +180,6 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
                 }else isBazaarWala = false;
 
 
-                print("isBazaarWala in advt : $isBazaarWala");
                 return SafeArea(
                   bottom: false,
                   left: false,
@@ -249,7 +248,6 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
 
           }
 
-          print("isBazaarwala before navigate : $isBazaarWala");
           NavigateToBazaarLocation(
             category: widget.category,
             categoryData: widget.categoryData,
@@ -275,9 +273,9 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
         }if(videoNotNull == false){
           CustomFlushBar(
             customContext: context,
-            text: CustomText(text: 'Select Video',),
-            iconName: 'stopHand',
-            message: 'Select Video',
+            text: CustomText(text: TextConfig.selectVideoFlushbar,),
+            iconName: IconConfig.stopHand,
+            message: TextConfig.selectVideoFlushbar,
           ).showFlushBar();
           }
       },

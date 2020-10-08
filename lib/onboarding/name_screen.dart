@@ -104,20 +104,6 @@ class _NameScreenState extends State<NameScreen> {
                       CustomFlushBar(customContext: context,
                         text: CustomText(text:TextConfig.nameRequiredText,))
                           .showFlushBarStopHand();
-//                      Flushbar(
-//                        icon: SvgPicture.asset(
-//                            'images/stopHand.svg',
-//                          width: IconConfig.flushbarIconThirty,
-//                          height: IconConfig.flushbarIconThirty,
-//                        ),
-//                        flushbarStyle: FlushbarStyle.GROUNDED,
-//                        backgroundColor: Colors.white,
-//                        duration: Duration(seconds: 5),
-//                        forwardAnimationCurve: Curves.decelerate,
-//                        reverseAnimationCurve: Curves.easeOut,
-//                        titleText: CustomText(text : 'Name required'),
-//                        message: "Please enter your name to move forward",
-//                      )..show(context);
                     }
 
                     if(userName != null && userName != ""){

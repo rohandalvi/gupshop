@@ -27,4 +27,5 @@ class IconConfig{
   static String save = 'save';
   static String lock = 'lock';
   static String unlock = 'unLock';
+  static String stopHand = 'stopHand';
 }

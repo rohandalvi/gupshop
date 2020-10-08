@@ -244,4 +244,5 @@ class TextConfig{
   static const String timeStampReviews = 'timeStamp';
 
 /// ======================================================================== ///
+
 }

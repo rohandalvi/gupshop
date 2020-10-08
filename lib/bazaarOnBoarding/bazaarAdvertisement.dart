@@ -171,8 +171,8 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
               if(snapshot.connectionState == ConnectionState.done){
                 if(snapshot.data != null){
                   isBazaarWala = true;
-                  video = new File("videoURL");
-                  databaseVideoURL = snapshot.data["videoURL"];
+                  video = new File(TextConfig.videoURL);
+                  databaseVideoURL = snapshot.data[TextConfig.videoURL];
                   videoNotNull = true;
 
                   videoURL = databaseVideoURL;
@@ -238,10 +238,10 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
           ).getLocationRadiusAddressName();
 
           if(data != null){
-            databaseLongitude = data["longitude"];
-            databaseLatitude = data["latitude"];
+            databaseLongitude = data[TextConfig.longitude];
+            databaseLatitude = data[TextConfig.latitude];
             addressName = data["addressName"];
-            radius =data["radius"];
+            radius =data[TextConfig.radius];
 
             location = new LatLng(databaseLatitude, databaseLongitude);
             locationNotNull = true;

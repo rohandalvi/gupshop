@@ -208,11 +208,11 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           ).getPictureListAndVideo(),/// get it from bazaarWalas basic profile and not videos collection
           builder: (context, snapshot) {
             if(snapshot.connectionState == ConnectionState.done){
-              String videoURL = snapshot.data["videoURL"];
+              String videoURL = snapshot.data[TextConfig.videoURL];
 
-              String thumbnailPicture = snapshot.data["thumbnailPicture"];
-              String otherPictureOne = snapshot.data["otherPictureOne"];
-              String otherPictureTwo = snapshot.data["otherPictureTwo"];
+              String thumbnailPicture = snapshot.data[TextConfig.thumbnailPicture];
+              String otherPictureOne = snapshot.data[TextConfig.otherPictureOne];
+              String otherPictureTwo = snapshot.data[TextConfig.otherPictureTwo];
 
               if(thumbnailPicture == null) thumbnailPicture = ImageConfig.photoFrame;
 

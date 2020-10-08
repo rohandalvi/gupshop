@@ -5,6 +5,7 @@ import 'package:gupshop/bazaarOnBoarding/changeBazaarWalasPicturesAppBar.dart';
 import 'package:gupshop/bazaarOnBoarding/pushToFirebase.dart';
 import 'package:gupshop/image/fullScreenPictureVideos.dart';
 import 'package:gupshop/navigators/navigateToBazaarSubCategorySearch.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 
@@ -124,7 +125,7 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
               ),
             ),
             floatingActionButton: CustomFloatingActionButtonWithIcon(
-              iconName: 'forward2',
+              iconName: IconConfig.forward2,
               onPressed: () async{
                 ///push all the data here
                 PushToFirebase(

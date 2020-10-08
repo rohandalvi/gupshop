@@ -9,6 +9,7 @@ import 'package:gupshop/bazaarHomeService/serviceAtHomeUI.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarLocation.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
@@ -217,7 +218,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
     cacheVideo();
 
     return CustomFloatingActionButtonWithIcon(
-      iconName: 'forward2',
+      iconName: IconConfig.forward2,
       onPressed: () async{
         setState(() {
           if(isVideo != null) {

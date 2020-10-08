@@ -11,6 +11,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarAdvertisement.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
@@ -223,7 +224,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
             width: WidgetConfig.groupIconWidth,
             child: FittedBox(
               child: CustomFloatingActionButtonWithIcon(
-                  iconName: 'forward2',
+                  iconName: IconConfig.forward2,
                   tooltip: 'Go ahead',
                   /// create a listOfContactsSelected and send it to individualChat
                   onPressed: () async{

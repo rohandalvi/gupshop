@@ -11,6 +11,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
@@ -181,7 +182,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
         Padding(
           padding: EdgeInsets.all(PaddingConfig.eight),
           child: CustomRaisedButton(
-            child: CustomText(text: 'Tap to add location and service area',),
+            child: CustomText(text: TextConfig.addLocation,),
             onPressed: () async{
               /// first check if user has given permission to access location
               var permission = await LocationPermissionHandler().handlePermissions(context);
@@ -276,7 +277,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
     /// is given by BazaarProfileSetVideo class
 
     return CustomFloatingActionButtonWithIcon(
-      iconName: 'forward2',
+      iconName: IconConfig.forward2,
       onPressed: () async{
         setState(() {
           if(locationFromMap != null) {

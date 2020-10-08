@@ -228,6 +228,9 @@ class TextConfig{
   static const String longitude = 'longitude';
   static const String radius = 'radius';
 
+  /// bazaarLocation
+  static const String addLocation = 'Tap to add location and service area';
+
   /// conversationMetaData:
   static const String conversationMetadataAdmin = 'admin';
   static const String conversationMetadataMembers = 'members';

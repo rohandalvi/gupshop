@@ -15,6 +15,7 @@ class IconConfig{
   static String camera = 'image2vector';
   static String chatBubble = 'chatBubble';
   static String forwardIcon = 'nextArrow';
+  static String forward2 = 'forward2';
   static String groupIcon = 'groupManWoman';
   static String home = 'home';
   static String noHome = 'noHome';

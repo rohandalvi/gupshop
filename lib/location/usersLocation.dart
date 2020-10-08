@@ -58,6 +58,9 @@ class UsersLocation{
     Map map =  new HashMap();
 
     dcMap.forEach((addressName, data) {
+      GeoPoint geoPoint = data['geoPoint'];
+
+      print("data TextConfig.usersLocationCollectionGeoHashList : ${data}");
       List<String> geoHashList = data[TextConfig.usersLocationCollectionGeoHashList].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
       print("geoHashList in dc : ${geoHashList}");
       String address = data[TextConfig.usersLocationCollectionAddress];
@@ -73,6 +76,35 @@ class UsersLocation{
     print("map in createSetOfAddresses : $map");
     return map;
   }
+
+  createSetOfAddressesTwo(String userPhoneNo) async{
+    DocumentSnapshot dc = await CollectionPaths.usersLocationCollectionPath
+        .document(userPhoneNo).get();
+
+    Map dcMap = dc.data;
+    Map map =  new HashMap();
+
+    dcMap.forEach((addressName, data) {
+      GeoPoint geoPoint = data['geoPoint'];
+
+      print("data TextConfig.usersLocationCollectionGeoHashList : ${data}");
+      List<String> geoHashList = data[TextConfig.usersLocationCollectionGeoHashList].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
+      print("geoHashList in dc : ${geoHashList}");
+      String address = data[TextConfig.usersLocationCollectionAddress];
+
+      /// adding both address and addressName to subMap
+      /// Because, some methods need name and some need address
+      Map subMap = new HashMap();
+      subMap[TextConfig.usersLocationCollectionAddress] = address;
+      subMap[TextConfig.changeLocationInSearchAddressName] = addressName;
+      String coordinates = "${geoPoint.latitude},${geoPoint.longitude}";
+
+      map[coordinates] = subMap;
+    });
+
+    print("map in createSetOfAddresses : $map");
+    return map;
+  }
   
   checkIfAddressExists(String userPhoneNo, double latitude, double longitude ) async{
 //    Geoflutterfire geo = Geoflutterfire();
@@ -82,10 +114,18 @@ class UsersLocation{
 
   List<String> geoHashList = GeoHash().getListOfGeoHash(longitude: longitude, latitude: latitude, radius: 1);
 
-    Map map = await createSetOfAddresses(userPhoneNo);
-    
-    if(map.containsKey(geoHashList)) return map[geoHashList][TextConfig.changeLocationInSearchAddressName];
-    return false;
+  /// get a map of addresses in database in usersLocation
+  Map map = await createSetOfAddressesTwo(userPhoneNo);
+
+  print("map in checkIfAddressExists : $map");
+  /// check if the current location's geoHashList is present in the map, if yes then
+  /// dont add it, else add it
+  String coordinates = "$latitude,$longitude";
+  print("coordinates : $coordinates");
+  print("map : $map");
+
+  if(map.containsKey(coordinates)) return map[coordinates][TextConfig.changeLocationInSearchAddressName];
+  return false;
   }
 
 

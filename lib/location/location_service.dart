@@ -35,23 +35,23 @@ class LocationService {
   GeoHash myGeoHash = new GeoHash();
 
 
-  getLocationInOurFormat(double latitude, double longitude, double radius){
-    GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
-
-    String bazaarWalasUpperRadius = _getBazaarWalasUpperRadius(latitude, longitude, radius);//distance 50//static for now//later can be asked from the bazaarwalas
-    String bazaarWalasLowerRadius = _getBazaarWalasLowerRadius(latitude, longitude, radius);
-
-    var position =
-    {
-      'geoHash': myLocation.hash,
-      'geoPoint': myLocation.geoPoint,
-      'upperGeoHash':bazaarWalasUpperRadius,
-      'lowerGeoHash': bazaarWalasLowerRadius,
-      'radius' : radius,
-    };
-
-    return position;
-  }
+//  getLocationInOurFormat(double latitude, double longitude, double radius){
+//    GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
+//
+//    String bazaarWalasUpperRadius = _getBazaarWalasUpperRadius(latitude, longitude, radius);//distance 50//static for now//later can be asked from the bazaarwalas
+//    String bazaarWalasLowerRadius = _getBazaarWalasLowerRadius(latitude, longitude, radius);
+//
+//    var position =
+//    {
+//      'geoHash': myLocation.hash,
+//      'geoPoint': myLocation.geoPoint,
+//      'upperGeoHash':bazaarWalasUpperRadius,
+//      'lowerGeoHash': bazaarWalasLowerRadius,
+//      'radius' : radius,
+//    };
+//
+//    return position;
+//  }
 
   /// see if the radius for bazaarwalas is showing correct results in individual dispaly
 //  pushBazaarWalasLocationToFirebase(double latitude, double longitude, String categoryName,String userNumber, String subCategory, double radius){//used in createBazaarwala profile page

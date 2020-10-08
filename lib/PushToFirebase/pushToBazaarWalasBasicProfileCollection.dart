@@ -32,7 +32,7 @@ class PushToBazaarWalasBasicProfile{
     return dc;
   }
 
-  DocumentReference categoryDataPath(){
+  DocumentReference categoryDataPath({String userPhoneNo,String categoryData, String subCategoryData }){
     DocumentReference dc =  path(userPhoneNo).collection(categoryData).document(subCategoryData);
     return dc;
   }

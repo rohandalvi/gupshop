@@ -34,6 +34,7 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
           .getNameThumbnailPictureHomeService(),
       builder: (BuildContext context, AsyncSnapshot nameSnapshot) {
         if (nameSnapshot.connectionState == ConnectionState.done) {
+          print("nameSnapshot : $nameSnapshot");
           businessName = nameSnapshot.data[TextConfig.businessName];
           name = nameSnapshot.data[TextConfig.namebazaawalasBasicProfile];
           if(businessName != null){

@@ -97,7 +97,7 @@ class UsersLocation{
       Map subMap = new HashMap();
       subMap[TextConfig.usersLocationCollectionAddress] = address;
       subMap[TextConfig.changeLocationInSearchAddressName] = addressName;
-      String coordinates = "${geoPoint.latitude},${geoPoint.longitude}";
+      String coordinates = LocationService().getCoordinates(latitude: geoPoint.latitude, longitude:geoPoint.longitude);
 
       map[coordinates] = subMap;
     });
@@ -120,7 +120,7 @@ class UsersLocation{
   print("map in checkIfAddressExists : $map");
   /// check if the current location's geoHashList is present in the map, if yes then
   /// dont add it, else add it
-  String coordinates = "$latitude,$longitude";
+  String coordinates = LocationService().getCoordinates(latitude: latitude, longitude:longitude);
   print("coordinates : $coordinates");
   print("map : $map");
 

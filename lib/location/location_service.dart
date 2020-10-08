@@ -278,6 +278,14 @@ class LocationService {
   }
 
 
+  /// converts coordinates in string form
+  String getCoordinates({double latitude, double longitude, gc.Coordinates coordinates}){
+    if(coordinates != null){
+      return "${coordinates.latitude},${coordinates.longitude}";
+    }
+    return "$latitude,$longitude";
+  }
+
 }
 
 

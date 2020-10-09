@@ -87,6 +87,7 @@ class _SetPasscodeState extends State<SetPasscode> {
     _verificationNotifier.add(isValid);
     if (isValid) {
       /// setting the applock to enable mode
+//      debugDumpApp();
       AppLockMethods().enableAppLock(context: context);
 
       /// saving the passcode in sharedPreferences for later use

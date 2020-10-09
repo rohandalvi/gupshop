@@ -5,8 +5,10 @@ import 'package:gupshop/responsive/intConfig.dart';
 class AppLockMethods{
 
   enableAppLock({BuildContext context}){
-    print("in enableAppLock");
-    print("AppLock.of(context).enable() : ${AppLock.of(context)}");
+    /// From the given build context, return the nearest ancestor AppLock
+    /// Go and find me the nearest AppLock to the given build context and
+    /// then run enable method on it
+    print("context in enableAppLock : ${context}");
     AppLock.of(context).enable();
   }
 
@@ -25,6 +27,7 @@ class AppLockMethods{
 
   /// once a successful login has occured didUnlock should be called
   didUnlock({BuildContext context, bool unlock}){
+    print("context in didUnlock : $context");
     AppLock.of(context).didUnlock(unlock);
   }
 

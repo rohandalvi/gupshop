@@ -28,6 +28,7 @@ class _UnlockPasscodeState extends State<UnlockPasscode> {
       cancelCallback: _onPasscodeCancelled,
       isValidCallback: (){
         if (isAuthenticated){
+          print("context in UnlockPasscode : $context");
           AppLockMethods().didUnlock(context: context, unlock: true);
 //          NavigateToWelcomeScreen().navigateNoBrackets(context);
         //Navigator.pop(context);

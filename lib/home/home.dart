@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:gupshop/chat_list_page/chat_List.dart';
 import 'package:gupshop/dataGathering/myTrace.dart';
 import 'package:gupshop/modules/Presence.dart';
@@ -36,6 +37,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    print("AppLock state Home: ${AppLock.of(context)}");
     homeTrace();
     super.initState();
   }

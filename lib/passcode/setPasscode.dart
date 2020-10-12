@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/passcode/appLockMethods.dart';
@@ -10,6 +11,7 @@ import 'package:gupshop/widgets/CustomPasscode.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
+import 'package:passcode_screen/passcode_screen.dart';
 
 class SetPasscode extends StatefulWidget {
   @override
@@ -22,9 +24,11 @@ class _SetPasscodeState extends State<SetPasscode> {
 
   String passcode;
   bool isPasscodeEnabled;
+  bool isAuthenticated;
 
   @override
   void initState() {
+    print("AppLock state SetPasscode: ${AppLock.of(context)}");
     isPasscodeEnabled = false;
     passcodeStatus();
     super.initState();
@@ -37,8 +41,10 @@ class _SetPasscodeState extends State<SetPasscode> {
         children: <Widget>[
           CustomPasscode(
             titleText: isPasscodeEnabled == true ? TextConfig.changeAppPasscode : TextConfig.enterAppPasscode,/// size 28
-            passwordEnteredCallback: _onPasscodeEntered,
+//            passwordEnteredCallback: widget.passwordEnteredCallback,
+            passwordEnteredCallback: _passwordEnteredCallback,
             shouldTriggerVerification: _verificationNotifier.stream,
+//            shouldTriggerVerification: widget.verificationNotifier.stream,
             cancelCallback: _onPasscodeCancelled,
           ),
           disableButton(),
@@ -47,6 +53,33 @@ class _SetPasscodeState extends State<SetPasscode> {
     );
   }
 
+
+
+  /// passwordEnteredCallback
+  Future<void> _passwordEnteredCallback(String enteredPasscode) async{
+    /// show a dialog to confirm password
+    /// if yes make isValid = true
+    bool isValid = await confirmPasscode(enteredPasscode);
+
+    _verificationNotifier.add(isValid);
+    if (isValid) {
+      /// setting the applock to enable mode
+//      debugDumpApp();
+
+      /// saving the passcode in sharedPreferences for later use
+      UserDetails().setPasscode(enteredPasscode);
+    }
+  }
+
+
+  Future<bool> confirmPasscode(String enteredPasscode) async{
+    bool temp = await CustomShowDialog().confirmation(
+        context,
+        "Set $enteredPasscode as the new Passcode ?",
+        barrierDismissible: false
+    );
+    return temp;
+  }
 
   Widget disableButton(){
       return Visibility(
@@ -58,7 +91,7 @@ class _SetPasscodeState extends State<SetPasscode> {
               child: CustomText(text: TextConfig.diableApplock,textColor: white,),
               borderSideColor: BorderSide(color : deleteColor),
               onPressed: () async{
-                AppLockMethods().disableAppLock(context: context);
+//                AppLockMethods().disableAppLock(context: context);
                 await UserDetails().diablePasscode();
                 Navigator.pop(context);
               },
@@ -76,34 +109,6 @@ class _SetPasscodeState extends State<SetPasscode> {
     });
   }
 
-
-
-  /// passwordEnteredCallback
-  Future<void> _onPasscodeEntered(String enteredPasscode) async{
-    /// show a dialog to confirm password
-    /// if yes make isValid = true
-    bool isValid = await confirmPasscode(enteredPasscode);
-
-    _verificationNotifier.add(isValid);
-    if (isValid) {
-      /// setting the applock to enable mode
-//      debugDumpApp();
-      AppLockMethods().enableAppLock(context: context);
-
-      /// saving the passcode in sharedPreferences for later use
-      await UserDetails().setPasscode(enteredPasscode);
-    }
-  }
-
-
-  Future<bool> confirmPasscode(String enteredPasscode) async{
-    bool temp = await CustomShowDialog().confirmation(
-      context,
-      "Set $enteredPasscode as the new Passcode ?",
-      barrierDismissible: false
-    );
-    return temp;
-  }
 
 
   /// cancelCallback

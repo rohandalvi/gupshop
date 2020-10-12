@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
 import 'package:gupshop/passcode/setPasscode.dart';
+import 'package:gupshop/passcode/setPasscodeWrapper.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/contactSearch/contactSearchPage.dart';
@@ -12,7 +14,7 @@ import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class HomeAppBar extends StatelessWidget {
+class HomeAppBar extends StatefulWidget {
   final String userPhoneNo;
   final String userName;
   double radius;
@@ -20,12 +22,24 @@ class HomeAppBar extends StatelessWidget {
 
   HomeAppBar({@required this.userPhoneNo, @required this.userName}) :
         radius = ImageConfig.radius,/// 30
-        innerRadius = ImageConfig.innerRadius;///25;
+        innerRadius = ImageConfig.innerRadius;
+  @override
+  _HomeAppBarState createState() => _HomeAppBarState();
+}
 
+class _HomeAppBarState extends State<HomeAppBar> {
+///25;
+
+  @override
+  void initState() {
+    print("AppLock state HomeAppBar initState: ${AppLock.of(context)}");
+    super.initState();
+  }
 
 
   @override
   Widget build(BuildContext context) {
+    print("AppLock state HomeAppBar: ${AppLock.of(context)}");
     return SafeArea(
       child: Column(/// Area - 3
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,12 +68,12 @@ class HomeAppBar extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 GestureDetector(
-                                  child: DisplayAvatar().displayAvatarFromFirebase(userPhoneNo, radius, innerRadius, false),
+                                  child: DisplayAvatar().displayAvatarFromFirebase(widget.userPhoneNo, widget.radius, widget.innerRadius, false),
                                   onTap: (){
                                     NavigateChangeProfilePicture(
-                                        userName: userName,
+                                        userName: widget.userName,
                                         viewingFriendsProfile: false,
-                                        userPhoneNo: userPhoneNo,
+                                        userPhoneNo: widget.userPhoneNo,
                                         groupConversationId: null,
                                     ).navigateNoBrackets(context);
                                     //CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo, null);
@@ -81,7 +95,8 @@ class HomeAppBar extends StatelessWidget {
                           children: <Widget>[
                             Flexible(
                               flex : 1,
-                              child: FutureBuilder(
+                              child:
+                              FutureBuilder(
                                 future: UserDetails().getPasscodeStatus(),
                                 builder: (context, snapshot) {
                                   if(snapshot.connectionState == ConnectionState.done){
@@ -93,6 +108,7 @@ class HomeAppBar extends StatelessWidget {
                                     return CustomIconButton(
                                       iconNameInImageFolder: icon,
                                       onPressed: (){
+                                        print("context in onPressed : $context");
                                         Navigator.push(
                                           context,
                                           PageRouteBuilder(
@@ -113,7 +129,7 @@ class HomeAppBar extends StatelessWidget {
                               child: CustomIconButton(
                                 iconNameInImageFolder: IconConfig.groupIcon,
                                 onPressed: (){
-                                  CustomNavigator().navigateToCreateGroup(context, userName, userPhoneNo, false, null);
+                                  CustomNavigator().navigateToCreateGroup(context, widget.userName, widget.userPhoneNo, false, null);
                                 },
                               ),
                             ),
@@ -127,7 +143,7 @@ class HomeAppBar extends StatelessWidget {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => ContactSearchPage(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
+                                          builder: (context) => ContactSearchPage(userPhoneNo: widget.userPhoneNo, userName: widget.userName),//pass Name() here and pass Home()in name_screen
                                         )
                                     );
                                   },//imp for pressing effect. Also gives a sound effect by default
@@ -156,8 +172,7 @@ class HomeAppBar extends StatelessWidget {
         ],
       ),
     );
-  }
-}
+  }}
 
 
 

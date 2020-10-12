@@ -71,4 +71,15 @@ class UserDetails{
     if(passcode == null) return false;
     return true;
   }
+
+  Stream getPasscodeStatusStream(){
+    Stream result = Stream.fromFuture(getPasscode());
+//    Stream<String> passcode = getPasscode().asStream();
+    print("passcode stream : $result");
+    return result;
+//    bool result;
+//    if(passcode == null) result= false;
+//    else result = true;
+//    return result;
+  }
 }

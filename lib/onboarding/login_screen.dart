@@ -175,59 +175,14 @@ class _LoginScreenState extends State<LoginScreen> {
             message: "Please enter your name to move forward",
           )..show(context);
         });
-
-
-
-
-
-
-
-
-
-//      setState(() {
-//        this.codeSent = true;
-//        print("val : $val");
-//        prefs.setString('userPhoneNo', val);
-//
-//        print("userPhoneNo in login_screen setState: $val");
-//        smsCodeDialog(context).then((value) {
-//        //smsCodeDialog(context).then((value) {
-//          print("Got value $value");
-//          AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
-//
-//          //add userPhoneNumber to our database. Add to the users collection:
-//          Firestore.instance.collection("recentChats").document(val).setData({});
-//
-//          //creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
-//          Firestore.instance.collection("profilePictures").document(val).setData({});
-//
-//          Firestore.instance.collection("friends_$userPhoneNo").document(val).setData({});///check
-//
-//
-//
-//          FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
-//            //Navigator.of(context).pushNamed('loggedIn');
-//            print("userphoneno: ${val}");
-//            Navigator.push(
-//                context,
-//                MaterialPageRoute(
-//                  builder: (context) => NameScreen(userPhoneNo:val),//pass Name() here and pass Home()in name_screen
-//                )
-//            );
-//            print("phone no: ${val.toString()}");
-//
-//          }).catchError((e) {
-//            print("Got error $e");
-//          });
-//        });
-//      });
     };
+
+
 
     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
       this.verificationId = verId;
     };
 
-    print("Calling verifyPhone Number");
     await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: val,
         timeout: const Duration(seconds: 5),

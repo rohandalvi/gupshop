@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:gupshop/home/homeAppLock.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/onboarding/helper.dart';
+import 'package:gupshop/passcode/customAppLock.dart';
 import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/onboarding/welcomeScreen.dart';
 import 'package:gupshop/colors/colorPalette.dart';
@@ -38,14 +40,23 @@ import 'package:gupshop/passcode/unlockPasscode.dart';
 //  ));
 //}
 
-void main(){
-  runApp(MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  bool enabled = await UserDetails().getPasscodeStatus();
+  runApp(MyApp(enabled: enabled,));
 }
 
 class MyApp extends StatelessWidget {
+  final bool enabled;
+
+  MyApp({this.enabled});
+
+  static final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
+
+
   @override
   Widget build(BuildContext context) {
-    print("primaryColor in MyApp: $context");
+    print("enabled : $enabled");
 
     /// LayoutBuilder is a widget which provides the dimensions of its parent so
     /// we can know how much space we have for the widget and can build it our
@@ -55,6 +66,12 @@ class MyApp extends StatelessWidget {
         return OrientationBuilder(
           builder: (context, orientation) {
             SizeConfig().init(constraints, orientation);
+            ///MaterialApp is a widget that introduces many interesting tools such
+            /// as Navigator or Theme to help you develop your app.
+            ///Material is, on the other hand, a widget used to define a UI
+            ///element respecting Material rules. It defines what elevation is,
+            ///shape, and stuff. Then reused by many material widgets such as
+            ///Appbar or Card or FloatingButton.
             return MaterialApp(
               theme: ThemeData(
                 primaryColor: Colors.white,
@@ -62,21 +79,23 @@ class MyApp extends StatelessWidget {
               ),
               title: 'Chat home',
               debugShowCheckedModeBanner: false,
-              home:
-              //HomeAppLock(),
-              //WelcomeScreen(),
+              navigatorKey: _navigatorKey,
+              home:WelcomeScreen(lockEnabled: enabled,)
+//              HomeAppLock(enabled: enabled,),
+              //WelcomeScreen(lockEnabled: enabled,),
               //UnlockPasscode(),
 //              Builder(
 //                builder: (context) {
 //                  print("context in builder : $context");
 //                  return
-                  AppLock(
-                    builder: (args) {
-                      return WelcomeScreen();
-                    },
-                    lockScreen: UnlockPasscode(),
-                    enabled: true,
-                  )
+//                  AppLock(
+//                    enabled: enabled,
+//                    lockScreen: UnlockPasscode(navigatorKey: _navigatorKey,),
+//                    builder: (args) {
+////                      print("AppLock state MyApp: ${AppLock.of(context)}");
+//                      return WelcomeScreen();
+//                    },
+//                  )
 //                }
 //              ),
             );
@@ -85,6 +104,7 @@ class MyApp extends StatelessWidget {
       }
     );
   }
+
 
 //  Widget Function(Object) builder(args){
 //    return WelcomeScreen();

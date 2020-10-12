@@ -95,32 +95,17 @@ class _HomeAppBarState extends State<HomeAppBar> {
                           children: <Widget>[
                             Flexible(
                               flex : 1,
-                              child:
-                              FutureBuilder(
-                                future: UserDetails().getPasscodeStatus(),
-                                builder: (context, snapshot) {
-                                  if(snapshot.connectionState == ConnectionState.done){
-                                    bool enabled = snapshot.data;
-                                    String icon;
-                                    if(enabled == true) icon = IconConfig.unlock;
-                                    else icon = IconConfig.lock;
-
-                                    return CustomIconButton(
-                                      iconNameInImageFolder: icon,
-                                      onPressed: (){
-                                        print("context in onPressed : $context");
-                                        Navigator.push(
-                                          context,
-                                          PageRouteBuilder(
-                                            pageBuilder: (context, animation, secondaryAnimation) => SetPasscode(),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  } return CustomIconButton(
-                                    iconNameInImageFolder: IconConfig.lock,
+                              child: CustomIconButton(
+                                iconNameInImageFolder: IconConfig.lock,
+                                onPressed: (){
+                                  print("context in onPressed : $context");
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation, secondaryAnimation) => SetPasscode(),
+                                    ),
                                   );
-                                }
+                                },
                               ),
                             ),
                             /// create group

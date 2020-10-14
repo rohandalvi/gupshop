@@ -42,7 +42,7 @@ class _NameScreenState extends State<NameScreen> {
   final String userPhoneNo;
   List<String> phoneNumberList;
 
-  String imageUrl = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/%2B15857547599ProfilePicture?alt=media&token=0a4a79f5-7989-4e14-8927-7b4ca39af7d7";
+//  String imageUrl = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/%2B15857547599ProfilePicture?alt=media&token=0a4a79f5-7989-4e14-8927-7b4ca39af7d7";
   //static final formKey = new GlobalKey<FormState>();
   GlobalKey<FormState> formKey = new GlobalKey<FormState>();
 
@@ -62,7 +62,6 @@ class _NameScreenState extends State<NameScreen> {
               shrinkWrap: true,
               children: <Widget>[
                 displayNameBadge(),
-                //ProfilePictureAndButtonsScreen(userPhoneNo: userPhoneNo, imageUrl: imageUrl, height: 390, width: 390,),
                 Container(
                   child: CustomTextFormField(
                         maxLength: IntConfig.textFormFieldLimitTwentyFive, /// name length restricted to 25 letters

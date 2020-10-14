@@ -16,7 +16,7 @@ class IconConfig{
   static String chatBubble = 'chatBubble';
   static String forwardIcon = 'nextArrow';
   static String forward2 = 'forward2';
-  static String groupIcon = 'groupManWoman';
+  static String groupIcon = 'groupDpAvatar';
   static String home = 'home';
   static String noHome = 'noHome';
   static String photoGallery = 'photoGallery';

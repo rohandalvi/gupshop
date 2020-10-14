@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/updateInFirebase/updateConversationMetadata.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
@@ -119,10 +120,11 @@ class _CreateGroupState<T> extends State<CreateGroup<T>> {
       child: Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            height: WidgetConfig.groupIconHeight,/// to increase the size of floatingActionButton use container along with FittedBox
-            width: WidgetConfig.groupIconWidth,
+            height: WidgetConfig.groupIconHeightTwo,/// to increase the size of floatingActionButton use container along with FittedBox
+            width: WidgetConfig.groupIconWidthTwo,
             child: FittedBox(
-              child: CustomFloatingActionButton(
+              child: CustomFloatingActionButtonWithIcon(
+                iconName: IconConfig.groupIcon,
                 tooltip: 'Create a new Group',
                 /// create a listOfContactsSelected and send it to individualChat
                 onPressed: () {

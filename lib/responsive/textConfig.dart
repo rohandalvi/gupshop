@@ -42,12 +42,21 @@ class TextConfig{
   /// flushbar:
   static const String showFlushbarStopHandMessage = "Please enter your name to move forward";
   static const String nameRequiredText= 'Name required';
+  static const String wrongVerificationCode= 'Wrong verification code';
+
+  /// showDialog:
+  static const String enterSMSCode= 'Enter sms code';
+  static const String ok= 'Ok';
 
   /// onBoarding:
+
+  /// login_screen:
   static const String defaultCountryCode= '+91';
   static const String gup= 'Gup';
   static const String shup= 'Shup';
   static const String enterYourNumber= 'Enter your Number';
+
+
 
   /// trace
   static const String chatListToIndividualChatTrace = 'chatListToIndividualChat';

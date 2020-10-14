@@ -125,8 +125,6 @@ class _LoginScreenState extends State<LoginScreen> {
   String phoneNo, verificationId, smsCode;
 
   Future<void> verifyphone() async {
-//    SharedPreferences prefs = await SharedPreferences.getInstance();
-//    String userPhoneNo = prefs.getString('userPhoneNo');
 
     setState(() {
       val = countryCode + numberWithoutCode;
@@ -156,14 +154,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
         FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
           //Navigator.of(context).pushNamed('loggedIn');
-
           NavigateToNameScreen(userPhoneNo: val).navigateNoBrackets(context);
-
         }).catchError((e) {
           CustomFlushBar(
             customContext: context,
-            text: CustomText(text: 'Wrong verification code',),
-            message: 'Please enter your name to move forward',
+            text: CustomText(text: TextConfig.wrongVerificationCode,),
+            message: TextConfig.wrongVerificationCode,
           ).showFlushBarStopHand();
         });
     };
@@ -191,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return new AlertDialog(
-            title: CustomText(text: 'Enter sms code',),
+            title: CustomText(text: TextConfig.enterSMSCode,),
             content: TextField(
               onChanged: (value) {
                 this.smsCode = value;
@@ -199,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             actions: <Widget>[
               FlatButton(
-                child:CustomText(text: 'Ok',),
+                child:CustomText(text: TextConfig.ok,),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

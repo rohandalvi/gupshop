@@ -54,8 +54,9 @@ class _NameScreenState extends State<NameScreen> {
   Widget build(BuildContext context) {
     return WillPopScope( /// to not let the user go back from name_screen
       onWillPop: () async => false,/// a required for WillPopScope
-      child: MaterialApp(
-        home: Scaffold(
+//      child: MaterialApp(
+        child: Scaffold(
+//    home: Scaffold(
           body: Center(
             child: ListView(//to remove renderflex overflow error
               shrinkWrap: true,
@@ -149,7 +150,7 @@ class _NameScreenState extends State<NameScreen> {
             ),
           ),
         ),
-      ),
+//      ),
     );
   }
 

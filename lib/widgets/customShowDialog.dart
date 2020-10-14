@@ -40,4 +40,28 @@ class CustomShowDialog{
           ],
         ));
   }
+
+  withActions(BuildContext context,String text,{bool barrierDismissible, List<Widget> actions, Widget content}){
+    return showDialog(
+        barrierDismissible: barrierDismissible,
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: Text(text),
+          content: content,
+          actions: actions,
+        ));
+  }
+
+  withTextField({BuildContext context, List<Widget> actions, Widget content, String title}){
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: CustomText(text: title,),
+            content: content,
+            actions: actions
+          );
+        });
+  }
 }

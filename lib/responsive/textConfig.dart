@@ -43,6 +43,12 @@ class TextConfig{
   static const String showFlushbarStopHandMessage = "Please enter your name to move forward";
   static const String nameRequiredText= 'Name required';
 
+  /// onBoarding:
+  static const String defaultCountryCode= '+91';
+  static const String gup= 'Gup';
+  static const String shup= 'Shup';
+  static const String enterYourNumber= 'Enter your Number';
+
   /// trace
   static const String chatListToIndividualChatTrace = 'chatListToIndividualChat';
   static const String homeTrace = 'home';

@@ -3,6 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserDetails{
 
+  setUserPhoneNo(String number) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userPhoneNo', number);
+  }
+
+
   Future getUserPhoneNoFuture() async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();

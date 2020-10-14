@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
               ),
               title: 'Chat home',
               debugShowCheckedModeBanner: false,
-              navigatorKey: _navigatorKey,
+//              navigatorKey: _navigatorKey,
               home:WelcomeScreen(lockEnabled: enabled,)
 //              HomeAppLock(enabled: enabled,),
               //WelcomeScreen(lockEnabled: enabled,),

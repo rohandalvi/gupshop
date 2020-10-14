@@ -3,13 +3,18 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToNameScreen.dart';
 import 'package:gupshop/onboarding/name_screen.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/service/auth_service.dart';
 import 'package:gupshop/widgets/countryCodeAndFlag.dart';
+import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
+import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,7 +28,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool codeSent = false;
   String val="";
-  String countryCode = '+91';
+  String countryCode = TextConfig.defaultCountryCode;
   String numberWithoutCode;
 
   @override
@@ -52,11 +57,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: ImageConfig.welcomeScreenChatBubble,/// 200
                       child:
                       Image(
-                        image: AssetImage('images/chatBubble.png'),
+                        image: AssetImage(ImageConfig.gupshupImage),
                       ),
                   ),
                   Container(
-                    child: CustomText(text: 'Gup',).welcomeTitle(),
+                    child: CustomText(text: TextConfig.gup,).welcomeTitle(),
                     padding: EdgeInsets.fromLTRB(PaddingConfig.fifteen,
                         PaddingConfig.oneTwenty, PaddingConfig.zero,
                         PaddingConfig.zero),
@@ -65,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     /// of the screen
                   ),
                   Container(
-                    child: CustomText(text: 'Shup',).welcomeTitle(),
+                    child: CustomText(text: TextConfig.shup,).welcomeTitle(),
                     padding: EdgeInsets.fromLTRB(PaddingConfig.fifty,
                         PaddingConfig.oneNinety, PaddingConfig.zero,
                         PaddingConfig.zero),
@@ -90,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: MediaQuery.of(context).size.width / 1.25,
                       child: CustomTextFormField(
                         maxLength: 10,
-                            labelText: "Enter your Number",
+                            labelText: TextConfig.enterYourNumber,
                             onChanged: (val) {
                               setState(() {
                                 this.phoneNo = val;
@@ -108,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               CustomIconButton(
                 onPressed: verifyphone,
-                iconNameInImageFolder: 'nextArrow',
+                iconNameInImageFolder: IconConfig.forwardIcon,
               ),
             ],
           ),
@@ -120,8 +125,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String phoneNo, verificationId, smsCode;
 
   Future<void> verifyphone() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userPhoneNo = prefs.getString('userPhoneNo');
+//    SharedPreferences prefs = await SharedPreferences.getInstance();
+//    String userPhoneNo = prefs.getString('userPhoneNo');
 
     setState(() {
       val = countryCode + numberWithoutCode;
@@ -142,38 +147,24 @@ class _LoginScreenState extends State<LoginScreen> {
 
       setState(() {
         this.codeSent = true;
-        prefs.setString('userPhoneNo', val);
+        UserDetails().setUserPhoneNo(val);
       });
 
 
-        bool sms = await  smsCodeDialog(context);
+        await smsCodeDialog(context);
         AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
 
         FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
           //Navigator.of(context).pushNamed('loggedIn');
 
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NameScreen(userPhoneNo:val),//pass Name() here and pass Home()in name_screen
-              )
-          );
+          NavigateToNameScreen(userPhoneNo: val).navigateNoBrackets(context);
 
         }).catchError((e) {
-          Flushbar( /// for the flushBar if the user enters wrong verification code
-            icon: SvgPicture.asset(
-              'images/stopHand.svg',
-              width: IconConfig.flushbarIconThirty,
-              height: IconConfig.flushbarIconThirty,
-            ),
-            flushbarStyle: FlushbarStyle.GROUNDED,
-            backgroundColor: Colors.white,
-            duration: Duration(seconds: 5),
-            forwardAnimationCurve: Curves.decelerate,
-            reverseAnimationCurve: Curves.easeOut,
-            titleText: CustomText(text: 'Wrong verification code',),
-            message: "Please enter your name to move forward",
-          )..show(context);
+          CustomFlushBar(
+            customContext: context,
+            text: CustomText(text: 'Wrong verification code',),
+            message: 'Please enter your name to move forward',
+          ).showFlushBarStopHand();
         });
     };
 
@@ -194,14 +185,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
 
-  Future<bool> smsCodeDialog(BuildContext context) {
-    //the method for displaying the dialog box which pops up to put the sms code
-    //sent to the user for verification
-    print("in smsCodeDialog");
-
-    return showDialog(
-        context: context, //@Todo-why??
-        barrierDismissible: false, //@Todo-why??
+  smsCodeDialog(BuildContext context) async{
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return new AlertDialog(
             title: CustomText(text: 'Enter sms code',),

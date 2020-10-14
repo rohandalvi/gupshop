@@ -14,6 +14,7 @@ class ImageConfig{
 
   /// asset images:
   /// bazaar:
+  static String gupshupImage = 'images/chatBubble.png';
   static String bazaarOnBoardingWelcomeLogo = 'images/connect.png';
   static String bazaarOnBoardingLocationLogo = 'images/locationMobile.png';
   static String bazaarOnBoardingVideoLogo = 'images/onlineAd.png';

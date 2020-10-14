@@ -76,6 +76,9 @@ class TextConfig{
 
   /// userDetails:
   static const String passcode = 'passcode';
+  static const String userPhoneNo = 'userPhoneNo';
+  static const String userName = 'userName';
+  static const String isBazaarWala = 'isBazaarWala';
 
   /// for plus options in individual chat
   static const String pickGalleryImage = 'Pick image from  Gallery';

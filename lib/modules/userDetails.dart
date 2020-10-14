@@ -5,14 +5,14 @@ class UserDetails{
 
   setUserPhoneNo(String number) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('userPhoneNo', number);
+    prefs.setString(TextConfig.userPhoneNo, number);
   }
 
 
   Future getUserPhoneNoFuture() async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var userPhoneNo = prefs.getString('userPhoneNo');
+    var userPhoneNo = prefs.getString(TextConfig.userPhoneNo);
 
     return userPhoneNo;
   }
@@ -20,7 +20,7 @@ class UserDetails{
   Future getUserNameFuture() async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var userName = prefs.getString('userName');
+    var userName = prefs.getString(TextConfig.userName);
 
     return userName;
   }
@@ -28,13 +28,13 @@ class UserDetails{
 
   saveUserAsBazaarWalaInSharedPreferences(bool isBazaarWala) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isBazaarWala', isBazaarWala);
+    prefs.setBool(TextConfig.isBazaarWala, isBazaarWala);
   }
 
   Future getIsBazaarWalaInSharedPreferences() async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var isBazaarWala = prefs.getBool('isBazaarWala');
+    var isBazaarWala = prefs.getBool(TextConfig.isBazaarWala);
 
     return isBazaarWala;
   }

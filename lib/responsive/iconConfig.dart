@@ -12,20 +12,32 @@ class IconConfig{
   /// icon names:
   static String add = 'add';
   static String appIcon = 'appIcon';
-  static String camera = 'image2vector';
+//  static String camera = 'image2vector';
+  static String videoCamera = 'videoCameraTwo';
+  static String backArrow = 'backArrowTwo';
+  static String videoCall = 'videoCallTwo';
+  static String audioCall = 'audioCallTwo';
+  static String camera = 'cameraTwo';
+  static String cancel = 'cancelTwo';
   static String chatBubble = 'chatBubble';
   static String forwardIcon = 'nextArrow';
   static String forward2 = 'forward2';
   static String groupIcon = 'groupDpAvatar';
   static String home = 'home';
   static String noHome = 'noHome';
-  static String photoGallery = 'photoGallery';
+  static String photoGallery = 'photoGalleryTwo';
   static String tickMarkIcon = 'done';
   static String editIcon = 'editPencil';
   static String locationPin = 'locationPin';
-  static String location = 'location';
+  static String location = 'locationTwo';
   static String save = 'save';
-  static String lock = 'lock';
+  static String lock = 'lockTwo';
+  static String news = 'newsTwo';
   static String unlock = 'unLock';
+  static String plus ='plus';
+  static String send ='paperPlane';
   static String stopHand = 'stopHand';
+  static String search = 'advancedSearch';
+  static String searchTwo = 'searchTwo';
+  static String transparent = 'transparentTwo';
 }

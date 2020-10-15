@@ -49,7 +49,7 @@ class ChatAppBar extends StatelessWidget {
 //                            padding: EdgeInsets.only(top: PaddingConfig.twelve),
 //                            child: CustomIconButton(
                               CustomIconButton(
-                              iconNameInImageFolder: 'backArrowColor',
+                              iconNameInImageFolder: IconConfig.backArrow,
                               onPressed: backOnPressed,
                               iconsize: IconConfig.bigIcon,
                             ).resize(),
@@ -176,14 +176,14 @@ class ChatAppBar extends StatelessWidget {
                                 Expanded(
                                   flex: 1,
                                   child: CustomIconButton(
-                                    iconNameInImageFolder: 'videoCall',
+                                    iconNameInImageFolder: IconConfig.videoCall,
                                     onPressed: (){},
                                   ),
                                 ),
                                 Expanded(
                                   flex: 1,
                                   child: CustomIconButton(
-                                    iconNameInImageFolder: 'audioCall',
+                                    iconNameInImageFolder: IconConfig.audioCall,
                                     onPressed: (){},
                                   ),
                                 )

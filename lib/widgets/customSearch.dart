@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -38,7 +39,7 @@ class CustomSearch<T> extends StatelessWidget {
             /// onPressed is taken care by the cancellationWidget
           ),
           icon: CustomIconButton(
-            iconNameInImageFolder: 'backArrowColor',
+            iconNameInImageFolder: IconConfig.backArrow,
             onPressed: backButton == null ? () { /// back arrow
               CustomNavigator().navigateToHome(context, userName, userPhoneNo);
             } : backButton,

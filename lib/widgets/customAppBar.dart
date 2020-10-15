@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
 class CustomAppBar extends StatelessWidget{
@@ -20,7 +21,7 @@ class CustomAppBar extends StatelessWidget{
         title: FittedBox(child: title),
         actions: actions,
         leading: CustomIconButton(
-          iconNameInImageFolder:'backArrowColor',
+          iconNameInImageFolder:IconConfig.backArrow,
           onPressed: onPressed,
         ),
       ),

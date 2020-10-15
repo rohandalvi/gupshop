@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -107,7 +108,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
               child: FittedBox(
                 child: Padding(
                   padding: EdgeInsets.only(top: PaddingConfig.six),
-                  child: CustomIconButton(iconNameInImageFolder: 'backArrowColor', onPressed: (){Navigator.pop(context);},),
+                  child: CustomIconButton(iconNameInImageFolder: IconConfig.backArrow, onPressed: (){Navigator.pop(context);},),
                 ),
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -53,7 +54,7 @@ class BuildMessageComposer extends StatelessWidget {
           Expanded(
             flex: 1,
             child: CustomIconButton(
-              iconNameInImageFolder: 'plus',
+              iconNameInImageFolder: IconConfig.plus,
               onPressed: firstOnPressed,
             ),
           ),
@@ -82,13 +83,13 @@ class BuildMessageComposer extends StatelessWidget {
                 controller: controller,
                 listScrollController: listScrollController,
               ).navigate(context),
-              iconNameInImageFolder: 'news',
+              iconNameInImageFolder: IconConfig.news,
             ),
           ),
           Expanded(
             flex: 1,
             child: CustomIconButton(
-              iconNameInImageFolder: 'paperPlane',///or forward2
+              iconNameInImageFolder: IconConfig.send,///or forward2
               onPressed: onPressedForSendingMessageIcon,
             ),
           ),

@@ -98,7 +98,6 @@ class _HomeAppBarState extends State<HomeAppBar> {
                               child: CustomIconButton(
                                 iconNameInImageFolder: IconConfig.lock,
                                 onPressed: (){
-                                  print("context in onPressed : $context");
                                   Navigator.push(
                                     context,
                                     PageRouteBuilder(
@@ -123,7 +122,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
                               flex: 1,
                               child: Builder(
                                 builder: (context) => CustomIconButton(//Right side icons
-                                  iconNameInImageFolder: 'advancedSearch',//search icon
+                                  iconNameInImageFolder: IconConfig.searchTwo,//search icon
                                   onPressed: () {
                                     Navigator.push(
                                         context,

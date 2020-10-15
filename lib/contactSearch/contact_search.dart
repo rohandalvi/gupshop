@@ -3,6 +3,7 @@ import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/navigators/navigateToIndividualChat.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -68,10 +69,10 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
                 text: ':( This name does not match your contacts ',),
             ),
             cancellationWidget: CustomIconButton(
-              iconNameInImageFolder: 'cancel',
+              iconNameInImageFolder: IconConfig.cancel,
             ),
             icon: CustomIconButton(
-              iconNameInImageFolder: 'backArrowColor',
+              iconNameInImageFolder: IconConfig.backArrow,
               onPressed: widget.navigate == null ? (){
                 CustomNavigator().navigateToHome(context, userName, userPhoneNo);
               } : widget.navigate,

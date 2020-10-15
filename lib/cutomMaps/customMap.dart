@@ -9,6 +9,7 @@ import 'package:gupshop/cutomMaps/minusButton.dart';
 import 'package:gupshop/cutomMaps/okButton.dart';
 import 'package:gupshop/cutomMaps/plusButton.dart';
 import 'package:gupshop/cutomMaps/setCircleData.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/intConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
@@ -121,7 +122,7 @@ class _CustomMapState extends State<CustomMap> {
           Visibility(
             visible: widget.showBackButton != null || widget.showBackButton == true,
             child: CustomIconButton(
-              iconNameInImageFolder: 'backArrowColor',
+              iconNameInImageFolder: IconConfig.backArrow,
               onPressed: (){
                 LatLng point = LatLng(widget.latitude, widget.longitude);
                 List list = new List();

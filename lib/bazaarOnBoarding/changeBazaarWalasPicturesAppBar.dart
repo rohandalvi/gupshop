@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/bazaar/cameraButtonOnPressed.dart';
 import 'package:gupshop/bazaar/galleryButtonOnPressed.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -36,7 +37,7 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
                 onPressed: (){
                   CustomBottomSheet(
                     customContext: context,
-                    firstIconName: 'photoGallery',
+                    firstIconName: IconConfig.photoGallery,
                     firstIconText: 'Pick image from  Gallery',
                     firstIconAndTextOnPressed: () async{
                       if(tabNumber == 0) {
@@ -52,7 +53,7 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
                         otherPictureTwo(imageURL);
                       }
                     },
-                    secondIconName: 'image2vector',
+                    secondIconName: IconConfig.camera,
                     secondIconText: 'Click image from Camera',
                     secondIconAndTextOnPressed: () async{
                       if(tabNumber == 0) {

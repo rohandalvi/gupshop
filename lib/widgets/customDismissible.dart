@@ -85,7 +85,7 @@ class _CustomDismissibleState extends State<CustomDismissible> {
       onDismissed: widget.onDismissed,
       direction: (group == true && admin == myNumber) ? DismissDirection.horizontal : DismissDirection.endToStart,
       background: Container(
-        color: deleteColor,
+        color: red,
         alignment: AlignmentDirectional.centerStart,
         child: IconButton(
             icon: SvgPicture.asset('images/recycleBin.svg',)
@@ -95,9 +95,10 @@ class _CustomDismissibleState extends State<CustomDismissible> {
       secondaryBackground: Container(
         color: notMeChatColor,
         alignment: AlignmentDirectional.centerEnd,
-        child: IconButton(
-          icon: SvgPicture.asset('images/hide.svg',),
-        ),
+        child: CustomText(text: 'HIDE',textColor: red,)
+//        IconButton(
+//          icon: SvgPicture.asset('images/hide.svg',),
+//        ),
       ),
       child: widget.child,
     );

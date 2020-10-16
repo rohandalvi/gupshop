@@ -317,7 +317,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
             CustomFlushBar(
               customContext: context,
               text: CustomText(text: TextConfig.selectLocationFlushbar,),
-              iconName: IconConfig.stopHand,
+              iconName: IconConfig.stop,
               message: TextConfig.selectLocationFlushbar,
             ).showFlushBar();
         }

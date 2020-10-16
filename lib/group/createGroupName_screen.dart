@@ -8,13 +8,17 @@ import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customFlushBar.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/service/pushToProfilePictures.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
 
 //=>LoginScreen => NameScreen => Home
@@ -84,8 +88,8 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                 padding: EdgeInsets.only(left: PaddingConfig.twenty,
                     top: PaddingConfig.thirtyFive, right: PaddingConfig.twenty),
               ),
-              IconButton(
-                icon: SvgPicture.asset('images/nextArrow.svg',),
+              CustomIconButton(
+                iconNameInImageFolder: IconConfig.forwardIcon,
                 onPressed: ()async{
                   /// create a conversationMetadata which would also have a groupName
                   /// the groupName would be our identifier if the conversation is individual or group
@@ -113,28 +117,33 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
 
 
                   if(groupName == null || groupName == ""){
-                    Flushbar(
-                      icon: SvgPicture.asset(
-                        'images/stopHand.svg',
-                        width: IconConfig.flushbarIconThirty,
-                        height: IconConfig.flushbarIconThirty,
-                      ),
-                      flushbarStyle: FlushbarStyle.GROUNDED,
-                      backgroundColor: Colors.white,
-                      duration: Duration(seconds: 5),
-                      forwardAnimationCurve: Curves.decelerate,
-                      reverseAnimationCurve: Curves.easeOut,
-                      titleText: Text(
-                        'Name required',
-                        style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: ourBlack,
-                          ),
-                        ),
-                      ),
-                      message: "Please enter name to move forward",
-                    )..show(context);
+                    CustomFlushBar(
+                      text: CustomText(text: TextConfig.nameRequiredText,),
+                      message: TextConfig.nameRequiredText,
+                      customContext: context,
+                    ).showFlushBarStopHand();
+//                    Flushbar(
+//                      icon: SvgPicture.asset(
+//                        'images/stopHand.svg',
+//                        width: IconConfig.flushbarIconThirty,
+//                        height: IconConfig.flushbarIconThirty,
+//                      ),
+//                      flushbarStyle: FlushbarStyle.GROUNDED,
+//                      backgroundColor: Colors.white,
+//                      duration: Duration(seconds: 5),
+//                      forwardAnimationCurve: Curves.decelerate,
+//                      reverseAnimationCurve: Curves.easeOut,
+//                      titleText: Text(
+//                        'Name required',
+//                        style: GoogleFonts.openSans(
+//                          textStyle: TextStyle(
+//                            fontWeight: FontWeight.w600,
+//                            color: ourBlack,
+//                          ),
+//                        ),
+//                      ),
+//                      message: "Please enter name to move forward",
+//                    )..show(context);
                   } else{
                     NavigateToIndividualChat(
                         conversationId: id,

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
 class OkButton extends StatelessWidget {
@@ -10,7 +11,7 @@ class OkButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: CustomIconButton(
-        iconNameInImageFolder: 'tickMarkDark',
+        iconNameInImageFolder: IconConfig.tickMarkDark,
         onPressed: onOkPressed,
       ),
     );

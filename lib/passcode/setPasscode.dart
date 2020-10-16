@@ -89,7 +89,7 @@ class _SetPasscodeState extends State<SetPasscode> {
           child: Container(
             child: CustomRaisedButton(
               child: CustomText(text: TextConfig.diableApplock,textColor: white,),
-              borderSideColor: BorderSide(color : deleteColor),
+              borderSideColor: BorderSide(color : red),
               onPressed: () async{
 //                AppLockMethods().disableAppLock(context: context);
                 await UserDetails().diablePasscode();

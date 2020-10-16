@@ -38,13 +38,8 @@ class CustomFlushBar extends StatelessWidget {
   showFlushBarStopHand(){
     return Flushbar( /// for the flushBar if the user enters wrong verification code
       icon: CustomIcon(
-        iconName: IconConfig.stopHand,
+        iconName: IconConfig.stop,
       ),
-//      SvgPicture.asset(
-//        'images/stopHand.svg',
-//        width: IconConfig.flushbarIconThirty,/// 30
-//        height: IconConfig.flushbarIconThirty,/// 30
-//      ),
       backgroundColor: white,
       duration: duration == null ? Duration(seconds: 5) : duration,
       forwardAnimationCurve: Curves.decelerate,

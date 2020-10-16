@@ -274,7 +274,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
           CustomFlushBar(
             customContext: context,
             text: CustomText(text: TextConfig.selectVideoFlushbar,),
-            iconName: IconConfig.stopHand,
+            iconName: IconConfig.stop,
             message: TextConfig.selectVideoFlushbar,
           ).showFlushBar();
           }

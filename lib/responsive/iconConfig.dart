@@ -38,8 +38,9 @@ class IconConfig{
   static String unlock = 'unLock';
   static String plus ='plus';
   static String send ='paperPlane';
-  static String stopHand = 'stopHand';
+  static String stop = 'stopTwo';
   static String search = 'advancedSearch';
   static String searchTwo = 'searchTwo';
   static String transparent = 'transparentTwo';
+  static String tickMarkDark = 'tickMarkDark';
 }

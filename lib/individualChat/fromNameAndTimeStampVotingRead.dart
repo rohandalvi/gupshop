@@ -9,6 +9,7 @@ import 'package:gupshop/news/newsStatisticsCollection.dart';
 import 'package:gupshop/news/trueFakeVotingIconsUI.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -60,8 +61,8 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
                     builder: (context, snapshot) {
                       if(snapshot.data != null){
                         reportedByCount = snapshot.data["reportedBy"];
-                        trueByCount = snapshot.data["trueBy"];
-                        fakeByCount = snapshot.data["fakeBy"];
+                        trueByCount = snapshot.data[TextConfig.trueBy];
+                        fakeByCount = snapshot.data[TextConfig.fakeBy];
                       }
 
                       if(reportedByCount == null) reportedByCount =0;
@@ -107,7 +108,7 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
                           //FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,category, widget.reportedByCount);
                         },
                         onTap2: () async{
-                          String category = 'trueBy';
+                          String category = TextConfig.trueBy;
 
                           /// first check if the user exists in newsStatistics,
                           /// if not add him
@@ -143,11 +144,11 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
                             //FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,category, trueByCount);
                           }else{
                             Duration duration = new Duration(seconds: 2);
-                            CustomFlushBar(text: CustomText(text: 'News creator or forwarder cannot change their up vote',),customContext: context,duration: duration,).showFlushBarStopHand();
+                            CustomFlushBar(text: CustomText(text: TextConfig.newsCreaterCannotChangeUpVote,),customContext: context,duration: duration,).showFlushBarStopHand();
                           }
                         },
                         onTap3: () async{
-                          String category = 'fakeBy';
+                          String category = TextConfig.fakeBy;
                           String userNumber = await UserDetails().getUserPhoneNoFuture();
                           String userName = await UserDetails().getUserNameFuture();
                           if(await NewsStatisticsCollection().checkIfUserExistsInSubCollection(widget.newsId, userNumber, category) == false){
@@ -216,8 +217,8 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
               width: MediaQuery.of(context).size.width,
               alignment:  Alignment.centerRight,
               padding:  EdgeInsets.symmetric(horizontal: PaddingConfig.fifteen, vertical: PaddingConfig.one),
-              child: isRead == true ? CustomText(text: 'read',).blueSubtitleItalic() :
-              CustomText(text: 'unread',).graySubtitleItalic(),
+              child: isRead == true ? CustomText(text: TextConfig.read,).blueSubtitleItalic() :
+              CustomText(text: TextConfig.unread,).graySubtitleItalic(),
             ),
     );
   }

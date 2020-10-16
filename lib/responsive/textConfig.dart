@@ -299,6 +299,9 @@ class TextConfig{
   static const String reportedBy = 'reportedBy';
   static const String customTitle = 'customTitle';
   static const String customNewsDescription = 'customNewsDescription';
+  static const String newsCreaterCannotChangeUpVote = 'News creator or forwarder cannot change their up vote';
+  static const String read = 'read';
+  static const String unread = 'unread';
 
   /// newsStatistics:
   static const String voteStatus = 'voteStatus';

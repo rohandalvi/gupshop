@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/PushToFirebase/newsCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToSaveCollection.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
 import 'package:gupshop/individualChat/newsData.dart';
@@ -298,7 +299,8 @@ class NewsComposerState extends State<NewsComposer> {
       //FirebaseMethods().pushToFirebaseConversatinCollection(newsMessageForConversationCollection.fromJson());
 
       /// pushing news to news collection
-      FirebaseMethods().pushToNewsCollection(newsId, widget.link,  trueBy,  fakeBy,  reportedBy, widget.title, widget.newsBody);
+      NewsCollection().push(newsId, widget.link,  trueBy,  fakeBy,  reportedBy, widget.title, widget.newsBody);
+//      FirebaseMethods().pushToNewsCollection(newsId, widget.link,  trueBy,  fakeBy,  reportedBy, widget.title, widget.newsBody);
 
       Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName, fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(), messageId: messageId,).forNews();
       //IMessage newsMessageForRecentChats = TextMessage(text: "📰 NEWS", fromNumber: userPhoneNo, fromName: userName, conversationId: conversationId,timestamp: Timestamp.now());

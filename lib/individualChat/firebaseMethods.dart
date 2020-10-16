@@ -18,21 +18,21 @@ class FirebaseMethods {
 //    await Firestore.instance.collection("conversations").document(conversationId).collection("messages").document(documentId).updateData({changeIn: changeCount});
 //  }
 
-  pushToNewsCollection(String newsId,String link,int trueBy,int fakeBy,int reportedBy, String customTitle,String customNewsDescription){
-    Firestore.instance.collection("news").document(newsId).setData({'link':link,'trueBy':trueBy,'fakeBy':fakeBy,'reportedBy':reportedBy,'customTitle':customTitle,'customNewsDescription':customNewsDescription });
-  }
+//  pushToNewsCollection(String newsId,String link,int trueBy,int fakeBy,int reportedBy, String customTitle,String customNewsDescription){
+//    Firestore.instance.collection("news").document(newsId).setData({'link':link,'trueBy':trueBy,'fakeBy':fakeBy,'reportedBy':reportedBy,'customTitle':customTitle,'customNewsDescription':customNewsDescription });
+//  }
 
-  getNewsDetailsForDisplay(String newsId) async{
-    DocumentSnapshot dc = await Firestore.instance.collection("news").document(newsId).get();
-    return dc.data;
-  }
+//  getNewsDetailsForDisplay(String newsId) async{
+//    DocumentSnapshot dc = await Firestore.instance.collection("news").document(newsId).get();
+//    return dc.data;
+//  }
 
-  updateVoteCountToNewsCollection(String newsId, String changeInName, int changeInCount){
-    print("newsId: $newsId");
-    print("changeInName: $changeInName");
-    print("changeInCount : $changeInCount");
-    Firestore.instance.collection("news").document(newsId).updateData({changeInName : changeInCount});
-  }
+//  updateVoteCountToNewsCollection(String newsId, String changeInName, int changeInCount){
+//    print("newsId: $newsId");
+//    print("changeInName: $changeInName");
+//    print("changeInCount : $changeInCount");
+//    Firestore.instance.collection("news").document(newsId).updateData({changeInName : changeInCount});
+//  }
 
   getVoteTrueOrFalse(String newsId, String category) async{
     String userNumber = await UserDetails().getUserPhoneNoFuture();

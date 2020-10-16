@@ -223,6 +223,7 @@ class TextConfig{
   static const String bazaarWalasBasicProfileCollectionName = 'bazaarWalasBasicProfile';
   static const String bazaarCategoriesMetadataCollectionName = 'bazaarCategoriesMetadata';
   static const String conversationsCollectionName = 'conversations';
+  static const String newsCollectionName = 'news';
 
 
   /// ======================================================================== ///
@@ -287,6 +288,14 @@ class TextConfig{
 
   /// reviews:
   static const String timeStampReviews = 'timeStamp';
+
+  /// news:
+  static const String link = 'link';
+  static const String trueBy = 'trueBy';
+  static const String fakeBy = 'fakeBy';
+  static const String reportedBy = 'reportedBy';
+  static const String customTitle = 'customTitle';
+  static const String customNewsDescription = 'customNewsDescription';
 
 /// ======================================================================== ///
 

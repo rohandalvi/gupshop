@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/PushToFirebase/newsCollection.dart';
 import 'package:gupshop/messageReadUnread/friendsReadStatus.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
@@ -54,7 +55,8 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: PaddingConfig.fifteen, vertical: PaddingConfig.one),
                   child: FutureBuilder(
-                    future: FirebaseMethods().getNewsDetailsForDisplay(widget.newsId),
+                    future: NewsCollection().getNewsDetailsForDisplay(widget.newsId),
+                    //FirebaseMethods().getNewsDetailsForDisplay(widget.newsId),
                     builder: (context, snapshot) {
                       if(snapshot.data != null){
                         reportedByCount = snapshot.data["reportedBy"];
@@ -98,7 +100,8 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
                             FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
                           }
 
-                          FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,category, widget.reportedByCount);
+                          NewsCollection().updateVoteCountToNewsCollection(widget.newsId,category, widget.reportedByCount);
+                          //FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,category, widget.reportedByCount);
                         },
                         onTap2: () async{
                           String category = 'trueBy';
@@ -129,7 +132,8 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
                               FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
                             }
 
-                            FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,category, trueByCount);
+                            NewsCollection().updateVoteCountToNewsCollection(widget.newsId,category, trueByCount);
+                            //FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,category, trueByCount);
                           }else{
                             Duration duration = new Duration(seconds: 2);
                             CustomFlushBar(text: CustomText(text: 'News creator or forwarder cannot change their up vote',),customContext: context,duration: duration,).showFlushBarStopHand();
@@ -156,7 +160,8 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
                             FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
                           }
 
-                          FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,category, fakeByCount);
+                          NewsCollection().updateVoteCountToNewsCollection(widget.newsId,category, fakeByCount);
+//                          FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,category, fakeByCount);
                         },
                       );
                     }

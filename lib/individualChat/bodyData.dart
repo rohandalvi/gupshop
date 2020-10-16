@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/PushToFirebase/newsCollection.dart';
 import 'package:gupshop/individualChat/bodyDisplay.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
@@ -191,7 +192,8 @@ class BodyData extends StatelessWidget {
       );
     } else{
       return FutureBuilder(
-          future: FirebaseMethods().getNewsDetailsForDisplay(newsId),
+          future: NewsCollection().getNewsDetailsForDisplay(newsId),
+          //FirebaseMethods().getNewsDetailsForDisplay(newsId),
           builder: (context, snapshot) {
             if(snapshot.connectionState == ConnectionState.done){
               String newsBody;

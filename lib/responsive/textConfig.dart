@@ -221,6 +221,7 @@ class TextConfig{
   static const String bazaarReviewsCollectionName = 'bazaarReviews';
   static const String reviewsCollectionName = 'reviews';
   static const String bazaarWalasBasicProfileCollectionName = 'bazaarWalasBasicProfile';
+  static const String bazaarCategoriesMetadataCollectionName = 'bazaarCategoriesMetadata';
 
 
   /// ======================================================================== ///

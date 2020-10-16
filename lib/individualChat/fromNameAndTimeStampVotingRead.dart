@@ -86,18 +86,21 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
 
                           String category = 'reportedBy';
 
-                          bool voteStatus = await FirebaseMethods().getVoteTrueOrFalse(widget.newsId, category);
+                          bool voteStatus = await NewsStatisticsCollection().getVoteTrueOrFalse(widget.newsId, category);
+                          //FirebaseMethods().getVoteTrueOrFalse(widget.newsId, category);
 
                           if(voteStatus == false){
                             setState(() {
                               widget.reportedByCount++;
                             });
-                            FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, true);
+                            NewsStatisticsCollection().updateVoteStatusToNewsStatistics(widget.newsId, category, true);
+                            //FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, true);
                           } else{
                             setState(() {
                               widget.reportedByCount--;
                             });
-                            FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
+                            NewsStatisticsCollection().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
+//                            FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
                           }
 
                           NewsCollection().updateVoteCountToNewsCollection(widget.newsId,category, widget.reportedByCount);
@@ -116,20 +119,24 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
                             await NewsStatisticsCollection().addToSet(widget.newsId, userNumber, userName, category, false);
                           }
 
-                          bool voteStatus = await FirebaseMethods().getVoteTrueOrFalse(widget.newsId, category);
-                          bool isOwner = await FirebaseMethods().getHasCreatedOrForwardedTheNews(widget.newsId, category);
+                          bool voteStatus = await NewsStatisticsCollection().getVoteTrueOrFalse(widget.newsId, category);
+                          //FirebaseMethods().getVoteTrueOrFalse(widget.newsId, category);
+                          bool isOwner = await NewsStatisticsCollection().getHasCreatedOrForwardedTheNews(widget.newsId, category);
+                          //FirebaseMethods().getHasCreatedOrForwardedTheNews(widget.newsId, category);
 
                           if(isOwner == false){
                             if(voteStatus == false){
                               setState(() {
                                 trueByCount++;
                               });
-                              FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, true);
+                              NewsStatisticsCollection().updateVoteStatusToNewsStatistics(widget.newsId, category, true);
+                              //FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, true);
                             } else{
                               setState(() {
                                 trueByCount--;
                               });
-                              FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
+                              NewsStatisticsCollection().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
+                              //FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
                             }
 
                             NewsCollection().updateVoteCountToNewsCollection(widget.newsId,category, trueByCount);
@@ -147,17 +154,20 @@ class _FromNameAndTimeStampVotingReadState extends State<FromNameAndTimeStampVot
                             await NewsStatisticsCollection().addToSet(widget.newsId, userNumber, userName, category, false);
                           }
 
-                          bool voteStatus = await FirebaseMethods().getVoteTrueOrFalse(widget.newsId, category);
+                          bool voteStatus = await NewsStatisticsCollection().getVoteTrueOrFalse(widget.newsId, category);
+                          //FirebaseMethods().getVoteTrueOrFalse(widget.newsId, category);
                           if(voteStatus == false){
                             setState(() {
                               fakeByCount++;
                             });
-                            FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, true);
+                            NewsStatisticsCollection().updateVoteStatusToNewsStatistics(widget.newsId, category, true);
+                            //FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, true);
                           } else{
                             setState(() {
                               fakeByCount--;
                             });
-                            FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
+                            NewsStatisticsCollection().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
+                            //FirebaseMethods().updateVoteStatusToNewsStatistics(widget.newsId, category, false);
                           }
 
                           NewsCollection().updateVoteCountToNewsCollection(widget.newsId,category, fakeByCount);

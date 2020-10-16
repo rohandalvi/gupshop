@@ -25,6 +25,7 @@ class ClickableText extends StatelessWidget {
     );
   }
 
+
 //  richText(){
 //    return TextSpan(
 //      text : text,

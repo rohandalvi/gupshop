@@ -13,6 +13,7 @@ class IconConfig{
   /// icon names:
   static String add = 'addTwo';
   static String appIcon = 'appIcon';
+  static String alarm = 'alarmTwo';
 //  static String camera = 'image2vector';
   static String videoCamera = 'videoCameraTwo';
   static String backArrow = 'backArrowTwo';

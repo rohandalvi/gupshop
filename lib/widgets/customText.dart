@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/colors/colorPalette.dart';
@@ -17,8 +18,10 @@ class CustomText extends StatelessWidget {
   final double welcomeTitleSize;
   final double welcomeSize;
   final TextAlign textAlign;
+  final GestureTapCallback onTap;
 
-  CustomText({Key key, @required this.text, this.fontSize, this.textColor, this.fontWeight, this.textAlign}) :
+  CustomText({Key key, @required this.text, this.fontSize, this.textColor,
+    this.fontWeight, this.textAlign, this.onTap}) :
         standardFontSize =  WidgetConfig.standardFontSize,/// 16
         bigFontSize = WidgetConfig.bigFontSize,
         subtitleFontSize = SizeConfig.textMultiplier * 1.5,
@@ -46,6 +49,7 @@ class CustomText extends StatelessWidget {
   richText(){
     return TextSpan(
       text : text,
+      recognizer: TapGestureRecognizer()..onTap =onTap,
       style: GoogleFonts.openSans(
         textStyle: TextStyle(
             fontWeight: fontWeight == null ? FontWeight.w600 : fontWeight,

@@ -19,6 +19,7 @@ import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 import 'package:gupshop/bazaarLocation/filterBazaarLocationData.dart';
 import 'package:gupshop/retriveFromFirebase/getUsersLocation.dart';
+import 'package:gupshop/widgets/clickableText.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/bazaarCategory/bazaarIndividualCategoryListDisplay.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -133,27 +134,27 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
              //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
             },
             actions: <Widget>[
-              CustomIconButton(
-                iconNameInImageFolder: IconConfig.locationPin,
-                onPressed: () async{
-                  bool tempIsAddressChanged = await NavigateToAddressList(userPhoneNo: userPhoneNo).navigateNoBrackets(context);
-                  if(tempIsAddressChanged == true){
-                    setState(() {
-                      isAddressChanged = tempIsAddressChanged;
-
-                      /// if the user does not change location, then userGeohash
-                      /// would be null
-                      /// In that case, select the geoHash pushed to firebase
-                      /// in bazaarHome page which is the current location of the user
-                      ///
-                      /// But, if the user changes the home location , then
-                      /// the userGeohash wont be null, it would be the previous
-                      /// home location, so set it to null
-                      widget.userGeohash = null;
-                    });
-                  }
-                },
-              ),
+//              CustomIconButton(
+//                iconNameInImageFolder: IconConfig.locationPin,
+//                onPressed: () async{
+//                  bool tempIsAddressChanged = await NavigateToAddressList(userPhoneNo: userPhoneNo).navigateNoBrackets(context);
+//                  if(tempIsAddressChanged == true){
+//                    setState(() {
+//                      isAddressChanged = tempIsAddressChanged;
+//
+//                      /// if the user does not change location, then userGeohash
+//                      /// would be null
+//                      /// In that case, select the geoHash pushed to firebase
+//                      /// in bazaarHome page which is the current location of the user
+//                      ///
+//                      /// But, if the user changes the home location , then
+//                      /// the userGeohash wont be null, it would be the previous
+//                      /// home location, so set it to null
+//                      widget.userGeohash = null;
+//                    });
+//                  }
+//                },
+//              ),
               changeLocation(context),
             ],
           ),
@@ -212,7 +213,27 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
               child: CustomRichText(
                 children: <TextSpan>[
                   CustomText(text: TextConfig.showingResultsFor,).richText(),
-                  CustomText(text: widget.addressName,textColor: primaryColor,).richText(),
+                  CustomText(
+                    text: widget.addressName,textColor: primaryColor,
+                    onTap: () async{
+                      bool tempIsAddressChanged = await NavigateToAddressList(userPhoneNo: userPhoneNo).navigateNoBrackets(context);
+                      if(tempIsAddressChanged == true){
+                        setState(() {
+                          isAddressChanged = tempIsAddressChanged;
+
+                          /// if the user does not change location, then userGeohash
+                          /// would be null
+                          /// In that case, select the geoHash pushed to firebase
+                          /// in bazaarHome page which is the current location of the user
+                          ///
+                          /// But, if the user changes the home location , then
+                          /// the userGeohash wont be null, it would be the previous
+                          /// home location, so set it to null
+                          widget.userGeohash = null;
+                        });
+                      }
+                    },
+                  ).richText(),
                 ],
               ),
             ),

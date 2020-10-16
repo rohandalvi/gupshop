@@ -222,6 +222,7 @@ class TextConfig{
   static const String reviewsCollectionName = 'reviews';
   static const String bazaarWalasBasicProfileCollectionName = 'bazaarWalasBasicProfile';
   static const String bazaarCategoriesMetadataCollectionName = 'bazaarCategoriesMetadata';
+  static const String conversationsCollectionName = 'conversations';
 
 
   /// ======================================================================== ///
@@ -274,6 +275,11 @@ class TextConfig{
   static const String conversationMetadataAdmin = 'admin';
   static const String conversationMetadataMembers = 'members';
   static const String conversationMetadataGroupName = groupName;
+
+  /// conversations:
+  static const String messages = 'messages';
+  static const String isSaved = 'isSaved';
+  static const String messageId = 'messageId';
 
   /// recentChats:
   static const String conversationsRecentChats = 'conversations';

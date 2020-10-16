@@ -3,6 +3,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/PushToFirebase/pushToConversationCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
 import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
@@ -108,7 +109,8 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                   AddToFriendsCollection(friendListForGroupForFriendsCollection: listOfNumbersInAGroup).addToFriendsCollection(nameListForMyNumber, id, userPhoneNo, nameList,groupName, userPhoneNo);/// **
 
                   /// add to conversations to avoid italic conversationId
-                  Firestore.instance.collection("conversations").document(id).setData({});
+                  PushToConversationCollection().setBlankData(id);
+                  //Firestore.instance.collection("conversations").document(id).setData({});
 
                   PushToProfilePictures().newGroupProfilePicture(id);
 

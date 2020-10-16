@@ -22,5 +22,6 @@ class CollectionPaths{
   static CollectionReference bazaarRatingNumbersCollectionPath =  getBase(TextConfig.bazaarRatingNumbersCollectionName);
   static CollectionReference bazaarWalasBasicProfileCollectionPath =  getBase(TextConfig.bazaarWalasBasicProfileCollectionName);
   static CollectionReference bazaarCategoriesMetadataCollectionPath =  getBase(TextConfig.bazaarCategoriesMetadataCollectionName);
+  static CollectionReference conversationsCollectionPath =  getBase(TextConfig.conversationsCollectionName);
 
 }

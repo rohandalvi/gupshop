@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
+import 'package:gupshop/PushToFirebase/pushToConversationCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToSaveCollection.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
@@ -143,7 +144,8 @@ class _IndividualChatState extends State<IndividualChat> {
         id, widget.userPhoneNo, nameListForOthers, null, null);
 
     /// also push the conversationId to conversations:
-    Firestore.instance.collection("conversations").document(id).setData({});
+//    Firestore.instance.collection("conversations").document(id).setData({});
+    PushToConversationCollection().setBlankData(id);
 
     /// setData to messageTyping collection:
     PushToMessageTypingCollection(conversationId: widget.conversationId, userNumber: widget.userPhoneNo).pushTypingStatus();
@@ -190,7 +192,8 @@ class _IndividualChatState extends State<IndividualChat> {
         String messageId = await PushToSaveCollection(messageBody: data["news"], messageType: 'body',).
         saveAndGenerateId();
         data["messageId"] = messageId;
-        FirebaseMethods().pushToFirebaseConversatinCollection(data);
+        PushToConversationCollection().push(data);
+//        FirebaseMethods().pushToConversatinCollection(data);
         data = TextMessage(text: "📰 NEWS", conversationId: conversationId,fromName: widget.userName,
             fromNumber: widget.userPhoneNo,
             timestamp: Timestamp.now(), messageId: messageId).fromJson();
@@ -212,7 +215,8 @@ class _IndividualChatState extends State<IndividualChat> {
       else{
         String messageId = await PushToSaveCollection(messageBody: data["body"], messageType: 'body',).saveAndGenerateId();
         data["messageId"] = messageId;
-        FirebaseMethods().pushToFirebaseConversatinCollection(data);
+        PushToConversationCollection().push(data);
+//        FirebaseMethods().pushToConversatinCollection(data);
         RecentChats(message: data, convId: conversationId, userNumber:widget.userPhoneNo,
             userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers,
             groupExists: groupExits).getAllNumbersOfAConversation();

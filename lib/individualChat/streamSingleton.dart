@@ -1,4 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/responsive/textConfig.dart';
+import 'package:gupshop/retriveFromFirebase/getFromConversationCollection.dart';
 
 class StreamSingleton {
 
@@ -12,9 +13,10 @@ class StreamSingleton {
 
 
     Stream getMessageStream(String conversationId) {
-      _messageStream = Firestore.instance.collection("conversations")
-          .document(conversationId).collection("messages")
-          .orderBy("timeStamp", descending: true)
+      _messageStream = GetFromConversationCollection().path(conversationId)
+//          Firestore.instance.collection("conversations")
+//          .document(conversationId).collection("messages")
+          .orderBy(TextConfig.timeStampReviews, descending: true)
           .snapshots();
       return _messageStream;
     }

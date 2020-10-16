@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/responsive/textConfig.dart';
+import 'package:gupshop/retriveFromFirebase/getFromConversationCollection.dart';
 import 'package:gupshop/service/message_service.dart';
 
 class ConversationService{
@@ -36,11 +38,11 @@ class ConversationService{
 
     if(startAfter == null) {
 
-      subscription = Firestore.instance.collection("conversations").document(conversationId).collection("messages").limit(INITIAL_MESSAGE_COUNT).orderBy("timeStamp", descending: true).snapshots().listen((event) {
+      subscription = GetFromConversationCollection().path(conversationId).limit(INITIAL_MESSAGE_COUNT).orderBy(TextConfig.timeStampReviews, descending: true).snapshots().listen((event) {
         act(event);
       });
     } else {
-      subscription = Firestore.instance.collection("conversations").document(conversationId).collection("messages").orderBy("timeStamp", descending: false).startAfterDocument(startAfter).snapshots().listen((event) {
+      subscription = GetFromConversationCollection().path(conversationId).orderBy(TextConfig.timeStampReviews, descending: false).startAfterDocument(startAfter).snapshots().listen((event) {
         act(event);
       });
     }
@@ -78,8 +80,8 @@ class ConversationService{
 
 
   void paginate() {
-    Firestore.instance.collection("conversations").document(conversationId).collection("messages")
-        .startAfterDocument(startBefore).orderBy("timeStamp", descending: true).limit(PAGINATION_LIMIT).snapshots().listen((event) {
+    GetFromConversationCollection().path(conversationId)
+        .startAfterDocument(startBefore).orderBy(TextConfig.timeStampReviews, descending: true).limit(PAGINATION_LIMIT).snapshots().listen((event) {
       if(event.documents.isNotEmpty) {
         startBefore = event.documents[event.documents.length - 1];
         streamController.add(event);

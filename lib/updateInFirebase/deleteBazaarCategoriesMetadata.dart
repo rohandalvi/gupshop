@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/PushToFirebase/pushToCategoriesMetadata.dart';
 
 class DeleteBazaarCategoriesMetadata{
   String userNumber;
@@ -7,9 +8,13 @@ class DeleteBazaarCategoriesMetadata{
 
   DeleteBazaarCategoriesMetadata({this.subCategory, this.userNumber, this.category});
 
+  CollectionReference path(String userNumber){
+    CollectionReference cr = PushToCategoriesMatedata().path(userNumber).collection(category);
+    return cr;
+  }
+
   deleteASubcategory(){
-    Firestore.instance.collection("bazaarCategoriesMetadata").document(userNumber)
-        .collection(category).document(subCategory).delete();
+    path(userNumber).document(subCategory).delete();
   }
 
 }

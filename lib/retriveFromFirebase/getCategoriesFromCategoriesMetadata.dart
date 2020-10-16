@@ -1,27 +1,30 @@
 import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/PushToFirebase/pushToCategoriesMetadata.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 
-class getCategoriesFromCategoriesMetadata{
+class GetCategoriesFromCategoriesMetadata{
   final String category;
 
-  getCategoriesFromCategoriesMetadata({this.category});
+  GetCategoriesFromCategoriesMetadata({this.category});
 
-//  Future<Map<String, List>> selectedCategories() async{
+  CollectionReference path(String userNumber){
+    CollectionReference cr = PushToCategoriesMatedata().path(userNumber).collection(category);
+    return cr;
+  }
+
+
   selectedCategories() async{
     String userNumber = await UserDetails().getUserPhoneNoFuture();
-    QuerySnapshot dc = await Firestore.instance.collection("bazaarCategoriesMetadata")
-        .document(userNumber).collection(category).getDocuments();
-//    Map<String, List<dynamic>> result  = dc.data;
-//    return result;
+    QuerySnapshot dc = await path(userNumber).getDocuments();
     return dc.documents;
   }
 
   getCategoriesLength() async{
     String userNumber = await UserDetails().getUserPhoneNoFuture();
-    QuerySnapshot dc = await Firestore.instance.collection("bazaarCategoriesMetadata")
-        .document(userNumber).collection(category).getDocuments();
+    QuerySnapshot dc = await path(userNumber).getDocuments();
 //    Map<String, dynamic> listOfCategories = dc.data;
 //    print("listOfCategories : $listOfCategories");
 //    return dc.data;
@@ -29,14 +32,13 @@ class getCategoriesFromCategoriesMetadata{
 
   getSelectedCategoriesAsMap() async{
     String userNumber = await UserDetails().getUserPhoneNoFuture();
-    QuerySnapshot dc = await Firestore.instance.collection("bazaarCategoriesMetadata")
-        .document(userNumber).collection(category).getDocuments();
+    QuerySnapshot dc = await path(userNumber).getDocuments();
     if(dc.documents != null){
       Map result = new HashMap();
       Map map =  dc.documents.asMap();
       map.forEach((key, value) {
         DocumentSnapshot nameDc = value;
-        String categoryName = nameDc.data["name"];
+        String categoryName = nameDc.data[TextConfig.name];
         result[categoryName] = true;
       });
       return result;
@@ -45,11 +47,10 @@ class getCategoriesFromCategoriesMetadata{
 
   getSelectedCategoriesDataAsMap() async{
     String userNumber = await UserDetails().getUserPhoneNoFuture();
-    QuerySnapshot dc = await Firestore.instance.collection("bazaarCategoriesMetadata")
-        .document(userNumber).collection(category).getDocuments();
-    if(dc.documents != null){
+    QuerySnapshot querySnapshot = await path(userNumber).getDocuments();
+    if(querySnapshot.documents != null){
       Map result = new HashMap();
-      Map map =  dc.documents.asMap();
+      Map map =  querySnapshot.documents.asMap();
       map.forEach((key, value) {
         DocumentSnapshot nameDc = value;
         String categoryName = nameDc.documentID;

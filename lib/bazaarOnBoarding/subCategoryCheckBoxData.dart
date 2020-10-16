@@ -45,7 +45,7 @@ class _SubCategoryCheckBoxDataState extends State<SubCategoryCheckBoxData> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getCategoriesFromCategoriesMetadata(category: widget.categoryData,).getSelectedCategoriesAsMap(),
+      future: GetCategoriesFromCategoriesMetadata(category: widget.categoryData,).getSelectedCategoriesAsMap(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if(snapshot.data != null){

@@ -8,7 +8,7 @@ class ViewProfileAsBazaarWalaData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getCategoriesFromCategoriesMetadata().selectedCategories(),
+      future: GetCategoriesFromCategoriesMetadata().selectedCategories(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           print("snapshot.data in  viewProfile : ${snapshot.data}");

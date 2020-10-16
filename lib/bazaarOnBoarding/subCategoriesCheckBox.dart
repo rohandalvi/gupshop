@@ -224,7 +224,7 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
             width: WidgetConfig.groupIconWidth,
             child: FittedBox(
               child: CustomFloatingActionButtonWithIcon(
-                  iconName: IconConfig.forward2,
+                  iconName: IconConfig.forward,
                   tooltip: 'Go ahead',
                   /// create a listOfContactsSelected and send it to individualChat
                   onPressed: () async{

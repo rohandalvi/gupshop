@@ -125,7 +125,7 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
               ),
             ),
             floatingActionButton: CustomFloatingActionButtonWithIcon(
-              iconName: IconConfig.forward2,
+              iconName: IconConfig.forward,
               onPressed: () async{
                 ///push all the data here
                 PushToFirebase(

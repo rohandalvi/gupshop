@@ -217,7 +217,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
     cacheVideo();
 
     return CustomFloatingActionButtonWithIcon(
-      iconName: IconConfig.forward2,
+      iconName: IconConfig.forward,
       onPressed: () async{
         setState(() {
           if(isVideo != null) {

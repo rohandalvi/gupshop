@@ -277,7 +277,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
     /// is given by BazaarProfileSetVideo class
 
     return CustomFloatingActionButtonWithIcon(
-      iconName: IconConfig.forward2,
+      iconName: IconConfig.forward,
       onPressed: () async{
         setState(() {
           if(locationFromMap != null) {

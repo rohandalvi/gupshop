@@ -27,7 +27,7 @@ class CustomWelcomeBottom extends StatelessWidget {
             //fit: FlexFit.loose,
             child: CustomIconButton(
               onPressed: nextIconOnPressed,
-              iconNameInImageFolder: IconConfig.forward2,),
+              iconNameInImageFolder: IconConfig.forward,),
           )
         ],
       ),

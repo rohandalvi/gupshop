@@ -321,7 +321,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
     cacheVideo();
 
     return CustomFloatingActionButtonWithIcon(
-      iconName: IconConfig.forward2,
+      iconName: IconConfig.forward,
       onPressed: () async{
         setState(() {
           if(isVideo != null) {

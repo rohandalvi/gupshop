@@ -194,7 +194,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
                 showDialog(
                     context: context,
                     builder: (BuildContext context) => CupertinoAlertDialog(
-                      title: Text('Loading map'),
+                      title: Text(TextConfig.loadingMap),
                       content: Center(child: CircularProgressIndicator()),
                     ));
 
@@ -223,7 +223,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
                 widget.location = locationFromMap;
                 locationChanged = true;
                 String addressNameTemp = await LocationService().getAddressFromLatLang(widget.location.latitude, widget.location.longitude);
-                print("addressNameTemp : $addressNameTemp");
+//                print("addressNameTemp : $addressNameTemp");
                 /// setState to make the locationNotNull = true so that
                 /// showLocation() becomes visible
                 setState(() {
@@ -288,13 +288,13 @@ class _BazaarLocationState extends State<BazaarLocation> {
 
         if(widget.locationNotNull == true){
           /// adding location to cache, to show in edit profile
-          cache["location"] = locationFromMap;
+          cache[TextConfig.location] = locationFromMap;
 
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
 
-          print("isBazaarwala in location : ${widget.isBazaarWala}");
+//          print("isBazaarwala in location : ${widget.isBazaarWala}");
           NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
               category: widget.category,
               categoryData: widget.categoryData,

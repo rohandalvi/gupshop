@@ -1,26 +1,43 @@
 class TextConfig{
   /// bazaar:
   static String bazaarOnboardingTitle = 'Welcome to Bazaar Onboarding';
-  static String bazaarOnboardingSubTitle = "Anyone can join"
-      " our community to earn millions of customers";
+  static String bazaarOnboardingSubTitle = 'Anyone can join'
+      ' our community to earn millions of customers';
   static String bazaarBottomButton = "Get started";
-  static String bazaarOnBoardingQuestion = "What is your business ?";
-  static String bazaarAdvertisementTitle = "Add your advertisement video :";
+  static String bazaarOnBoardingQuestion = 'What is your business ?';
+  static String bazaarAdvertisementTitle = 'Add your advertisement video :';
   static const String bazaarAdvertisementIntro = '''Advertisements are a great way 
   to attract users 
   and earn business''';
   static String bazaarLocationTitle = "Add your service location area";
   static const String bazaarLocationIntro = '''Service location enables  
   users find you effectively''';
-  static String bazaarChangeNameTextTitle = "Add name to your business";
-  static String bazaarChangeNameTextSubtitle = "Try keeping the same name for your business throughout, to help the customer identify you";
+  static String bazaarChangeNameTextTitle = 'Add name to your business';
+  static String bazaarChangeNameTextSubtitle = 'Try keeping the same name for your business throughout, to help the customer identify you';
   static String bazaarChangeNameTextfieldLabel = 'Enter your business name';
-  static String bazaarChangeNameFlushbarMessage = "Please enter a name";
+  static String bazaarChangeNameFlushbarMessage = 'Please enter a name';
   static String bazaarWriteReview = 'Please write your review';
+  static String deliveryErrands = 'Delivery/Errands';
+  static String deliveryErrandsData = 'deliveryErrands';
 
 
   /// bazaarAdvertisement:
   static String selectVideoFlushbar = 'Select Video';
+  static String video = 'video';
+  static String addressName = 'addressName';
+
+  /// bazaarLocation:
+  static String location = 'location';
+  static String loadingMap = 'Loading map';
+
+  /// ChangeBazaarWalasPicturesAppBar:
+  static String addPictures = 'Add pictures';
+
+  /// CategorySelector:
+  static String icon = 'icon';
+
+  /// SubCategoryCheckBoxData:
+  static String name = 'name';
 
   /// passcode:
   static String passcodeCancel = 'Cancel';
@@ -33,14 +50,14 @@ class TextConfig{
 
 
   /// nameScreen :
-  static const String enterName = "Enter your Name";
+  static const String enterName = 'Enter your Name';
 
 
   /// images
   static const String editImage = 'Edit picture';
 
   /// flushbar:
-  static const String showFlushbarStopHandMessage = "Please enter your name to move forward";
+  static const String showFlushbarStopHandMessage = 'Please enter your name to move forward';
   static const String nameRequiredText= 'Name required';
   static const String wrongVerificationCode= 'Wrong verification code';
 
@@ -92,11 +109,11 @@ class TextConfig{
   /// classes ***************************************************************
 
   /// addressListData:
-  static const String addressNameHome = "Home : ";
-  static const String addressBook = "Address Book";
+  static const String addressNameHome = 'Home : ';
+  static const String addressBook = 'Address Book';
 
   /// ChangeLocationInSearch
-  static const String changeLocationInSearchAddressName = "addressName";
+  static const String changeLocationInSearchAddressName = 'addressName';
 
   /// bazaarIndividualCategoryListData
   static const String showingResultsFor = 'Showing results for : ';
@@ -148,7 +165,6 @@ class TextConfig{
   static const String repairsOrMaintenanceServiceProviders = "Repairs or Maintenance Service providers";
   static const String cleaningData = "cleaning";
 
-  static const String deliveryErrandsData = "deliveryErrands";
   static const String driversData = "drivers";
   static const String foodData = "food";
   static const String groceryData = "grocery";

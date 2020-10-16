@@ -134,7 +134,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
       cameraVideo: _cameraVideo,);
 
     videoPicked = true;
-    cache["video"] = isVideo;
+    cache[TextConfig.video] = isVideo;
 
     videoChanged = true;
 
@@ -143,7 +143,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
 
   cacheVideo(){
     setState(() {
-      cache["video"] = isVideo;
+      cache[TextConfig.video] = isVideo;
     });
   }
 
@@ -195,7 +195,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
                         ),
                         Expanded(
                           flex: 9,
-                          child: cache["video"] == null ? selectVideo() : cache["video"],
+                          child: cache[TextConfig.video] == null ? selectVideo() : cache[TextConfig.video],
                         ),
                       ]
                   ),
@@ -240,7 +240,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
           if(data != null){
             databaseLongitude = data[TextConfig.longitude];
             databaseLatitude = data[TextConfig.latitude];
-            addressName = data["addressName"];
+            addressName = data[TextConfig.addressName];
             radius =data[TextConfig.radius];
 
             location = new LatLng(databaseLatitude, databaseLongitude);

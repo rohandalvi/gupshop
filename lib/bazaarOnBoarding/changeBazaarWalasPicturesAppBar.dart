@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gupshop/bazaar/cameraButtonOnPressed.dart';
 import 'package:gupshop/bazaar/galleryButtonOnPressed.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -22,7 +23,7 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
-      title: CustomText(text: 'Add pictures',),
+      title: CustomText(text: TextConfig.addPictures,),
       onPressed:(){
         Navigator.pop(context);
       },
@@ -33,12 +34,12 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
         Builder(
             builder: (context) {
               return CustomIconButton(
-                iconNameInImageFolder: 'plus',
+                iconNameInImageFolder: IconConfig.plus,
                 onPressed: (){
                   CustomBottomSheet(
                     customContext: context,
                     firstIconName: IconConfig.photoGallery,
-                    firstIconText: 'Pick image from  Gallery',
+                    firstIconText: TextConfig.pickGalleryImage,
                     firstIconAndTextOnPressed: () async{
                       if(tabNumber == 0) {
                         String imageURL = await GalleryButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).thumbnailPicture(context);
@@ -54,7 +55,7 @@ class ChangeBazaarWalasPicturesAppBar extends StatelessWidget {
                       }
                     },
                     secondIconName: IconConfig.camera,
-                    secondIconText: 'Click image from Camera',
+                    secondIconText: TextConfig.pickCameraImage,
                     secondIconAndTextOnPressed: () async{
                       if(tabNumber == 0) {
                         String imageURL =await CameraButtonOnPressed(categoryData: categoryData, subCategoryDataList: subCategoryDataList).thumbnailPicture(context);

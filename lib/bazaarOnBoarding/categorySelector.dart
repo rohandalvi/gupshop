@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/customGridView.dart';
 import 'package:gupshop/image/gridViewContainer.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToBazaarAdvertisement.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
 import 'package:gupshop/navigators/navigateToSubCategoriesCheckBoxData.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 
 class CategorySelector extends StatelessWidget {
@@ -26,8 +26,8 @@ class CategorySelector extends StatelessWidget {
           return CustomGridView(
             itemCount: categoryLength,
             itemBuilder: (BuildContext context, int index){
-              String catergoryName = snapshot.data.documents[index].data['name'];
-              String imageURL = snapshot.data.documents[index].data['icon'];
+              String catergoryName = snapshot.data.documents[index].data[TextConfig.name];
+              String imageURL = snapshot.data.documents[index].data[TextConfig.icon];
               String categoryNameForData = snapshot.data.documents[index].documentID;
 
 
@@ -63,10 +63,10 @@ class CategorySelector extends StatelessWidget {
       ){
 
     List<String> listOfSubCategories = new List();
-    listOfSubCategories.add("Delivery/Errands");
+    listOfSubCategories.add(TextConfig.deliveryErrands);
 
     List<String> listOfSubCategoriesForData = new List();
-    listOfSubCategoriesForData.add("deliveryErrands");
+    listOfSubCategoriesForData.add(TextConfig.deliveryErrandsData);
 
     Map<String, String> subCategoryMap = new HashMap();
 

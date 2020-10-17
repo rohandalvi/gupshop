@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/responsive/collectionPaths.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 
 class PushToVideoCollection{
   String userPhoneNo;
@@ -10,10 +12,19 @@ class PushToVideoCollection{
     this.categoryData
   });
 
+  DocumentReference path(String userPhoneNo){
+    DocumentReference dc = CollectionPaths.videosCollectionPath.document(userPhoneNo);
+    return dc;
+  }
+
+  CollectionReference categoryDataPath(String userPhoneNo, String categoryData){
+    CollectionReference dc = CollectionPaths.videosCollectionPath.document(userPhoneNo)
+        .collection(categoryData);
+    return dc;
+  }
 
   push() async{
-    Firestore.instance.collection("videos").document(userPhoneNo)
-        .collection(categoryData).document(subCategoryData)
-        .setData({'url':videoURL});
+    categoryDataPath(userPhoneNo, categoryData).document(subCategoryData)
+        .setData({TextConfig.url:videoURL});
   }
 }

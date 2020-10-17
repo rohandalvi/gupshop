@@ -230,6 +230,7 @@ class TextConfig{
   static const String newsStatisticsCollectionName = 'newsStatistics';
   static const String messageReadUnreadCollectionName = 'messageReadUnread';
   static const String messageTypingCollectionName = 'messageTyping';
+  static const String videosCollectionName = 'videos';
 
 
   /// ======================================================================== ///
@@ -314,6 +315,9 @@ class TextConfig{
   static const String typing = 'typing';
   static const String typingDisplay = 'typing..';
   static const String offline = 'Offline';
+
+  /// video collection:
+  static const String url = 'url';
 
 /// ======================================================================== ///
 

@@ -27,4 +27,5 @@ class CollectionPaths{
   static CollectionReference newsStatisticsCollectionPath =  getBase(TextConfig.newsStatisticsCollectionName);
   static CollectionReference messageReadUnreadCollectionPath =  getBase(TextConfig.messageReadUnreadCollectionName);
   static CollectionReference messageTypingCollectionPath =  getBase(TextConfig.messageTypingCollectionName);
+  static CollectionReference videosCollectionPath =  getBase(TextConfig.videosCollectionName);
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:gupshop/PushToFirebase/pushToVideoCollection.dart';
 
 class DeleteFromVideoCollection{
   String userPhoneNo;
@@ -8,10 +9,13 @@ class DeleteFromVideoCollection{
 
   DeleteFromVideoCollection({this.categoryData, this.subCategoryData, this.userPhoneNo});
 
+  CollectionReference categoryDataPath(String userPhoneNo){
+    CollectionReference dc = PushToVideoCollection().categoryDataPath(userPhoneNo, categoryData);
+    return dc;
+  }
 
   deleteSubcategory() async{
-    await Firestore.instance.collection("videos").document(userPhoneNo)
-        .collection(categoryData).document(subCategoryData).delete();
+    await categoryDataPath(userPhoneNo).document(subCategoryData).delete();
   }
 
 }

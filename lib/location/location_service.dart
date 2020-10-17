@@ -211,9 +211,17 @@ class LocationService {
     ).elevated();
   }
 
-  Future<List<String>> getUserGeohash(String number, String addressName) async{
+//  Future<List<String>> getUserGeohash(String number, String addressName) async{
+//    DocumentSnapshot dc = await LocationService().getUserLocationDocumentSnapshot(number);
+//    print("dc in getUserGeohash : ${dc.data}");
+//    List<String> result =  dc.data[addressName][TextConfig.usersLocationCollectionGeoHashList].cast<String>();
+//    return result;
+//  }
+
+  Future<String> getUserGeohash(String number, String addressName) async{
     DocumentSnapshot dc = await LocationService().getUserLocationDocumentSnapshot(number);
-    List<String> result =  dc.data[addressName][TextConfig.usersLocationCollectionGeoHashList].cast<String>();
+    print("dc in getUserGeohash : ${dc.data}");
+    String result =  dc.data[addressName][TextConfig.usersLocationCollectionGeohash];
     return result;
   }
 

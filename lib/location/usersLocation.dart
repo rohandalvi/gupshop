@@ -83,7 +83,9 @@ class UsersLocation{
     dcMap.forEach((addressName, data) {
       GeoPoint geoPoint = data[TextConfig.usersLocationCollectionGeoPoint];
 
-      List<String> geoHashList = data[TextConfig.usersLocationCollectionGeoHashList].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
+      print("data TextConfig.usersLocationCollectionGeoHashList : ${data}");
+
+      //List<String> geoHashList = data[TextConfig.usersLocationCollectionGeoHashList].cast<String>();///type 'List<dynamic>' is not a subtype of type 'List<String>'
       String address = data[TextConfig.usersLocationCollectionAddress];
 
       /// adding both address and addressName to subMap

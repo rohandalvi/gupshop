@@ -45,8 +45,11 @@ class ChangeLocationInSearch{
     Map<String, dynamic> map = new Map();
     map[TextConfig.changeLocationInSearchAddressName] = addressName;
 
-    List<String> userGeohash = await LocationService().getUserGeohash(userNumber, addressName);
-    map[TextConfig.usersLocationCollectionGeoHashList] = userGeohash;
+    String userGeohash = await LocationService().getUserGeohash(userNumber, addressName);
+    map[TextConfig.usersLocationCollectionGeohash] = userGeohash;
+
+//    List<String> userGeohash = await LocationService().getUserGeohash(userNumber, addressName);
+//    map[TextConfig.usersLocationCollectionGeoHashList] = userGeohash;
 
     return map;
   }
@@ -86,10 +89,10 @@ class ChangeLocationInSearch{
     BazaarTrace().locationAdded(location);
   }
 
-  getUserGeohash(String userPhoneNo, String addressName) async{
-    List<String> userGeohash = await LocationService().getUserGeohash(userPhoneNo, addressName);
-    return userGeohash;
-  }
+//  getUserGeohash(String userPhoneNo, String addressName) async{
+//    List<String> userGeohash = await LocationService().getUserGeohash(userPhoneNo, addressName);
+//    return userGeohash;
+//  }
 
   getGeoPoint(double latitude, double longitude){
     return LocationService().getGeoPoint(latitude, longitude);

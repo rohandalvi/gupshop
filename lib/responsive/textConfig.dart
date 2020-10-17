@@ -242,6 +242,7 @@ class TextConfig{
   static const String usersLocationCollectionHome = 'home';
   static const String usersLocationCollectionAddress = 'address';
   static const String usersLocationCollectionGeoPoint = 'geoPoint';
+  static const String usersLocationCollectionGeohash = 'geohash';
 
   static const String bazaarWalasLocationCollectionGeoHashList = usersLocationCollectionGeoHashList;
 

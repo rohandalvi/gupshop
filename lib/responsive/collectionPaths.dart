@@ -24,6 +24,7 @@ class CollectionPaths{
   static CollectionReference bazaarCategoriesMetadataCollectionPath =  getBase(TextConfig.bazaarCategoriesMetadataCollectionName);
   static CollectionReference conversationsCollectionPath =  getBase(TextConfig.conversationsCollectionName);
   static CollectionReference newsCollectionPath =  getBase(TextConfig.newsCollectionName);
-  static CollectionReference newsStatisticsCollectionPath =  getBase(TextConfig.newsCollectionName);
-  static CollectionReference messageReadUnreadCollectionPath =  getBase(TextConfig.newsCollectionName);
+  static CollectionReference newsStatisticsCollectionPath =  getBase(TextConfig.newsStatisticsCollectionName);
+  static CollectionReference messageReadUnreadCollectionPath =  getBase(TextConfig.messageReadUnreadCollectionName);
+  static CollectionReference messageTypingCollectionPath =  getBase(TextConfig.messageTypingCollectionName);
 }

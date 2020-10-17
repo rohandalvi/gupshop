@@ -1,5 +1,6 @@
 class TextConfig{
   static String number = 'number';
+  static const String members = 'members';
 
   /// bazaar:
   static String bazaarOnboardingTitle = 'Welcome to Bazaar Onboarding';
@@ -228,6 +229,7 @@ class TextConfig{
   static const String newsCollectionName = 'news';
   static const String newsStatisticsCollectionName = 'newsStatistics';
   static const String messageReadUnreadCollectionName = 'messageReadUnread';
+  static const String messageTypingCollectionName = 'messageTyping';
 
 
   /// ======================================================================== ///
@@ -278,7 +280,7 @@ class TextConfig{
 
   /// conversationMetaData:
   static const String conversationMetadataAdmin = 'admin';
-  static const String conversationMetadataMembers = 'members';
+  static const String conversationMetadataMembers = members;
   static const String conversationMetadataGroupName = groupName;
 
   /// conversations:
@@ -308,6 +310,10 @@ class TextConfig{
   static const String voteStatus = 'voteStatus';
   static const String isOwner = 'isOwner';
 
+  /// messageTyping:
+  static const String typing = 'typing';
+  static const String typingDisplay = 'typing..';
+  static const String offline = 'Offline';
 
 /// ======================================================================== ///
 

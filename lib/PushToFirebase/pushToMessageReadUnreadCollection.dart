@@ -17,6 +17,4 @@ class PushToMessageReadUnreadCollection{
     path(userNumber).setData({conversationId : messageId}, merge: true);
   }
 
-
-
 }

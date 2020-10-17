@@ -37,6 +37,7 @@ class IconConfig{
   static String news = 'newsTwo';
   static String unlock = 'unLock';
   static String plus ='plus';
+  static String playButton = 'playButton';
   static String send ='paperPlane';
   static String stop = 'stopTwo';
   static String search = 'advancedSearch';

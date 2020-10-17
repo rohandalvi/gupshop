@@ -151,7 +151,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
       },
       child: Align(
         alignment: Alignment.bottomCenter,
-          child: CustomIconButton(iconNameInImageFolder: 'playButton',)
+          child: CustomIconButton(iconNameInImageFolder: IconConfig.playButton,)
       ),
     );
   }

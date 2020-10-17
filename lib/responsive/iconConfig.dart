@@ -14,6 +14,8 @@ class IconConfig{
   static String add = 'addTwo';
   static String appIcon = 'appIcon';
   static String alarm = 'alarmTwo';
+  static String download = 'download';
+  static String exclamation = 'exclamation';
 //  static String camera = 'image2vector';
   static String videoCamera = 'videoCameraTwo';
   static String backArrow = 'backArrowTwo';
@@ -37,10 +39,11 @@ class IconConfig{
   static String news = 'newsTwo';
   static String unlock = 'unLock';
   static String plus ='plus';
-  static String playButton = 'playButton';
+  static String playButton = 'playButtonTwo';
   static String send ='paperPlane';
   static String stop = 'stopTwo';
   static String search = 'advancedSearch';
+  static String speaker = 'speaker';
   static String searchTwo = 'searchTwo';
   static String transparent = 'transparentTwo';
   static String tickMarkDark = 'tickMarkDark';

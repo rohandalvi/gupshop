@@ -6,6 +6,8 @@ import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customSearch.dart';
 import 'package:gupshop/widgets/customText.dart';
 
+/// unused class
+
 /// required to view bazaarwalas profile page
 class SelectCategoryToShowInProductDetailsPage extends StatefulWidget {
   String productWalaName;

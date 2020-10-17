@@ -4,6 +4,8 @@ import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
 import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
 import 'package:gupshop/widgets/customText.dart';
 
+/// unused class
+
 class ViewProfileAsBazaarWalaData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

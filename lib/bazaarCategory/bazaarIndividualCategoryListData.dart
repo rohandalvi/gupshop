@@ -88,12 +88,9 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
       /// userGeohash will have value inherited from prior class only in
       /// case of drivers and errandRunners
       if(widget.userGeohash  == null){
-        print("in if : ${widget.userGeohash}");
         widget.userGeohash = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getUserGeohashList(userPhoneNo);
-        print("in if in getListOfBazaarWalasInAGivenRadius : ${widget.userGeohash}");
       }
 
-      print("widget.userGeohash list : ${widget.userGeohash}");
       var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getListOfBazaarWalasInAGivenRadius(userPhoneNo, widget.categoryData, widget.userGeohash);
       return listOfbazaarwalas;
     }

@@ -227,6 +227,7 @@ class TextConfig{
   static const String conversationsCollectionName = 'conversations';
   static const String newsCollectionName = 'news';
   static const String newsStatisticsCollectionName = 'newsStatistics';
+  static const String messageReadUnreadCollectionName = 'messageReadUnread';
 
 
   /// ======================================================================== ///

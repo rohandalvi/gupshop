@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class ReadUnreadDisplay extends StatelessWidget {
@@ -22,7 +23,7 @@ class ReadUnreadDisplay extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         alignment:  Alignment.centerRight,
         padding:  EdgeInsets.symmetric(horizontal: PaddingConfig.fifteen, vertical: PaddingConfig.one),
-        child: isRead == true ? CustomText(text: 'read',).blueSubtitleItalic() : CustomText(text: 'unread',).graySubtitleItalic(),
+        child: isRead == true ? CustomText(text: TextConfig.read,).blueSubtitleItalic() : CustomText(text: TextConfig.unread,).graySubtitleItalic(),
       ),
     );
   }

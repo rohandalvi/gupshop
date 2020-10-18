@@ -84,7 +84,8 @@ class CustomText extends StatelessWidget {
       style: GoogleFonts.openSans(
         textStyle: TextStyle(
           fontWeight: FontWeight.w600,
-          fontSize: welcomeTitleSize,
+          fontSize: WidgetConfig.welcomeTitleSizeSmaller
+          //fontSize: welcomeTitleSize,
         ),
       ),
     );

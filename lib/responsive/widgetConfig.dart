@@ -78,6 +78,7 @@ class WidgetConfig{
   static double bigFontSize = SizeConfig.textMultiplier * 2.5;
   static double fontSizeTwelve = SizeConfig.textMultiplier * 1.47;/// 12/8.16
   static double subtitleFontSize = SizeConfig.textMultiplier * 1.5;
+  static double welcomeTitleSizeSmaller =  SizeConfig.textMultiplier * 8;
   static double welcomeTitleSize =  SizeConfig.textMultiplier * 11;
   static double welcomeSize = SizeConfig.textMultiplier * 4;
 

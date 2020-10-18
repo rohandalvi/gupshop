@@ -45,77 +45,91 @@ class _LoginScreenState extends State<LoginScreen> {
       //Scaffold==>Column==>Container==>Text(Gup)
       //                 ==>Container==>Text(Shup)
       //can also be done, but the padding alignment is much beautiful with Stack
-      body: ListView(
-        shrinkWrap: true,
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                    Container(
-                      width: ImageConfig.welcomeScreenChatBubble,/// 200
-                      height: ImageConfig.welcomeScreenChatBubble,/// 200
-                      child:
-                      Image(
-                        image: AssetImage(ImageConfig.gupshupImage),
-                      ),
-                  ),
-                  Container(
-                    child: CustomText(text: TextConfig.gup,).welcomeTitle(),
-                    padding: EdgeInsets.fromLTRB(PaddingConfig.fifteen,
-                        PaddingConfig.oneTwenty, PaddingConfig.zero,
-                        PaddingConfig.zero),
-                    /// padding: EdgeInsets.fromLTRB(35, 110, 0, 0)==>if this is not included
-                    /// then the words gup shup would be displayed in the upper left corner
-                    /// of the screen
-                  ),
-                  Container(
-                    child: CustomText(text: TextConfig.shup,).welcomeTitle(),
-                    padding: EdgeInsets.fromLTRB(PaddingConfig.fifty,
-                        PaddingConfig.oneNinety, PaddingConfig.zero,
-                        PaddingConfig.zero),
-                  )
-                ],
-              ),
-              Row(
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: SafeArea(
+              top: true,
+              child: Container(
+                width: ImageConfig.oneTwentyFive,/// 75 /// 200
+                height: ImageConfig.oneTwentyFive,/// 75 /// 200
+                child:
+                Image(
+                  image: AssetImage(ImageConfig.gupshupImage),
+                ),
+                ),
+            ),
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: Container(
+              child: CustomText(text: TextConfig.gup,).welcomeTitle(),
+//                    padding: EdgeInsets.fromLTRB(PaddingConfig.fifteen,
+//                        PaddingConfig.oneTwenty, PaddingConfig.zero,
+//                        PaddingConfig.zero),
+              /// padding: EdgeInsets.fromLTRB(35, 110, 0, 0)==>if this is not included
+              /// then the words gup shup would be displayed in the upper left corner
+              /// of the screen
+            ),
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: Container(
+              child: CustomText(text: TextConfig.shup,).welcomeTitle(),
+//                    padding: EdgeInsets.fromLTRB(PaddingConfig.fifty,
+//                        PaddingConfig.oneNinety, PaddingConfig.zero,
+//                        PaddingConfig.zero),
+            ),
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: Row(
 //                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  CountryCodeAndFlag(
-                    onChanged: (value){
-                      String convertedCountryCode = value.toString();
-                      setState(() {
-                        countryCode = convertedCountryCode;
-                      });
-
-                    },
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                CountryCodeAndFlag(
+                  onChanged: (value){
+                    String convertedCountryCode = value.toString();
+                    setState(() {
+                      countryCode = convertedCountryCode;
+                    });
+                  },
+                ),
+                Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 1.25,
+                    child: CustomTextFormField(
+                      maxLength: 10,
+                          labelText: TextConfig.enterYourNumber,
+                          onChanged: (val) {
+                            setState(() {
+                              this.phoneNo = val;
+                              this.val=val;
+                              numberWithoutCode = this.val;
+                            });
+                          },
+                        ),
+                    padding: EdgeInsets.only(left: PaddingConfig.twenty,
+                        top: PaddingConfig.thirtyFive,
+                        right: PaddingConfig.twenty),
                   ),
-                  Expanded(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 1.25,
-                      child: CustomTextFormField(
-                        maxLength: 10,
-                            labelText: TextConfig.enterYourNumber,
-                            onChanged: (val) {
-                              setState(() {
-                                this.phoneNo = val;
-                                this.val=val;
-                                numberWithoutCode = this.val;
-                              });
-                            },
-                          ),
-                      padding: EdgeInsets.only(left: PaddingConfig.twenty,
-                          top: PaddingConfig.thirtyFive,
-                          right: PaddingConfig.twenty),
-                    ),
-                  ),
-                ],
-              ),
-              CustomIconButton(
-                onPressed: verifyphone,
-                iconNameInImageFolder: IconConfig.forwardIcon,
-              ),
-            ],
+                ),
+              ],
+            ),
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: CustomIconButton(
+              onPressed: verifyphone,
+              iconNameInImageFolder: IconConfig.forwardIcon,
+            ),
           ),
         ],
       ),

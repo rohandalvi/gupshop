@@ -328,7 +328,7 @@ class _ConferencePageState extends State<ConferencePage> {
           height: 40,
           child: Center(
             child: Text(
-              'Waiting for another participant to connect to the room...',
+              'Waiting to join...',
               key: Key('text-wait'),
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white),

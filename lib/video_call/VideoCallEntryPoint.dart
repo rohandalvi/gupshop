@@ -6,6 +6,6 @@ import 'package:gupshop/video_call/room/join_room_dummy.dart';
 class VideoCallEntryPoint {
 
   void main(BuildContext context, String phoneNumber) {
-    VideoCallRoomNavigator().navigate(context, FirebaseFunctions.instance, phoneNumber);
+    VideoCallRoomNavigator().startVideoCall(context, FirebaseFunctions.instance, phoneNumber);
   }
 }

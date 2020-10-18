@@ -93,8 +93,4 @@ class UsersLocation{
     Map map = await createSetOfAddresses(userPhoneNo);
     return map[userHash][TextConfig.usersLocationCollectionAddress];
   }
-
-
-
-
 }

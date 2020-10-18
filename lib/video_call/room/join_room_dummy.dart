@@ -8,11 +8,11 @@ import 'package:gupshop/video_call/widgets/conference_page.dart';
 
 class VideoCallRoomNavigator {
 
-  void navigate(BuildContext context, VideoCallBackendService backendService, String phoneNumber) async{
+  void startVideoCall(BuildContext context, VideoCallBackendService backendService, String phoneNumber) async{
 
     RoomBloc roomBloc = new RoomBloc(backendService: backendService);
     RoomModel roomModel = await roomBloc.submit();
-    backendService.pushRoomUpdates(RoomUpdateRequest(name: roomModel.name, token: roomModel.token, identity: roomModel.identity, inviteePhoneNumber: phoneNumber ));
+    backendService.pushRoomUpdates(RoomUpdateRequest(name: roomModel.name, token: roomModel.token, identity: roomModel.identity,caller: phoneNumber, inviteePhoneNumber: phoneNumber ));
     await Navigator.of(context).push(
       MaterialPageRoute<ConferencePage>(
         fullscreenDialog: true,
@@ -20,5 +20,18 @@ class VideoCallRoomNavigator {
       ),
     );
     roomBloc.dispose();
+  }
+
+  void joinVideoCall(BuildContext context, VideoCallBackendService backendService, String name, String token, String identity)async {
+    RoomBloc roomBloc = new RoomBloc(backendService: backendService);
+    RoomModel roomModel = new RoomModel(name: name, token: token, identity: identity);
+    await Navigator.of(context).push(
+      MaterialPageRoute<ConferencePage>(
+        fullscreenDialog: true,
+        builder: (BuildContext context) => ConferencePage(roomModel: roomModel),
+      ),
+    );
+    roomBloc.dispose();
+
   }
 }

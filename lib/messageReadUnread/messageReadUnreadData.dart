@@ -40,9 +40,10 @@ class MessageReadUnreadData{
   }
 
   containsMessageId(String messageId) async{
-   DocumentSnapshot dc = await Firestore.instance.collection("messageReadUnread").document(number).get();
-   bool result = dc.data["messageId"].contains(messageId);
-   return result;
+    return GetFromMessageReadUnreadCollection().containsMessageId(messageId);
+//   DocumentSnapshot dc = await Firestore.instance.collection("messageReadUnread").document(number).get();
+//   bool result = dc.data["messageId"].contains(messageId);
+//   return result;
   }
 
   Future<bool> friendReadStatus(String usersLatestMessageId) async{

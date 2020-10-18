@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getMessageTypingInfo.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -16,17 +17,17 @@ class TypingStatusDisplay extends StatelessWidget {
     return StreamBuilder(
       stream: GetMessageTypingInfo(userNumber: userNumber, conversationId: conversationId).messageTypingStream(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if(snapshot.data == null ) return CustomText(text: 'Offline',);
+        if(snapshot.data == null ) return CustomText(text: TextConfig.offline,);
 
         bool hasMembers;
 
         if(snapshot.data.data == null) {
           hasMembers = false;
         }
-        else if(snapshot.data.data["members"].isEmpty) {
+        else if(snapshot.data.data[TextConfig.members].isEmpty) {
           hasMembers = false;
         }
-        else if(snapshot.data.data["members"].length == 1 && snapshot.data.data["members"].contains(userNumber)){
+        else if(snapshot.data.data[TextConfig.members].length == 1 && snapshot.data.data[TextConfig.members].contains(userNumber)){
           hasMembers = false;
         }
         else{
@@ -34,7 +35,7 @@ class TypingStatusDisplay extends StatelessWidget {
         }
 
         return hasMembers == true ?
-        groupExits == true ? CustomText(text: "$userName typing..",).italic() : CustomText(text: "typing..",).italic()
+        groupExits == true ? CustomText(text: "$userName ${TextConfig.typingDisplay}..",).italic() : CustomText(text: TextConfig.typingDisplay,).italic()
             : CustomText(text: "",)
         ;
 

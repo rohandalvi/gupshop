@@ -17,9 +17,7 @@ class GalleryButtonOnPressed{
         /// push to bazaarWalasBasicProfile collection:
 
         String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
-        print("imageURL in GalleryButtonOnPressed : $imageURL");
         if(imageURL != null){
-          print("subCategoryDataList in GalleryButtonOnPressed : $subCategoryDataList");
           subCategoryDataList.forEach((subCategory) {
             PushToBazaarWalasBasicProfile(userPhoneNo: userPhoneNo, thumbnailPicture: imageURL).pushThumbnailPicture(categoryData, subCategory);
           });

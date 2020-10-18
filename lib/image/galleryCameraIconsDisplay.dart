@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
 class GalleryCameraIconsDisplay extends StatelessWidget {
@@ -13,12 +14,12 @@ class GalleryCameraIconsDisplay extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         CustomIconButton(
-          iconNameInImageFolder: 'photoGallery',
+          iconNameInImageFolder: IconConfig.photoGallery,
           onPressed: galleryIconOnPressed,
         ),
 
         CustomIconButton(
-          iconNameInImageFolder: 'image2vector.svg',
+          iconNameInImageFolder: IconConfig.camera,
           onPressed: cameraIconOnPressed,
         ),
       ],

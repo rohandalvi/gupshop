@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 
 class UpdateMessageReadUnreadCollection{
   String userNumber;
@@ -6,11 +8,15 @@ class UpdateMessageReadUnreadCollection{
 
   UpdateMessageReadUnreadCollection({this.userNumber, this.messageId});
 
+  DocumentReference path(){
+    return PushToMessageReadUnreadCollection().path(userNumber);
+  }
+
   update(){
     List<String> messageIdList = new List();
     messageIdList.add(messageId);
-    Firestore.instance.collection("messageReadUnread").document(userNumber).updateData({
-      'messageId': FieldValue.arrayUnion(messageIdList)
+    path().updateData({
+      TextConfig.messageId: FieldValue.arrayUnion(messageIdList)
     });
   }
 

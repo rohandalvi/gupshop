@@ -25,7 +25,7 @@ class NotificationsManager {
   }
 
    Future<String> getToken() async {
-    return _firebaseMessaging.getToken();
+    return await _firebaseMessaging.getToken();
   }
 
   void sendNotification(NotificationRequest notificationRequest, String to) async {

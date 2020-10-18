@@ -7,19 +7,18 @@ class RecentChatsCollection{
 
   RecentChatsCollection({this.userPhoneNo});
 
-  DocumentReference path(){
+  DocumentReference path(String userPhoneNo){
     DocumentReference dc = CollectionPaths.recentChatsCollectionPath.document(userPhoneNo);
     return dc;
   }
 
   push(Map<String, dynamic> message, String conversationId, String userPhoneNo, String userName, List<dynamic> listOfFriendNumbers, bool groupExits){
-    print("in ToRecentChatsCollection");
    RecentChats(message: message, convId: conversationId, userNumber:userPhoneNo, userName:userName , listOfOtherNumbers:listOfFriendNumbers, groupExists:groupExits).getAllNumbersOfAConversation();
   }
 
 
   setBlankData(){
-    DocumentReference dc = path();
-    return path().setData({});
+    DocumentReference dc = path(userPhoneNo);
+    return path(userPhoneNo).setData({});
   }
 }

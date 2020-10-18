@@ -4,6 +4,7 @@ import 'package:gupshop/bazaar/viewProfileAsBazaarWalaData.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customText.dart';
 
+/// unused class
 class ViewProfileAsBazaarWalaDisplay extends StatefulWidget {
   @override
   _ViewProfileAsBazaarWalaDisplayState createState() => _ViewProfileAsBazaarWalaDisplayState();

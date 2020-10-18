@@ -3,17 +3,23 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gupshop/PushToFirebase/pushToConversationCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
+import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
+import 'package:gupshop/widgets/customFlushBar.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/service/pushToProfilePictures.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
 
 //=>LoginScreen => NameScreen => Home
@@ -44,9 +50,8 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+//    return MaterialApp(
+      return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(WidgetConfig.appBarSeventy),
           child: CustomAppBar(
@@ -84,8 +89,8 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                 padding: EdgeInsets.only(left: PaddingConfig.twenty,
                     top: PaddingConfig.thirtyFive, right: PaddingConfig.twenty),
               ),
-              IconButton(
-                icon: SvgPicture.asset('images/nextArrow.svg',),
+              CustomIconButton(
+                iconNameInImageFolder: IconConfig.forwardIcon,
                 onPressed: ()async{
                   /// create a conversationMetadata which would also have a groupName
                   /// the groupName would be our identifier if the conversation is individual or group
@@ -104,7 +109,8 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                   AddToFriendsCollection(friendListForGroupForFriendsCollection: listOfNumbersInAGroup).addToFriendsCollection(nameListForMyNumber, id, userPhoneNo, nameList,groupName, userPhoneNo);/// **
 
                   /// add to conversations to avoid italic conversationId
-                  Firestore.instance.collection("conversations").document(id).setData({});
+                  PushToConversationCollection().setBlankData(id);
+                  //Firestore.instance.collection("conversations").document(id).setData({});
 
                   PushToProfilePictures().newGroupProfilePicture(id);
 
@@ -113,30 +119,44 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
 
 
                   if(groupName == null || groupName == ""){
-                    Flushbar(
-                      icon: SvgPicture.asset(
-                        'images/stopHand.svg',
-                        width: IconConfig.flushbarIconThirty,
-                        height: IconConfig.flushbarIconThirty,
-                      ),
-                      flushbarStyle: FlushbarStyle.GROUNDED,
-                      backgroundColor: Colors.white,
-                      duration: Duration(seconds: 5),
-                      forwardAnimationCurve: Curves.decelerate,
-                      reverseAnimationCurve: Curves.easeOut,
-                      titleText: Text(
-                        'Name required',
-                        style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: ourBlack,
-                          ),
-                        ),
-                      ),
-                      message: "Please enter name to move forward",
-                    )..show(context);
+                    CustomFlushBar(
+                      text: CustomText(text: TextConfig.nameRequiredText,),
+                      message: TextConfig.nameRequiredText,
+                      customContext: context,
+                    ).showFlushBarStopHand();
+//                    Flushbar(
+//                      icon: SvgPicture.asset(
+//                        'images/stopHand.svg',
+//                        width: IconConfig.flushbarIconThirty,
+//                        height: IconConfig.flushbarIconThirty,
+//                      ),
+//                      flushbarStyle: FlushbarStyle.GROUNDED,
+//                      backgroundColor: Colors.white,
+//                      duration: Duration(seconds: 5),
+//                      forwardAnimationCurve: Curves.decelerate,
+//                      reverseAnimationCurve: Curves.easeOut,
+//                      titleText: Text(
+//                        'Name required',
+//                        style: GoogleFonts.openSans(
+//                          textStyle: TextStyle(
+//                            fontWeight: FontWeight.w600,
+//                            color: ourBlack,
+//                          ),
+//                        ),
+//                      ),
+//                      message: "Please enter name to move forward",
+//                    )..show(context);
                   } else{
-                    CustomNavigator().navigateToIndividualChat(context, id, userName, userPhoneNo, groupName, listOfNumbersInAGroup, null, false);
+                    NavigateToIndividualChat(
+                        conversationId: id,
+                        userName: userName,
+                      userPhoneNo: userPhoneNo,
+                      friendName: groupName,
+                      data: null,
+                      notGroupMemberAnymore: false,
+                      listOfFriendNumbers: listOfNumbersInAGroup,
+                    ).navigateNoBrackets(context);
+                    //CustomNavigator().navigateToIndividualChat(context, id, userName, userPhoneNo, groupName, listOfNumbersInAGroup, null, false);
                   }
                 },
               ),
@@ -144,8 +164,8 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
             ],
           ),
         ),
-      ),
-    );
+      );
+//    );
   }
 
   displayNameBadge(){

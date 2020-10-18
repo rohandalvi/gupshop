@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -122,7 +123,7 @@ class CustomBottomSheet extends StatelessWidget {
 //                  ],
 //                ),
                 CustomIconButton(
-                  iconNameInImageFolder: 'cancel',
+                  iconNameInImageFolder: IconConfig.cancel,
                   onPressed: (){
                     Navigator.pop(context);
                   },
@@ -169,7 +170,7 @@ class CustomBottomSheet extends StatelessWidget {
                 ),
                 Container(
                   child: CustomIconButton(
-                    iconNameInImageFolder: 'cancel',
+                    iconNameInImageFolder: IconConfig.cancel,
                     onPressed: (){
                       Navigator.pop(context);
                     },
@@ -235,7 +236,7 @@ class CustomBottomSheet extends StatelessWidget {
                 ),
                 Container(
                   child: CustomIconButton(
-                    iconNameInImageFolder: 'cancel',
+                    iconNameInImageFolder: IconConfig.cancel,
                     onPressed: (){
                       Navigator.pop(context);
                     },

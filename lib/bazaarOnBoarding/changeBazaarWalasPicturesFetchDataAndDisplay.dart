@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/bazaarOnBoarding/changeBazaarWalasPicturesDisplay.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 
 class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
@@ -49,9 +50,9 @@ class ChangeBazaarWalasPicturesFetchDataAndDisplay extends StatelessWidget {
               otherPictureTwo = null;
               otherPictureTwo = null;
             }else{
-              thumbnailPicture = picturesSnapshot.data["thumbnailPicture"];
-              otherPictureOne = picturesSnapshot.data["otherPictureOne"];
-              otherPictureTwo = picturesSnapshot.data["otherPictureTwo"];
+              thumbnailPicture = picturesSnapshot.data[TextConfig.thumbnailPicture];
+              otherPictureOne = picturesSnapshot.data[TextConfig.otherPictureOne];
+              otherPictureTwo = picturesSnapshot.data[TextConfig.otherPictureTwo];
             }
 
 

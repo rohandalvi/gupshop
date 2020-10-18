@@ -16,7 +16,9 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
@@ -153,7 +155,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
       cameraVideo: _cameraVideo,);
 
     videoPicked = true;
-    cache["video"] = isVideo;
+    cache[TextConfig.video] = isVideo;
 
     videoChanged = true;
 
@@ -162,7 +164,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
 
   cacheVideo(){
     setState(() {
-      cache["video"] = isVideo;
+      cache[TextConfig.video] = isVideo;
     });
   }
 
@@ -320,7 +322,7 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
     cacheVideo();
 
     return CustomFloatingActionButtonWithIcon(
-      iconName: 'forward2',
+      iconName: IconConfig.forward,
       onPressed: () async{
         setState(() {
           if(isVideo != null) {

@@ -8,9 +8,9 @@ class NavigateToIndividualChat{
   final String userPhoneNo;
   final String userName;
   final String friendName;/// this should be a list
-  List<dynamic> listOfFriendNumbers;
   final Map forwardMessage;
   final bool notGroupMemberAnymore;
+  List<dynamic> listOfFriendNumbers;
   var data;
   Map<String, ChatListCache> chatListCache;
 
@@ -18,10 +18,14 @@ class NavigateToIndividualChat{
   NavigateToIndividualChat(
       {@required this.conversationId, @required this.userPhoneNo,
         @required this.userName, @required this.friendName,this.forwardMessage,
-        this.listOfFriendNumbers, this.notGroupMemberAnymore, this.chatListCache, this.data});
+        this.listOfFriendNumbers,
+        this.notGroupMemberAnymore, this.chatListCache, this.data});
 
 
-  navigate(BuildContext context){
+  navigate(BuildContext context,
+      //List<dynamic> listOfFriendNumbers
+      ){
+    print("in NavigateToIndividualChat");
     return(){
       Navigator.push(
         context,
@@ -41,7 +45,10 @@ class NavigateToIndividualChat{
 
   }
 
-  navigateNoBrackets(BuildContext context){
+  navigateNoBrackets(BuildContext context,
+      //List<dynamic> listOfFriendNumbers
+      ){
+    print("in NavigateToIndividualChat");
     Navigator.push(
       context,
       MaterialPageRoute(//to send conversationId along with the navigator to the next page

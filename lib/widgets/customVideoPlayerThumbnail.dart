@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -94,7 +95,7 @@ class _CustomVideoPlayerThumbnailState extends State<CustomVideoPlayerThumbnail>
             ),
           ),
         ),
-        CustomIconButton(iconNameInImageFolder: 'playButton',
+        CustomIconButton(iconNameInImageFolder: IconConfig.playButton,
           onPressed: (){
           Navigator.push(
               context,

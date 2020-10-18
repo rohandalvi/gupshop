@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/responsive/collectionPaths.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 
 class DeleteBazaarCategories{
   String category;
@@ -7,8 +9,13 @@ class DeleteBazaarCategories{
 
   DeleteBazaarCategories({this.subCategory, this.userNumber, this.category});
 
+  CollectionReference path(){
+    CollectionReference dc = CollectionPaths.bazaarCategoriesCollectionPath;
+    return dc;
+  }
+
   deleteACategory() async{
-    await Firestore.instance.collection("bazaarCategories").document(category).collection("subCategories")
+    await path().document(category).collection(TextConfig.subCategoriesBazaarCategories)
         .document(subCategory).updateData({
       userNumber : FieldValue.delete()
     });

@@ -95,10 +95,26 @@ dependencies:
   firebase_performance: ^0.3.2 # for data gathering.. latest is 0.4.0.. but conflicting with firebase core.. so used the prior version
   proximity_hash: ^1.0.1 #for location_service.dart to create geoHash #26/9/20
   firebase_messaging: ^6.0.16 # for push notifications
+  flutter_local_notifications: ^1.4.4+4 # for local notifications
+
+  passcode_screen: ^1.2.0 # for applock 4/10/20
+
+  flutter_app_lock:
+    git:
+      url: https://github.com/purvajg/flutter_app_lock.git
+      ref: removing-material-app
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  flutter_launcher_icons: "^0.8.0"
+
+flutter_icons:
+    android: true
+    ios: true
+    image_path: "images/gupshupLogoTwoWithoutName.png"
 
 
 # For information on the generic Dart part of this file, see the
@@ -117,8 +133,6 @@ flutter:
     - images/sampleImageForBazaar.jpeg
     - images/sampleProfilePicture.jpeg
     - images/kamwali.png
-    - videos/LevenworthVideo.mp4
-    - images/crying.png
     - images/ok-hand.png
     - images/so-so.png
     - images/backArrow.svg

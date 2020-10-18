@@ -11,6 +11,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
@@ -181,7 +182,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
         Padding(
           padding: EdgeInsets.all(PaddingConfig.eight),
           child: CustomRaisedButton(
-            child: CustomText(text: 'Tap to add location and service area',),
+            child: CustomText(text: TextConfig.addLocation,),
             onPressed: () async{
               /// first check if user has given permission to access location
               var permission = await LocationPermissionHandler().handlePermissions(context);
@@ -193,7 +194,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
                 showDialog(
                     context: context,
                     builder: (BuildContext context) => CupertinoAlertDialog(
-                      title: Text('Loading map'),
+                      title: Text(TextConfig.loadingMap),
                       content: Center(child: CircularProgressIndicator()),
                     ));
 
@@ -222,7 +223,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
                 widget.location = locationFromMap;
                 locationChanged = true;
                 String addressNameTemp = await LocationService().getAddressFromLatLang(widget.location.latitude, widget.location.longitude);
-                print("addressNameTemp : $addressNameTemp");
+//                print("addressNameTemp : $addressNameTemp");
                 /// setState to make the locationNotNull = true so that
                 /// showLocation() becomes visible
                 setState(() {
@@ -276,7 +277,7 @@ class _BazaarLocationState extends State<BazaarLocation> {
     /// is given by BazaarProfileSetVideo class
 
     return CustomFloatingActionButtonWithIcon(
-      iconName: 'forward2',
+      iconName: IconConfig.forward,
       onPressed: () async{
         setState(() {
           if(locationFromMap != null) {
@@ -287,13 +288,13 @@ class _BazaarLocationState extends State<BazaarLocation> {
 
         if(widget.locationNotNull == true){
           /// adding location to cache, to show in edit profile
-          cache["location"] = locationFromMap;
+          cache[TextConfig.location] = locationFromMap;
 
           /// saving user as a bazaarwala in his shared preferences
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
 
-          print("isBazaarwala in location : ${widget.isBazaarWala}");
+//          print("isBazaarwala in location : ${widget.isBazaarWala}");
           NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
               category: widget.category,
               categoryData: widget.categoryData,
@@ -315,9 +316,9 @@ class _BazaarLocationState extends State<BazaarLocation> {
         }else{
             CustomFlushBar(
               customContext: context,
-              text: CustomText(text: 'Select Location',),
-              iconName: 'stopHand',
-              message: 'Select Location',
+              text: CustomText(text: TextConfig.selectLocationFlushbar,),
+              iconName: IconConfig.stop,
+              message: TextConfig.selectLocationFlushbar,
             ).showFlushBar();
         }
       },

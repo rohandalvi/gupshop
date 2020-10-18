@@ -2,24 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/image/imageVideoPermissionHandler.dart';
 import 'package:gupshop/image/imagePickersDisplayPicturesFromURLorFile.dart';
-import 'package:gupshop/individualChat/messageCardDisplay.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
-import 'package:gupshop/video/displayVideo.dart';
-import 'package:gupshop/video/myVideoThumbnail.dart';
 import 'package:gupshop/video/pickVideoFromCamera.dart';
 import 'package:gupshop/video/pickVideoFromGallery.dart';
 import 'package:gupshop/video/videoThumbnailHelper.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
-import 'package:gupshop/widgets/customVideoPlayer.dart';
-import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 
 class BazaarProfileSetVideo extends StatefulWidget {
   File video;
@@ -45,17 +40,17 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
           Padding(
             padding:EdgeInsets.all(PaddingConfig.sixteen),
             child: CustomRaisedButton(
-            child: CustomText(text: 'Tap to add video',),
+            child: CustomText(text: TextConfig.tapToAddVideo,),
               onPressed: (){
                 CustomBottomSheet(
                   customContext: context,
-                  firstIconName: 'photoGallery',
-                  firstIconText: 'Pick video from  Gallery',
+                  firstIconName: IconConfig.photoGallery,
+                  firstIconText: TextConfig.pickGalleryVideo,
                   firstIconAndTextOnPressed: (){
                     _pickVideoFromGallery();
                   },
-                  secondIconName: 'image2vector',
-                  secondIconText: 'Record video from Camera',
+                  secondIconName: IconConfig.camera,
+                  secondIconText: TextConfig.pickCameraVideo,
                   secondIconAndTextOnPressed: (){
                     _pickVideoFromCamer();
                   },

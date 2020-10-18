@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geocoder/geocoder.dart' as gc;
+import 'package:geocoder/model.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -34,23 +35,23 @@ class LocationService {
   GeoHash myGeoHash = new GeoHash();
 
 
-  getLocationInOurFormat(double latitude, double longitude, double radius){
-    GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
-
-    String bazaarWalasUpperRadius = _getBazaarWalasUpperRadius(latitude, longitude, radius);//distance 50//static for now//later can be asked from the bazaarwalas
-    String bazaarWalasLowerRadius = _getBazaarWalasLowerRadius(latitude, longitude, radius);
-
-    var position =
-    {
-      'geoHash': myLocation.hash,
-      'geoPoint': myLocation.geoPoint,
-      'upperGeoHash':bazaarWalasUpperRadius,
-      'lowerGeoHash': bazaarWalasLowerRadius,
-      'radius' : radius,
-    };
-
-    return position;
-  }
+//  getLocationInOurFormat(double latitude, double longitude, double radius){
+//    GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
+//
+//    String bazaarWalasUpperRadius = _getBazaarWalasUpperRadius(latitude, longitude, radius);//distance 50//static for now//later can be asked from the bazaarwalas
+//    String bazaarWalasLowerRadius = _getBazaarWalasLowerRadius(latitude, longitude, radius);
+//
+//    var position =
+//    {
+//      'geoHash': myLocation.hash,
+//      'geoPoint': myLocation.geoPoint,
+//      'upperGeoHash':bazaarWalasUpperRadius,
+//      'lowerGeoHash': bazaarWalasLowerRadius,
+//      'radius' : radius,
+//    };
+//
+//    return position;
+//  }
 
   /// see if the radius for bazaarwalas is showing correct results in individual dispaly
 //  pushBazaarWalasLocationToFirebase(double latitude, double longitude, String categoryName,String userNumber, String subCategory, double radius){//used in createBazaarwala profile page
@@ -104,7 +105,9 @@ class LocationService {
 
   getHomeLocation(number) async{
     DocumentSnapshot dc = await getUserLocationDocumentSnapshot(number);
+    print("dc in getHomeLocation : $dc");
     GeoPoint latLng =  dc.data["home"]["geoPoint"];
+    print("latLng in getHomeLocation : $latLng");
     return latLng;
 
   }
@@ -125,16 +128,27 @@ class LocationService {
 //    var addressList = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
     var address = await getAddressFromLatLang(latitude, longitude);
 
+    print("address in locationService : $address");
     return address;
   }
 
   getAddressFromLatLang(double latitude,  double longitude) async{
     var coordinates = new gc.Coordinates(latitude, longitude);
-    var addressList = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
-    var address = addressList[2].addressLine;
+    List<gc.Address> addressList = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
+    print("addressList in getAddressFromLatLang : $addressList");
+    print("addressList-0 in getAddressFromLatLang : ${addressList[0].addressLine}");
+    print("addressList-1 in getAddressFromLatLang : ${addressList[1]}");
+    print("addressList-2 in getAddressFromLatLang : ${addressList[2].addressLine}");
+    String address = getAddressFromAddressList(addressList);
+    print("address in getAddressFromLatLang : $address");
     return address;
   }
 
+  String getAddressFromAddressList(List<Address> addressList){
+    for(int i =0; i<addressList.length; i++){
+      if(addressList[i] != null) return addressList[i].addressLine;
+    }return "Unkown Address";
+  }
 
   /// geohash change here
   //helpers
@@ -197,9 +211,17 @@ class LocationService {
     ).elevated();
   }
 
-  Future<List<String>> getUserGeohash(String number, String addressName) async{
+//  Future<List<String>> getUserGeohash(String number, String addressName) async{
+//    DocumentSnapshot dc = await LocationService().getUserLocationDocumentSnapshot(number);
+//    print("dc in getUserGeohash : ${dc.data}");
+//    List<String> result =  dc.data[addressName][TextConfig.usersLocationCollectionGeoHashList].cast<String>();
+//    return result;
+//  }
+
+  Future<String> getUserGeohash(String number, String addressName) async{
     DocumentSnapshot dc = await LocationService().getUserLocationDocumentSnapshot(number);
-    List<String> result =  dc.data[addressName][TextConfig.usersLocationCollectionGeoHashList].cast<String>();
+    print("dc in getUserGeohash : ${dc.data}");
+    String result =  dc.data[addressName][TextConfig.usersLocationCollectionGeohash];
     return result;
   }
 
@@ -263,6 +285,14 @@ class LocationService {
     PushToUsersLocationCollection().pushUsersLocationToFirebase(userNumber:userNumber, locationName: locationName, dataMap: map );
   }
 
+
+  /// converts coordinates in string form
+  String getCoordinates({double latitude, double longitude, gc.Coordinates coordinates}){
+    if(coordinates != null){
+      return "${coordinates.latitude},${coordinates.longitude}";
+    }
+    return "$latitude,$longitude";
+  }
 
 }
 

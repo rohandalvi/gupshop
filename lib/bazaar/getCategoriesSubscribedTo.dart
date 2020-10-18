@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
+/// unused class
+
 class GetCategoriesSubscribedTo{
   String userNumber;
   String userName;
@@ -14,7 +16,6 @@ class GetCategoriesSubscribedTo{
     /// SelectCategoryToShowInProductDetailsPage requires future
     DocumentSnapshot dc = await Firestore.instance.collection("bazaarWalasBasicProfile").document(userNumber).get();
     List<String> list = dc.data["categories"].cast<String>();
-    print("list : $list");
 
 //    List<String> result = new List();
 //    list.forEach((element) {

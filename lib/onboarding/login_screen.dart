@@ -3,13 +3,18 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToNameScreen.dart';
 import 'package:gupshop/onboarding/name_screen.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/service/auth_service.dart';
 import 'package:gupshop/widgets/countryCodeAndFlag.dart';
+import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
+import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,7 +28,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool codeSent = false;
   String val="";
-  String countryCode = '+91';
+  String countryCode = TextConfig.defaultCountryCode;
   String numberWithoutCode;
 
   @override
@@ -40,77 +45,91 @@ class _LoginScreenState extends State<LoginScreen> {
       //Scaffold==>Column==>Container==>Text(Gup)
       //                 ==>Container==>Text(Shup)
       //can also be done, but the padding alignment is much beautiful with Stack
-      body: ListView(
-        shrinkWrap: true,
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                    Container(
-                      width: ImageConfig.welcomeScreenChatBubble,/// 200
-                      height: ImageConfig.welcomeScreenChatBubble,/// 200
-                      child:
-                      Image(
-                        image: AssetImage('images/chatBubble.png'),
-                      ),
-                  ),
-                  Container(
-                    child: CustomText(text: 'Gup',).welcomeTitle(),
-                    padding: EdgeInsets.fromLTRB(PaddingConfig.fifteen,
-                        PaddingConfig.oneTwenty, PaddingConfig.zero,
-                        PaddingConfig.zero),
-                    /// padding: EdgeInsets.fromLTRB(35, 110, 0, 0)==>if this is not included
-                    /// then the words gup shup would be displayed in the upper left corner
-                    /// of the screen
-                  ),
-                  Container(
-                    child: CustomText(text: 'Shup',).welcomeTitle(),
-                    padding: EdgeInsets.fromLTRB(PaddingConfig.fifty,
-                        PaddingConfig.oneNinety, PaddingConfig.zero,
-                        PaddingConfig.zero),
-                  )
-                ],
-              ),
-              Row(
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: SafeArea(
+              top: true,
+              child: Container(
+                width: ImageConfig.oneTwentyFive,/// 75 /// 200
+                height: ImageConfig.oneTwentyFive,/// 75 /// 200
+                child:
+                Image(
+                  image: AssetImage(ImageConfig.gupshupImage),
+                ),
+                ),
+            ),
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: Container(
+              child: CustomText(text: TextConfig.gup,).welcomeTitle(),
+//                    padding: EdgeInsets.fromLTRB(PaddingConfig.fifteen,
+//                        PaddingConfig.oneTwenty, PaddingConfig.zero,
+//                        PaddingConfig.zero),
+              /// padding: EdgeInsets.fromLTRB(35, 110, 0, 0)==>if this is not included
+              /// then the words gup shup would be displayed in the upper left corner
+              /// of the screen
+            ),
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: Container(
+              child: CustomText(text: TextConfig.shup,).welcomeTitle(),
+//                    padding: EdgeInsets.fromLTRB(PaddingConfig.fifty,
+//                        PaddingConfig.oneNinety, PaddingConfig.zero,
+//                        PaddingConfig.zero),
+            ),
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: Row(
 //                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  CountryCodeAndFlag(
-                    onChanged: (value){
-                      String convertedCountryCode = value.toString();
-                      setState(() {
-                        countryCode = convertedCountryCode;
-                      });
-
-                    },
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                CountryCodeAndFlag(
+                  onChanged: (value){
+                    String convertedCountryCode = value.toString();
+                    setState(() {
+                      countryCode = convertedCountryCode;
+                    });
+                  },
+                ),
+                Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 1.25,
+                    child: CustomTextFormField(
+                      maxLength: 10,
+                          labelText: TextConfig.enterYourNumber,
+                          onChanged: (val) {
+                            setState(() {
+                              this.phoneNo = val;
+                              this.val=val;
+                              numberWithoutCode = this.val;
+                            });
+                          },
+                        ),
+                    padding: EdgeInsets.only(left: PaddingConfig.twenty,
+                        top: PaddingConfig.thirtyFive,
+                        right: PaddingConfig.twenty),
                   ),
-                  Expanded(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 1.25,
-                      child: CustomTextFormField(
-                        maxLength: 10,
-                            labelText: "Enter your Number",
-                            onChanged: (val) {
-                              setState(() {
-                                this.phoneNo = val;
-                                this.val=val;
-                                numberWithoutCode = this.val;
-                              });
-                            },
-                          ),
-                      padding: EdgeInsets.only(left: PaddingConfig.twenty,
-                          top: PaddingConfig.thirtyFive,
-                          right: PaddingConfig.twenty),
-                    ),
-                  ),
-                ],
-              ),
-              CustomIconButton(
-                onPressed: verifyphone,
-                iconNameInImageFolder: 'nextArrow',
-              ),
-            ],
+                ),
+              ],
+            ),
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: CustomIconButton(
+              onPressed: verifyphone,
+              iconNameInImageFolder: IconConfig.forwardIcon,
+            ),
           ),
         ],
       ),
@@ -120,8 +139,6 @@ class _LoginScreenState extends State<LoginScreen> {
   String phoneNo, verificationId, smsCode;
 
   Future<void> verifyphone() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userPhoneNo = prefs.getString('userPhoneNo');
 
     setState(() {
       val = countryCode + numberWithoutCode;
@@ -142,92 +159,31 @@ class _LoginScreenState extends State<LoginScreen> {
 
       setState(() {
         this.codeSent = true;
-        prefs.setString('userPhoneNo', val);
+        UserDetails().setUserPhoneNo(val);
       });
 
 
-        bool sms = await  smsCodeDialog(context);
+        await smsCodeDialog(context);
         AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
 
         FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
           //Navigator.of(context).pushNamed('loggedIn');
-
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NameScreen(userPhoneNo:val),//pass Name() here and pass Home()in name_screen
-              )
-          );
-
+          NavigateToNameScreen(userPhoneNo: val).navigateNoBrackets(context);
         }).catchError((e) {
-          Flushbar( /// for the flushBar if the user enters wrong verification code
-            icon: SvgPicture.asset(
-              'images/stopHand.svg',
-              width: IconConfig.flushbarIconThirty,
-              height: IconConfig.flushbarIconThirty,
-            ),
-            flushbarStyle: FlushbarStyle.GROUNDED,
-            backgroundColor: Colors.white,
-            duration: Duration(seconds: 5),
-            forwardAnimationCurve: Curves.decelerate,
-            reverseAnimationCurve: Curves.easeOut,
-            titleText: CustomText(text: 'Wrong verification code',),
-            message: "Please enter your name to move forward",
-          )..show(context);
+          CustomFlushBar(
+            customContext: context,
+            text: CustomText(text: TextConfig.wrongVerificationCode,),
+            message: TextConfig.wrongVerificationCode,
+          ).showFlushBarStopHand();
         });
-
-
-
-
-
-
-
-
-
-//      setState(() {
-//        this.codeSent = true;
-//        print("val : $val");
-//        prefs.setString('userPhoneNo', val);
-//
-//        print("userPhoneNo in login_screen setState: $val");
-//        smsCodeDialog(context).then((value) {
-//        //smsCodeDialog(context).then((value) {
-//          print("Got value $value");
-//          AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
-//
-//          //add userPhoneNumber to our database. Add to the users collection:
-//          Firestore.instance.collection("recentChats").document(val).setData({});
-//
-//          //creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
-//          Firestore.instance.collection("profilePictures").document(val).setData({});
-//
-//          Firestore.instance.collection("friends_$userPhoneNo").document(val).setData({});///check
-//
-//
-//
-//          FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
-//            //Navigator.of(context).pushNamed('loggedIn');
-//            print("userphoneno: ${val}");
-//            Navigator.push(
-//                context,
-//                MaterialPageRoute(
-//                  builder: (context) => NameScreen(userPhoneNo:val),//pass Name() here and pass Home()in name_screen
-//                )
-//            );
-//            print("phone no: ${val.toString()}");
-//
-//          }).catchError((e) {
-//            print("Got error $e");
-//          });
-//        });
-//      });
     };
+
+
 
     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
       this.verificationId = verId;
     };
 
-    print("Calling verifyPhone Number");
     await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: val,
         timeout: const Duration(seconds: 5),
@@ -239,17 +195,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
 
-  Future<bool> smsCodeDialog(BuildContext context) {
-    //the method for displaying the dialog box which pops up to put the sms code
-    //sent to the user for verification
-    print("in smsCodeDialog");
-
-    return showDialog(
-        context: context, //@Todo-why??
-        barrierDismissible: false, //@Todo-why??
+  smsCodeDialog(BuildContext context) async{
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return new AlertDialog(
-            title: CustomText(text: 'Enter sms code',),
+            title: CustomText(text: TextConfig.enterSMSCode,),
             content: TextField(
               onChanged: (value) {
                 this.smsCode = value;
@@ -257,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             actions: <Widget>[
               FlatButton(
-                child:CustomText(text: 'Ok',),
+                child:CustomText(text: TextConfig.ok,),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

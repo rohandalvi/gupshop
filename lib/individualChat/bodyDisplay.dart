@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/PushToFirebase/newsCollection.dart';
 import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/individualChat/heartButton.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
@@ -183,12 +184,14 @@ class _BodyDisplayState extends State<BodyDisplay> {
 
                       bool hasForwardedOrCreatedNewsAlready = await NewsStatisticsCollection().checkIfUserExistsInSubCollection(widget.newsId, widget.userPhoneNo, 'trueBy');
                       if(hasForwardedOrCreatedNewsAlready == false){
-                        int increaseTrueByCount = data["trueBy"] + 1 ;
-                        data["trueBy"]= increaseTrueByCount;
+                        int increaseTrueByCount = data[TextConfig.trueBy] + 1 ;
+                        data[TextConfig.trueBy]= increaseTrueByCount;
                         await NewsStatisticsCollection().checkIfUserExistsAndAddToSet(widget.newsId,
-                            widget.userPhoneNo,widget.userName, 'trueBy', true);
-                        await FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,
-                            'trueBy', data["trueBy"]);
+                            widget.userPhoneNo,widget.userName, TextConfig.trueBy, true);
+                        await NewsCollection().updateVoteCountToNewsCollection(widget.newsId,
+                            TextConfig.trueBy, data[TextConfig.trueBy]);
+//                        FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,
+//                            'trueBy', data["trueBy"]);
                       }
                       CustomNavigator().navigateToContactSearch(context, widget.userName,
                           widget.userPhoneNo, data);

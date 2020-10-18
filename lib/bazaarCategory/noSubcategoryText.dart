@@ -1,19 +1,21 @@
-class NoSubCategoryText{
-  String cleaningText = "Cleaners";
-  String deliveryErrandsText = "Errand runners";
-  String driversText = "Drivers";
-  String foodText = "Food Service providers";
-  String groceryText = "Grocery providers";
-  String parlourText = "Parlour Service providers";
-  String repairsMaintenanceText = "Repairs or Maintenance Service providers";
+import 'package:gupshop/responsive/textConfig.dart';
 
-  String cleaningData = "cleaning";
-  String deliveryErrandsData = "deliveryErrands";
-  String driversData = "drivers";
-  String foodData = "food";
-  String groceryData = "grocery";
-  String parlourData = "parlour";
-  String repairsMaintenanceData = "repairsMaintenance";
+class NoSubCategoryText{
+  String cleaningText = TextConfig.cleaners;
+  String deliveryErrandsText = TextConfig.errandsRunners;
+  String driversText = TextConfig.drivers;
+  String foodText = TextConfig.foodServiceProviders;
+  String groceryText = TextConfig.groceryProviders;
+  String parlourText = TextConfig.parlourServiceProviders;
+  String repairsMaintenanceText = TextConfig.repairsOrMaintenanceServiceProviders;
+
+  String cleaningData = TextConfig.cleaningData;
+  String deliveryErrandsData = TextConfig.deliveryErrandsData;
+  String driversData = TextConfig.driversData;
+  String foodData = TextConfig.foodData;
+  String groceryData = TextConfig.groceryData;
+  String parlourData = TextConfig.parlourData;
+  String repairsMaintenanceData = TextConfig.repairsMaintenanceData;
 
   getText(String categoryData){
     if(categoryData == cleaningData) return cleaningText;

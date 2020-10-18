@@ -1,3 +1,5 @@
+import 'package:gupshop/responsive/textConfig.dart';
+
 class HomeServiceText{
   String categoryData;
   String subCategoryData;
@@ -5,69 +7,68 @@ class HomeServiceText{
   HomeServiceText({this.categoryData, this.subCategoryData});
 
   /// cleaning
-  static String cleaning = "cleaning";
-  static String garbageCleaning = "garbageCleaning";
-  static String householdCleaning = "householdCleaning";
-  static String vehicleCleaning = "vehicleCleaning";
+  static String cleaning = TextConfig.cleaningData;//"cleaning";
+  static String garbageCleaning = TextConfig.garbageCleaningData;//"garbageCleaning";
+  static String householdCleaning = TextConfig.householdCleaningData;//"householdCleaning";
+  static String vehicleCleaning = TextConfig.vehicleCleaningData; //"vehicleCleaning";
 
   /// delivery
-  static String deliveryErrands = "deliveryErrands";
+  static String deliveryErrands = TextConfig.deliveryErrandsData;//"deliveryErrands";
 
   /// drivers
-  static String drivers = "drivers";
+  static String drivers = TextConfig.driversData;//"drivers";
 
 
   /// food
-  static String food = "food";
-  static String caterers = "caterers";
-  static String householdCookingService = "householdCookingService";
-  static String tiffinService = "tiffinService";
-  static String foodHomeDelivery = "Do you deliver at home ? ";
-  static String userFoodHomeDelivery = "Do you need home delivery ? ";
-  static String uiTextFood = "Home Delivery";
-  static String uiTextFoodNo = "No Home Delivery";
+  static String food = TextConfig.foodData;//"food";
+  static String caterers = TextConfig.caterersData;//"caterers";
+  static String householdCookingService = TextConfig.householdCookingService;
+  static String tiffinService = TextConfig.tiffinService;
+  static String foodHomeDelivery = TextConfig.foodGroceryHomeDelivery;
+  static String userFoodHomeDelivery = TextConfig.userFoodGroceryHomeDelivery;
+  static String uiTextFood = TextConfig.uiTextHomeDelivery;
+  static String uiTextFoodNo = TextConfig.uiTextNoHomeDelivery;
 
 
   /// grocery
-  static String grocery =  "grocery";
-  static String dairy =  "dairy";
-  static String vegetableVendor =  "vegetableVendor";
-  static String fruitVendor = "fruitVendor";
-  static String groceryHomeDelivery = "Do you deliver at home ? ";
-  static String userGroceryHomeDelivery =  "Do you need home delivery ? ";
-  static String uiTextGrocery = "Home Delivery";
-  static String uiTextGroceryNo = "No Home Delivery";
+  static String grocery =  TextConfig.groceryData;//"grocery";
+  static String dairy = TextConfig.dairyData;
+  static String vegetableVendor =  TextConfig.vegetableVendorData;
+  static String fruitVendor = TextConfig.fruitVendorData;
+  static String groceryHomeDelivery = TextConfig.foodGroceryHomeDelivery;
+  static String userGroceryHomeDelivery =  TextConfig.userFoodGroceryHomeDelivery;
+  static String uiTextGrocery = TextConfig.uiTextHomeDelivery;
+  static String uiTextGroceryNo = TextConfig.uiTextNoHomeDelivery;
 
   /// parlour
-  static String parlour =  "parlour";
-  static String hairCut = "hairCut";
-  static String massage =  "massage";
-  static String salon = "salon";
-  static String makeUp = "makeUp";
-  static String parlourHomeService = "Do you provide services at home ? ";
-  static String userParlourHomeService = "Do you need services at home ? ";
-  static String uiTextParlour = "Home Service";
-  static String uiTextParlourNo = "No Home Service";
+  static String parlour =  TextConfig.parlourData;
+  static String hairCut = TextConfig.hairCutData;
+  static String massage =  TextConfig.massageData;
+  static String salon = TextConfig.salonData;
+  static String makeUp = TextConfig.makeUpData;
+  static String parlourHomeService = TextConfig.parlourRepairsMaintHomeService;
+  static String userParlourHomeService = TextConfig.userParlourHomeService;
+  static String uiTextParlour = TextConfig.uiTextHomeService;
+  static String uiTextParlourNo = TextConfig.uiTextNoHomeService;
 
 
   /// repairs Maintenance
-  static String repairsMainTenance = "repairsMainTenance";
-  static String appliancesRepairs =  "appliancesRepairs";
-  static String carpenters = "carpenters";
-  static String electricians = "electricians";
-  static String furnitureRepairs =  "furnitureRepairs";
-  static String painters =  "painters";
-  static String plumbers = "plumbers";
-  static String propertyRepairs = "propertyRepairs";
-  static String techRepairs = "techRepairs";
-  static String vehicleRepairs = "vehicleRepairs";
-  static String repairsMainTenanceHomeService = "Do you provide services at home ? ";
-  static String userRepairsMainTenanceHomeService = "Do you need services at home ? ";
-  static String uiTextRepairsMainTenance = "Home Service";
-  static String uiTextRepairsMainTenanceNo = "No Home Service";
+  static String repairsMainTenance = TextConfig.repairsMaintenanceData;//"repairsMainTenance";
+  static String appliancesRepairs =  TextConfig.appliancesRepairsData;
+  static String carpenters = TextConfig.carpentersData;
+  static String electricians = TextConfig.electriciansData;
+  static String furnitureRepairs =  TextConfig.furnitureRepairsData;
+  static String painters =  TextConfig.paintersData;
+  static String plumbers = TextConfig.plumbersData;
+  static String propertyRepairs = TextConfig.propertyRepairsData;
+  static String techRepairs = TextConfig.techRepairsData;
+  static String vehicleRepairs = TextConfig.vehicleRepairsData;
+  static String repairsMainTenanceHomeService = TextConfig.parlourRepairsMaintHomeService;
+  static String userRepairsMainTenanceHomeService = TextConfig.userParlourHomeService;
+  static String uiTextRepairsMainTenance = TextConfig.uiTextHomeService;
+  static String uiTextRepairsMainTenanceNo = TextConfig.uiTextNoHomeService;
 
   uiDisplayText(){
-    print("categoryData in uiDisplayText : $categoryData");
     if(categoryData == food) return uiTextFood;
     if(categoryData == grocery) return uiTextGrocery;
     if(categoryData == parlour) return uiTextParlour;

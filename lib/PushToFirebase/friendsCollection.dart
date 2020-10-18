@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/responsive/collectionPaths.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 
 
 class FriendsCollection{
@@ -15,6 +16,6 @@ class FriendsCollection{
 
   setMeAsFriend(List<String> phoneNumberList, List<String> nameList,){
     DocumentReference dc = path().document(userPhoneNo);
-    return dc.setData({'phone': phoneNumberList, 'nameList' : nameList, 'groupName' : null, 'isMe': true});
+    return dc.setData({TextConfig.phone: phoneNumberList, TextConfig.nameList : nameList, TextConfig.groupName : null, TextConfig.isMe: true});
   }
 }

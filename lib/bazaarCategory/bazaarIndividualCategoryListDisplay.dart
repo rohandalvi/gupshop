@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
@@ -9,7 +10,6 @@ import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class BazaarIndividualCategoryListDisplay extends StatelessWidget {
@@ -95,6 +95,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   }
 
   visibility(){
+    //if(homeServiceBool == null) return false;/// to avoid error on UI
     if(showHomeServices == true && homeServiceBool == true) return true;
     if(showHomeServices == null) return true;
     if(showHomeServices == false) return true;
@@ -158,13 +159,13 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
 
   chatBubbleWidget(BuildContext context){
     return Padding(
-      padding: const EdgeInsets.only(right: 15),
+      padding: EdgeInsets.only(right: PaddingConfig.fifteen),
       child: Container(
 //      width: IconConfig.bazaarIndividualCategoryChatBubble,
 //      height: IconConfig.bazaarIndividualCategoryChatBubble,
         child: CustomIconButton(
           iconsize: IconConfig.smallIcon,
-          iconNameInImageFolder: 'chatBubble',
+          iconNameInImageFolder: IconConfig.chatBubble,
           onPressed: () async{
             List<dynamic> listOfFriendsNumbers = new List();
             listOfFriendsNumbers.add(bazaarWalaPhoneNo);
@@ -176,7 +177,8 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
             //await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber, friendNumber: bazaarWalaPhoneNo).getIndividualChatId();
 
             NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
-                listOfFriendsNumbers: listOfFriendsNumbers, friendName: bazaarWalaName,
+                listOfFriendNumbers: listOfFriendsNumbers,
+                friendName: bazaarWalaName,
                 userName: userName).navigateNoBrackets(context);
           },
         ).resize(),
@@ -187,7 +189,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
 
   homeServiceContainer(){
     return Padding(
-      padding: const EdgeInsets.only(right: 15),
+      padding: EdgeInsets.only(right: PaddingConfig.fifteen),
       child: Visibility(
         visible: homeServiceText != null,
         child: Container(
@@ -204,8 +206,8 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   }
 
   homeIcon(){
-    if(homeServiceBool == true) return 'home';
-    if(homeServiceBool == false) return 'noHome';
+    if(homeServiceBool == true) return IconConfig.home;
+    if(homeServiceBool == false) return IconConfig.noHome;
     if(homeServiceBool == null) return null;
   }
 }

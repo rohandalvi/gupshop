@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/image/displayPicture.dart';
 import 'package:gupshop/image/downloadImage.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
@@ -33,7 +34,7 @@ class _ShowImageDownloadFlushbarState extends State<ShowImageDownloadFlushbar> {
           onPressed: () async{
             CustomFlushBar(
               customContext: context,
-              iconName: 'speaker',
+              iconName: IconConfig.speaker,
               text: CustomText(text : 'Downloading image...............', fontSize: WidgetConfig.fontSizeTwelve,),
               message: 'Downloading image..........',
             ).showFlushBar();
@@ -41,7 +42,7 @@ class _ShowImageDownloadFlushbarState extends State<ShowImageDownloadFlushbar> {
             if(imageId != null){
               return CustomFlushBar(
                 customContext: context,
-                iconName: 'speaker',
+                iconName: IconConfig.speaker,
                 text: CustomText(text : 'Image downloaded in your device', fontSize: WidgetConfig.fontSizeTwelve,),
                 message: 'Image downloaded in your device',
               ).showFlushBar();
@@ -49,13 +50,13 @@ class _ShowImageDownloadFlushbarState extends State<ShowImageDownloadFlushbar> {
             if(imageId == null){
               return CustomFlushBar(
                 customContext: context,
-                iconName: 'exclamation',
+                iconName: IconConfig.exclamation,
                 text: CustomText(text : 'Could not download image', fontSize: WidgetConfig.fontSizeTwelve,),
                 message: 'Could not download image',
               ).showFlushBar();
             }
           },
-          iconNameInImageFolder: 'download',
+          iconNameInImageFolder: IconConfig.download,
         ),
       ],
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -26,7 +27,7 @@ class CustomWelcomeBottom extends StatelessWidget {
             //fit: FlexFit.loose,
             child: CustomIconButton(
               onPressed: nextIconOnPressed,
-              iconNameInImageFolder: 'forward2',),
+              iconNameInImageFolder: IconConfig.forward,),
           )
         ],
       ),

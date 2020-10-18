@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
+import 'package:gupshop/passcode/setPasscode.dart';
+import 'package:gupshop/passcode/setPasscodeWrapper.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/contactSearch/contactSearchPage.dart';
@@ -10,7 +14,7 @@ import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class HomeAppBar extends StatelessWidget {
+class HomeAppBar extends StatefulWidget {
   final String userPhoneNo;
   final String userName;
   double radius;
@@ -18,12 +22,24 @@ class HomeAppBar extends StatelessWidget {
 
   HomeAppBar({@required this.userPhoneNo, @required this.userName}) :
         radius = ImageConfig.radius,/// 30
-        innerRadius = ImageConfig.innerRadius;///25;
+        innerRadius = ImageConfig.innerRadius;
+  @override
+  _HomeAppBarState createState() => _HomeAppBarState();
+}
 
+class _HomeAppBarState extends State<HomeAppBar> {
+///25;
+
+  @override
+  void initState() {
+    print("AppLock state HomeAppBar initState: ${AppLock.of(context)}");
+    super.initState();
+  }
 
 
   @override
   Widget build(BuildContext context) {
+    print("AppLock state HomeAppBar: ${AppLock.of(context)}");
     return SafeArea(
       child: Column(/// Area - 3
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -52,12 +68,12 @@ class HomeAppBar extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 GestureDetector(
-                                  child: DisplayAvatar().displayAvatarFromFirebase(userPhoneNo, radius, innerRadius, false),
+                                  child: DisplayAvatar().displayAvatarFromFirebase(widget.userPhoneNo, widget.radius, widget.innerRadius, false),
                                   onTap: (){
                                     NavigateChangeProfilePicture(
-                                        userName: userName,
+                                        userName: widget.userName,
                                         viewingFriendsProfile: false,
-                                        userPhoneNo: userPhoneNo,
+                                        userPhoneNo: widget.userPhoneNo,
                                         groupConversationId: null,
                                     ).navigateNoBrackets(context);
                                     //CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo, null);
@@ -77,25 +93,45 @@ class HomeAppBar extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
+                            Flexible(
+                              flex : 1,
+                              child: CustomIconButton(
+                                iconNameInImageFolder: IconConfig.lock,
+                                onPressed: (){
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation, secondaryAnimation) => SetPasscode(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                             /// create group
-                            CustomIconButton(
-                              iconNameInImageFolder: IconConfig.groupIcon,
-                              onPressed: (){
-                                CustomNavigator().navigateToCreateGroup(context, userName, userPhoneNo, false, null);
-                              },
+                            Flexible(
+                              flex: 1,
+                              child: CustomIconButton(
+                                iconNameInImageFolder: IconConfig.groupIcon,
+                                onPressed: (){
+                                  CustomNavigator().navigateToCreateGroup(context, widget.userName, widget.userPhoneNo, false, null);
+                                },
+                              ),
                             ),
                             /// search icon
-                            Builder(
-                              builder: (context) => CustomIconButton(//Right side icons
-                                iconNameInImageFolder: 'advancedSearch',//search icon
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ContactSearchPage(userPhoneNo: userPhoneNo, userName: userName),//pass Name() here and pass Home()in name_screen
-                                      )
-                                  );
-                                },//imp for pressing effect. Also gives a sound effect by default
+                            Flexible(
+                              flex: 1,
+                              child: Builder(
+                                builder: (context) => CustomIconButton(//Right side icons
+                                  iconNameInImageFolder: IconConfig.searchTwo,//search icon
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ContactSearchPage(userPhoneNo: widget.userPhoneNo, userName: widget.userName),//pass Name() here and pass Home()in name_screen
+                                        )
+                                    );
+                                  },//imp for pressing effect. Also gives a sound effect by default
+                                ),
                               ),
                             ),
                           ],
@@ -120,8 +156,7 @@ class HomeAppBar extends StatelessWidget {
         ],
       ),
     );
-  }
-}
+  }}
 
 
 

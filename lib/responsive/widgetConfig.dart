@@ -6,7 +6,9 @@ class WidgetConfig{
   /// widthMultiplier = 4.32
   static double buildMessageComposer = SizeConfig.heightMultiplier * 9;
   static double groupIconHeight = SizeConfig.heightMultiplier * 12.5;/// 100
+  static double groupIconHeightTwo = SizeConfig.heightMultiplier * 17.5;/// 100
   static double groupIconWidth = SizeConfig.widthMultiplier * 23.15;/// 100
+  static double groupIconWidthTwo = SizeConfig.widthMultiplier * 27.15;/// 100
   static double categoriesHeight = SizeConfig.heightMultiplier * 36.5; /// 300
   static double categoriesWidth = SizeConfig.widthMultiplier * 70; /// 300
   static double sliverHeight = SizeConfig.heightMultiplier * 32;/// 260/8.16
@@ -75,6 +77,14 @@ class WidgetConfig{
   static double standardFontSize = SizeConfig.textMultiplier * 2;/// 16
   static double bigFontSize = SizeConfig.textMultiplier * 2.5;
   static double fontSizeTwelve = SizeConfig.textMultiplier * 1.47;/// 12/8.16
+  static double subtitleFontSize = SizeConfig.textMultiplier * 1.5;
+  static double welcomeTitleSizeSmaller =  SizeConfig.textMultiplier * 8;
+  static double welcomeTitleSize =  SizeConfig.textMultiplier * 11;
+  static double welcomeSize = SizeConfig.textMultiplier * 4;
+
+
+  /// passcode
+  static double circleSizeThirty = SizeConfig.widthMultiplier * 6.94444444444;/// 30/4.32
 
   /// videoThumbnail
   getChatMessageWidth(BuildContext context){

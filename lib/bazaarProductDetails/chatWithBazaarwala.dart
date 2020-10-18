@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToIndividualChat.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getConversationIdFromConversationMetadataCollection.dart';
 import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
+
 
 class ChatWithBazaarwala extends StatelessWidget {
   final String bazaarwalaNumber;
@@ -19,7 +21,7 @@ class ChatWithBazaarwala extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomIconButton(
-      iconNameInImageFolder: 'chatBubble',
+      iconNameInImageFolder: IconConfig.chatBubble,
       onPressed: () async{
         String userNumber = await UserDetails().getUserPhoneNoFuture();
         print("userNumber in chatWithBazaarwala : $userNumber");
@@ -32,7 +34,8 @@ class ChatWithBazaarwala extends StatelessWidget {
         print("convId in customIconButton :$conversationId");
 
         NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
-            listOfFriendsNumbers: listOfFriendsNumbers, friendName: bazaarwalaName, userName: userName)
+            listOfFriendNumbers: listOfFriendsNumbers,
+            friendName: bazaarwalaName, userName: userName)
             .navigateNoBrackets(customContext);
       },
     );

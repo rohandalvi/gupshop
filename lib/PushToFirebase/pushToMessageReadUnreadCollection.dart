@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/responsive/collectionPaths.dart';
 
 class PushToMessageReadUnreadCollection{
   String userNumber;
@@ -7,9 +8,13 @@ class PushToMessageReadUnreadCollection{
 
   PushToMessageReadUnreadCollection({this.userNumber, this.messageId, this.conversationId});
 
+  DocumentReference path(String userNumber){
+    DocumentReference dc = CollectionPaths.messageReadUnreadCollectionPath.document(userNumber);
+    return dc;
+  }
+
   pushLatestMessageId(){
-    Firestore.instance.collection("messageReadUnread").document(userNumber)
-        .setData({conversationId : messageId}, merge: true);
+    path(userNumber).setData({conversationId : messageId}, merge: true);
   }
 
 }

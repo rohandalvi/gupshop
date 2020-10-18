@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/address/addressListBodyUI.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getUsersLocation.dart';
 
 class AddressListData extends StatefulWidget {
@@ -22,9 +23,9 @@ class _AddressListDataState extends State<AddressListData> {
         future: GetUsersLocation(userPhoneNo: widget.userPhoneNo).getHomeAddress(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            String addressName = "Home : ";
-            String address = snapshot.data["address"];
-            GeoPoint geoPoint = snapshot.data["geoPoint"];
+            String addressName = TextConfig.addressNameHome;
+            String address = snapshot.data[TextConfig.usersLocationCollectionAddress];
+            GeoPoint geoPoint = snapshot.data[TextConfig.usersLocationCollectionGeoPoint];
             double latitude = geoPoint.latitude;
             double longitude = geoPoint.longitude;
 

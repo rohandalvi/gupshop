@@ -9,6 +9,7 @@ import 'package:gupshop/bazaarHomeService/serviceAtHomeUI.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarLocation.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
@@ -133,7 +134,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
       cameraVideo: _cameraVideo,);
 
     videoPicked = true;
-    cache["video"] = isVideo;
+    cache[TextConfig.video] = isVideo;
 
     videoChanged = true;
 
@@ -142,7 +143,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
 
   cacheVideo(){
     setState(() {
-      cache["video"] = isVideo;
+      cache[TextConfig.video] = isVideo;
     });
   }
 
@@ -171,15 +172,14 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
               if(snapshot.connectionState == ConnectionState.done){
                 if(snapshot.data != null){
                   isBazaarWala = true;
-                  video = new File("videoURL");
-                  databaseVideoURL = snapshot.data["videoURL"];
+                  video = new File(TextConfig.videoURL);
+                  databaseVideoURL = snapshot.data[TextConfig.videoURL];
                   videoNotNull = true;
 
                   videoURL = databaseVideoURL;
                 }else isBazaarWala = false;
 
 
-                print("isBazaarWala in advt : $isBazaarWala");
                 return SafeArea(
                   bottom: false,
                   left: false,
@@ -195,7 +195,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
                         ),
                         Expanded(
                           flex: 9,
-                          child: cache["video"] == null ? selectVideo() : cache["video"],
+                          child: cache[TextConfig.video] == null ? selectVideo() : cache[TextConfig.video],
                         ),
                       ]
                   ),
@@ -217,7 +217,7 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
     cacheVideo();
 
     return CustomFloatingActionButtonWithIcon(
-      iconName: 'forward2',
+      iconName: IconConfig.forward,
       onPressed: () async{
         setState(() {
           if(isVideo != null) {
@@ -238,17 +238,16 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
           ).getLocationRadiusAddressName();
 
           if(data != null){
-            databaseLongitude = data["longitude"];
-            databaseLatitude = data["latitude"];
-            addressName = data["addressName"];
-            radius =data["radius"];
+            databaseLongitude = data[TextConfig.longitude];
+            databaseLatitude = data[TextConfig.latitude];
+            addressName = data[TextConfig.addressName];
+            radius =data[TextConfig.radius];
 
             location = new LatLng(databaseLatitude, databaseLongitude);
             locationNotNull = true;
 
           }
 
-          print("isBazaarwala before navigate : $isBazaarWala");
           NavigateToBazaarLocation(
             category: widget.category,
             categoryData: widget.categoryData,
@@ -274,9 +273,9 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
         }if(videoNotNull == false){
           CustomFlushBar(
             customContext: context,
-            text: CustomText(text: 'Select Video',),
-            iconName: 'stopHand',
-            message: 'Select Video',
+            text: CustomText(text: TextConfig.selectVideoFlushbar,),
+            iconName: IconConfig.stop,
+            message: TextConfig.selectVideoFlushbar,
           ).showFlushBar();
           }
       },

@@ -10,6 +10,7 @@ import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
@@ -171,8 +172,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                 future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikesAndDislikes(widget.productWalaNumber, widget.categoryData,widget.subCategoryData ),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    likes = snapshot.data['likes'];
-                    dislikes = snapshot.data['dislikes'];
+                    likes = snapshot.data[TextConfig.likesBazaarRatingNumbers];
+                    dislikes = snapshot.data[TextConfig.dislikesBazaarRatingNumbers];
 
                     return ReviewBuilderAndDisplay(productWalaName:productWalaName, productWalaNumber: widget.productWalaNumber,
                       category: widget.category,writeReview: writeReview,focus: focus,userName: userName,
@@ -207,11 +208,11 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
           ).getPictureListAndVideo(),/// get it from bazaarWalas basic profile and not videos collection
           builder: (context, snapshot) {
             if(snapshot.connectionState == ConnectionState.done){
-              String videoURL = snapshot.data["videoURL"];
+              String videoURL = snapshot.data[TextConfig.videoURL];
 
-              String thumbnailPicture = snapshot.data["thumbnailPicture"];
-              String otherPictureOne = snapshot.data["otherPictureOne"];
-              String otherPictureTwo = snapshot.data["otherPictureTwo"];
+              String thumbnailPicture = snapshot.data[TextConfig.thumbnailPicture];
+              String otherPictureOne = snapshot.data[TextConfig.otherPictureOne];
+              String otherPictureTwo = snapshot.data[TextConfig.otherPictureTwo];
 
               if(thumbnailPicture == null) thumbnailPicture = ImageConfig.photoFrame;
 

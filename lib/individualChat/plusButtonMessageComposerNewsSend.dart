@@ -17,6 +17,7 @@ import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/models/message.dart';
 import 'package:gupshop/models/text_message.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/recentChats.dart';
@@ -70,7 +71,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
             return CustomBottomSheet(
               customContext: context,
 
-              firstIconName: 'photoGallery',
+              firstIconName: IconConfig.photoGallery,
               firstIconText: TextConfig.pickGalleryImage,
               firstIconAndTextOnPressed: () async{
                 Navigator.pop(context);
@@ -82,7 +83,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
                     conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData,
                     userName: widget.userName, groupExits: widget.groupExits).push();
               },
-              secondIconName: 'image2vector',
+              secondIconName: IconConfig.camera,
               secondIconText: TextConfig.pickCameraImage,
               secondIconAndTextOnPressed: () async{
                 /// clicking image from camera flowchart:
@@ -99,7 +100,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
                     conversationCollectionData,recentChatsData: recentChatsData, userName:widget.userName,
                     groupExits: widget.groupExits).push();
               },
-              thirdIconName: 'photoGallery',
+              thirdIconName: IconConfig.photoGallery,
               thirdIconText: TextConfig.pickGalleryVideo,
               thirdIconAndTextOnPressed: () async{
                 Navigator.pop(context);
@@ -111,7 +112,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
                   PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers, conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo, conversationCollectionData: conversationCollectionData, recentChatsData: recentChatsData, userName: widget.userName, groupExits: widget.groupExits).push();
                 }
               },
-              fourthIconName: 'videoCamera',
+              fourthIconName: IconConfig.videoCamera,
               fourthIconText: TextConfig.pickCameraVideo,
               fourthIconAndTextOnPressed: () async{
                 Navigator.pop(context);
@@ -129,7 +130,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
                   print("video pushed to firebase");
                 }
               },
-              fifthIconName: 'location',
+              fifthIconName: IconConfig.location,
               fifthIconText: TextConfig.currentLocation,
               fifthIconAndTextOnPressed: () async{
                 /// first check if user has given permission to access location

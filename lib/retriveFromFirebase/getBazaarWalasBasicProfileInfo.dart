@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gupshop/PushToFirebase/pushToBazaarWalasBasicProfileCollection.dart';
 import 'package:gupshop/location/location_service.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 
 class GetBazaarWalasBasicProfileInfo{
   String userNumber;
@@ -9,11 +11,13 @@ class GetBazaarWalasBasicProfileInfo{
 
   GetBazaarWalasBasicProfileInfo({this.userNumber,this.subCategoryData, this.categoryData, this.image});
 
-  path(){
-  return Firestore.instance.collection("bazaarWalasBasicProfile")
-      .document(userNumber)
-      .collection(categoryData).document(subCategoryData)
-      .get();
+  DocumentReference basicPath(){
+    return PushToBazaarWalasBasicProfile().categoryDataPath(userPhoneNo: userNumber,
+        categoryData: categoryData,subCategoryData: subCategoryData);
+  }
+
+  Future<DocumentSnapshot> path() async{
+  return await basicPath().get();
   }
 
   getIsBazaarwala() async{
@@ -28,7 +32,7 @@ class GetBazaarWalasBasicProfileInfo{
 
   getName() async{
     DocumentSnapshot nameFuture = await path();
-    return nameFuture.data["bazaarWalaName"];
+    return nameFuture.data[TextConfig.bazaarWalaName];
   }
 
   getThumbnailPicture(){
@@ -39,8 +43,8 @@ class GetBazaarWalasBasicProfileInfo{
     DocumentSnapshot dc = await path();
     Map<String, String> map = new Map();
 
-    map["name"] = dc.data["bazaarWalaName"];
-    map["thumbnailPicture"] = dc.data["thumbnailPicture"];
+    map[TextConfig.namebazaawalasBasicProfile] = dc.data[TextConfig.bazaarWalaName];
+    map[TextConfig.thumbnailPicture] = dc.data[TextConfig.thumbnailPicture];
     return map;
   }
 
@@ -53,16 +57,16 @@ class GetBazaarWalasBasicProfileInfo{
   getPictureListAndVideo() async{
     DocumentSnapshot dc = await path();
     Map<String, String> map = new Map();
-    map["thumbnailPicture"] = dc.data["thumbnailPicture"];
-    map["otherPictureOne"] = dc.data["otherPictureOne"];
-    map["otherPictureTwo"] = dc.data["otherPictureTwo"];
-    map["videoURL"] = dc.data["videoURL"];
+    map[TextConfig.thumbnailPicture] = dc.data[TextConfig.thumbnailPicture];
+    map[TextConfig.otherPictureOne] = dc.data[TextConfig.otherPictureOne];
+    map[TextConfig.otherPictureTwo] = dc.data[TextConfig.otherPictureTwo];
+    map[TextConfig.videoURL] = dc.data[TextConfig.videoURL];
     return map;
   }
 
   Future<bool> isHomeService() async{
     DocumentSnapshot dc = await path();
-    bool result =  dc.data["homeService"];
+    bool result =  dc.data[TextConfig.homeService];
     return result;
   }
 
@@ -70,26 +74,26 @@ class GetBazaarWalasBasicProfileInfo{
     DocumentSnapshot dc = await path();
     Map<String, dynamic> map = new Map();
 
-    map["name"] = dc.data["bazaarWalaName"];
+    map[TextConfig.namebazaawalasBasicProfile] = dc.data[TextConfig.bazaarWalaName];
 
     print("number : $userNumber");
     print("category : $categoryData");
     print("subCategoryData : $subCategoryData");
     String businessName;
-    businessName = dc.data["businessName"];
+    businessName = dc.data[TextConfig.businessName];
     print("businessName in basic profile : ${dc.data["businessName"]}");
-    map["businessName"] = businessName;
+    map[TextConfig.businessName] = businessName;
 
     print("map after businessName : $map");
 
-    map["thumbnailPicture"] = dc.data["thumbnailPicture"];
+    map[TextConfig.thumbnailPicture] = dc.data[TextConfig.thumbnailPicture];
     print("map after thumbnailPicture : $map");
 
-    if(dc.data["homeService"] == true || dc.data["homeService"] == false){
-      map["homeService"] =  dc.data["homeService"];
+    if(dc.data[TextConfig.homeService] == true || dc.data[TextConfig.homeService] == false){
+      map[TextConfig.homeService] =  dc.data[TextConfig.homeService];
       print("map after homeService in if  : $map");
     }else{
-      map["homeService"] = null;
+      map[TextConfig.homeService] = null;
       print("map after homeService in else : $map");
     }
 
@@ -103,10 +107,10 @@ class GetBazaarWalasBasicProfileInfo{
     Map map = new Map();
     print("dc.data in getVideoAndLocationRadius : ${dc.data}");
     if(dc.data != null){
-      map["latitude"] = dc.data["latitude"];
-      map["longitude"] = dc.data["longitude"];
-      map["videoURL"] = dc.data["videoURL"];
-      map["radius"] = dc.data["radius"];
+      map[TextConfig.latitude] = dc.data[TextConfig.latitude];
+      map[TextConfig.longitude] = dc.data[TextConfig.longitude];
+      map[TextConfig.videoURL] = dc.data[TextConfig.videoURL];
+      map[TextConfig.radius] = dc.data[TextConfig.radius];
       return map;
     }return null;
   }
@@ -115,23 +119,20 @@ class GetBazaarWalasBasicProfileInfo{
     DocumentSnapshot dc = await path();
     Map map = new Map();
     if(dc.data != null){
-      double latitude = dc.data["latitude"];
-      double longitude = dc.data["longitude"];
+      double latitude = dc.data[TextConfig.latitude];
+      double longitude = dc.data[TextConfig.longitude];
       String addressName = await LocationService().getAddressFromLatLang(latitude,longitude);
 
-      map["latitude"] = latitude;
-      map["longitude"] = longitude;
+      map[TextConfig.latitude] = latitude;
+      map[TextConfig.longitude] = longitude;
       map["addressName"] = addressName;
-      map["radius"] = dc.data["radius"];
+      map[TextConfig.radius] = dc.data[TextConfig.radius];
       return map;
     }return null;
   }
 
-  getPicturesStream(){
+  Stream getPicturesStream(){
     print("in getPicturesStream");
-    return Firestore.instance.collection("bazaarWalasBasicProfile")
-        .document(userNumber)
-        .collection(categoryData).document(subCategoryData)
-        .snapshots();
+    return basicPath().snapshots();
   }
 }

@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/widgets/customIcon.dart';
+import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class CustomDismissible extends StatefulWidget {
@@ -60,10 +63,11 @@ class _CustomDismissibleState extends State<CustomDismissible> {
             title: CustomText(text: "Hey group admin, are you sure ?"),
             content: CustomText(text: "The group will be deleted permenantly"),
             actions: <Widget>[
-              IconButton(
-                  icon: SvgPicture.asset('images/alarm.svg',)
-                //SvgPicture.asset('images/downChevron.svg',)
-              ),
+              CustomIcon(iconName: IconConfig.alarm,),
+//              IconButton(
+//                  icon: SvgPicture.asset('images/alarm.svg',)
+//                //SvgPicture.asset('images/downChevron.svg',)
+//              ),
               FlatButton(
                   onPressed: () => Navigator.of(context).pop(true),
                   child: CustomText(text:"YES")
@@ -81,7 +85,7 @@ class _CustomDismissibleState extends State<CustomDismissible> {
       onDismissed: widget.onDismissed,
       direction: (group == true && admin == myNumber) ? DismissDirection.horizontal : DismissDirection.endToStart,
       background: Container(
-        color: deleteColor,
+        color: red,
         alignment: AlignmentDirectional.centerStart,
         child: IconButton(
             icon: SvgPicture.asset('images/recycleBin.svg',)
@@ -91,9 +95,10 @@ class _CustomDismissibleState extends State<CustomDismissible> {
       secondaryBackground: Container(
         color: notMeChatColor,
         alignment: AlignmentDirectional.centerEnd,
-        child: IconButton(
-          icon: SvgPicture.asset('images/hide.svg',),
-        ),
+        child: CustomText(text: 'HIDE',textColor: red,)
+//        IconButton(
+//          icon: SvgPicture.asset('images/hide.svg',),
+//        ),
       ),
       child: widget.child,
     );

@@ -5,9 +5,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/address/saveButton.dart';
 import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
 import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -57,14 +57,14 @@ class _AddressListBodyUIState extends State<AddressListBodyUI> {
       children: <Widget>[
         CustomText(text: addressName, textColor: primaryColor,),
         CustomIconButton(
-          iconNameInImageFolder: 'editPencil',
+          iconNameInImageFolder: IconConfig.editIcon,
           onPressed: () async{
             /// open maps
             LatLng currentLatLng = new LatLng(widget.latitude, widget.longitude);
 
             /// placeholder till map is generated:
             /// show a dialog box with CircularProgressIndicator
-            CustomShowDialog().main(context, BazaarConfig.loadingMap);
+            CustomShowDialog().main(context, BazaarConfig.loadingMap, barrierDismissible: false);
 
             LatLng latLng = await ChangeLocationInSearch(userNumber: widget.userPhoneNo).getLatLang(context);
 

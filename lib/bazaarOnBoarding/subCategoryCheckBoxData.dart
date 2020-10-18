@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarOnBoarding/subCategoriesCheckBox.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
 
 class SubCategoryCheckBoxData extends StatefulWidget {
@@ -30,7 +31,7 @@ class _SubCategoryCheckBoxDataState extends State<SubCategoryCheckBoxData> {
     Map mapOfDocumentSnapshots = widget.subCategoriesList.asMap();
     /// initializing 'map' with false values
     mapOfDocumentSnapshots.forEach((key, value) {
-      String temp = mapOfDocumentSnapshots[key].data["name"];
+      String temp = mapOfDocumentSnapshots[key].data[TextConfig.name];
       map.putIfAbsent(temp, () => false);
     });
   }

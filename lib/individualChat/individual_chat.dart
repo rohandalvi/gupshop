@@ -13,6 +13,8 @@ import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsC
 import 'package:gupshop/models/text_message.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/navigators/navigateToIndividualChat.dart';
+import 'package:gupshop/notifications/IRules.dart';
+import 'package:gupshop/notifications/NotificationEventType.dart';
 import 'package:gupshop/notifications/application/notifier.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -35,7 +37,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:video_player/video_player.dart';
 
-class IndividualChat extends StatefulWidget {
+class IndividualChat extends StatefulWidget implements IRules{
   String conversationId;
   final String userPhoneNo;
   final String userName;
@@ -61,6 +63,13 @@ class IndividualChat extends StatefulWidget {
   @override
   _IndividualChatState createState() => _IndividualChatState(
     );
+
+  @override
+  bool apply(NotificationEventType eventType, String conversationId) {
+    // TODO: implement apply
+
+    return eventType != NotificationEventType.NEW_CHAT_MESSAGE || this.conversationId != conversationId;
+  }
 
 
 }
@@ -240,8 +249,8 @@ class _IndividualChatState extends State<IndividualChat> {
 //    NotificationHelper().registerNotification(widget.conversationId, widget.listOfFriendNumbers, widget.userName, widget.userPhoneNo);
 //    NotificationHelper().configLocalNotification(
 //      onSelectNotification:
-//    );
-
+//    );  
+  
     notificationInit();
 
     /// if new conversation, then conversationId == null
@@ -264,6 +273,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
   notificationInit(){
     Notifier notifier = new Notifier();
+    notifier.setActiveScreen("IndividualChat");
     print("notificationInit");
     notifier.registerNotification(widget.conversationId, widget.listOfFriendNumbers, widget.userName, widget.userPhoneNo);
     notifier.configLocalNotification(
@@ -303,14 +313,14 @@ class _IndividualChatState extends State<IndividualChat> {
       print("individual name : $name");
     }
 
-//    await NavigateToIndividualChat(
-//      conversationId:notifierConversationId,
-//      listOfFriendNumbers: listOfFriendNumbers,
-//      friendName: name,
-//
-//      userPhoneNo: widget.userPhoneNo,
-//      userName: widget.userName,
-//    ).navigateNoBrackets(context);
+    await NavigateToIndividualChat(
+      conversationId:notifierConversationId,
+      listOfFriendNumbers: listOfFriendNumbers,
+      friendName: name,
+
+      userPhoneNo: widget.userPhoneNo,
+      userName: widget.userName,
+    ).navigateNoBrackets(context);
 
 
 

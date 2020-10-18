@@ -5,13 +5,15 @@ import 'package:gupshop/chat_list_page/chatListData.dart';
 import 'package:gupshop/chat_list_page/chatListSingleton.dart';
 import 'package:gupshop/chat_list_page/ifNoConversationSoFar.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
+import 'package:gupshop/notifications/IRules.dart';
+import 'package:gupshop/notifications/NotificationEventType.dart';
 import 'package:gupshop/retriveFromFirebase/recentChats.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/widgets/showMessageForFirstConversation.dart';
 
 
 //chatList => individualChat
-class ChatList extends StatefulWidget {
+class ChatList extends StatefulWidget implements IRules {
   final String myNumber;
   final String myName;
   List<String> phoneNumberList;
@@ -20,6 +22,12 @@ class ChatList extends StatefulWidget {
 
   @override
   ChatListState createState() => ChatListState(myNumber: myNumber,myName: myName, phoneNumberList: phoneNumberList );
+
+  @override
+  bool apply(NotificationEventType eventType, String conversationId) {
+    // TODO: implement apply
+    return eventType != NotificationEventType.NEW_CHAT_MESSAGE;
+  }
 }
 
 class ChatListState extends State<ChatList> {
@@ -56,6 +64,8 @@ class ChatListState extends State<ChatList> {
     /// to create the friends collection everytime user starts the app
     /// *** this might be getting triggred everytime the user comes to the
     /// chat_list page. Check it @todo
+
+    notifier.setRule(this);
     CreateFriendsCollection(userName: myName, userPhoneNo: myNumber,).getUnionContacts(context);
     chatListCache = ChatListSingleton().getChatListCacheMap();
     ///ToDo: analytics here for chatListCache

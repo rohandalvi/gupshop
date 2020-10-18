@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:gupshop/notifications/IRules.dart';
+import 'package:gupshop/notifications/NotificationEventType.dart';
 import 'package:gupshop/notifications/NotificationsManager.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 
@@ -10,6 +12,24 @@ class Notifier{
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   Map<String, dynamic> classMessage = new Map();
   bool notificationFired = false;
+  String activeScreen;
+  IRules activeRule;
+
+  void setRule(IRules iRules) {
+    activeRule = iRules;
+  }
+
+  IRules getActiveRule() {
+    return activeRule;
+  }
+
+  void setActiveScreen(String screen) {
+    this.activeScreen = screen;
+  }
+
+  String getActiveScreen() {
+    return activeScreen;
+  }
 
 
   /// initializing variables in constructor
@@ -53,6 +73,7 @@ class Notifier{
           //classMessage = message;
           print("message in registerNotification : ${message}");
           String notifierConversationId = message[TextConfig.data][TextConfig.notifierConversationId];
+          NotificationEventType type = message[TextConfig.data][TextConfig.type];
           if(currentConversationId != notifierConversationId){
             Map<String, dynamic> resultMap = new Map();
 
@@ -61,7 +82,11 @@ class Notifier{
                 : resultMap = createIosMessageData(message);
 
             print("resultMap : $resultMap");
-            showNotification(resultMap);
+
+            if(getActiveRule()!=null && getActiveRule().apply(type, notifierConversationId)) {
+              showNotification(resultMap);
+            }
+
 
 //            Platform.isAndroid
 //                ? showNotification(message[TextConfig.notificationAndroid])

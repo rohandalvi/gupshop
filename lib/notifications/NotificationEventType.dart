@@ -1,4 +1,5 @@
 enum NotificationEventType {
 
-  VIDEO_CALL
+  VIDEO_CALL,
+  NEW_CHAT_MESSAGE
 }

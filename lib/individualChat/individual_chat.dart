@@ -297,6 +297,7 @@ class _IndividualChatState extends State<IndividualChat> {
 //   List<dynamic> notificationFromNumber = map[TextConfig.notificationFromNumber];
 //    print("payload in onSelectNotification : ${notificationFromNumber}");
     String notifierConversationId = map[TextConfig.notifierConversationId];
+    String eventType = map[TextConfig.data][TextConfig.type];
     print("notifierConversationId in onSelectNotification: $notifierConversationId");
     //print("notificationFromNumber : $notificationFromNumber");
     //print("notificationFromName : $notificationFromName");
@@ -322,14 +323,20 @@ class _IndividualChatState extends State<IndividualChat> {
     }
 
     print("Navigating to individual chat");
-    await NavigateToIndividualChat(
-      conversationId:notifierConversationId,
-      listOfFriendNumbers: listOfFriendNumbers,
-      friendName: name,
+    switch(eventType) {
+      case "NEW_CHAT_MESSAGE":
+        await NavigateToIndividualChat(
+          conversationId:notifierConversationId,
+          listOfFriendNumbers: listOfFriendNumbers,
+          friendName: name,
 
-      userPhoneNo: widget.userPhoneNo,
-      userName: widget.userName,
-    ).navigateNoBrackets(context);
+          userPhoneNo: widget.userPhoneNo,
+          userName: widget.userName,
+        ).navigateNoBrackets(context);
+        break;
+      default: print("Nothing to notify");
+    }
+
   }
 
 

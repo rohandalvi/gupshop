@@ -107,6 +107,8 @@ class TextConfig{
   static const String pickCameraVideo = 'Record video from Camera';
   static const String currentLocation = 'Send Current Location';
 
+  static const String groupDeleted = 'This group is Deleted !';
+
   /// ======================================================================== ///
 
   /// classes ***************************************************************
@@ -156,6 +158,9 @@ class TextConfig{
   static const String title = "title";
   static const String body = "body";
   static const String data = "data";
+  static const String messageId = "messageId";
+  static const String videoURL = "videoURL";
+  static const String imageURL = "imageURL";
 
 
   /// NoSubCategoryText:
@@ -271,7 +276,6 @@ class TextConfig{
   static const String businessName = 'businessName';
   static const String homeService = 'homeService';
   static const String bazaarWalaName = 'bazaarWalaName';
-  static const String videoURL = 'videoURL';
   static const String latitude = 'latitude';
   static const String longitude = 'longitude';
   static const String radius = 'radius';
@@ -288,7 +292,6 @@ class TextConfig{
   /// conversations:
   static const String messages = 'messages';
   static const String isSaved = 'isSaved';
-  static const String messageId = 'messageId';
 
   /// recentChats:
   static const String conversationsRecentChats = 'conversations';
@@ -307,6 +310,8 @@ class TextConfig{
   static const String newsCreaterCannotChangeUpVote = 'News creator or forwarder cannot change their up vote';
   static const String read = 'read';
   static const String unread = 'unread';
+  static const String news = 'news';
+  static const String newsRecentChats = '📰 NEWS';
 
   /// newsStatistics:
   static const String voteStatus = 'voteStatus';

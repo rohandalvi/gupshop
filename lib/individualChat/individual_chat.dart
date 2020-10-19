@@ -174,10 +174,10 @@ class _IndividualChatState extends State<IndividualChat> {
       var data = widget.forwardMessage;
 
       /// creating data to be pushed to recentChats
-      if(data["videoURL"] != null) {
-        String messageId = await PushToSaveCollection(messageBody: data["videoURL"], messageType: 'videoURL',).
+      if(data[TextConfig.videoURL] != null) {
+        String messageId = await PushToSaveCollection(messageBody: data[TextConfig.videoURL], messageType: TextConfig.videoURL,).
         saveAndGenerateId();
-        data["messageId"] = messageId;
+        data[TextConfig.messageId] = messageId;
         Map<String, dynamic> conversationCollectionData = data;
         Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
             fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
@@ -187,10 +187,10 @@ class _IndividualChatState extends State<IndividualChat> {
             conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName,
             groupExits: groupExits).push();
       }
-      else if(data["imageURL"] != null) {
-        String messageId = await PushToSaveCollection(messageBody: data["imageURL"], messageType: 'imageURL',).
+      else if(data[TextConfig.imageURL] != null) {
+        String messageId = await PushToSaveCollection(messageBody: data[TextConfig.imageURL], messageType: TextConfig.imageURL,).
         saveAndGenerateId();
-        data["messageId"] = messageId;
+        data[TextConfig.messageId] = messageId;
         Map<String, dynamic> conversationCollectionData = data;
         Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
             fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
@@ -200,33 +200,33 @@ class _IndividualChatState extends State<IndividualChat> {
             conversationCollectionData,recentChatsData: recentChatsData, userName:widget.userName,
             groupExits: groupExits).push();
       }
-      else if(data["news"] != null) {
-        String messageId = await PushToSaveCollection(messageBody: data["news"], messageType: 'body',).
+      else if(data[TextConfig.news] != null) {
+        String messageId = await PushToSaveCollection(messageBody: data[TextConfig.news], messageType: TextConfig.body,).
         saveAndGenerateId();
-        data["messageId"] = messageId;
+        data[TextConfig.messageId] = messageId;
         PushToConversationCollection().push(data);
 //        FirebaseMethods().pushToConversatinCollection(data);
-        data = TextMessage(text: "📰 NEWS", conversationId: conversationId,fromName: widget.userName,
+        data = TextMessage(text: TextConfig.newsRecentChats, conversationId: conversationId,fromName: widget.userName,
             fromNumber: widget.userPhoneNo,
             timestamp: Timestamp.now(), messageId: messageId).fromJson();
         RecentChats(message: data, convId: conversationId, userNumber:widget.userPhoneNo,
             userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers,
             groupExists: groupExits).getAllNumbersOfAConversation();
-      }else if(data["latitude"] != null){
-        String messageId = await PushToSaveCollection(messageBody: data["body"], messageType: 'location',).saveAndGenerateId();
-        data["messageId"] = messageId;
+      }else if(data[TextConfig.latitude] != null){
+        String messageId = await PushToSaveCollection(messageBody: data[TextConfig.body], messageType: TextConfig.location,).saveAndGenerateId();
+        data[TextConfig.messageId] = messageId;
         Map<String, dynamic> conversationCollectionData = data;
         Map<String, dynamic> recentChatsData = await RecentChatsDataScaffolds(fromName: widget.userName,
             fromNumber: widget.userPhoneNo, conversationId: widget.conversationId, timestamp: Timestamp.now(),
-            messageId: messageId, longitude: data["longitude"], latitude: data["latitude"]).forLocationMessage();
+            messageId: messageId, longitude: data[TextConfig.longitude], latitude: data[TextConfig.latitude]).forLocationMessage();
         PushMessagesToConversationAndRecentChatsCollection(listOfFriendNumbers: widget.listOfFriendNumbers,
             conversationId: widget.conversationId, userPhoneNo: widget.userPhoneNo,
             conversationCollectionData: conversationCollectionData,recentChatsData: recentChatsData, userName: widget.userName,
             groupExits: groupExits).push();
         }
       else{
-        String messageId = await PushToSaveCollection(messageBody: data["body"], messageType: 'body',).saveAndGenerateId();
-        data["messageId"] = messageId;
+        String messageId = await PushToSaveCollection(messageBody: data[TextConfig.body], messageType: TextConfig.body,).saveAndGenerateId();
+        data[TextConfig.messageId] = messageId;
         PushToConversationCollection().push(data);
 //        FirebaseMethods().pushToConversatinCollection(data);
         RecentChats(message: data, convId: conversationId, userNumber:widget.userPhoneNo,
@@ -236,13 +236,6 @@ class _IndividualChatState extends State<IndividualChat> {
 
     }
   }
-
-//  getListOfFriendNumbers(String conversationId) async{
-//    List<dynamic> list = await ConversationMetaData(conversationId: conversationId).listOfNumbersOfConversationExceptMe();
-//    setState(() {
-//      listOfFriendNumbers = list;
-//    });
-//  }
 
 
   @override
@@ -380,7 +373,7 @@ class _IndividualChatState extends State<IndividualChat> {
 
   buildWidget(){
     return widget.groupDeleted == true ?
-    BlankScreen(message: 'This group is Deleted !',) :
+    BlankScreen(message: TextConfig.groupDeleted,) :
     (widget.notGroupMemberAnymore == false || widget.notGroupMemberAnymore == null) ?
     BodyPlusScrollComposerData(
       conversationService: conversationService,

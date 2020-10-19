@@ -303,14 +303,14 @@ class _IndividualChatState extends State<IndividualChat> {
       print("individual name : $name");
     }
 
-//    await NavigateToIndividualChat(
-//      conversationId:notifierConversationId,
-//      listOfFriendNumbers: listOfFriendNumbers,
-//      friendName: name,
-//
-//      userPhoneNo: widget.userPhoneNo,
-//      userName: widget.userName,
-//    ).navigateNoBrackets(context);
+    await NavigateToIndividualChat(
+      conversationId:notifierConversationId,
+      listOfFriendNumbers: listOfFriendNumbers,
+      friendName: name,
+
+      userPhoneNo: widget.userPhoneNo,
+      userName: widget.userName,
+    ).navigateNoBrackets(context);
 
 
 

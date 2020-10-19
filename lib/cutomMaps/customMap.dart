@@ -186,7 +186,7 @@ class _CustomMapState extends State<CustomMap> {
     }else{
       return CustomFlushBar(
         customContext: context,
-        iconName: 'speaker',
+        iconName: IconConfig.speaker,
         text: CustomText(
           text: 'This is the maximum service area',
         ),
@@ -209,7 +209,7 @@ class _CustomMapState extends State<CustomMap> {
     }else{
       return CustomFlushBar(
         customContext: context,
-        iconName: 'speaker',
+        iconName: IconConfig.speaker,
         text: CustomText(
           text: 'This is the minimum service area',
         ),

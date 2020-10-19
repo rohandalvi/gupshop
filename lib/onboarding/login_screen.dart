@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToNameScreen.dart';
+import 'package:gupshop/notifications/application/notifier.dart';
 import 'package:gupshop/onboarding/name_screen.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
@@ -21,6 +22,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 //LoginScreen => NameScreen
 class LoginScreen extends StatefulWidget {
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }

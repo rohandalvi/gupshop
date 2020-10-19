@@ -15,7 +15,7 @@ import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/notifications/IRules.dart';
 import 'package:gupshop/notifications/NotificationEventType.dart';
-import 'package:gupshop/notifications/application/notifier.dart';
+import 'package:gupshop/notifications/notificationSingleton.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
@@ -27,14 +27,12 @@ import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/service/recentChats.dart';
-import 'package:gupshop/individualChat/firebaseMethods.dart';
 import 'package:gupshop/widgets/blankScreen.dart';
 
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gupshop/widgets/customText.dart';
 import 'package:video_player/video_player.dart';
 
 class IndividualChat extends StatefulWidget implements IRules{
@@ -61,14 +59,17 @@ class IndividualChat extends StatefulWidget implements IRules{
 
 
   @override
-  _IndividualChatState createState() => _IndividualChatState(
+  _IndividualChatState createState() {
+    print("CID $conversationId");
+    return _IndividualChatState(
     );
+  }
 
   @override
-  bool apply(NotificationEventType eventType, String conversationId) {
+  bool apply(NotificationEventType eventType, String convId) {
     // TODO: implement apply
-
-    return eventType != NotificationEventType.NEW_CHAT_MESSAGE || this.conversationId != conversationId;
+    print("Inside apply $eventType and Notifier Conversation id is - $convId and Current conversation id is - $conversationId");
+    return eventType != NotificationEventType.NEW_CHAT_MESSAGE || conversationId != convId;
   }
 
 
@@ -122,7 +123,8 @@ class _IndividualChatState extends State<IndividualChat> {
 
   /// get conversationId required for:
   ///
-  getConversationId() async{
+  createConversationId() async{
+    print("in getConversationId");
 
     /// only an individualChat would come here to create a conversationId as groupChat would get its conversationId in createNameForGroup page
     /// an individualChat would always have groupName as null,
@@ -163,6 +165,7 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
   forwardMessages(String conversationId) async{
+    print("in forwardMessages : $conversationId");
     await checkIfGroup();
     if(widget.forwardMessage != null) {
 
@@ -244,23 +247,21 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   void initState() {
+    print("in initState before: ${widget.conversationId}");
 
-
-//    NotificationHelper().registerNotification(widget.conversationId, widget.listOfFriendNumbers, widget.userName, widget.userPhoneNo);
-//    NotificationHelper().configLocalNotification(
-//      onSelectNotification:
-//    );  
-  
     notificationInit();
 
+    print("in initState : ${widget.conversationId}");
     /// if new conversation, then conversationId == null
     if(widget.conversationId == null) {
-      getConversationId();
+      print("in initState if : ${widget.conversationId}");
+      createConversationId();
       /// also create a conversations_number collection
     }else{
       ///if forwardMessage == true, then initialize that method of sending the message
       ///here in the initstate():
       //getListOfFriendNumbers(conversationId);
+      print("in initState else : ${widget.conversationId}");
       forwardMessages(widget.conversationId);
     }
 
@@ -272,13 +273,16 @@ class _IndividualChatState extends State<IndividualChat> {
 
 
   notificationInit(){
-    Notifier notifier = new Notifier();
-    notifier.setActiveScreen("IndividualChat");
-    print("notificationInit");
-    notifier.registerNotification(widget.conversationId, widget.listOfFriendNumbers, widget.userName, widget.userPhoneNo);
-    notifier.configLocalNotification(
-        onSelectNotification: onSelectNotification
-    );
+    NotificationSingleton notificationSingleton = new NotificationSingleton();
+    print("Active ${notificationSingleton.getNotifierObject().getActiveScreen()}");
+    print("Current ${this.widget.runtimeType.toString()}");
+
+    if(notificationSingleton.getNotifierObject().getActiveScreen() != this.widget.runtimeType.toString()) {
+      print("Setting Rule to ${this.widget.runtimeType.toString()}");
+      notificationSingleton.getNotifierObject().configLocalNotification(onSelectNotification: onSelectNotification);
+    }
+    notificationSingleton.getNotifierObject().setRule(this.widget);
+    notificationSingleton.getNotifierObject().setActiveScreen(this.widget.runtimeType.toString());
   }
 
   Future<void> onSelectNotification(String payload) async{
@@ -300,7 +304,11 @@ class _IndividualChatState extends State<IndividualChat> {
 
     /// get listOfFriendNumbers from firebase
     ConversationMetaData conversationMetaData = new ConversationMetaData(myNumber: widget.userPhoneNo, conversationId: notifierConversationId);
+
     List<dynamic> listOfFriendNumbers = await conversationMetaData.listOfNumbersOfConversationExceptMe();
+
+
+
     print("listOfFriendNumbers from firebase : $listOfFriendNumbers");
 
     /// get Name:
@@ -313,6 +321,7 @@ class _IndividualChatState extends State<IndividualChat> {
       print("individual name : $name");
     }
 
+    print("Navigating to individual chat");
     await NavigateToIndividualChat(
       conversationId:notifierConversationId,
       listOfFriendNumbers: listOfFriendNumbers,
@@ -321,10 +330,9 @@ class _IndividualChatState extends State<IndividualChat> {
       userPhoneNo: widget.userPhoneNo,
       userName: widget.userName,
     ).navigateNoBrackets(context);
-
-
-
   }
+
+
 
   @override
   Widget build(BuildContext context){

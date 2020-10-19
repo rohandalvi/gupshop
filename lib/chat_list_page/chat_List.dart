@@ -7,6 +7,7 @@ import 'package:gupshop/chat_list_page/ifNoConversationSoFar.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/notifications/IRules.dart';
 import 'package:gupshop/notifications/NotificationEventType.dart';
+import 'package:gupshop/notifications/notificationSingleton.dart';
 import 'package:gupshop/retriveFromFirebase/recentChats.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/widgets/showMessageForFirstConversation.dart';
@@ -65,7 +66,7 @@ class ChatListState extends State<ChatList> {
     /// *** this might be getting triggred everytime the user comes to the
     /// chat_list page. Check it @todo
 
-    notifier.setRule(this);
+    new NotificationSingleton().getNotifierObject().setRule(this.widget);
     CreateFriendsCollection(userName: myName, userPhoneNo: myNumber,).getUnionContacts(context);
     chatListCache = ChatListSingleton().getChatListCacheMap();
     ///ToDo: analytics here for chatListCache

@@ -6,6 +6,7 @@ import 'package:gupshop/dataGathering/myTrace.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/bazaar/bazaarHome_screen.dart';
 import 'package:gupshop/home/homeAppBar.dart';
+import 'package:gupshop/notifications/application/notifier.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 
@@ -17,7 +18,9 @@ class Home extends StatefulWidget{
   List<String> phoneNumberList;
   Presence presence;
   final int initialIndex;
-  Home({@required this.userPhoneNo, @required this.userName, @required this.phoneNumberList, this.initialIndex});
+
+  Home({@required this.userPhoneNo, @required this.userName, @required this.phoneNumberList,
+    this.initialIndex});
 
 
   @override

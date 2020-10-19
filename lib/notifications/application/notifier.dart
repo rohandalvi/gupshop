@@ -15,8 +15,16 @@ class Notifier{
   String activeScreen;
   IRules activeRule;
 
-  void setRule(IRules iRules) {
+  void setHandler(IRules iRules) {
     activeRule = iRules;
+  }
+  void setRule(IRules iRules) {
+    print("Waste of time");
+    activeRule = iRules;
+  }
+
+  IRules getHandler() {
+    return activeRule;
   }
 
   IRules getActiveRule() {
@@ -32,9 +40,9 @@ class Notifier{
   }
 
 
-  /// initializing variables in constructor
-  Notifier();
+  static initializeLocalNotificationPlugin() {
 
+  }
 
   /// call this method in initState of the consumer
   Future<void> configLocalNotification({SelectNotificationCallback onSelectNotification}) async{
@@ -50,11 +58,12 @@ class Notifier{
       onSelectNotification: onSelectNotification
     );
 
+
     print("notificationFired : $notificationFired");
     /// cancel the notification presented:
-    if(notificationFired = true){
-      flutterLocalNotificationsPlugin.cancelAll();
-    }
+//    if(notificationFired == true){
+//      flutterLocalNotificationsPlugin.cancelAll();
+//    }
     print("flutterLocalNotificationsPlugin : ${flutterLocalNotificationsPlugin}");
   }
 
@@ -66,15 +75,20 @@ class Notifier{
 
 
   /// call this in intiState of the consumer
-  void registerNotification(String currentConversationId, List<dynamic> currentChatWithNumber,String userName, String userNumber){
+  void registerNotification(){
     print('registerNotification');
     new NotificationsManager(
         onMessage: (Map<String, dynamic> message) {
           //classMessage = message;
           print("message in registerNotification : ${message}");
           String notifierConversationId = message[TextConfig.data][TextConfig.notifierConversationId];
-          NotificationEventType type = message[TextConfig.data][TextConfig.type];
-          if(currentConversationId != notifierConversationId){
+
+          String eventType = message[TextConfig.data][TextConfig.type];
+          print("Before deserialzing "+eventType);
+          NotificationEventType type = getNotificationEventType(eventType);
+
+          print("After deserialzing");
+//          if(currentConversationId != notifierConversationId){
             Map<String, dynamic> resultMap = new Map();
 
             Platform.isAndroid
@@ -91,15 +105,19 @@ class Notifier{
 //            Platform.isAndroid
 //                ? showNotification(message[TextConfig.notificationAndroid])
 //                : showNotification(message[TextConfig.iosAps][TextConfig.alert]);
-          }
-      return;
+//          }
     }, onResume: (Map<String, dynamic> message) {
       print('onResume: $message');
-      return;
     }, onLaunch: (Map<String, dynamic> message) {
       print('onLaunch: $message');
-      return;
     });
+  }
+
+  NotificationEventType getNotificationEventType(String event) {
+    switch(event) {
+      case "NEW_CHAT_MESSAGE": return NotificationEventType.NEW_CHAT_MESSAGE;
+      default: return NotificationEventType.VIDEO_CALL;
+    }
   }
 
   createAndroidMessageData(Map<String, dynamic> message){

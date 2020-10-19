@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:gupshop/notifications/NotificationEventType.dart';
 import 'package:gupshop/notifications/NotificationsManager.dart';
+import 'package:gupshop/notifications/application/notifier.dart';
 import 'package:gupshop/notifications/models/NotificationRequest.dart';
 import 'package:gupshop/onboarding/login_screen.dart';
 import 'package:gupshop/onboarding/welcome.dart';
@@ -32,6 +33,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   String userPhoneNo; //declaring userPhoneNo and useName so they can be used later to be sent to Home()
   String userName;
   bool unLockedStatus;
+  Notifier notifier;
+
+  @override
+  void initState() {
+    print("AppLock state Welcome: ${AppLock.of(context)}");
+    print("userName before startTime: $userName");
+    print("userPhoneNo before startTime: $userPhoneNo");
+//    startTime(context);
+    super.initState();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,14 +64,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => Home(userPhoneNo: userPhoneNo,
-                          userName: userName,),//pass Name() here and pass Home()in name_screen
+                          userName: userName),//pass Name() here and pass Home()in name_screen
                       )
                   );
                 },
               ),
             );
           }else return Home(userPhoneNo: userPhoneNo,
-            userName: userName,);
+            userName: userName);
 
         }else{
           return LoginScreen();
@@ -102,16 +115,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
        userName: userName,
      );
    }
-  }
-
-  @override
-  void initState() {
-    print("AppLock state Welcome: ${AppLock.of(context)}");
-    print("userName before startTime: $userName");
-    print("userPhoneNo before startTime: $userPhoneNo");
-//    startTime(context);
-
-    super.initState();
   }
 
   /*

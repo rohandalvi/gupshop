@@ -5,6 +5,7 @@ import 'package:gupshop/links/fetchLinkPreview.dart';
 import 'package:gupshop/links/linkDIsplayUIData.dart';
 import 'package:gupshop/links/openLinks.dart';
 import 'package:gupshop/colors/colorPalette.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -44,7 +45,7 @@ class NewsContainerUI extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 2,
-                      child: CustomIconButton(iconNameInImageFolder: 'news',onPressed: (){},)),
+                      child: CustomIconButton(iconNameInImageFolder: IconConfig.news,onPressed: (){},)),
                   Expanded(
                     flex: 7,
                       child: CustomText(text: 'NEWS',textColor: primaryColor,)),

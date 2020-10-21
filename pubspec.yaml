@@ -104,14 +104,14 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_launcher_icons: "^0.8.0"
-
-flutter_icons:
-    android: true
-    ios: true
-    image_path: "images/gupshupLogoNoName900.png"
-    adaptive_icon_background: "images/greenLogoBackground.png"
-    adaptive_icon_foreground: "images/gupshupLogoNoName900.png"
+#  flutter_launcher_icons: "^0.8.0"
+#
+#flutter_icons:
+#    android: true
+#    ios: true
+#    image_path: "images/gupshupLogoNoName900.png"
+#    adaptive_icon_background: "images/greenLogoBackground.png"
+#    adaptive_icon_foreground: "images/gupshupLogoNoName900.png"
 
 
 # For information on the generic Dart part of this file, see the

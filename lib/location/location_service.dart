@@ -99,13 +99,15 @@ class LocationService {
    getUserLocationDocumentSnapshot(number) async{//get location already stored in firebase
 //    Firestore.instance.collection("usersLocation").document(number).get().then((onVal){
 //    });
-   print("getUserLocationDocumentSnapshot : ${await CollectionPaths.usersLocationCollectionPath.document(number).get()}");
-    return await CollectionPaths.usersLocationCollectionPath.document(number).get();
+   DocumentSnapshot dc = await CollectionPaths.usersLocationCollectionPath.document(number).get();
+   print("getUserLocationDocumentSnapshot : ${dc}");
+    return dc;
   }
 
-  getHomeLocation(number) async{
+  getHomeLocation({String number}) async{
+    print("in getHomeLocation : $number");
     DocumentSnapshot dc = await getUserLocationDocumentSnapshot(number);
-    print("dc in getHomeLocation : $dc");
+    print("dc in getHomeLocation : ${dc.data}");
     GeoPoint latLng =  dc.data["home"]["geoPoint"];
     print("latLng in getHomeLocation : $latLng");
     return latLng;
@@ -114,7 +116,9 @@ class LocationService {
 
 
   Future<Position> getLocation() async{// returns user's actual location using satellite
-    Position location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print("in getLocation");
+    Position location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    print("in getLocation location : $location");
     return location;
   }
 
@@ -267,11 +271,12 @@ class LocationService {
 
   ///use in bazaarHome_screen to set the user's location to firebase
   pushUsersLocationToFirebase(var latitude, var longitude, String userNumber, String locationName, var address){//set users location to firebase
+    print("in locationService push");
     GeoFirePoint myLocation = geo.point(latitude: latitude, longitude: longitude);
 
     /// create a list of geoHash to be set in userLocation collection
     List<String> userGeoHashList = myGeoHash.getListOfGeoHash(latitude: latitude, longitude: longitude, radius: IntConfig.radiusForUsers);/// radiusForUsers = 1
-
+    print("in userGeoHashList : $userGeoHashList");
 
     var map =
     {
@@ -279,6 +284,8 @@ class LocationService {
       'geoPoint': myLocation.geoPoint,
       'address' : address,
     };
+
+    print("in map : $map");
 
     //Firestore.instance.collection("usersLocation").document(phoneNo).setData({'position': myLocation.data});
     //CollectionPaths.usersLocationCollectionPath.document(phoneNo).setData({locationName: map}, merge:true);//merge true imp for setting multiple locations

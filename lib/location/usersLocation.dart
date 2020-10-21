@@ -1,7 +1,9 @@
 import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/responsive/collectionPaths.dart';
@@ -10,7 +12,7 @@ import 'package:gupshop/retriveFromFirebase/getUsersLocation.dart';
 
 
 class UsersLocation{
-  setUsersLocationToFirebase() async{
+  setUsersLocationToFirebase({BuildContext context}) async{
     var userPhoneNo = await UserDetails().getUserPhoneNoFuture();//get user phone no
     var ifHomeExists;
     await CollectionPaths.usersLocationCollectionPath.document(userPhoneNo)
@@ -26,6 +28,8 @@ class UsersLocation{
 
 
     if(ifHomeExists == false) {
+//      var permission = await LocationPermissionHandler().handlePermissions(context);
+//      print("permission in usersLocation : $permission");
       pushUsersLocationToFirebase(userPhoneNo);
       print("location set");
     }
@@ -34,11 +38,14 @@ class UsersLocation{
 
 
   pushUsersLocationToFirebase(String userPhoneNo) async{
+    print("usersLocation pushUsersLocationToFirebase");
     Position location = await LocationService().getLocation();
+    print("usersLocation location : $location");
     var latitude = location.latitude;
     var longitude = location.longitude;
 
     var address = await LocationService().getAddress(location);
+    print("usersLocation address : $address");
 
     LocationService().pushUsersLocationToFirebase(latitude,
         longitude, userPhoneNo, TextConfig.usersLocationCollectionHome, address); //pass a name for the location also as a parameter

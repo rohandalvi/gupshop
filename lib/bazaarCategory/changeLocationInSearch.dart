@@ -62,8 +62,9 @@ class ChangeLocationInSearch{
 
 
   getLatLang(BuildContext context) async{
+    print("in getLatLang");
 
-    GeoPoint location = await LocationService().getHomeLocation(userNumber);
+    GeoPoint location = await LocationService().getHomeLocation(number: userNumber);
 
     List latLangList = await NavigateToCustomMap(
       latitude: location.latitude,

@@ -47,4 +47,16 @@ class IconConfig{
   static String searchTwo = 'searchTwo';
   static String transparent = 'transparentTwo';
   static String tickMarkDark = 'tickMarkDark';
+  static String movieWatching = 'movieWatching';
+  static String eating = 'eating';
+  static String family = 'family';
+  static String onADate = 'onADate';
+  static String working = 'working';
+  static String sleeping = 'sleeping';
+  static String dumbbell = 'dumbbell';
+  static String underPressure = 'underPressure';
+  static String running = 'running';
+  static String airplane = 'airplane';
+  static String free = 'free';
+  static String driving = 'driving';
 }

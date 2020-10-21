@@ -22,7 +22,7 @@ class VideoCallRoomNavigator {
     roomBloc.dispose();
   }
 
-  void joinVideoCall(BuildContext context, VideoCallBackendService backendService, String name, String token, String identity)async {
+  void joinVideoCall({BuildContext context, VideoCallBackendService backendService, String name, String token, String identity})async {
     RoomBloc roomBloc = new RoomBloc(backendService: backendService);
     RoomModel roomModel = new RoomModel(name: name, token: token, identity: identity);
     await Navigator.of(context).push(

@@ -20,9 +20,11 @@ import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
 import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
+import 'package:gupshop/retriveFromFirebase/rooms.dart';
 import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/conversation_service.dart';
+import 'package:gupshop/video_call/VideoCallEntryPoint.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/service/getConversationId.dart';
@@ -60,6 +62,7 @@ class IndividualChat extends StatefulWidget implements IRules{
 
   @override
   _IndividualChatState createState() {
+    print("in createState");
     print("CID $conversationId");
     return _IndividualChatState(
     );
@@ -67,6 +70,7 @@ class IndividualChat extends StatefulWidget implements IRules{
 
   @override
   bool apply(NotificationEventType eventType, String convId) {
+    print("in apply");
     // TODO: implement apply
     print("Inside apply $eventType and Notifier Conversation id is - $convId and Current conversation id is - $conversationId");
     return eventType != NotificationEventType.NEW_CHAT_MESSAGE || conversationId != convId;
@@ -122,7 +126,6 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
   /// get conversationId required for:
-  ///
   createConversationId() async{
     print("in getConversationId");
 
@@ -165,12 +168,11 @@ class _IndividualChatState extends State<IndividualChat> {
   }
 
   forwardMessages(String conversationId) async{
-    print("in forwardMessages : $conversationId");
     await checkIfGroup();
     if(widget.forwardMessage != null) {
 
       /// forward messages needs to be given this conversation's conversationId
-      widget.forwardMessage["conversationId"] = conversationId;
+      widget.forwardMessage[TextConfig.conversationId] = conversationId;
       var data = widget.forwardMessage;
 
       /// creating data to be pushed to recentChats
@@ -205,7 +207,6 @@ class _IndividualChatState extends State<IndividualChat> {
         saveAndGenerateId();
         data[TextConfig.messageId] = messageId;
         PushToConversationCollection().push(data);
-//        FirebaseMethods().pushToConversatinCollection(data);
         data = TextMessage(text: TextConfig.newsRecentChats, conversationId: conversationId,fromName: widget.userName,
             fromNumber: widget.userPhoneNo,
             timestamp: Timestamp.now(), messageId: messageId).fromJson();
@@ -228,7 +229,6 @@ class _IndividualChatState extends State<IndividualChat> {
         String messageId = await PushToSaveCollection(messageBody: data[TextConfig.body], messageType: TextConfig.body,).saveAndGenerateId();
         data[TextConfig.messageId] = messageId;
         PushToConversationCollection().push(data);
-//        FirebaseMethods().pushToConversatinCollection(data);
         RecentChats(message: data, convId: conversationId, userNumber:widget.userPhoneNo,
             userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers,
             groupExists: groupExits).getAllNumbersOfAConversation();
@@ -240,27 +240,20 @@ class _IndividualChatState extends State<IndividualChat> {
 
   @override
   void initState() {
-    print("in initState before: ${widget.conversationId}");
-
+    print("in individualchat initistate");
     notificationInit();
 
-    print("in initState : ${widget.conversationId}");
     /// if new conversation, then conversationId == null
     if(widget.conversationId == null) {
-      print("in initState if : ${widget.conversationId}");
       createConversationId();
       /// also create a conversations_number collection
     }else{
       ///if forwardMessage == true, then initialize that method of sending the message
       ///here in the initstate():
-      //getListOfFriendNumbers(conversationId);
-      print("in initState else : ${widget.conversationId}");
       forwardMessages(widget.conversationId);
     }
 
     conversationService = new ConversationService(widget.conversationId);
-
-
     super.initState();
   }
 
@@ -278,56 +271,77 @@ class _IndividualChatState extends State<IndividualChat> {
     notificationSingleton.getNotifierObject().setActiveScreen(this.widget.runtimeType.toString());
   }
 
+
+  /// when the user taps the notification:
   Future<void> onSelectNotification(String payload) async{
     print("onSelectNotification : $payload");
     /// deserializing our data
     Map<String, dynamic> map = jsonDecode(payload);
 
+    print("map in onSelectNotification: ${map}");
 
-    /// payload for android and iOS is different
-    String notificationFromNumberIndividual = map[TextConfig.notificationFromNumberIndividual];
-    //String notificationFromName = map[TextConfig.notificationFromName];
+    String eventType = map[TextConfig.type];
+//    String eventType = map[TextConfig.data][TextConfig.type];
+    print("eventType : $eventType");
+    /// message
+    if(eventType == TextConfig.NEW_CHAT_MESSAGE){
+      /// payload for android and iOS is different
+      String notificationFromNumberIndividual = map[TextConfig.notificationFromNumberIndividual];
+      //String notificationFromName = map[TextConfig.notificationFromName];
 //   List<dynamic> notificationFromNumber = map[TextConfig.notificationFromNumber];
 //    print("payload in onSelectNotification : ${notificationFromNumber}");
-    String notifierConversationId = map[TextConfig.notifierConversationId];
-    String eventType = map[TextConfig.data][TextConfig.type];
-    print("notifierConversationId in onSelectNotification: $notifierConversationId");
-    //print("notificationFromNumber : $notificationFromNumber");
-    //print("notificationFromName : $notificationFromName");
+      String notifierConversationId = map[TextConfig.notifierConversationId];
 
 
-    /// get listOfFriendNumbers from firebase
-    ConversationMetaData conversationMetaData = new ConversationMetaData(myNumber: widget.userPhoneNo, conversationId: notifierConversationId);
+      /// get listOfFriendNumbers from firebase
+      ConversationMetaData conversationMetaData = new ConversationMetaData(myNumber: widget.userPhoneNo, conversationId: notifierConversationId);
 
-    List<dynamic> listOfFriendNumbers = await conversationMetaData.listOfNumbersOfConversationExceptMe();
+      List<dynamic> listOfFriendNumbers = await conversationMetaData.listOfNumbersOfConversationExceptMe();
 
 
+      /// get Name:
+      String name = await conversationMetaData.getGroupName();
+      if(name == null ){
+        name = await GetFromFriendsCollection(userNumber: widget.userPhoneNo,friendNumber: notificationFromNumberIndividual).getFriendName();
+      }
 
-    print("listOfFriendNumbers from firebase : $listOfFriendNumbers");
+      await NavigateToIndividualChat(
+        conversationId:notifierConversationId,
+        listOfFriendNumbers: listOfFriendNumbers,
+        friendName: name,
 
-    /// get Name:
-    String name = await conversationMetaData.getGroupName();
-    print("groupName : $name");
-    if(name == null ){
-      print("widget.userPhoneNo in onSelectNotification : ${widget.userPhoneNo}");
-      print("widget.userPhoneNo in notificationFromNumberIndividual : ${notificationFromNumberIndividual}");
-      name = await GetFromFriendsCollection(userNumber: widget.userPhoneNo,friendNumber: notificationFromNumberIndividual).getFriendName();
-      print("individual name : $name");
+        userPhoneNo: widget.userPhoneNo,
+        userName: widget.userName,
+      ).navigateNoBrackets(context);
+//      /// navigate
+//      switch(eventType) {
+//        case "NEW_CHAT_MESSAGE":
+//          await NavigateToIndividualChat(
+//            conversationId:notifierConversationId,
+//            listOfFriendNumbers: listOfFriendNumbers,
+//            friendName: name,
+//
+//            userPhoneNo: widget.userPhoneNo,
+//            userName: widget.userName,
+//          ).navigateNoBrackets(context);
+//          break;
+//        default: print("Nothing to notify");
+//      }
     }
 
-    print("Navigating to individual chat");
-    switch(eventType) {
-      case "NEW_CHAT_MESSAGE":
-        await NavigateToIndividualChat(
-          conversationId:notifierConversationId,
-          listOfFriendNumbers: listOfFriendNumbers,
-          friendName: name,
+    /// video call:
+    else if(eventType == TextConfig.VIDEO_CALL){
+      String name = map[TextConfig.name];
 
-          userPhoneNo: widget.userPhoneNo,
-          userName: widget.userName,
-        ).navigateNoBrackets(context);
-        break;
-      default: print("Nothing to notify");
+      bool isActive = await Rooms().getActiveStatus(name);
+      print("isActive : $isActive");
+      if(isActive){
+        String token = await Rooms().getToken(name);
+        String identity = await Rooms().getIdentity(name);
+
+        VideoCallEntryPoint().join(context: context,name: name,token: token,identity: identity);
+      }
+
     }
 
   }

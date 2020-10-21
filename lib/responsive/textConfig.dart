@@ -162,6 +162,13 @@ class TextConfig{
   static const String videoURL = "videoURL";
   static const String imageURL = "imageURL";
 
+  static const String NEW_CHAT_MESSAGE = 'NEW_CHAT_MESSAGE';
+  static const String VIDEO_CALL = 'VIDEO_CALL';
+
+  static const String token = 'token';
+  static const String identity = 'identity';
+  static const String active = 'active';
+
 
   /// NoSubCategoryText:
   static const String cleaners = "Cleaners";
@@ -236,6 +243,7 @@ class TextConfig{
   static const String messageReadUnreadCollectionName = 'messageReadUnread';
   static const String messageTypingCollectionName = 'messageTyping';
   static const String videosCollectionName = 'videos';
+  static const String roomsCollectionName = 'rooms';
 
 
   /// ======================================================================== ///

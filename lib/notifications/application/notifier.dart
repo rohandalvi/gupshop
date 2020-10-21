@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:gupshop/notifications/IRules.dart';
 import 'package:gupshop/notifications/NotificationEventType.dart';
 import 'package:gupshop/notifications/NotificationsManager.dart';
+import 'package:gupshop/notifications/application/createMessageData.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 
 class Notifier{
@@ -81,31 +82,44 @@ class Notifier{
         onMessage: (Map<String, dynamic> message) {
           //classMessage = message;
           print("message in registerNotification : ${message}");
-          String notifierConversationId = message[TextConfig.data][TextConfig.notifierConversationId];
 
           String eventType = message[TextConfig.data][TextConfig.type];
-          print("Before deserialzing "+eventType);
-          NotificationEventType type = getNotificationEventType(eventType);
 
-          print("After deserialzing");
-//          if(currentConversationId != notifierConversationId){
+          NotificationEventType type = getNotificationEventType(eventType);
+          print("eventType in registerNotification : ${eventType}");
+
+          if(eventType == TextConfig.NEW_CHAT_MESSAGE){
             Map<String, dynamic> resultMap = new Map();
 
-            Platform.isAndroid
-                ? resultMap = createAndroidMessageData(message)
-                : resultMap = createIosMessageData(message);
+            String notifierConversationId = message[TextConfig.data][TextConfig.notifierConversationId];
 
-            print("resultMap : $resultMap");
+            Platform.isAndroid
+                ? resultMap = CreateMessageData().androidChatMessageData(message)
+                : resultMap = CreateMessageData().iosChatMessageData(message);
+//                ? resultMap = createAndroidChatMessageData(message)
+//                : resultMap = createIosChatMessageData(message);
+
+            print("resultMap in NEW_CHAT_MESSAGE: $resultMap");
 
             if(getActiveRule()!=null && getActiveRule().apply(type, notifierConversationId)) {
               showNotification(resultMap);
             }
+          }
+
+          if(eventType == TextConfig.VIDEO_CALL){
+            Map<String, dynamic> resultMap = new Map();
+
+            Platform.isAndroid
+                ? resultMap = CreateMessageData().androidVideoCallData(message)
+                : resultMap = CreateMessageData().iosVideoCallData(message);
+            print("resultMap in VIDEO_CALL: $resultMap");
+
+            if(getActiveRule()!=null && getActiveRule().apply(type, null)) {
+              showNotification(resultMap);
+            }
+          }
 
 
-//            Platform.isAndroid
-//                ? showNotification(message[TextConfig.notificationAndroid])
-//                : showNotification(message[TextConfig.iosAps][TextConfig.alert]);
-//          }
     }, onResume: (Map<String, dynamic> message) {
       print('onResume: $message');
     }, onLaunch: (Map<String, dynamic> message) {
@@ -118,68 +132,6 @@ class Notifier{
       case "NEW_CHAT_MESSAGE": return NotificationEventType.NEW_CHAT_MESSAGE;
       default: return NotificationEventType.VIDEO_CALL;
     }
-  }
-
-  createAndroidMessageData(Map<String, dynamic> message){
-    Map<String, dynamic> result = new Map();
-
-    var notificationMap = message[TextConfig.notificationAndroid];
-    print("in createAndroidMessageData : ${message[TextConfig.notificationAndroid]}");
-    //Map<String, dynamic> notificationMap = message[TextConfig.notificationAndroid];
-    print("notificationMap : $notificationMap");
-    var dataMap = message[TextConfig.data];
-    print("dataMap : $dataMap");
-
-    String title = notificationMap[TextConfig.title];
-    String body = notificationMap[TextConfig.body];
-    String notificationFromNumberIndividual = dataMap[TextConfig.notificationFromNumberIndividual];
-    //String notificationFromName = dataMap[TextConfig.notificationFromName];
-    print("notificationFromNumberIndividual : $notificationFromNumberIndividual");
-    print("message[TextConfig.data][TextConfig.notificationFromNumber] : ${message[TextConfig.data][TextConfig.notificationFromNumber]}");
-//    var notificationFromNumber = dataMap[TextConfig.notificationFromNumber];
-//    print("notificationFromNumber : $notificationFromNumber");
-//    List<dynamic> listOfNotificationFromNumber = jsonDecode(notificationFromNumber);
-//    print("list : $listOfNotificationFromNumber");
-    String notifierConversationId = dataMap[TextConfig.notifierConversationId];
-    print("notifierConversationId : $notifierConversationId");
-    String type = dataMap[TextConfig.type];
-    print("type : $type");
-
-    result[TextConfig.title] = title;
-    print("result : $result");
-    result[TextConfig.body] = body;
-    result[TextConfig.notificationFromNumberIndividual] = notificationFromNumberIndividual;
-    //result[TextConfig.notificationFromName] = notificationFromName;
-    //result[TextConfig.notificationFromNumber] = notificationFromNumber;
-    result[TextConfig.notifierConversationId] = notifierConversationId;
-    result[TextConfig.type] = type;
-
-    return result;
-  }
-
-  createIosMessageData(Map<String, dynamic> message){
-    /// message[TextConfig.iosAps][TextConfig.alert]
-    Map<String, dynamic> result = new Map();
-
-    var alertMap = message[TextConfig.iosAps][TextConfig.alert];
-
-    String title = alertMap[TextConfig.title];
-    String body = alertMap[TextConfig.body];
-    String notificationFromNumberIndividual = alertMap[TextConfig.notificationFromNumberIndividual];
-    //String notificationFromName = alertMap[TextConfig.notificationFromName];
-    //List<dynamic> notificationFromNumber = alertMap[TextConfig.notificationFromNumber];
-    String notifierConversationId = alertMap[TextConfig.notifierConversationId];
-    String type = alertMap[TextConfig.type];
-
-    result[TextConfig.title] = title;
-    result[TextConfig.body] = body;
-    result[TextConfig.notificationFromNumberIndividual] = notificationFromNumberIndividual;
-    //result[TextConfig.notificationFromName] = notificationFromName;
-    //result[TextConfig.notificationFromNumber] = notificationFromNumber;
-    result[TextConfig.notifierConversationId] = notifierConversationId;
-    result[TextConfig.type] = type;
-
-    return result;
   }
 
 

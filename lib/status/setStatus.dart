@@ -47,6 +47,9 @@ class _SetStatusState extends State<SetStatus> {
   @override
   Widget build(BuildContext context) {
     return CustomSearch<String>(
+      backButton: (){
+        Navigator.pop(context);
+      },
       hintText: 'Set your status ',
       suggestions: suggestionList == null ? new List() : suggestionList,
       onSearch: searchCategoryList,

@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/ui/firebase_sorted_list.dart';
 import 'package:gupshop/responsive/collectionPaths.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 
@@ -57,6 +58,8 @@ class StatusMap{
       String statusName = list[i].data[TextConfig.statusName];
       statusNameList.add(statusName);
     }
+
+    statusNameList.sort();
     return statusNameList;
   }
 

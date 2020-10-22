@@ -37,7 +37,6 @@ class Status{
   }
 
   Stream getStream(){
-    print("in Stream getStream");
     Stream stream = path().snapshots();
     return stream;
   }

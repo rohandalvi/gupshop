@@ -21,17 +21,17 @@ class _SetStatusState extends State<SetStatus> {
   List<String> suggestionList;
 
 
-  /// to create a map which is used to display status icon and status name in
+  /// Create a map which is used to display status icon and status name in
   /// onItemFound
   Future<void> getStatusMap() async{
     Map<String, String> statusMapTemp = await StatusMap().getStatusMap();
     setState(() {
       statusMap = statusMapTemp;
     });
-    print("statusMap : $statusMap");
   }
 
 
+  /// extracting suggestionList from firebase
   Future<void> getSuggestionList() async{
     List<String> list = await StatusMap().getStatusNameList();
     setState(() {
@@ -41,12 +41,17 @@ class _SetStatusState extends State<SetStatus> {
 
   @override
   void initState() {
-    print("in _SelectCategoryToShowInProductDetailsPageState");
     getSuggestionList();
     getStatusMap();
     super.initState();
   }
 
+
+  /// We are showing the end result of iconName and statusName in ListTile where
+  /// iconName is leading and statusName is title.
+  ///
+  /// We just need to extract the map that is stored in firebase for display,
+  /// which is done by getStatusMap()
   @override
   Widget build(BuildContext context) {
     return CustomSearch<String>(
@@ -59,9 +64,8 @@ class _SetStatusState extends State<SetStatus> {
       noResultsText: TextConfig.noResultsText,
       onItemFound: (String status, int index){
         return ListTile(
-          leading: CustomIcon(iconName: statusMap[status],).networkIcon(context),
-          title: CustomText(text: status),
-          ///displaying on the display name
+          leading: CustomIcon(iconName: statusMap[status],).networkIcon(context),/// icon
+          title: CustomText(text: status),/// statusName
           onTap:() async{
             String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
 
@@ -77,20 +81,14 @@ class _SetStatusState extends State<SetStatus> {
   }// List<String> listOfCategoriesSelected = snapshot.data["categories"].cast<String>()
 
 
+  /// extracting the statusNames in a list from firebase using the StatusMap().getStatusNameList()
+  /// It does not need icon, apparently the icons are displayed by the by the
+  /// ListTile, we are not explicitly giving the icons anywhere other than
+  /// the listTile
   Future<List<String>> searchCategoryList(String text) async {
     List<String> list = await StatusMap().getStatusNameList();
     return list.where((l) => l.toLowerCase()
         .contains(text.toLowerCase()) || l.contains(text)).toList();
-  }
-
-  onStatusTap({String statusName, String iconName}) async{
-    String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
-
-    /// 1) push to status collection :
-    await Status(userPhoneNo:userPhoneNo).setStatus(statusName, iconName);
-
-    /// 2) pop the screen
-    Navigator.pop(context);
   }
 
 }

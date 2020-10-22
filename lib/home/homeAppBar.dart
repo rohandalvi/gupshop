@@ -9,6 +9,7 @@ import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/contactSearch/contactSearchPage.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/status/setStatus.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -86,13 +87,27 @@ class _HomeAppBarState extends State<HomeAppBar> {
 //                    ),
                     ),
 
-                    /// create group and search icons:
+                    /// create status, iconLock, group and search icons:
                     Expanded(
                       flex: 1,
                       child: Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
+                            Flexible(
+                              flex : 1,
+                              child: CustomIconButton(
+                                iconNameInImageFolder: IconConfig.free,
+                                onPressed: (){
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation, secondaryAnimation) => SetStatus(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                             Flexible(
                               flex : 1,
                               child: CustomIconButton(

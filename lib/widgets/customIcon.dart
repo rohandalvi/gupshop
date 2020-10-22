@@ -16,4 +16,12 @@ class CustomIcon extends StatelessWidget {
       height: IconConfig.flushbarIconThirty,/// 30
     );
   }
+
+  Widget networkIcon(BuildContext context) {
+    return SvgPicture.network(
+      iconName,
+      width: IconConfig.flushbarIconThirty,/// 30
+      height: IconConfig.flushbarIconThirty,/// 30
+    );
+  }
 }

@@ -231,6 +231,8 @@ class TextConfig{
   static const String messageReadUnreadCollectionName = 'messageReadUnread';
   static const String messageTypingCollectionName = 'messageTyping';
   static const String videosCollectionName = 'videos';
+  static const String statusCollectionName = 'status';
+  static const String statusMapCollectionName = 'statusMap';
 
 
   /// ======================================================================== ///
@@ -319,6 +321,11 @@ class TextConfig{
 
   /// video collection:
   static const String url = 'url';
+
+
+  /// statusMap:
+  static const String iconName = 'iconName';
+  static const String statusName = 'statusName';
 
 /// ======================================================================== ///
 

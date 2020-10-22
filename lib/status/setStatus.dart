@@ -56,6 +56,7 @@ class _SetStatusState extends State<SetStatus> {
       hintText: TextConfig.setStatusHintText,
       suggestions: suggestionList == null ? new List() : suggestionList,
       onSearch: searchCategoryList,
+      noResultsText: TextConfig.noResultsText,
       onItemFound: (String status, int index){
         return ListTile(
           leading: CustomIcon(iconName: statusMap[status],).networkIcon(context),

@@ -225,22 +225,9 @@ class _IndividualChatState extends State<IndividualChat> {
     }
   }
 
-//  getListOfFriendNumbers(String conversationId) async{
-//    List<dynamic> list = await ConversationMetaData(conversationId: conversationId).listOfNumbersOfConversationExceptMe();
-//    setState(() {
-//      listOfFriendNumbers = list;
-//    });
-//  }
-
 
   @override
   void initState() {
-
-
-//    NotificationHelper().registerNotification(widget.conversationId, widget.listOfFriendNumbers, widget.userName, widget.userPhoneNo);
-//    NotificationHelper().configLocalNotification(
-//      onSelectNotification:
-//    );
 
     notificationInit();
 

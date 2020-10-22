@@ -22,14 +22,14 @@ class Status{
     return dc.setData({TextConfig.statusName : statusName, TextConfig.iconName :iconName});
   }
 
-  Future<String> getIconName({String userPhoneNo}) async{
+  Future<String> getIconName() async{
     DocumentReference dc = path();
     DocumentSnapshot documentSnapshot = await dc.get();
     String iconName = documentSnapshot[TextConfig.iconName];
     return iconName;
   }
 
-  Future<String> getStatusName({String userPhoneNo}) async{
+  Future<String> getStatusName() async{
     DocumentReference dc = path();
     DocumentSnapshot documentSnapshot = await dc.get();
     String iconName = documentSnapshot[TextConfig.iconName];

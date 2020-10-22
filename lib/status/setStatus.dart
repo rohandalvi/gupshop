@@ -1,8 +1,11 @@
 import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/PushToFirebase/status.dart';
 import 'package:gupshop/PushToFirebase/statusMap.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customIcon.dart';
 import 'package:gupshop/widgets/customSearch.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -50,7 +53,7 @@ class _SetStatusState extends State<SetStatus> {
       backButton: (){
         Navigator.pop(context);
       },
-      hintText: 'Set your status ',
+      hintText: TextConfig.setStatusHintText,
       suggestions: suggestionList == null ? new List() : suggestionList,
       onSearch: searchCategoryList,
       onItemFound: (String status, int index){
@@ -69,6 +72,16 @@ class _SetStatusState extends State<SetStatus> {
     List<String> list = await StatusMap().getStatusNameList();
     return list.where((l) => l.toLowerCase()
         .contains(text.toLowerCase()) || l.contains(text)).toList();
+  }
+
+  onStatusTap(String statusName, String iconName) async{
+    String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+
+    /// 1) push to status collection :
+    await Status(userPhoneNo:userPhoneNo).setStatus(statusName, iconName);
+
+    /// 2) pop the screen
+    Navigator.pop(context);
   }
 
 }

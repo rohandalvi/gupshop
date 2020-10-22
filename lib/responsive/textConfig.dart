@@ -77,7 +77,6 @@ class TextConfig{
   static const String enterYourNumber= 'Enter your Number';
 
 
-
   /// trace
   static const String chatListToIndividualChatTrace = 'chatListToIndividualChat';
   static const String homeTrace = 'home';
@@ -326,6 +325,10 @@ class TextConfig{
   /// statusMap:
   static const String iconName = 'iconName';
   static const String statusName = 'statusName';
+
+
+  /// setStatus:
+  static const String setStatusHintText = 'Set your status ';
 
 /// ======================================================================== ///
 

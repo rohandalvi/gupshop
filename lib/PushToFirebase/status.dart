@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gupshop/dataGathering/myTrace.dart';
 import 'package:gupshop/responsive/collectionPaths.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 

@@ -330,6 +330,7 @@ class TextConfig{
   /// setStatus:
   static const String setStatusHintText = 'Set your status ';
   static const String noResultsText = 'No results found ';
+  static const String statusTrace = 'status ';
 
 /// ======================================================================== ///
 

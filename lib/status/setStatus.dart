@@ -6,6 +6,7 @@ import 'package:gupshop/PushToFirebase/statusMap.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
 import 'package:gupshop/responsive/textConfig.dart';
+import 'package:gupshop/status/statusTrace.dart';
 import 'package:gupshop/widgets/customIcon.dart';
 import 'package:gupshop/widgets/customSearch.dart';
 import 'package:gupshop/widgets/customText.dart';
@@ -71,6 +72,8 @@ class _SetStatusState extends State<SetStatus> {
 
             /// 1) push to status collection :
             await Status(userPhoneNo:userPhoneNo).setStatus(status, statusMap[status]);
+            /// adding trace:
+            StatusTrace(statusName: status).statusHit();
 
             /// 2) pop the screen
             Navigator.pop(context);
@@ -84,7 +87,7 @@ class _SetStatusState extends State<SetStatus> {
   /// extracting the statusNames in a list from firebase using the StatusMap().getStatusNameList()
   /// It does not need icon, apparently the icons are displayed by the by the
   /// ListTile, we are not explicitly giving the icons anywhere other than
-  /// the listTile
+  /// the statusMap
   Future<List<String>> searchCategoryList(String text) async {
     List<String> list = await StatusMap().getStatusNameList();
     return list.where((l) => l.toLowerCase()

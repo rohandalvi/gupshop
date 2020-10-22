@@ -45,55 +45,57 @@ class BuildMessageComposer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: PaddingConfig.eight),
-      height: WidgetConfig.buildMessageComposer, /// 70
-      color: Colors.white,
-      child: Row(/// Area 10
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: CustomIconButton(
-              iconNameInImageFolder: IconConfig.plus,
-              onPressed: firstOnPressed,
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: PaddingConfig.eight),
+        height: WidgetConfig.buildMessageComposer, /// 70
+        color: Colors.white,
+        child: Row(/// Area 10
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: CustomIconButton(
+                iconNameInImageFolder: IconConfig.plus,
+                onPressed: firstOnPressed,
+              ),
             ),
-          ),
-          Expanded(
-            flex: 5,
-            child: TextField(
-              onEditingComplete: onEditingComplete,
-              maxLines: null,
-              onChanged: onChangedForTextField,
-              scrollController: scrollController,
-              controller: controller,//used to clear text when user hits send button
+            Expanded(
+              flex: 5,
+              child: TextField(
+                onEditingComplete: onEditingComplete,
+                maxLines: null,
+                onChanged: onChangedForTextField,
+                scrollController: scrollController,
+                controller: controller,//used to clear text when user hits send button
+              ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: CustomIconButton(
-              onPressed:NavigateToNewsComposer(
-                conversationId: conversationId,
-                userName: userName,
-                userPhoneNo: userPhoneNo,
-                groupName: groupName,
-                groupExits: groupExits,
-                friendN: friendN,
-                listOfFriendNumbers: listOfFriendNumbers,
-                value: value,
-                controller: controller,
-                listScrollController: listScrollController,
-              ).navigate(context),
-              iconNameInImageFolder: IconConfig.news,
+            Expanded(
+              flex: 1,
+              child: CustomIconButton(
+                onPressed:NavigateToNewsComposer(
+                  conversationId: conversationId,
+                  userName: userName,
+                  userPhoneNo: userPhoneNo,
+                  groupName: groupName,
+                  groupExits: groupExits,
+                  friendN: friendN,
+                  listOfFriendNumbers: listOfFriendNumbers,
+                  value: value,
+                  controller: controller,
+                  listScrollController: listScrollController,
+                ).navigate(context),
+                iconNameInImageFolder: IconConfig.news,
+              ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: CustomIconButton(
-              iconNameInImageFolder: IconConfig.send,///or forward2
-              onPressed: onPressedForSendingMessageIcon,
+            Expanded(
+              flex: 1,
+              child: CustomIconButton(
+                iconNameInImageFolder: IconConfig.send,///or forward2
+                onPressed: onPressedForSendingMessageIcon,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

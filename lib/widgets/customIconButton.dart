@@ -24,4 +24,11 @@ class CustomIconButton extends StatelessWidget {
       iconSize: iconsize,/// default size is 24
     );
   }
+
+  Widget network(BuildContext context) {
+    return IconButton(
+      icon: SvgPicture.network(iconNameInImageFolder,),
+      onPressed: onPressed,
+    );
+  }
 }

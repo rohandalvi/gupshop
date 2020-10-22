@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
+import 'package:gupshop/PushToFirebase/status.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
 import 'package:gupshop/passcode/setPasscode.dart';
@@ -9,6 +11,7 @@ import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/contactSearch/contactSearchPage.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/status/setStatus.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/image/displayAvatar.dart';
@@ -96,16 +99,56 @@ class _HomeAppBarState extends State<HomeAppBar> {
                           children: <Widget>[
                             Flexible(
                               flex : 1,
-                              child: CustomIconButton(
-                                iconNameInImageFolder: IconConfig.free,
-                                onPressed: (){
-                                  Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation, secondaryAnimation) => SetStatus(),
-                                    ),
+                              child: StreamBuilder(
+                                stream: Status(userPhoneNo: widget.userPhoneNo).getStream(),
+                                builder: (context, snapshot) {
+                                  if(snapshot.hasData){
+                                    DocumentSnapshot documentSnapshot = snapshot.data;
+                                    print("status in homeAppbar: ${documentSnapshot.data}");
+                                    String icon;
+
+                                    /// show from asset:
+                                    if(documentSnapshot.data == null || snapshot.data == null) {
+                                      icon = IconConfig.free;
+                                      return CustomIconButton(
+                                        iconNameInImageFolder: icon,
+                                        onPressed: (){
+                                          Navigator.push(
+                                            context,
+                                            PageRouteBuilder(
+                                              pageBuilder: (context, animation, secondaryAnimation) => SetStatus(),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    }
+                                    else {
+                                      /// show from network:
+                                      icon = snapshot.data[TextConfig.iconName];
+                                      return CustomIconButton(
+                                        iconNameInImageFolder: icon,
+                                        onPressed: (){
+                                          Navigator.push(
+                                            context,
+                                            PageRouteBuilder(
+                                              pageBuilder: (context, animation, secondaryAnimation) => SetStatus(),
+                                            ),
+                                          );
+                                        },
+                                      ).network(context);
+                                    }
+                                  }return CustomIconButton(
+                                    iconNameInImageFolder: IconConfig.free,
+                                    onPressed: (){
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation, secondaryAnimation) => SetStatus(),
+                                        ),
+                                      );
+                                    },
                                   );
-                                },
+                                }
                               ),
                             ),
                             Flexible(

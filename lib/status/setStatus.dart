@@ -61,7 +61,15 @@ class _SetStatusState extends State<SetStatus> {
           leading: CustomIcon(iconName: statusMap[status],).networkIcon(context),
           title: CustomText(text: status),
           ///displaying on the display name
-          onTap:(){},
+          onTap:() async{
+            String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+
+            /// 1) push to status collection :
+            await Status(userPhoneNo:userPhoneNo).setStatus(status, statusMap[status]);
+
+            /// 2) pop the screen
+            Navigator.pop(context);
+          },
         );
       },
     );
@@ -74,7 +82,7 @@ class _SetStatusState extends State<SetStatus> {
         .contains(text.toLowerCase()) || l.contains(text)).toList();
   }
 
-  onStatusTap(String statusName, String iconName) async{
+  onStatusTap({String statusName, String iconName}) async{
     String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
 
     /// 1) push to status collection :

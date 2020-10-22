@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:gupshop/responsive/collectionPaths.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 
@@ -6,9 +7,9 @@ import 'package:gupshop/responsive/textConfig.dart';
 class Status{
   String userPhoneNo;
 
-  Status({this.userPhoneNo});
+  Status({@required this.userPhoneNo});
 
-  DocumentReference path({String userPhoneNo}){
+  DocumentReference path(){
     DocumentReference dc = CollectionPaths.statusCollectionPath.document(userPhoneNo);
     return dc;
   }
@@ -33,5 +34,11 @@ class Status{
     DocumentSnapshot documentSnapshot = await dc.get();
     String iconName = documentSnapshot[TextConfig.iconName];
     return iconName;
+  }
+
+  Stream getStream(){
+    print("in Stream getStream");
+    Stream stream = path().snapshots();
+    return stream;
   }
 }

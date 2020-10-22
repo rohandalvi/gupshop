@@ -72,6 +72,7 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
       ),
       /// read unread icon display:
       trailing: TrailingDisplay(
+        groupExists: widget.groupExists,
         conversationId: widget.conversationId,
         myNumber: widget.myNumber,
         timeStamp: widget.timeStamp,

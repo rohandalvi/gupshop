@@ -10,6 +10,7 @@ import 'package:gupshop/timestamp/timeDisplay.dart';
 import 'package:gupshop/widgets/customIcon.dart';
 
 class TrailingDisplay extends StatelessWidget {
+  final bool groupExists;
   final String friendNumber;
   final Timestamp timeStamp;
   final String myNumber;
@@ -17,7 +18,7 @@ class TrailingDisplay extends StatelessWidget {
   String conversationsLatestMessageId;
 
   TrailingDisplay({this.timeStamp, this.myNumber, this.conversationId,
-    this.conversationsLatestMessageId, this.friendNumber});
+    this.conversationsLatestMessageId, this.friendNumber, this.groupExists});
 
 
 ///  First Rule: use Expanded only within a column, row or flex.
@@ -31,10 +32,13 @@ class TrailingDisplay extends StatelessWidget {
       //WidgetConfig.sizedBoxWidthHundredAndFifteen,
       child: Row(
         children: <Widget>[
-          Flexible(
-            flex: 1,
-            fit: FlexFit.loose,
-            child: StatusData(userPhoneNo: friendNumber,)),
+          Visibility(
+            visible: groupExists != null && groupExists == false,
+            child: Flexible(
+              flex: 1,
+              fit: FlexFit.loose,
+              child: StatusData(userPhoneNo: friendNumber,)),
+          ),
           Flexible(
             flex: 2,
             fit: FlexFit.tight,

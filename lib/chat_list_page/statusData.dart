@@ -14,7 +14,6 @@ class StatusData extends StatelessWidget {
       future: Status(userPhoneNo:userPhoneNo ).getIconName(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          print("snapshot hasData : ${snapshot.hasData}");
           if(snapshot.hasData){
             String statusIcon = snapshot.data;
             return CustomIcon(iconName: statusIcon,).networkIcon(context);

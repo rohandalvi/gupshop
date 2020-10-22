@@ -28,8 +28,7 @@ class TrailingDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 115,
-      //WidgetConfig.sizedBoxWidthHundredAndFifteen,
+      width: WidgetConfig.sizedBoxWidthHundredAndFifteen,
       child: Row(
         children: <Widget>[
           Visibility(

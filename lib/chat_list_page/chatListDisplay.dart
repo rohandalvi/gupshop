@@ -53,7 +53,15 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
 
 
   @override
+  void initState() {
+    getFriendNumber();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print("friendNumber in chatListDisplay : ${widget.friendNumber}");
     return ListTile( ///main widget that creates the message box
       leading:
       /// leading is avatar
@@ -73,6 +81,7 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
       /// read unread icon display:
       trailing: TrailingDisplay(
         groupExists: widget.groupExists,
+        friendNumber: widget.friendNumber,
         conversationId: widget.conversationId,
         myNumber: widget.myNumber,
         timeStamp: widget.timeStamp,
@@ -100,6 +109,26 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
     );
   }
 
+
+  /// friend number and groupExists is not actually going to trailingDisplay
+  /// so, we need to make an explicit call to get it.
+  /// It is actually getting set in cachedData, but we cannot setState there
+  /// as it is called in build, so it is not getting set globally
+  Future<void> getFriendNumber() async{
+    Map<String, dynamic> dc = await ConversationMetaData(conversationId:widget.conversationId, ).get( widget.myNumber);
+    widget.memberList = dc[TextConfig.conversationMetadataMembers];
+    bool isGroup;
+    if (dc[TextConfig.conversationMetadataGroupName] == null){
+      isGroup = false;
+    }else{
+      isGroup = true;
+    }
+    setState(() {
+      widget.groupExists = isGroup;
+      widget.friendNumber =
+          FindFriendNumber().friendNumber(widget.memberList, widget.myNumber);
+    });
+  }
 
   cacheAvatar(){
     return widget.chatListCache[widget.conversationId].circleAvatar;
@@ -134,8 +163,10 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
               widget.memberList = snapshot.data[TextConfig.conversationMetadataMembers];
 
               /// 2. extract friendNumber for DisplayAvatarFromFirebase
-              widget.friendNumber =
-                  FindFriendNumber().friendNumber(widget.memberList, widget.myNumber);
+
+                widget.friendNumber =
+                    FindFriendNumber().friendNumber(widget.memberList, widget.myNumber);
+
 
               /// 3. create friendNumberList to send to individualChat
               widget.friendNumberList =
@@ -166,8 +197,9 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
 
 
       /// 1. extract friendNumber for DisplayAvatarFromFirebase
-      widget.friendNumber =
-          FindFriendNumber().friendNumber(widget.memberList, widget.myNumber);
+        widget.friendNumber =
+            FindFriendNumber().friendNumber(widget.memberList, widget.myNumber);
+
 
       /// 2. create friendNumberList to send to individualChat
       widget.friendNumberList =
@@ -199,8 +231,8 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
               widget.memberList = snapshot.data["members"];
 
               /// 2. extract friendNumber for DisplayAvatarFromFirebase
-              widget.friendNumber =
-                  FindFriendNumber().friendNumber(widget.memberList, widget.myNumber);
+                widget.friendNumber =
+                    FindFriendNumber().friendNumber(widget.memberList, widget.myNumber);
 
               /// 3. create friendNumberList to send to individualChat
               widget.friendNumberList =

@@ -27,12 +27,14 @@ class TrailingDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("$friendNumber groupExists : $groupExists");
     return SizedBox(
       width: WidgetConfig.sizedBoxWidthHundredAndFifteen,
       child: Row(
         children: <Widget>[
           Visibility(
-            visible: groupExists != null && groupExists == false,
+            /// if individualChat
+            visible: groupExists == null || groupExists == false,
             child: Flexible(
               flex: 1,
               fit: FlexFit.loose,

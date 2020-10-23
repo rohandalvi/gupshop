@@ -5,13 +5,13 @@ import 'package:gupshop/messageReadUnread/messageReadUnreadData.dart';
 import 'package:gupshop/retriveFromFirebase/getFromMessageReadUnreadCollection.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
-class ReadUnreadIcon extends StatelessWidget {
+class ReadUnreadIconDisplay extends StatelessWidget {
   final String conversationId;
   final String myNumber;
   final Timestamp timeStamp;
   String conversationsLatestMessageId;
 
-  ReadUnreadIcon({this.timeStamp, this.conversationId, this.myNumber, this.conversationsLatestMessageId});
+  ReadUnreadIconDisplay({this.timeStamp, this.conversationId, this.myNumber, this.conversationsLatestMessageId});
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +38,10 @@ class ReadUnreadIcon extends StatelessWidget {
     );
   }
 
-  Expanded icon(String iconName) {
-    return Expanded(
-            child: CustomIconButton(
-              iconNameInImageFolder: iconName,
-            ),
-          );
+  icon(String iconName) {
+    return CustomIconButton(
+      iconNameInImageFolder: iconName,
+    );
   }
 
 

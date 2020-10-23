@@ -16,6 +16,7 @@ import 'package:gupshop/responsive/intConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
+import 'package:search_map_place/search_map_place.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LocationService {
@@ -117,7 +118,11 @@ class LocationService {
 
   Future<Position> getLocation() async{// returns user's actual location using satellite
     print("in getLocation");
-    Position location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    //Position location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+
+
+//    Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low).then((value) => print("Finally got location with low accuracy $value"));
+    Position location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
     print("in getLocation location : $location");
     return location;
   }
@@ -139,12 +144,7 @@ class LocationService {
   getAddressFromLatLang(double latitude,  double longitude) async{
     var coordinates = new gc.Coordinates(latitude, longitude);
     List<gc.Address> addressList = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
-    print("addressList in getAddressFromLatLang : $addressList");
-    print("addressList-0 in getAddressFromLatLang : ${addressList[0].addressLine}");
-    print("addressList-1 in getAddressFromLatLang : ${addressList[1]}");
-    print("addressList-2 in getAddressFromLatLang : ${addressList[2].addressLine}");
     String address = getAddressFromAddressList(addressList);
-    print("address in getAddressFromLatLang : $address");
     return address;
   }
 

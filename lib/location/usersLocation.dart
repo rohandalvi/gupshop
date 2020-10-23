@@ -30,7 +30,7 @@ class UsersLocation{
     if(ifHomeExists == false) {
 //      var permission = await LocationPermissionHandler().handlePermissions(context);
 //      print("permission in usersLocation : $permission");
-      pushUsersLocationToFirebase(userPhoneNo);
+      await pushUsersLocationToFirebase(userPhoneNo);
       print("location set");
     }
 

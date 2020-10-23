@@ -46,11 +46,14 @@ class TrailingDisplay extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                ReadUnreadIcon(
-                  conversationId: conversationId,
-                  myNumber: myNumber,
-                  timeStamp: timeStamp,
-                  conversationsLatestMessageId: conversationsLatestMessageId,
+                Flexible(
+                  flex : 2,
+                  child: ReadUnreadIconDisplay(
+                    conversationId: conversationId,
+                    myNumber: myNumber,
+                    timeStamp: timeStamp,
+                    conversationsLatestMessageId: conversationsLatestMessageId,
+                  ),
                 ),
                 Flexible(
                   flex: 1,

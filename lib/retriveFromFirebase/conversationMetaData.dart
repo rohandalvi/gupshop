@@ -16,7 +16,7 @@ class ConversationMetaData{
     return dc;
   }
 
-  get(String myNumber) async {
+  Future<Map<String, dynamic>> get(String myNumber) async {
     DocumentSnapshot temp = await path().get();
     print("temp : ${temp.data}");
     return temp.data;

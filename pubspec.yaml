@@ -49,7 +49,7 @@ dependencies:
   firebase_database: ^3.1.6
   firebase_storage: ^3.1.5 #for image  and video storage to cloud storage
   after_layout: ^1.0.7
-  geolocator: ^5.3.0
+  geolocator: ^5.3.1
   geocoder: ^0.2.1
   location: ^3.0.2
   async: ^2.4.0
@@ -109,12 +109,14 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_launcher_icons: "^0.8.0"
-
-flutter_icons:
-    android: true
-    ios: true
-    image_path: "images/gupshupLogoTwoWithoutName.png"
+#  flutter_launcher_icons: "^0.8.0"
+#
+#flutter_icons:
+#    android: true
+#    ios: true
+#    image_path: "images/gupshupLogoNoName900.png"
+#    adaptive_icon_background: "images/greenLogoBackground.png"
+#    adaptive_icon_foreground: "images/gupshupLogoNoName900.png"
 
 
 # For information on the generic Dart part of this file, see the

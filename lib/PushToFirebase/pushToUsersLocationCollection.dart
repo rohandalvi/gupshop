@@ -9,6 +9,7 @@ class PushToUsersLocationCollection{
   }
 
   pushUsersLocationToFirebase({String userNumber, String locationName, var dataMap}){
+    print("in pushUsersLocationToFirebase : ${path(userNumber)}");
     return path(userNumber).setData({locationName: dataMap}, merge:true);//merge true imp for setting multiple locations
   }
 }

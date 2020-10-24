@@ -7,6 +7,7 @@ import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
 import 'package:gupshop/bazaarHomeService/homeServiceText.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/navigators/navigateToBazaarHomeScreen.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
@@ -27,7 +28,7 @@ class SubCategorySearch extends StatefulWidget {
 
   SubCategorySearch({this.subCategoriesList, this.subCategoriesListFuture,
     this.category, this.subCategoryMap, this.bazaarWalaName, this.bazaarWalaPhoneNo,
-    this.categoryData
+    this.categoryData,
   });
 
   @override
@@ -53,9 +54,30 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
     });
   }
 
+  homeLocationSet() async{
+    String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+    var homeAddress = await GetUsersLocation(userPhoneNo: userPhoneNo)
+        .getHomeAddress();
+
+    if(homeAddress == null){
+      CustomShowDialog().withActions(
+        context,
+        TextConfig.locationNotFound,
+        barrierDismissible: false,
+        actions: <Widget>[
+          FlatButton(
+              onPressed: () => NavigateToHome(initialIndex: 1).navigateNoBrackets(context),
+              child: CustomText(text:'OK')
+          ),
+        ],
+      );
+    }
+  }
+
 
   @override
   void initState() {
+    homeLocationSet();
     getCategorySizeFuture();
     super.initState();
   }
@@ -66,6 +88,31 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
       onWillPop: () async => false,
       child: Stack(
         children: <Widget>[
+//          FutureBuilder(
+//            future: GetUsersLocation(userPhoneNo: widget.userPhoneNo)
+//                .getHomeAddress(),
+//            builder: (BuildContext context, AsyncSnapshot snapshot) {
+//              if (snapshot.connectionState == ConnectionState.done) {
+//                if(snapshot.data == null){
+//                  CustomShowDialog().withActions(
+//                      context,
+//                      "Unable to find location",
+//                      barrierDismissible: false,
+//                      actions: <Widget>[
+//                        FlatButton(
+//                            onPressed: () => Navigator.of(context).pop(true),
+//                            child: CustomText(text:'OK')
+//                        ),
+//                    ],
+//                  );
+//                  return appBarBody(context);
+//                }else return appBarBody(context);
+//              }
+//              return Center(
+//                child: CircularProgressIndicator(),
+//              );
+//            },
+//          )
           appBarBody(context),
           //showButton(), /// would show only if one or more contact is selected
         ],

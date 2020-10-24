@@ -140,6 +140,7 @@ class TextConfig{
   static String getsubcategorySearchHintText(String categoryName){
     return 'Search in $categoryName';
   }
+  static const String locationNotFound = 'Unable to find location';
 
   /// Notifications
   static const String notificationFromNumberIndividual = "notificationFromNumberIndividual";

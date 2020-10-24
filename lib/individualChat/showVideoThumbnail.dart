@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/image/displayPicture.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/video/downloadVideo.dart';
@@ -35,7 +36,7 @@ class ShowVideoThumbnail extends StatelessWidget {
             CustomFlushBar(
               //duration: Duration(seconds: 5),
               customContext: context,
-              iconName: 'speaker',
+              iconName: IconConfig.speaker,
               text: CustomText(text : 'Downloading video...............', fontSize: WidgetConfig.fontSizeTwelve,),
               message: 'Downloading video..........',
             ).showFlushBarNoDuration();
@@ -45,7 +46,7 @@ class ShowVideoThumbnail extends StatelessWidget {
               Navigator.pop(context);
               return CustomFlushBar(
                 customContext: context,
-                iconName: 'speaker',
+                iconName: IconConfig.speaker,
                 text: CustomText(text : 'Video downloaded in your device', fontSize: WidgetConfig.fontSizeTwelve,),
                 message: 'Video downloaded in your device',
               ).showFlushBar();

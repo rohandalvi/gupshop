@@ -43,7 +43,7 @@ class IconConfig{
   static String send ='paperPlane';
   static String stop = 'stopTwo';
   static String search = 'advancedSearch';
-  static String speaker = 'speaker';
+  static String speaker = 'speakerTwo';
   static String searchTwo = 'searchTwo';
   static String transparent = 'transparentTwo';
   static String tickMarkDark = 'tickMarkDark';

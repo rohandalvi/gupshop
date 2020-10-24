@@ -42,11 +42,9 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
                   List<DocumentSnapshot> subCategories = await subCategoriesListFuture;
                   subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(categoryNameForData);
 
-                  String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
 
                   /// sending to search subCategory page:
                   NavigateToSubCategorySearch(
-                    userPhoneNo: userPhoneNo,
                     subCategoriesListFuture: subCategoriesListFuture,
                     subCategoriesList: subCategories,
                     subCategoryMap: subCategoryMap,

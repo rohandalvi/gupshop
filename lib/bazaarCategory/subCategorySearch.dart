@@ -18,7 +18,6 @@ import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/location/usersLocation.dart';
 
 class SubCategorySearch extends StatefulWidget {
-  final String userPhoneNo;
   final String category;
   final String categoryData;
   final Future<List<DocumentSnapshot>> subCategoriesListFuture;
@@ -29,7 +28,7 @@ class SubCategorySearch extends StatefulWidget {
 
   SubCategorySearch({this.subCategoriesList, this.subCategoriesListFuture,
     this.category, this.subCategoryMap, this.bazaarWalaName, this.bazaarWalaPhoneNo,
-    this.categoryData, this.userPhoneNo
+    this.categoryData,
   });
 
   @override
@@ -63,7 +62,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
     if(homeAddress == null){
       CustomShowDialog().withActions(
         context,
-        "Unable to find location",
+        TextConfig.locationNotFound,
         barrierDismissible: false,
         actions: <Widget>[
           FlatButton(

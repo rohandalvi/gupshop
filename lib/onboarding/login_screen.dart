@@ -102,8 +102,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 Expanded(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 1.25,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: CustomTextFormField(
                       maxLength: 10,
                           labelText: TextConfig.enterYourNumber,
@@ -115,9 +115,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             });
                           },
                         ),
-                    padding: EdgeInsets.only(left: PaddingConfig.twenty,
-                        top: PaddingConfig.thirtyFive,
-                        right: PaddingConfig.twenty),
                   ),
                 ),
               ],

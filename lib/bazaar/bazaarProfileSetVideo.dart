@@ -79,13 +79,6 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
                     ),
                   ),
                 ),
-//                Expanded(
-//                  flex: 1,
-//                  child: Align(
-//                    alignment: Alignment.topCenter,
-//                    child: Container(),
-//                  ),
-//                ),
               ],
             ),
           ),
@@ -108,12 +101,16 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
     if(permission == true){
       File _video = await PickVideoFromGallery().pick();
       widget.video = _video;
-      String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(widget.video, widget.userPhoneNo, null, context);
-      Navigator.pop(context);
-      setState(() {
-        widget.videoURL = url;
-        widget.videoSelected = true;
-      });
+      String url = await ImagesPickersDisplayPictureURLorFile().getVideoURLNoAlert(widget.video, widget.userPhoneNo, null, context);
+      /// url would be null if the user presses cancel button in the upload dialog
+      /// In that case, the
+      if(url != null){
+        Navigator.pop(context);
+        setState(() {
+          widget.videoURL = url;
+          widget.videoSelected = true;
+        });
+      }
     }
   }
 
@@ -122,12 +119,14 @@ class _BazaarProfileSetVideoState extends State<BazaarProfileSetVideo> {
     if(permission == true){
       File _video = await PickVideoFromCamera().pick();
       widget.cameraVideo = _video;
-      String url = await ImagesPickersDisplayPictureURLorFile().getVideoURL(widget.cameraVideo, widget.userPhoneNo, null,context);
-      Navigator.pop(context);
-      setState(() {
-        widget.videoURL = url;
-        widget.videoSelected = true;
-      });
+      String url = await ImagesPickersDisplayPictureURLorFile().getVideoURLNoAlert(widget.cameraVideo, widget.userPhoneNo, null,context);
+      if(url != null){
+        Navigator.pop(context);
+        setState(() {
+          widget.videoURL = url;
+          widget.videoSelected = true;
+        });
+      }
     }
   }
 

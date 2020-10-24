@@ -66,8 +66,6 @@ class CreateVideoURL{
       );
     }
 
-
-
     StorageTaskSnapshot videoURLFuture = await uploadTask.onComplete;
     /// if the user doesnt select alreat me later option then delay == false.
     /// This happens in two cases:
@@ -103,6 +101,71 @@ class CreateVideoURL{
 
 
     if(isComplete == true){
+      String videoURL = await videoURLFuture.ref.getDownloadURL();
+      return videoURL;
+    }
+  }
+
+
+
+
+  /// ======================================================================================================
+
+  createNoAlert(BuildContext context, File galleryImage, String userPhoneNo, int number) async{
+    String fileName = basename(galleryImage.path);
+    StorageReference firebaseStorageReference= FirebaseStorage.instance.ref().child("video").child(fileName);
+    StorageUploadTask uploadTask = firebaseStorageReference.putFile(galleryImage, StorageMetadata(contentType: 'video/mp4'));
+
+    bool delay = false;
+    bool cancel = false;
+    bool isComplete = false;
+
+    if(uploadTask.isInProgress){
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return StreamBuilder<StorageTaskEvent>(
+                stream: uploadTask.events,
+                builder: (context, AsyncSnapshot<StorageTaskEvent> asyncSnapshot) {
+                  var progress = 0;
+                  if (asyncSnapshot.hasData){
+                    final StorageTaskEvent event = asyncSnapshot.data;
+                    final StorageTaskSnapshot snapshot = event.snapshot;
+                    progress = ((snapshot.bytesTransferred /
+                        snapshot.totalByteCount) * 100).toInt();
+                  }
+
+                  return CupertinoAlertDialog(
+                    title: Text('Upload $progress %'),
+                    content: Text('Video upload in progress...'),
+                    actions: <Widget>[
+                      CupertinoDialogAction(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            cancel = true;
+                            Navigator.of(context).pop();
+                            print("after pop in dialog");
+                          }
+                      )
+                    ],
+                  );
+                }
+            );
+          }
+      );
+    }
+
+    print("after pop");
+    StorageTaskSnapshot videoURLFuture = await uploadTask.onComplete;
+    /// if the user selects cancel then isComplete will be false and the
+    /// video will not get uploaded
+    if(cancel == false){
+      print("after pop in cancel false");
+      Navigator.of(context).pop();
+      isComplete = true;
+    }
+    if(isComplete == true){
+      print("after pop in isComplete true");
       String videoURL = await videoURLFuture.ref.getDownloadURL();
       return videoURL;
     }

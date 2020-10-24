@@ -40,6 +40,11 @@ class ImagesPickersDisplayPictureURLorFile {
     return imageURL;
   }
 
+  getVideoURLNoAlert(File galleryImage, String userPhoneNo, int number, BuildContext context) async{
+    imageURL = await CreateVideoURL().createNoAlert(context, galleryImage, userPhoneNo, number);
+    return imageURL;
+  }
+
 
   Future uploadImageToFirestore(BuildContext context, String userPhoneNo, File _galleryImage) async{//functionality for cameraImage is not added, thats a to do
     String fileName = basename(userPhoneNo+'ProfilePicture');

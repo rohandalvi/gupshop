@@ -44,7 +44,7 @@ dependencies:
   firebase_database: ^3.1.6
   firebase_storage: ^3.1.5 #for image  and video storage to cloud storage
 
-  geolocator: ^5.3.0
+  geolocator: ^5.3.1
   geocoder: ^0.2.1
   location: ^3.0.2
   async: ^2.4.0

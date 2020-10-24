@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarOnBoarding/bazaarTrace.dart';
 import 'package:gupshop/image/gridViewContainer.dart';
 import 'package:gupshop/bazaar/customGridView.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 

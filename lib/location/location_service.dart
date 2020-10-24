@@ -230,7 +230,7 @@ class LocationService {
   }
 
   createGeohash(double latitude, double longitude) async{
-    GeoFirePoint myLocation = await  getGeopointAndGeohashObject(latitude, longitude);
+    GeoFirePoint myLocation = await getGeopointAndGeohashObject(latitude, longitude);
     return myLocation.hash;
   }
 

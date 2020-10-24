@@ -121,6 +121,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
               Map<String, String> subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(widget.categoryData);
 
               NavigateToSubCategorySearch(
+                userPhoneNo: userPhoneNo,
                 bazaarWalaPhoneNo: bazaarWalaPhoneNo,
                 subCategoryMap: subCategoryMap,
                 subCategoriesList: subCategoriesList,

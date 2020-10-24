@@ -5,6 +5,7 @@ import 'package:gupshop/bazaarCategory/subCategorySearch.dart';
 
 
 class NavigateToSubCategorySearch{
+  final String userPhoneNo;
   final String category;
   final String categoryData;
   final Future<List<DocumentSnapshot>> subCategoriesListFuture;
@@ -15,7 +16,7 @@ class NavigateToSubCategorySearch{
 
   NavigateToSubCategorySearch({this.subCategoriesList, this.subCategoriesListFuture,
     this.category, this.subCategoryMap, this.bazaarWalaName, this.bazaarWalaPhoneNo,
-    this.categoryData,
+    this.categoryData,this.userPhoneNo
   });
 
 
@@ -46,6 +47,7 @@ class NavigateToSubCategorySearch{
         context,
         MaterialPageRoute(
           builder: (context) => SubCategorySearch(
+            userPhoneNo: userPhoneNo,
             bazaarWalaPhoneNo: bazaarWalaPhoneNo,
             bazaarWalaName: bazaarWalaName,
             subCategoriesListFuture: subCategoriesListFuture,

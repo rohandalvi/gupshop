@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarOnBoarding/bazaarTrace.dart';
 import 'package:gupshop/image/gridViewContainer.dart';
 import 'package:gupshop/bazaar/customGridView.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 
@@ -41,9 +42,11 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
                   List<DocumentSnapshot> subCategories = await subCategoriesListFuture;
                   subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(categoryNameForData);
 
+                  String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
 
                   /// sending to search subCategory page:
                   NavigateToSubCategorySearch(
+                    userPhoneNo: userPhoneNo,
                     subCategoriesListFuture: subCategoriesListFuture,
                     subCategoriesList: subCategories,
                     subCategoryMap: subCategoryMap,

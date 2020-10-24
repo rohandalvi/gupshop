@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(PaddingConfig.eight),
                     child: CustomTextFormField(
                       maxLength: 10,
                           labelText: TextConfig.enterYourNumber,

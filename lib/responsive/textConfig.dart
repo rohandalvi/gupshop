@@ -75,6 +75,7 @@ class TextConfig{
   static const String gup= 'Gup';
   static const String shup= 'Shup';
   static const String enterYourNumber= 'Enter your Number';
+  static const String blankString="";
 
 
   /// trace

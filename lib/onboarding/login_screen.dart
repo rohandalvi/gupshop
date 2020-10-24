@@ -27,7 +27,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool codeSent = false;
-  String val="";
+  String val= TextConfig.blankString;
   String countryCode = TextConfig.defaultCountryCode;
   String numberWithoutCode;
 
@@ -93,15 +93,19 @@ class _LoginScreenState extends State<LoginScreen> {
 //                mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                CountryCodeAndFlag(
-                  onChanged: (value){
-                    String convertedCountryCode = value.toString();
-                    setState(() {
-                      countryCode = convertedCountryCode;
-                    });
-                  },
+                Expanded(
+                  flex: 1,
+                  child: CountryCodeAndFlag(
+                    onChanged: (value){
+                      String convertedCountryCode = value.toString();
+                      setState(() {
+                        countryCode = convertedCountryCode;
+                      });
+                    },
+                  ),
                 ),
                 Expanded(
+                  flex: 3,
                   child: Padding(
                     padding: EdgeInsets.all(PaddingConfig.eight),
                     child: CustomTextFormField(
@@ -134,6 +138,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String phoneNo, verificationId, smsCode;
+
+
 
   Future<void> verifyphone() async {
 

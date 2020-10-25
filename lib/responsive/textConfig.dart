@@ -39,6 +39,9 @@ class TextConfig{
   /// CategorySelector:
   static String icon = 'icon';
 
+  /// chatList
+  static String hide = 'HIDE';
+
   /// SubCategoryCheckBoxData:
   static String name = 'name';
 

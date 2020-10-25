@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/widgets/customIcon.dart';
@@ -95,10 +97,9 @@ class _CustomDismissibleState extends State<CustomDismissible> {
       secondaryBackground: Container(
         color: notMeChatColor,
         alignment: AlignmentDirectional.centerEnd,
-        child: CustomText(text: 'HIDE',textColor: red,)
-//        IconButton(
-//          icon: SvgPicture.asset('images/hide.svg',),
-//        ),
+        child: Padding(
+          padding: EdgeInsets.all(PaddingConfig.eight),
+          child: CustomText(text: TextConfig.hide,textColor: red,))
       ),
       child: widget.child,
     );

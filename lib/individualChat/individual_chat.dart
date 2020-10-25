@@ -307,13 +307,6 @@ class _IndividualChatState extends State<IndividualChat> {
   Widget build(BuildContext context){
     presence = new Presence(widget.userPhoneNo);
 
-
-//    Notifier().foreGround(
-//      currentChatWithNumber: widget.listOfFriendNumbers,
-//      currentConversationId: widget.conversationId,
-//      customContext: context,
-//    );
-
     return WillPopScope(
       onWillPop: () async => CustomNavigator().navigateToHome(context,
           widget.userName, widget.userPhoneNo),

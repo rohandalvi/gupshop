@@ -175,16 +175,22 @@ class ChatAppBar extends StatelessWidget {
                               children: <Widget>[
                                 Expanded(
                                   flex: 1,
-                                  child: CustomIconButton(
-                                    iconNameInImageFolder: IconConfig.videoCall,
-                                    onPressed: (){},
-                                  ),
+                                  child:Visibility(
+                                    visible: groupExits == false,
+                                    child: CustomIconButton(
+                                      iconNameInImageFolder: IconConfig.videoCall,
+                                      onPressed: (){},
+                                    ),
+                                  )
                                 ),
                                 Expanded(
                                   flex: 1,
-                                  child: CustomIconButton(
-                                    iconNameInImageFolder: IconConfig.audioCall,
-                                    onPressed: (){},
+                                  child: Visibility(
+                                    visible: groupExits == false,
+                                    child: CustomIconButton(
+                                      iconNameInImageFolder: IconConfig.audioCall,
+                                      onPressed: (){},
+                                    ),
                                   ),
                                 )
                               ],

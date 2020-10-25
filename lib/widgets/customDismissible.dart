@@ -91,11 +91,12 @@ class _CustomDismissibleState extends State<CustomDismissible> {
         )
       ),
       secondaryBackground: Container(
-        color: notMeChatColor,
+        color: primaryColor,
+        //notMeChatColor,
         alignment: AlignmentDirectional.centerEnd,
         child: Padding(
           padding: EdgeInsets.all(PaddingConfig.eight),
-          child: CustomText(text: TextConfig.hide,textColor: red,),
+          child: CustomText(text: TextConfig.hide,textColor: white,),
         )
       ),
       child: widget.child,

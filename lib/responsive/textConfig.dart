@@ -42,6 +42,9 @@ class TextConfig{
   /// chatList
   static String hide = 'HIDE';
   static String delete = 'DELETE';
+  static String groupAdminDeleteAlert = 'Hey group admin, are you sure ?';
+  static String groupWillBeDeleted = 'The group will be deleted permenantly';
+  static String yes = 'YES';
 
   /// SubCategoryCheckBoxData:
   static String name = 'name';

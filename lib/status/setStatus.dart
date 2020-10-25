@@ -5,6 +5,7 @@ import 'package:gupshop/PushToFirebase/status.dart';
 import 'package:gupshop/PushToFirebase/statusMap.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/status/statusTrace.dart';
 import 'package:gupshop/widgets/customIcon.dart';
@@ -65,7 +66,7 @@ class _SetStatusState extends State<SetStatus> {
       noResultsText: TextConfig.noResultsText,
       onItemFound: (String status, int index){
         return ListTile(
-          leading: CustomIcon(iconName: statusMap[status],).networkIcon(context),/// icon
+          leading: statusMap[status] == null ?CustomIcon(iconName: IconConfig.free,):CustomIcon(iconName: statusMap[status],).networkIcon(context),/// icon
           title: CustomText(text: status),/// statusName
           onTap:() async{
             String userPhoneNo = await UserDetails().getUserPhoneNoFuture();

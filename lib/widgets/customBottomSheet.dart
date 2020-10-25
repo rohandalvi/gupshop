@@ -153,7 +153,10 @@ class CustomBottomSheet extends StatelessWidget {
                         iconNameInImageFolder: firstIconName,
                         onPressed: firstIconAndTextOnPressed,
                       ),
-                      CustomText(text: firstIconText,)
+                      GestureDetector(
+                        child: CustomText(text: firstIconText,),
+                        onTap: firstIconAndTextOnPressed,
+                      )
                     ],
                   ),
                 ),
@@ -164,7 +167,7 @@ class CustomBottomSheet extends StatelessWidget {
                         iconNameInImageFolder: secondIconName,
                         onPressed: secondIconAndTextOnPressed,
                       ),
-                      CustomText(text: secondIconText,)
+                      GestureDetector(onTap : secondIconAndTextOnPressed,child: CustomText(text: secondIconText,))
                     ],
                   ),
                 ),
@@ -198,7 +201,9 @@ class CustomBottomSheet extends StatelessWidget {
                       iconNameInImageFolder: firstIconName,
                       onPressed: firstIconAndTextOnPressed,
                     ),
-                    CustomText(text: firstIconText,)
+                    GestureDetector(
+                      onTap: firstIconAndTextOnPressed,
+                      child: CustomText(text: firstIconText,))
                   ],
                 ),
               ],
@@ -230,7 +235,9 @@ class CustomBottomSheet extends StatelessWidget {
                         iconNameInImageFolder: firstIconName,
                         onPressed: firstIconAndTextOnPressed,
                       ),
-                      CustomText(text: firstIconText,)
+                      GestureDetector(
+                        onTap: firstIconAndTextOnPressed,
+                        child: CustomText(text: firstIconText,))
                     ],
                   ),
                 ),

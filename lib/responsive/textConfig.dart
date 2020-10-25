@@ -41,6 +41,7 @@ class TextConfig{
 
   /// chatList
   static String hide = 'HIDE';
+  static String delete = 'DELETE';
 
   /// SubCategoryCheckBoxData:
   static String name = 'name';

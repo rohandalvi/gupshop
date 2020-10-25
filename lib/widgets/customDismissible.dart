@@ -89,17 +89,18 @@ class _CustomDismissibleState extends State<CustomDismissible> {
       background: Container(
         color: red,
         alignment: AlignmentDirectional.centerStart,
-        child: IconButton(
-            icon: SvgPicture.asset('images/recycleBin.svg',)
-          //SvgPicture.asset('images/downChevron.svg',)
-        ),
+        child: Padding(
+          padding: EdgeInsets.all(PaddingConfig.eight),
+          child: CustomText(text: TextConfig.delete,textColor: white,),
+        )
       ),
       secondaryBackground: Container(
         color: notMeChatColor,
         alignment: AlignmentDirectional.centerEnd,
         child: Padding(
           padding: EdgeInsets.all(PaddingConfig.eight),
-          child: CustomText(text: TextConfig.hide,textColor: red,))
+          child: CustomText(text: TextConfig.hide,textColor: red,),
+        )
       ),
       child: widget.child,
     );

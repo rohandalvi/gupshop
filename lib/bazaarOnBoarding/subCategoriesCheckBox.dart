@@ -9,6 +9,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarAdvertisement.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
@@ -254,16 +255,27 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
                     }
 
                     /// moving on to next page:
-                    NavigateToBazaarAdvertisement(
-                      category:widget.category,
-                      categoryData: widget.categoryData,
-                      listOfSubCategories: listOfSubCategories,
-                      userPhoneNo: userNumber,
-                      userName: userName,
-                      subCategoryMap: widget.subCategoryMap,
-                      listOfSubCategoriesForData: listOfSubCategoriesForData,
-                      homeServiceMap: homeServiceMap,
-                    ).navigateNoBrackets(context);
+                    Map<String,dynamic> navigatorMap = new Map();
+                    navigatorMap[TextConfig.category] = widget.category;
+                    navigatorMap[TextConfig.categoryData] = widget.categoryData;
+                    navigatorMap[TextConfig.listOfSubCategories] = listOfSubCategories;
+                    navigatorMap[TextConfig.userPhoneNo] = userNumber;
+                    navigatorMap[TextConfig.userName] = userName;
+                    navigatorMap[TextConfig.subCategoryMap] = widget.subCategoryMap;
+                    navigatorMap[TextConfig.listOfSubCategoriesForData] = listOfSubCategoriesForData;
+                    navigatorMap[TextConfig.homeServiceMap] = homeServiceMap;
+
+                    Navigator.pushNamed(context, NavigatorConfig.bazaarAdvertisement, arguments: navigatorMap);
+//                    NavigateToBazaarAdvertisement(
+//                      category:widget.category,
+//                      categoryData: widget.categoryData,
+//                      listOfSubCategories: listOfSubCategories,
+//                      userPhoneNo: userNumber,
+//                      userName: userName,
+//                      subCategoryMap: widget.subCategoryMap,
+//                      listOfSubCategoriesForData: listOfSubCategoriesForData,
+//                      homeServiceMap: homeServiceMap,
+//                    ).navigateNoBrackets(context);
                   }
               ),
             ),

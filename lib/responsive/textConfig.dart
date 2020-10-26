@@ -28,6 +28,13 @@ class TextConfig{
   static String selectVideoFlushbar = 'Select Video';
   static String video = 'video';
   static String addressName = 'addressName';
+  static String listOfSubCategoriesForData = 'listOfSubCategoriesForData';
+  static String listOfSubCategories = 'listOfSubCategories';
+  static String deleteListData = 'deleteListData';
+  static String addListData = 'addListData';
+  static String subCategory = 'subCategory';
+  static String subCategoryData = 'subCategoryData';
+  static String homeServiceMap = 'homeServiceMap';
 
   /// bazaarLocation:
   static String location = 'location';

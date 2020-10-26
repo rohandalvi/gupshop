@@ -16,6 +16,7 @@ import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/notifications/IRules.dart';
 import 'package:gupshop/notifications/NotificationEventType.dart';
 import 'package:gupshop/notifications/notificationSingleton.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
@@ -300,14 +301,24 @@ class _IndividualChatState extends State<IndividualChat> {
         name = await GetFromFriendsCollection(userNumber: widget.userPhoneNo,friendNumber: notificationFromNumberIndividual).getFriendName();
       }
 
-      await NavigateToIndividualChat(
-        conversationId:notifierConversationId,
-        listOfFriendNumbers: listOfFriendNumbers,
-        friendName: name,
+      Map<String,dynamic> navigatorMap = new Map();
+      navigatorMap[TextConfig.conversationId] = notifierConversationId;
+      navigatorMap[TextConfig.friendNumberList] = listOfFriendNumbers;
+      navigatorMap[TextConfig.friendName] = name;
+      navigatorMap[TextConfig.userPhoneNo] = widget.userPhoneNo;
+      navigatorMap[TextConfig.userName] = widget.userName;
 
-        userPhoneNo: widget.userPhoneNo,
-        userName: widget.userName,
-      ).navigateNoBrackets(context);
+
+      await Navigator.pushNamed(context, NavigatorConfig.individualChat, arguments: navigatorMap);
+
+//      await NavigateToIndividualChat(
+//        conversationId:notifierConversationId,
+//        listOfFriendNumbers: listOfFriendNumbers,
+//        friendName: name,
+//
+//        userPhoneNo: widget.userPhoneNo,
+//        userName: widget.userName,
+//      ).navigateNoBrackets(context);
     }
 
     /// video call:

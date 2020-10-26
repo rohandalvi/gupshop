@@ -10,6 +10,7 @@ import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/notifications/IRules.dart';
 import 'package:gupshop/notifications/NotificationEventType.dart';
 import 'package:gupshop/notifications/notificationSingleton.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/recentChats.dart';
 import 'package:gupshop/retriveFromFirebase/rooms.dart';
@@ -138,7 +139,10 @@ class ChatListState extends State<ChatList> {
       child: RefreshIndicator(
         onRefresh: (){
            ChatListSingleton().resetCache();
-           return NavigateToHome().navigateNoBrackets(context);
+           Map<String,String> map = new Map();
+           map[TextConfig.userPhoneNo] = myNumber;
+           map[TextConfig.userName] = myName;
+           return Navigator.pushNamed(context, NavigatorConfig.home, arguments:map );
         },
         child: Material(
           child: StreamBuilder<QuerySnapshot>(

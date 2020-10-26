@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
-import 'package:gupshop/retriveFromFirebase/getConversationIdFromConversationMetadataCollection.dart';
 import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
-import 'package:gupshop/widgets/customFloatingActionButton.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
 

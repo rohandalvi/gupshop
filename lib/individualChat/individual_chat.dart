@@ -12,7 +12,6 @@ import 'package:gupshop/individualChat/bodyPlusScrollComposerData.dart';
 import 'package:gupshop/individualChat/pushMessagesToConversationAndRecentChatsCollection.dart';
 import 'package:gupshop/models/text_message.dart';
 import 'package:gupshop/modules/Presence.dart';
-import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/notifications/IRules.dart';
 import 'package:gupshop/notifications/NotificationEventType.dart';
 import 'package:gupshop/notifications/notificationSingleton.dart';

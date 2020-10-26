@@ -10,6 +10,7 @@ import 'package:gupshop/dataGathering/myTrace.dart';
 import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
@@ -78,23 +79,35 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
         conversationsLatestMessageId: widget.conversationsLatestMessageId,
       ),
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  IndividualChat(
-                    chatListCache: widget.chatListCache,
-                    friendName: widget.friendName,
-                    conversationId: widget.conversationId,
-                    userName: widget.myName,
-                    userPhoneNo: widget.myNumber,
-                    listOfFriendNumbers: widget.friendNumberList,
-                    notGroupMemberAnymore: widget.notAGroupMemberAnymore,
-                    groupDeleted: groupDeleted,
-                    imageURL: widget.imageURL,
-                  ), //pass Name() here and pass Home()in name_screen
-            )
-        );
+        Map<String,dynamic> map = new Map();
+        map[TextConfig.userPhoneNo] = widget.myNumber;
+        map[TextConfig.userName] = widget.myName;
+        map[TextConfig.chatListCache] = widget.chatListCache;
+        map[TextConfig.friendName] = widget.friendName;
+        map[TextConfig.conversationId] = widget.conversationId;
+        map[TextConfig.friendNumberList] = widget.friendNumberList;
+        map[TextConfig.notAGroupMemberAnymore] = widget.notAGroupMemberAnymore;
+        map[TextConfig.groupDeleted] = groupDeleted;
+        map[TextConfig.imageURL] = widget.imageURL;
+
+        Navigator.pushNamed(context, NavigatorConfig.individualChat, arguments: map);
+//        Navigator.push(
+//            context,
+//            MaterialPageRoute(
+//              builder: (context) =>
+//                  IndividualChat(
+//                    chatListCache: widget.chatListCache,
+//                    friendName: widget.friendName,
+//                    conversationId: widget.conversationId,
+//                    userName: widget.myName,
+//                    userPhoneNo: widget.myNumber,
+//                    listOfFriendNumbers: widget.friendNumberList,
+//                    notGroupMemberAnymore: widget.notAGroupMemberAnymore,
+//                    groupDeleted: groupDeleted,
+//                    imageURL: widget.imageURL,
+//                  ), //pass Name() here and pass Home()in name_screen
+//            )
+//        );
       },
     );
   }

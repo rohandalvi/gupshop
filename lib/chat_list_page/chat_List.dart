@@ -6,7 +6,6 @@ import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/chat_list_page/chatListData.dart';
 import 'package:gupshop/chat_list_page/chatListSingleton.dart';
 import 'package:gupshop/chat_list_page/ifNoConversationSoFar.dart';
-import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/notifications/IRules.dart';
 import 'package:gupshop/notifications/NotificationEventType.dart';
 import 'package:gupshop/notifications/notificationSingleton.dart';
@@ -16,7 +15,6 @@ import 'package:gupshop/retriveFromFirebase/recentChats.dart';
 import 'package:gupshop/retriveFromFirebase/rooms.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/video_call/VideoCallEntryPoint.dart';
-import 'package:gupshop/widgets/showMessageForFirstConversation.dart';
 
 
 //chatList => individualChat
@@ -84,11 +82,8 @@ class ChatListState extends State<ChatList> {
 
   notificationInit(){
     NotificationSingleton notificationSingleton = new NotificationSingleton();
-    print("Active ${notificationSingleton.getNotifierObject().getActiveScreen()}");
-    print("Current ${this.widget.runtimeType.toString()}");
 
     if(notificationSingleton.getNotifierObject().getActiveScreen() != this.widget.runtimeType.toString()) {
-      print("Setting Rule to ${this.widget.runtimeType.toString()}");
       notificationSingleton.getNotifierObject().configLocalNotification(onSelectNotification: onSelectNotification);
     }
     notificationSingleton.getNotifierObject().setRule(this.widget);
@@ -98,30 +93,20 @@ class ChatListState extends State<ChatList> {
 
   /// when the user taps the notification:
   Future<void> onSelectNotification(String payload) async{
-    print("onSelectNotification : $payload");
     /// deserializing our data
     Map<String, dynamic> map = jsonDecode(payload);
-
-    print("map in onSelectNotification: ${map}");
-
     String eventType = map[TextConfig.type];
-    print("eventType : $eventType");
 
     /// video call:
     if(eventType == TextConfig.VIDEO_CALL){
       String name = map[TextConfig.name];
 
       bool isActive = await Rooms().getActiveStatus(name);
-      print("isActive : $isActive");
+
       if(isActive){
-
-        print("Calling with context $context");
-
         VideoCallEntryPoint().join(context: context,name: name);
       }
-
     }
-
   }
 
 
@@ -139,6 +124,7 @@ class ChatListState extends State<ChatList> {
       child: RefreshIndicator(
         onRefresh: (){
            ChatListSingleton().resetCache();
+
            Map<String,String> map = new Map();
            map[TextConfig.userPhoneNo] = myNumber;
            map[TextConfig.userName] = myName;

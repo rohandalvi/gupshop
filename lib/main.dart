@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
+import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/home/home.dart';
 import 'package:gupshop/home/homeAppLock.dart';
+import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/onboarding/helper.dart';
 import 'package:gupshop/passcode/customAppLock.dart';
@@ -82,7 +84,8 @@ class MyApp extends StatelessWidget {
               ),
               title: 'Chat home',
               routes: {
-                NavigatorConfig.home : (context){return homeRoute(context);}
+                NavigatorConfig.home : (context){return homeRoute(context);},
+                NavigatorConfig.individualChat : (context){return individualChatRoute(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)
@@ -93,10 +96,50 @@ class MyApp extends StatelessWidget {
     );
   }
 
+
+  /// routes
   Widget homeRoute(BuildContext context){
     Map<String,String> map = ModalRoute.of(context).settings.arguments;
     String userPhoneNo = map[TextConfig.userPhoneNo];
     String userName = map[TextConfig.userName];
     return Home(userPhoneNo: userPhoneNo,userName: userName);
   }
+
+  Widget individualChatRoute(BuildContext context){
+    Map<String,dynamic> map = ModalRoute.of(context).settings.arguments;
+
+    Map<String, ChatListCache> chatListCache = map[TextConfig.chatListCache];
+    String myName = map[TextConfig.userName];
+    String myNumber = map[TextConfig.userPhoneNo];
+    String friendName = map[TextConfig.friendName];
+    String conversationId = map[TextConfig.conversationId];
+    List<dynamic> friendNumberList = map[TextConfig.friendNumberList];
+    bool notAGroupMemberAnymore = map[TextConfig.notAGroupMemberAnymore];
+    bool groupDeleted = map[TextConfig.groupDeleted];
+    String imageURL = map[TextConfig.imageURL];
+    final Map forwardMessage =  map[TextConfig.forwardMessage];
+//    bool groupExists = map[TextConfig.groupExists];
+//    String friendNumber= map[TextConfig.friendNumber];
+//    List<dynamic> memberList= map[TextConfig.memberList];
+//    String lastMessage= map[TextConfig.lastMessage];
+//    bool lastMessageIsImage= map[TextConfig.lastMessageIsImage];
+//    String conversationsLatestMessageId= map[TextConfig.conversationsLatestMessageId];
+//    double radius= map[TextConfig.radius];
+//    double innerRadius= map[TextConfig.innerRadius];
+
+    return IndividualChat(
+      chatListCache: chatListCache,
+      friendName: friendName,
+      conversationId: conversationId,
+      userName: myName,
+      userPhoneNo: myNumber,
+      listOfFriendNumbers: friendNumberList,
+      notGroupMemberAnymore: notAGroupMemberAnymore,
+      groupDeleted: groupDeleted,
+      imageURL: imageURL,
+      forwardMessage: forwardMessage,
+    );
+  }
+
+
 }

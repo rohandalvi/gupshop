@@ -33,6 +33,24 @@ class TextConfig{
   static String location = 'location';
   static String loadingMap = 'Loading map';
 
+  /// chatList:
+  static String chatListCache = 'chatListCache';
+  static String friendName = 'friendName';
+  static String notAGroupMemberAnymore = 'notAGroupMemberAnymore';
+  static String friendNumberList = 'friendNumberList';
+  static String groupExists = 'groupExists';
+  static String friendNumber = 'friendNumber';
+  static String memberList = 'memberList';
+  static String lastMessage = 'lastMessage';
+  static String lastMessageIsImage = 'lastMessageIsImage';
+  static String conversationsLatestMessageId = 'conversationsLatestMessageId';
+  static String innerRadius = 'innerRadius';
+  static String forwardMessage = 'forwardMessage';
+
+  /// individualChat:
+
+
+
   /// ChangeBazaarWalasPicturesAppBar:
   static String addPictures = 'Add pictures';
 

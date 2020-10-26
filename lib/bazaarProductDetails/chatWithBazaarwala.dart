@@ -26,7 +26,6 @@ class ChatWithBazaarwala extends StatelessWidget {
       iconNameInImageFolder: IconConfig.chatBubble,
       onPressed: () async{
         String userNumber = await UserDetails().getUserPhoneNoFuture();
-        print("userNumber in chatWithBazaarwala : $userNumber");
         List<dynamic> listOfFriendsNumbers = new List();
         listOfFriendsNumbers.add(bazaarwalaNumber);
 
@@ -40,15 +39,6 @@ class ChatWithBazaarwala extends StatelessWidget {
 
 
         Navigator.pushNamed(context, NavigatorConfig.individualChat, arguments: map);
-
-//        NavigateToIndividualChat(
-//            conversationId: conversationId,
-//            userPhoneNo: userNumber,
-//            listOfFriendNumbers: listOfFriendsNumbers,
-//            friendName: bazaarwalaName,
-//            userName: userName,
-//        )
-//            .navigateNoBrackets(customContext);
       },
     );
   }

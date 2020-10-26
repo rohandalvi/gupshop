@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -127,26 +128,18 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
                   ///      forwardMessage["conversationId"] = conversationId;
                   data["conversationId"] = conversationId;
                 }
-                //if(conversationId == null) GetConversationId().createNewConversationId(userPhoneNo, friendNo);
-                NavigateToIndividualChat(
-                  conversationId: conversationId,
-                  userName: userName,
-                  userPhoneNo: userPhoneNo,
-                  friendName: friendName,
-                  data: data,
-                  notGroupMemberAnymore: false,
-                  listOfFriendNumbers: friendNo
-                ).navigateNoBrackets(context);
-//                CustomNavigator().navigateToIndividualChat(
-//                    context,
-//                    conversationId,
-//                    userName,
-//                    userPhoneNo,
-//                    friendName,
-//                    friendNo,
-//                    data,
-//                    false
-//                );
+
+                Map<String,dynamic> map = new Map();
+                map[TextConfig.conversationId] = conversationId;
+                map[TextConfig.userName] = userName;
+                map[TextConfig.userPhoneNo] = userPhoneNo;
+                map[TextConfig.friendName] = friendName;
+                map[TextConfig.forwardMessage] = data;
+                map[TextConfig.notAGroupMemberAnymore] = false;
+                map[TextConfig.friendNumberList] = friendNo;
+
+
+                Navigator.pushNamed(context, NavigatorConfig.individualChat, arguments: map);
               } : widget.onSearchTap,
             );
   }

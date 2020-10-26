@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
+import 'package:gupshop/home/home.dart';
 import 'package:gupshop/home/homeAppLock.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/onboarding/helper.dart';
@@ -78,26 +79,16 @@ class MyApp extends StatelessWidget {
                 accentColor: subtitleGray,
               ),
               title: 'Chat home',
+              routes: {
+                '/home':(context){
+                  Map<String, String> map = ModalRoute.of(context).settings.arguments;
+                  String userPhoneNo = map['userPhoneNo'];
+                  String userName = map['userName'];
+                  return Home(userPhoneNo: userPhoneNo,userName: userName);
+                }
+              },
               debugShowCheckedModeBanner: false,
-//              navigatorKey: _navigatorKey,
               home:WelcomeScreen(lockEnabled: enabled,)
-//              HomeAppLock(enabled: enabled,),
-              //WelcomeScreen(lockEnabled: enabled,),
-              //UnlockPasscode(),
-//              Builder(
-//                builder: (context) {
-//                  print("context in builder : $context");
-//                  return
-//                  AppLock(
-//                    enabled: enabled,
-//                    lockScreen: UnlockPasscode(navigatorKey: _navigatorKey,),
-//                    builder: (args) {
-////                      print("AppLock state MyApp: ${AppLock.of(context)}");
-//                      return WelcomeScreen();
-//                    },
-//                  )
-//                }
-//              ),
             );
           }
         );
@@ -105,29 +96,4 @@ class MyApp extends StatelessWidget {
     );
   }
 
-
-//  Widget Function(Object) builder(args){
-//    return WelcomeScreen();
-//  }
-//
-//  void _didUnlockOnAppLaunch(Object args) {
-//    this._didUnlockForAppLaunch = true;
-////    this.widget.builder(ModalRoute.of(context).settings.arguments);
-////    _navigatorKey.currentState.push(
-//    Navigator.push(
-//        context,
-//        MaterialPageRoute(
-//          builder: (context) => builder(ModalRoute.of(context).settings.arguments),//pass Name() here and pass Home()in name_screen
-//        )
-//    );
-////    _navigatorKey.currentState
-////        .pushReplacementNamed('/unlocked', arguments: args);
-//  }
-//
-//  Widget get _lockScreen {
-//    return WillPopScope(
-//      child: UnlockPasscode(),
-//      onWillPop: () => Future.value(false),
-//    );
-//  }
 }

@@ -47,13 +47,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             return CustomAppLock(
               lockScreen: UnlockPasscode(
                 isValidCallback: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Home(userPhoneNo: userPhoneNo,
-                          userName: userName,),//pass Name() here and pass Home()in name_screen
-                      )
-                  );
+                  Navigator.pushNamed(context, '/home',arguments: <String, String>{'userPhoneNo':userPhoneNo, 'userName':userName});
+//                  Navigator.push(
+//                      context,
+//                      MaterialPageRoute(
+//                        builder: (context) => Home(userPhoneNo: userPhoneNo,
+//                          userName: userName,),//pass Name() here and pass Home()in name_screen
+//                      )
+//                  );
                 },
               ),
             );
@@ -71,31 +72,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   );
   }
 
+
   appLock(){
-//   bool result = await Navigator.push(
-//        context,
-//        MaterialPageRoute(
-//          builder: (context) => CustomAppLock(
-//            lockScreen:
-//            UnlockPasscode(
-//              didUnLock: (result) {
-//                setState(() {
-//                  unLockedStatus = result;
-//                });
-//              },
-//            ),
-//          ),//pass Name() here and pass Home()in name_screen
-//        )
-//    );
-//   if(result == true){
-//     return Home(
-//       userPhoneNo: userPhoneNo,
-//       userName: userName,
-//     );
-//   }
-
-
-
     if(unLockedStatus == true){
      return Home(
        userPhoneNo: userPhoneNo,

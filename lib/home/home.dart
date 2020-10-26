@@ -17,7 +17,7 @@ class Home extends StatefulWidget{
   List<String> phoneNumberList;
   Presence presence;
   final int initialIndex;
-  Home({@required this.userPhoneNo, @required this.userName, @required this.phoneNumberList, this.initialIndex});
+  Home({@required this.userPhoneNo, @required this.userName, @required this.phoneNumberList, this.initialIndex,});
 
 
   @override

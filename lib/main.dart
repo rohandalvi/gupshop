@@ -117,7 +117,7 @@ class MyApp extends StatelessWidget {
     bool notAGroupMemberAnymore = map[TextConfig.notAGroupMemberAnymore];
     bool groupDeleted = map[TextConfig.groupDeleted];
     String imageURL = map[TextConfig.imageURL];
-    final Map forwardMessage =  map[TextConfig.forwardMessage];
+    var forwardMessage =  map[TextConfig.forwardMessage];
 //    bool groupExists = map[TextConfig.groupExists];
 //    String friendNumber= map[TextConfig.friendNumber];
 //    List<dynamic> memberList= map[TextConfig.memberList];

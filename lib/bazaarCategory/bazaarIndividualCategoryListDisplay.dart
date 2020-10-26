@@ -186,10 +186,6 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
 
 
             Navigator.pushNamed(context, NavigatorConfig.individualChat, arguments: map);
-//            NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
-//                listOfFriendNumbers: listOfFriendsNumbers,
-//                friendName: bazaarWalaName,
-//                userName: userName).navigateNoBrackets(context);
           },
         ).resize(),
       ),

@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getConversationIdFromConversationMetadataCollection.dart';
 import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
@@ -29,14 +31,24 @@ class ChatWithBazaarwala extends StatelessWidget {
         listOfFriendsNumbers.add(bazaarwalaNumber);
 
         String conversationId = await GetFromFriendsCollection(userNumber: userNumber, friendNumber: bazaarwalaNumber).getConversationId();
-//        await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber,
-//            friendNumber: bazaarwalaNumber).getIndividualChatId();
-        print("convId in customIconButton :$conversationId");
+        Map<String,dynamic> map = new Map();
+        map[TextConfig.conversationId] = conversationId;
+        map[TextConfig.userPhoneNo] = userNumber;
+        map[TextConfig.friendNumberList] = listOfFriendsNumbers;
+        map[TextConfig.friendName] = bazaarwalaName;
+        map[TextConfig.userName] = userName;
 
-        NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
-            listOfFriendNumbers: listOfFriendsNumbers,
-            friendName: bazaarwalaName, userName: userName)
-            .navigateNoBrackets(customContext);
+
+        Navigator.pushNamed(context, NavigatorConfig.individualChat, arguments: map);
+
+//        NavigateToIndividualChat(
+//            conversationId: conversationId,
+//            userPhoneNo: userNumber,
+//            listOfFriendNumbers: listOfFriendsNumbers,
+//            friendName: bazaarwalaName,
+//            userName: userName,
+//        )
+//            .navigateNoBrackets(customContext);
       },
     );
   }

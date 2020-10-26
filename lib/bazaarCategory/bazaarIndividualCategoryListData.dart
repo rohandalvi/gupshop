@@ -13,6 +13,7 @@ import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
 import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -120,15 +121,15 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
               List<DocumentSnapshot> subCategoriesList = await subCategoriesListFuture;
               Map<String, String> subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(widget.categoryData);
 
-              NavigateToSubCategorySearch(
-                bazaarWalaPhoneNo: bazaarWalaPhoneNo,
-                subCategoryMap: subCategoryMap,
-                subCategoriesList: subCategoriesList,
-                subCategoriesListFuture: subCategoriesListFuture,
-                category: widget.category,
-                categoryData: widget.categoryData,
-              ).navigateNoBrackets(context);
-             //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
+              Map<String,dynamic> navigatorMap = new Map();
+              navigatorMap[TextConfig.bazaarWalaPhoneNo] = bazaarWalaPhoneNo;
+              navigatorMap[TextConfig.subCategoryMap] = subCategoryMap;
+              navigatorMap[TextConfig.subCategoriesList] = subCategoriesList;
+              navigatorMap[TextConfig.subCategoriesListFuture] = subCategoriesListFuture;
+              navigatorMap[TextConfig.category] = widget.category;
+              navigatorMap[TextConfig.categoryData] = widget.categoryData;
+
+              Navigator.pushNamed(context, NavigatorConfig.subCategorySearch, arguments: navigatorMap);
             },
             actions: <Widget>[
 //              CustomIconButton(

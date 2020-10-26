@@ -7,6 +7,8 @@ import 'package:gupshop/image/gridViewContainer.dart';
 import 'package:gupshop/bazaar/customGridView.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 
 class BazaarHomeGridView extends StatefulWidget {
@@ -44,24 +46,14 @@ class _BazaarHomeGridViewState extends State<BazaarHomeGridView> {
 
 
                   /// sending to search subCategory page:
-                  NavigateToSubCategorySearch(
-                    subCategoriesListFuture: subCategoriesListFuture,
-                    subCategoriesList: subCategories,
-                    subCategoryMap: subCategoryMap,
-                    category: catergoryName,
-                    categoryData: categoryNameForData
-                  ).navigateNoBrackets(context);
+                  Map<String,dynamic> navigatorMap = new Map();
+                  navigatorMap[TextConfig.subCategoriesListFuture] = subCategoriesListFuture;
+                  navigatorMap[TextConfig.subCategoriesList] = subCategories;
+                  navigatorMap[TextConfig.subCategoryMap] = subCategoryMap;
+                  navigatorMap[TextConfig.category] = catergoryName;
+                  navigatorMap[TextConfig.categoryData] = categoryNameForData;
 
-
-//                  Navigator.push(
-//                      context,
-//                      MaterialPageRoute(
-//                        builder: (context) => BazaarIndividualCategoryListData(
-//                          category : catergoryName,
-//                          //category: categoryNameForBazaarIndividualCategoryList,
-//                        ),//pass Name() here and pass Home()in name_screen
-//                      )
-//                  );
+                  Navigator.pushNamed(context, NavigatorConfig.subCategorySearch, arguments: navigatorMap);
                 },
                 imageName: catergoryName,
                 imageURL: imageURL,

@@ -308,6 +308,14 @@ class TextConfig{
   static const String longitude = 'longitude';
   static const String radius = 'radius';
 
+  /// subCategorySearch
+  static const String bazaarWalaPhoneNo = 'bazaarWalaPhoneNo';
+  static const String subCategoriesListFuture = 'subCategoriesListFuture';
+  static const String subCategoryMap = 'subCategoryMap';
+  static const String subCategoriesList = 'subCategoriesList';
+  static const String categoryData = 'categoryData';
+  static const String category = 'category';
+
   /// bazaarLocation
   static const String addLocation = 'Tap to add location and service area';
   static const String selectLocationFlushbar = 'Select Location';

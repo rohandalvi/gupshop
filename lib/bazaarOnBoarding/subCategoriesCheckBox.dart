@@ -6,7 +6,6 @@ import 'package:gupshop/PushToFirebase/pushToBazaarWalasBasicProfileCollection.d
 import 'package:gupshop/bazaarHomeService/homeServiceText.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToBazaarAdvertisement.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingHome.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
@@ -266,16 +265,6 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
                     navigatorMap[TextConfig.homeServiceMap] = homeServiceMap;
 
                     Navigator.pushNamed(context, NavigatorConfig.bazaarAdvertisement, arguments: navigatorMap);
-//                    NavigateToBazaarAdvertisement(
-//                      category:widget.category,
-//                      categoryData: widget.categoryData,
-//                      listOfSubCategories: listOfSubCategories,
-//                      userPhoneNo: userNumber,
-//                      userName: userName,
-//                      subCategoryMap: widget.subCategoryMap,
-//                      listOfSubCategoriesForData: listOfSubCategoriesForData,
-//                      homeServiceMap: homeServiceMap,
-//                    ).navigateNoBrackets(context);
                   }
               ),
             ),

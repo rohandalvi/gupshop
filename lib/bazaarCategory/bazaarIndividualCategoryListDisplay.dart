@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -176,10 +177,19 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
             String conversationId = await GetFromFriendsCollection(userNumber: userNumber,friendNumber: bazaarWalaPhoneNo).getConversationId();
             //await GetConversationIdFromConversationMetadataCollection(userNumber: userNumber, friendNumber: bazaarWalaPhoneNo).getIndividualChatId();
 
-            NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
-                listOfFriendNumbers: listOfFriendsNumbers,
-                friendName: bazaarWalaName,
-                userName: userName).navigateNoBrackets(context);
+            Map<String,dynamic> map = new Map();
+            map[TextConfig.conversationId] = conversationId;
+            map[TextConfig.userPhoneNo] = userNumber;
+            map[TextConfig.friendNumberList] = listOfFriendsNumbers;
+            map[TextConfig.friendName] = bazaarWalaName;
+            map[TextConfig.userName] = userName;
+
+
+            Navigator.pushNamed(context, NavigatorConfig.individualChat, arguments: map);
+//            NavigateToIndividualChat(conversationId: conversationId, userPhoneNo: userNumber,
+//                listOfFriendNumbers: listOfFriendsNumbers,
+//                friendName: bazaarWalaName,
+//                userName: userName).navigateNoBrackets(context);
           },
         ).resize(),
       ),

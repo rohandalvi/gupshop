@@ -91,23 +91,6 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
         map[TextConfig.imageURL] = widget.imageURL;
 
         Navigator.pushNamed(context, NavigatorConfig.individualChat, arguments: map);
-//        Navigator.push(
-//            context,
-//            MaterialPageRoute(
-//              builder: (context) =>
-//                  IndividualChat(
-//                    chatListCache: widget.chatListCache,
-//                    friendName: widget.friendName,
-//                    conversationId: widget.conversationId,
-//                    userName: widget.myName,
-//                    userPhoneNo: widget.myNumber,
-//                    listOfFriendNumbers: widget.friendNumberList,
-//                    notGroupMemberAnymore: widget.notAGroupMemberAnymore,
-//                    groupDeleted: groupDeleted,
-//                    imageURL: widget.imageURL,
-//                  ), //pass Name() here and pass Home()in name_screen
-//            )
-//        );
       },
     );
   }

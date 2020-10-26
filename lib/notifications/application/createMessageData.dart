@@ -33,8 +33,8 @@ class CreateMessageData{
 
     String title = alertMap[TextConfig.title];
     String body = alertMap[TextConfig.body];
-    String name = alertMap[TextConfig.name];
-    String type = alertMap[TextConfig.type];
+    String name = message[TextConfig.name];
+    String type = message[TextConfig.type];
 
     result[TextConfig.title] = title;
     result[TextConfig.body] = body;

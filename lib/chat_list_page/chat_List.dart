@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
@@ -8,8 +10,11 @@ import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/notifications/IRules.dart';
 import 'package:gupshop/notifications/NotificationEventType.dart';
 import 'package:gupshop/notifications/notificationSingleton.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/recentChats.dart';
+import 'package:gupshop/retriveFromFirebase/rooms.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
+import 'package:gupshop/video_call/VideoCallEntryPoint.dart';
 import 'package:gupshop/widgets/showMessageForFirstConversation.dart';
 
 
@@ -62,6 +67,8 @@ class ChatListState extends State<ChatList> {
 
   @override
   void initState() {
+    notificationInit();
+
     /// to create the friends collection everytime user starts the app
     /// *** this might be getting triggred everytime the user comes to the
     /// chat_list page. Check it @todo
@@ -71,6 +78,49 @@ class ChatListState extends State<ChatList> {
     chatListCache = ChatListSingleton().getChatListCacheMap();
     ///ToDo: analytics here for chatListCache
     super.initState();
+  }
+
+
+  notificationInit(){
+    NotificationSingleton notificationSingleton = new NotificationSingleton();
+    print("Active ${notificationSingleton.getNotifierObject().getActiveScreen()}");
+    print("Current ${this.widget.runtimeType.toString()}");
+
+    if(notificationSingleton.getNotifierObject().getActiveScreen() != this.widget.runtimeType.toString()) {
+      print("Setting Rule to ${this.widget.runtimeType.toString()}");
+      notificationSingleton.getNotifierObject().configLocalNotification(onSelectNotification: onSelectNotification);
+    }
+    notificationSingleton.getNotifierObject().setRule(this.widget);
+    notificationSingleton.getNotifierObject().setActiveScreen(this.widget.runtimeType.toString());
+  }
+
+
+  /// when the user taps the notification:
+  Future<void> onSelectNotification(String payload) async{
+    print("onSelectNotification : $payload");
+    /// deserializing our data
+    Map<String, dynamic> map = jsonDecode(payload);
+
+    print("map in onSelectNotification: ${map}");
+
+    String eventType = map[TextConfig.type];
+    print("eventType : $eventType");
+
+    /// video call:
+    if(eventType == TextConfig.VIDEO_CALL){
+      String name = map[TextConfig.name];
+
+      bool isActive = await Rooms().getActiveStatus(name);
+      print("isActive : $isActive");
+      if(isActive){
+
+        print("Calling with context $context");
+
+        VideoCallEntryPoint().join(context: context,name: name);
+      }
+
+    }
+
   }
 
 
@@ -93,8 +143,6 @@ class ChatListState extends State<ChatList> {
         child: Material(
           child: StreamBuilder<QuerySnapshot>(
               stream: RecentChats().orderedStream(userNumber: myNumber),
-//              Firestore.instance.collection("recentChats").document(
-//                  myNumber).collection("conversations").orderBy("timeStamp", descending: true).snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.data == null) return Center(child: CircularProgressIndicator());///to avoid error - "getter document was called on null"
 

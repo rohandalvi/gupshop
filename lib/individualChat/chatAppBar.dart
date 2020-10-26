@@ -8,6 +8,7 @@ import 'package:gupshop/video_call/VideoCallEntryPoint.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 
 class ChatAppBar extends StatelessWidget {
+  final String friendNumber;
   final VoidCallback backOnPressed;
   final VoidCallback avatarOnPressed;
   Widget displayPictureAvatar;
@@ -23,11 +24,13 @@ class ChatAppBar extends StatelessWidget {
 
   ChatAppBar({this.backOnPressed, this.avatarOnPressed, this.displayPictureAvatar,
     this.name, this.nameOnPressed, this.conversationId, this.userPhoneNo,
-    this.userName, this.groupExits, this.presence, this.presenceVisibility
+    this.userName, this.groupExits, this.presence, this.presenceVisibility,
+    this.friendNumber
   });
 
   @override
   Widget build(BuildContext context) {
+    print("friendNumber in chatAppBar ${friendNumber}");
     return SafeArea(
 //      child: Padding(
 //        padding: EdgeInsets.only(top: PaddingConfig.ten),
@@ -179,7 +182,7 @@ class ChatAppBar extends StatelessWidget {
                                   child: CustomIconButton(
                                     iconNameInImageFolder: IconConfig.videoCall,
                                     onPressed: (){
-                                      VideoCallEntryPoint().main(context: context, phoneNumber: this.userPhoneNo);
+                                      VideoCallEntryPoint().main(context: context, phoneNumber: friendNumber);
 //                                      VideoCallEntryPoint().main(context, this.userPhoneNo);
                                     },
                                   ),

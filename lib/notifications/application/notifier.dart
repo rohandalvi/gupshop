@@ -83,7 +83,7 @@ class Notifier{
           //classMessage = message;
           print("message in registerNotification : ${message}");
 
-          String eventType = message[TextConfig.data][TextConfig.type];
+          String eventType = Platform.isAndroid ? message[TextConfig.data][TextConfig.type] : message[TextConfig.type];
 
           NotificationEventType type = getNotificationEventType(eventType);
           print("eventType in registerNotification : ${eventType}");

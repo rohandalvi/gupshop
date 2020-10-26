@@ -1,7 +1,10 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/notifications/models/NotificationRequest.dart';
+import 'package:gupshop/responsive/collectionPaths.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -20,7 +23,7 @@ class NotificationsManager {
     _firebaseMessaging.requestNotificationPermissions(
       const IosNotificationSettings(sound: true, badge: true, alert: true),
     );
-
+    _updateToken();
     _firebaseMessaging.configure(onMessage: onMessage, onResume: onResume, onLaunch: onLaunch);
   }
 
@@ -87,5 +90,11 @@ class NotificationsManager {
       if(!data.containsKey(field)) return false;
     }
     return true;
+  }
+
+  void _updateToken() async {
+    String myPhoneNumber = await UserDetails().getUserPhoneNoFuture();
+    String token = await getToken();
+    CollectionPaths.notificationTokenPath.document(myPhoneNumber).setData({TextConfig.token: token});
   }
 }

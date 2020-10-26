@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
@@ -28,10 +29,11 @@ class ConferenceRoom with ChangeNotifier {
   final List<StreamSubscription> _streamSubscriptions = [];
   final List<RemoteDataTrack> _dataTracks = [];
   final List<String> _messages = [];
+  int maxParticipants = 0;
 
   CameraCapturer _cameraCapturer;
   Room _room;
-  Timer _timer;
+  Timer timer;
 
   bool flashEnabled = false;
 
@@ -84,8 +86,8 @@ class ConferenceRoom with ChangeNotifier {
 
   Future<void> disconnect() async {
     Debug.log('ConferenceRoom.disconnect()');
-    if (_timer != null) {
-      _timer.cancel();
+    if (timer != null) {
+      timer.cancel();
     }
     await _room.disconnect();
   }
@@ -244,6 +246,7 @@ class ConferenceRoom with ChangeNotifier {
         videoEnabled: true,
       ),
     );
+    maxParticipants = max(maxParticipants, _participants.length);
     for (final remoteParticipant in room.remoteParticipants) {
       var participant = _participants.firstWhere((participant) => participant.id == remoteParticipant.sid, orElse: () => null);
       if (participant == null) {
@@ -257,9 +260,14 @@ class ConferenceRoom with ChangeNotifier {
     notifyListeners();
     _completer.complete(room);
 
-    _timer = Timer.periodic(const Duration(minutes: 1), (_) {
+    timer = Timer.periodic(const Duration(minutes: 1), (_) {
       // Let's see if we can send some data over the DataTrack API
       sendMessage('And another minute has passed since I connected...');
+      if (maxParticipants <= 1) {
+        // since the max participants seen until now is 1, and since over 1 min has passed,
+        // we can disconnect this call as no other participant has joined it.
+        notifyListeners();
+      }
       // Also try the ByteBuffer way of sending data
       final list = 'This data has been sent over the ByteBuffer channel of the DataTrack API'.codeUnits;
       var bytes = Uint8List.fromList(list);
@@ -300,8 +308,13 @@ class ConferenceRoom with ChangeNotifier {
 
   void _onParticipantDisconnected(RoomParticipantDisconnectedEvent event) {
     Debug.log('ConferenceRoom._onParticipantDisconnected: ${event.remoteParticipant.sid}');
+    print("Disconnect triggered");
     _participants.removeWhere((ParticipantWidget p) => p.id == event.remoteParticipant.sid);
     notifyListeners();
+//    if(_participants.length == 1) {
+//      disconnect();
+//      dispose();
+//    }
   }
 
   Future _onCameraSwitched(CameraSwitchedEvent event) async {

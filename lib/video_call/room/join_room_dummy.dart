@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/service/VideoCallBackendService.dart';
 import 'package:gupshop/video_call/models/twilio/room_update_request.dart';
 import 'package:gupshop/video_call/room/room_bloc.dart';
@@ -11,8 +12,9 @@ class VideoCallRoomNavigator {
   void startVideoCall(BuildContext context, VideoCallBackendService backendService, String phoneNumber) async{
 
     RoomBloc roomBloc = new RoomBloc(backendService: backendService);
-    RoomModel roomModel = await roomBloc.submit();
-    backendService.pushRoomUpdates(RoomUpdateRequest(name: roomModel.name, token: roomModel.token, identity: roomModel.identity,caller: phoneNumber, inviteePhoneNumber: phoneNumber ));
+    RoomModel roomModel = await roomBloc.submit(isCreateRoomEnabled: true);
+    String callerNumber = await UserDetails().getUserPhoneNoFuture();
+    backendService.pushRoomUpdates(RoomUpdateRequest(name: roomModel.name, token: roomModel.token, identity: roomModel.identity,caller: callerNumber, inviteePhoneNumber: phoneNumber ));
     await Navigator.of(context).push(
       MaterialPageRoute<ConferencePage>(
         fullscreenDialog: true,
@@ -22,9 +24,11 @@ class VideoCallRoomNavigator {
     roomBloc.dispose();
   }
 
-  void joinVideoCall({BuildContext context, VideoCallBackendService backendService, String name, String token, String identity})async {
+  void joinVideoCall({BuildContext context, VideoCallBackendService backendService, String name})async {
     RoomBloc roomBloc = new RoomBloc(backendService: backendService);
-    RoomModel roomModel = new RoomModel(name: name, token: token, identity: identity);
+    roomBloc.updateName(name);
+    RoomModel roomModel = await roomBloc.submit();
+    print("in joinVideoCall, context: $context");
     await Navigator.of(context).push(
       MaterialPageRoute<ConferencePage>(
         fullscreenDialog: true,

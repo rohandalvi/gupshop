@@ -41,11 +41,13 @@ class RoomBloc {
         active: false));
   }
 
-  Future<RoomModel> submit() async {
+  Future<RoomModel> submit({bool isCreateRoomEnabled = false}) async {
     updateWith(isSubmitted: true, isLoading: true);
     try {
-      print("Creating room");
-      await _createRoom();
+      if(isCreateRoomEnabled) {
+        print("Creating room");
+        await _createRoom();
+      }
       print("Creating token");
       await _createToken();
       return model;

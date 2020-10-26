@@ -49,7 +49,6 @@ class IndividualChat extends StatefulWidget implements IRules{
   bool groupDeleted;
   String imageURL;
 
-
   IndividualChat(
       {Key key, @required this.conversationId, @required this.userPhoneNo, @required this.userName,
         @required this.friendName,this.forwardMessage,
@@ -84,7 +83,7 @@ class IndividualChat extends StatefulWidget implements IRules{
 class _IndividualChatState extends State<IndividualChat> {
   Presence presence;
   String value = ""; //TODo
-
+  BuildContext currentContext;
   TextEditingController _controller = new TextEditingController(); //to clear the text  when user hits send button//TODO- for enter
   ScrollController listScrollController = new ScrollController(); //for scrolling the screen
   StreamController streamController= new StreamController();
@@ -281,15 +280,11 @@ class _IndividualChatState extends State<IndividualChat> {
     print("map in onSelectNotification: ${map}");
 
     String eventType = map[TextConfig.type];
-//    String eventType = map[TextConfig.data][TextConfig.type];
     print("eventType : $eventType");
     /// message
     if(eventType == TextConfig.NEW_CHAT_MESSAGE){
       /// payload for android and iOS is different
       String notificationFromNumberIndividual = map[TextConfig.notificationFromNumberIndividual];
-      //String notificationFromName = map[TextConfig.notificationFromName];
-//   List<dynamic> notificationFromNumber = map[TextConfig.notificationFromNumber];
-//    print("payload in onSelectNotification : ${notificationFromNumber}");
       String notifierConversationId = map[TextConfig.notifierConversationId];
 
 
@@ -313,20 +308,6 @@ class _IndividualChatState extends State<IndividualChat> {
         userPhoneNo: widget.userPhoneNo,
         userName: widget.userName,
       ).navigateNoBrackets(context);
-//      /// navigate
-//      switch(eventType) {
-//        case "NEW_CHAT_MESSAGE":
-//          await NavigateToIndividualChat(
-//            conversationId:notifierConversationId,
-//            listOfFriendNumbers: listOfFriendNumbers,
-//            friendName: name,
-//
-//            userPhoneNo: widget.userPhoneNo,
-//            userName: widget.userName,
-//          ).navigateNoBrackets(context);
-//          break;
-//        default: print("Nothing to notify");
-//      }
     }
 
     /// video call:
@@ -336,10 +317,10 @@ class _IndividualChatState extends State<IndividualChat> {
       bool isActive = await Rooms().getActiveStatus(name);
       print("isActive : $isActive");
       if(isActive){
-        String token = await Rooms().getToken(name);
-        String identity = await Rooms().getIdentity(name);
 
-        VideoCallEntryPoint().join(context: context,name: name,token: token,identity: identity);
+        print("Calling with context $currentContext");
+
+        VideoCallEntryPoint().join(context: currentContext,name: name);
       }
 
     }
@@ -352,6 +333,8 @@ class _IndividualChatState extends State<IndividualChat> {
   Widget build(BuildContext context){
     presence = new Presence(widget.userPhoneNo);
 
+
+    currentContext = context;
 
 //    Notifier().foreGround(
 //      currentChatWithNumber: widget.listOfFriendNumbers,

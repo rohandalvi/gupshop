@@ -9,9 +9,9 @@ class VideoCallEntryPoint {
     VideoCallRoomNavigator().startVideoCall(context, FirebaseFunctions.instance, phoneNumber);
   }
 
-  join({BuildContext context, String name, String token, String identity}){
-    print("in join");
+  join({BuildContext context, String name}){
+    print("in join , context: $context");
     VideoCallRoomNavigator().joinVideoCall(context:context,backendService:
-    FirebaseFunctions.instance, name: name, token: token, identity: identity);
+    FirebaseFunctions.instance, name: name);
   }
 }

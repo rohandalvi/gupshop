@@ -27,6 +27,7 @@ class _ConferencePageState extends State<ConferencePage> {
   final StreamController<double> _onButtonBarHeightStreamController = StreamController<double>.broadcast();
   ConferenceRoom _conferenceRoom;
   StreamSubscription _onConferenceRoomException;
+  int _lastKnownParticipantCount = 0;
 
   @override
   void initState() {
@@ -387,6 +388,18 @@ class _ConferencePageState extends State<ConferencePage> {
   }
 
   void _conferenceRoomUpdated() {
-    setState(() {});
+    print("Participants ${_conferenceRoom.participants.length}");
+    if (_conferenceRoom.participants.length == 1 && _conferenceRoom.participants.length < _lastKnownParticipantCount) {
+      print("Disconnecting the call since no one on the call");
+      _onHangup();
+    } else if(_conferenceRoom.timer.tick == 1 && _conferenceRoom.maxParticipants == 1) {
+      print("Disconnecting since no one picked up the call");
+      _onHangup();
+    } else {
+      print("Tick tock ${_conferenceRoom.timer.tick}");
+      _lastKnownParticipantCount = _conferenceRoom.participants.length;
+      setState(() {});
+    }
+
   }
 }

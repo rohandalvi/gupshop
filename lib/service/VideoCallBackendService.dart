@@ -112,9 +112,9 @@ class FirebaseFunctions implements VideoCallBackendService {
   }
 
   @override
-  void pushRoomUpdates(RoomUpdateRequest roomUpdateRequest) {
+  void pushRoomUpdates(RoomUpdateRequest roomUpdateRequest) async {
     // TODO: implement pushRoomUpdates
-    cf.getHttpsCallable(functionName: 'pushRoomUpdates').call(roomUpdateRequest.toMap());
+    await cf.getHttpsCallable(functionName: 'pushRoomUpdates').call(roomUpdateRequest.toMap());
   }
 
 

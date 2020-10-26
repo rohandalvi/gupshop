@@ -245,6 +245,7 @@ class TextConfig{
   static const String messageTypingCollectionName = 'messageTyping';
   static const String videosCollectionName = 'videos';
   static const String roomsCollectionName = 'rooms';
+  static const String notificationTokenCollectionName = 'notificationToken';
 
 
   /// ======================================================================== ///

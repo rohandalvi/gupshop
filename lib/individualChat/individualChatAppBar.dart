@@ -66,6 +66,7 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
   @override
   Widget build(BuildContext context) {
     return ChatAppBar(
+      friendNumber: widget.friendN,
       backOnPressed: () async{
         /// if a person is removed from the group, then the subscription
         /// cannot be cancelled.

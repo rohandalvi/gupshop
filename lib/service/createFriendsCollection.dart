@@ -81,7 +81,7 @@ class CreateFriendsCollection{
     Map isValid = documentSnapshot.data;
 
     if(isValid == null) {
-      print("not a friend");
+//      print("not a friend");
       return false;}
     else {
       print("is a friend");

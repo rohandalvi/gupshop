@@ -29,4 +29,6 @@ class CollectionPaths{
   static CollectionReference messageTypingCollectionPath =  getBase(TextConfig.messageTypingCollectionName);
   static CollectionReference videosCollectionPath =  getBase(TextConfig.videosCollectionName);
   static CollectionReference roomsCollectionPath =  getBase(TextConfig.roomsCollectionName);
+  static CollectionReference notificationTokenPath =  getBase(TextConfig.notificationTokenCollectionName);
+
 }

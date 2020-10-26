@@ -8,6 +8,7 @@ import 'package:gupshop/PushToFirebase/pushToMessageTypingCollection.dart';
 import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -124,39 +125,17 @@ class _CreateGroupName_ScreenState extends State<CreateGroupName_Screen> {
                       message: TextConfig.nameRequiredText,
                       customContext: context,
                     ).showFlushBarStopHand();
-//                    Flushbar(
-//                      icon: SvgPicture.asset(
-//                        'images/stopHand.svg',
-//                        width: IconConfig.flushbarIconThirty,
-//                        height: IconConfig.flushbarIconThirty,
-//                      ),
-//                      flushbarStyle: FlushbarStyle.GROUNDED,
-//                      backgroundColor: Colors.white,
-//                      duration: Duration(seconds: 5),
-//                      forwardAnimationCurve: Curves.decelerate,
-//                      reverseAnimationCurve: Curves.easeOut,
-//                      titleText: Text(
-//                        'Name required',
-//                        style: GoogleFonts.openSans(
-//                          textStyle: TextStyle(
-//                            fontWeight: FontWeight.w600,
-//                            color: ourBlack,
-//                          ),
-//                        ),
-//                      ),
-//                      message: "Please enter name to move forward",
-//                    )..show(context);
                   } else{
-                    NavigateToIndividualChat(
-                        conversationId: id,
-                        userName: userName,
-                      userPhoneNo: userPhoneNo,
-                      friendName: groupName,
-                      data: null,
-                      notGroupMemberAnymore: false,
-                      listOfFriendNumbers: listOfNumbersInAGroup,
-                    ).navigateNoBrackets(context);
-                    //CustomNavigator().navigateToIndividualChat(context, id, userName, userPhoneNo, groupName, listOfNumbersInAGroup, null, false);
+                    Map<String,dynamic> map = new Map();
+                    map[TextConfig.conversationId] = id;
+                    map[TextConfig.userName] = userName;
+                    map[TextConfig.userPhoneNo] = userPhoneNo;
+                    map[TextConfig.friendName] = groupName;
+                    map[TextConfig.forwardMessage] = null;
+                    map[TextConfig.notAGroupMemberAnymore] = false;
+                    map[TextConfig.friendNumberList] = listOfNumbersInAGroup;
+
+                    Navigator.pushNamed(context, NavigatorConfig.individualChat, arguments: map);
                   }
                 },
               ),

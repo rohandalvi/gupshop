@@ -9,7 +9,7 @@ import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/location/usersLocation.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToAddressList.dart';
-import 'package:gupshop/navigators/navigateToSubCategorySearch.dart';
+
 import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';

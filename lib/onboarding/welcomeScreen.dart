@@ -8,6 +8,8 @@ import 'package:gupshop/onboarding/login_screen.dart';
 import 'package:gupshop/onboarding/welcome.dart';
 import 'package:gupshop/passcode/customAppLock.dart';
 import 'package:gupshop/passcode/unlockPasscode.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home/home.dart';
@@ -60,13 +62,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             return CustomAppLock(
               lockScreen: UnlockPasscode(
                 isValidCallback: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Home(userPhoneNo: userPhoneNo,
-                          userName: userName),//pass Name() here and pass Home()in name_screen
-                      )
-                  );
+                  Map<String,String> map = new Map();
+                  map[TextConfig.userPhoneNo] = userPhoneNo;
+                  map[TextConfig.userName] = userName;
+
+                  Navigator.pushNamed(context, NavigatorConfig.home, arguments: map);
                 },
               ),
             );
@@ -85,30 +85,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   appLock(){
-//   bool result = await Navigator.push(
-//        context,
-//        MaterialPageRoute(
-//          builder: (context) => CustomAppLock(
-//            lockScreen:
-//            UnlockPasscode(
-//              didUnLock: (result) {
-//                setState(() {
-//                  unLockedStatus = result;
-//                });
-//              },
-//            ),
-//          ),//pass Name() here and pass Home()in name_screen
-//        )
-//    );
-//   if(result == true){
-//     return Home(
-//       userPhoneNo: userPhoneNo,
-//       userName: userName,
-//     );
-//   }
-
-
-
     if(unLockedStatus == true){
      return Home(
        userPhoneNo: userPhoneNo,

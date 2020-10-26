@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
+import 'package:gupshop/home/home.dart';
 import 'package:gupshop/home/homeAppLock.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/onboarding/helper.dart';
 import 'package:gupshop/passcode/customAppLock.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/onboarding/welcomeScreen.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/passcode/unlockPasscode.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 //void main() async{
 //  /// making sure that we can use shared_preferences without causing an
 //  /// exception use WidgetsFlutterBinding.ensureInitialized()
@@ -78,26 +81,11 @@ class MyApp extends StatelessWidget {
                 accentColor: subtitleGray,
               ),
               title: 'Chat home',
+              routes: {
+                NavigatorConfig.home : (context){return homeRoute(context);}
+              },
               debugShowCheckedModeBanner: false,
-//              navigatorKey: _navigatorKey,
               home:WelcomeScreen(lockEnabled: enabled,)
-//              HomeAppLock(enabled: enabled,),
-              //WelcomeScreen(lockEnabled: enabled,),
-              //UnlockPasscode(),
-//              Builder(
-//                builder: (context) {
-//                  print("context in builder : $context");
-//                  return
-//                  AppLock(
-//                    enabled: enabled,
-//                    lockScreen: UnlockPasscode(navigatorKey: _navigatorKey,),
-//                    builder: (args) {
-////                      print("AppLock state MyApp: ${AppLock.of(context)}");
-//                      return WelcomeScreen();
-//                    },
-//                  )
-//                }
-//              ),
             );
           }
         );
@@ -105,29 +93,10 @@ class MyApp extends StatelessWidget {
     );
   }
 
-
-//  Widget Function(Object) builder(args){
-//    return WelcomeScreen();
-//  }
-//
-//  void _didUnlockOnAppLaunch(Object args) {
-//    this._didUnlockForAppLaunch = true;
-////    this.widget.builder(ModalRoute.of(context).settings.arguments);
-////    _navigatorKey.currentState.push(
-//    Navigator.push(
-//        context,
-//        MaterialPageRoute(
-//          builder: (context) => builder(ModalRoute.of(context).settings.arguments),//pass Name() here and pass Home()in name_screen
-//        )
-//    );
-////    _navigatorKey.currentState
-////        .pushReplacementNamed('/unlocked', arguments: args);
-//  }
-//
-//  Widget get _lockScreen {
-//    return WillPopScope(
-//      child: UnlockPasscode(),
-//      onWillPop: () => Future.value(false),
-//    );
-//  }
+  Widget homeRoute(BuildContext context){
+    Map<String,String> map = ModalRoute.of(context).settings.arguments;
+    String userPhoneNo = map[TextConfig.userPhoneNo];
+    String userName = map[TextConfig.userName];
+    return Home(userPhoneNo: userPhoneNo,userName: userName);
+  }
 }

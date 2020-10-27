@@ -110,7 +110,10 @@ class _SubCategoriesCheckBoxState extends State<SubCategoriesCheckBox> {
   Widget appBarBody(BuildContext context) {
       return ContactSearch(
         suggestions: widget.subCategoriesList,
-        navigate: NavigateToBazaarOnBoardingHome().navigate(context),
+        navigate: (){
+          Navigator.pushNamed(context,NavigatorConfig.bazaarOnBoardingHome);
+        },
+        //NavigateToBazaarOnBoardingHome().navigate(context),
         onSearch: searchList,
         hintText: TextConfig.speciality,
         onItemFound: (DocumentSnapshot doc, int index) {

@@ -10,6 +10,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/AddressListRoute.dart';
 import 'package:gupshop/navigators/bazaarAdvertisementRoute.dart';
 import 'package:gupshop/navigators/bazaarLocationRoute.dart';
+import 'package:gupshop/navigators/bazaarOnBoradingHomeRoute.dart';
 import 'package:gupshop/onboarding/helper.dart';
 import 'package:gupshop/passcode/customAppLock.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
@@ -97,6 +98,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.bazaarAdvertisement : (context){return BazaarAdvertisementRoute.main(context);},
                 NavigatorConfig.addressList : (context){return AddressListRoute.main(context);},
                 NavigatorConfig.bazaarLocation : (context){return BazaarLocationRoute.main(context);},
+                NavigatorConfig.bazaarOnBoardingHome : (context){return BazaarOnBoardingHomeRoute.main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

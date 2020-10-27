@@ -4,7 +4,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/bazaarOnBoarding/changeBazaarWalasPicturesAppBar.dart';
 import 'package:gupshop/bazaarOnBoarding/pushToFirebase.dart';
 import 'package:gupshop/image/fullScreenPictureVideos.dart';
-import 'package:gupshop/navigators/navigateToBazaarSubCategorySearch.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';

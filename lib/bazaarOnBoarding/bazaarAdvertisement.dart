@@ -8,7 +8,6 @@ import 'package:gupshop/bazaar/categories.dart';
 import 'package:gupshop/bazaarHomeService/serviceAtHomeUI.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToBazaarLocation.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';

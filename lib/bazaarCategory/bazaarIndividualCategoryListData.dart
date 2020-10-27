@@ -214,7 +214,14 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
                   CustomText(
                     text: widget.addressName,textColor: primaryColor,
                     onTap: () async{
-                      bool tempIsAddressChanged = await NavigateToAddressList(userPhoneNo: userPhoneNo).navigateNoBrackets(context);
+                      Map<String,dynamic> navigatorMap = new Map();
+                      navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
+
+                      /// changing from bool to dynamic else was getting error
+                      /// type 'MaterialPageRoute<dynamic>' is not a subtype of type 'Route<bool>'
+                      /// While this loses some type safety, s works fine for now.
+                      dynamic tempIsAddressChanged = await Navigator.pushNamed(context, NavigatorConfig.addressList, arguments: navigatorMap);
+                      //await NavigateToAddressList(userPhoneNo: userPhoneNo).navigateNoBrackets(context);
                       if(tempIsAddressChanged == true){
                         setState(() {
                           isAddressChanged = tempIsAddressChanged;

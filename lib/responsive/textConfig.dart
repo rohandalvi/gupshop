@@ -39,6 +39,11 @@ class TextConfig{
   /// bazaarLocation:
   static String location = 'location';
   static String loadingMap = 'Loading map';
+  static String videoChanged = 'videoChanged';
+  static String aSubCategoryData = 'aSubCategoryData';
+  static String databaseLatitude = 'databaseLatitude';
+  static String databaseLongitude = 'databaseLongitude';
+  static String locationNotNull = 'locationNotNull';
 
   /// chatList:
   static String chatListCache = 'chatListCache';

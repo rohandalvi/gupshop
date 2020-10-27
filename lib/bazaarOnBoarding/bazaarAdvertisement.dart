@@ -10,6 +10,7 @@ import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarLocation.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
@@ -248,28 +249,30 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
 
           }
 
-          NavigateToBazaarLocation(
-            category: widget.category,
-            categoryData: widget.categoryData,
-            subCategoryMap: widget.subCategoryMap,
-            userName: userName,
-            userPhoneNo: userPhoneNo,
-            addListData: widget.addListData,
-            deleteListData: widget.deleteListData,
-            videoChanged: videoChanged,
-            videoURL: videoURL,
-            aSubCategoryData: aSubCategoryData,
-            databaseLatitude: databaseLatitude,
-            databaseLongitude: databaseLongitude,
-            listOfSubCategoriesForData: widget.listOfSubCategoriesForData,
-            listOfSubCategories: widget.listOfSubCategories,
-            addressName: addressName,
-            radius: radius,
-            location: location,
-            locationNotNull: locationNotNull,
-            homeServiceMap: widget.homeServiceMap,
-            isBazaarWala: isBazaarWala
-          ).navigateNoBrackets(context);
+          Map<String,dynamic> navigatorMap = new Map();
+          navigatorMap[TextConfig.category] = widget.category;
+          navigatorMap[TextConfig.categoryData] = widget.categoryData;
+          navigatorMap[TextConfig.subCategoryMap] = widget.subCategoryMap;
+          navigatorMap[TextConfig.userName] = userName;
+          navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
+          navigatorMap[TextConfig.addListData] = widget.addListData;
+          navigatorMap[TextConfig.deleteListData] = widget.deleteListData;
+          navigatorMap[TextConfig.videoChanged] = videoChanged;
+          navigatorMap[TextConfig.videoURL] = videoURL;
+          navigatorMap[TextConfig.aSubCategoryData] = aSubCategoryData;
+          navigatorMap[TextConfig.databaseLatitude] = databaseLatitude;
+          navigatorMap[TextConfig.databaseLongitude] = databaseLongitude;
+          navigatorMap[TextConfig.listOfSubCategoriesForData] = widget.listOfSubCategoriesForData;
+          navigatorMap[TextConfig.listOfSubCategories] = widget.listOfSubCategories;
+          navigatorMap[TextConfig.addressName] = addressName;
+          navigatorMap[TextConfig.radius] = radius;
+          navigatorMap[TextConfig.location] = location;
+          navigatorMap[TextConfig.locationNotNull] = locationNotNull;
+          navigatorMap[TextConfig.homeServiceMap] = widget.homeServiceMap;
+          navigatorMap[TextConfig.isBazaarWala] = isBazaarWala;
+
+
+          Navigator.pushNamed(context, NavigatorConfig.bazaarLocation, arguments: navigatorMap);
         }if(videoNotNull == false){
           CustomFlushBar(
             customContext: context,

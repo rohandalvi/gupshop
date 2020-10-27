@@ -5,5 +5,6 @@ class NavigatorConfig{
   static String subCategorySearch = 'subCategorySearch';
   static String bazaarAdvertisement = 'bazaarAdvertisement';
   static String addressList = 'addressList';
+  static String bazaarLocation = 'addressList';
 
 }

@@ -82,15 +82,5 @@ class CategorySelector extends StatelessWidget {
     navigatorMap[TextConfig.listOfSubCategoriesForData] = listOfSubCategoriesForData;
 
     Navigator.pushNamed(context, NavigatorConfig.bazaarOnBoardingProfile, arguments: navigatorMap);
-
-//    NavigateToBazaarOnBoardingProfile(
-//      category:catergoryName,
-//      categoryData: categoryNameForData,
-//      listOfSubCategories: listOfSubCategories,
-//      userPhoneNo: userNumber,
-//      userName: userName,
-//      subCategoryMap: subCategoryMap,
-//      listOfSubCategoriesForData: listOfSubCategoriesForData,
-//    ).navigateNoBrackets(context);
   }
 }

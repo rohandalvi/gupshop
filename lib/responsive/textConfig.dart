@@ -325,6 +325,7 @@ class TextConfig{
   static const String subCategoriesListFuture = 'subCategoriesListFuture';
   static const String subCategoryMap = 'subCategoryMap';
   static const String subCategoriesList = 'subCategoriesList';
+  static const String subCategoriesListData = 'subCategoriesListData';
   static const String categoryData = 'categoryData';
   static const String category = 'category';
 

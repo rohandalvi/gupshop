@@ -6,6 +6,8 @@ import 'package:gupshop/bazaarOnBoarding/pushToFirebase.dart';
 import 'package:gupshop/image/fullScreenPictureVideos.dart';
 import 'package:gupshop/navigators/navigateToBazaarSubCategorySearch.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 
@@ -145,15 +147,15 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
                   homeServiceMap: widget.homeServiceMap,
                 ).main();
 
-                NavigateToBazaarSubCategorySearch(
-                  categoryData: widget.categoryData,
-                  category: widget.category,
-                  subCategoriesList: widget.listOfSubCategories,
-                  subCategoryMap: widget.subCategoryMap,
-                  bazaarWalaName: widget.userName,
-                  bazaarWalaPhoneNo: widget.userPhoneNo,
-                ).navigateNoBrackets(context);
-                //NavigateToViewProfileAsBazaarWalaSubCategories().navigateNoBrackets(context);
+                Map<String,dynamic> navigatorMap = new Map();
+                navigatorMap[TextConfig.categoryData] = widget.categoryData;
+                navigatorMap[TextConfig.category] = widget.category;
+                navigatorMap[TextConfig.subCategoriesList] = widget.listOfSubCategories;
+                navigatorMap[TextConfig.subCategoryMap] = widget.subCategoryMap;
+                navigatorMap[TextConfig.bazaarWalaName] = widget.userName;
+                navigatorMap[TextConfig.bazaarWalaPhoneNo] = widget.userPhoneNo;
+
+                Navigator.pushNamed(context, NavigatorConfig.bazaarSubCategorySearch, arguments: navigatorMap);
               },
             ),
           );

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:gupshop/bazaarCategory/subCategorySearch.dart';
+import 'package:gupshop/bazaarOnBoarding/bazaarSubCategorySearch.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/home/home.dart';
 import 'package:gupshop/home/homeAppLock.dart';
@@ -12,6 +13,7 @@ import 'package:gupshop/navigators/BazaarOnBoardingProfileRoute.dart';
 import 'package:gupshop/navigators/bazaarAdvertisementRoute.dart';
 import 'package:gupshop/navigators/bazaarLocationRoute.dart';
 import 'package:gupshop/navigators/bazaarOnBoradingHomeRoute.dart';
+import 'package:gupshop/navigators/bazaarSubCategorySearchRoute.dart';
 import 'package:gupshop/onboarding/helper.dart';
 import 'package:gupshop/passcode/customAppLock.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
@@ -101,6 +103,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.bazaarLocation : (context){return BazaarLocationRoute.main(context);},
                 NavigatorConfig.bazaarOnBoardingHome : (context){return BazaarOnBoardingHomeRoute.main(context);},
                 NavigatorConfig.bazaarOnBoardingProfile : (context){return BazaarOnBoardingProfileRoute.main(context);},
+                NavigatorConfig.bazaarSubCategorySearch : (context){return BazaarSubCategorySearchRoute.main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

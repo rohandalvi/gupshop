@@ -8,6 +8,7 @@ import 'package:gupshop/image/gridViewContainer.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToBazaarOnBoardingProfile.dart';
 import 'package:gupshop/navigators/navigateToSubCategoriesCheckBoxData.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
 
@@ -72,14 +73,25 @@ class CategorySelector extends StatelessWidget {
 
     subCategoryMap[listOfSubCategories[0]] = listOfSubCategoriesForData[0];
 
-    NavigateToBazaarOnBoardingProfile(
-      category:catergoryName,
-      categoryData: categoryNameForData,
-      listOfSubCategories: listOfSubCategories,
-      userPhoneNo: userNumber,
-      userName: userName,
-      subCategoryMap: subCategoryMap,
-      listOfSubCategoriesForData: listOfSubCategoriesForData,
-    ).navigateNoBrackets(context);
+    Map<String,dynamic> navigatorMap = new Map();
+    navigatorMap[TextConfig.category] = catergoryName;
+    navigatorMap[TextConfig.categoryData] = categoryNameForData;
+    navigatorMap[TextConfig.listOfSubCategories] = listOfSubCategories;
+    navigatorMap[TextConfig.userPhoneNo] = userNumber;
+    navigatorMap[TextConfig.userName] = userName;
+    navigatorMap[TextConfig.subCategoryMap] = subCategoryMap;
+    navigatorMap[TextConfig.listOfSubCategoriesForData] = listOfSubCategoriesForData;
+
+    Navigator.pushNamed(context, NavigatorConfig.bazaarOnBoardingProfile, arguments: navigatorMap);
+
+//    NavigateToBazaarOnBoardingProfile(
+//      category:catergoryName,
+//      categoryData: categoryNameForData,
+//      listOfSubCategories: listOfSubCategories,
+//      userPhoneNo: userNumber,
+//      userName: userName,
+//      subCategoryMap: subCategoryMap,
+//      listOfSubCategoriesForData: listOfSubCategoriesForData,
+//    ).navigateNoBrackets(context);
   }
 }

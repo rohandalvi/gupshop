@@ -7,7 +7,6 @@ import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
 import 'package:gupshop/bazaarHomeService/homeServiceText.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToBazaarHomeScreen.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
@@ -15,7 +14,6 @@ import 'package:gupshop/retriveFromFirebase/getUsersLocation.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
-import 'package:gupshop/location/usersLocation.dart';
 
 class SubCategorySearch extends StatefulWidget {
   final String category;

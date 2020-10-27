@@ -1,6 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gupshop/navigators/navigateToAddressList.dart';
-import 'package:gupshop/navigators/navigateToBazaarIndividualCategoryListDisplay.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/updateInFirebase/updateUsersLocation.dart';

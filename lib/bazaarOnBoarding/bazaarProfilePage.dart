@@ -1,27 +1,4 @@
-//import 'dart:async';
-//import 'dart:collection';
-//import 'dart:io';
-//
-//import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:flutter/material.dart';
-//import 'package:flutter/cupertino.dart';
-//import 'package:flutter/rendering.dart';
-//import 'package:geolocator/geolocator.dart';
-//import 'package:gupshop/bazaar/bazaarProfileSetVideo.dart';
-//import 'package:gupshop/bazaar/categories.dart';
-//import 'package:gupshop/bazaar/createMapFromListOfCategories.dart';
-//import 'package:gupshop/PushToFirebase/setDocumentIdsForCollections.dart';
-//import 'package:gupshop/bazaar/bazaarProfileSetLocation.dart';
-//import 'package:gupshop/modules/userDetails.dart';
-//import 'package:gupshop/location/location_service.dart';
-//import 'package:gupshop/navigators/navigateToHome.dart';
-//import 'package:gupshop/responsive/paddingConfig.dart';
-//import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
-//import 'package:gupshop/widgets/customAppBar.dart';
-//import 'package:gupshop/widgets/customFloatingActionButton.dart';
-//import 'package:gupshop/widgets/customFlushBar.dart';
-//import 'package:gupshop/widgets/customRaisedButton.dart';
-//import 'package:gupshop/widgets/customText.dart';
+
 //
 //
 //// bazaarHomeScreen=>

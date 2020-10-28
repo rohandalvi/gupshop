@@ -4,6 +4,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/updateInFirebase/updateBazaarWalasBasicProfile.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -49,7 +50,12 @@ class _ProductDetailsAppBarState extends State<ProductDetailsAppBar> {
         ],
         onPressed: (){
           if(widget.sendHome == true){
-            NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
+            Map<String,dynamic> navigatorMap = new Map();
+            navigatorMap[TextConfig.initialIndex] = 1;
+            navigatorMap[TextConfig.userPhoneNo] = widget.userPhoneNo;
+            navigatorMap[TextConfig.userName] = widget.userName;
+
+            Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
           }else {
             Navigator.pop(context);
           }

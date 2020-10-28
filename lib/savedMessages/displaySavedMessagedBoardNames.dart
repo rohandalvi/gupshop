@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToABoard.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/clickableText.dart';

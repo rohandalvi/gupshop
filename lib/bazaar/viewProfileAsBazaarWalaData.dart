@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -26,7 +27,12 @@ class ViewProfileAsBazaarWalaData extends StatelessWidget {
                 title: GestureDetector(
                   child: CustomText(text: categoryName,),
                   onTap: (){
-                    NavigateToProductDetailPage(category: categoryName).navigateNoBrackets(context);
+                    Map<String,dynamic> navigatorMap = new Map();
+                    navigatorMap[TextConfig.category] = categoryName;
+
+                    Navigator.pushNamed(context, NavigatorConfig.productDetailPage, arguments: navigatorMap);
+
+                    //NavigateToProductDetailPage(category: categoryName).navigateNoBrackets(context);
                   },
                 ),
               );

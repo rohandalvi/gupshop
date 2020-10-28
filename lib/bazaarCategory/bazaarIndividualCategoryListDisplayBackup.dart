@@ -1,12 +1,4 @@
-//import 'package:flutter/cupertino.dart';
-//import 'package:flutter/material.dart';
-//import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
-//import 'package:gupshop/bazaarProductDetails/productDetail.dart';
-//import 'package:gupshop/modules/userDetails.dart';
-//import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
-//import 'package:gupshop/responsive/iconConfig.dart';
-//import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
-//import 'package:gupshop/widgets/customIconButton.dart';
+
 //
 //import 'package:gupshop/widgets/customText.dart';
 //

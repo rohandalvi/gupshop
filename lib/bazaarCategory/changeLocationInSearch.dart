@@ -7,6 +7,7 @@ import 'package:gupshop/bazaarOnBoarding/bazaarTrace.dart';
 import 'package:gupshop/location/location_service.dart';
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
 import 'package:gupshop/location/usersLocation.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 
 class ChangeLocationInSearch{
@@ -66,13 +67,22 @@ class ChangeLocationInSearch{
 
     GeoPoint location = await LocationService().getHomeLocation(number: userNumber);
 
-    List latLangList = await NavigateToCustomMap(
-      latitude: location.latitude,
-      longitude: location.longitude,
-      showRadius: false,
-      placeholder: placeholder,
-      showBackButton: showBackButton,
-    ).navigateNoBrackets(context);
+    Map<String,dynamic> navigatorMap = new Map();
+    navigatorMap[TextConfig.latitude] = location.latitude;
+    navigatorMap[TextConfig.longitude] = location.longitude;
+    navigatorMap[TextConfig.showRadius] = false;
+    navigatorMap[TextConfig.placeholder] = placeholder;
+    navigatorMap[TextConfig.showBackButton] = showBackButton;
+
+    dynamic latLangList = await Navigator.pushNamed(context, NavigatorConfig.customMap, arguments: navigatorMap);// if its a group then p
+
+//    List latLangList = await NavigateToCustomMap(
+//      latitude: location.latitude,
+//      longitude: location.longitude,
+//      showRadius: false,
+//      placeholder: placeholder,
+//      showBackButton: showBackButton,
+//    ).navigateNoBrackets(context);
 
     return latLangList[0];
   }

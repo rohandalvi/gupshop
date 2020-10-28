@@ -253,11 +253,18 @@ class _BazaarOnBoardingProfileState extends State<BazaarOnBoardingProfile> {
                   var currentLocation = new Location();
                   locationTemp = await currentLocation.getLocation();
 
-                  List list = await NavigateToCustomMap(
-                    latitude: locationTemp.latitude,
-                    longitude: locationTemp.longitude,
-                    showRadius: true,
-                  ).navigateNoBrackets(context);
+                  Map<String,dynamic> navigatorMap = new Map();
+                  navigatorMap[TextConfig.latitude] = locationTemp.latitude;
+                  navigatorMap[TextConfig.longitude] = locationTemp.longitude;
+                  navigatorMap[TextConfig.showRadius] = true;
+
+                  dynamic list = await Navigator.pushNamed(context, NavigatorConfig.customMap, arguments: navigatorMap);// if its a group then p
+
+//                  List list = await NavigateToCustomMap(
+//                    latitude: locationTemp.latitude,
+//                    longitude: locationTemp.longitude,
+//                    showRadius: true,
+//                  ).navigateNoBrackets(context);
 
                   /// for exiting dialog:
                   Navigator.pop(context);

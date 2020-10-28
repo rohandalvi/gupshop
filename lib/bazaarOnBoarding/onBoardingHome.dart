@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarOnBoarding/categorySelector.dart';
-import 'package:gupshop/navigators/navigateToBazaarWelcome.dart';
-import 'package:gupshop/navigators/navigateToHome.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
@@ -25,7 +24,8 @@ class OnBoardingHome extends StatelessWidget {
               text: text == null ? TextConfig.bazaarOnBoardingQuestion : text,
             ),
             onPressed:(){
-              NavigateToBazaarWelcome().navigateNoBrackets(context);
+              Navigator.pushNamed(context, NavigatorConfig.bazaarWelcome);
+              //NavigateToBazaarWelcome().navigateNoBrackets(context);
               //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
             },),
         ),

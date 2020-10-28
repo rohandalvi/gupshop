@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:gupshop/navigators/navigateToBazaarWelcome.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -63,8 +62,6 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
       onPressed:(){
         Navigator.pushNamed(context, NavigatorConfig.bazaarWelcome);
       }
-        //NavigateToBazaarWelcome().navigate(context),
-      //NavigateToBazaarOnBoardingHome().navigate(context),
     );
   }
 
@@ -77,8 +74,6 @@ class _BazaarHomeScreenState extends State<BazaarHomeScreen> {
         onPressed:(){
           Navigator.pushNamed(context, NavigatorConfig.bazaarWelcome);
         }
-        //NavigateToBazaarWelcome().navigate(context),
-        //NavigateToBazaarOnBoardingHome().navigate(context),
     );
   }
 }

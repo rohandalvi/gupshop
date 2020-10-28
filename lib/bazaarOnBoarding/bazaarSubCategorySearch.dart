@@ -94,17 +94,6 @@ class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
         navigatorMap[TextConfig.subCategoryData] = subCategoryData;
 
         Navigator.pushNamed(context, NavigatorConfig.productDetailPage, arguments: navigatorMap);
-
-
-//        NavigateToProductDetailPage(
-//          sendHome: true,
-//          categoryData: widget.categoryData,
-//          category: widget.category,
-//          subCategory: subCategory,
-//          bazaarWalaPhoneNo: widget.bazaarWalaPhoneNo,
-//          bazaarWalaName: widget.bazaarWalaName,
-//          subCategoryData: subCategoryData
-//        ).navigateNoBrackets(context);
       }
     );
   }

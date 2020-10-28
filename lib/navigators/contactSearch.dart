@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gupshop/contactSearch/contactSearchPage.dart';
+import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 
-class ContactSearchPageRoute{
+class ContactSearchRoute{
 
 
   static Widget main(BuildContext context){
@@ -11,7 +11,7 @@ class ContactSearchPageRoute{
     final String userName = map[TextConfig.userName];
     final String data = map[TextConfig.data];
 
-    return ContactSearchPage(
+    return ContactSearch(
       userName: userName,
       userPhoneNo: userPhoneNo,
       data: data,

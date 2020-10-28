@@ -41,7 +41,10 @@ class CustomNavigator{
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ContactSearch(userName: userName, userPhoneNo: userPhoneNo, data: data,),//pass Name() here and pass Home()in name_screen
+          builder: (context) => ContactSearch(
+            userName: userName,
+            userPhoneNo: userPhoneNo,
+            data: data,),//pass Name() here and pass Home()in name_screen
         )
     );
   }

@@ -14,6 +14,7 @@ class NavigatorConfig{
   static String changeName = 'ChangeName';
   static String changeProfilePicture = 'changeProfilePicture';
   static String contactSearchPage = 'contactSearchPage';
+  static String contactSearch = 'contactSearch';
   static String customMap = 'customMap';
   static String fullScreenPicturesAndVideosRoute = 'fullScreenPicturesAndVideosRoute';
   static String individualChatAppBar = 'individualChatAppBar';

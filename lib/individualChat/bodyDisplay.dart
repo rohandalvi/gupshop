@@ -8,6 +8,7 @@ import 'package:gupshop/individualChat/heartButton.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/news/newsContainerUI.dart';
 import 'package:gupshop/news/newsStatisticsCollection.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -193,8 +194,15 @@ class _BodyDisplayState extends State<BodyDisplay> {
 //                        FirebaseMethods().updateVoteCountToNewsCollection(widget.newsId,
 //                            'trueBy', data["trueBy"]);
                       }
-                      CustomNavigator().navigateToContactSearch(context, widget.userName,
-                          widget.userPhoneNo, data);
+                      Map<String,dynamic> navigatorMap = new Map();
+                      navigatorMap[TextConfig.userName] = widget.userName;
+                      navigatorMap[TextConfig.userPhoneNo] = widget.userPhoneNo;
+                      navigatorMap[TextConfig.data] = data;
+
+                      Navigator.pushNamed(context, NavigatorConfig.contactSearch, arguments: navigatorMap);// if its a group then
+
+//                      CustomNavigator().navigateToContactSearch(context, widget.userName,
+//                          widget.userPhoneNo, data);
                     }
                   }
                   else{
@@ -211,8 +219,15 @@ class _BodyDisplayState extends State<BodyDisplay> {
                     else data = {"imageURL":forwardImage, "fromName":widget.userName,
                         "fromPhoneNumber":widget.userPhoneNo, "timeStamp":Timestamp.now(),
                         "conversationId":widget.conversationId};
-                    CustomNavigator().navigateToContactSearch(context, widget.userName,
-                        widget.userPhoneNo, data);
+
+                    Map<String,dynamic> navigatorMap = new Map();
+                    navigatorMap[TextConfig.userName] = widget.userName;
+                    navigatorMap[TextConfig.userPhoneNo] = widget.userPhoneNo;
+                    navigatorMap[TextConfig.data] = data;
+
+                    Navigator.pushNamed(context, NavigatorConfig.contactSearch, arguments: navigatorMap);// if
+//                    CustomNavigator().navigateToContactSearch(context, widget.userName,
+//                        widget.userPhoneNo, data);
                   }
                 },
               ),

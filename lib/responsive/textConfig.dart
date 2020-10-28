@@ -79,6 +79,11 @@ class TextConfig{
   /// CategorySelector:
   static String icon = 'icon';
 
+  /// CustomMap:
+  static String showRadius = 'showRadius';
+  static String placeholder = 'placeholder';
+  static String showBackButton = 'showBackButton';
+
   /// SubCategoryCheckBoxData:
   static String name = 'name';
 

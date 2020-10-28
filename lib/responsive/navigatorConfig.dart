@@ -13,5 +13,6 @@ class NavigatorConfig{
   static String changeBazaarPicturesFetchAndDisplay = 'changeBazaarPicturesFetchAndDisplay';
   static String changeName = 'ChangeName';
   static String changeProfilePicture = 'changeProfilePicture';
+  static String customMap = 'customMap';
 
 }

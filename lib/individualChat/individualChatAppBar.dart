@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/modules/Presence.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
-import 'package:gupshop/image/changeProfilePicture.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/service/conversation_service.dart';
@@ -82,7 +81,6 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
           navigatorMap[TextConfig.userName] = widget.userName;
 
           Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
-          //NavigateToHome(initialIndex: 0).navigateNoBrackets(context);
         }
         else Navigator.pop(context);
       },
@@ -134,7 +132,6 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
 
 
   displayPictureAvatar(){
-    //da = DisplayAvatar(imageUrl: imageURL).displayAvatarFromFirebase(widget.friendN, 25, 23.5, false);
     /// take value from chatListCache
 
 
@@ -164,21 +161,6 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
     navigatorMap[TextConfig.imageURL] = widget.imageURL;
 
     final result = await Navigator.pushNamed(context, NavigatorConfig.changeProfilePicture, arguments: navigatorMap);
-
-//    Navigator.push(
-//        context,
-//        MaterialPageRoute(
-//          builder: (context) => ChangeProfilePicture(
-//            userName: widget.friendName,
-//            viewingFriendsProfile:false,
-//            userPhoneNo: widget.friendN,
-//            groupConversationId: widget.conversationId,
-//            conversationId: widget.conversationId,
-//            chatListCache: widget.chatListCache,
-//            imageURL: widget.imageURL,
-//          ),//pass Name() here and pass Home()in name_screen
-//        )
-//    );
     setState(() {
       checkCache = false;
 

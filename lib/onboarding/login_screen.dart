@@ -9,6 +9,7 @@ import 'package:gupshop/notifications/application/notifier.dart';
 import 'package:gupshop/onboarding/name_screen.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/service/auth_service.dart';
@@ -169,8 +170,11 @@ class _LoginScreenState extends State<LoginScreen> {
         AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
 
         FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
-          //Navigator.of(context).pushNamed('loggedIn');
-          NavigateToNameScreen(userPhoneNo: val).navigateNoBrackets(context);
+          Map<String,dynamic> navigatorMap = new Map();
+          navigatorMap[TextConfig.userPhoneNo] = val;
+
+          Navigator.pushNamed(context, NavigatorConfig.nameScreen, arguments: navigatorMap);
+         // NavigateToNameScreen(userPhoneNo: val).navigateNoBrackets(context);
         }).catchError((e) {
           CustomFlushBar(
             customContext: context,

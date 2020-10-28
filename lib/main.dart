@@ -29,6 +29,7 @@ import 'package:gupshop/navigators/individualChatAppBarRoute.dart';
 import 'package:gupshop/navigators/individualChatRoute.dart';
 import 'package:gupshop/navigators/nameScreenRoute.dart';
 import 'package:gupshop/navigators/productDetailPageRoute.dart';
+import 'package:gupshop/navigators/subCategorySearchRoute.dart';
 import 'package:gupshop/onboarding/helper.dart';
 import 'package:gupshop/passcode/customAppLock.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
@@ -129,7 +130,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.individualChatAppBar : (context){return IndividualChatAppBarRoute.main(context);},
                 NavigatorConfig.nameScreen : (context){return NameScreenRoute.main(context);},
                 NavigatorConfig.productDetailPage : (context){return ProductDetailPageRoute.main(context);},
-                NavigatorConfig.subCategorySearch : (context){return subCategorySearchRoute(context);},
+                NavigatorConfig.subCategorySearch : (context){return SubCategorySearchRoute.main(context);},
                 NavigatorConfig.subCategoriesCheckBox : (context){return BazaarSubCategoriesCheckBoxRoute.main(context);},
                 NavigatorConfig.subCategoriesCheckBoxDataRoute : (context){return SubCategoriesCheckBoxDataRoute.main(context);},
               },
@@ -139,29 +140,6 @@ class MyApp extends StatelessWidget {
           }
         );
       }
-    );
-  }
-
-
-  Widget subCategorySearchRoute(BuildContext context){
-    Map<String,dynamic> map = ModalRoute.of(context).settings.arguments;
-    final String category = map[TextConfig.category];
-    final String categoryData = map[TextConfig.categoryData];
-    final Future<List<DocumentSnapshot>> subCategoriesListFuture = map[TextConfig.subCategoriesListFuture];
-    final List<DocumentSnapshot> subCategoriesList= map[TextConfig.subCategoriesList];
-    Map<String, String> subCategoryMap= map[TextConfig.subCategoryMap];
-    final String bazaarWalaName= map[TextConfig.bazaarWalaName];
-    final String bazaarWalaPhoneNo = map[TextConfig.bazaarWalaPhoneNo];
-
-
-    return SubCategorySearch(
-      bazaarWalaPhoneNo: bazaarWalaPhoneNo,
-      bazaarWalaName: bazaarWalaName,
-      subCategoriesListFuture: subCategoriesListFuture,
-      subCategoryMap: subCategoryMap,
-      subCategoriesList: subCategoriesList,
-      categoryData: categoryData,
-      category: category,
     );
   }
 }

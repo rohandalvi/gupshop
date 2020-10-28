@@ -127,6 +127,9 @@ class TextConfig{
   static const String shouldZoom= 'shouldZoom';
 
 
+  /// home:
+  static const String initialIndex= 'initialIndex';
+
   /// trace
   static const String chatListToIndividualChatTrace = 'chatListToIndividualChat';
   static const String homeTrace = 'home';

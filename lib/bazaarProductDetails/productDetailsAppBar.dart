@@ -4,6 +4,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToChangeName.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/updateInFirebase/updateBazaarWalasBasicProfile.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -64,7 +65,8 @@ class _ProductDetailsAppBarState extends State<ProductDetailsAppBar> {
       child: CustomIconButton(
         iconNameInImageFolder: IconConfig.editIcon,
         onPressed: () async {
-          String changedName = await NavigateToChangeName().navigateNoBrackets(context);
+          dynamic changedName = await Navigator.pushNamed(context, NavigatorConfig.changeName);
+          //NavigateToChangeName().navigateNoBrackets(context);
 
           if(changedName != null && changedName != widget.businessName){
             /// push to firebase

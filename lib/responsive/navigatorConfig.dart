@@ -11,5 +11,6 @@ class NavigatorConfig{
   static String bazaarSubCategorySearch = 'bazaarSubCategorySearch';
   static String bazaarWelcome = 'bazaarWelcome';
   static String changeBazaarPicturesFetchAndDisplay = 'changeBazaarPicturesFetchAndDisplay';
+  static String changeName = 'ChangeName';
 
 }

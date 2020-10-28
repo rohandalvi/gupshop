@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/customGridView.dart';
 import 'package:gupshop/image/gridViewContainer.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToSubCategoriesCheckBoxData.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/bazaarCategoryTypesAndImages.dart';
@@ -49,15 +48,6 @@ class CategorySelector extends StatelessWidget {
                   navigatorMap[TextConfig.subCategoryMap] = subCategoryMap;
 
                   Navigator.pushNamed(context, NavigatorConfig.subCategoriesCheckBoxDataRoute, arguments: navigatorMap);
-
-
-//                  NavigateToBazaarSubCategoriesCheckBoxData(
-//                    subCategoriesList: subCategories,
-//                    subCategoriesListFuture: subCategoriesListFuture,
-//                    category: catergoryName,
-//                    categoryData: categoryNameForData,
-//                    subCategoryMap: subCategoryMap,
-//                  ).navigateNoBrackets(context);
                 },
                 imageName: catergoryName,
                 imageURL: imageURL,

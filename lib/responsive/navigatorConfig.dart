@@ -14,5 +14,6 @@ class NavigatorConfig{
   static String changeName = 'ChangeName';
   static String changeProfilePicture = 'changeProfilePicture';
   static String customMap = 'customMap';
+  static String fullScreenPicturesAndVideosRoute = 'fullScreenPicturesAndVideosRoute';
 
 }

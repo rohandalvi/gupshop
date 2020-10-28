@@ -15,7 +15,11 @@ class NavigateToFullScreenPictureAndVideos{
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => FullScreenPictureAndVideos(isPicture: isPicture,payLoad: payLoad,shouldZoom: shouldZoom,),
+            builder: (context) => FullScreenPictureAndVideos(
+              isPicture: isPicture,
+              payLoad: payLoad,
+              shouldZoom: shouldZoom,
+            ),
           )
       );
     };

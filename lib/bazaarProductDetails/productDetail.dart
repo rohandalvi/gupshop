@@ -5,6 +5,7 @@ import 'package:gupshop/bazaarProductDetails/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToFullScreenPictureAndVideos.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -268,7 +269,14 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
       image: NetworkImage(imageURL),
       ),
     onTap: (){
-      NavigateToFullScreenPictureAndVideos(isPicture: true, shouldZoom: true, payLoad: imageURL).navigateNoBrackets(context);
+      Map<String,dynamic> navigatorMap = new Map();
+      navigatorMap[TextConfig.isPicture] = true;
+      navigatorMap[TextConfig.shouldZoom] = true;
+      navigatorMap[TextConfig.payLoad] = imageURL;
+
+      Navigator.pushNamed(context, NavigatorConfig.fullScreenPicturesAndVideosRoute, arguments: navigatorMap);
+      //NavigateToFullScreenPictureAndVideos(
+      // isPicture: true, shouldZoom: true, payLoad: imageURL).navigateNoBrackets(context);
     },
   );
   }

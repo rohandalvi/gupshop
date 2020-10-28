@@ -121,6 +121,10 @@ class TextConfig{
   static const String shup= 'Shup';
   static const String enterYourNumber= 'Enter your Number';
 
+  /// FullScreenPicturesAndVideosRoute
+  static const String isPicture= 'isPicture';
+  static const String payLoad= 'payLoad';
+  static const String shouldZoom= 'shouldZoom';
 
 
   /// trace

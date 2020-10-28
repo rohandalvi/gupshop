@@ -12,5 +12,6 @@ class NavigatorConfig{
   static String bazaarWelcome = 'bazaarWelcome';
   static String changeBazaarPicturesFetchAndDisplay = 'changeBazaarPicturesFetchAndDisplay';
   static String changeName = 'ChangeName';
+  static String changeProfilePicture = 'changeProfilePicture';
 
 }

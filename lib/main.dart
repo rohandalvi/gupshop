@@ -16,6 +16,7 @@ import 'package:gupshop/navigators/bazaarOnBoradingHomeRoute.dart';
 import 'package:gupshop/navigators/bazaarSubCategorySearchRoute.dart';
 import 'package:gupshop/navigators/bazaarWelcomeRoute.dart';
 import 'package:gupshop/navigators/changeBazaarPicturesFetchAndDisplayRoute.dart';
+import 'package:gupshop/navigators/changeProfilePictureRoute.dart';
 import 'package:gupshop/onboarding/helper.dart';
 import 'package:gupshop/passcode/customAppLock.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
@@ -109,6 +110,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.bazaarSubCategorySearch : (context){return BazaarSubCategorySearchRoute.main(context);},
                 NavigatorConfig.changeBazaarPicturesFetchAndDisplay : (context){return ChangeBazaarPicturesFetchAndDisplayRoute.main(context);},
                 NavigatorConfig.changeName : (context){return BazaarSubCategorySearchRoute.main(context);},
+                NavigatorConfig.changeProfilePicture : (context){return ChangeProfilePictureRoute.main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

@@ -8,7 +8,9 @@ import 'package:gupshop/passcode/setPasscodeWrapper.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/contactSearch/contactSearchPage.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
@@ -70,12 +72,19 @@ class _HomeAppBarState extends State<HomeAppBar> {
                                 GestureDetector(
                                   child: DisplayAvatar().displayAvatarFromFirebase(widget.userPhoneNo, widget.radius, widget.innerRadius, false),
                                   onTap: (){
-                                    NavigateChangeProfilePicture(
-                                        userName: widget.userName,
-                                        viewingFriendsProfile: false,
-                                        userPhoneNo: widget.userPhoneNo,
-                                        groupConversationId: null,
-                                    ).navigateNoBrackets(context);
+                                    Map<String,dynamic> navigatorMap = new Map();
+                                    navigatorMap[TextConfig.userName] = widget.userName;
+                                    navigatorMap[TextConfig.viewingFriendsProfile] = false;
+                                    navigatorMap[TextConfig.userPhoneNo] = widget.userPhoneNo;
+                                    navigatorMap[TextConfig.groupConversationId] = null;
+
+                                    Navigator.pushNamed(context, NavigatorConfig.changeProfilePicture, arguments: navigatorMap);
+//                                    NavigateChangeProfilePicture(
+//                                        userName: widget.userName,
+//                                        viewingFriendsProfile: false,
+//                                        userPhoneNo: widget.userPhoneNo,
+//                                        groupConversationId: null,
+//                                    ).navigateNoBrackets(context);
                                     //CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo, null);
                                   },
                                 ),

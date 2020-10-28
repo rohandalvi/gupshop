@@ -6,6 +6,8 @@ import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/image/changeProfilePicture.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/image/displayAvatar.dart';
 import 'package:gupshop/widgets/CustomFutureBuilder.dart';
@@ -88,13 +90,22 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
         }
         /// if an individual, then only the view option and not
         /// the change options are visible
-        NavigateChangeProfilePicture(
-          userName: widget.friendName,
-          viewingFriendsProfile: true,
-          userPhoneNo: widget.friendN,
-          groupConversationId: null,
-          imageURL: widget.imageURL
-        ).navigateNoBrackets(context);
+        Map<String,dynamic> navigatorMap = new Map();
+        navigatorMap[TextConfig.userName] = widget.friendName;
+        navigatorMap[TextConfig.viewingFriendsProfile] = true;
+        navigatorMap[TextConfig.userPhoneNo] = widget.friendN;
+        navigatorMap[TextConfig.groupConversationId] = null;
+        navigatorMap[TextConfig.imageURL] = widget.imageURL;
+
+        Navigator.pushNamed(context, NavigatorConfig.changeProfilePicture, arguments: navigatorMap);
+
+//        NavigateChangeProfilePicture(
+//          userName: widget.friendName,
+//          viewingFriendsProfile: true,
+//          userPhoneNo: widget.friendN,
+//          groupConversationId: null,
+//          imageURL: widget.imageURL
+//        ).navigateNoBrackets(context);
         //else CustomNavigator().navigateToChangeProfilePicture(context, widget.friendName,  true, widget.friendN, null, widget.imageURL);/// if its a group then profile pictures are searched using conversationId
       },
 

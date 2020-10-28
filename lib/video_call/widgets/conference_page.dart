@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gupshop/video_call/debug.dart';
 import 'package:gupshop/video_call/room/room_model.dart';
+import 'package:gupshop/video_call/widgets/SearchParticipants.dart';
 import 'package:gupshop/video_call/widgets/conference_button_bar.dart';
 import 'package:gupshop/video_call/widgets/conference_room.dart';
 import 'package:gupshop/video_call/widgets/draggable_publisher.dart';
@@ -15,8 +16,8 @@ import 'package:wakelock/wakelock.dart';
 
 class ConferencePage extends StatefulWidget {
   final RoomModel roomModel;
-
-  const ConferencePage({Key key, this.roomModel}) : super(key: key);
+  final String callingNumber;
+  const ConferencePage({Key key, this.roomModel, this.callingNumber}) : super(key: key);
 
   @override
   _ConferencePageState createState() => _ConferencePageState();
@@ -35,6 +36,7 @@ class _ConferencePageState extends State<ConferencePage> {
     _lockInPortrait();
     _connectToRoom();
     _wakeLock(true);
+    _onPersonAdd(allowSelect: false);
   }
 
   void _connectToRoom() async {
@@ -160,8 +162,20 @@ class _ConferencePageState extends State<ConferencePage> {
     Navigator.of(context).pop();
   }
 
-  void _onPersonAdd() {
+  void _onPersonAdd({allowSelect = true}) async{
     Debug.log('onPersonAdd');
+    /**
+     * On adding a new member to
+     */
+    var response = {"name": widget.callingNumber};
+    if(allowSelect) {
+      response = await Navigator.push(context,
+          MaterialPageRoute(
+              builder: (context) => SearchParticipants(roomModel: widget.roomModel)
+          )
+      );
+    }
+
     try {
       _conferenceRoom.addDummy(
         child: Stack(
@@ -169,7 +183,7 @@ class _ConferencePageState extends State<ConferencePage> {
             const Placeholder(),
             Center(
               child: Text(
-                (_conferenceRoom.participants.length + 1).toString(),
+                "Waiting for ${response["name"]} to join",
                 style: const TextStyle(
                   shadows: <Shadow>[
                     Shadow(
@@ -389,14 +403,10 @@ class _ConferencePageState extends State<ConferencePage> {
 
   void _conferenceRoomUpdated() {
     print("Participants ${_conferenceRoom.participants.length}");
-    if (_conferenceRoom.participants.length == 1 && _conferenceRoom.participants.length < _lastKnownParticipantCount) {
+    if (_conferenceRoom.participants.length == 1 && (_conferenceRoom.participants.length < _lastKnownParticipantCount || _conferenceRoom.timer.tick == 1)) {
       print("Disconnecting the call since no one on the call");
       _onHangup();
-    } else if(_conferenceRoom.timer.tick == 1 && _conferenceRoom.maxParticipants == 1) {
-      print("Disconnecting since no one picked up the call");
-      _onHangup();
     } else {
-      print("Tick tock ${_conferenceRoom.timer.tick}");
       _lastKnownParticipantCount = _conferenceRoom.participants.length;
       setState(() {});
     }

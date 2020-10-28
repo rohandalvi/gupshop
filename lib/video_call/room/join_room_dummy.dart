@@ -13,12 +13,11 @@ class VideoCallRoomNavigator {
 
     RoomBloc roomBloc = new RoomBloc(backendService: backendService);
     RoomModel roomModel = await roomBloc.submit(isCreateRoomEnabled: true);
-    String callerNumber = await UserDetails().getUserPhoneNoFuture();
-    backendService.pushRoomUpdates(RoomUpdateRequest(name: roomModel.name, token: roomModel.token, identity: roomModel.identity,caller: callerNumber, inviteePhoneNumber: phoneNumber ));
+    sendRoomInvite(roomModel, phoneNumber);
     await Navigator.of(context).push(
       MaterialPageRoute<ConferencePage>(
         fullscreenDialog: true,
-        builder: (BuildContext context) => ConferencePage(roomModel: roomModel),
+        builder: (BuildContext context) => ConferencePage(roomModel: roomModel, callingNumber: phoneNumber,),
       ),
     );
     roomBloc.dispose();
@@ -32,10 +31,15 @@ class VideoCallRoomNavigator {
     await Navigator.of(context).push(
       MaterialPageRoute<ConferencePage>(
         fullscreenDialog: true,
-        builder: (BuildContext context) => ConferencePage(roomModel: roomModel),
+        builder: (BuildContext context) => ConferencePage(roomModel: roomModel, callingNumber: null,),
       ),
     );
     roomBloc.dispose();
 
+  }
+
+  void sendRoomInvite(RoomModel roomModel, String phoneNumber) async{
+    String callerNumber = await UserDetails().getUserPhoneNoFuture();
+    FirebaseFunctions.instance.pushRoomUpdates(RoomUpdateRequest(name: roomModel.name,caller: callerNumber, inviteePhoneNumber: phoneNumber ));
   }
 }

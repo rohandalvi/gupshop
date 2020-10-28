@@ -25,9 +25,7 @@ class BazaarSubCategorySearch extends StatefulWidget {
 
 class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
   Map<String, bool > map = new HashMap();
-  List<String> listOfSubCategories = new List();
   Set tempSet = new HashSet();
-  List<String> listOfSubCategoriesForData = new List();
 
 
   getCategorySizeFuture() {
@@ -103,12 +101,5 @@ class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
     l.toLowerCase()
         .contains(text.toLowerCase())).toList();
   }
-
-
-  bool isSubCategorySelected(){
-    if(map.containsValue(true)) return true;
-    return false;
-  }
-
 
 }

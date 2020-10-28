@@ -20,6 +20,7 @@ import 'package:gupshop/navigators/changeBazaarPicturesFetchAndDisplayRoute.dart
 import 'package:gupshop/navigators/changeProfilePictureRoute.dart';
 import 'package:gupshop/navigators/customMapRoute.dart';
 import 'package:gupshop/navigators/fullScreenPicturesAndVideosRoute.dart';
+import 'package:gupshop/navigators/homeRoute.dart';
 import 'package:gupshop/onboarding/helper.dart';
 import 'package:gupshop/passcode/customAppLock.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
@@ -101,7 +102,7 @@ class MyApp extends StatelessWidget {
               ),
               title: 'Chat home',
               routes: {
-                NavigatorConfig.home : (context){return homeRoute(context);},
+                NavigatorConfig.home : (context){return HomeRoute.main(context);},
                 NavigatorConfig.individualChat : (context){return individualChatRoute(context);},
                 NavigatorConfig.subCategorySearch : (context){return subCategorySearchRoute(context);},
                 NavigatorConfig.bazaarAdvertisement : (context){return BazaarAdvertisementRoute.main(context);},
@@ -128,12 +129,12 @@ class MyApp extends StatelessWidget {
 
 
   /// routes
-  Widget homeRoute(BuildContext context){
-    Map<String,String> map = ModalRoute.of(context).settings.arguments;
-    String userPhoneNo = map[TextConfig.userPhoneNo];
-    String userName = map[TextConfig.userName];
-    return Home(userPhoneNo: userPhoneNo,userName: userName);
-  }
+//  Widget homeRoute(BuildContext context){
+//    Map<String,String> map = ModalRoute.of(context).settings.arguments;
+//    String userPhoneNo = map[TextConfig.userPhoneNo];
+//    String userName = map[TextConfig.userName];
+//    return Home(userPhoneNo: userPhoneNo,userName: userName);
+//  }
 
   Widget individualChatRoute(BuildContext context){
     Map<String,dynamic> map = ModalRoute.of(context).settings.arguments;

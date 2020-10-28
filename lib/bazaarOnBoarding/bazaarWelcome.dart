@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
@@ -11,7 +12,13 @@ class BazaarWelcome extends StatelessWidget {
   Widget build(BuildContext context) {
     return WelcomeScreen(
       onBackPressed: () async{
-        NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
+        Map<String,dynamic> navigatorMap = new Map();
+        navigatorMap[TextConfig.initialIndex] = 1;
+        navigatorMap[TextConfig.userPhoneNo] = await UserDetails().getUserPhoneNoFuture();
+        navigatorMap[TextConfig.userName] = await UserDetails().getUserNameFuture();
+
+        Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
+        //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
       },
       bodyImage: ImageConfig.bazaarOnBoardingWelcomeLogo,
       bodyTextTitle: TextConfig.bazaarOnboardingTitle,

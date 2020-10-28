@@ -55,6 +55,7 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
 
   homeLocationSet() async{
     String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+    String userName = await UserDetails().getUserNameFuture();
     var homeAddress = await GetUsersLocation(userPhoneNo: userPhoneNo)
         .getHomeAddress();
 
@@ -65,7 +66,15 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
         barrierDismissible: false,
         actions: <Widget>[
           FlatButton(
-              onPressed: () => NavigateToHome(initialIndex: 1).navigateNoBrackets(context),
+              onPressed: (){
+                Map<String,dynamic> navigatorMap = new Map();
+                navigatorMap[TextConfig.initialIndex] = 1;
+                navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
+                navigatorMap[TextConfig.userName] = userName;
+
+                Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
+                //NavigateToHome(initialIndex: 1).navigateNoBrackets(context),
+              },
               child: CustomText(text:'OK')
           ),
         ],
@@ -133,8 +142,6 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
         navigatorMap[TextConfig.userName] = userName;
 
         Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
-        //Navigator.pop(context);
-        //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
       },
       //navigate: NavigateToBazaarOnBoardingHome().navigate(context),
       onSearch: searchList,

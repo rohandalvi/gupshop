@@ -2,6 +2,10 @@ class TextConfig{
   static String number = 'number';
   static const String members = 'members';
 
+  /// board:
+  static String boardName = 'boardName';
+
+
   /// bazaar:
   static String bazaarOnboardingTitle = 'Welcome to Bazaar Onboarding';
   static String bazaarOnboardingSubTitle = 'Anyone can join'

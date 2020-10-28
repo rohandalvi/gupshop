@@ -19,5 +19,6 @@ class NavigatorConfig{
   static String nameScreen = 'nameScreen';
   static String productDetailPage = 'productDetailPage';
   static String subCategoriesCheckBox = 'subCategoriesCheckBox';
+  static String boardRoute = 'boardRoute';
 
 }

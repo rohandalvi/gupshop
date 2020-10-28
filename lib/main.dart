@@ -19,6 +19,7 @@ import 'package:gupshop/navigators/bazaarOnBoradingHomeRoute.dart';
 import 'package:gupshop/navigators/bazaarSubCategoriesCheckBoxRoute.dart';
 import 'package:gupshop/navigators/bazaarSubCategorySearchRoute.dart';
 import 'package:gupshop/navigators/bazaarWelcomeRoute.dart';
+import 'package:gupshop/navigators/boardRoute.dart';
 import 'package:gupshop/navigators/changeBazaarPicturesFetchAndDisplayRoute.dart';
 import 'package:gupshop/navigators/changeProfilePictureRoute.dart';
 import 'package:gupshop/navigators/customMapRoute.dart';
@@ -127,6 +128,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.nameScreen : (context){return NameScreenRoute.main(context);},
                 NavigatorConfig.productDetailPage : (context){return ProductDetailPageRoute.main(context);},
                 NavigatorConfig.subCategoriesCheckBox : (context){return BazaarSubCategoriesCheckBoxRoute.main(context);},
+                NavigatorConfig.boardRoute : (context){return BoardRoute.main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

@@ -10,5 +10,6 @@ class NavigatorConfig{
   static String bazaarOnBoardingProfile = 'bazaarOnBoardingProfile';
   static String bazaarSubCategorySearch = 'bazaarSubCategorySearch';
   static String bazaarWelcome = 'bazaarWelcome';
+  static String changeBazaarPicturesFetchAndDisplay = 'changeBazaarPicturesFetchAndDisplay';
 
 }

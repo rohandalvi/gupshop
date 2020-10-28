@@ -13,6 +13,7 @@ import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -294,25 +295,43 @@ class _BazaarLocationState extends State<BazaarLocation> {
           UserDetails().saveUserAsBazaarWalaInSharedPreferences(true);
 
 
-//          print("isBazaarwala in location : ${widget.isBazaarWala}");
-          NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
-              category: widget.category,
-              categoryData: widget.categoryData,
-              subCategoryMap: widget.subCategoryMap,
-              subCategoriesList: widget.listOfSubCategories,
-              subCategoriesListData: widget.listOfSubCategoriesForData,
-              userName: userName,
-              userPhoneNo: userPhoneNo,
-              addListData: widget.addListData,
-              deleteListData: widget.deleteListData,
-              videoChanged: widget.videoChanged,
-              videoURL: widget.videoURL,
-              locationChanged: locationChanged,
-              location: widget.location,
-              radius: widget.radius,
-              isBazaarwala: widget.isBazaarWala,
-              aSubCategoryData: widget.aSubCategoryData
-          ).navigateNoBrackets(context);
+          Map<String,dynamic> navigatorMap = new Map();
+          navigatorMap[TextConfig.category] = widget.category;
+          navigatorMap[TextConfig.categoryData] = widget.categoryData;
+          navigatorMap[TextConfig.subCategoryMap] = widget.subCategoryMap;
+          navigatorMap[TextConfig.subCategoriesList] = widget.listOfSubCategories;
+          navigatorMap[TextConfig.subCategoriesListData] = widget.listOfSubCategoriesForData;
+          navigatorMap[TextConfig.userName] = userName;
+          navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
+          navigatorMap[TextConfig.addListData] = widget.addListData;
+          navigatorMap[TextConfig.deleteListData] = widget.deleteListData;
+          navigatorMap[TextConfig.videoChanged] = widget.videoChanged;
+          navigatorMap[TextConfig.videoURL] = widget.videoURL;
+          navigatorMap[TextConfig.locationChanged] = locationChanged;
+          navigatorMap[TextConfig.location] = widget.location;
+          navigatorMap[TextConfig.radius] = widget.radius;
+          navigatorMap[TextConfig.isBazaarWala] = widget.isBazaarWala;
+          navigatorMap[TextConfig.aSubCategoryData] = widget.aSubCategoryData;
+
+          Navigator.pushNamed(context, NavigatorConfig.changeBazaarPicturesFetchAndDisplay, arguments: navigatorMap);
+//          NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
+//              category: widget.category,
+//              categoryData: widget.categoryData,
+//              subCategoryMap: widget.subCategoryMap,
+//              subCategoriesList: widget.listOfSubCategories,
+//              subCategoriesListData: widget.listOfSubCategoriesForData,
+//              userName: userName,
+//              userPhoneNo: userPhoneNo,
+//              addListData: widget.addListData,
+//              deleteListData: widget.deleteListData,
+//              videoChanged: widget.videoChanged,
+//              videoURL: widget.videoURL,
+//              locationChanged: locationChanged,
+//              location: widget.location,
+//              radius: widget.radius,
+//              isBazaarwala: widget.isBazaarWala,
+//              aSubCategoryData: widget.aSubCategoryData
+//          ).navigateNoBrackets(context);
         }else{
             CustomFlushBar(
               customContext: context,

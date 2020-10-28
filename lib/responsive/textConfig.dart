@@ -44,6 +44,8 @@ class TextConfig{
   static String databaseLatitude = 'databaseLatitude';
   static String databaseLongitude = 'databaseLongitude';
   static String locationNotNull = 'locationNotNull';
+  static String locationChanged = 'locationChanged';
+  static String isBazaarwala = 'isBazaarwala';
 
   /// chatList:
   static String chatListCache = 'chatListCache';

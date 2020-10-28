@@ -9,7 +9,6 @@ import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
-import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 import 'package:gupshop/navigators/navigateToCustomMap.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
@@ -314,24 +313,6 @@ class _BazaarLocationState extends State<BazaarLocation> {
           navigatorMap[TextConfig.aSubCategoryData] = widget.aSubCategoryData;
 
           Navigator.pushNamed(context, NavigatorConfig.changeBazaarPicturesFetchAndDisplay, arguments: navigatorMap);
-//          NavigateToChangeBazaarProfilePicturesFetchAndDisplay(
-//              category: widget.category,
-//              categoryData: widget.categoryData,
-//              subCategoryMap: widget.subCategoryMap,
-//              subCategoriesList: widget.listOfSubCategories,
-//              subCategoriesListData: widget.listOfSubCategoriesForData,
-//              userName: userName,
-//              userPhoneNo: userPhoneNo,
-//              addListData: widget.addListData,
-//              deleteListData: widget.deleteListData,
-//              videoChanged: widget.videoChanged,
-//              videoURL: widget.videoURL,
-//              locationChanged: locationChanged,
-//              location: widget.location,
-//              radius: widget.radius,
-//              isBazaarwala: widget.isBazaarWala,
-//              aSubCategoryData: widget.aSubCategoryData
-//          ).navigateNoBrackets(context);
         }else{
             CustomFlushBar(
               customContext: context,

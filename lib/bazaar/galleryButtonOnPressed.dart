@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarWalasBasicProfileCollection.dart';
 import 'package:gupshop/bazaar/galleryImagePickCropCreateURL.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 
 class GalleryButtonOnPressed{
   String categoryData;

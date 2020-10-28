@@ -14,7 +14,6 @@
 //import 'package:gupshop/bazaar/bazaarProfileSetLocation.dart';
 //import 'package:gupshop/modules/userDetails.dart';
 //import 'package:gupshop/location/location_service.dart';
-//import 'package:gupshop/navigators/navigateToChangeBazaarPicturesFetchAndDisplay.dart';
 //import 'package:gupshop/navigators/navigateToHome.dart';
 //import 'package:gupshop/responsive/paddingConfig.dart';
 //import 'package:gupshop/retriveFromFirebase/getCategoriesFromCategoriesMetadata.dart';

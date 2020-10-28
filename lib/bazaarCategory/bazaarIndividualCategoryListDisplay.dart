@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
@@ -107,16 +106,28 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   avatar(BuildContext context){
     return GestureDetector(
       onTap: (){
-        NavigateToProductDetailPage(
-          bazaarWalaPhoneNo: bazaarWalaPhoneNo,
-          categoryData: categoryData,
-          category: category,
-          bazaarWalaName: bazaarWalaName,
-          subCategory: subCategory,
-          subCategoryData: subCategoryData,
-          homeServiceBool: homeServiceBool,
-          homeServiceText: homeServiceText
-        ).navigateNoBrackets(context);
+        Map<String,dynamic> navigatorMap = new Map();
+        navigatorMap[TextConfig.bazaarWalaPhoneNo] = bazaarWalaPhoneNo;
+        navigatorMap[TextConfig.categoryData] = categoryData;
+        navigatorMap[TextConfig.category] = category;
+        navigatorMap[TextConfig.bazaarWalaName] = bazaarWalaName;
+        navigatorMap[TextConfig.subCategory] = subCategory;
+        navigatorMap[TextConfig.subCategoryData] = subCategoryData;
+        navigatorMap[TextConfig.homeServiceBool] = homeServiceBool;
+        navigatorMap[TextConfig.homeServiceText] = homeServiceText;
+
+        Navigator.pushNamed(context, NavigatorConfig.bazaarAdvertisement, arguments: navigatorMap);
+
+//        NavigateToProductDetailPage(
+//          bazaarWalaPhoneNo: bazaarWalaPhoneNo,
+//          categoryData: categoryData,
+//          category: category,
+//          bazaarWalaName: bazaarWalaName,
+//          subCategory: subCategory,
+//          subCategoryData: subCategoryData,
+//          homeServiceBool: homeServiceBool,
+//          homeServiceText: homeServiceText
+//        ).navigateNoBrackets(context);
       },
       child: Image(
         image:  NetworkImage(thumbnailPicture),
@@ -130,16 +141,28 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
   bazaarWalaNameWidget(BuildContext context){
     return GestureDetector(
       onTap: (){
-        NavigateToProductDetailPage(
-          bazaarWalaPhoneNo: bazaarWalaPhoneNo,
-          categoryData: categoryData,
-          category: category,
-          bazaarWalaName: bazaarWalaName,
-          subCategory: subCategory,
-          subCategoryData: subCategoryData,
-          homeServiceBool: homeServiceBool,
-          homeServiceText: homeServiceText
-        ).navigateNoBrackets(context);
+        Map<String,dynamic> navigatorMap = new Map();
+        navigatorMap[TextConfig.bazaarWalaPhoneNo] = bazaarWalaPhoneNo;
+        navigatorMap[TextConfig.categoryData] = categoryData;
+        navigatorMap[TextConfig.category] = category;
+        navigatorMap[TextConfig.bazaarWalaName] = bazaarWalaName;
+        navigatorMap[TextConfig.subCategory] = subCategory;
+        navigatorMap[TextConfig.subCategoryData] = subCategoryData;
+        navigatorMap[TextConfig.homeServiceBool] = homeServiceBool;
+        navigatorMap[TextConfig.homeServiceText] = homeServiceText;
+
+        Navigator.pushNamed(context, NavigatorConfig.bazaarAdvertisement, arguments: navigatorMap);
+
+//        NavigateToProductDetailPage(
+//          bazaarWalaPhoneNo: bazaarWalaPhoneNo,
+//          categoryData: categoryData,
+//          category: category,
+//          bazaarWalaName: bazaarWalaName,
+//          subCategory: subCategory,
+//          subCategoryData: subCategoryData,
+//          homeServiceBool: homeServiceBool,
+//          homeServiceText: homeServiceText
+//        ).navigateNoBrackets(context);
       },
       child: Container(
         child: CustomText(

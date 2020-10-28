@@ -13,6 +13,7 @@ import 'package:gupshop/responsive/collectionPaths.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/intConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -136,8 +137,13 @@ class _NameScreenState extends State<NameScreen> {
                       });
 
 
+                      Map<String,dynamic> navigatorMap = new Map();
+                      navigatorMap[TextConfig.userPhoneNo] = widget.userPhoneNo;
+                      navigatorMap[TextConfig.userName] = widget.userName;
 
-                      NavigateToHome().navigateNoBrackets(context);
+                      Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
+
+//                      NavigateToHome().navigateNoBrackets(context);
 
                       /// Trace
                       OnBoardingTrace().createNewUser();

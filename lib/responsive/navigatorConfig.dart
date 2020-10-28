@@ -18,5 +18,6 @@ class NavigatorConfig{
   static String individualChatAppBar = 'individualChatAppBar';
   static String nameScreen = 'nameScreen';
   static String productDetailPage = 'productDetailPage';
+  static String subCategoriesCheckBox = 'subCategoriesCheckBox';
 
 }

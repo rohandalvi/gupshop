@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:gupshop/bazaarCategory/subCategorySearch.dart';
 import 'package:gupshop/bazaarOnBoarding/bazaarSubCategorySearch.dart';
+import 'package:gupshop/bazaarOnBoarding/subCategoryCheckBoxData.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/home/home.dart';
 import 'package:gupshop/home/homeAppLock.dart';
@@ -15,6 +16,7 @@ import 'package:gupshop/navigators/BazaarOnBoardingProfileRoute.dart';
 import 'package:gupshop/navigators/bazaarAdvertisementRoute.dart';
 import 'package:gupshop/navigators/bazaarLocationRoute.dart';
 import 'package:gupshop/navigators/bazaarOnBoradingHomeRoute.dart';
+import 'package:gupshop/navigators/bazaarSubCategoriesCheckBoxRoute.dart';
 import 'package:gupshop/navigators/bazaarSubCategorySearchRoute.dart';
 import 'package:gupshop/navigators/bazaarWelcomeRoute.dart';
 import 'package:gupshop/navigators/changeBazaarPicturesFetchAndDisplayRoute.dart';
@@ -124,6 +126,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.individualChatAppBar : (context){return IndividualChatAppBarRoute.main(context);},
                 NavigatorConfig.nameScreen : (context){return NameScreenRoute.main(context);},
                 NavigatorConfig.productDetailPage : (context){return ProductDetailPageRoute.main(context);},
+                NavigatorConfig.subCategoriesCheckBox : (context){return BazaarSubCategoriesCheckBoxRoute.main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

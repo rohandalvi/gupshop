@@ -7,6 +7,7 @@ import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/home/home.dart';
 import 'package:gupshop/home/homeAppLock.dart';
 import 'package:gupshop/image/fullScreenPictureVideos.dart';
+import 'package:gupshop/individualChat/individualChatAppBar.dart';
 import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/AddressListRoute.dart';
@@ -21,6 +22,7 @@ import 'package:gupshop/navigators/changeProfilePictureRoute.dart';
 import 'package:gupshop/navigators/customMapRoute.dart';
 import 'package:gupshop/navigators/fullScreenPicturesAndVideosRoute.dart';
 import 'package:gupshop/navigators/homeRoute.dart';
+import 'package:gupshop/navigators/individualChatAppBarRoute.dart';
 import 'package:gupshop/onboarding/helper.dart';
 import 'package:gupshop/passcode/customAppLock.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
@@ -117,6 +119,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.changeProfilePicture : (context){return ChangeProfilePictureRoute.main(context);},
                 NavigatorConfig.customMap : (context){return CustomMapRoute.main(context);},
                 NavigatorConfig.fullScreenPicturesAndVideosRoute : (context){return FullScreenPicturesAndVideosRoute.main(context);},
+                NavigatorConfig.individualChatAppBar : (context){return IndividualChatAppBarRoute.main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

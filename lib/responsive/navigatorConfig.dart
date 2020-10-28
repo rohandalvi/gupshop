@@ -15,5 +15,6 @@ class NavigatorConfig{
   static String changeProfilePicture = 'changeProfilePicture';
   static String customMap = 'customMap';
   static String fullScreenPicturesAndVideosRoute = 'fullScreenPicturesAndVideosRoute';
+  static String individualChatAppBar = 'individualChatAppBar';
 
 }

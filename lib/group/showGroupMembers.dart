@@ -4,6 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToHome.dart' as homeNavigator;
+import 'package:gupshop/responsive/navigatorConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/conversationMetaData.dart';
 import 'package:gupshop/updateInFirebase/updateConversationMetadata.dart';
 import 'package:gupshop/deleteFromFirebase/deleteMembersFromGroup.dart';
@@ -120,7 +122,13 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
                       });
 
                       /// naviagte the user to home page for exiting:
-                      homeNavigator.NavigateToHome(initialIndex: 0).navigateNoBrackets(context);
+                      //homeNavigator.NavigateToHome(initialIndex: 0).navigateNoBrackets(context);
+                      Map<String,dynamic> navigatorMap = new Map();
+                      navigatorMap[TextConfig.initialIndex] = 0;
+                      navigatorMap[TextConfig.userPhoneNo] = widget.userNumber;
+                      navigatorMap[TextConfig.userName] = userName;
+
+                      Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
                     }
                   },
                 ),

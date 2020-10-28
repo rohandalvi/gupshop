@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/modules/Presence.dart';
-import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/image/changeProfilePicture.dart';
@@ -97,16 +96,7 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
         navigatorMap[TextConfig.groupConversationId] = null;
         navigatorMap[TextConfig.imageURL] = widget.imageURL;
 
-        Navigator.pushNamed(context, NavigatorConfig.changeProfilePicture, arguments: navigatorMap);
-
-//        NavigateChangeProfilePicture(
-//          userName: widget.friendName,
-//          viewingFriendsProfile: true,
-//          userPhoneNo: widget.friendN,
-//          groupConversationId: null,
-//          imageURL: widget.imageURL
-//        ).navigateNoBrackets(context);
-        //else CustomNavigator().navigateToChangeProfilePicture(context, widget.friendName,  true, widget.friendN, null, widget.imageURL);/// if its a group then profile pictures are searched using conversationId
+        Navigator.pushNamed(context, NavigatorConfig.changeProfilePicture, arguments: navigatorMap);// if its a group then profile pictures are searched using conversationId
       },
 
       displayPictureAvatar: displayPictureAvatar(),

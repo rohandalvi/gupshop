@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
-import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
 import 'package:gupshop/passcode/setPasscode.dart';
-import 'package:gupshop/passcode/setPasscodeWrapper.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/contactSearch/contactSearchPage.dart';
@@ -79,13 +76,6 @@ class _HomeAppBarState extends State<HomeAppBar> {
                                     navigatorMap[TextConfig.groupConversationId] = null;
 
                                     Navigator.pushNamed(context, NavigatorConfig.changeProfilePicture, arguments: navigatorMap);
-//                                    NavigateChangeProfilePicture(
-//                                        userName: widget.userName,
-//                                        viewingFriendsProfile: false,
-//                                        userPhoneNo: widget.userPhoneNo,
-//                                        groupConversationId: null,
-//                                    ).navigateNoBrackets(context);
-                                    //CustomNavigator().navigateToChangeProfilePicture(context, userName, false, userPhoneNo, null);
                                   },
                                 ),
                               ],

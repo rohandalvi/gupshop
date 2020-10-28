@@ -1,12 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToNameScreen.dart';
-import 'package:gupshop/notifications/application/notifier.dart';
-import 'package:gupshop/onboarding/name_screen.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
@@ -16,10 +11,8 @@ import 'package:gupshop/service/auth_service.dart';
 import 'package:gupshop/widgets/countryCodeAndFlag.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
-import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/customTextFormField.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 //LoginScreen => NameScreen
 class LoginScreen extends StatefulWidget {

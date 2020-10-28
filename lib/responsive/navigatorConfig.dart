@@ -13,6 +13,7 @@ class NavigatorConfig{
   static String changeBazaarPicturesFetchAndDisplay = 'changeBazaarPicturesFetchAndDisplay';
   static String changeName = 'ChangeName';
   static String changeProfilePicture = 'changeProfilePicture';
+  static String contactSearchPage = 'contactSearchPage';
   static String customMap = 'customMap';
   static String fullScreenPicturesAndVideosRoute = 'fullScreenPicturesAndVideosRoute';
   static String individualChatAppBar = 'individualChatAppBar';

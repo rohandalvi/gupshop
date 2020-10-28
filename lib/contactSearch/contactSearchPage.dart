@@ -3,10 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
+import 'package:gupshop/widgets/customNavigators.dart';
 
 class ContactSearchPage extends StatefulWidget {
   final String userPhoneNo;
@@ -58,8 +60,14 @@ class _ContactSearchPageState extends State<ContactSearchPage> {
                 /// After navigating to contact_Search we again need to come back to this page, so we are
                 /// using another naviagator navigateToContactSearchPage for that
                 CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts(context);
-                CustomNavigator().navigateToContactSearch(context, widget.userName, widget.userPhoneNo, null);
-                CustomNavigator().navigateToContactSearchPage(context, widget.userName, widget.userPhoneNo, null);
+                Map<String,dynamic> navigatorMap = new Map();
+                navigatorMap[TextConfig.userName] = widget.userName;
+                navigatorMap[TextConfig.userPhoneNo] = widget.userPhoneNo;
+                navigatorMap[TextConfig.data] = null;
+                Navigator.pushNamed(context, NavigatorConfig.contactSearchPage, arguments: navigatorMap);
+                //CustomNavigator().navigateToContactSearch(context, widget.userName, widget.userPhoneNo, null);
+                Navigator.pushNamed(context, NavigatorConfig.contactSearchPage, arguments: navigatorMap);
+                //CustomNavigator().navigateToContactSearchPage(context, widget.userName, widget.userPhoneNo, null);
 //               setState(() {
 //                 CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts();
 //               });

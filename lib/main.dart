@@ -11,6 +11,7 @@ import 'package:gupshop/navigators/bazaarWelcomeRoute.dart';
 import 'package:gupshop/navigators/boardRoute.dart';
 import 'package:gupshop/navigators/changeBazaarPicturesFetchAndDisplayRoute.dart';
 import 'package:gupshop/navigators/changeProfilePictureRoute.dart';
+import 'package:gupshop/navigators/contactSearchPageRoute.dart';
 import 'package:gupshop/navigators/customMapRoute.dart';
 import 'package:gupshop/navigators/fullScreenPicturesAndVideosRoute.dart';
 import 'package:gupshop/navigators/homeRoute.dart';
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.changeName : (context){return BazaarSubCategorySearchRoute.main(context);},
                 NavigatorConfig.changeProfilePicture : (context){return ChangeProfilePictureRoute.main(context);},
                 NavigatorConfig.customMap : (context){return CustomMapRoute.main(context);},
+                NavigatorConfig.contactSearchPage : (context){return ContactSearchPageRoute.main(context);},
                 NavigatorConfig.fullScreenPicturesAndVideosRoute : (context){return FullScreenPicturesAndVideosRoute.main(context);},
                 NavigatorConfig.home : (context){return HomeRoute.main(context);},
                 NavigatorConfig.individualChat : (context){return IndividualChatRoute.main(context);},

@@ -46,14 +46,18 @@ class CustomNavigator{
     );
   }
 
-  navigateToContactSearchPage(BuildContext context, String userName, String userPhoneNo, var data){
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ContactSearchPage(userName: userName, userPhoneNo: userPhoneNo, data: data,),//pass Name() here and pass Home()in name_screen
-        )
-    );
-  }
+//  navigateToContactSearchPage(BuildContext context, String userName, String userPhoneNo, var data){
+//    Navigator.push(
+//        context,
+//        MaterialPageRoute(
+//          builder: (context) => ContactSearchPage(
+//            userName: userName,
+//            userPhoneNo: userPhoneNo,
+//            data: data,
+//          ),//pass Name() here and pass Home()in name_screen
+//        )
+//    );
+//  }
 
 //  navigateToIndividualChat(BuildContext context, String conversationId, String userName, String userPhoneNo, String friendName,List<dynamic> listOfFriendsNumbers,  var data, bool notGroupMemberAnymore ){
 //    print("listOfFriendsNumbers in navigateToIndividualChat: $listOfFriendsNumbers");

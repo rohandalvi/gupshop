@@ -77,7 +77,13 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
         }
 
         if(widget.groupExits){
-          NavigateToHome(initialIndex: 0).navigateNoBrackets(context);
+          Map<String,dynamic> navigatorMap = new Map();
+          navigatorMap[TextConfig.initialIndex] = 0;
+          navigatorMap[TextConfig.userPhoneNo] = widget.userPhoneNo;
+          navigatorMap[TextConfig.userName] = widget.userName;
+
+          Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
+          //NavigateToHome(initialIndex: 0).navigateNoBrackets(context);
         }
         else Navigator.pop(context);
       },

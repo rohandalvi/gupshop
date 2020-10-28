@@ -8,7 +8,7 @@ import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
+//import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 
 class ContactSearch<T> extends StatefulWidget {
@@ -74,7 +74,12 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
             icon: CustomIconButton(
               iconNameInImageFolder: IconConfig.backArrow,
               onPressed: widget.navigate == null ? (){
-                CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+                Map<String,dynamic> navigatorMap = new Map();
+                navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
+                navigatorMap[TextConfig.userName] = userName;
+
+                Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
+                //CustomNavigator().navigateToHome(context, userName, userPhoneNo);
               } : widget.navigate,
             ),
             minimumChars: 1,/// minimum characters to enter to start the search

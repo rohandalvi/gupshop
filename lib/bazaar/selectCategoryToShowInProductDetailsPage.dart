@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/getCategoriesSubscribedTo.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
-import 'package:gupshop/responsive/textConfig.dart';
-//import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customSearch.dart';
 import 'package:gupshop/widgets/customText.dart';
 

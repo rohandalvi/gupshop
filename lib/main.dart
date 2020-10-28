@@ -1,15 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_lock/flutter_app_lock.dart';
-import 'package:gupshop/bazaarCategory/subCategorySearch.dart';
-import 'package:gupshop/bazaarOnBoarding/bazaarSubCategorySearch.dart';
-import 'package:gupshop/bazaarOnBoarding/subCategoryCheckBoxData.dart';
-import 'package:gupshop/chat_list_page/chatListCache.dart';
-import 'package:gupshop/home/home.dart';
-import 'package:gupshop/home/homeAppLock.dart';
-import 'package:gupshop/image/fullScreenPictureVideos.dart';
-import 'package:gupshop/individualChat/individualChatAppBar.dart';
-import 'package:gupshop/individualChat/individual_chat.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/AddressListRoute.dart';
 import 'package:gupshop/navigators/BazaarOnBoardingProfileRoute.dart';
@@ -30,48 +19,11 @@ import 'package:gupshop/navigators/individualChatRoute.dart';
 import 'package:gupshop/navigators/nameScreenRoute.dart';
 import 'package:gupshop/navigators/productDetailPageRoute.dart';
 import 'package:gupshop/navigators/subCategorySearchRoute.dart';
-import 'package:gupshop/onboarding/helper.dart';
-import 'package:gupshop/passcode/customAppLock.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/onboarding/welcomeScreen.dart';
 import 'package:gupshop/colors/colorPalette.dart';
-import 'package:gupshop/passcode/unlockPasscode.dart';
-import 'package:gupshop/responsive/textConfig.dart';
-
-import 'bazaarOnBoarding/bazaarAdvertisement.dart';
 import 'navigators/subCategoriesCheckBoxDataRoute.dart';
-//void main() async{
-//  /// making sure that we can use shared_preferences without causing an
-//  /// exception use WidgetsFlutterBinding.ensureInitialized()
-//  WidgetsFlutterBinding.ensureInitialized();
-//  bool enabled = await UserDetails().getPasscodeStatus();
-//  runApp(LayoutBuilder(
-//    builder: (context, constraints) {
-//      return OrientationBuilder(
-//        builder: (context, orientation) {
-//          SizeConfig().init(constraints, orientation);
-//          return MaterialApp(
-//            theme: ThemeData(
-//              primaryColor: white,
-//              accentColor: subtitleGray,
-//            ),
-//            title: 'home',
-//            debugShowCheckedModeBanner: false,
-//            home: AppLock(
-//              enabled: enabled,
-//              lockScreen: UnlockPasscode(),
-//              builder: (args) {
-//                print("args : $args");
-//                return MyApp();
-//              },
-//            ),
-//          );
-//        }
-//      );
-//    }
-//  ));
-//}
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -84,12 +36,10 @@ class MyApp extends StatelessWidget {
 
   MyApp({this.enabled});
 
-  static final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
 
   @override
   Widget build(BuildContext context) {
-    print("enabled : $enabled");
 
     /// LayoutBuilder is a widget which provides the dimensions of its parent so
     /// we can know how much space we have for the widget and can build it our

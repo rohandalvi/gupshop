@@ -1,13 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gupshop/bazaarProductDetails/chatWithBazaarwala.dart';
 import 'package:gupshop/bazaarProductDetails/productDetailsAppBar.dart';
 import 'package:gupshop/bazaarProductDetails/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToChangeName.dart';
 import 'package:gupshop/navigators/navigateToFullScreenPictureAndVideos.dart';
-import 'package:gupshop/navigators/navigateToHome.dart';
-import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
@@ -15,9 +11,6 @@ import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart';
 import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
 import 'package:gupshop/video/videoThumbnailHelper.dart';
-import 'package:gupshop/widgets/customAppBar.dart';
-import 'package:gupshop/widgets/customIconButton.dart';
-import 'package:gupshop/widgets/customText.dart';
 
 class ProductDetail extends StatefulWidget {
   final String productWalaName;

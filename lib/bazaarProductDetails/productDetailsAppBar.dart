@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gupshop/bazaarProductDetails/chatWithBazaarwala.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToChangeName.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';

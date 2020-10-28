@@ -64,6 +64,14 @@ class TextConfig{
   /// individualChat:
 
 
+  /// ChangeProfilePicture
+  static String viewingFriendsProfile = 'viewingFriendsProfile';
+  static String groupConversationId = 'groupConversationId';
+  static String listOfFriendNumbers = 'listOfFriendNumbers';
+  static String presence = 'presence';
+  static String conversationService = 'conversationService';
+  static String notGroupMemberAnymore = 'notGroupMemberAnymore';
+
 
   /// ChangeBazaarWalasPicturesAppBar:
   static String addPictures = 'Add pictures';

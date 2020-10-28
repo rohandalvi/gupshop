@@ -194,6 +194,12 @@ class TextConfig{
   }
   static const String locationNotFound = 'Unable to find location';
 
+
+  /// ProductDetailPage :
+  static const String homeServiceText = 'homeServiceText';
+  static const String homeServiceBool = 'homeServiceBool';
+  static const String sendHome = 'sendHome';
+
   /// Notifications
   static const String notificationFromNumberIndividual = "notificationFromNumberIndividual";
   static const String notificationFromName = "notificationFromName";

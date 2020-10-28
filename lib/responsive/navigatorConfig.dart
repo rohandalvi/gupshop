@@ -17,5 +17,6 @@ class NavigatorConfig{
   static String fullScreenPicturesAndVideosRoute = 'fullScreenPicturesAndVideosRoute';
   static String individualChatAppBar = 'individualChatAppBar';
   static String nameScreen = 'nameScreen';
+  static String productDetailPage = 'productDetailPage';
 
 }

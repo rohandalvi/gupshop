@@ -23,6 +23,7 @@ import 'package:gupshop/navigators/customMapRoute.dart';
 import 'package:gupshop/navigators/fullScreenPicturesAndVideosRoute.dart';
 import 'package:gupshop/navigators/homeRoute.dart';
 import 'package:gupshop/navigators/individualChatAppBarRoute.dart';
+import 'package:gupshop/navigators/nameScreenRoute.dart';
 import 'package:gupshop/onboarding/helper.dart';
 import 'package:gupshop/passcode/customAppLock.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
@@ -120,6 +121,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.customMap : (context){return CustomMapRoute.main(context);},
                 NavigatorConfig.fullScreenPicturesAndVideosRoute : (context){return FullScreenPicturesAndVideosRoute.main(context);},
                 NavigatorConfig.individualChatAppBar : (context){return IndividualChatAppBarRoute.main(context);},
+                NavigatorConfig.nameScreen : (context){return NameScreenRoute.main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

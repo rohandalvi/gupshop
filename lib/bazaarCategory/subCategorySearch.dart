@@ -9,6 +9,7 @@ import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/retriveFromFirebase/getUsersLocation.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
@@ -122,9 +123,18 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
   Widget appBarBody(BuildContext context) {
     return ContactSearch(
       suggestions: widget.subCategoriesList,
-      navigate: (){
+      navigate: () async{
+        String userPhoneNo = await UserDetails().getUserPhoneNoFuture();
+        String userName = await UserDetails().getUserNameFuture();
+
+        Map<String,dynamic> navigatorMap = new Map();
+        navigatorMap[TextConfig.initialIndex] = 1;
+        navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
+        navigatorMap[TextConfig.userName] = userName;
+
+        Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
         //Navigator.pop(context);
-        NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
+        //NavigateToHome(initialIndex: 1).navigateNoBrackets(context);
       },
       //navigate: NavigateToBazaarOnBoardingHome().navigate(context),
       onSearch: searchList,

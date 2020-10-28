@@ -2,6 +2,8 @@ import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/navigators/navigateToProductDetailPage.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customSearch.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -81,15 +83,29 @@ class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
       onTap: () {
         String subCategory = name;
         String subCategoryData = widget.subCategoryMap[subCategory];
-        NavigateToProductDetailPage(
-          sendHome: true,
-          categoryData: widget.categoryData,
-          category: widget.category,
-          subCategory: subCategory,
-          bazaarWalaPhoneNo: widget.bazaarWalaPhoneNo,
-          bazaarWalaName: widget.bazaarWalaName,
-          subCategoryData: subCategoryData
-        ).navigateNoBrackets(context);
+
+
+        Map<String,dynamic> navigatorMap = new Map();
+        navigatorMap[TextConfig.sendHome] = true;
+        navigatorMap[TextConfig.categoryData] = widget.categoryData;
+        navigatorMap[TextConfig.category] = widget.category;
+        navigatorMap[TextConfig.subCategory] = subCategory;
+        navigatorMap[TextConfig.bazaarWalaPhoneNo] = widget.bazaarWalaPhoneNo;
+        navigatorMap[TextConfig.bazaarWalaName] = widget.bazaarWalaName;
+        navigatorMap[TextConfig.subCategoryData] = subCategoryData;
+
+        Navigator.pushNamed(context, NavigatorConfig.productDetailPage, arguments: navigatorMap);
+
+
+//        NavigateToProductDetailPage(
+//          sendHome: true,
+//          categoryData: widget.categoryData,
+//          category: widget.category,
+//          subCategory: subCategory,
+//          bazaarWalaPhoneNo: widget.bazaarWalaPhoneNo,
+//          bazaarWalaName: widget.bazaarWalaName,
+//          subCategoryData: subCategoryData
+//        ).navigateNoBrackets(context);
       }
     );
   }

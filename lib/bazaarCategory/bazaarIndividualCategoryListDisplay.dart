@@ -116,7 +116,7 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
         navigatorMap[TextConfig.homeServiceBool] = homeServiceBool;
         navigatorMap[TextConfig.homeServiceText] = homeServiceText;
 
-        Navigator.pushNamed(context, NavigatorConfig.bazaarAdvertisement, arguments: navigatorMap);
+        Navigator.pushNamed(context, NavigatorConfig.productDetailPage, arguments: navigatorMap);
 
 //        NavigateToProductDetailPage(
 //          bazaarWalaPhoneNo: bazaarWalaPhoneNo,

@@ -26,6 +26,7 @@ import 'package:gupshop/navigators/customMapRoute.dart';
 import 'package:gupshop/navigators/fullScreenPicturesAndVideosRoute.dart';
 import 'package:gupshop/navigators/homeRoute.dart';
 import 'package:gupshop/navigators/individualChatAppBarRoute.dart';
+import 'package:gupshop/navigators/individualChatRoute.dart';
 import 'package:gupshop/navigators/nameScreenRoute.dart';
 import 'package:gupshop/navigators/productDetailPageRoute.dart';
 import 'package:gupshop/onboarding/helper.dart';
@@ -124,7 +125,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.customMap : (context){return CustomMapRoute.main(context);},
                 NavigatorConfig.fullScreenPicturesAndVideosRoute : (context){return FullScreenPicturesAndVideosRoute.main(context);},
                 NavigatorConfig.home : (context){return HomeRoute.main(context);},
-                NavigatorConfig.individualChat : (context){return individualChatRoute(context);},
+                NavigatorConfig.individualChat : (context){return IndividualChatRoute.main(context);},
                 NavigatorConfig.individualChatAppBar : (context){return IndividualChatAppBarRoute.main(context);},
                 NavigatorConfig.nameScreen : (context){return NameScreenRoute.main(context);},
                 NavigatorConfig.productDetailPage : (context){return ProductDetailPageRoute.main(context);},
@@ -141,50 +142,6 @@ class MyApp extends StatelessWidget {
     );
   }
 
-
-  /// routes
-//  Widget homeRoute(BuildContext context){
-//    Map<String,String> map = ModalRoute.of(context).settings.arguments;
-//    String userPhoneNo = map[TextConfig.userPhoneNo];
-//    String userName = map[TextConfig.userName];
-//    return Home(userPhoneNo: userPhoneNo,userName: userName);
-//  }
-
-  Widget individualChatRoute(BuildContext context){
-    Map<String,dynamic> map = ModalRoute.of(context).settings.arguments;
-
-    Map<String, ChatListCache> chatListCache = map[TextConfig.chatListCache];
-    String myName = map[TextConfig.userName];
-    String myNumber = map[TextConfig.userPhoneNo];
-    String friendName = map[TextConfig.friendName];
-    String conversationId = map[TextConfig.conversationId];
-    List<dynamic> friendNumberList = map[TextConfig.friendNumberList];
-    bool notAGroupMemberAnymore = map[TextConfig.notAGroupMemberAnymore];
-    bool groupDeleted = map[TextConfig.groupDeleted];
-    String imageURL = map[TextConfig.imageURL];
-    var forwardMessage =  map[TextConfig.forwardMessage];
-//    bool groupExists = map[TextConfig.groupExists];
-//    String friendNumber= map[TextConfig.friendNumber];
-//    List<dynamic> memberList= map[TextConfig.memberList];
-//    String lastMessage= map[TextConfig.lastMessage];
-//    bool lastMessageIsImage= map[TextConfig.lastMessageIsImage];
-//    String conversationsLatestMessageId= map[TextConfig.conversationsLatestMessageId];
-//    double radius= map[TextConfig.radius];
-//    double innerRadius= map[TextConfig.innerRadius];
-
-    return IndividualChat(
-      chatListCache: chatListCache,
-      friendName: friendName,
-      conversationId: conversationId,
-      userName: myName,
-      userPhoneNo: myNumber,
-      listOfFriendNumbers: friendNumberList,
-      notGroupMemberAnymore: notAGroupMemberAnymore,
-      groupDeleted: groupDeleted,
-      imageURL: imageURL,
-      forwardMessage: forwardMessage,
-    );
-  }
 
   Widget subCategorySearchRoute(BuildContext context){
     Map<String,dynamic> map = ModalRoute.of(context).settings.arguments;

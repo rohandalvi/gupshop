@@ -9,7 +9,6 @@ import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
-import 'package:gupshop/navigators/navigateToCustomMap.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
@@ -212,11 +211,6 @@ class _BazaarLocationState extends State<BazaarLocation> {
                 navigatorMap[TextConfig.showRadius] = true;
 
                 dynamic list = await Navigator.pushNamed(context, NavigatorConfig.customMap, arguments: navigatorMap);// if its a group then p
-//                List list =await NavigateToCustomMap(
-//                  latitude: locationTemp.latitude,
-//                  longitude: locationTemp.longitude,
-//                  showRadius: true,
-//                ).navigateNoBrackets(context);
 
                 /// for exiting dialog:
                 Navigator.pop(context);

@@ -154,20 +154,31 @@ class _IndividualChatAppBarState extends State<IndividualChatAppBar> {
   }
 
   changeProfilePicture(BuildContext context) async{
-    final result = await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ChangeProfilePicture(
-            userName: widget.friendName,
-            viewingFriendsProfile:false,
-            userPhoneNo: widget.friendN,
-            groupConversationId: widget.conversationId,
-            conversationId: widget.conversationId,
-            chatListCache: widget.chatListCache,
-            imageURL: widget.imageURL,
-          ),//pass Name() here and pass Home()in name_screen
-        )
-    );
+    Map<String,dynamic> navigatorMap = new Map();
+    navigatorMap[TextConfig.userName] = widget.friendName;
+    navigatorMap[TextConfig.viewingFriendsProfile] = false;
+    navigatorMap[TextConfig.userPhoneNo] = widget.friendN;
+    navigatorMap[TextConfig.groupConversationId] = widget.conversationId;
+    navigatorMap[TextConfig.conversationId] = widget.conversationId;
+    navigatorMap[TextConfig.chatListCache] = widget.chatListCache;
+    navigatorMap[TextConfig.imageURL] = widget.imageURL;
+
+    final result = await Navigator.pushNamed(context, NavigatorConfig.changeProfilePicture, arguments: navigatorMap);
+
+//    Navigator.push(
+//        context,
+//        MaterialPageRoute(
+//          builder: (context) => ChangeProfilePicture(
+//            userName: widget.friendName,
+//            viewingFriendsProfile:false,
+//            userPhoneNo: widget.friendN,
+//            groupConversationId: widget.conversationId,
+//            conversationId: widget.conversationId,
+//            chatListCache: widget.chatListCache,
+//            imageURL: widget.imageURL,
+//          ),//pass Name() here and pass Home()in name_screen
+//        )
+//    );
     setState(() {
       checkCache = false;
 

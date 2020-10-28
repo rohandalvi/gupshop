@@ -139,28 +139,6 @@ class NavigateToProductDetailsPage{
   }
 }
 
-class NavigateToSelectCategoryToShowInProductDetailsPage{
-  String productWalaName;
-  String productWalaNumber;
-
-
-  NavigateToSelectCategoryToShowInProductDetailsPage({this.productWalaName, this.productWalaNumber});
-
-  navigate(BuildContext context){
-    print("in navigate");
-    print("username in navigate : $productWalaName");
-    print("userNumber in navigate : $productWalaNumber");
-    return (){
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SelectCategoryToShowInProductDetailsPage(productWalaName: productWalaName, productWalaNumber: productWalaNumber,),//pass Name() here and pass Home()in name_screen
-          )
-      );
-    };
-  }
-}
-
 
 class NavigateToHome{
   String userName;

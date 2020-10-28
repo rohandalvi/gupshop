@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/bazaar/getCategoriesSubscribedTo.dart';
-import 'package:gupshop/contactSearch/contact_search.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
+//import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customSearch.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -48,7 +49,15 @@ class _SelectCategoryToShowInProductDetailsPageState extends State<SelectCategor
         return ListTile(
           title: CustomText(text: category),
           ///displaying on the display name
-          onTap:NavigateToProductDetailsPage(productWalaNumber:widget.productWalaNumber, productWalaName:widget.productWalaName, category: category).navigate(context),
+          onTap:(){
+            /// In navigatorMap elements are not added right now because this class
+            /// is not yet used. So the NavigateToProductDetailsPage is also kept
+            /// as the comment
+            Map<String,dynamic> navigatorMap = new Map();
+            Navigator.pushNamed(context, NavigatorConfig.productDetailPage, arguments: navigatorMap);
+          }
+          //NavigateToProductDetailsPage(productWalaNumber:widget.productWalaNumber,
+          // productWalaName:widget.productWalaName, category: category).navigate(context),
         );
       },
     );

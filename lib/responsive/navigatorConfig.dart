@@ -9,5 +9,6 @@ class NavigatorConfig{
   static String bazaarOnBoardingHome = 'bazaarOnBoardingHome';
   static String bazaarOnBoardingProfile = 'bazaarOnBoardingProfile';
   static String bazaarSubCategorySearch = 'bazaarSubCategorySearch';
+  static String bazaarWelcome = 'bazaarWelcome';
 
 }

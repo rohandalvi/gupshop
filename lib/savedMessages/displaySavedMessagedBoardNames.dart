@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToABoard.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/clickableText.dart';
 import 'package:gupshop/widgets/customText.dart';
 
@@ -44,7 +46,11 @@ class _DisplaySavedMessagesBoardNamesState extends State<DisplaySavedMessagesBoa
                 if(numberOfBoards == 0){
                   return Center(child: CustomText(text: "No messages saved",));
                 } return ClickableText(text: boardName, onTap: (){
-                    NavigateToABoard(boardName: boardName).navigate(context);
+                  Map<String,dynamic> navigatorMap = new Map();
+                  navigatorMap[TextConfig.boardName] = boardName;
+
+                  Navigator.pushNamed(context, NavigatorConfig.boardRoute, arguments:navigatorMap );
+//                    NavigateToABoard(boardName: boardName).navigate(context);
                 },);
               },
               separatorBuilder: (context, index) =>

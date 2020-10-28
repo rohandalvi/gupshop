@@ -7,7 +7,6 @@ import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
 import 'package:gupshop/bazaarHomeService/homeServiceText.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';

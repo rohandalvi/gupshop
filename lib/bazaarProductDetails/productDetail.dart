@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarProductDetails/productDetailsAppBar.dart';
 import 'package:gupshop/bazaarProductDetails/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/navigators/navigateToFullScreenPictureAndVideos.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';

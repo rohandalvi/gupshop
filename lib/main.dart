@@ -38,6 +38,7 @@ import 'package:gupshop/passcode/unlockPasscode.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 
 import 'bazaarOnBoarding/bazaarAdvertisement.dart';
+import 'navigators/subCategoriesCheckBoxDataRoute.dart';
 //void main() async{
 //  /// making sure that we can use shared_preferences without causing an
 //  /// exception use WidgetsFlutterBinding.ensureInitialized()
@@ -129,6 +130,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.productDetailPage : (context){return ProductDetailPageRoute.main(context);},
                 NavigatorConfig.subCategoriesCheckBox : (context){return BazaarSubCategoriesCheckBoxRoute.main(context);},
                 NavigatorConfig.boardRoute : (context){return BoardRoute.main(context);},
+                NavigatorConfig.subCategoriesCheckBoxDataRoute : (context){return SubCategoriesCheckBoxDataRoute.main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

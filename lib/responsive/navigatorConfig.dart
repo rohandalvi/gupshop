@@ -20,5 +20,6 @@ class NavigatorConfig{
   static String productDetailPage = 'productDetailPage';
   static String subCategoriesCheckBox = 'subCategoriesCheckBox';
   static String boardRoute = 'boardRoute';
+  static String subCategoriesCheckBoxDataRoute = 'subCategoriesCheckBoxDataRoute';
 
 }

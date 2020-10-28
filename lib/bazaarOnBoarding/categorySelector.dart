@@ -41,13 +41,23 @@ class CategorySelector extends StatelessWidget {
                   List<DocumentSnapshot> subCategories = await subCategoriesListFuture;
                   subCategoryMap = await BazaarCategoryTypesAndImages().getSubCategoriesMap(categoryNameForData);
 
-                  NavigateToBazaarSubCategoriesCheckBoxData(
-                    subCategoriesList: subCategories,
-                    subCategoriesListFuture: subCategoriesListFuture,
-                    category: catergoryName,
-                    categoryData: categoryNameForData,
-                    subCategoryMap: subCategoryMap,
-                  ).navigateNoBrackets(context);
+                  Map<String,dynamic> navigatorMap = new Map();
+                  navigatorMap[TextConfig.subCategoriesList] = subCategories;
+                  navigatorMap[TextConfig.subCategoriesListFuture] = subCategoriesListFuture;
+                  navigatorMap[TextConfig.category] = catergoryName;
+                  navigatorMap[TextConfig.categoryData] = categoryNameForData;
+                  navigatorMap[TextConfig.subCategoryMap] = subCategoryMap;
+
+                  Navigator.pushNamed(context, NavigatorConfig.subCategoriesCheckBoxDataRoute, arguments: navigatorMap);
+
+
+//                  NavigateToBazaarSubCategoriesCheckBoxData(
+//                    subCategoriesList: subCategories,
+//                    subCategoriesListFuture: subCategoriesListFuture,
+//                    category: catergoryName,
+//                    categoryData: categoryNameForData,
+//                    subCategoryMap: subCategoryMap,
+//                  ).navigateNoBrackets(context);
                 },
                 imageName: catergoryName,
                 imageURL: imageURL,

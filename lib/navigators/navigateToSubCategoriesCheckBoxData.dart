@@ -20,8 +20,10 @@ class NavigateToBazaarSubCategoriesCheckBoxData{
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SubCategoryCheckBoxData(subCategoriesList: subCategoriesList,
-              subCategoriesListFuture: subCategoriesListFuture, category: category,
+            builder: (context) => SubCategoryCheckBoxData(
+              subCategoriesList: subCategoriesList,
+              subCategoriesListFuture: subCategoriesListFuture,
+              category: category,
               categoryData: categoryData,
             ),
           )
@@ -33,9 +35,12 @@ class NavigateToBazaarSubCategoriesCheckBoxData{
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SubCategoryCheckBoxData(subCategoriesList: subCategoriesList,
-            subCategoriesListFuture: subCategoriesListFuture, category:  category,
-            subCategoryMap: subCategoryMap,categoryData: categoryData,
+          builder: (context) => SubCategoryCheckBoxData(
+            subCategoriesList: subCategoriesList,
+            subCategoriesListFuture: subCategoriesListFuture,
+            category:  category,
+            subCategoryMap: subCategoryMap,
+            categoryData: categoryData,
           ),
         )
     );

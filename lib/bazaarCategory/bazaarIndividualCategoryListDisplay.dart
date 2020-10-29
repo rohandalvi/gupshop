@@ -12,7 +12,7 @@ import 'package:gupshop/retriveFromFirebase/getFromFriendsCollection.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class BazaarIndividualCategoryListDisplay extends StatelessWidget {
+class BazaarIndividualCategoryListDisplay extends StatelessWidget{
   final String bazaarWalaName;
   final String category;
   final String categoryData;
@@ -28,6 +28,27 @@ class BazaarIndividualCategoryListDisplay extends StatelessWidget {
     this.bazaarWalaName, this.thumbnailPicture, this.subCategory, this.subCategoryData,
     this.categoryData, this.homeServiceText, this.homeServiceBool, this.showHomeServices
   });
+
+
+//  /// navigator methods:
+//  notificationInit(){
+//    NotificationConsumerMethods().notificationInit(
+//        runtimeType: this.runtimeType,
+//        widget: this,
+//        onSelectNotificationFromConsumer: onSelectNotification
+//    );
+//  }
+//
+//
+//  /// when the user taps the notification:
+//  Future<void> onSelectNotification(String payload) async{
+//    NotificationConsumerMethods(
+//        userName: bazaarWalaName,
+//        userPhoneNo: bazaarWalaPhoneNo,
+//        customContext: this.context
+//    ).onSelectNotification(payload);
+//  }
+
 
   @override
   Widget build(BuildContext context) {

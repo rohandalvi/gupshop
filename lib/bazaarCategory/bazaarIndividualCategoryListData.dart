@@ -8,6 +8,9 @@ import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/location/locationPermissionHandler.dart';
 
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/notifications/IRules.dart';
+import 'package:gupshop/notifications/NotificationEventType.dart';
+import 'package:gupshop/notifications/application/notificationConsumerMethods.dart';
 
 
 import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
@@ -29,7 +32,7 @@ import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/paddedMarginedContainer.dart';
 
-class BazaarIndividualCategoryListData extends StatefulWidget {
+class BazaarIndividualCategoryListData extends StatefulWidget implements IRules{
   final String category;
   final String categoryData;
   final String subCategory;
@@ -46,6 +49,11 @@ class BazaarIndividualCategoryListData extends StatefulWidget {
 
   @override
   _BazaarIndividualCategoryListDataState createState() => _BazaarIndividualCategoryListDataState();
+
+  @override
+  bool apply(NotificationEventType eventType, String conversationId) {
+    return true;
+  }
 }
 
 class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCategoryListData> {
@@ -100,14 +108,41 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
   @override
   void initState() {
+
+    notificationInit();
+
     if(widget.addressName == null){
       widget.addressName = TextConfig.usersLocationCollectionHome;/// home
     }
     super.initState();
   }
 
+
+  /// navigator methods:
+  notificationInit(){
+    NotificationConsumerMethods().notificationInit(
+        runtimeType: this.widget.runtimeType,
+        widget: this.widget,
+        onSelectNotificationFromConsumer: onSelectNotification
+    );
+  }
+
+
+  /// when the user taps the notification:
+  Future<void> onSelectNotification(String payload) async{
+    String userName = await UserDetails().getUserNameFuture();
+    String userNumber = await UserDetails().getUserPhoneNoFuture();
+
+    NotificationConsumerMethods(
+        userName: userName,
+        userPhoneNo: userNumber,
+        customContext: context
+    ).onSelectNotification(payload);
+  }
+
   @override
   Widget build(BuildContext context) {
+    print("in BazaarIndividualCategoryListData build");
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(

@@ -355,8 +355,8 @@ class _IndividualChatState extends State<IndividualChat> {
     return WillPopScope(
       onWillPop: () async {
         Map<String,dynamic> navigatorMap = new Map();
-        navigatorMap[TextConfig.userPhoneNo] = widget.userName;
-        navigatorMap[TextConfig.userName] = widget.userPhoneNo;
+        navigatorMap[TextConfig.userPhoneNo] = widget.userPhoneNo;
+        navigatorMap[TextConfig.userName] = widget.userName;
 
          return Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
       },

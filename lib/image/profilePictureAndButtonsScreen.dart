@@ -10,6 +10,7 @@ import 'package:gupshop/image/pickImageFromCamera.dart';
 import 'package:gupshop/image/pickImageFromGallery.dart';
 import 'package:gupshop/home/home.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
@@ -163,7 +164,12 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
                       }
                       else{
                         await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, tempImage);
-                        CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+                        Map<String,dynamic> navigatorMap = new Map();
+                        navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
+                        navigatorMap[TextConfig.userName] = userName;
+
+                        Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
+                        //CustomNavigator().navigateToHome(context, userName, userPhoneNo);
                       }
 
                       widget.chatListCache.remove(widget.conversationId);
@@ -208,7 +214,12 @@ class _ProfilePictureAndButtonsScreenState extends State<ProfilePictureAndButton
                     }
                     else{
                       await ImagesPickersDisplayPictureURLorFile().uploadImageToFirestore(context, userPhoneNo, tempImage);
-                      CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+                      Map<String,dynamic> navigatorMap = new Map();
+                      navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
+                      navigatorMap[TextConfig.userName] = userName;
+
+                      Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
+                      //CustomNavigator().navigateToHome(context, userName, userPhoneNo);
                     }
                     widget.chatListCache.remove(widget.conversationId);
                     profilePictureChanged = true;

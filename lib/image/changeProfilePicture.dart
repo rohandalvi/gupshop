@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/image/profilePictureAndButtonsScreen.dart';
 import 'package:gupshop/retriveFromFirebase/profilePictures.dart';
@@ -74,12 +76,18 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
             if(viewingFriendsProfile == true || groupConversationId != null){/// if its a group chat, then navigate to individualchat and not home
               Navigator.pop(context, true);
             } else{
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(//@TODo pass userName to this page
-                    builder: (context) => Home(userName: userName,userPhoneNo: userPhoneNo,),//routing to home screen for now, but should be routed to sideMenu
-                  )
-              );
+
+              Map<String,dynamic> navigatorMap = new Map();
+              navigatorMap[TextConfig.userName] = userName;
+              navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
+
+              Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
+//              Navigator.push(
+//                  context,
+//                  MaterialPageRoute(//@TODo pass userName to this page
+//                    builder: (context) => Home(userName: userName,userPhoneNo: userPhoneNo,),//routing to home screen for now, but should be routed to sideMenu
+//                  )
+//              );
             }
             },),
         ),

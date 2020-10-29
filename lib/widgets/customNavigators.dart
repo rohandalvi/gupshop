@@ -26,28 +26,18 @@ class CustomNavigator{
     );
   }
 
-  navigateToChangeProfilePicture(BuildContext context, String userName, bool viewingFriendsProfile, String userPhoneNo,
-      String groupConversationId, String imageURL){
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ChangeProfilePicture(userName: userName, viewingFriendsProfile:viewingFriendsProfile,
-            userPhoneNo: userPhoneNo, groupConversationId: groupConversationId, imageURL: imageURL,),//pass Name() here and pass Home()in name_screen
-        )
-    );
-  }
 
-  navigateToContactSearch(BuildContext context, String userName, String userPhoneNo, var data){
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ContactSearch(
-            userName: userName,
-            userPhoneNo: userPhoneNo,
-            data: data,),//pass Name() here and pass Home()in name_screen
-        )
-    );
-  }
+//  navigateToContactSearch(BuildContext context, String userName, String userPhoneNo, var data){
+//    Navigator.push(
+//        context,
+//        MaterialPageRoute(
+//          builder: (context) => ContactSearch(
+//            userName: userName,
+//            userPhoneNo: userPhoneNo,
+//            data: data,),//pass Name() here and pass Home()in name_screen
+//        )
+//    );
+//  }
 
 //  navigateToContactSearchPage(BuildContext context, String userName, String userPhoneNo, var data){
 //    Navigator.push(

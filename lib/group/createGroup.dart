@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/updateInFirebase/updateConversationMetadata.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
@@ -132,7 +134,12 @@ class _CreateGroupState<T> extends State<CreateGroup<T>> {
 
                   ///navigate to creatGroupName_Screen:
                   if(shouldAddNewMemberToTheGroup){
-                    CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+                    Map<String,dynamic> navigatorMap = new Map();
+                    navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
+                    navigatorMap[TextConfig.userName] = userName;
+
+                    Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
+                    //CustomNavigator().navigateToHome(context, userName, userPhoneNo);
                     UpdateConversationMetadata().addNewMembers(conversationId, listOfNumbersInAGroup);
                   }
                   else CustomNavigator().navigateToCreateGroupName_Screen(context, userName, userPhoneNo, listOfNumbersInAGroup);

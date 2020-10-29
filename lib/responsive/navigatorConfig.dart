@@ -24,5 +24,6 @@ class NavigatorConfig{
   static String boardRoute = 'boardRoute';
   static String subCategoriesCheckBoxDataRoute = 'subCategoriesCheckBoxDataRoute';
   static String createGroupNameScreen = 'createGroupNameScreen';
+  static String createGroup = 'createGroupScreen';
 
 }

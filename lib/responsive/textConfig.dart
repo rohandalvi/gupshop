@@ -132,6 +132,7 @@ class TextConfig{
 
   /// group:
   static const String listOfNumbersInAGroup= 'listOfNumbersInAGroup';
+  static const String shouldAddNewGroupMember= 'shouldAddNewGroupMember';
 
   /// home:
   static const String initialIndex= 'initialIndex';

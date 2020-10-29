@@ -112,7 +112,14 @@ class _HomeAppBarState extends State<HomeAppBar> {
                               child: CustomIconButton(
                                 iconNameInImageFolder: IconConfig.groupIcon,
                                 onPressed: (){
-                                  CustomNavigator().navigateToCreateGroup(context, widget.userName, widget.userPhoneNo, false, null);
+                                  Map<String,dynamic> navigatorMap = new Map();
+                                  navigatorMap[TextConfig.userPhoneNo] = widget.userPhoneNo;
+                                  navigatorMap[TextConfig.userName] = widget.userName;
+                                  navigatorMap[TextConfig.shouldAddNewGroupMember] = false;
+                                  navigatorMap[TextConfig.conversationId] = null;
+
+                                  Navigator.pushNamed(context, NavigatorConfig.createGroup, arguments: navigatorMap);
+                                  //CustomNavigator().navigateToCreateGroup(context, widget.userName, widget.userPhoneNo, false, null);
                                 },
                               ),
                             ),

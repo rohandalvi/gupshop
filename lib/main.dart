@@ -13,6 +13,8 @@ import 'package:gupshop/navigators/changeBazaarPicturesFetchAndDisplayRoute.dart
 import 'package:gupshop/navigators/changeProfilePictureRoute.dart';
 import 'package:gupshop/navigators/contactSearch.dart';
 import 'package:gupshop/navigators/contactSearchPageRoute.dart';
+import 'package:gupshop/navigators/createGroupNameScreenRoute.dart';
+import 'package:gupshop/navigators/createGroupRoute.dart';
 import 'package:gupshop/navigators/customMapRoute.dart';
 import 'package:gupshop/navigators/fullScreenPicturesAndVideosRoute.dart';
 import 'package:gupshop/navigators/homeRoute.dart';
@@ -87,6 +89,8 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.subCategorySearch : (context){return SubCategorySearchRoute.main(context);},
                 NavigatorConfig.subCategoriesCheckBox : (context){return BazaarSubCategoriesCheckBoxRoute.main(context);},
                 NavigatorConfig.subCategoriesCheckBoxDataRoute : (context){return SubCategoriesCheckBoxDataRoute.main(context);},
+                NavigatorConfig.createGroup : (context){return CreateGroupRoute.main(context);},
+                NavigatorConfig.createGroupNameScreen : (context){return CreateGroupNameScreenRoute.main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

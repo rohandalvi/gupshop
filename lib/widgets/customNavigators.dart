@@ -17,27 +17,20 @@ import 'package:gupshop/group/createGroup.dart';
 
 class CustomNavigator{
 
-  navigateToCreateGroupName_Screen(BuildContext context,
+  navigateToCreateGroup(BuildContext context,
       String userName,
       String userPhoneNo,
-      List<String> listOfNumbersInAGroup){
+      bool shouldAddNewGroupMember,
+      String conversationId){
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CreateGroupName_Screen(
+          builder: (context) => CreateGroup(
             userName: userName,
             userPhoneNo: userPhoneNo,
-            listOfNumbersInAGroup: listOfNumbersInAGroup,
+            shouldAddNewMemberToTheGroup: shouldAddNewGroupMember,
+            conversationId: conversationId,
           ),//pass Name() here and pass Home()in name_screen
-        )
-    );
-  }
-
-  navigateToCreateGroup(BuildContext context, String userName, String userPhoneNo, bool shouldAddNewGroupMember, String conversationId){
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CreateGroup(userName: userName, userPhoneNo: userPhoneNo, shouldAddNewMemberToTheGroup: shouldAddNewGroupMember, conversationId: conversationId,),//pass Name() here and pass Home()in name_screen
         )
     );
   }

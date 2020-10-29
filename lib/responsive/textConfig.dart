@@ -130,6 +130,8 @@ class TextConfig{
   static const String payLoad= 'payLoad';
   static const String shouldZoom= 'shouldZoom';
 
+  /// group:
+  static const String listOfNumbersInAGroup= 'listOfNumbersInAGroup';
 
   /// home:
   static const String initialIndex= 'initialIndex';

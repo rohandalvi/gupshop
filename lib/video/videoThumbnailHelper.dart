@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/video/myVideoThumbnail.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
@@ -45,12 +47,17 @@ class VideoThumbnailHelper extends StatelessWidget {
               ),
               CustomIconButton(iconNameInImageFolder: IconConfig.playButton,
                 onPressed: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CustomVideoPlayer(videoURL:videoURL),//pass Name() here and pass Home()in name_screen
-                      )
-                  );
+                  Map<String,dynamic> navigatorMap = new Map();
+                  navigatorMap[TextConfig.videoURL] = videoURL;
+
+                  Navigator.pushNamed(context, NavigatorConfig.customVideoPlayer, arguments: navigatorMap);
+
+//                  Navigator.push(
+//                      context,
+//                      MaterialPageRoute(
+//                        builder: (context) => CustomVideoPlayer(videoURL:videoURL),//pass Name() here and pass Home()in name_screen
+//                      )
+//                  );
                 },)
             ],
           );

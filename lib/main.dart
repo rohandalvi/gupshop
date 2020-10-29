@@ -10,12 +10,14 @@ import 'package:gupshop/navigators/bazaarSubCategorySearchRoute.dart';
 import 'package:gupshop/navigators/bazaarWelcomeRoute.dart';
 import 'package:gupshop/navigators/boardRoute.dart';
 import 'package:gupshop/navigators/changeBazaarPicturesFetchAndDisplayRoute.dart';
+import 'package:gupshop/navigators/changeNameRoute.dart';
 import 'package:gupshop/navigators/changeProfilePictureRoute.dart';
 import 'package:gupshop/navigators/contactSearch.dart';
 import 'package:gupshop/navigators/contactSearchPageRoute.dart';
 import 'package:gupshop/navigators/createGroupNameScreenRoute.dart';
 import 'package:gupshop/navigators/createGroupRoute.dart';
 import 'package:gupshop/navigators/customMapRoute.dart';
+import 'package:gupshop/navigators/customVideoPlayerRoute.dart';
 import 'package:gupshop/navigators/fullScreenPicturesAndVideosRoute.dart';
 import 'package:gupshop/navigators/homeRoute.dart';
 import 'package:gupshop/navigators/individualChatAppBarRoute.dart';
@@ -76,7 +78,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.bazaarOnBoardingProfile : (context){return BazaarOnBoardingProfileRoute.main(context);},
                 NavigatorConfig.bazaarSubCategorySearch : (context){return BazaarSubCategorySearchRoute.main(context);},
                 NavigatorConfig.changeBazaarPicturesFetchAndDisplay : (context){return ChangeBazaarPicturesFetchAndDisplayRoute.main(context);},
-                NavigatorConfig.changeName : (context){return BazaarSubCategorySearchRoute.main(context);},
+                NavigatorConfig.changeName : (context){return ChangeNameRoute.main(context);},
                 NavigatorConfig.changeProfilePicture : (context){return ChangeProfilePictureRoute.main(context);},
                 NavigatorConfig.customMap : (context){return CustomMapRoute.main(context);},
                 NavigatorConfig.contactSearchPage : (context){return ContactSearchPageRoute.main(context);},
@@ -93,6 +95,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.createGroup : (context){return CreateGroupRoute.main(context);},
                 NavigatorConfig.createGroupNameScreen : (context){return CreateGroupNameScreenRoute.main(context);},
                 NavigatorConfig.newsComposer : (context){return NewsComposerRoute.main(context);},
+                NavigatorConfig.customVideoPlayer : (context){return CustomVideoPlayerRoute.main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

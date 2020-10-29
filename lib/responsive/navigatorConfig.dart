@@ -26,5 +26,6 @@ class NavigatorConfig{
   static String createGroupNameScreen = 'createGroupNameScreen';
   static String createGroup = 'createGroupScreen';
   static String newsComposer = 'newsComposer';
+  static String customVideoPlayer = 'customVideoPlayer';
 
 }

@@ -6,6 +6,9 @@ import 'package:gupshop/bazaarCategory/changeLocationInSearch.dart';
 import 'package:gupshop/bazaarHomeService/homeServiceText.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/notifications/IRules.dart';
+import 'package:gupshop/notifications/NotificationEventType.dart';
+import 'package:gupshop/notifications/application/notificationConsumerMethods.dart';
 import 'package:gupshop/responsive/bazaarAndMapConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
@@ -14,7 +17,7 @@ import 'package:gupshop/widgets/customDialogForConfirmation.dart';
 import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class SubCategorySearch extends StatefulWidget {
+class SubCategorySearch extends StatefulWidget implements IRules{
   final String category;
   final String categoryData;
   final Future<List<DocumentSnapshot>> subCategoriesListFuture;
@@ -30,6 +33,11 @@ class SubCategorySearch extends StatefulWidget {
 
   @override
   _SubCategorySearchState createState() => _SubCategorySearchState();
+
+  @override
+  bool apply(NotificationEventType eventType, String conversationId) {
+    return true;
+  }
 }
 
 class _SubCategorySearchState extends State<SubCategorySearch> {
@@ -78,6 +86,26 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
         ],
       );
     }
+  }
+
+
+  /// navigator methods:
+  notificationInit(){
+    NotificationConsumerMethods().notificationInit(
+        runtimeType: this.widget.runtimeType,
+        widget: this.widget,
+        onSelectNotificationFromConsumer: onSelectNotification
+    );
+  }
+
+
+  /// when the user taps the notification:
+  Future<void> onSelectNotification(String payload) async{
+    NotificationConsumerMethods(
+        userName: widget.bazaarWalaName,
+        userPhoneNo: widget.bazaarWalaPhoneNo,
+        customContext: context
+    ).onSelectNotification(payload);
   }
 
 

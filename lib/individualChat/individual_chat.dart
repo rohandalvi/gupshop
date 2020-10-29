@@ -62,8 +62,7 @@ class IndividualChat extends StatefulWidget implements IRules{
   _IndividualChatState createState() {
     print("in createState");
     print("CID $conversationId");
-    return _IndividualChatState(
-    );
+    return _IndividualChatState();
   }
 
   @override
@@ -254,6 +253,7 @@ class _IndividualChatState extends State<IndividualChat> {
     conversationService = new ConversationService(widget.conversationId);
     super.initState();
   }
+
 
 
   notificationInit(){

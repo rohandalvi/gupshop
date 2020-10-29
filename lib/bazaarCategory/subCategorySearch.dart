@@ -187,9 +187,16 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
 
         /// for all categories except drivers and delivery/errands
         Map<String,dynamic> navigatorMap = new Map();
-        navigatorMap[TextConfig.text] = "Select a category to edit";
+        navigatorMap[TextConfig.category] = widget.category;
+        navigatorMap[TextConfig.categoryData] = widget.categoryData;
+        navigatorMap[TextConfig.subCategory] = subCategory;
+        navigatorMap[TextConfig.subCategoryData] = subCategoryData;
+        navigatorMap[TextConfig.showHomeService] = showHomeService;
+        navigatorMap[TextConfig.userGeohash] = userGeohash;
+        navigatorMap[TextConfig.addressName] = addressName;
 
-        Navigator.pushNamed(context, NavigatorConfig.bazaarI, arguments: navigatorMap);
+
+        Navigator.pushNamed(context, NavigatorConfig.bazaarIndividualCategoryListData, arguments: navigatorMap);
 //        Navigator.push(
 //            context,
 //            MaterialPageRoute(

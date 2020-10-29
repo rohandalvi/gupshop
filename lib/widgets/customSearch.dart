@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -41,7 +42,12 @@ class CustomSearch<T> extends StatelessWidget {
           icon: CustomIconButton(
             iconNameInImageFolder: IconConfig.backArrow,
             onPressed: backButton == null ? () { /// back arrow
-              CustomNavigator().navigateToHome(context, userName, userPhoneNo);
+              Map<String,dynamic> navigatorMap = new Map();
+              navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
+              navigatorMap[TextConfig.userName] = userName;
+
+              Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
+              //CustomNavigator().navigateToHome(context, userName, userPhoneNo);
             } : backButton,
           ),
           minimumChars: 1,/// minimum characters to enter to start the search

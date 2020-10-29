@@ -168,6 +168,12 @@ class TextConfig{
 
   static const String groupDeleted = 'This group is Deleted !';
 
+
+  /// news:
+  static const String value = 'value';
+  static const String controller = 'controller';
+  static const String listScrollController = 'listScrollController';
+
   /// ======================================================================== ///
 
   /// classes ***************************************************************

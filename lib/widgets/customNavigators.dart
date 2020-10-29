@@ -17,27 +17,6 @@ import 'package:gupshop/group/createGroup.dart';
 
 class CustomNavigator{
 
-  navigateToCreateGroup(BuildContext context,
-      String userName,
-      String userPhoneNo,
-      bool shouldAddNewGroupMember,
-      String conversationId){
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CreateGroup(
-            userName: userName,
-            userPhoneNo: userPhoneNo,
-            shouldAddNewMemberToTheGroup: shouldAddNewGroupMember,
-            conversationId: conversationId,
-          ),//pass Name() here and pass Home()in name_screen
-        )
-    );
-  }
-
-
-
-
 class NavigateToNewsComposer{
   bool groupExits;
   String friendN;

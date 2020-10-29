@@ -91,6 +91,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.subCategoriesCheckBoxDataRoute : (context){return SubCategoriesCheckBoxDataRoute.main(context);},
                 NavigatorConfig.createGroup : (context){return CreateGroupRoute.main(context);},
                 NavigatorConfig.createGroupNameScreen : (context){return CreateGroupNameScreenRoute.main(context);},
+                NavigatorConfig.newsComposer : (context){return .main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

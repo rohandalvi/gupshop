@@ -4,7 +4,6 @@ import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:gupshop/passcode/setPasscode.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
-import 'package:gupshop/contactSearch/contactSearchPage.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';

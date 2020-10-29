@@ -6,6 +6,7 @@ import 'package:gupshop/bazaarOnBoarding/onBoardingHome.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesDisplay.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/responsive/intConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
@@ -328,12 +329,19 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
                 text: 'Edit Profile', fontSize: WidgetConfig.fontSizeTwelve,),
               onPressed: (){
                 /// take the bazaarWala to bazaarProfile page"
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Material(child: OnBoardingHome(text : "Select a category to edit")),
-                    )
-                );
+
+                Map<String,dynamic> navigatorMap = new Map();
+                navigatorMap[TextConfig.text] = "Select a category to edit";
+
+                Navigator.pushNamed(context, NavigatorConfig.bazaarOnBoardingHome, arguments: navigatorMap);
+
+//                Navigator.push(
+//                    context,
+//                    MaterialPageRoute(
+//                      builder: (context) => Material(child: OnBoardingHome(
+//                          text : "Select a category to edit")),
+//                    )
+//                );
               },),
 //            Text('Add your advertisement',style: GoogleFonts.openSans(
 //                fontSize: 12

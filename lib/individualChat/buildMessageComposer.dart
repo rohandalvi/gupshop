@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/sizeConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
@@ -71,18 +73,33 @@ class BuildMessageComposer extends StatelessWidget {
           Expanded(
             flex: 1,
             child: CustomIconButton(
-              onPressed:NavigateToNewsComposer(
-                conversationId: conversationId,
-                userName: userName,
-                userPhoneNo: userPhoneNo,
-                groupName: groupName,
-                groupExits: groupExits,
-                friendN: friendN,
-                listOfFriendNumbers: listOfFriendNumbers,
-                value: value,
-                controller: controller,
-                listScrollController: listScrollController,
-              ).navigate(context),
+              onPressed:(){
+                Map<String,dynamic> navigatorMap = new Map();
+                navigatorMap[TextConfig.conversationId] = conversationId;
+                navigatorMap[TextConfig.userName] = userName;
+                navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
+                navigatorMap[TextConfig.groupName] = groupName;
+                navigatorMap[TextConfig.groupExists] = groupExits;
+                navigatorMap[TextConfig.friendNumber] = friendN;
+                navigatorMap[TextConfig.listOfFriendNumbers] = listOfFriendNumbers;
+                navigatorMap[TextConfig.value] = value;
+                navigatorMap[TextConfig.controller] = controller;
+                navigatorMap[TextConfig.listScrollController] = listScrollController;
+
+                Navigator.pushNamed(context, NavigatorConfig.newsComposer, arguments: navigatorMap);
+              },
+//              NavigateToNewsComposer(
+//                conversationId: conversationId,
+//                userName: userName,
+//                userPhoneNo: userPhoneNo,
+//                groupName: groupName,
+//                groupExits: groupExits,
+//                friendN: friendN,
+//                listOfFriendNumbers: listOfFriendNumbers,
+//                value: value,
+//                controller: controller,
+//                listScrollController: listScrollController,
+//              ).navigate(context),
               iconNameInImageFolder: IconConfig.news,
             ),
           ),

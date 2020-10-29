@@ -15,8 +15,8 @@ import 'package:gupshop/group/showGroupMembers.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
 import 'package:gupshop/group/createGroup.dart';
 
-class CustomNavigator{
-
+class CustomNavigator {
+}
 class NavigateToNewsComposer{
   bool groupExits;
   String friendN;

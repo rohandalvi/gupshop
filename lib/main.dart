@@ -21,6 +21,7 @@ import 'package:gupshop/navigators/homeRoute.dart';
 import 'package:gupshop/navigators/individualChatAppBarRoute.dart';
 import 'package:gupshop/navigators/individualChatRoute.dart';
 import 'package:gupshop/navigators/nameScreenRoute.dart';
+import 'package:gupshop/navigators/newsComposerRoute.dart';
 import 'package:gupshop/navigators/productDetailPageRoute.dart';
 import 'package:gupshop/navigators/subCategorySearchRoute.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
@@ -91,7 +92,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.subCategoriesCheckBoxDataRoute : (context){return SubCategoriesCheckBoxDataRoute.main(context);},
                 NavigatorConfig.createGroup : (context){return CreateGroupRoute.main(context);},
                 NavigatorConfig.createGroupNameScreen : (context){return CreateGroupNameScreenRoute.main(context);},
-                NavigatorConfig.newsComposer : (context){return .main(context);},
+                NavigatorConfig.newsComposer : (context){return NewsComposerRoute.main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

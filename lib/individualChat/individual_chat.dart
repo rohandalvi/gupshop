@@ -353,8 +353,13 @@ class _IndividualChatState extends State<IndividualChat> {
 //    );
 
     return WillPopScope(
-      onWillPop: () async => CustomNavigator().navigateToHome(context,
-          widget.userName, widget.userPhoneNo),
+      onWillPop: () async {
+        Map<String,dynamic> navigatorMap = new Map();
+        navigatorMap[TextConfig.userPhoneNo] = widget.userName;
+        navigatorMap[TextConfig.userName] = widget.userPhoneNo;
+
+         return Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
+      },
       child: Material(
         child: Scaffold(
           appBar: PreferredSize(

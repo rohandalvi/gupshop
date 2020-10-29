@@ -12,16 +12,13 @@ import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
-import 'package:gupshop/retriveFromFirebase/getMessageSavedStatusFromFirebase.dart';
 import 'package:gupshop/image/fullScreenPictureVideos.dart';
 import 'package:gupshop/timestamp/timeDisplay.dart';
 import 'package:gupshop/widgets/customDialogForConfirmation.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customText.dart';
 import 'package:gupshop/widgets/forwardMessagesSnackBarTitleText.dart';
 import 'package:gupshop/individualChat/fromNameAndTimeStampVotingRead.dart';
 import 'package:video_player/video_player.dart';
-import 'package:intl/intl.dart';
 import 'messageCardDisplay.dart';
 
 class BodyDisplay extends StatefulWidget {

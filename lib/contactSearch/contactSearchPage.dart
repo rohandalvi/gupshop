@@ -8,7 +8,6 @@ import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
 
 class ContactSearchPage extends StatefulWidget {
   final String userPhoneNo;

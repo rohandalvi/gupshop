@@ -25,7 +25,6 @@ import 'package:gupshop/service/addToFriendsCollection.dart';
 import 'package:gupshop/service/conversationDetails.dart';
 import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/video_call/VideoCallEntryPoint.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/service/findFriendNumber.dart';
 import 'package:gupshop/service/getConversationId.dart';
 import 'package:gupshop/service/recentChats.dart';

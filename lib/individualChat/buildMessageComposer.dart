@@ -5,11 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
-import 'package:gupshop/responsive/sizeConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
-import 'package:gupshop/widgets/customNavigators.dart';
 
 class BuildMessageComposer extends StatelessWidget {
   VoidCallback firstOnPressed;
@@ -88,18 +86,6 @@ class BuildMessageComposer extends StatelessWidget {
 
                 Navigator.pushNamed(context, NavigatorConfig.newsComposer, arguments: navigatorMap);
               },
-//              NavigateToNewsComposer(
-//                conversationId: conversationId,
-//                userName: userName,
-//                userPhoneNo: userPhoneNo,
-//                groupName: groupName,
-//                groupExits: groupExits,
-//                friendN: friendN,
-//                listOfFriendNumbers: listOfFriendNumbers,
-//                value: value,
-//                controller: controller,
-//                listScrollController: listScrollController,
-//              ).navigate(context),
               iconNameInImageFolder: IconConfig.news,
             ),
           ),

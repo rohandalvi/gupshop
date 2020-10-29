@@ -4,7 +4,6 @@ import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-import 'customNavigators.dart';
 
 class ShowMessageForFirstConversation{
 

@@ -142,7 +142,15 @@ class _CreateGroupState<T> extends State<CreateGroup<T>> {
                     //CustomNavigator().navigateToHome(context, userName, userPhoneNo);
                     UpdateConversationMetadata().addNewMembers(conversationId, listOfNumbersInAGroup);
                   }
-                  else CustomNavigator().navigateToCreateGroupName_Screen(context, userName, userPhoneNo, listOfNumbersInAGroup);
+                  else {
+                    Map<String,dynamic> navigatorMap = new Map();
+                    navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
+                    navigatorMap[TextConfig.userName] = userName;
+                    navigatorMap[TextConfig.listOfNumbersInAGroup] = listOfNumbersInAGroup;
+
+                    Navigator.pushNamed(context, NavigatorConfig.createGroupNameScreen, arguments: navigatorMap);
+                  }
+                    //CustomNavigator().navigateToCreateGroupName_Screen(context, userName, userPhoneNo, listOfNumbersInAGroup);
                 }
               ),
             ),

@@ -24,6 +24,7 @@ import 'package:gupshop/navigators/homeRoute.dart';
 import 'package:gupshop/navigators/individualChatAppBarRoute.dart';
 import 'package:gupshop/navigators/individualChatRoute.dart';
 import 'package:gupshop/navigators/nameScreenRoute.dart';
+import 'package:gupshop/navigators/navigatorMap.dart';
 import 'package:gupshop/navigators/newsComposerRoute.dart';
 import 'package:gupshop/navigators/productDetailPageRoute.dart';
 import 'package:gupshop/navigators/subCategorySearchRoute.dart';
@@ -69,6 +70,12 @@ class MyApp extends StatelessWidget {
                 accentColor: subtitleGray,
               ),
               title: 'Chat home',
+              /// The application's top-level routing table.
+              ///
+              /// When a named route is pushed with [Navigator.pushNamed], the route name is
+              /// looked up in this map. If the name is present, the associated
+              /// [WidgetBuilder] is used to construct a [MaterialPageRoute] that performs
+              /// an appropriate transition, including [Hero] animations, to the new route.
               routes: {
                 NavigatorConfig.addressList : (context){return AddressListRoute.main(context);},
                 NavigatorConfig.bazaarAdvertisement : (context){return BazaarAdvertisementRoute.main(context);},

@@ -167,27 +167,6 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
               Navigator.pushNamed(context, NavigatorConfig.subCategorySearch, arguments: navigatorMap);
             },
             actions: <Widget>[
-//              CustomIconButton(
-//                iconNameInImageFolder: IconConfig.locationPin,
-//                onPressed: () async{
-//                  bool tempIsAddressChanged = await NavigateToAddressList(userPhoneNo: userPhoneNo).navigateNoBrackets(context);
-//                  if(tempIsAddressChanged == true){
-//                    setState(() {
-//                      isAddressChanged = tempIsAddressChanged;
-//
-//                      /// if the user does not change location, then userGeohash
-//                      /// would be null
-//                      /// In that case, select the geoHash pushed to firebase
-//                      /// in bazaarHome page which is the current location of the user
-//                      ///
-//                      /// But, if the user changes the home location , then
-//                      /// the userGeohash wont be null, it would be the previous
-//                      /// home location, so set it to null
-//                      widget.userGeohash = null;
-//                    });
-//                  }
-//                },
-//              ),
               changeLocation(context),
             ],
           ),
@@ -333,8 +312,6 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
           /// placeholder till map is generated:
           /// show a dialog box with CircularProgressIndicator
-//          List<Widget> actions = new List();
-//          actions.add(CustomText(text: '...',));
           CustomShowDialog().main(context, BazaarConfig.loadingMap, barrierDismissible: false);
 
           String userPhoneNo = await UserDetails().getUserPhoneNoFuture();

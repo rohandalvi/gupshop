@@ -20,7 +20,7 @@ class NavigatorConfig{
   static String individualChatAppBar = 'individualChatAppBar';
   static String nameScreen = 'nameScreen';
   static String productDetailPage = 'productDetailPage';
-  static String subCategoriesCheckBox = 'subCategoriesCheckBox';
+  static String bazaarSubCategoriesCheckBox = 'subCategoriesCheckBox';
   static String boardRoute = 'boardRoute';
   static String subCategoriesCheckBoxDataRoute = 'subCategoriesCheckBoxDataRoute';
   static String createGroupNameScreen = 'createGroupNameScreen';

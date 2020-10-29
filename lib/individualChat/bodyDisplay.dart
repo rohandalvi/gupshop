@@ -109,7 +109,9 @@ class _BodyDisplayState extends State<BodyDisplay> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FullScreenPictureAndVideos(payLoad: openMessage, isPicture: isPicture,),//pass Name() here and pass Home()in name_screen
+                  builder: (context) => FullScreenPictureAndVideos(
+                    payLoad: openMessage,
+                    isPicture: isPicture,),//pass Name() here and pass Home()in name_screen
                 )
             );
           }

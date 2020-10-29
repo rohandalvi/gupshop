@@ -28,5 +28,6 @@ class NavigatorConfig{
   static String newsComposer = 'newsComposer';
   static String customVideoPlayer = 'customVideoPlayer';
   static String bazaarIndividualCategoryListData = 'bazaarIndividualCategoryListData';
+  static String fullScreenPictureAndVideos = 'fullScreenPictureAndVideos';
 
 }

@@ -98,6 +98,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.newsComposer : (context){return NewsComposerRoute.main(context);},
                 NavigatorConfig.customVideoPlayer : (context){return CustomVideoPlayerRoute.main(context);},
                 NavigatorConfig.bazaarIndividualCategoryListData : (context){return BazaarIndividualCategoryDataRoute.main(context);},
+                NavigatorConfig.fullScreenPictureAndVideos : (context){return FullScreenPicturesAndVideosRoute.main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

@@ -82,12 +82,6 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
               navigatorMap[TextConfig.userPhoneNo] = userPhoneNo;
 
               Navigator.pushNamed(context, NavigatorConfig.home, arguments: navigatorMap);
-//              Navigator.push(
-//                  context,
-//                  MaterialPageRoute(//@TODo pass userName to this page
-//                    builder: (context) => Home(userName: userName,userPhoneNo: userPhoneNo,),//routing to home screen for now, but should be routed to sideMenu
-//                  )
-//              );
             }
             },),
         ),

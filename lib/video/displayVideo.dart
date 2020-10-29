@@ -2,7 +2,6 @@
 //import 'package:flutter/material.dart';
 //import 'package:gupshop/image/displayCircularPicture.dart';
 //import 'package:gupshop/responsive/widgetConfig.dart';
-//import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 //
 //class DisplayVideo extends StatelessWidget {
 //  final String videoURL;

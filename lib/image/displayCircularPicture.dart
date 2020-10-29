@@ -4,7 +4,6 @@ import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
 import 'package:gupshop/widgets/customVideoPlayer.dart';
-import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 
 
 class DisplayCircularPicture extends StatelessWidget {

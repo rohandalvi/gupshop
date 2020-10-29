@@ -3,15 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/image/displayPicture.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
-import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/video/downloadVideo.dart';
 import 'package:gupshop/video/videoThumbnailHelper.dart';
 import 'package:gupshop/widgets/customFlushBar.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customText.dart';
-import 'package:gupshop/widgets/customVideoPlayer.dart';
-import 'package:gupshop/widgets/customVideoPlayerThumbnail.dart';
 
 class ShowVideoThumbnail extends StatelessWidget {
   final String videoURL;

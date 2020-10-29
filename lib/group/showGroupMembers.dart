@@ -203,7 +203,16 @@ class _ShowGroupMembersState extends State<ShowGroupMembers> {
                   icon: SvgPicture.asset('images/add.svg',),
                   onPressed: () async{
                     userName = await UserDetails().getUserNameFuture();
-                    CustomNavigator().navigateToCreateGroup(context, userName, widget.userNumber, true, widget.conversationId);
+
+                    Map<String,dynamic> navigatorMap = new Map();
+                    navigatorMap[TextConfig.userPhoneNo] = widget.userNumber;
+                    navigatorMap[TextConfig.userName] = userName;
+                    navigatorMap[TextConfig.shouldAddNewGroupMember] = true;
+                    navigatorMap[TextConfig.conversationId] = widget.conversationId;
+
+                    Navigator.pushNamed(context, NavigatorConfig.createGroup, arguments: navigatorMap);
+
+                    //CustomNavigator().navigateToCreateGroup(context, userName, widget.userNumber, true, widget.conversationId);
                   },
                   //SvgPicture.asset('images/downChevron.svg',)
                 ),

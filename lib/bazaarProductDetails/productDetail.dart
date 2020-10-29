@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:gupshop/bazaarProductDetails/productDetailsAppBar.dart';
 import 'package:gupshop/bazaarProductDetails/reviewBuilderAndDisplay.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/notifications/IRules.dart';
+import 'package:gupshop/notifications/NotificationEventType.dart';
+import 'package:gupshop/notifications/application/notificationConsumerMethods.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
@@ -12,7 +15,7 @@ import 'package:gupshop/retriveFromFirebase/getBazaarWalasBasicProfileInfo.dart'
 import 'package:gupshop/retriveFromFirebase/retriveLikesDislikesFromBazaarRatingNumbers.dart';
 import 'package:gupshop/video/videoThumbnailHelper.dart';
 
-class ProductDetail extends StatefulWidget {
+class ProductDetail extends StatefulWidget implements IRules{
   final String productWalaName;
   final String category;
   final String categoryData;
@@ -31,6 +34,11 @@ class ProductDetail extends StatefulWidget {
 
   @override
   _ProductDetailState createState() => _ProductDetailState(productWalaName: productWalaName, category: category);
+
+  @override
+  bool apply(NotificationEventType notificationEventType, String conversationId) {
+    return true;
+  }
 
 }
 
@@ -72,12 +80,37 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
 
   @override
   void initState() {
+    notificationInit();
+
     collectionReference = Firestore.instance.collection("bazaarReviews").document(widget.productWalaNumber).collection("reviews");
     stream = collectionReference.snapshots();
 
     getUserDetails();
 
     super.initState();
+  }
+
+
+  /// navigator methods:
+  notificationInit(){
+    NotificationConsumerMethods().notificationInit(
+        runtimeType: this.widget.runtimeType,
+        widget: this.widget,
+        onSelectNotificationFromConsumer: onSelectNotification
+    );
+  }
+
+
+  /// when the user taps the notification:
+  Future<void> onSelectNotification(String payload) async{
+    String userName = await UserDetails().getUserNameFuture();
+    String userNumber = await UserDetails().getUserPhoneNoFuture();
+
+    NotificationConsumerMethods(
+        userName: userName,
+        userPhoneNo: userNumber,
+        customContext: context
+    ).onSelectNotification(payload);
   }
 
 

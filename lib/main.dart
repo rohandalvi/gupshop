@@ -3,6 +3,7 @@ import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/AddressListRoute.dart';
 import 'package:gupshop/navigators/BazaarOnBoardingProfileRoute.dart';
 import 'package:gupshop/navigators/bazaarAdvertisementRoute.dart';
+import 'package:gupshop/navigators/bazaarIndividualCategoryDataRoute.dart';
 import 'package:gupshop/navigators/bazaarLocationRoute.dart';
 import 'package:gupshop/navigators/bazaarOnBoradingHomeRoute.dart';
 import 'package:gupshop/navigators/bazaarSubCategoriesCheckBoxRoute.dart';
@@ -96,6 +97,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.createGroupNameScreen : (context){return CreateGroupNameScreenRoute.main(context);},
                 NavigatorConfig.newsComposer : (context){return NewsComposerRoute.main(context);},
                 NavigatorConfig.customVideoPlayer : (context){return CustomVideoPlayerRoute.main(context);},
+                NavigatorConfig.bazaarIndividualCategoryListData : (context){return BazaarIndividualCategoryDataRoute.main(context);},
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

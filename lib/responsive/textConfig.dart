@@ -40,6 +40,7 @@ class TextConfig{
   static String subCategory = 'subCategory';
   static String subCategoryData = 'subCategoryData';
   static String homeServiceMap = 'homeServiceMap';
+  static String showHomeService = 'showHomeService';
 
   /// bazaarLocation:
   static String location = 'location';
@@ -51,6 +52,7 @@ class TextConfig{
   static String locationNotNull = 'locationNotNull';
   static String locationChanged = 'locationChanged';
   static String isBazaarwala = 'isBazaarwala';
+  static String userGeohash = 'userGeohash';
 
   /// chatList:
   static String chatListCache = 'chatListCache';

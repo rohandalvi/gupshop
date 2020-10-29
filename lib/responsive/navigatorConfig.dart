@@ -27,5 +27,6 @@ class NavigatorConfig{
   static String createGroup = 'createGroupScreen';
   static String newsComposer = 'newsComposer';
   static String customVideoPlayer = 'customVideoPlayer';
+  static String bazaarIndividualCategoryListData = 'bazaarIndividualCategoryListData';
 
 }

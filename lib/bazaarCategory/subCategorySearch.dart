@@ -186,21 +186,25 @@ class _SubCategorySearchState extends State<SubCategorySearch> {
 
 
         /// for all categories except drivers and delivery/errands
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BazaarIndividualCategoryListData(
-                category : widget.category,
-                categoryData: widget.categoryData,
-                subCategory: subCategory,
-                subCategoryData: subCategoryData,
-                showHomeService: showHomeService,
-                userGeohash: userGeohash,
-                addressName: addressName,
-                //category: categoryNameForBazaarIndividualCategoryList,
-              ),//pass Name() here and pass Home()in name_screen
-            )
-        );
+        Map<String,dynamic> navigatorMap = new Map();
+        navigatorMap[TextConfig.text] = "Select a category to edit";
+
+        Navigator.pushNamed(context, NavigatorConfig.bazaarI, arguments: navigatorMap);
+//        Navigator.push(
+//            context,
+//            MaterialPageRoute(
+//              builder: (context) => BazaarIndividualCategoryListData(
+//                category : widget.category,
+//                categoryData: widget.categoryData,
+//                subCategory: subCategory,
+//                subCategoryData: subCategoryData,
+//                showHomeService: showHomeService,
+//                userGeohash: userGeohash,
+//                addressName: addressName,
+//                //category: categoryNameForBazaarIndividualCategoryList,
+//              ),//pass Name() here and pass Home()in name_screen
+//            )
+//        );
 
       }
     );

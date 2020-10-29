@@ -129,12 +129,11 @@ class _HomeAppBarState extends State<HomeAppBar> {
                                 builder: (context) => CustomIconButton(//Right side icons
                                   iconNameInImageFolder: IconConfig.searchTwo,//search icon
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ContactSearchPage(userPhoneNo: widget.userPhoneNo, userName: widget.userName),//pass Name() here and pass Home()in name_screen
-                                        )
-                                    );
+                                    Map<String,dynamic> navigatorMap = new Map();
+                                    navigatorMap[TextConfig.userName] = widget.userName;
+                                    navigatorMap[TextConfig.userPhoneNo] = widget.userPhoneNo;
+
+                                    Navigator.pushNamed(context, NavigatorConfig.contactSearchPage, arguments: navigatorMap);// if its a group then
                                   },//imp for pressing effect. Also gives a sound effect by default
                                 ),
                               ),

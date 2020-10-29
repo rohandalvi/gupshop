@@ -273,7 +273,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
       navigatorMap[TextConfig.shouldZoom] = true;
       navigatorMap[TextConfig.payLoad] = imageURL;
 
-      Navigator.pushNamed(context, NavigatorConfig.fullScreenPicturesAndVideosRoute, arguments: navigatorMap);
+      Navigator.pushNamed(context, NavigatorConfig.fullScreenPicturesAndVideos, arguments: navigatorMap);
       //NavigateToFullScreenPictureAndVideos(
       // isPicture: true, shouldZoom: true, payLoad: imageURL).navigateNoBrackets(context);
     },

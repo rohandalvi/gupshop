@@ -106,14 +106,20 @@ class _BodyDisplayState extends State<BodyDisplay> {
           /// paused when the user navigates to ViewPicturesVideosFromChat
           /// otherwise the video keeps playing in the background
           if(openMessage != null && isPicture==true){
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => FullScreenPictureAndVideos(
-                    payLoad: openMessage,
-                    isPicture: isPicture,),//pass Name() here and pass Home()in name_screen
-                )
-            );
+            Map<String,dynamic> navigatorMap = new Map();
+            navigatorMap[TextConfig.payLoad] = openMessage;
+            navigatorMap[TextConfig.isPicture] = isPicture;
+
+            Navigator.pushNamed(context, NavigatorConfig.fullScreenPicturesAndVideos, arguments: navigatorMap);
+
+//            Navigator.push(
+//                context,
+//                MaterialPageRoute(
+//                  builder: (context) => FullScreenPictureAndVideos(
+//                    payLoad: openMessage,
+//                    isPicture: isPicture,),//pass Name() here and pass Home()in name_screen
+//                )
+//            );
           }
         },
         onLongPress: (){

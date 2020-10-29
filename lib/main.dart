@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.customMap : (context){return CustomMapRoute.main(context);},
                 NavigatorConfig.contactSearchPage : (context){return ContactSearchPageRoute.main(context);},
                 NavigatorConfig.contactSearch : (context){return ContactSearchRoute.main(context);},
-                NavigatorConfig.fullScreenPicturesAndVideosRoute : (context){return FullScreenPicturesAndVideosRoute.main(context);},
+                NavigatorConfig.fullScreenPicturesAndVideos : (context){return FullScreenPicturesAndVideosRoute.main(context);},
                 NavigatorConfig.home : (context){return HomeRoute.main(context);},
                 NavigatorConfig.individualChat : (context){return IndividualChatRoute.main(context);},
                 NavigatorConfig.individualChatAppBar : (context){return IndividualChatAppBarRoute.main(context);},
@@ -98,7 +98,7 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.newsComposer : (context){return NewsComposerRoute.main(context);},
                 NavigatorConfig.customVideoPlayer : (context){return CustomVideoPlayerRoute.main(context);},
                 NavigatorConfig.bazaarIndividualCategoryListData : (context){return BazaarIndividualCategoryDataRoute.main(context);},
-                NavigatorConfig.fullScreenPictureAndVideos : (context){return FullScreenPicturesAndVideosRoute.main(context);},
+
               },
               debugShowCheckedModeBanner: false,
               home:WelcomeScreen(lockEnabled: enabled,)

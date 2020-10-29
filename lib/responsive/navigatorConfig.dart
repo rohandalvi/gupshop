@@ -16,7 +16,7 @@ class NavigatorConfig{
   static String contactSearchPage = 'contactSearchPage';
   static String contactSearch = 'contactSearch';
   static String customMap = 'customMap';
-  static String fullScreenPicturesAndVideosRoute = 'fullScreenPicturesAndVideosRoute';
+  static String fullScreenPicturesAndVideos = 'fullScreenPicturesAndVideosRoute';
   static String individualChatAppBar = 'individualChatAppBar';
   static String nameScreen = 'nameScreen';
   static String productDetailPage = 'productDetailPage';
@@ -28,6 +28,5 @@ class NavigatorConfig{
   static String newsComposer = 'newsComposer';
   static String customVideoPlayer = 'customVideoPlayer';
   static String bazaarIndividualCategoryListData = 'bazaarIndividualCategoryListData';
-  static String fullScreenPictureAndVideos = 'fullScreenPictureAndVideos';
 
 }

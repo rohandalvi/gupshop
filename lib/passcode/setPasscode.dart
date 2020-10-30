@@ -5,17 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
-import 'package:gupshop/passcode/appLockMethods.dart';
+import 'package:gupshop/notifications/IRules.dart';
+import 'package:gupshop/notifications/NotificationEventType.dart';
+import 'package:gupshop/notifications/application/notificationConsumerMethods.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/CustomPasscode.dart';
 import 'package:gupshop/widgets/customRaisedButton.dart';
 import 'package:gupshop/widgets/customShowDialog.dart';
 import 'package:gupshop/widgets/customText.dart';
-import 'package:passcode_screen/passcode_screen.dart';
 
-class SetPasscode extends StatefulWidget {
+class SetPasscode extends StatefulWidget implements IRules{
   @override
   _SetPasscodeState createState() => _SetPasscodeState();
+
+  @override
+  bool apply(NotificationEventType notificationEventType, String conversationId) {
+    return true;
+  }
 }
 
 class _SetPasscodeState extends State<SetPasscode> {
@@ -28,10 +34,36 @@ class _SetPasscodeState extends State<SetPasscode> {
 
   @override
   void initState() {
+    notificationInit();
+
     print("AppLock state SetPasscode: ${AppLock.of(context)}");
     isPasscodeEnabled = false;
     passcodeStatus();
     super.initState();
+  }
+
+
+  /// navigator methods:
+  notificationInit(){
+    NotificationConsumerMethods().notificationInit(
+        runtimeType: this.widget.runtimeType,
+        widget: this.widget,
+        onSelectNotificationFromConsumer: onSelectNotification
+    );
+  }
+
+
+  /// when the user taps the notification:
+  Future<void> onSelectNotification(String payload) async{
+    String userName = await UserDetails().getUserNameFuture();
+    String userNumber = await UserDetails().getUserPhoneNoFuture();
+
+
+    NotificationConsumerMethods(
+        userName: userName,
+        userPhoneNo: userNumber,
+        customContext: context
+    ).onSelectNotification(payload);
   }
 
   @override

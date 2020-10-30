@@ -3,6 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
+import 'package:gupshop/notifications/IRules.dart';
+import 'package:gupshop/notifications/NotificationEventType.dart';
+import 'package:gupshop/notifications/application/notificationConsumerMethods.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
@@ -15,7 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home/home.dart';
 
-class ChangeProfilePicture extends StatefulWidget {
+class ChangeProfilePicture extends StatefulWidget implements IRules{
   String userName;
   String userPhoneNo;
   bool viewingFriendsProfile;
@@ -32,6 +35,11 @@ class ChangeProfilePicture extends StatefulWidget {
 
   @override
   _ChangeProfilePictureState createState() => _ChangeProfilePictureState(userName: userName, viewingFriendsProfile: viewingFriendsProfile, userPhoneNo: userPhoneNo, groupConversationId: groupConversationId);
+
+  @override
+  bool apply(NotificationEventType notificationEventType, String conversationId) {
+    return true;
+  }
 }
 
 class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
@@ -48,8 +56,28 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
 
     @override
     void initState() {
+      notificationInit();
       getUserPhone();
       super.initState();
+    }
+
+    /// navigator methods:
+    notificationInit(){
+      NotificationConsumerMethods().notificationInit(
+          runtimeType: this.widget.runtimeType,
+          widget: this.widget,
+          onSelectNotificationFromConsumer: onSelectNotification
+      );
+    }
+
+
+    /// when the user taps the notification:
+    Future<void> onSelectNotification(String payload) async{
+      NotificationConsumerMethods(
+          userName: widget.userName,
+          userPhoneNo: widget.userPhoneNo,
+          customContext: context
+      ).onSelectNotification(payload);
     }
 
     ///This class is a display class for profile picture and buttons.

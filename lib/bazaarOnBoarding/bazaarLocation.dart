@@ -9,6 +9,9 @@ import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/location/locationPermissionHandler.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/location/location_service.dart';
+import 'package:gupshop/notifications/IRules.dart';
+import 'package:gupshop/notifications/NotificationEventType.dart';
+import 'package:gupshop/notifications/application/notificationConsumerMethods.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
@@ -25,7 +28,7 @@ import 'package:location/location.dart';
 
 // bazaarHomeScreen=>
 // =>CheckBoxCategorySelector
-class BazaarLocation extends StatefulWidget {
+class BazaarLocation extends StatefulWidget implements IRules{
   final String userPhoneNo;
   final String userName;
   final List<String> listOfSubCategories;
@@ -64,6 +67,11 @@ class BazaarLocation extends StatefulWidget {
 
   @override
   _BazaarLocationState createState() => _BazaarLocationState(userName: userName, userPhoneNo: userPhoneNo);
+
+  @override
+  bool apply(NotificationEventType eventType, String conversationId) {
+    return true;
+  }
 }
 
 class _BazaarLocationState extends State<BazaarLocation> {
@@ -95,9 +103,28 @@ class _BazaarLocationState extends State<BazaarLocation> {
 
   @override
   void initState() {
+    notificationInit();
     super.initState();
   }
 
+  /// navigator methods:
+  notificationInit(){
+    NotificationConsumerMethods().notificationInit(
+        runtimeType: this.widget.runtimeType,
+        widget: this.widget,
+        onSelectNotificationFromConsumer: onSelectNotification
+    );
+  }
+
+
+  /// when the user taps the notification:
+  Future<void> onSelectNotification(String payload) async{
+    NotificationConsumerMethods(
+        userName: widget.userName,
+        userPhoneNo: widget.userPhoneNo,
+        customContext: context
+    ).onSelectNotification(payload);
+  }
 
 
   /// if user has added a subCategory, then that subcategory wont have

@@ -4,6 +4,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/bazaarOnBoarding/changeBazaarWalasPicturesAppBar.dart';
 import 'package:gupshop/bazaarOnBoarding/pushToFirebase.dart';
 import 'package:gupshop/image/fullScreenPictureVideos.dart';
+import 'package:gupshop/notifications/IRules.dart';
+import 'package:gupshop/notifications/NotificationEventType.dart';
+import 'package:gupshop/notifications/application/notificationConsumerMethods.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
@@ -11,7 +14,7 @@ import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 
 
-class ChangeBazaarWalasPicturesDisplay extends StatefulWidget{
+class ChangeBazaarWalasPicturesDisplay extends StatefulWidget implements IRules{
   String thumbnailPicture;
   String otherPictureOne;
   String otherPictureTwo;
@@ -45,6 +48,11 @@ class ChangeBazaarWalasPicturesDisplay extends StatefulWidget{
 
   @override
   _ChangeBazaarWalasPicturesDisplayState createState() => _ChangeBazaarWalasPicturesDisplayState();
+
+  @override
+  bool apply(NotificationEventType eventType, String conversationId) {
+    return true;
+  }
 }
 
 class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPicturesDisplay> with SingleTickerProviderStateMixin{
@@ -53,11 +61,31 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
 
   @override
   void initState() {
-    print("isBazaarwala in ChangeBazaarWalasPicturesDisplayState : ${widget.isBazaarwala}");
+    notificationInit();
     imagesController = TabController(length: 3, vsync: this);
     imagesController.addListener(() {_setActiveTabIndex();});
     super.initState();
   }
+
+  /// navigator methods:
+  notificationInit(){
+    NotificationConsumerMethods().notificationInit(
+        runtimeType: this.widget.runtimeType,
+        widget: this.widget,
+        onSelectNotificationFromConsumer: onSelectNotification
+    );
+  }
+
+
+  /// when the user taps the notification:
+  Future<void> onSelectNotification(String payload) async{
+    NotificationConsumerMethods(
+        userName: widget.userName,
+        userPhoneNo: widget.userPhoneNo,
+        customContext: context
+    ).onSelectNotification(payload);
+  }
+
 
   @override
   void dispose() {

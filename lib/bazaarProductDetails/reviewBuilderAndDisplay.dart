@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/PushToFirebase/pushToBazaarReviewsCollection.dart';
-import 'package:gupshop/bazaarOnBoarding/onBoardingHome.dart';
+import 'package:gupshop/bazaarOnBoarding/bazaarOnBoardingHome.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesDisplay.dart';
 import 'package:gupshop/bazaarProductDetails/likesDislikesFetchAndDisplay.dart';
 import 'package:gupshop/responsive/intConfig.dart';

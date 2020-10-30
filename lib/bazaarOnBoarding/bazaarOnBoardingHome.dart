@@ -7,10 +7,10 @@ import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customAppBar.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class OnBoardingHome extends StatelessWidget {
+class BazaarOnBoardingHome extends StatelessWidget {
   final String text;
 
-  OnBoardingHome({this.text});
+  BazaarOnBoardingHome({this.text});
 
   @override
   Widget build(BuildContext context) {

@@ -24,7 +24,9 @@ class BazaarWelcome extends StatelessWidget {
       bodyTextSubtitle: TextConfig.bazaarOnboardingSubTitle,
       bottomText: TextConfig.bazaarBottomButton,
       nextIconOnPressed: (){
-        Navigator.pushNamed(context,NavigatorConfig.bazaarOnBoardingHome);
+
+
+        Navigator.pushNamed(context,NavigatorConfig.bazaarOnBoardingHome, arguments: null);
       }
       //NavigateToBazaarOnBoardingHome().navigate(context),
     );

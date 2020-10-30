@@ -8,6 +8,9 @@ import 'package:gupshop/bazaar/categories.dart';
 import 'package:gupshop/bazaarHomeService/serviceAtHomeUI.dart';
 import 'package:gupshop/colors/colorPalette.dart';
 import 'package:gupshop/modules/userDetails.dart';
+import 'package:gupshop/notifications/IRules.dart';
+import 'package:gupshop/notifications/NotificationEventType.dart';
+import 'package:gupshop/notifications/application/notificationConsumerMethods.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
@@ -21,7 +24,7 @@ import 'package:gupshop/widgets/customText.dart';
 
 // bazaarHomeScreen=>
 // =>CheckBoxCategorySelector
-class BazaarAdvertisement extends StatefulWidget {
+class BazaarAdvertisement extends StatefulWidget implements IRules{
   final String userPhoneNo;
   final String userName;
   final List<String> listOfSubCategories;
@@ -46,6 +49,11 @@ class BazaarAdvertisement extends StatefulWidget {
 
   @override
   _BazaarAdvertisementState createState() => _BazaarAdvertisementState(userName: userName, userPhoneNo: userPhoneNo);
+
+  @override
+  bool apply(NotificationEventType eventType, String conversationId) {
+    return true;
+  }
 }
 
 class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
@@ -103,6 +111,26 @@ class _BazaarAdvertisementState extends State<BazaarAdvertisement> {
       aSubCategoryData = getASubcategoryName();
     });
     super.initState();
+  }
+
+
+  /// navigator methods:
+  notificationInit(){
+    NotificationConsumerMethods().notificationInit(
+        runtimeType: this.widget.runtimeType,
+        widget: this.widget,
+        onSelectNotificationFromConsumer: onSelectNotification
+    );
+  }
+
+
+  /// when the user taps the notification:
+  Future<void> onSelectNotification(String payload) async{
+    NotificationConsumerMethods(
+        userName: widget.userName,
+        userPhoneNo: widget.userPhoneNo,
+        customContext: context
+    ).onSelectNotification(payload);
   }
 
 

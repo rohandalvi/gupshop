@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/AddressListRoute.dart';
-import 'package:gupshop/navigators/BazaarOnBoardingProfileRoute.dart';
 import 'package:gupshop/navigators/bazaarAdvertisementRoute.dart';
 import 'package:gupshop/navigators/bazaarIndividualCategoryDataRoute.dart';
 import 'package:gupshop/navigators/bazaarLocationRoute.dart';
-//import 'package:gupshop/navigators/bazaarOnBoradingHomeRoute.dart';
+import 'package:gupshop/navigators/bazaarOnBoradingHomeRoute.dart';
 import 'package:gupshop/navigators/bazaarSubCategoriesCheckBoxRoute.dart';
 import 'package:gupshop/navigators/bazaarSubCategorySearchRoute.dart';
 import 'package:gupshop/navigators/bazaarWelcomeRoute.dart';
@@ -81,8 +80,8 @@ class MyApp extends StatelessWidget {
                 NavigatorConfig.bazaarAdvertisement : (context){return BazaarAdvertisementRoute.main(context);},
                 NavigatorConfig.bazaarIndividualCategoryListData : (context){return BazaarIndividualCategoryDataRoute.main(context);},
                 NavigatorConfig.bazaarLocation : (context){return BazaarLocationRoute.main(context);},
-                NavigatorConfig.bazaarOnBoardingProfile : (context){return BazaarOnBoardingProfileRoute.main(context);},
-//                NavigatorConfig.bazaarOnBoardingHome : (context){return BazaarOnBoardingHomeRoute.main(context);},
+//                NavigatorConfig.bazaarOnBoardingProfile : (context){return BazaarOnBoardingProfileRoute.main(context);},
+                NavigatorConfig.bazaarOnBoardingHome : (context){return BazaarOnBoardingHomeRoute.main(context);},
                 NavigatorConfig.bazaarSubCategoriesCheckBox : (context){return BazaarSubCategoriesCheckBoxRoute.main(context);},
                 NavigatorConfig.bazaarSubCategorySearch : (context){return BazaarSubCategorySearchRoute.main(context);},
                 NavigatorConfig.bazaarWelcome : (context){return BazaarWelcomeRoute.main(context);},

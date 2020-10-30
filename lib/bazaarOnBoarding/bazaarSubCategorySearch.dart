@@ -1,12 +1,15 @@
 import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/notifications/IRules.dart';
+import 'package:gupshop/notifications/NotificationEventType.dart';
+import 'package:gupshop/notifications/application/notificationConsumerMethods.dart';
 import 'package:gupshop/responsive/navigatorConfig.dart';
 import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/widgets/customSearch.dart';
 import 'package:gupshop/widgets/customText.dart';
 
-class BazaarSubCategorySearch extends StatefulWidget {
+class BazaarSubCategorySearch extends StatefulWidget implements IRules{
   final String category;
   final String categoryData;
   final List<String> subCategoriesList;
@@ -22,6 +25,11 @@ class BazaarSubCategorySearch extends StatefulWidget {
 
   @override
   _BazaarSubCategorySearchState createState() => _BazaarSubCategorySearchState();
+
+  @override
+  bool apply(NotificationEventType eventType, String conversationId) {
+    return true;
+  }
 }
 
 class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
@@ -41,9 +49,30 @@ class _BazaarSubCategorySearchState extends State<BazaarSubCategorySearch> {
 
   @override
   void initState() {
+    notificationInit();
     getCategorySizeFuture();
     super.initState();
   }
+
+  /// navigator methods:
+  notificationInit(){
+    NotificationConsumerMethods().notificationInit(
+        runtimeType: this.widget.runtimeType,
+        widget: this.widget,
+        onSelectNotificationFromConsumer: onSelectNotification
+    );
+  }
+
+
+  /// when the user taps the notification:
+  Future<void> onSelectNotification(String payload) async{
+    NotificationConsumerMethods(
+        userName: widget.bazaarWalaName,
+        userPhoneNo: widget.bazaarWalaPhoneNo,
+        customContext: context
+    ).onSelectNotification(payload);
+  }
+
 
   @override
   Widget build(BuildContext context){

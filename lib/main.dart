@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
+import 'package:gupshop/config/app_config.dart';
 import 'package:gupshop/home/homeAppLock.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/onboarding/helper.dart';
@@ -40,11 +41,11 @@ import 'package:gupshop/passcode/unlockPasscode.dart';
 //  ));
 //}
 
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  bool enabled = await UserDetails().getPasscodeStatus();
-  runApp(MyApp(enabled: enabled,));
-}
+//void main() async{
+//  WidgetsFlutterBinding.ensureInitialized();
+//  bool enabled = await UserDetails().getPasscodeStatus();
+//  runApp(MyApp(enabled: enabled,));
+//}
 
 class MyApp extends StatelessWidget {
   final bool enabled;
@@ -63,6 +64,8 @@ class MyApp extends StatelessWidget {
     /// child accordingly
     return LayoutBuilder(
       builder: (context, constraints) {
+        var appTitle = AppConfig.of(context).appTitle;
+        print("TITLE $appTitle");
         return OrientationBuilder(
           builder: (context, orientation) {
             SizeConfig().init(constraints, orientation);
@@ -77,7 +80,7 @@ class MyApp extends StatelessWidget {
                 primaryColor: Colors.white,
                 accentColor: subtitleGray,
               ),
-              title: 'Chat home',
+              title: appTitle,
               debugShowCheckedModeBanner: false,
 //              navigatorKey: _navigatorKey,
               home:WelcomeScreen(lockEnabled: enabled,)

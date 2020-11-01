@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "406667445093",
+    "firebase_url": "https://gupshup-dev-d7345.firebaseio.com",
+    "project_id": "gupshup-dev-d7345",
+    "storage_bucket": "gupshup-dev-d7345.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:406667445093:android:171617bcce39e550a6d78c",
+        "android_client_info": {
+          "package_name": "simpleapps.com.gupshop.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "406667445093-q7q42gskpse17pn0qejl1m1mk2m8u921.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBuS549Rs7RgbIOwaTBgdnlsKKHOqtAoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "406667445093-q7q42gskpse17pn0qejl1m1mk2m8u921.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

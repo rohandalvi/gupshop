@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class AppConfig extends InheritedWidget{
-  AppConfig({this.appTitle, this.buildFlavor, this.child}){
-    print("in appconfig");
-  }
+  AppConfig({this.appTitle, this.buildFlavor, this.child});
 
   static AppConfig of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType();

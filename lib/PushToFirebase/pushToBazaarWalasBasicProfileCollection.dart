@@ -45,14 +45,16 @@ class PushToBazaarWalasBasicProfile{
   pushToFirebase() async{
     await path(userPhoneNo).setData({}, merge: true);
 
-    await categoryDataPath().setData({TextConfig.bazaarWalaName: userName,
+    await categoryDataPath(userPhoneNo: userPhoneNo,
+      subCategoryData: subCategoryData,categoryData: categoryData ).setData({TextConfig.bazaarWalaName: userName,
       TextConfig.videoURL: videoURL,
       TextConfig.latitude: latitude,
       TextConfig.longitude: longitude,TextConfig.radius : radius,}, merge: true);
   }
 
   pushHomeService() async{
-    await categoryDataPath().setData({TextConfig.homeService : homeService }, merge: true);
+    await categoryDataPath(userPhoneNo: userPhoneNo,
+        subCategoryData: subCategoryData,categoryData: categoryData ).setData({TextConfig.homeService : homeService }, merge: true);
 
     ///Trace
     BazaarTrace(category: categoryData, subCategory: subCategoryData).homeServiceAdded();

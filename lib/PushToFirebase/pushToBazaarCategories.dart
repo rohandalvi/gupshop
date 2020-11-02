@@ -19,7 +19,7 @@ class PushToBazaarCategories{
       }
     };
     path().document(category)
-    .collection(TextConfig.subCategoriesBazaarCategories).document(subCategory).setData(result,merge: true);
+    .collection(TextConfig.subCategories).document(subCategory).setData(result,merge: true);
 
     ///Trace:
     BazaarTrace(category: category,subCategory: subCategory).subCategoryAdded();

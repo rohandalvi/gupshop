@@ -32,6 +32,7 @@ class PushToFirebase{
 
 
   main() async{
+    print("homeService in PushToFirebase main: $homeServiceMap");
 
     print("isBazaarwala in push : $isBazaarwala");
     /// if not a bazaarwala
@@ -185,10 +186,15 @@ class PushToFirebase{
 
 
     /// home service
-    await PushSubCategoriesToFirebase(category: categoryData,userPhoneNo: userNumber,
-        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData,
-        location: location, radius: radius, homeServiceMap: homeServiceMap
-    ).homeService();
+    /// for certain services, homeService is not available and we end up getting
+    /// nullPointer
+    /// using homeServiceMap.isNotEmpty would give isNotEmpty was called on null
+    if(homeServiceMap!=null){
+      await PushSubCategoriesToFirebase(category: categoryData,userPhoneNo: userNumber,
+          userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData,
+          location: location, radius: radius, homeServiceMap: homeServiceMap
+      ).homeService();
+    }
   }
 
 

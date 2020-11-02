@@ -109,6 +109,7 @@ class PushSubCategoriesToFirebase{
   }
 
   homeService(){
+    print("homeServiceMap in PushSubCategoriesToFirebase : $homeServiceMap");
     homeServiceMap.forEach((subCategoryData, homeService) {
       PushToBazaarWalasBasicProfile(
         categoryData: category,

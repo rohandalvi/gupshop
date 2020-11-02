@@ -172,8 +172,8 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                 future: RetriveLikesAndDislikesFromBazaarRatingNumbers().numberOfLikesAndDislikes(widget.productWalaNumber, widget.categoryData,widget.subCategoryData ),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    likes = snapshot.data[TextConfig.likesBazaarRatingNumbers];
-                    dislikes = snapshot.data[TextConfig.dislikesBazaarRatingNumbers];
+                    likes = snapshot.data[TextConfig.likes];
+                    dislikes = snapshot.data[TextConfig.dislikes];
 
                     return ReviewBuilderAndDisplay(productWalaName:productWalaName, productWalaNumber: widget.productWalaNumber,
                       category: widget.category,writeReview: writeReview,focus: focus,userName: userName,

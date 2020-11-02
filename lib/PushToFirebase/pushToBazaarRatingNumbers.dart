@@ -17,7 +17,7 @@ class PushToBazaarRatingNumber{
   push(){
     path(userNumber).setData({}, merge: true);
 
-    path(userNumber).collection(category).document(subCategory).setData({TextConfig.dislikesBazaarRatingNumbers : 0, TextConfig.likesBazaarRatingNumbers : 0});
+    path(userNumber).collection(category).document(subCategory).setData({TextConfig.dislikes : 0, TextConfig.likes : 0});
   }
 
 }

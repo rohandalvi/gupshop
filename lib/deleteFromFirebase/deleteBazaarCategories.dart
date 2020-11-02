@@ -15,7 +15,7 @@ class DeleteBazaarCategories{
   }
 
   deleteACategory() async{
-    await path().document(category).collection(TextConfig.subCategoriesBazaarCategories)
+    await path().document(category).collection(TextConfig.subCategories)
         .document(subCategory).updateData({
       userNumber : FieldValue.delete()
     });

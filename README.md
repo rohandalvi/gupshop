@@ -104,3 +104,14 @@ Use `sendNotification` API to send a notification, the request is as follows:
 This API is async and has `void` return type.
 
 color for undraw #08C976
+
+
+bazaarOnBoarding collections:
+1. videos
+2. bazaarWalasLocation
+3. bazaarWalasBasicProfile
+4. bazaarReviews
+5. bazaarRatingNumbers 
+6. bazaarCategoriesMetadata
+7. bazaarCategories
+They all get created on their own when the user onBoards the bazaar

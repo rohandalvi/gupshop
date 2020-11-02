@@ -267,11 +267,11 @@ class TextConfig{
 
   /// bazaarCategories
   static const String nameBazaarCategories = 'name';
-  static const String subCategoriesBazaarCategories = 'subCategories';
+  static const String subCategories = 'subCategories';
 
   /// bazaarRatingNumbers
-  static const String dislikesBazaarRatingNumbers = 'dislikes';
-  static const String likesBazaarRatingNumbers = 'likes';
+  static const String dislikes = 'dislikes';
+  static const String likes = 'likes';
 
   /// bazaawalasBasicProfile
   static const String namebazaawalasBasicProfile = 'name';

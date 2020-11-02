@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gupshop/responsive/collectionPaths.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 
 
 class ProfilePicturesCollection{
@@ -15,6 +16,6 @@ class ProfilePicturesCollection{
 
   setPicture(String url){
     DocumentReference dc = path();
-    return dc.setData({'url' : url});
+    return dc.setData({TextConfig.url : url});
   }
 }

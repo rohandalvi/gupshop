@@ -3,7 +3,7 @@ import 'package:gupshop/responsive/sizeConfig.dart';
 class ImageConfig{
 
   /// storage images:
-  static String userImage = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/individualDpAvatar.png?alt=media&token=f0eb385d-5cf0-49ba-9e2c-8b02abbdc7d4";
+  static String userDpPlaceholderFirebase = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/individualDpAvatar.png?alt=media&token=f0eb385d-5cf0-49ba-9e2c-8b02abbdc7d4";
       //"https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/dpAvatar.png?alt=media&token=a5d758a5-cf4f-4731-8d96-478829ec62b5";
       //"https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/user.png?alt=media&token=28bcfc15-31da-4847-8f7c-efdd60428714";
   static String photoFrame = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/photoFrame.png?alt=media&token=f98dca4e-71f4-46ad-90f3-dd9c3d4b7913";

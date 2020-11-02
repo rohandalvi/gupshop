@@ -117,8 +117,8 @@ class _NameScreenState extends State<NameScreen> {
                       ///creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
                       /// also setting a placeholder
                       /// The placeholder imageurl  as the user picture url we have stored in firebase
-                      String url = ImageConfig.userImage;
-                      ProfilePicturesCollection().setPicture(url);
+                      String url = ImageConfig.userDpPlaceholderFirebase;
+                      ProfilePicturesCollection(userPhoneNo: userPhoneNo).setPicture(url);
                       //Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url' : url});
 
                       List<String> nameList = new List();

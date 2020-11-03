@@ -85,6 +85,12 @@ class PushSubCategoriesToFirebase{
     });
   }
 
+  blankVideoCollection(){
+    listOfSubCategoriesData.forEach((element) {
+      PushToVideoCollection(userPhoneNo: userPhoneNo).setBlankVideo();
+    });
+  }
+
   bazaarWalasLocation(){
     ///Trace:
     BazaarTrace(category: category).locationAdded(location);

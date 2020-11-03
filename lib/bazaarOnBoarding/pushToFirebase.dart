@@ -147,6 +147,10 @@ class PushToFirebase{
         userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
         .blankBazaarWalasLocation();
 
+    await PushSubCategoriesToFirebase(category: categoryData,userPhoneNo: userNumber,
+        userName: userName, listOfSubCategoriesData: listOfSubCategoriesForData)
+        .blankVideoCollection();
+
     /// blank placeholders end here /////////////////////////////////////////////
 
 

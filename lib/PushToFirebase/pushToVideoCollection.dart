@@ -23,6 +23,10 @@ class PushToVideoCollection{
     return dc;
   }
 
+  setBlankVideo(){
+    path(userPhoneNo).setData({}, merge: true);///creating document to avoid error document(i
+  }
+
   push() async{
     categoryDataPath(userPhoneNo, categoryData).document(subCategoryData)
         .setData({TextConfig.url:videoURL});

@@ -311,7 +311,8 @@ class _BazaarLocationState extends State<BazaarLocation> {
               location: widget.location,
               radius: widget.radius,
               isBazaarwala: widget.isBazaarWala,
-              aSubCategoryData: widget.aSubCategoryData
+              aSubCategoryData: widget.aSubCategoryData,
+              homeServiceMap: widget.homeServiceMap,
           ).navigateNoBrackets(context);
         }else{
             CustomFlushBar(

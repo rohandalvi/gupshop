@@ -43,6 +43,7 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
           thumbnailPicture = nameSnapshot.data[TextConfig.thumbnailPicture];
           homeService = nameSnapshot.data[TextConfig.homeService];
           print("homeService in GetBazaarWalasBasicProfileInfo : $homeService");
+          if(homeService ==null) homeService = false;
 
           /// if homeService applicable and provides homeService:
           if (nameSnapshot.data[TextConfig.homeService] == true) {

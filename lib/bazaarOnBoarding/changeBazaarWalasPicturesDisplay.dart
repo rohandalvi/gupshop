@@ -128,6 +128,7 @@ class _ChangeBazaarWalasPicturesDisplayState extends State<ChangeBazaarWalasPict
               iconName: IconConfig.forward,
               onPressed: () async{
 
+                print("widget.homeServiceMap in ChangeBazaarWalasPicturesDisplay : ${widget.homeServiceMap}");
                 ///push all the data here
                 PushToFirebase(
                   videoURL: widget.videoURL,

@@ -226,6 +226,10 @@ PODS:
     - Flutter
   - contacts_service (0.2.1):
     - Flutter
+  - device_info (0.0.1):
+    - Flutter
+  - devicelocale (0.0.1):
+    - Flutter
   - Firebase/Analytics (6.30.0):
     - Firebase/Core
   - Firebase/Auth (6.30.0):
@@ -370,6 +374,8 @@ PODS:
     - SDWebImageWebPCoder
   - flutter_local_notifications (0.0.1):
     - Flutter
+  - flutter_native_timezone (0.0.1):
+    - Flutter
   - flutter_plugin_android_lifecycle (0.0.1):
     - Flutter
   - FMDB (2.7.5):
@@ -382,6 +388,8 @@ PODS:
   - geoflutterfire (0.0.1):
     - Flutter
   - "geolocator (5.3.2+2)":
+    - Flutter
+  - get_ip (0.0.1):
     - Flutter
   - google_api_availability (2.0.4):
     - Flutter
@@ -459,6 +467,10 @@ PODS:
   - image_picker (0.0.1):
     - Flutter
   - leveldb-library (1.22)
+  - libphonenumber (0.0.1):
+    - Flutter
+    - libPhoneNumber-iOS
+  - libPhoneNumber-iOS (0.9.15)
   - libwebp (1.1.0):
     - libwebp/demux (= 1.1.0)
     - libwebp/mux (= 1.1.0)
@@ -508,9 +520,9 @@ PODS:
     - Flutter
   - shared_preferences_windows (0.0.1):
     - Flutter
-  - sqflite (0.0.1):
+  - sqflite (0.0.2):
     - Flutter
-    - FMDB (~> 2.7.2)
+    - FMDB (>= 2.7.5)
   - thumbnails (0.0.1):
     - Flutter
   - TOCropViewController (2.5.4)
@@ -536,6 +548,8 @@ DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - cloud_firestore_web (from `.symlinks/plugins/cloud_firestore_web/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
+  - device_info (from `.symlinks/plugins/device_info/ios`)
+  - devicelocale (from `.symlinks/plugins/devicelocale/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_analytics_web (from `.symlinks/plugins/firebase_analytics_web/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -550,16 +564,19 @@ DEPENDENCIES:
   - flutter_contact (from `.symlinks/plugins/flutter_contact/ios`)
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+  - flutter_native_timezone (from `.symlinks/plugins/flutter_native_timezone/ios`)
   - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
   - gallery_saver (from `.symlinks/plugins/gallery_saver/ios`)
   - geocoder (from `.symlinks/plugins/geocoder/ios`)
   - geoflutterfire (from `.symlinks/plugins/geoflutterfire/ios`)
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
+  - get_ip (from `.symlinks/plugins/get_ip/ios`)
   - google_api_availability (from `.symlinks/plugins/google_api_availability/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_downloader (from `.symlinks/plugins/image_downloader/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
+  - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
   - location (from `.symlinks/plugins/location/ios`)
   - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
   - location_web (from `.symlinks/plugins/location_web/ios`)
@@ -612,6 +629,7 @@ SPEC REPOS:
     - gRPC-Core
     - GTMSessionFetcher
     - leveldb-library
+    - libPhoneNumber-iOS
     - libwebp
     - Mantle
     - nanopb
@@ -628,6 +646,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/cloud_firestore_web/ios"
   contacts_service:
     :path: ".symlinks/plugins/contacts_service/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
+  devicelocale:
+    :path: ".symlinks/plugins/devicelocale/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_analytics_web:
@@ -656,6 +678,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_image_compress/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
+  flutter_native_timezone:
+    :path: ".symlinks/plugins/flutter_native_timezone/ios"
   flutter_plugin_android_lifecycle:
     :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
   gallery_saver:
@@ -666,6 +690,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/geoflutterfire/ios"
   geolocator:
     :path: ".symlinks/plugins/geolocator/ios"
+  get_ip:
+    :path: ".symlinks/plugins/get_ip/ios"
   google_api_availability:
     :path: ".symlinks/plugins/google_api_availability/ios"
   google_maps_flutter:
@@ -676,6 +702,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_downloader/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
+  libphonenumber:
+    :path: ".symlinks/plugins/libphonenumber/ios"
   location:
     :path: ".symlinks/plugins/location/ios"
   location_permissions:
@@ -729,6 +757,8 @@ SPEC CHECKSUMS:
   cloud_firestore: 2a4f8f802fb0b701cf809b283b6bec7477ebaa6f
   cloud_firestore_web: 9ec3dc7f5f98de5129339802d491c1204462bfec
   contacts_service: d212985196c101372bb55c42f41dae7be59ab811
+  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
+  devicelocale: feebbe5e7a30adb8c4f83185de1b50ff19b44f00
   Firebase: 210f41ca352067d83b1ba4fd2e7fb49a0c017397
   firebase_analytics: 9118044ffb98bee71d84733fc594f5134fe4bc1b
   firebase_analytics_web: 7d539061ea4af07563a0e21044af89cab70efec0
@@ -754,15 +784,17 @@ SPEC CHECKSUMS:
   FirebaseRemoteConfig: e40f9e084658210c4d9c341cfa9f6cab6ad4f67e
   FirebaseStorage: 33b92875a9b556824886cc7a65120c7d2cb3a8d8
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_contact: a2b54438acfd060abfebf2e2b85d70c70a15ac2f
+  flutter_contact: d83afd11b19da4d0e7df41b254c84fbb88ef0616
   flutter_image_compress: 082f8daaf6c1b0c9fe798251c750ef0ecd98d7ae
   flutter_local_notifications: 9e4738ce2471c5af910d961a6b7eadcf57c50186
+  flutter_native_timezone: e72ff1900460ff57cfd331d1758050c9269f3e99
   flutter_plugin_android_lifecycle: dc0b544e129eebb77a6bfb1239d4d1c673a60a35
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   gallery_saver: 9fc173c9f4fcc48af53b2a9ebea1b643255be542
   geocoder: 3cfab70531a0b367e917bafe82df4c30f6d4c45a
   geoflutterfire: 2a6493e01fb6eef1a6c9046b1baf9a943d0c5ffe
   geolocator: f7622e0e7e2a24718285b73916d60c4a54b9f5b6
+  get_ip: c063133e0a399ae4089048c90d6a232cb2344846
   google_api_availability: 15fa42a8cd83c0a6738507ffe6e87096f12abcb8
   google_maps_flutter: c7f9c73576de1fbe152a227bfd6e6c4ae8088619
   GoogleAppMeasurement: 3def7652b1f5b5a576178dc332e2a36a260fbef6
@@ -777,6 +809,8 @@ SPEC CHECKSUMS:
   image_downloader: 73e190d6c9f286f2649554051348d9cb319cd4b3
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
+  libphonenumber: bd14d5abfc5939ab0b0767234e2d8e2593af258e
+  libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
   location_permissions: 7e0f9aa0f60deb8ff93ddf0e2a164c7e8197bc94
@@ -797,7 +831,7 @@ SPEC CHECKSUMS:
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
   shared_preferences_windows: 36b76d6f54e76ead957e60b49e2f124b4cd3e6ae
-  sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
+  sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   thumbnails: bb4f4e9bb4b51c8ae4e6ad9a2fa81373f9b634ad
   TOCropViewController: 2a1ae1242600b1f2d996fd91a5268b2309a33b5c
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef

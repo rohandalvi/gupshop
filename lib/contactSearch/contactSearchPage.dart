@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/service/createFriendsCollection.dart';
+import 'package:gupshop/widgets/customIcon.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
 
@@ -41,10 +43,9 @@ class _ContactSearchPageState extends State<ContactSearchPage> {
           width: WidgetConfig.hundredWidth,
           child: FittedBox(
             child: CustomFloatingActionButton(
-              child: IconButton(
-                  icon: SvgPicture.asset('images/refresh.svg',)
-                //SvgPicture.asset('images/downChevron.svg',)
-              ),
+              child: CustomIcon(
+                iconName: IconConfig.refresh,
+                ),
               tooltip: 'Refresh Contacts',
               /// create a listOfContactsSelected and send it to individualChat
               onPressed: () {

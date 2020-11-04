@@ -59,4 +59,5 @@ class IconConfig{
   static String airplane = 'airplane';
   static String free = 'free';
   static String driving = 'driving';
+  static String refresh = 'refresh';
 }

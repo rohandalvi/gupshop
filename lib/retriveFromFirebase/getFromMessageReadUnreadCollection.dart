@@ -9,7 +9,7 @@ class GetFromMessageReadUnreadCollection{
   GetFromMessageReadUnreadCollection({this.userNumber, this.conversationId});
 
   DocumentReference path(){
-    return PushToMessageReadUnreadCollection().path(userNumber);
+    return PushToMessageReadUnreadCollection(userNumber: userNumber).path(userNumber);
   }
 
   getLatestMessageId() async{
@@ -17,8 +17,9 @@ class GetFromMessageReadUnreadCollection{
     return dc.data[conversationId];
   }
 
-  getLatestMessageIdStream(){
-    return path().snapshots();
+  Stream<DocumentSnapshot> getLatestMessageIdStream(){
+    Stream<DocumentSnapshot> stream = path().snapshots();
+    return stream;
   }
 
   containsMessageId(String messageId) async{

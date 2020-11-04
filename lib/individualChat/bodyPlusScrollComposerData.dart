@@ -119,6 +119,8 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                       this.documentList = list.reversed.toList();
 
 
+                      print("documentList isEmpty in bodyScroll: ${documentList.isEmpty}");
+                      print("documentList in bodyScroll: $documentList");
                       /// for message read unread collection:
                       if(!(documentList.isEmpty || documentList == null)){
                         messageId = documentList[0].data["messageId"];

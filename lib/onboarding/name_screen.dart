@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gupshop/PushToFirebase/friendsCollection.dart';
 import 'package:gupshop/PushToFirebase/profilePicturesCollection.dart';
+import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/PushToFirebase/recentChatsCollection.dart';
 import 'package:gupshop/PushToFirebase/usersCollection.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
@@ -108,18 +109,15 @@ class _NameScreenState extends State<NameScreen> {
 
                     if(userName != null && userName != ""){
                       UsersCollection(userPhoneNo: userPhoneNo).setName(userName: userName);
-                      //Firestore.instance.collection("users").document(userPhoneNo).setData({'name':userName});
 
                       //add userPhoneNumber to our database. Add to the users collection:
                       RecentChatsCollection(userPhoneNo: userPhoneNo).setBlankData();
-                      //Firestore.instance.collection("recentChats").document(userPhoneNo).setData({});
 
                       ///creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
                       /// also setting a placeholder
                       /// The placeholder imageurl  as the user picture url we have stored in firebase
                       String url = ImageConfig.userDpPlaceholderFirebase;
                       ProfilePicturesCollection(userPhoneNo: userPhoneNo).setPicture(url);
-                      //Firestore.instance.collection("profilePictures").document(userPhoneNo).setData({'url' : url});
 
                       List<String> nameList = new List();
                       nameList.add(userName);
@@ -129,7 +127,10 @@ class _NameScreenState extends State<NameScreen> {
                       ///groupName is set  to null, to identify group from individual which is required in createGroup page to show only individuals and not group in search
 
                       FriendsCollection(userPhoneNo: userPhoneNo).setMeAsFriend(phoneNumberList, nameList);
-                      //Firestore.instance.collection("friends_$userPhoneNo").document(userPhoneNo).setData({'phone': phoneNumberList, 'nameList' : nameList, 'groupName' : null, 'isMe': true});///necessary to create data, orsearch in contact search page shows error
+
+                      /// for 1st brand new conversation, the messageReadUnread
+                      /// would not have userPhoneNo
+                      PushToMessageReadUnreadCollection(userNumber: userPhoneNo).setBlankDocument();
 
                       setState(() {
                         prefs.setString('userName', userName);

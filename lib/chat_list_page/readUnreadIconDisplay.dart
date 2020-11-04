@@ -19,6 +19,8 @@ class ReadUnreadIconDisplay extends StatelessWidget {
       stream: GetFromMessageReadUnreadCollection(userNumber: myNumber, conversationId: conversationId).getLatestMessageIdStream(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(snapshot.hasData) {
+          print("snapshot in readUnreadIconDispaly : ${snapshot}");
+          print("snapshot data in readUnreadIconDispaly : ${snapshot.data}");
           DocumentSnapshot dc = snapshot.data;
           String usersLatestMessageId =dc[conversationId];
           bool read = MessageReadUnreadData(conversationId: conversationId,

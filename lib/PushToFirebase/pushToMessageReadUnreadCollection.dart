@@ -14,7 +14,6 @@ class PushToMessageReadUnreadCollection{
   }
 
   pushLatestMessageId(){
-    setBlankDocument();
     path(userNumber).setData({conversationId : messageId}, merge: true);
   }
 

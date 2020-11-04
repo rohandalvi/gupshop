@@ -14,11 +14,14 @@ class PushToMessageTypingCollection{
   }
 
   pushTypingStatus(){
-//    Firestore.instance.collection("messageTyping").document(userNumber)
-//        .setData({}, merge: true);
   List<String> members = new List();
   members.add(userNumber);
 
+    setBlankDocument();
     path(conversationId).setData({TextConfig.members: members}, merge: true);
+  }
+
+  setBlankDocument(){
+    path(conversationId).setData({}, merge: true);
   }
 }

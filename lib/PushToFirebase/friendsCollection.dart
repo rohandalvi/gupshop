@@ -16,6 +16,6 @@ class FriendsCollection{
 
   setMeAsFriend(List<String> phoneNumberList, List<String> nameList,){
     DocumentReference dc = path().document(userPhoneNo);
-    return dc.setData({TextConfig.phone: phoneNumberList, TextConfig.nameList : nameList, TextConfig.groupName : null, TextConfig.isMe: true});
+    return dc.setData({TextConfig.phone: phoneNumberList, TextConfig.nameList : nameList, TextConfig.groupName : null, TextConfig.isMe: true}, merge: true);
   }
 }

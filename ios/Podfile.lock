@@ -222,8 +222,6 @@ PODS:
     - Firebase/Core
     - Firebase/Firestore (~> 6.0)
     - Flutter
-  - cloud_firestore_web (0.1.0):
-    - Flutter
   - contacts_service (0.2.1):
     - Flutter
   - device_info (0.0.1):
@@ -259,18 +257,12 @@ PODS:
     - Firebase/Analytics (~> 6.0)
     - Firebase/Core
     - Flutter
-  - firebase_analytics_web (0.1.0):
-    - Flutter
   - firebase_auth (0.0.1):
     - Firebase/Auth (~> 6.3)
     - Firebase/Core
     - Flutter
-  - firebase_auth_web (0.1.0):
-    - Flutter
   - firebase_core (0.0.1):
     - Firebase/Core
-    - Flutter
-  - firebase_core_web (0.1.0):
     - Flutter
   - firebase_database (0.0.1):
     - Firebase/Database
@@ -376,8 +368,6 @@ PODS:
     - Flutter
   - flutter_native_timezone (0.0.1):
     - Flutter
-  - flutter_plugin_android_lifecycle (0.0.1):
-    - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -390,8 +380,6 @@ PODS:
   - "geolocator (5.3.2+2)":
     - Flutter
   - get_ip (0.0.1):
-    - Flutter
-  - google_api_availability (2.0.4):
     - Flutter
   - google_maps_flutter (0.0.1):
     - Flutter
@@ -484,8 +472,6 @@ PODS:
     - Flutter
   - "location_permissions (3.0.0+1)":
     - Flutter
-  - location_web (0.0.1):
-    - Flutter
   - Mantle (2.1.1):
     - Mantle/extobjc (= 2.1.1)
   - Mantle/extobjc (2.1.1)
@@ -495,12 +481,6 @@ PODS:
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
   - path_provider (0.0.1):
-    - Flutter
-  - path_provider_linux (0.0.1):
-    - Flutter
-  - path_provider_macos (0.0.1):
-    - Flutter
-  - path_provider_windows (0.0.1):
     - Flutter
   - "permission_handler (5.0.1+1)":
     - Flutter
@@ -512,14 +492,6 @@ PODS:
     - SDWebImage/Core (~> 5.7)
   - shared_preferences (0.0.1):
     - Flutter
-  - shared_preferences_linux (0.0.1):
-    - Flutter
-  - shared_preferences_macos (0.0.1):
-    - Flutter
-  - shared_preferences_web (0.0.1):
-    - Flutter
-  - shared_preferences_windows (0.0.1):
-    - Flutter
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
@@ -528,17 +500,7 @@ PODS:
   - TOCropViewController (2.5.4)
   - url_launcher (0.0.1):
     - Flutter
-  - url_launcher_linux (0.0.1):
-    - Flutter
-  - url_launcher_macos (0.0.1):
-    - Flutter
-  - url_launcher_web (0.0.1):
-    - Flutter
-  - url_launcher_windows (0.0.1):
-    - Flutter
   - video_player (0.0.1):
-    - Flutter
-  - video_player_web (0.0.1):
     - Flutter
   - video_thumbnail (0.0.1):
     - Flutter
@@ -546,16 +508,12 @@ PODS:
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
-  - cloud_firestore_web (from `.symlinks/plugins/cloud_firestore_web/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - devicelocale (from `.symlinks/plugins/devicelocale/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
-  - firebase_analytics_web (from `.symlinks/plugins/firebase_analytics_web/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
-  - firebase_auth_web (from `.symlinks/plugins/firebase_auth_web/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
-  - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_performance (from `.symlinks/plugins/firebase_performance/ios`)
@@ -565,13 +523,11 @@ DEPENDENCIES:
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_timezone (from `.symlinks/plugins/flutter_native_timezone/ios`)
-  - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
   - gallery_saver (from `.symlinks/plugins/gallery_saver/ios`)
   - geocoder (from `.symlinks/plugins/geocoder/ios`)
   - geoflutterfire (from `.symlinks/plugins/geoflutterfire/ios`)
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
   - get_ip (from `.symlinks/plugins/get_ip/ios`)
-  - google_api_availability (from `.symlinks/plugins/google_api_availability/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_downloader (from `.symlinks/plugins/image_downloader/ios`)
@@ -579,26 +535,13 @@ DEPENDENCIES:
   - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
   - location (from `.symlinks/plugins/location/ios`)
   - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
-  - location_web (from `.symlinks/plugins/location_web/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
-  - path_provider_linux (from `.symlinks/plugins/path_provider_linux/ios`)
-  - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
-  - path_provider_windows (from `.symlinks/plugins/path_provider_windows/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
-  - shared_preferences_linux (from `.symlinks/plugins/shared_preferences_linux/ios`)
-  - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
-  - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
-  - shared_preferences_windows (from `.symlinks/plugins/shared_preferences_windows/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - thumbnails (from `.symlinks/plugins/thumbnails/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
-  - url_launcher_linux (from `.symlinks/plugins/url_launcher_linux/ios`)
-  - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
-  - url_launcher_web (from `.symlinks/plugins/url_launcher_web/ios`)
-  - url_launcher_windows (from `.symlinks/plugins/url_launcher_windows/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
-  - video_player_web (from `.symlinks/plugins/video_player_web/ios`)
   - video_thumbnail (from `.symlinks/plugins/video_thumbnail/ios`)
 
 SPEC REPOS:
@@ -642,8 +585,6 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
-  cloud_firestore_web:
-    :path: ".symlinks/plugins/cloud_firestore_web/ios"
   contacts_service:
     :path: ".symlinks/plugins/contacts_service/ios"
   device_info:
@@ -652,16 +593,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/devicelocale/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
-  firebase_analytics_web:
-    :path: ".symlinks/plugins/firebase_analytics_web/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
-  firebase_auth_web:
-    :path: ".symlinks/plugins/firebase_auth_web/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
-  firebase_core_web:
-    :path: ".symlinks/plugins/firebase_core_web/ios"
   firebase_database:
     :path: ".symlinks/plugins/firebase_database/ios"
   firebase_messaging:
@@ -680,8 +615,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_native_timezone:
     :path: ".symlinks/plugins/flutter_native_timezone/ios"
-  flutter_plugin_android_lifecycle:
-    :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
   gallery_saver:
     :path: ".symlinks/plugins/gallery_saver/ios"
   geocoder:
@@ -692,8 +625,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/geolocator/ios"
   get_ip:
     :path: ".symlinks/plugins/get_ip/ios"
-  google_api_availability:
-    :path: ".symlinks/plugins/google_api_availability/ios"
   google_maps_flutter:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
   image_cropper:
@@ -708,46 +639,20 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/location/ios"
   location_permissions:
     :path: ".symlinks/plugins/location_permissions/ios"
-  location_web:
-    :path: ".symlinks/plugins/location_web/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
-  path_provider_linux:
-    :path: ".symlinks/plugins/path_provider_linux/ios"
-  path_provider_macos:
-    :path: ".symlinks/plugins/path_provider_macos/ios"
-  path_provider_windows:
-    :path: ".symlinks/plugins/path_provider_windows/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
-  shared_preferences_linux:
-    :path: ".symlinks/plugins/shared_preferences_linux/ios"
-  shared_preferences_macos:
-    :path: ".symlinks/plugins/shared_preferences_macos/ios"
-  shared_preferences_web:
-    :path: ".symlinks/plugins/shared_preferences_web/ios"
-  shared_preferences_windows:
-    :path: ".symlinks/plugins/shared_preferences_windows/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   thumbnails:
     :path: ".symlinks/plugins/thumbnails/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
-  url_launcher_linux:
-    :path: ".symlinks/plugins/url_launcher_linux/ios"
-  url_launcher_macos:
-    :path: ".symlinks/plugins/url_launcher_macos/ios"
-  url_launcher_web:
-    :path: ".symlinks/plugins/url_launcher_web/ios"
-  url_launcher_windows:
-    :path: ".symlinks/plugins/url_launcher_windows/ios"
   video_player:
     :path: ".symlinks/plugins/video_player/ios"
-  video_player_web:
-    :path: ".symlinks/plugins/video_player_web/ios"
   video_thumbnail:
     :path: ".symlinks/plugins/video_thumbnail/ios"
 
@@ -755,17 +660,13 @@ SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   cloud_firestore: 2a4f8f802fb0b701cf809b283b6bec7477ebaa6f
-  cloud_firestore_web: 9ec3dc7f5f98de5129339802d491c1204462bfec
   contacts_service: d212985196c101372bb55c42f41dae7be59ab811
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   devicelocale: feebbe5e7a30adb8c4f83185de1b50ff19b44f00
   Firebase: 210f41ca352067d83b1ba4fd2e7fb49a0c017397
   firebase_analytics: 9118044ffb98bee71d84733fc594f5134fe4bc1b
-  firebase_analytics_web: 7d539061ea4af07563a0e21044af89cab70efec0
   firebase_auth: af8784c4d8d87c36f730a305f97bfbcb24db024b
-  firebase_auth_web: 0955c07bcc06e84af76b9d4e32e6f31518f2d7de
   firebase_core: 335c02abd48672b7c83c683df833d0488a72e73e
-  firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
   firebase_database: 88085c38a41ad0b5c3c611ede7205831a2ece844
   firebase_messaging: 21344b3b3a7d9d325d63a70e3750c0c798fe1e03
   firebase_performance: ab604e5c4be7ce595ad263e2d1981d60b5eb7e5f
@@ -788,14 +689,12 @@ SPEC CHECKSUMS:
   flutter_image_compress: 082f8daaf6c1b0c9fe798251c750ef0ecd98d7ae
   flutter_local_notifications: 9e4738ce2471c5af910d961a6b7eadcf57c50186
   flutter_native_timezone: e72ff1900460ff57cfd331d1758050c9269f3e99
-  flutter_plugin_android_lifecycle: dc0b544e129eebb77a6bfb1239d4d1c673a60a35
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   gallery_saver: 9fc173c9f4fcc48af53b2a9ebea1b643255be542
   geocoder: 3cfab70531a0b367e917bafe82df4c30f6d4c45a
   geoflutterfire: 2a6493e01fb6eef1a6c9046b1baf9a943d0c5ffe
   geolocator: f7622e0e7e2a24718285b73916d60c4a54b9f5b6
   get_ip: c063133e0a399ae4089048c90d6a232cb2344846
-  google_api_availability: 15fa42a8cd83c0a6738507ffe6e87096f12abcb8
   google_maps_flutter: c7f9c73576de1fbe152a227bfd6e6c4ae8088619
   GoogleAppMeasurement: 3def7652b1f5b5a576178dc332e2a36a260fbef6
   GoogleDataTransport: 672fb0ce96fe7f7f31d43672fca62ad2c9c86f7b
@@ -814,35 +713,22 @@ SPEC CHECKSUMS:
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
   location_permissions: 7e0f9aa0f60deb8ff93ddf0e2a164c7e8197bc94
-  location_web: b94e7433cfe28c0f7c8923c2ee482824b32e55a7
   Mantle: 35238ae6f2e2b2d474fa7b67fee82a59fea71915
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
-  path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
-  path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
-  path_provider_windows: a2b81600c677ac1959367280991971cb9a1edb3b
   permission_handler: eac8e15b4a1a3fba55b761d19f3f4e6b005d15b6
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   SDWebImage: cf6922231e95550934da2ada0f20f2becf2ceba9
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
-  shared_preferences_linux: afefbfe8d921e207f01ede8b60373d9e3b566b78
-  shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
-  shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
-  shared_preferences_windows: 36b76d6f54e76ead957e60b49e2f124b4cd3e6ae
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   thumbnails: bb4f4e9bb4b51c8ae4e6ad9a2fa81373f9b634ad
   TOCropViewController: 2a1ae1242600b1f2d996fd91a5268b2309a33b5c
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
-  url_launcher_linux: ac237cb7a8058736e4aae38bdbcc748a4b394cc0
-  url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
-  url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
-  url_launcher_windows: 683d7c283894db8d1914d3ab2223b20cc1ad95d5
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
-  video_player_web: da8cadb8274ed4f8dbee8d7171b420dedd437ce7
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
 
-PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
 COCOAPODS: 1.9.3

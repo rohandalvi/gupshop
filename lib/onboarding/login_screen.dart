@@ -38,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("in loginScreen");
     return Scaffold(
       //Scaffold==>Column==>Stack==>Container==>Text(Gup)
       //                         ==>Container==>Text(Shup)
@@ -106,20 +107,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Expanded(
                   flex: 3,
-                  child: Padding(
-                    padding: EdgeInsets.all(PaddingConfig.eight),
-                    child: CustomTextFormField(
-                      maxLength: 10,
-                          labelText: TextConfig.enterYourNumber,
-                          onChanged: (val) {
-                            setState(() {
-                              this.phoneNo = val;
-                              this.val=val;
-                              numberWithoutCode = this.val;
-                            });
-                          },
-                        ),
-                  ),
+                  child: CustomTextFormField(
+                    maxLength: 10,
+                        labelText: TextConfig.enterYourNumber,
+                        onChanged: (val) {
+                          setState(() {
+                            this.phoneNo = val;
+                            this.val=val;
+                            numberWithoutCode = this.val;
+                          });
+                        },
+                      ),
                 ),
               ],
             ),

@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:gupshop/cutomMaps/mapUI.dart';
 import 'package:gupshop/cutomMaps/setCircleData.dart';
 import 'package:gupshop/cutomMaps/setMarkerData.dart';
+import 'package:gupshop/responsive/intConfig.dart';
 
 class GenerateMapUI extends StatefulWidget {
   double latitude;
@@ -17,10 +18,11 @@ class GenerateMapUI extends StatefulWidget {
   bool showRadius;
   double radius;
   int circleIdCounter;
+  double zoom;
 
   GenerateMapUI({this.longitude, this.latitude, this.circleSet, this.markerSet,
     this.showRadius, this.radius, this.circleIdCounter,
-    this.markerIdCounter,
+    this.markerIdCounter,this.zoom
 
   });
 
@@ -38,7 +40,7 @@ class _GenerateMapUIState extends State<GenerateMapUI> {
   Set<Circle> circleSet = new HashSet();
 
   /// this would be flexible
-  double radius = 300;
+  double radius = IntConfig.radius;
 
   int circleIdCounter = 1;
 
@@ -53,11 +55,14 @@ class _GenerateMapUIState extends State<GenerateMapUI> {
   void didUpdateWidget(GenerateMapUI oldWidget) {
     setMarkers();
 
+    print("zoom in didUpdateWidget : ${widget.zoom}");
     /// this is required:
     mapController.animateCamera(
         CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(widget.latitude, widget.longitude,),
-      zoom: 15,
+      zoom: widget.zoom,
+//      zoom: zoom
+      //zoom: IntConfig.zoom,
     )));
 
 
@@ -78,7 +83,8 @@ class _GenerateMapUIState extends State<GenerateMapUI> {
       markerSet: widget.markerSet,
       circleSet: widget.circleSet,
       onMapCreated: onMapCreated,
-      zoom: 15,
+      zoom: widget.zoom,
+      //zoom: zoom,
     );
   }
 
@@ -90,6 +96,7 @@ class _GenerateMapUIState extends State<GenerateMapUI> {
   }
 
   resetSetCircle(LatLng point){
+    print("widget.zoom : ${widget.zoom}");
     setState(() {
       if(widget.showRadius == true){
         widget.circleSet = SetCircleData(
@@ -108,6 +115,7 @@ class _GenerateMapUIState extends State<GenerateMapUI> {
             markerIdCounter: widget.markerIdCounter
         ).main();
       }
+//      zoom = zoom - 0.1;
     });
 
   }

@@ -50,17 +50,26 @@ class _CustomMapState extends State<CustomMap> {
   MapAppBar appBar;
 
   bool exit = false;
+  double zoom;
 
 
   @override
   void didUpdateWidget(CustomMap oldWidget) {
+    print("in customMap didUpdateWidget");
     super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void initState() {
+    zoom = IntConfig.zoom;
+
+    super.initState();
   }
 
 
   @override
   Widget build(BuildContext context) {
-    print("in customMaps");
+    print("in customMaps : $zoom");
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -73,6 +82,7 @@ class _CustomMapState extends State<CustomMap> {
             showRadius: widget.showRadius,
             markerIdCounter: markerIdCounter,
             markerSet: markerSet,
+            zoom: zoom,
           ),
           appBarWidget(),
 
@@ -165,6 +175,7 @@ class _CustomMapState extends State<CustomMap> {
   }
 
 
+  /// selecting new location
   resetLocation(double newLatitude, double newLongitude){
     setState(() {
       widget.latitude = newLatitude;
@@ -182,6 +193,15 @@ class _CustomMapState extends State<CustomMap> {
           radius: radius,
           circleIdCounter: circleIdCounter,
         ).main();
+        if(zoom > IntConfig.zoomLimit){/// 10.55
+          zoom = zoom - IntConfig.zoomChange;
+        }
+        if(radius > IntConfig.radiusHitsScreenFrom && radius < IntConfig.radiusHitsScreenTo){
+          zoom = zoom - IntConfig.zoomChange;
+        }
+        if(radius > IntConfig.radiusHitsAgainScreenFrom && radius < IntConfig.radiusHitsAgainScreenTo) {
+          zoom = zoom - IntConfig.zoomChange;
+        }
       });
     }else{
       return CustomFlushBar(
@@ -205,6 +225,7 @@ class _CustomMapState extends State<CustomMap> {
           radius: radius,
           circleIdCounter: circleIdCounter,
         ).main();
+        zoom = zoom + 0.05;
       });
     }else{
       return CustomFlushBar(

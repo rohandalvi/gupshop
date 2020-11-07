@@ -175,6 +175,7 @@ class _ProductDetailState extends State<ProductDetail> with TickerProviderStateM
                     likes = snapshot.data[TextConfig.likes];
                     dislikes = snapshot.data[TextConfig.dislikes];
 
+                    print("homeServiceText in ProductDetail : ${widget.homeServiceText}");
                     return ReviewBuilderAndDisplay(productWalaName:productWalaName, productWalaNumber: widget.productWalaNumber,
                       category: widget.category,writeReview: writeReview,focus: focus,userName: userName,
                       reviewBody: reviewBody,likeOrDislike: likeOrDislike,likes: likes,dislikes: dislikes,

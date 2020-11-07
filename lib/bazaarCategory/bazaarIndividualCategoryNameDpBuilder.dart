@@ -65,6 +65,8 @@ class BazaarIndividualCategoryNameDpBuilder extends StatelessWidget {
           if (thumbnailPicture == null)
             thumbnailPicture = ImageConfig.photoFrame;
 
+          print("homeServiceText in nameDpBuilder : $homeServiceText");
+
           return BazaarIndividualCategoryListDisplay(
             bazaarWalaName: displayName,
             //bazaarWalaName: name,

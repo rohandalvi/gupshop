@@ -263,22 +263,22 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
 
 
-  listOfBazaarWalasPlaceholder(int numberOfBazaarWalasInList, String bazaarWalaPhoneNo){
-    return ListView.builder(
-        itemCount: 1,
-        itemBuilder: (BuildContext context, int index){
-          return BazaarIndividualCategoryListDisplay(
-            bazaarWalaName: widget.category.toString(),
-            bazaarWalaPhoneNo: bazaarWalaPhoneNo,
-            category: widget.category,
-            categoryData: widget.categoryData,
-            subCategory: widget.subCategory,
-            subCategoryData: widget.subCategoryData,
-            thumbnailPicture: ImageConfig.bazaarWalaThumbnailPicture,
-          );
-        }
-    );
-  }
+//  listOfBazaarWalasPlaceholder(int numberOfBazaarWalasInList, String bazaarWalaPhoneNo){
+//    return ListView.builder(
+//        itemCount: 1,
+//        itemBuilder: (BuildContext context, int index){
+//          return BazaarIndividualCategoryListDisplay(
+//            bazaarWalaName: widget.category.toString(),
+//            bazaarWalaPhoneNo: bazaarWalaPhoneNo,
+//            category: widget.category,
+//            categoryData: widget.categoryData,
+//            subCategory: widget.subCategory,
+//            subCategoryData: widget.subCategoryData,
+//            thumbnailPicture: ImageConfig.bazaarWalaThumbnailPicture,
+//          );
+//        }
+//    );
+//  }
 
   changeLocation(BuildContext context){
     return CustomIconButton(

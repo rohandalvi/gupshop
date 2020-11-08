@@ -64,29 +64,30 @@ class _NameScreenState extends State<NameScreen> {
               shrinkWrap: true,
               children: <Widget>[
                 avatar(),
-                Container(
-                  child: CustomTextFormField(
-                        maxLength: IntConfig.textFormFieldLimitTwentyFive, /// name length restricted to 25 letters
-                        onChanged: (val){
-                          setState(() {
-                            this.isName= val;
-                            this.userName= val;
-                          });
-                        },
-                        formKeyCustomText: formKey,
-                        onFieldSubmitted: (name){
-                          final form = formKey.currentState;
-                          if(form.validate()){
-                            setState(() {
-                              this.userName= name;
-                            });
-                          }
-                        },
-                        labelText: TextConfig.enterName,
-                      ),
-
-                  padding: EdgeInsets.only(left: PaddingConfig.twenty, top: PaddingConfig.thirtyFive, right: PaddingConfig.twenty),
-                ),
+                name(),
+//                Container(
+//                  child: CustomTextFormField(
+//                        maxLength: IntConfig.textFormFieldLimitTwentyFive, /// name length restricted to 25 letters
+//                        onChanged: (val){
+//                          setState(() {
+//                            this.isName= val;
+//                            this.userName= val;
+//                          });
+//                        },
+//                        formKeyCustomText: formKey,
+//                        onFieldSubmitted: (name){
+//                          final form = formKey.currentState;
+//                          if(form.validate()){
+//                            setState(() {
+//                              this.userName= name;
+//                            });
+//                          }
+//                        },
+//                        labelText: TextConfig.enterName,
+//                      ),
+//
+//                  padding: EdgeInsets.only(left: PaddingConfig.twenty, top: PaddingConfig.thirtyFive, right: PaddingConfig.twenty),
+//                ),
                 CustomIconButton(
                   iconNameInImageFolder: IconConfig.forwardIcon,
                   onPressed: ()async{
@@ -108,7 +109,8 @@ class _NameScreenState extends State<NameScreen> {
                           .showFlushBarStopHand();
                     }
 
-                    if(userName != null && userName != ""){
+                    if(userName != null && userName != TextConfig.blankString){
+                      print("userName in onPressed : $userName");
                       UsersCollection(userPhoneNo: userPhoneNo).setName(userName: userName);
 
                       //add userPhoneNumber to our database. Add to the users collection:
@@ -198,32 +200,44 @@ class _NameScreenState extends State<NameScreen> {
 
   name(){
     return FutureBuilder(
-      future: ProfilePictures(userPhoneNo: userPhoneNo).getProfilePicture(),
-      builder: (BuildContext context, AsyncSnapshot profilePictureSnapshot) {
-        if (profilePictureSnapshot.connectionState == ConnectionState.done) {
-          print("profilePictureSnapshot.data : ${profilePictureSnapshot.data}");
-          if(profilePictureSnapshot.data != null){
-            profilePictureURL = profilePictureSnapshot.data;
+      future: UsersCollection(userPhoneNo: userPhoneNo).getName(),
+      builder: (BuildContext context, AsyncSnapshot nameSnapshot) {
+        if (nameSnapshot.connectionState == ConnectionState.done) {
+          print("nameSnapshot.data : ${nameSnapshot.data}");
+          if(nameSnapshot.data != null){
+            userName = nameSnapshot.data;
           }
-          print("profilePictureURL : $profilePictureURL");
+          print("userName : $userName");
 
           return Container(
-            width: WidgetConfig.hundredWidth,
-            height: WidgetConfig.hundredHeight,
-            child:
-            Image(
-              image: NetworkImage(profilePictureURL),
+            child: CustomTextFormField(
+              maxLength: IntConfig.textFormFieldLimitTwentyFive, /// name length restricted to 25 letters
+              onChanged: (val){
+                this.isName= val;
+                this.userName= val;
+//                setState(() {
+//                  this.isName= val;
+//                  this.userName= val;
+//                });
+              },
+              formKeyCustomText: formKey,
+              onFieldSubmitted: (name){
+                final form = formKey.currentState;
+                if(form.validate()){
+                  this.userName = name;
+//                  setState(() {
+//                    this.userName= name;
+//                  });
+                }
+              },
+              initialValue: userName == null ? TextConfig.blankString : userName,
+              labelText: TextConfig.enterName,
             ),
+
+            padding: EdgeInsets.only(left: PaddingConfig.twenty, top: PaddingConfig.thirtyFive, right: PaddingConfig.twenty),
           );
         }
-        return Container(
-          width: WidgetConfig.hundredWidth,
-          height: WidgetConfig.hundredHeight,
-          child:
-          Image(
-            image: AssetImage(ImageConfig.userDpPlaceholder),
-          ),
-        );
+        return Center(child: CircularProgressIndicator());
       },
     );
   }

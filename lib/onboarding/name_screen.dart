@@ -48,6 +48,7 @@ class _NameScreenState extends State<NameScreen> {
   GlobalKey<FormState> formKey = new GlobalKey<FormState>();
 
   String isName;
+  String profilePictureURL= ImageConfig.userDpPlaceholderFirebase;
 
   _NameScreenState({@required this.userPhoneNo});
 
@@ -62,7 +63,7 @@ class _NameScreenState extends State<NameScreen> {
             child: ListView(//to remove renderflex overflow error
               shrinkWrap: true,
               children: <Widget>[
-                displayNameBadge(),
+                avatar(),
                 Container(
                   child: CustomTextFormField(
                         maxLength: IntConfig.textFormFieldLimitTwentyFive, /// name length restricted to 25 letters
@@ -116,8 +117,17 @@ class _NameScreenState extends State<NameScreen> {
                       ///creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
                       /// also setting a placeholder
                       /// The placeholder imageurl  as the user picture url we have stored in firebase
-                      String url = ImageConfig.userDpPlaceholderFirebase;
-                      ProfilePicturesCollection(userPhoneNo: userPhoneNo).setPicture(url);
+//                      String url = ImageConfig.userDpPlaceholderFirebase;
+
+                      /// if the user is reBoarding then dont use the new URL as
+                      /// the profile picture is already set in the database
+                      print("profilePictureURL in onPressed : $profilePictureURL");
+                      ProfilePicturesCollection(userPhoneNo: userPhoneNo).setPicture(profilePictureURL);
+//                      String existingUrl = await ProfilePictures(userPhoneNo: userPhoneNo).getProfilePicture();
+//                      print("existingUrl : $existingUrl");
+//                      if(existingUrl == null){
+//                        ProfilePicturesCollection(userPhoneNo: userPhoneNo).setPicture(url);
+//                      }
 
                       List<String> nameList = new List();
                       nameList.add(userName);
@@ -154,17 +164,72 @@ class _NameScreenState extends State<NameScreen> {
     );
   }
 
-  displayNameBadge(){
-    return Container(
-      width: WidgetConfig.hundredWidth,
-      height: WidgetConfig.hundredHeight,
-      child:
-        Image(
-          image: AssetImage(ImageConfig.userDpPlaceholder),
-        ),
+  avatar(){
+    return FutureBuilder(
+      future: ProfilePictures(userPhoneNo: userPhoneNo).getProfilePicture(),
+      builder: (BuildContext context, AsyncSnapshot profilePictureSnapshot) {
+        if (profilePictureSnapshot.connectionState == ConnectionState.done) {
+          print("profilePictureSnapshot.data : ${profilePictureSnapshot.data}");
+          if(profilePictureSnapshot.data != null){
+            profilePictureURL = profilePictureSnapshot.data;
+          }
+          print("profilePictureURL : $profilePictureURL");
+
+          return Container(
+            width: WidgetConfig.hundredWidth,
+            height: WidgetConfig.hundredHeight,
+            child:
+            Image(
+              image: NetworkImage(profilePictureURL),
+            ),
+          );
+        }
+        return Container(
+          width: WidgetConfig.hundredWidth,
+          height: WidgetConfig.hundredHeight,
+          child:
+          Image(
+            image: AssetImage(ImageConfig.userDpPlaceholder),
+          ),
+        );
+      },
+    );
+  }
+
+  name(){
+    return FutureBuilder(
+      future: ProfilePictures(userPhoneNo: userPhoneNo).getProfilePicture(),
+      builder: (BuildContext context, AsyncSnapshot profilePictureSnapshot) {
+        if (profilePictureSnapshot.connectionState == ConnectionState.done) {
+          print("profilePictureSnapshot.data : ${profilePictureSnapshot.data}");
+          if(profilePictureSnapshot.data != null){
+            profilePictureURL = profilePictureSnapshot.data;
+          }
+          print("profilePictureURL : $profilePictureURL");
+
+          return Container(
+            width: WidgetConfig.hundredWidth,
+            height: WidgetConfig.hundredHeight,
+            child:
+            Image(
+              image: NetworkImage(profilePictureURL),
+            ),
+          );
+        }
+        return Container(
+          width: WidgetConfig.hundredWidth,
+          height: WidgetConfig.hundredHeight,
+          child:
+          Image(
+            image: AssetImage(ImageConfig.userDpPlaceholder),
+          ),
+        );
+      },
     );
   }
 }
+
+
 
 
 ///Vertically Center & Horizontal Center- Center components of a Listview in a scaffold

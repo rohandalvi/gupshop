@@ -44,8 +44,6 @@ class _NameScreenState extends State<NameScreen> {
   final String userPhoneNo;
   List<String> phoneNumberList;
 
-//  String imageUrl = "https://firebasestorage.googleapis.com/v0/b/gupshop-27dcc.appspot.com/o/%2B15857547599ProfilePicture?alt=media&token=0a4a79f5-7989-4e14-8927-7b4ca39af7d7";
-  //static final formKey = new GlobalKey<FormState>();
   GlobalKey<FormState> formKey = new GlobalKey<FormState>();
 
   String isName;
@@ -57,38 +55,13 @@ class _NameScreenState extends State<NameScreen> {
   Widget build(BuildContext context) {
     return WillPopScope( /// to not let the user go back from name_screen
       onWillPop: () async => false,/// a required for WillPopScope
-//      child: MaterialApp(
         child: Scaffold(
-//    home: Scaffold(
           body: Center(
             child: ListView(//to remove renderflex overflow error
               shrinkWrap: true,
               children: <Widget>[
                 avatar(),
                 name(),
-//                Container(
-//                  child: CustomTextFormField(
-//                        maxLength: IntConfig.textFormFieldLimitTwentyFive, /// name length restricted to 25 letters
-//                        onChanged: (val){
-//                          setState(() {
-//                            this.isName= val;
-//                            this.userName= val;
-//                          });
-//                        },
-//                        formKeyCustomText: formKey,
-//                        onFieldSubmitted: (name){
-//                          final form = formKey.currentState;
-//                          if(form.validate()){
-//                            setState(() {
-//                              this.userName= name;
-//                            });
-//                          }
-//                        },
-//                        labelText: TextConfig.enterName,
-//                      ),
-//
-//                  padding: EdgeInsets.only(left: PaddingConfig.twenty, top: PaddingConfig.thirtyFive, right: PaddingConfig.twenty),
-//                ),
                 CustomIconButton(
                   iconNameInImageFolder: IconConfig.forwardIcon,
                   onPressed: ()async{
@@ -111,26 +84,13 @@ class _NameScreenState extends State<NameScreen> {
                     }
 
                     if(userName != null && userName != TextConfig.blankString){
-                      print("userName in onPressed : $userName");
                       UsersCollection(userPhoneNo: userPhoneNo).setName(userName: userName);
 
-                      //add userPhoneNumber to our database. Add to the users collection:
                       RecentChatsCollection(userPhoneNo: userPhoneNo).setBlankData();
-
-                      ///creating a document with the user's phone number in profilePictures collection which would have no data set for the profile picture itself if the  user logs in for the first time, later he can add the profile picture  himself
-                      /// also setting a placeholder
-                      /// The placeholder imageurl  as the user picture url we have stored in firebase
-//                      String url = ImageConfig.userDpPlaceholderFirebase;
 
                       /// if the user is reBoarding then dont use the new URL as
                       /// the profile picture is already set in the database
-                      print("profilePictureURL in onPressed : $profilePictureURL");
                       ProfilePicturesCollection(userPhoneNo: userPhoneNo).setPicture(profilePictureURL);
-//                      String existingUrl = await ProfilePictures(userPhoneNo: userPhoneNo).getProfilePicture();
-//                      print("existingUrl : $existingUrl");
-//                      if(existingUrl == null){
-//                        ProfilePicturesCollection(userPhoneNo: userPhoneNo).setPicture(url);
-//                      }
 
                       List<String> nameList = new List();
                       nameList.add(userName);
@@ -146,7 +106,7 @@ class _NameScreenState extends State<NameScreen> {
                       PushToMessageReadUnreadCollection(userNumber: userPhoneNo).setBlankDocument();
 
                       setState(() {
-                        prefs.setString('userName', userName);
+                        prefs.setString(TextConfig.userName, userName);
                       });
 
 
@@ -172,26 +132,15 @@ class _NameScreenState extends State<NameScreen> {
       future: ProfilePictures(userPhoneNo: userPhoneNo).getProfilePicture(),
       builder: (BuildContext context, AsyncSnapshot profilePictureSnapshot) {
         if (profilePictureSnapshot.connectionState == ConnectionState.done) {
-          print("profilePictureSnapshot.data : ${profilePictureSnapshot.data}");
           if(profilePictureSnapshot.data != null){
             profilePictureURL = profilePictureSnapshot.data;
           }
-          print("profilePictureURL : $profilePictureURL");
 
           return DisplayCircularPicture(
             image: NetworkImage(profilePictureURL),
             width: WidgetConfig.twoHundredWidth,
             height: WidgetConfig.twoHundredHeight,
-
           );
-//          return Container(
-//            width: WidgetConfig.hundredWidth,
-//            height: WidgetConfig.hundredHeight,
-//            child:
-//            Image(
-//              image: NetworkImage(profilePictureURL),
-//            ),
-//          );
         }
         return Container(
           width: WidgetConfig.hundredWidth,
@@ -210,11 +159,9 @@ class _NameScreenState extends State<NameScreen> {
       future: UsersCollection(userPhoneNo: userPhoneNo).getName(),
       builder: (BuildContext context, AsyncSnapshot nameSnapshot) {
         if (nameSnapshot.connectionState == ConnectionState.done) {
-          print("nameSnapshot.data : ${nameSnapshot.data}");
           if(nameSnapshot.data != null){
             userName = nameSnapshot.data;
           }
-          print("userName : $userName");
 
           return Container(
             child: CustomTextFormField(
@@ -249,34 +196,3 @@ class _NameScreenState extends State<NameScreen> {
     );
   }
 }
-
-
-
-
-///Vertically Center & Horizontal Center- Center components of a Listview in a scaffold
-///Scaffold(
-//  appBar: new AppBar(),
-//  body: Center(
-//    child: new ListView(
-//      shrinkWrap: true,
-//        padding: const EdgeInsets.all(20.0),
-//        children: [
-//          Center(child: new Text('ABC'))
-//        ]
-//    ),
-//  ),
-//);
-
-///Only Vertical Center
-///Scaffold(
-//  appBar: new AppBar(),
-//  body: Center(
-//    child: new ListView(
-//      shrinkWrap: true,
-//        padding: const EdgeInsets.all(20.0),
-//        children: [
-//          new Text('ABC')
-//        ]
-//    ),
-//  ),
-//);

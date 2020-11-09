@@ -7,6 +7,7 @@ import 'package:gupshop/PushToFirebase/profilePicturesCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToMessageReadUnreadCollection.dart';
 import 'package:gupshop/PushToFirebase/recentChatsCollection.dart';
 import 'package:gupshop/PushToFirebase/usersCollection.dart';
+import 'package:gupshop/image/displayCircularPicture.dart';
 import 'package:gupshop/navigators/navigateToHome.dart';
 import 'package:gupshop/onboarding/onBoardingTrace.dart';
 import 'package:gupshop/responsive/collectionPaths.dart';
@@ -177,14 +178,20 @@ class _NameScreenState extends State<NameScreen> {
           }
           print("profilePictureURL : $profilePictureURL");
 
-          return Container(
-            width: WidgetConfig.hundredWidth,
-            height: WidgetConfig.hundredHeight,
-            child:
-            Image(
-              image: NetworkImage(profilePictureURL),
-            ),
+          return DisplayCircularPicture(
+            image: NetworkImage(profilePictureURL),
+            width: WidgetConfig.twoHundredWidth,
+            height: WidgetConfig.twoHundredHeight,
+
           );
+//          return Container(
+//            width: WidgetConfig.hundredWidth,
+//            height: WidgetConfig.hundredHeight,
+//            child:
+//            Image(
+//              image: NetworkImage(profilePictureURL),
+//            ),
+//          );
         }
         return Container(
           width: WidgetConfig.hundredWidth,

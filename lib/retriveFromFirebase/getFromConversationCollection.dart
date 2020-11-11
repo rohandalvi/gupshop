@@ -19,25 +19,25 @@ class GetFromConversationCollection{
 
     QuerySnapshot qc = await query.getDocuments();
     List<DocumentSnapshot> listOfDc = qc.documents;
-    Timestamp ts = listOfDc[0].data[TextConfig.timeStampReviews];
+    Timestamp ts = listOfDc[0].data[TextConfig.timeStamp];
     return ts;
   }
 
   getStartAtDocumentConversationStream(DocumentSnapshot startAtDocument, int limitCounter){
     return path(conversationId)
-        .orderBy(TextConfig.timeStampReviews, descending: true).startAtDocument(startAtDocument)
+        .orderBy(TextConfig.timeStamp, descending: true).startAtDocument(startAtDocument)
         .limit(limitCounter*10).snapshots();
   }
 
   getConversationStream(int limitCounter){
     return path(conversationId)
-        .orderBy(TextConfig.timeStampReviews, descending: true)
+        .orderBy(TextConfig.timeStamp, descending: true)
         .limit(limitCounter*10).snapshots();
   }
 
   getMessagesAsList(int limitCounter) async{
     List<QuerySnapshot> list =  await path(conversationId)
-        .orderBy(TextConfig.timeStampReviews, descending: true)
+        .orderBy(TextConfig.timeStamp, descending: true)
         .limit(limitCounter*10).snapshots().toList();
 
     return list[0];
@@ -47,7 +47,7 @@ class GetFromConversationCollection{
 
   getFirstTenMessages(int limitCounter){
     return path(conversationId)
-        .orderBy(TextConfig.timeStampReviews, descending: true)
+        .orderBy(TextConfig.timeStamp, descending: true)
         .limit(limitCounter*10);
   }
 }

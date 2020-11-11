@@ -16,7 +16,7 @@ class StreamSingleton {
       _messageStream = GetFromConversationCollection().path(conversationId)
 //          Firestore.instance.collection("conversations")
 //          .document(conversationId).collection("messages")
-          .orderBy(TextConfig.timeStampReviews, descending: true)
+          .orderBy(TextConfig.timeStamp, descending: true)
           .snapshots();
       return _messageStream;
     }

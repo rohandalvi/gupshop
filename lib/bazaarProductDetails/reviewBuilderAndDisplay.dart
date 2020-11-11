@@ -51,6 +51,11 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
   bool dislikeClicked;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView(
       controller: new ScrollController(),//---> for scrolling the screen
@@ -155,7 +160,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
                   "body":widget.reviewBody,
                   "like":likeClicked,
                   "dislike":dislikeClicked,
-                  "timestamp":Timestamp.now(),
+                  TextConfig.timeStamp:Timestamp.now(),
                 };
 
                 if(widget.likes == null) widget.likes =0;
@@ -246,15 +251,17 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
         direction: Axis.vertical,
         children: <Widget>[
           StreamBuilder<QuerySnapshot>(
-              stream: BazaarReviewsCollection(productWalaNumber: widget.productWalaNumber,
+              stream:
+              BazaarReviewsCollection(productWalaNumber: widget.productWalaNumber,
                   categoryData: widget.categoryData, subCategoryData: widget.subCategoryData,
               ).getOrderedStream(),
-              builder: (context, snapshot) {
-                if(snapshot.data == null) return CircularProgressIndicator();
+              builder: (context, AsyncSnapshot snapshot) {
+                if(!snapshot.hasData) return CircularProgressIndicator();
+                QuerySnapshot qs = snapshot.data;
+                int lengthOfReviews = qs.documents.length;
 
-                int lengthOfReviews = snapshot.data.documents.length;
+                //if(snapshot.data == null) return CircularProgressIndicator();
 
-                if(snapshot.data == null) return CircularProgressIndicator();
 
                 return snapshot.data.documents == null ? Center(child: CustomText(text: 'No reviews yet',)):/// not showing up
                 NotificationListener<ScrollUpdateNotification>(
@@ -263,11 +270,12 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
                     controller: new ScrollController(),///for scrolling screen
                     itemCount: lengthOfReviews,
                     itemBuilder: (context, index){
-                      String reviewerName = snapshot.data.documents[index].data["reviewerName"];
-                      String reviewText = snapshot.data.documents[index].data["body"];
-                      bool like = snapshot.data.documents[index].data["like"];
-                      bool dislike = snapshot.data.documents[index].data["dislike"];
-                      timeStamp = snapshot.data.documents[index].data["timestamp"];
+                      String reviewerName = qs.documents[index].data["reviewerName"];
+                      String reviewText = qs.documents[index].data["body"];
+                      bool like = qs.documents[index].data["like"];
+                      bool dislike = qs.documents[index].data["dislike"];
+                      timeStamp = qs.documents[index].data[TextConfig.timeStamp];
+                      print("reviewText : $reviewText");
                       return ListTile(
                         title: Container(child: CustomText(text: reviewerName,)),
                         //Text(reviewerName,style: GoogleFonts.openSans()),

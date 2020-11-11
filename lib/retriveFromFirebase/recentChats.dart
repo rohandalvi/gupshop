@@ -10,6 +10,6 @@ class RecentChats{
 
 
   orderedStream({String userNumber}){
-    return path(userNumber: userNumber).collection(TextConfig.conversationsRecentChats).orderBy(TextConfig.timeStampRecentChats, descending: true).snapshots();
+    return path(userNumber: userNumber).collection(TextConfig.conversationsRecentChats).orderBy(TextConfig.timeStamp, descending: true).snapshots();
   }
 }

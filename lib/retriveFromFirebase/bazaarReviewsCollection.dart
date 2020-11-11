@@ -14,15 +14,24 @@ class BazaarReviewsCollection{
     return PushToBazaarReviewsCollection().path(productWalaNumber);
   }
 
-  getStream() {
-    return path()
+  Stream<DocumentSnapshot> getStream() {
+    Stream<DocumentSnapshot> stream =  path()
         .collection(categoryData).document(subCategoryData).snapshots();
+    return stream;
   }
   
-  getOrderedStream(){
-    return path().collection(categoryData).document(subCategoryData)
+  Stream<QuerySnapshot> getOrderedStream(){
+    DocumentReference dr = path();
+    Stream<QuerySnapshot> stream =  path().collection(categoryData).document(subCategoryData)
         .collection(TextConfig.reviewsCollectionName)
-        .orderBy(TextConfig.timeStampReviews, descending: true).snapshots();
+        .orderBy(TextConfig.timeStamp, descending: true).snapshots();
+    return stream;
+  }
+
+  check() async{
+    DocumentSnapshot dr2 = await path().collection(categoryData).document(subCategoryData)
+        .collection(TextConfig.reviewsCollectionName).document("4CHkVgYSogA9AQy6j5Kk").get();
+    print("details : ${dr2.data}");
   }
   
 }

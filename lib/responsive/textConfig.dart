@@ -306,10 +306,9 @@ class TextConfig{
 
   /// recentChats:
   static const String conversationsRecentChats = 'conversations';
-  static const String timeStampRecentChats = 'timeStamp';
 
   /// reviews:
-  static const String timeStampReviews = 'timeStamp';
+  static const String timeStamp = 'timeStamp';
 
   /// news:
   static const String link = 'link';

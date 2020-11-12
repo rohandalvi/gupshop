@@ -50,7 +50,8 @@ class WidgetConfig{
   static double hundredHeight = SizeConfig.heightMultiplier * 12;/// 100/8.16
   static double hundredWidth = SizeConfig.widthMultiplier * 23;/// 100/4.32
   static double twoFiftyWidth = SizeConfig.widthMultiplier * 46.2962962963;/// 200/4.32
-  static double twoHundredWidth = SizeConfig.widthMultiplier * 57.8703703704;/// 250/4.32
+  static double twoHundredWidth = SizeConfig.widthMultiplier * 46.2962962963;/// 200/4.32
+  static double twoHundredHeight = SizeConfig.widthMultiplier * 24.5098039216;/// 200/8.16
   static double twoFiftyHeight = SizeConfig.widthMultiplier * 30.637254902;/// 250/8.16
   static double threeSixtyHeight = SizeConfig.heightMultiplier * 44;/// 360/8.16
   static double threeSixtyWidth = SizeConfig.widthMultiplier * 84;/// 360/4.32

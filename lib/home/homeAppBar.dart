@@ -3,10 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:gupshop/PushToFirebase/status.dart';
-import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToChangeProfilePicture.dart';
 import 'package:gupshop/passcode/setPasscode.dart';
-import 'package:gupshop/passcode/setPasscodeWrapper.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/imageConfig.dart';
 import 'package:gupshop/contactSearch/contactSearchPage.dart';
@@ -43,7 +41,6 @@ class _HomeAppBarState extends State<HomeAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    print("AppLock state HomeAppBar: ${AppLock.of(context)}");
     return SafeArea(
       child: Column(/// Area - 3
         crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -156,10 +156,10 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
 
               if(_formKey.currentState.validate()){
                 var data =  {
-                  "reviewerName":widget.userName,
-                  "body":widget.reviewBody,
-                  "like":likeClicked,
-                  "dislike":dislikeClicked,
+                  TextConfig.reviewerName:widget.userName,
+                  TextConfig.body:widget.reviewBody,
+                  TextConfig.like:likeClicked,
+                  TextConfig.dislike:dislikeClicked,
                   TextConfig.timeStamp:Timestamp.now(),
                 };
 
@@ -192,7 +192,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
             height: WidgetConfig.likeDislikeContainer,
             width: WidgetConfig.likeDislikeContainer,
             color: likeClicked == true ? Colors.grey : Colors.transparent,
-            child: Text('👍'),
+            child: Text(TextConfig.upThumb),
           )
       ),
     );
@@ -206,7 +206,6 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
           setState(() {
             //widget.dislikes++;
             dislikeClicked = true;
-            print("dislikeClicked :$dislikeClicked");
             likeClicked=false;
             //widget.likeOrDislike=false;
           });
@@ -215,7 +214,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
             height: WidgetConfig.likeDislikeContainer,
             width: WidgetConfig.likeDislikeContainer,
             color: dislikeClicked == true ? Colors.grey : Colors.transparent,
-            child: Text('👎')
+            child: Text(TextConfig.downThumb)
         ),
       ),
     );
@@ -263,24 +262,21 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
                 //if(snapshot.data == null) return CircularProgressIndicator();
 
 
-                return snapshot.data.documents == null ? Center(child: CustomText(text: 'No reviews yet',)):/// not showing up
+                return snapshot.data.documents == null ? Center(child: CustomText(text: TextConfig.noReviewsYet,)):/// not showing up
                 NotificationListener<ScrollUpdateNotification>(
                   child: ListView.separated(
                     shrinkWrap: true,///throws exception if not used
                     controller: new ScrollController(),///for scrolling screen
                     itemCount: lengthOfReviews,
                     itemBuilder: (context, index){
-                      String reviewerName = qs.documents[index].data["reviewerName"];
-                      String reviewText = qs.documents[index].data["body"];
-                      bool like = qs.documents[index].data["like"];
-                      bool dislike = qs.documents[index].data["dislike"];
+                      String reviewerName = qs.documents[index].data[TextConfig.reviewerName];
+                      String reviewText = qs.documents[index].data[TextConfig.body];
+                      bool like = qs.documents[index].data[TextConfig.like];
+                      bool dislike = qs.documents[index].data[TextConfig.dislike];
                       timeStamp = qs.documents[index].data[TextConfig.timeStamp];
-                      print("reviewText : $reviewText");
                       return ListTile(
                         title: Container(child: CustomText(text: reviewerName,)),
-                        //Text(reviewerName,style: GoogleFonts.openSans()),
                         subtitle: Container(child: CustomText(text: reviewText).subTitle(),),
-                          //Text(reviewText,style: GoogleFonts.openSans()),
                         trailing: Wrap(
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: <Widget>[
@@ -305,7 +301,6 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
 
   /// add Review/ edit Profile
   likeDislikeIconsAndAddReviewButton(int rating){
-    print("in likeDislikeIconsAndAddReviewButton");
     return Padding(
       padding: EdgeInsets.all(PaddingConfig.five),
       child: Row(
@@ -321,7 +316,7 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
             padding: EdgeInsets.only(left:PaddingConfig.five, right: PaddingConfig.five),//for spacing bewteen Add review text from left and right side of the blue container
             child: CustomRaisedButton(
               child: CustomText(
-                text: 'Add Review',).subTitle(),
+                text: TextConfig.addReview,).subTitle(),
               onPressed: (){
                 setState(() {
                   widget.writeReview = true;
@@ -333,13 +328,13 @@ class _ReviewBuilderAndDisplayState extends State<ReviewBuilderAndDisplay> with 
             padding: EdgeInsets.only(left:PaddingConfig.five, right: PaddingConfig.five),//for spacing bewteen Add review text from left and right side of the blue container
             child: CustomRaisedButton(
               child: CustomText(
-                text: 'Edit Profile', fontSize: WidgetConfig.fontSizeTwelve,),
+                text: TextConfig.editProfile, fontSize: WidgetConfig.fontSizeTwelve,),
               onPressed: (){
                 /// take the bazaarWala to bazaarProfile page"
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Material(child: OnBoardingHome(text : "Select a category to edit")),
+                      builder: (context) => Material(child: OnBoardingHome(text : TextConfig.selectACategoryToEdit)),
                     )
                 );
               },),

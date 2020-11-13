@@ -309,6 +309,16 @@ class TextConfig{
 
   /// reviews:
   static const String timeStamp = 'timeStamp';
+  static const String reviewerName = 'reviewerName';
+  static const String like = 'like';
+  static const String dislike = 'dislike';
+  static const String addReview = 'Add Review';
+  static const String editProfile = 'Edit Profile';
+  static const String selectACategoryToEdit = 'Select a category to edit';
+  static const String upThumb = '👍';
+  static const String downThumb = '👎';
+  static const String noReviewsYet = 'No reviews yet';
+
 
   /// news:
   static const String link = 'link';

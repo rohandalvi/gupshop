@@ -29,6 +29,7 @@
 .pub-cache/
 .pub/
 /build/
+**/ios/Flutter/Flutter.framework/Flutter
 
 # Web related
 lib/generated_plugin_registrant.dart

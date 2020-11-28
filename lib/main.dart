@@ -47,12 +47,18 @@ import 'package:gupshop/passcode/unlockPasscode.dart';
 //  runApp(MyApp(enabled: enabled,));
 //}
 
+void main() {
+  print("No-op");
+}
+
 class MyApp extends StatelessWidget {
   final bool enabled;
 
   MyApp({this.enabled});
 
   static final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
+
+
 
 
   @override

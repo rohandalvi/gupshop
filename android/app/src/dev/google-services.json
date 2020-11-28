@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "406667445093-3e8i2kr96fdkobo34777etriampqltuj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "simpleapps.com.gupshop.dev",
+            "certificate_hash": "19778a19a050ac63ada1b0be31cfb80749dd8f5a"
+          }
+        },
+        {
+          "client_id": "406667445093-5oki4dvv3022ojonqr7e3ig0db7dtk69.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "simpleapps.com.gupshop.dev",
+            "certificate_hash": "4e88f527dec2d7b1128c9c294b796621466c7a3b"
+          }
+        },
+        {
           "client_id": "406667445093-54s7v1cht5sofc6cksvgmqrbh0mno20j.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

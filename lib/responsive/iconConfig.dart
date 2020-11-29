@@ -60,4 +60,6 @@ class IconConfig{
   static String free = 'free';
   static String driving = 'driving';
   static String refresh = 'refresh';
+  static String thumbsUpNoBackground = 'thumbsUpNoBackground';
+  static String thumbsDownNoBackground = 'thumbsDownNoBackground';
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
-import 'package:gupshop/widgets/customIconButton.dart';
+import 'package:gupshop/widgets/customIcon.dart';
+
 
 class LikesDislikesDisplay extends StatelessWidget {
   final int likes;
@@ -22,7 +24,7 @@ class LikesDislikesDisplay extends StatelessWidget {
             Flexible(
               flex: 1,
               fit: FlexFit.loose,
-              child: dislikes == null ? CustomIconButton(iconNameInImageFolder: 'thumbsUpNoBackground', onPressed: (){},) : CustomIconButton(iconNameInImageFolder: 'thumbsDownNoBackground', onPressed: (){},),
+              child: dislikes == null ? CustomIcon(iconName: IconConfig.thumbsUpNoBackground,) : CustomIcon(iconName: IconConfig.thumbsDownNoBackground,),
             ),
             Flexible(
               flex: 2,
@@ -37,8 +39,8 @@ class LikesDislikesDisplay extends StatelessWidget {
 
   likesDislikesIconButton(){
     if ((like == null || like == true) && (dislike == null || dislike == false) ){
-      return CustomIconButton(iconNameInImageFolder: 'thumbsUpNoBackground', onPressed: (){},);
-    } return CustomIconButton(iconNameInImageFolder: 'thumbsDownNoBackground', onPressed: (){},);
+      return CustomIcon(iconName: IconConfig.thumbsUpNoBackground,);
+    } return CustomIcon(iconName: IconConfig.thumbsDownNoBackground,);
   }
 
 }

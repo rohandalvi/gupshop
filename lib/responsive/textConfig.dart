@@ -22,6 +22,7 @@ class TextConfig{
   static String bazaarWriteReview = 'Please write your review';
   static String deliveryErrands = 'Delivery/Errands';
   static String deliveryErrandsData = 'deliveryErrands';
+  static String loading = 'Loading..';
 
 
   /// bazaarAdvertisement:

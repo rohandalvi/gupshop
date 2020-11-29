@@ -140,6 +140,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> verifyphone() async {
 
+    /// for showing the progress indicator before the Enter sms code screen
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: Text(TextConfig.loading),
+          content: Center(child: CircularProgressIndicator()),
+        ));
+
     setState(() {
       val = countryCode + numberWithoutCode;
     });
@@ -162,6 +170,8 @@ class _LoginScreenState extends State<LoginScreen> {
         UserDetails().setUserPhoneNo(val);
       });
 
+      /// for popping the loader
+      Navigator.of(context).pop();
 
         await smsCodeDialog(context);
         AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);

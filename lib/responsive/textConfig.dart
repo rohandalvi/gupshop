@@ -47,6 +47,9 @@ class TextConfig{
   static String groupWillBeDeleted = 'The group will be deleted permenantly';
   static String yes = 'YES';
 
+  /// create group
+  static String createGroup = 'Create Group';
+
   /// SubCategoryCheckBoxData:
   static String name = 'name';
 

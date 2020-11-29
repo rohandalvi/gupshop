@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/updateInFirebase/updateConversationMetadata.dart';
 import 'package:gupshop/contactSearch/contact_search.dart';
@@ -89,6 +90,7 @@ class _CreateGroupState<T> extends State<CreateGroup<T>> {
   ///
   Widget contactList(BuildContext context){
     return ContactSearch<T>(
+      hintText: TextConfig.createGroup,
       createGroupSearch: true,
       userName: userName,
       userPhoneNo: userPhoneNo,

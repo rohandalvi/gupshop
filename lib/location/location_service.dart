@@ -222,10 +222,11 @@ class LocationService {
 //    return result;
 //  }
 
-  Future<String> getUserGeohash(String number, String addressName) async{
+  Future<List> getUserGeohash(String number, String addressName) async{
     DocumentSnapshot dc = await LocationService().getUserLocationDocumentSnapshot(number);
     print("dc in getUserGeohash : ${dc.data}");
-    String result =  dc.data[addressName][TextConfig.usersLocationCollectionGeohash];
+    // String result =  dc.data[addressName][TextConfig.usersLocationCollectionGeohash];
+    List result =  dc.data[addressName][TextConfig.geoHashList];
     return result;
   }
 

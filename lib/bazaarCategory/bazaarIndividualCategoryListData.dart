@@ -87,11 +87,14 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
       ///
       /// userGeohash will have value inherited from prior class only in
       /// case of drivers and errandRunners
+      print("widget.userGeohash : ${widget.userGeohash}");
       if(widget.userGeohash  == null){
         widget.userGeohash = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getUserGeohashList(userPhoneNo);
       }
 
+      print("widget.userGeohash later: ${widget.userGeohash}");
       var listOfbazaarwalas = await FilterBazaarLocationData(subCategory: widget.subCategoryData).getListOfBazaarWalasInAGivenRadius(userPhoneNo, widget.categoryData, widget.userGeohash);
+      print("listOfbazaarwalas: ${listOfbazaarwalas}");
       return listOfbazaarwalas;
     }
   }
@@ -171,6 +174,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
 
 
               List<DocumentSnapshot> list = snapshot.data;
+              print("list of bazaarwalas : ${list[0].data}");
 
               numberOfBazaarWalasInList = snapshot.data.length; ///for listView builder's itemcount
 
@@ -299,7 +303,9 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
               userNumber: userPhoneNo)
               .getNewUserGeohash(context);
 
-          List<String> tempHash = userGeohashAndAddressMap[TextConfig.usersLocationCollectionGeoHashList];
+          print("userGeohashAndAddressMap : ${userGeohashAndAddressMap}");
+          /// type 'List<dynamic>' is not a subtype of type 'List<String>
+          List<String> tempHash = userGeohashAndAddressMap[TextConfig.geoHashList].cast<String>();
 
           /// for exiting dialog:
           Navigator.pop(context);
@@ -308,6 +314,7 @@ class _BazaarIndividualCategoryListDataState extends State<BazaarIndividualCateg
           String tempAddressName = await GetUsersLocation(userPhoneNo: userPhoneNo).getAddressFromAddressName(addressNameForAddress);
           setState(() {
             widget.userGeohash = tempHash;
+            print("new geohash : ${widget.userGeohash}");
             widget.addressName = tempAddressName;
           });
         }

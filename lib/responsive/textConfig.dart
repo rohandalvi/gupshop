@@ -252,13 +252,13 @@ class TextConfig{
   /// database fieldNames ******************************************************
 
   /// usersLocationCollection
-  static const String usersLocationCollectionGeoHashList = 'geoHashList';
+  static const String geoHashList = 'geoHashList';
   static const String usersLocationCollectionHome = 'home';
   static const String usersLocationCollectionAddress = 'address';
   static const String usersLocationCollectionGeoPoint = 'geoPoint';
   static const String usersLocationCollectionGeohash = 'geohash';
 
-  static const String bazaarWalasLocationCollectionGeoHashList = usersLocationCollectionGeoHashList;
+  static const String bazaarWalasLocationCollectionGeoHashList = geoHashList;
 
 
   /// friendsCollection

@@ -3,6 +3,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gupshop/dataGathering/logEvent.dart';
 import 'package:gupshop/modules/userDetails.dart';
 import 'package:gupshop/navigators/navigateToNameScreen.dart';
 import 'package:gupshop/onboarding/name_screen.dart';
@@ -137,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String phoneNo, verificationId, smsCode;
 
 
-
+  /// ##################################################################################################### ///
   Future<void> verifyphone() async {
 
     /// for showing the progress indicator before the Enter sms code screen
@@ -159,9 +160,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final PhoneVerificationFailed verificationfailed = (AuthException authException) {
     };
-    /// seperator
 
-
+// /////////////////////////////////////////////////////////////////////////////////////////////////////
     final PhoneCodeSent smsSent = (String verId, [int forceResend]) async{
       this.verificationId = verId;
 
@@ -173,25 +173,30 @@ class _LoginScreenState extends State<LoginScreen> {
       /// for popping the loader
       Navigator.of(context).pop();
 
-        await smsCodeDialog(context);
-        AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
+      await smsCodeDialog(context);
+      AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
 
-        FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
-          //Navigator.of(context).pushNamed('loggedIn');
-          NavigateToNameScreen(userPhoneNo: val).navigateNoBrackets(context);
-        }).catchError((e) {
-          CustomFlushBar(
-            customContext: context,
-            text: CustomText(text: TextConfig.wrongVerificationCode,),
-            message: TextConfig.wrongVerificationCode,
-          ).showFlushBarStopHand();
-        });
+      FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
+        //Navigator.of(context).pushNamed('loggedIn');
+        NavigateToNameScreen(userPhoneNo: val).navigateNoBrackets(context);
+      }).catchError((e) {
+        /// adding log event to understand the error:
+        LogEvent logEvent = new LogEvent(nameSpace: TextConfig.verificationCodeError);
+        /// in line map demo:
+        Map<String, dynamic> verificationCodeErrorMap = {
+          TextConfig.verificationCodeError : e
+        };
+        logEvent.initializeLogEvent(parameters: verificationCodeErrorMap);
 
+        /// wrong verification code flushbar:
+        CustomFlushBar(
+          customContext: context,
+          text: CustomText(text: TextConfig.wrongVerificationCode,),
+          message: TextConfig.wrongVerificationCode,
+        ).showFlushBarStopHand();
+      });
     };
-
-
-
-
+// /////////////////////////////////////////////////////////////////////////////////////////////////////
     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
       this.verificationId = verId;
     };
@@ -205,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
         codeAutoRetrievalTimeout: autoTimeout);
   }
 
-
+/// ##################################################################################################### ///
 
   smsCodeDialog(BuildContext context) async{
       await showDialog(
@@ -231,4 +236,39 @@ class _LoginScreenState extends State<LoginScreen> {
         });
   }
 
+/// ##################################################################################################### ///
+  verification(String verId, [int forceResend]) async{
+    this.verificationId = verId;
+
+    setState(() {
+      this.codeSent = true;
+      UserDetails().setUserPhoneNo(val);
+    });
+
+    /// for popping the loader
+    Navigator.of(context).pop();
+
+    await smsCodeDialog(context);
+    AuthCredential authCredential = PhoneAuthProvider.getCredential(verificationId: this.verificationId, smsCode: this.smsCode);
+
+    FirebaseAuth.instance.signInWithCredential(authCredential).then( (user) {
+      //Navigator.of(context).pushNamed('loggedIn');
+      NavigateToNameScreen(userPhoneNo: val).navigateNoBrackets(context);
+    }).catchError((e) {
+      /// adding log event to understand the error:
+      LogEvent logEvent = new LogEvent(nameSpace: TextConfig.verificationCodeError);
+      /// in line map demo:
+      Map<String, dynamic> verificationCodeErrorMap = {
+        TextConfig.verificationCodeError : e
+      };
+      logEvent.initializeLogEvent(parameters: verificationCodeErrorMap);
+
+      /// wrong verification code flushbar:
+      CustomFlushBar(
+        customContext: context,
+        text: CustomText(text: TextConfig.wrongVerificationCode,),
+        message: TextConfig.wrongVerificationCode,
+      ).showFlushBarStopHand();
+    });
+  }
 }

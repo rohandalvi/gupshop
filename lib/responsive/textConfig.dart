@@ -87,6 +87,7 @@ class TextConfig{
   static const String shup= 'Shup';
   static const String enterYourNumber= 'Enter your Number';
   static const String blankString="";
+  static const String verificationCodeError='verificationCodeError';
 
 
   /// trace

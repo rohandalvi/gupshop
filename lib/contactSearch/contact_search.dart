@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gupshop/navigators/navigateToIndividualChat.dart';
 import 'package:gupshop/responsive/iconConfig.dart';
 import 'package:gupshop/responsive/paddingConfig.dart';
-import 'package:gupshop/responsive/textConfig.dart';
 import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
@@ -47,6 +46,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
       {@required this.userPhoneNo, @required this.userName, this.data, this.createGroupSearch});
 
   void initState() {
+    print("in initstate contact search");
     if(createGroupSearch == null) createGroupSearch=false;
     createSearchSuggestions();/// to get the list of contacts as suggestion
     super.initState();
@@ -185,6 +185,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
   /// this method is called in initState
   createSearchSuggestions() async {
 
+    print("widget.searchSuggestions : ${widget.searchSuggestions}");
     if(widget.searchSuggestions == null){
       var temp;
       if(createGroupSearch){
@@ -212,6 +213,7 @@ class _ContactSearchState<T> extends State<ContactSearch<T>> {
       setState(() {
         list = tempList;
       });
+      print("list in search suggestions : ${list.length}");
     }
     else return widget.searchSuggestions;
 

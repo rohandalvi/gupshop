@@ -354,6 +354,11 @@ class TextConfig{
   static const String noResultsText = 'No results found ';
   static const String statusTrace = 'status ';
 
+
+  static const String permissionError = 'Permissions error';
+  static const String enableContactAccess = 'Please enable contacts access '
+      'permission in system settings';
+
 /// ======================================================================== ///
 
 }

@@ -9,6 +9,7 @@ import 'package:gupshop/service/createFriendsCollection.dart';
 import 'package:gupshop/widgets/customIcon.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 import 'package:gupshop/widgets/customFloatingActionButton.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 
 class ContactSearchPage extends StatefulWidget {
   final String userPhoneNo;
@@ -48,7 +49,7 @@ class _ContactSearchPageState extends State<ContactSearchPage> {
                 ),
               tooltip: 'Refresh Contacts',
               /// create a listOfContactsSelected and send it to individualChat
-              onPressed: () {
+              onPressed: () async{
                 /// a hack to show refreshed contacts,CreateFriendsCollection refreshes new friends in in the database.
                 /// But because, the list that is showing up as suggestion in the display is initiatied  in initState of
                 /// contact_search page, it is not called with setState as setState only calls the build and not
@@ -58,8 +59,15 @@ class _ContactSearchPageState extends State<ContactSearchPage> {
                 /// called and we will get a refreshed list.
                 /// After navigating to contact_Search we again need to come back to this page, so we are
                 /// using another naviagator navigateToContactSearchPage for that
-                CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts(context);
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => CupertinoAlertDialog(
+                      // title: Text(TextConfig.loading),
+                      content: Center(child: CircularProgressIndicator()),
+                    ));
+                await CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts(context);
                 CustomNavigator().navigateToContactSearch(context, widget.userName, widget.userPhoneNo, null);
+                Navigator.pop(context);
                 CustomNavigator().navigateToContactSearchPage(context, widget.userName, widget.userPhoneNo, null);
 //               setState(() {
 //                 CreateFriendsCollection(userPhoneNo: widget.userPhoneNo, userName: widget.userName).getUnionContacts();

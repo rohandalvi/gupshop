@@ -5,6 +5,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gupshop/contacts/getContactsFromUserPhone.dart';
+import 'package:gupshop/responsive/textConfig.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 
@@ -21,27 +22,27 @@ class ContactsPermissionHandler{
     }
   }
 
-  handlePermissons(BuildContext context) async{
+  Future<bool> handlePermissons(BuildContext context) async{
     PermissionStatus permission = await getPermission();
     /// Accessing contacts only if we have permission
     if(permission == PermissionStatus.granted){
-      return await GetContactsFromUserPhone().getContacts();
+      return true;
+      //return await GetContactsFromUserPhone().getContacts();
     } else {
       /// show dialog to permit access of contacts
       showDialog(
           context: context,
           builder: (BuildContext context) => CupertinoAlertDialog(
-            title: Text('Permissions error'),
-            content: Text('Please enable contacts access '
-                'permission in system settings'),
+            title: Text(TextConfig.permissionError),
+            content: Text(TextConfig.enableContactAccess),
             actions: <Widget>[
               CupertinoDialogAction(
-                child: Text('OK'),
+                child: Text(TextConfig.ok),
                 onPressed: () => Navigator.of(context).pop(),
               )
             ],
           ));
-      return null;
+      return false;
     }
   }
 

@@ -5,8 +5,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:gupshop/PushToFirebase/pushToConversationCollection.dart';
 import 'package:gupshop/PushToFirebase/pushToSaveCollection.dart';
 import 'package:gupshop/chat_list_page/chatListCache.dart';
+import 'package:gupshop/dataGathering/logEvent.dart';
+import 'package:gupshop/dataGathering/myTrace.dart';
 import 'package:gupshop/firebaseDataScaffolds/recentChatsDataScaffolds.dart';
-import 'package:gupshop/individualChat/buildMessageComposer.dart';
+import 'package:gupshop/individualChat/buildMessageComposerWidget.dart';
 import 'package:gupshop/individualChat/cameraImagePickCropCreateData.dart';
 import 'package:gupshop/individualChat/cameraVideoPickCreateData.dart';
 import 'package:gupshop/individualChat/galleryImagePickCropCreateData.dart';
@@ -24,7 +26,7 @@ import 'package:gupshop/service/recentChats.dart';
 import 'package:gupshop/widgets/customBottomSheet.dart';
 
 
-class PlusButtonMessageComposerNewsSend extends StatefulWidget {
+class buildMessageComposerApplication extends StatefulWidget {
   String conversationId;
   ScrollController listScrollController; //for scrolling the screen
   String userName;
@@ -41,7 +43,7 @@ class PlusButtonMessageComposerNewsSend extends StatefulWidget {
   Map<String, ChatListCache> chatListCache;
   String friendName;
 
-  PlusButtonMessageComposerNewsSend({this.userPhoneNo, this.conversationId, this.listOfFriendNumbers,
+  buildMessageComposerApplication({this.userPhoneNo, this.conversationId, this.listOfFriendNumbers,
   this.listScrollController,this.userName,
     this.groupExits, this.value, this.groupName, this.friendN,
     this.myController, this.startAtDocument, this.currentMessageDocumentSanpshot,this.chatListCache,
@@ -50,10 +52,10 @@ class PlusButtonMessageComposerNewsSend extends StatefulWidget {
 
 
   @override
-  _PlusButtonMessageComposerNewsSendState createState() => _PlusButtonMessageComposerNewsSendState();
+  _buildMessageComposerApplicationState createState() => _buildMessageComposerApplicationState();
 }
 
-class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageComposerNewsSend> {
+class _buildMessageComposerApplicationState extends State<buildMessageComposerApplication> {
 
   @override
   void initState() {
@@ -66,7 +68,7 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
 
     return StatefulBuilder(
       builder: (context, StateSetter setState){
-        return BuildMessageComposer(
+        return BuildMessageComposerWidget(
           firstOnPressed: (){
             return CustomBottomSheet(
               customContext: context,
@@ -223,20 +225,18 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
               String messageId = await PushToSaveCollection(messageBody: widget.value, messageType: 'body',).saveAndGenerateId();
 
               ///if there is not text, then dont send the message
-              IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: Timestamp.now(), conversationId: widget.conversationId,messageId: messageId );//
-//              IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: DateTime.now(), conversationId: widget.conversationId,);
-//              FirebaseMethods().pushToFirebaseConversatinCollection(textMessage.fromJson());
-              PushToConversationCollection().push(textMessage.fromJson());
-//              String messageId = await PushToConversationCollection().push(textMessage.fromJson());
-//              PushToSaveCollection(messageBody: widget.value, messageType: 'body',).save(messageId);
+              IMessage textMessage = TextMessage(fromNumber: widget.userPhoneNo, fromName: widget.userName, text: widget.value,timestamp: Timestamp.now(), conversationId: widget.conversationId,messageId: messageId );
+              try{
+                PushToConversationCollection().push(textMessage.fromJson());
+              }catch(e){
+                messageLogEvent(e);
+              }
 
               ///Navigating to RecentChats page with pushes the data to firebase
               RecentChats(message: textMessage.fromJson(), convId: widget.conversationId, userNumber:widget.userPhoneNo, userName: widget.userName, listOfOtherNumbers: widget.listOfFriendNumbers, groupExists:widget.groupExits).getAllNumbersOfAConversation();
 
-              //PushToMessageReadUnreadCollection(userNumber: widget.userPhoneNo, messageId: messageId, conversationId: widget.conversationId).pushLatestMessageId();
 
               widget.myController.clear();
-              //widget.controllerTwo.clear();//used to clear text when user hits send button
 
               /// giving error : ScrollController not attached to any scroll views.
 
@@ -260,6 +260,20 @@ class _PlusButtonMessageComposerNewsSendState extends State<PlusButtonMessageCom
 
     );
   }
+
+  messageLogEvent(e){
+    LogEvent logEvent = new LogEvent(nameSpace: TextConfig.messageSendError);
+
+    String key = '${widget.userPhoneNo}_${widget.conversationId}';
+
+    /// in line map demo:
+    Map<String, dynamic> messageSentErrorMap = {
+      key : e
+    };
+    logEvent.initializeLogEvent(parameters: messageSentErrorMap);
+  }
+
+
 
 //  sendLocation(Position location, String messageId){
 //    /// create data and push to conversations collection to display immediately

@@ -181,12 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
         NavigateToNameScreen(userPhoneNo: val).navigateNoBrackets(context);
       }).catchError((e) {
         /// adding log event to understand the error:
-        LogEvent logEvent = new LogEvent(nameSpace: TextConfig.verificationCodeError);
-        /// in line map demo:
-        Map<String, dynamic> verificationCodeErrorMap = {
-          TextConfig.verificationCodeError : e
-        };
-        logEvent.initializeLogEvent(parameters: verificationCodeErrorMap);
+        verificationErrorLogEvent(e);
 
         /// wrong verification code flushbar:
         CustomFlushBar(
@@ -211,6 +206,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
 /// ##################################################################################################### ///
+
+  verificationErrorLogEvent(e){
+    LogEvent logEvent = new LogEvent(nameSpace: TextConfig.verificationCodeError);
+
+    /// in line map demo:
+    Map<String, dynamic> verificationCodeErrorMap = {
+      TextConfig.verificationCodeError : e
+    };
+    logEvent.initializeLogEvent(parameters: verificationCodeErrorMap);
+  }
 
   smsCodeDialog(BuildContext context) async{
       await showDialog(

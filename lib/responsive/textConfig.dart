@@ -87,7 +87,11 @@ class TextConfig{
   static const String shup= 'Shup';
   static const String enterYourNumber= 'Enter your Number';
   static const String blankString="";
+
+
+  /// logs:
   static const String verificationCodeError='verificationCodeError';
+  static const String messageSendError='messageSendError';
 
 
   /// trace
@@ -105,6 +109,7 @@ class TextConfig{
   static const String myProfilePictureView = 'myProfilePictureView';
   static const String bazaarCategory = 'BazaarCategory';
   static const String bazaarSubCategory = 'BazaarSubCategory';
+  static const String messageTrace = 'messageTrace';
 
   /// userDetails:
   static const String passcode = 'passcode';

@@ -10,10 +10,9 @@ class TypingStatusData{
 
   pushStatus(){
     if(isTyping == '' || isTyping == null){
-      print("not typing");
+
       /// not typing
       /// delete from messageTyping
-      print("userPhoneNo in TypingStatusData : $userPhoneNo");
       DeleteMemberFromMessageTyping(
         conversationId: conversationId,
         userNumber: userPhoneNo,

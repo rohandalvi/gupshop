@@ -10,7 +10,7 @@ import 'package:gupshop/chat_list_page/chatListCache.dart';
 import 'package:gupshop/individualChat/bodyData.dart';
 import 'package:gupshop/individualChat/individualChatCache.dart';
 import 'package:gupshop/individualChat/individualChatSingleton.dart';
-import 'package:gupshop/individualChat/plusButtonMessageComposerNewsSend.dart';
+import 'package:gupshop/individualChat/buildMessageComposerApplication.dart';
 import 'package:gupshop/messageReadUnread/readSingleton.dart';
 import 'package:gupshop/service/conversation_service.dart';
 import 'package:gupshop/typing/typingStatusData.dart';
@@ -118,9 +118,6 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                       });
                       this.documentList = list.reversed.toList();
 
-
-                      print("documentList isEmpty in bodyScroll: ${documentList.isEmpty}");
-                      print("documentList in bodyScroll: $documentList");
                       /// for message read unread collection:
                       if(!(documentList.isEmpty || documentList == null)){
                         messageId = documentList[0].data["messageId"];
@@ -163,7 +160,7 @@ class _BodyPlusScrollComposerDataState extends State<BodyPlusScrollComposerData>
                         );
                     }),
               ),
-              PlusButtonMessageComposerNewsSend(
+              buildMessageComposerApplication(
                   chatListCache: widget.chatListCache,
                   friendName: widget.friendName,
                   currentMessageDocumentSanpshot: currentMessageDocumentSnapshot,

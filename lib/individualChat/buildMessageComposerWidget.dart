@@ -6,7 +6,7 @@ import 'package:gupshop/responsive/widgetConfig.dart';
 import 'package:gupshop/widgets/customIconButton.dart';
 import 'package:gupshop/widgets/customNavigators.dart';
 
-class BuildMessageComposer extends StatelessWidget {
+class BuildMessageComposerWidget extends StatelessWidget {
   VoidCallback firstOnPressed;
   VoidCallback secondOnPressed;
   VoidCallback onPressedForSendingMessageIcon;
@@ -27,7 +27,7 @@ class BuildMessageComposer extends StatelessWidget {
 //  TextEditingController controller;
   ScrollController listScrollController;
 
-  BuildMessageComposer({this.firstOnPressed,this.secondOnPressed, this.onPressedForSendingMessageIcon, this.onChangedForTextField, this.scrollController, this.controller, this.onPressedForNews,
+  BuildMessageComposerWidget({this.firstOnPressed,this.secondOnPressed, this.onPressedForSendingMessageIcon, this.onChangedForTextField, this.scrollController, this.controller, this.onPressedForNews,
     this.groupExits,
     this.friendN,
     this.userPhoneNo,
@@ -84,6 +84,7 @@ class BuildMessageComposer extends StatelessWidget {
                 iconNameInImageFolder: IconConfig.news,
               ),
             ),
+            /// send button
             Expanded(
               flex: 1,
               child: CustomIconButton(

@@ -61,7 +61,6 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
 
   @override
   Widget build(BuildContext context) {
-    print("friendNumber in chatListDisplay : ${widget.friendNumber}");
     return ListTile( ///main widget that creates the message box
       leading:
       /// leading is avatar
@@ -191,7 +190,6 @@ class _ChatListDisplayState extends State<ChatListDisplay> {
       /// TRACE
       chatListTrace.cachedAvatarHit();
 
-      print("in two people chat");
       widget.memberList = widget.chatListCache[widget.conversationId].memberList;
       widget.groupExists = false;
 

@@ -38,7 +38,6 @@ class FriendReadStatus{
           builder: (context, snapshot) {
             if(snapshot.data == null) return UnreadDisplay(context: context);
             String friendsLatestMessageId = snapshot.data[conversationId];
-            print("friendsLatestMessageId : $friendsLatestMessageId");
              return FutureBuilder(
               future: MessageReadUnreadData(conversationId: conversationId, conversationsLatestMessageTimestamp: conversationsLatestMessageTimestamp, number: listOfFriends[i],conversationsLatestMessageId: messageId).friendReadStatus(friendsLatestMessageId),
               builder: (BuildContext context, AsyncSnapshot readSnapshot) {
@@ -48,8 +47,6 @@ class FriendReadStatus{
                     //readCache[messageId] = true;
                     trueCount++;
                   }
-                  print("trueCount : $trueCount");
-                  print("listOfFriends.length :${listOfFriends.length}");
                   int members = listOfFriends.length;
                   if(trueCount == members) collectiveRead = true;
                   if(collectiveRead == true){

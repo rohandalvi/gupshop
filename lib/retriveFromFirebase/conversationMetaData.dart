@@ -12,13 +12,11 @@ class ConversationMetaData{
 
   DocumentReference path(){
     DocumentReference dc = CollectionPaths.conversationMetadataCollectionPath.document(conversationId);
-    print("dc in path : ${dc}");
     return dc;
   }
 
   Future<Map<String, dynamic>> get(String myNumber) async {
     DocumentSnapshot temp = await path().get();
-    print("temp : ${temp.data}");
     return temp.data;
   }
 

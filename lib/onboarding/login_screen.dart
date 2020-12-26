@@ -153,9 +153,13 @@ class _LoginScreenState extends State<LoginScreen> {
       val = countryCode + numberWithoutCode;
     });
 
+    signIn(AuthCredential authCreds) {
+      FirebaseAuth.instance.signInWithCredential(authCreds);
+    }
+
     /// I dont think PhoneVerificationCompleted PhoneVerificationFailed is required @todo
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
-      AuthService().signIn(authResult);
+      signIn(authResult);
     };
 
     final PhoneVerificationFailed verificationfailed = (AuthException authException) {
